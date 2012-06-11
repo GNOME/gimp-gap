@@ -1283,7 +1283,7 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
                 "and point 3 and 4 mark postions in the target layer."
                 "It transforms the target layer in a way that "
                 "point3 is moved to point1 and point4 moves to point2."
-                "(this may include rotate an scale transforamtion).\n"
+                "(this may include rotate an scale transformation).\n"
                 "A path with 2 points can be used to move point2 to point1."
                 "(via simple move operation without rotate and scale)"));
     }
@@ -1294,7 +1294,7 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
                 "and point 2 and 4 mark postions in the target layer."
                 "It transforms the target layer in a way that "
                 "point2 is moved to point1 and point4 moves to point3."
-                "(this may include rotate an scale transforamtion).\n"
+                "(this may include rotate an scale transformation).\n"
                 "A path with 2 points can be used to move point2 to point1."
                 "(via simple move operation without rotate and scale)"));
     }
