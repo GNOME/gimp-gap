@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gimp-gap 2.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-01-29 09:41+0000\n"
-"PO-Revision-Date: 2012-01-29 23:26+0100\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2012-06-15 23:19+0000\n"
+"PO-Revision-Date: 2012-06-16 16:52+0100\n"
+"Last-Translator: filmsi\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -251,7 +251,7 @@ msgstr "Napaka: Ni mogoče shraniti sličice %s"
 #: ../gap/gap_base_ops.c:912
 #: ../gap/gap_base_ops.c:920
 #: ../gap/gap_base_ops.c:928
-#: ../gap/gap_lib.c:3337
+#: ../gap/gap_lib.c:3435
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Napaka: Ni mogoče preimenovati sličic od %ld do %ld"
@@ -431,7 +431,7 @@ msgstr "Spremeni zgoščenost sličic"
 #.
 #: ../gap/gap_base_ops.c:1432
 #: ../gap/gap_base_ops.c:1561
-#: ../gap/gap_lib.c:1858
+#: ../gap/gap_lib.c:1956
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -548,7 +548,7 @@ msgstr "Zapolni z zlivanjem ..."
 
 #. Menu names
 #: ../gap/gap_blend_fill_main.c:245
-#: ../gap/gap_detail_tracking_main.c:298
+#: ../gap/gap_detail_tracking_main.c:313
 #: ../gap/gap_wr_resynth.c:185
 msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Video/Plast/Izboljšaj/"
@@ -1294,24 +1294,6 @@ msgstr "Iskanje v teku - prosimo, počakajte"
 msgid "No matches"
 msgstr "Ni zadetkov"
 
-#: ../gap/gap_decode_mplayer_main.c:110
-#: ../gap/gap_decode_mplayer_main.c:123
-msgid "MPlayer based extraction..."
-msgstr "Izločanje z MPlayer-jem ..."
-
-#. Menu names
-#: ../gap/gap_decode_mplayer_main.c:132
-#: ../gap/gap_frontends_main.c:188
-#: ../gap/gap_vex_main.c:203
-msgid "<Image>/Video/Split Video into Frames/"
-msgstr "<Image>/Video/Razdeli video v sličice/"
-
-#: ../gap/gap_decode_mplayer_main.c:133
-#: ../gap/gap_frontends_main.c:189
-#: ../gap/gap_vex_main.c:204
-msgid "<Toolbox>/Xtns/Split Video into Frames/"
-msgstr "<Toolbox>/Razširitve/Razdeli video v sličice/"
-
 #: ../gap/gap_decode_mplayer.c:224
 msgid "Requirements to run the mplayer based video split"
 msgstr "Zahteve za poganjanje razcepitve videa z mplayer-jem"
@@ -1663,6 +1645,24 @@ msgstr "Preimenovanje sličic ..."
 msgid "Converting frames..."
 msgstr "Pretvarjanje sličic ..."
 
+#: ../gap/gap_decode_mplayer_main.c:110
+#: ../gap/gap_decode_mplayer_main.c:123
+msgid "MPlayer based extraction..."
+msgstr "Izločanje z MPlayer-jem ..."
+
+#. Menu names
+#: ../gap/gap_decode_mplayer_main.c:132
+#: ../gap/gap_frontends_main.c:188
+#: ../gap/gap_vex_main.c:203
+msgid "<Image>/Video/Split Video into Frames/"
+msgstr "<Image>/Video/Razdeli video v sličice/"
+
+#: ../gap/gap_decode_mplayer_main.c:133
+#: ../gap/gap_frontends_main.c:189
+#: ../gap/gap_vex_main.c:204
+msgid "<Toolbox>/Xtns/Split Video into Frames/"
+msgstr "<Toolbox>/Razširitve/Razdeli video v sličice/"
+
 #: ../gap/gap_decode_xanim.c:138
 msgid "Requirements to run the xanim based video split"
 msgstr "Zahteve za zagon deljenja videa s xanim-om"
@@ -1832,24 +1832,24 @@ msgstr ""
 "Izločenih sličic ni mogoče najti,\n"
 "xanim ni uspel ali je bil preklican"
 
-#: ../gap/gap_detail_align_exec.c:617
+#: ../gap/gap_detail_align_exec.c:636
 msgid "Frame Phase:"
 msgstr "Faza sličic:"
 
-#: ../gap/gap_detail_align_exec.c:618
+#: ../gap/gap_detail_align_exec.c:637
 msgid "Frame number (phase) to be rendered."
 msgstr "Številka sličice (faza), ki bo upodobljena."
 
-#: ../gap/gap_detail_align_exec.c:631
+#: ../gap/gap_detail_align_exec.c:650
 msgid "XML file:"
 msgstr "Datoteka XML:"
 
-#: ../gap/gap_detail_align_exec.c:632
+#: ../gap/gap_detail_align_exec.c:651
 msgid "Name of the xml file that contains the tracked detail coordinates.  (recorded with the detail tracking feature)."
 msgstr "Ime datoteke xml, ki vsebuje sledene koordinate podrobnosti (posneta s funkcijo sledenja podrobnosti)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:641
+#: ../gap/gap_detail_align_exec.c:660
 #: ../gap/gap_detail_tracking_exec.c:1471
 #: ../gap/gap_mov_dialog.c:1556
 #: ../gap/gap_mpege.c:373
@@ -1863,7 +1863,7 @@ msgstr "Ime datoteke xml, ki vsebuje sledene koordinate podrobnosti (posneta s f
 msgid "Default"
 msgstr "Privzeto"
 
-#: ../gap/gap_detail_align_exec.c:642
+#: ../gap/gap_detail_align_exec.c:661
 #: ../gap/gap_detail_tracking_exec.c:1472
 #: ../gap/gap_mov_dialog.c:1557
 #: ../gap/gap_mpege.c:374
@@ -1874,11 +1874,11 @@ msgstr "Privzeto"
 msgid "Reset all parameters to default values"
 msgstr "Ponastavi vse parametre na privzete vrednosti"
 
-#: ../gap/gap_detail_align_exec.c:644
+#: ../gap/gap_detail_align_exec.c:663
 msgid "Detail Align via XML"
 msgstr "Poravnava podrobnosti prek XML"
 
-#: ../gap/gap_detail_align_exec.c:645
+#: ../gap/gap_detail_align_exec.c:664
 #: ../gap/gap_detail_tracking_exec.c:1475
 #: ../gap/gap_name2layer_main.c:519
 #: ../gap/gap_video_index_creator.c:1013
@@ -1886,33 +1886,85 @@ msgstr "Poravnava podrobnosti prek XML"
 msgid "Settings :"
 msgstr "Nastavitve:"
 
-#: ../gap/gap_detail_align_exec.c:807
+#: ../gap/gap_detail_align_exec.c:948
+#, c-format
 msgid ""
-"This filter requires a current path with 4 points,where point 1 and 2 mark reference positions and point 3 and 4 mark postions in the target layer.It transforms the target layer in a way that point3 is moved to point1 and point4 moves to point2.(this may include rotate an scale transforamtion).\n"
+"Current path with 4 point triggers transformations:\n"
+"    Rotation:   %.4f (degree)\n"
+"    Scale:      %.1f (%%)\n"
+"    Movement X: %.0f (pixels)\n"
+"    Movement Y: %.0f (pixels)\n"
+"Press OK button to transform the layer\n"
+"in a way that point3 moves to point1 and point4 moves to point2"
+msgstr ""
+"Trenutna pot s štirimi točkami sproži preoblikovanja:\n"
+"    Sukanje:  %.4f (stopinj)\n"
+"    Spr. merila: %.1f (%%)\n"
+"    Gibanje X: %.0f (slik. točk)\n"
+"    Gibanje Y: %.0f (slik. točk)\n"
+"Pritisnite gumb V redu za preoblikovanje plasti\n"
+"na način, da se točka3 premakne k točki1 in točka 4 k točki2."
+
+#: ../gap/gap_detail_align_exec.c:969
+#, c-format
+msgid ""
+"Current path with 2 points triggers simple move:\n"
+"    Movement X: %.0f (pixels)\n"
+"    Movement Y: %.0f (pixels)\n"
+"Press OK button to move the layer\n"
+"in a way that point2 moves to point1"
+msgstr ""
+"Trenutna pot z dvema točkama sproži enostaven premik:\n"
+"    Gibanje X: %.0f (slik. točk)\n"
+"    Gibanje Y: %.0f (slik. točk)\n"
+"Pritisnite gumb V redu za premik plasti\n"
+"na način, da se točka2 premakne k točki1."
+
+#: ../gap/gap_detail_align_exec.c:985
+msgid ""
+"This filter requires a current path with 4 or 2 points\n"
+"It can transform and/or move the current layer according to such path coordinate points.\n"
+"Please create a path and press the Refresh button."
+msgstr ""
+"Ta filter potrebuje trenutno pot s štirimi ali dvema točkama\n"
+"Trenutno plast lahko preoblikuje in/ali premakne glede na takšne koordinatne točke poti.\n"
+"Ustvarite pot in pritisnite gumb Osveži."
+
+#: ../gap/gap_detail_align_exec.c:1092
+msgid "Transform Layer via 4 (or 2) point Alignment"
+msgstr "Preoblikuj plast prek 4(ali 2)-točkovne poravnave"
+
+#. pointOrder radiobutton
+#. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
+#.
+#: ../gap/gap_detail_align_exec.c:1145
+msgid "Path Point Order:"
+msgstr "Zaporedje točk poti:"
+
+#. Order Mode the radio buttons
+#: ../gap/gap_detail_align_exec.c:1163
+msgid ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"Target is marked by points 1&2 "
+msgstr ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"Cilj označujeta točki 1 in 2 "
+
+#: ../gap/gap_detail_align_exec.c:1281
+msgid ""
+"This filter requires a current path with 4 points,where point 1 and 2 mark reference positions and point 3 and 4 mark postions in the target layer.It transforms the target layer in a way that point3 is moved to point1 and point4 moves to point2.(this may include rotate an scale transformation).\n"
 "A path with 2 points can be used to move point2 to point1.(via simple move operation without rotate and scale)"
 msgstr ""
-"Ta filter potrebuje trenutno pot s štirimi točkami, kjer sta prvi točki položaj v sklicni, zadnji dve pa položaj v ciljni plasti. Preoblikuje ciljno plast na način, da se točka 3 premakne v točko 1, točka 4 pa v točko 2 (to lahko vključuje tudi preoblikovanje s sukanjem in spremembo velikosti).\n"
+"Ta filter potrebuje trenutno pot s štirimi točkami, kjer sta točki ena in dve položaj v sklicni, točki tri in štiri pa položaj v ciljni plasti. Preoblikuje ciljno plast na način, da se točka 3 premakne v točko 1, točka 4 pa v točko 2 (to lahko vključuje tudi preoblikovanje s sukanjem in spremembo velikosti).\n"
 "Pot z dvema točkama lahko uporabite za premik točke 2 v točko 1 (prek enostavne opreracije premika brez sukanja in spremembe merila)."
 
-#: ../gap/gap_detail_tracking_main.c:220
-msgid "DetailTracking Config..."
-msgstr "Prilagoditev sledenja podrobnosti ..."
-
-#: ../gap/gap_detail_tracking_main.c:245
-msgid "DetailTracking"
-msgstr "Sledenje podrobnosti"
-
-#: ../gap/gap_detail_tracking_main.c:267
-msgid "Align Transform via XML file..."
-msgstr "Poravnaj transformacijo prek datoteke XML ..."
-
-#: ../gap/gap_detail_tracking_main.c:287
-msgid "Exact Align via 4-Point Path."
-msgstr "Natančna poravnava prek 4-točkovne poti."
-
-#: ../gap/gap_detail_tracking_main.c:299
-msgid "<Image>/Layer/Transform/"
-msgstr "<Image>/Plast/Transformiraj/"
+#: ../gap/gap_detail_align_exec.c:1292
+msgid ""
+"This filter requires a current path with 4 points,where point 1 and 3 mark reference positions and point 2 and 4 mark postions in the target layer.It transforms the target layer in a way that point2 is moved to point1 and point4 moves to point3.(this may include rotate an scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1.(via simple move operation without rotate and scale)"
+msgstr ""
+"Ta filter potrebuje trenutno pot s štirimi točkami, kjer sta točki ena in tri položaj v sklicni, točki dve in štiri pa položaj v ciljni plasti. Preoblikuje ciljno plast na način, da se točka 2 premakne v točko 1, točka 4 pa v točko 3 (to lahko vključuje tudi preoblikovanje s sukanjem in spremembo velikosti).\n"
+"Pot z dvema točkama lahko uporabite za premik točke 2 v točko 1 (prek enostavne opreracije premika brez sukanja in spremembe merila)."
 
 #: ../gap/gap_detail_tracking_exec.c:1195
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
@@ -2036,6 +2088,130 @@ msgstr "Ime datoteke, ki beleži koordinate zasledovane podrobnosti kot datoteko
 #: ../gap/gap_detail_tracking_exec.c:1474
 msgid "Detail Tracking"
 msgstr "Sledenje podrobnosti"
+
+#: ../gap/gap_detail_tracking_main.c:235
+msgid "DetailTracking Config..."
+msgstr "Prilagoditev sledenja podrobnosti ..."
+
+#: ../gap/gap_detail_tracking_main.c:260
+msgid "DetailTracking"
+msgstr "Sledenje podrobnosti"
+
+#: ../gap/gap_detail_tracking_main.c:282
+msgid "Align Transform via XML file..."
+msgstr "Poravnaj transformacijo prek datoteke XML ..."
+
+#: ../gap/gap_detail_tracking_main.c:302
+msgid "Exact Align via 4-Point Path."
+msgstr "Natančna poravnava prek 4-točkovne poti."
+
+#: ../gap/gap_detail_tracking_main.c:314
+msgid "<Image>/Layer/Transform/"
+msgstr "<Image>/Plast/Transformiraj/"
+
+#. The dialog1 and main vbox
+#: ../gap/gap_fg_from_sel_dialog.c:240
+#: ../gap/gap_fg_matting_dialog.c:372
+msgid "Foreground-Extract"
+msgstr "Izločitev ospredja"
+
+#. the frame
+#: ../gap/gap_fg_from_sel_dialog.c:276
+#: ../gap/gap_fg_matting_dialog.c:408
+#: ../gap/gap_mov_dialog.c:1560
+msgid "Options"
+msgstr "Možnosti"
+
+#. the InnerRadius spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:297
+msgid "Inner Radius"
+msgstr "Notranji polmer"
+
+#: ../gap/gap_fg_from_sel_dialog.c:305
+msgid "Radius for undefined (e.g. trimmable) area inside the selection border"
+msgstr "Radij za nedoločeno (npr. obrezljivo) območje znotraj obrobe izbora"
+
+#. the OuterRadius spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:318
+msgid "Outer Radius"
+msgstr "Zunanji polmer"
+
+#: ../gap/gap_fg_from_sel_dialog.c:326
+msgid "Radius for undefined (e.g. trimmable) area outside the selection border"
+msgstr "Radij za nedoločeno (npr. obrezljivo) območje zunaj obrobe izbora"
+
+#. create_layermask checkbutton
+#: ../gap/gap_fg_from_sel_dialog.c:343
+#: ../gap/gap_fg_matting_dialog.c:491
+msgid "Create Layermask:"
+msgstr "Ustvari masko plasti:"
+
+#: ../gap/gap_fg_from_sel_dialog.c:354
+#: ../gap/gap_fg_matting_dialog.c:502
+msgid "ON: render opacity by creating a new layer mask, OFF: apply rendered opacity to the alpha channel"
+msgstr "VKLJUČENO: upodobi prekrivnost z ustvarjanjem nove maske plasti, IZKLJUČENO: uveljavi upodobljeno prekrivnost na kanal alfa"
+
+#. lock_color checkbutton
+#: ../gap/gap_fg_from_sel_dialog.c:368
+#: ../gap/gap_fg_matting_dialog.c:516
+msgid "Lock Colors:"
+msgstr "Zakleni masko:"
+
+#: ../gap/gap_fg_from_sel_dialog.c:378
+#: ../gap/gap_fg_matting_dialog.c:526
+msgid "ON: Keep RGB channels of the input layer, OFF: allow Background color removal in processed undefined regions"
+msgstr "VKLJUČENO: ohrani kanale RGB vhodne plasti, IZKLJUČENO: dovoli odstranitev barve ozadja v obdelanih nerazločenih območjih"
+
+#. colordiff_threshold spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:392
+#: ../gap/gap_fg_matting_dialog.c:567
+msgid "Color Diff Threshold"
+msgstr "Prag barvnih razlik"
+
+#: ../gap/gap_fg_from_sel_dialog.c:400
+#: ../gap/gap_fg_matting_dialog.c:575
+msgid "sensitivity for color comparison"
+msgstr "Občutljivost za barvno primerjavo"
+
+#. the tri-map drawable selection combo box
+#: ../gap/gap_fg_matting_dialog.c:429
+msgid "Tri-Map:"
+msgstr "Tri-zemljevid:"
+
+#: ../gap/gap_fg_matting_dialog.c:443
+msgid "Select the tri_map layer (or layermask).  the tri-map shall be of same size as the input layer and  provides a rough user selection  where WHITE pixels in the tri map defines FOREGROUND (eg. opaque result)  BLACK pixels define BACKGROUND (eg. transparent result) GRAY pixels (value 1 upto 240) ar marked as Undefined  (eg. opacity to be processed by this filter.) )"
+msgstr "Izberite plast tri_zemljevida (ali masko plasti). Tri-zemljevid naj bo enake velikosti kot vhodna plast in ponuja grob izbor uporabnika, kjer BELE slikovne točke določajo OSPREDJE (npr. prekrivni rezultat), ČRNE slikovne točke določajo OZADJE (npr. prosojen rezultat), SIVE slikovne točke (vrednosti 1 do 240) pa so označene kot Nedoločene (npr. prekrivnost, ki jo bo obdelal ta filter)."
+
+#: ../gap/gap_fg_matting_dialog.c:467
+msgid "Layermask"
+msgstr "Maska plasti"
+
+#. create_result (create_result checkbutton
+#: ../gap/gap_fg_matting_dialog.c:539
+msgid "Create Result Layer:"
+msgstr "Ustvari rezult. plast:"
+
+#. gtk_widget_show (checkbutton);
+#: ../gap/gap_fg_matting_dialog.c:551
+msgid "ON: create a new layer as result of the foreground extraction processing. OFF: render transparency and background color removal on the input drawable"
+msgstr "VKLJUČENO: ustvari novo plast kot rezultat obdelave izločitve ospredja. IZKLJUČENO: upodobi odstranitev prosojnosti in barve ozadja na vhodnem risanem elementu"
+
+#: ../gap/gap_fg_matting_exec.c:130
+msgid "Foreground Extract"
+msgstr "Izločitev ospredja"
+
+#: ../gap/gap_fg_matting_main.c:177
+msgid "Foreground Extract..."
+msgstr "Izločitev ospredja ..."
+
+#: ../gap/gap_fg_matting_main.c:203
+msgid "Foreground Extract Via Selection..."
+msgstr "Izločitev ospredja prek izbora ..."
+
+#. Menu names
+#: ../gap/gap_fg_matting_main.c:213
+msgid "<Image>/Layer/Transparency/"
+msgstr "<Image>/Plast/Prosojnost/"
 
 #: ../gap/gap_filter_foreach.c:133
 msgid "Backup to file"
@@ -2394,110 +2570,6 @@ msgstr "Ognjeni vzorec ..."
 msgid "<Image>/Video/Layer/Render/"
 msgstr "<Image>/Video/Plast/Upodobi/"
 
-#: ../gap/gap_fg_matting_main.c:177
-msgid "Foreground Extract..."
-msgstr "Izločitev ospredja ..."
-
-#: ../gap/gap_fg_matting_main.c:203
-msgid "Foreground Extract Via Selection..."
-msgstr "Izločitev ospredja prek izbora ..."
-
-#. Menu names
-#: ../gap/gap_fg_matting_main.c:213
-msgid "<Image>/Layer/Transparency/"
-msgstr "<Image>/Plast/Prosojnost/"
-
-#: ../gap/gap_fg_matting_exec.c:130
-msgid "Foreground Extract"
-msgstr "Izločitev ospredja"
-
-#. The dialog1 and main vbox
-#: ../gap/gap_fg_matting_dialog.c:372
-#: ../gap/gap_fg_from_sel_dialog.c:240
-msgid "Foreground-Extract"
-msgstr "Izločitev ospredja"
-
-#. the frame
-#: ../gap/gap_fg_matting_dialog.c:408
-#: ../gap/gap_fg_from_sel_dialog.c:276
-#: ../gap/gap_mov_dialog.c:1560
-msgid "Options"
-msgstr "Možnosti"
-
-#. the tri-map drawable selection combo box
-#: ../gap/gap_fg_matting_dialog.c:429
-msgid "Tri-Map:"
-msgstr "Tri-zemljevid:"
-
-#: ../gap/gap_fg_matting_dialog.c:443
-msgid "Select the tri_map layer (or layermask).  the tri-map shall be of same size as the input layer and  provides a rough user selection  where WHITE pixels in the tri map defines FOREGROUND (eg. opaque result)  BLACK pixels define BACKGROUND (eg. transparent result) GRAY pixels (value 1 upto 240) ar marked as Undefined  (eg. opacity to be processed by this filter.) )"
-msgstr "Izberite plast tri_zemljevida (ali masko plasti). Tri-zemljevid naj bo enake velikosti kot vhodna plast in ponuja grob izbor uporabnika, kjer BELE slikovne točke določajo OSPREDJE (npr. prekrivni rezultat), ČRNE slikovne točke določajo OZADJE (npr. prosojen rezultat), SIVE slikovne točke (vrednosti 1 do 240) pa so označene kot Nedoločene (npr. prekrivnost, ki jo bo obdelal ta filter)."
-
-#: ../gap/gap_fg_matting_dialog.c:467
-msgid "Layermask"
-msgstr "Maska plasti"
-
-#. create_layermask checkbutton
-#: ../gap/gap_fg_matting_dialog.c:491
-#: ../gap/gap_fg_from_sel_dialog.c:343
-msgid "Create Layermask:"
-msgstr "Ustvari masko plasti:"
-
-#: ../gap/gap_fg_matting_dialog.c:502
-#: ../gap/gap_fg_from_sel_dialog.c:354
-msgid "ON: render opacity by creating a new layer mask, OFF: apply rendered opacity to the alpha channel"
-msgstr "VKLJUČENO: upodobi prekrivnost z ustvarjanjem nove maske plasti, IZKLJUČENO: uveljavi upodobljeno prekrivnost na kanal alfa"
-
-#. lock_color checkbutton
-#: ../gap/gap_fg_matting_dialog.c:516
-#: ../gap/gap_fg_from_sel_dialog.c:368
-msgid "Lock Colors:"
-msgstr "Zakleni masko:"
-
-#: ../gap/gap_fg_matting_dialog.c:526
-#: ../gap/gap_fg_from_sel_dialog.c:378
-msgid "ON: Keep RGB channels of the input layer, OFF: allow Background color removal in processed undefined regions"
-msgstr "VKLJUČENO: ohrani kanale RGB vhodne plasti, IZKLJUČENO: dovoli odstranitev barve ozadja v obdelanih nerazločenih območjih"
-
-#. create_result (create_result checkbutton
-#: ../gap/gap_fg_matting_dialog.c:539
-msgid "Create Result Layer:"
-msgstr "Ustvari rezult. plast:"
-
-#. gtk_widget_show (checkbutton);
-#: ../gap/gap_fg_matting_dialog.c:551
-msgid "ON: create a new layer as result of the foreground extraction processing. OFF: render transparency and background color removal on the input drawable"
-msgstr "VKLJUČENO: ustvari novo plast kot rezultat obdelave izločitve ospredja. IZKLJUČENO: upodobi odstranitev prosojnosti in barve ozadja na vhodnem risanem elementu"
-
-#. colordiff_threshold spinbutton
-#: ../gap/gap_fg_matting_dialog.c:567
-#: ../gap/gap_fg_from_sel_dialog.c:392
-msgid "Color Diff Threshold"
-msgstr "Prag barvnih razlik"
-
-#: ../gap/gap_fg_matting_dialog.c:575
-#: ../gap/gap_fg_from_sel_dialog.c:400
-msgid "sensitivity for color comparison"
-msgstr "Občutljivost za barvno primerjavo"
-
-#. the InnerRadius spinbutton
-#: ../gap/gap_fg_from_sel_dialog.c:297
-msgid "Inner Radius"
-msgstr "Notranji polmer"
-
-#: ../gap/gap_fg_from_sel_dialog.c:305
-msgid "Radius for undefined (e.g. trimmable) area inside the selection border"
-msgstr "Radij za nedoločeno (npr. obrezljivo) območje znotraj obrobe izbora"
-
-#. the OuterRadius spinbutton
-#: ../gap/gap_fg_from_sel_dialog.c:318
-msgid "Outer Radius"
-msgstr "Zunanji polmer"
-
-#: ../gap/gap_fg_from_sel_dialog.c:326
-msgid "Radius for undefined (e.g. trimmable) area outside the selection border"
-msgstr "Radij za nedoločeno (npr. obrezljivo) območje zunaj obrobe izbora"
-
 #: ../gap/gap_fmac_base.c:205
 #, c-format
 msgid "filtermacro_file: '%s' is corrupted, could not scan databytes"
@@ -2659,7 +2731,7 @@ msgstr "MPEG2 ..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Video/Kodiraj/"
 
-#: ../gap/gap_lib.c:1835
+#: ../gap/gap_lib.c:1933
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2667,15 +2739,15 @@ msgstr ""
 "Operacija je preklicana.\n"
 "Tekoča sličica se je spremenila, medtem ko je bilo pogovorno okno odprto."
 
-#: ../gap/gap_lib.c:2033
+#: ../gap/gap_lib.c:2131
 msgid "Save Flattened"
 msgstr "Shrani sploščeno"
 
-#: ../gap/gap_lib.c:2035
+#: ../gap/gap_lib.c:2133
 msgid "Save As Is"
 msgstr "Shrani, kot je"
 
-#: ../gap/gap_lib.c:2039
+#: ../gap/gap_lib.c:2137
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -2694,7 +2766,7 @@ msgstr ""
 "(%s %s)\n"
 "v datoteko gimprc. "
 
-#: ../gap/gap_lib.c:2048
+#: ../gap/gap_lib.c:2146
 msgid "Fileformat Warning"
 msgstr "Opozorilo vrste datoteke"
 
@@ -4097,14 +4169,6 @@ msgstr "Ustvari vmesne sličice:"
 msgid "Local Progress:"
 msgstr "Krajevni napredek:"
 
-#: ../gap/gap_mov_main.c:283
-msgid "Move Path..."
-msgstr "Premakni pot ..."
-
-#: ../gap/gap_mov_main.c:370
-msgid "Move Path Singleframe..."
-msgstr "Pot premika posamezne sličice ..."
-
 #: ../gap/gap_mov_dialog.c:990
 msgid "Move Path Editor"
 msgstr "Urejevalnik poti premika"
@@ -5322,6 +5386,14 @@ msgstr ""
 "\n"
 "Napaka: Povečajte število nadzornih točk (%d) za obravnavane sličice (%d).\n"
 "Zmanjšajte število nadzornih točk ali izberite večje število sličic."
+
+#: ../gap/gap_mov_main.c:283
+msgid "Move Path..."
+msgstr "Premakni pot ..."
+
+#: ../gap/gap_mov_main.c:370
+msgid "Move Path Singleframe..."
+msgstr "Pot premika posamezne sličice ..."
 
 #: ../gap/gap_mpege.c:127
 msgid "Requirements to run mpeg2encode 1.2:"
@@ -9183,6 +9255,18 @@ msgstr ""
 "Datoteke ni mogoče shraniti:\n"
 "'%s'"
 
+#: ../gap/gap_vex_main.c:274
+msgid "MAIN_TST"
+msgstr "MAIN_TST"
+
+#: ../gap/gap_vex_main.c:398
+msgid ""
+"Videoextract is not available because GIMP-GAP was configured and compiled with\n"
+" --disable-videoapi-support"
+msgstr ""
+"Izločanje slike ni na voljo, kajti GIMP-GAP je bil nastavljen in preveden z zastavico\n"
+" --disable-videoapi-support"
+
 #: ../gap/gap_video_index_creator.c:208
 msgid "Video Index Creation..."
 msgstr "Ustvarjanje slikovnega kazala ..."
@@ -9337,18 +9421,6 @@ msgstr "Pametno preverjanje %0.3f %% (od %0.3f %%)"
 #, c-format
 msgid "Creating video index %0.3f %%"
 msgstr "Ustvarjanje slikovnega kazala %0.3f %%"
-
-#: ../gap/gap_vex_main.c:274
-msgid "MAIN_TST"
-msgstr "MAIN_TST"
-
-#: ../gap/gap_vex_main.c:398
-msgid ""
-"Videoextract is not available because GIMP-GAP was configured and compiled with\n"
-" --disable-videoapi-support"
-msgstr ""
-"Izločanje slike ni na voljo, kajti GIMP-GAP je bil nastavljen in preveden z zastavico\n"
-" --disable-videoapi-support"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_water_pattern.c:1036
@@ -10868,6 +10940,14 @@ msgstr ""
 msgid "ERROR: GAP AVI encoder CODEC %s delivered empty buffer at frame %d"
 msgstr "NAPAKA: Kodirnik AVI GAP s kodekom %s je povzročil prazen medpomnilnik pri sličici %d"
 
+#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:769
+msgid "Save ffmpeg-encoder parameters"
+msgstr "Shrani parametre kodirnika ffmpeg"
+
+#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:773
+msgid "Load ffmpeg-encoder parameters"
+msgstr "Naloži parametre kodirnika ffmpeg"
+
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:153
 msgid "0 sad"
 msgstr "0 sad"
@@ -12293,14 +12373,6 @@ msgstr "Videodatoteke ni mogoče ustvariti: '%s'%s"
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:3217
 msgid "Black dummy frame was added"
 msgstr "Dodana je bila nadomestna črna sličica"
-
-#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:769
-msgid "Save ffmpeg-encoder parameters"
-msgstr "Shrani parametre kodirnika ffmpeg"
-
-#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:773
-msgid "Load ffmpeg-encoder parameters"
-msgstr "Naloži parametre kodirnika ffmpeg"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_par.c:412
 #, c-format
