@@ -2,14 +2,15 @@
 # Copyright (C) 2001 Free Software Foundation.
 # Simos Xenitellis <simos@hellug.gr>, 2001.
 # Dimitris Spingos (Δημήτρης  Σπίγγος) <dmtrs32@gmail.com>, 2012.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-plugins 1.0\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-01-29 09:41+0000\n"
-"PO-Revision-Date: 2012-04-16 20:18+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης  Σπίγγος) <dmtrs32@gmail.com>\n"
+"POT-Creation-Date: 2012-06-11 15:37+0000\n"
+"PO-Revision-Date: 2012-06-17 08:28+0300\n"
+"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -238,7 +239,7 @@ msgstr "Σφάλμα: Αδυναμία αποθήκευσης πλαισίου %
 #: ../gap/gap_base_ops.c:697 ../gap/gap_base_ops.c:704
 #: ../gap/gap_base_ops.c:711 ../gap/gap_base_ops.c:799
 #: ../gap/gap_base_ops.c:821 ../gap/gap_base_ops.c:912
-#: ../gap/gap_base_ops.c:920 ../gap/gap_base_ops.c:928 ../gap/gap_lib.c:3337
+#: ../gap/gap_base_ops.c:920 ../gap/gap_base_ops.c:928 ../gap/gap_lib.c:3435
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Σφάλμα: αδυναμία νέας ονομασίας πλαισίου %ld σε %ld"
@@ -406,7 +407,7 @@ msgstr "Αλλαγή πυκνότητας πλαισίων"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1432 ../gap/gap_base_ops.c:1561 ../gap/gap_lib.c:1858
+#: ../gap/gap_base_ops.c:1432 ../gap/gap_base_ops.c:1561 ../gap/gap_lib.c:1956
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -530,14 +531,13 @@ msgid "Blend Fill..."
 msgstr "Ανάμιξη γεμίσματος..."
 
 #. Menu names
-#: ../gap/gap_blend_fill_main.c:245 ../gap/gap_detail_tracking_main.c:298
+#: ../gap/gap_blend_fill_main.c:245 ../gap/gap_detail_tracking_main.c:313
 #: ../gap/gap_wr_resynth.c:185
 msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Βίντεο/Στρώση/Βελτίωση/"
 
 #
 #: ../gap/gap_blend_fill_main.c:311 ../gap/gap_blend_fill_main.c:1937
-#| msgid "Selection"
 msgid "selection.svg"
 msgstr "selection.svg"
 
@@ -553,7 +553,6 @@ msgstr ""
 "μνήμης:%d."
 
 #: ../gap/gap_blend_fill_main.c:1426 ../gap/gap_blend_fill_main.c:1724
-#| msgid "no description available"
 msgid "No Path Vectors available."
 msgstr "Χωρίς διαθέσιμα διανύσματα μονοπατιού."
 
@@ -564,25 +563,19 @@ msgstr ""
 "δημιουργία)."
 
 #: ../gap/gap_blend_fill_main.c:1449
-#| msgid "please enter a unique section name"
 msgid "please enter SVG filename"
 msgstr "παρακαλώ εισάγετε όνομα αρχείου SVG"
 
 #: ../gap/gap_blend_fill_main.c:1568
-#| msgid "Select Audiofilename"
 msgid "Select vectorfile name"
 msgstr "Επιλογή ονόματος αρχείου διανύσματος"
 
 #: ../gap/gap_blend_fill_main.c:1679
 #, c-format
-#| msgid ""
-#| "failed to save file:\n"
-#| "'%s'"
 msgid "Failed to write SVG file: %s"
 msgstr "Αδυναμία εγγραφής αρχείου SVG: %s"
 
 #: ../gap/gap_blend_fill_main.c:1765
-#| msgid "Pixel Selection:"
 msgid "Blend Fill Selection"
 msgstr "Επιλογή γεμίσματος ανάμιξης"
 
@@ -599,7 +592,6 @@ msgstr ""
 
 #. horizontalBlendFlag checkbutton
 #: ../gap/gap_blend_fill_main.c:1811
-#| msgid "Flip Horizontally"
 msgid "Horizontal Blend:"
 msgstr "Οριζόντια ανάμειξη:"
 
@@ -612,7 +604,6 @@ msgstr ""
 
 #. verticalBlendFlag checkbutton
 #: ../gap/gap_blend_fill_main.c:1833
-#| msgid "Vertical flip:"
 msgid "Vertical Blend:"
 msgstr "Κάθετη ανάμειξη:"
 
@@ -639,18 +630,15 @@ msgstr "Ορισμός επιλογής:"
 
 #
 #: ../gap/gap_blend_fill_main.c:1880
-#| msgid "Selection all"
 msgid "Selection From All Paths"
 msgstr "Επιλογή από όλα τα μονοπάτια"
 
 #: ../gap/gap_blend_fill_main.c:1885
-#| msgid "Section Properties"
 msgid "Selection From Vectors File"
 msgstr "Επιλογή από αρχείο διανυσμάτων"
 
 #. grab vectors button
 #: ../gap/gap_blend_fill_main.c:1915
-#| msgid "Move Path"
 msgid "Save Paths"
 msgstr "Αποθήκευση μονοπατιού"
 
@@ -663,7 +651,6 @@ msgstr ""
 "όταν μεγάλα ή πολλά μονοπάτια θα χρησιμοποιηθούν)"
 
 #: ../gap/gap_blend_fill_main.c:1932
-#| msgid "Name of output videofile"
 msgid "Name of SVG vector file"
 msgstr "Όνομα του αρχείου διανύσματος SVG"
 
@@ -684,7 +671,6 @@ msgid "..."
 msgstr "..."
 
 #: ../gap/gap_blend_fill_main.c:1952
-#| msgid "Select output videofile via browser"
 msgid "Select output svg vector file via browser"
 msgstr "Επιλογή εξόδου αρχείου διανύσματος svg μέσω περιηγητή"
 
@@ -1018,12 +1004,10 @@ msgstr "Επιλογές βάσης"
 
 #
 #: ../gap/gap_colormask_dialog.c:243
-#| msgid "Color Mask"
 msgid "Color Mask:"
 msgstr "Μάσκα χρώματος:"
 
 #: ../gap/gap_colormask_dialog.c:249
-#| msgid "Colordiff threshold:"
 msgid "Colordiff Threshold:"
 msgstr "Κατώφλι χρωματικής διαφοράς:"
 
@@ -1039,7 +1023,6 @@ msgstr ""
 "αδιαφάνειας (συνήθως διαφανή)"
 
 #: ../gap/gap_colormask_dialog.c:266
-#| msgid "_HiColordiff threshold:"
 msgid "_HiColordiff Threshold:"
 msgstr "Όριο _υψηλής χρωματικής διαφοράς:"
 
@@ -1056,13 +1039,11 @@ msgstr ""
 
 #. keep layermask checkbutton
 #: ../gap/gap_colormask_dialog.c:285
-#| msgid "Keep layermask"
 msgid "Keep Layer Mask"
 msgstr "Διατήρηση μάσκας στρώσης"
 
 #. apply immediate checkbutton
 #: ../gap/gap_colormask_dialog.c:301
-#| msgid "Apply Immediate"
 msgid "Apply Immediately"
 msgstr "Άμεση εφαρμογή"
 
@@ -1117,7 +1098,6 @@ msgstr "Επιλογές αδιαφάνειας"
 
 #
 #: ../gap/gap_colormask_dialog.c:468
-#| msgid "Lower opacity:"
 msgid "Lower Opacity:"
 msgstr "Χαμηλότερη αδιαφάνεια:"
 
@@ -1131,7 +1111,6 @@ msgstr ""
 
 #
 #: ../gap/gap_colormask_dialog.c:485
-#| msgid "Upper opacity:"
 msgid "Upper Opacity:"
 msgstr "Ανώτερη αδιαφάνεια:"
 
@@ -1144,7 +1123,6 @@ msgstr ""
 "μεγαλύτερη από το κατώφλι High Colordiff (χρήση τιμής 1 για αδιαφάνεια)"
 
 #: ../gap/gap_colormask_dialog.c:503
-#| msgid "Trigger alpha:"
 msgid "Trigger Alpha:"
 msgstr "Ενεργοποίηση άλφα:"
 
@@ -1158,8 +1136,7 @@ msgstr ""
 "Η ενεργοποίηση άλφα είναι κατάλληλη μόνο σε περίπτωση που η μάσκα χρώματος "
 "έχει ένα κανάλι άλφα. Όλα τα εικονοστοιχεία όπου το κανάλι άλφα του "
 "αντίστοιχου εικονοστοιχείου στη μάσκα χρώματος είναι κάτω από αυτήν την τιμή "
-"ενεργοποίησης δεν μεταβάλλονται (π.χ. διατήρηση της αρχικής τους "
-"αδιαφάνειας)"
+"ενεργοποίησης δεν μεταβάλλονται (π.χ. διατήρηση της αρχικής τους αδιαφάνειας)"
 
 #. the frame
 #. the notebook page label for expert encoder options
@@ -1371,21 +1348,6 @@ msgstr "Αναζήτηση - παρακαλώ περιμένετε"
 #: ../gap/gap_dbbrowser_utils.c:905
 msgid "No matches"
 msgstr "Χωρίς ταίριασμα"
-
-#: ../gap/gap_decode_mplayer_main.c:110 ../gap/gap_decode_mplayer_main.c:123
-msgid "MPlayer based extraction..."
-msgstr "Εξαγωγή βασισμένη σε MPlayer..."
-
-#. Menu names
-#: ../gap/gap_decode_mplayer_main.c:132 ../gap/gap_frontends_main.c:188
-#: ../gap/gap_vex_main.c:203
-msgid "<Image>/Video/Split Video into Frames/"
-msgstr "<Image>/Βίντεο/Διαίρεση του βίντεο σε πλαίσια/"
-
-#: ../gap/gap_decode_mplayer_main.c:133 ../gap/gap_frontends_main.c:189
-#: ../gap/gap_vex_main.c:204
-msgid "<Toolbox>/Xtns/Split Video into Frames/"
-msgstr "<Toolbox>/Xtns/Διαίρεση βίντεο σε πλαίσια/"
 
 #: ../gap/gap_decode_mplayer.c:224
 msgid "Requirements to run the mplayer based video split"
@@ -1755,6 +1717,21 @@ msgstr "Νέα ονομασία πλαισίων..."
 msgid "Converting frames..."
 msgstr "Μετατροπή πλαισίων..."
 
+#: ../gap/gap_decode_mplayer_main.c:110 ../gap/gap_decode_mplayer_main.c:123
+msgid "MPlayer based extraction..."
+msgstr "Εξαγωγή βασισμένη σε MPlayer..."
+
+#. Menu names
+#: ../gap/gap_decode_mplayer_main.c:132 ../gap/gap_frontends_main.c:188
+#: ../gap/gap_vex_main.c:203
+msgid "<Image>/Video/Split Video into Frames/"
+msgstr "<Image>/Βίντεο/Διαίρεση του βίντεο σε πλαίσια/"
+
+#: ../gap/gap_decode_mplayer_main.c:133 ../gap/gap_frontends_main.c:189
+#: ../gap/gap_vex_main.c:204
+msgid "<Toolbox>/Xtns/Split Video into Frames/"
+msgstr "<Toolbox>/Xtns/Διαίρεση βίντεο σε πλαίσια/"
+
 #: ../gap/gap_decode_xanim.c:138
 msgid "Requirements to run the xanim based video split"
 msgstr "Απαιτήσεις για εκτέλεση της διαίρεσης βίντεο βασισμένης σε xanim"
@@ -1945,22 +1922,19 @@ msgstr ""
 "αδυναμία εύρεσης οποιωνδήποτε εξαχθέντων πλαισίων,\n"
 "το xanim απέτυχε ή ακυρώθηκε"
 
-#: ../gap/gap_detail_align_exec.c:617
-#| msgid "Frames:"
+#: ../gap/gap_detail_align_exec.c:636
 msgid "Frame Phase:"
 msgstr "Φάση πλαισίου:"
 
-#: ../gap/gap_detail_align_exec.c:618
-#| msgid "Curent Frame number (e.g. phase to be phase Total number of frames"
+#: ../gap/gap_detail_align_exec.c:637
 msgid "Frame number (phase) to be rendered."
 msgstr "Αριθμός πλαισίου (φάση) για απόδοση."
 
-#: ../gap/gap_detail_align_exec.c:631
-#| msgid "Macrofile:"
+#: ../gap/gap_detail_align_exec.c:650
 msgid "XML file:"
 msgstr "Αρχείο XML:"
 
-#: ../gap/gap_detail_align_exec.c:632
+#: ../gap/gap_detail_align_exec.c:651
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
@@ -1969,7 +1943,7 @@ msgstr ""
 "συντεταγμένες. (καταχωρούμενες με τη ιδιότητα παρακολούθησης λεπτομέρειας)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:641 ../gap/gap_detail_tracking_exec.c:1471
+#: ../gap/gap_detail_align_exec.c:660 ../gap/gap_detail_tracking_exec.c:1471
 #: ../gap/gap_mov_dialog.c:1556 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:512 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5224 ../gap/gap_story_dialog.c:5559
@@ -1978,30 +1952,106 @@ msgstr ""
 msgid "Default"
 msgstr "Προεπιλογή"
 
-#: ../gap/gap_detail_align_exec.c:642 ../gap/gap_detail_tracking_exec.c:1472
+#: ../gap/gap_detail_align_exec.c:661 ../gap/gap_detail_tracking_exec.c:1472
 #: ../gap/gap_mov_dialog.c:1557 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:513 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Επαναφορά όλων των παραμέτρων στις προεπιλεγμένες τιμές"
 
-#: ../gap/gap_detail_align_exec.c:644
+#: ../gap/gap_detail_align_exec.c:663
 msgid "Detail Align via XML"
 msgstr "Στοίχιση λεπτομέρειας μέσω XML"
 
 #
-#: ../gap/gap_detail_align_exec.c:645 ../gap/gap_detail_tracking_exec.c:1475
+#: ../gap/gap_detail_align_exec.c:664 ../gap/gap_detail_tracking_exec.c:1475
 #: ../gap/gap_name2layer_main.c:519 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Ρυθμίσεις:"
 
-#: ../gap/gap_detail_align_exec.c:807
+#: ../gap/gap_detail_align_exec.c:948
+#, c-format
+msgid ""
+"Current path with 4 point triggers transformations:\n"
+"    Rotation:   %.4f (degree)\n"
+"    Scale:      %.1f (%%)\n"
+"    Movement X: %.0f (pixels)\n"
+"    Movement Y: %.0f (pixels)\n"
+"Press OK button to transform the layer\n"
+"in a way that point3 moves to point1 and point4 moves to point2"
+msgstr ""
+"Το Τρέχον μονοπάτι με 4 σημεία προκαλεί μετασχηματισμούς:\n"
+"     περιστροφή:    %.4f (μοίρες)\n"
+"     κλίμακα:       %.1f (%%)\n"
+"     μετακίνηση Χ:  %.0f (εικονοστοιχεία)\n"
+"     μετακίνηση Υ:  %.0f (εικονοστοιχεία)\n"
+"Πατήστε το πλήκτρο Εντάξει για μετασχηματισμό της στρώσης\n"
+"έτσι ώστε το σημείο3 να μετακινηθεί στο σημείο1 και το σημείο4 να "
+"μετακινηθεί στο σημείο2"
+
+#: ../gap/gap_detail_align_exec.c:969
+#, c-format
+msgid ""
+"Current path with 2 points triggers simple move:\n"
+"    Movement X: %.0f (pixels)\n"
+"    Movement Y: %.0f (pixels)\n"
+"Press OK button to move the layer\n"
+"in a way that point2 moves to point1"
+msgstr ""
+"Το τρέχον μονοπάτι με 2 σημεία προκαλεί απλή μετακίνηση:\n"
+"    μετακίνηση Χ: %.0f (εικονοστοιχεία)\n"
+"    μετακίνηση Υ: %.0f (εικονοστοιχεία)\n"
+"Πατήστε το πλήκτρο Εντάξει για μετακίνηση της στρώσης\n"
+"έτσι ώστε το σημείο2 να μετακινηθεί στο σημείο1"
+
+#: ../gap/gap_detail_align_exec.c:985
+msgid ""
+"This filter requires a current path with 4 or 2 points\n"
+"It can transform and/or move the current layer according to such path "
+"coordinate points.\n"
+"Please create a path and press the Refresh button."
+msgstr ""
+"Αυτό το φίλτρο απαιτεί μια τρέχουσα διαδρομή με 4 ή 2 σημεία\n"
+"Μπορεί να μετασχηματίσει και/ή να μετακινήσει την τρέχουσα στρώση σύμφωνα με "
+"τέτοια σημεία συντεταγμένης μονοπατιού.\n"
+"Παρακαλώ δημιουργήστε ένα μονοπάτι και πατήστε το πλήκτρο ανανέωση."
+
+#: ../gap/gap_detail_align_exec.c:1092
+msgid "Transform Layer via 4 (or 2) point Alignment"
+msgstr "Μετασχηματισμός στρώσης μέσω 4 (ή 2) σημείων στοίχισης"
+
+#. pointOrder radiobutton
+#. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
+#.
+#: ../gap/gap_detail_align_exec.c:1145
+#| msgid "Load Path Points from File"
+msgid "Path Point Order:"
+msgstr "Σειρά σημείων μονοπατιού:"
+
+#. Order Mode the radio buttons
+#: ../gap/gap_detail_align_exec.c:1163
+msgid ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"Target is marked by points 1&2 "
+msgstr ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"Ο στόχος σημειώνεται από τα σημεία 1&2 "
+
+#: ../gap/gap_detail_align_exec.c:1281
+#| msgid ""
+#| "This filter requires a current path with 4 points,where point 1 and 2 "
+#| "mark reference positions and point 3 and 4 mark postions in the target "
+#| "layer.It transforms the target layer in a way that point3 is moved to "
+#| "point1 and point4 moves to point2.(this may include rotate an scale "
+#| "transforamtion).\n"
+#| "A path with 2 points can be used to move point2 to point1.(via simple "
+#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points,where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark postions in the target layer.It "
 "transforms the target layer in a way that point3 is moved to point1 and "
-"point4 moves to point2.(this may include rotate an scale transforamtion).\n"
+"point4 moves to point2.(this may include rotate an scale transformation).\n"
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
@@ -2014,27 +2064,31 @@ msgstr ""
 "σημείου2 στο σημείο1.(μέσω απλής λειτουργίας μετακίνησης χωρίς περιστροφή "
 "και κλίμακα)"
 
-#: ../gap/gap_detail_tracking_main.c:220
-msgid "DetailTracking Config..."
-msgstr "Διευθέτηση παρακολούθησης λεπτομέρειας..."
-
-#: ../gap/gap_detail_tracking_main.c:245
-#| msgid "AL-Tracking:"
-msgid "DetailTracking"
-msgstr "Παρακολούθηση λεπτομέρειας"
-
-#: ../gap/gap_detail_tracking_main.c:267
-msgid "Align Transform via XML file..."
-msgstr "Στοίχιση μετασχηματισμού μέσα από αρχείο XML..."
-
-#: ../gap/gap_detail_tracking_main.c:287
-msgid "Exact Align via 4-Point Path."
-msgstr "Ακριβής στοίχιση μέσω μονοπατιού 4 σημείων."
-
-#: ../gap/gap_detail_tracking_main.c:299
-#| msgid "<Image>/Video/Layer/Transform/"
-msgid "<Image>/Layer/Transform/"
-msgstr "<Image>/Στρώση/Μετασχηματισμός/"
+#: ../gap/gap_detail_align_exec.c:1292
+#| msgid ""
+#| "This filter requires a current path with 4 points,where point 1 and 2 "
+#| "mark reference positions and point 3 and 4 mark postions in the target "
+#| "layer.It transforms the target layer in a way that point3 is moved to "
+#| "point1 and point4 moves to point2.(this may include rotate an scale "
+#| "transforamtion).\n"
+#| "A path with 2 points can be used to move point2 to point1.(via simple "
+#| "move operation without rotate and scale)"
+msgid ""
+"This filter requires a current path with 4 points,where point 1 and 3 mark "
+"reference positions and point 2 and 4 mark postions in the target layer.It "
+"transforms the target layer in a way that point2 is moved to point1 and "
+"point4 moves to point3.(this may include rotate an scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1.(via simple move "
+"operation without rotate and scale)"
+msgstr ""
+"Αυτό το φίλτρο απαιτεί ένα τρέχον μονοπάτι με 4 σημεία, όπου σημείο 1 και 3 "
+"σημειώνουν θέσεις αναφοράς και σημεία 2 και 4 σημειώνουν θέσεις στη στρώση "
+"στόχου. Μετασχηματίζει τη στρώση στόχος κατά τρόπον που το σημείο2 "
+"μετακινείται στο σημείο1 και το σημείο4 μετακινείται στο σημείο3.(αυτό "
+"μπορεί να συμπεριλάβει περιστροφή ενός μετασχηματισμού κλίμακας).\n"
+"Ένα μονοπάτι με 2 σημεία μπορεί να χρησιμοποιηθεί για μετακίνηση του "
+"σημείου2 στο σημείο1.(μέσω απλής λειτουργίας μετακίνησης χωρίς περιστροφή "
+"και κλίμακα)"
 
 #: ../gap/gap_detail_tracking_exec.c:1195
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
@@ -2051,7 +2105,6 @@ msgstr ""
 "για να σημειώσει τις παρακολουθούμενες συντεταγμένες στα πλαίσια στόχου"
 
 #: ../gap/gap_detail_tracking_exec.c:1336
-#| msgid "Locate ColordiffEdge Threshold:"
 msgid "Locate colordiff Thres:"
 msgstr "Εντοπισμός κατωφλίου χρωματικής διαφοράς:"
 
@@ -2076,7 +2129,6 @@ msgstr ""
 "ακτίνα θεωρείται ως σχήμα αναφοράς παρακολούθησης στα πλαίσια στόχου."
 
 #: ../gap/gap_detail_tracking_exec.c:1363
-#| msgid "Locate Move Radius:"
 msgid "Locate Target Move Radius:"
 msgstr "Εντοπισμός ακτίνας μετακίνησης στόχου:"
 
@@ -2112,7 +2164,6 @@ msgstr ""
 "ΟΧΙ: Υπολογισμός μόνο περιστροφής και διατήρηση αρχικού μεγέθους."
 
 #: ../gap/gap_detail_tracking_exec.c:1399
-#| msgid "Frame Reference:"
 msgid "BG is Reference:"
 msgstr "Το παρασκήνιο είναι αναφορά:"
 
@@ -2129,7 +2180,6 @@ msgstr ""
 "αναφοράς."
 
 #: ../gap/gap_detail_tracking_exec.c:1408
-#| msgid "Rename layer(s)"
 msgid "Remove Middle Layers:"
 msgstr "Αφαίρεση μεσαίων στρώσεων:"
 
@@ -2144,7 +2194,6 @@ msgstr ""
 "ΟΧΙ: Διατήρηση όλων των στρώσεων."
 
 #: ../gap/gap_detail_tracking_exec.c:1420
-#| msgid "X Offset:"
 msgid "Const X Offset:"
 msgstr "Μετατόπιση σταθεράς Χ:"
 
@@ -2155,7 +2204,6 @@ msgstr ""
 "Χ."
 
 #: ../gap/gap_detail_tracking_exec.c:1434
-#| msgid "X Offset:"
 msgid "Const Y Offset:"
 msgstr "Μετατόπιση σταθεράς Χ:"
 
@@ -2174,7 +2222,6 @@ msgid "This value is added when logging rotation values."
 msgstr "Αυτή η τιμή προστίθεται όταν καταχωρίζονται τιμές περιστροφής."
 
 #: ../gap/gap_detail_tracking_exec.c:1461
-#| msgid "MovePath xmlfile:"
 msgid "MovePath XML file:"
 msgstr "Αρχείο XML μετακίνησης μονοπατιού:"
 
@@ -2190,6 +2237,150 @@ msgstr ""
 #: ../gap/gap_detail_tracking_exec.c:1474
 msgid "Detail Tracking"
 msgstr "Παρακολούθηση λεπτομέρειας"
+
+#: ../gap/gap_detail_tracking_main.c:235
+msgid "DetailTracking Config..."
+msgstr "Διευθέτηση παρακολούθησης λεπτομέρειας..."
+
+#: ../gap/gap_detail_tracking_main.c:260
+msgid "DetailTracking"
+msgstr "Παρακολούθηση λεπτομέρειας"
+
+#: ../gap/gap_detail_tracking_main.c:282
+msgid "Align Transform via XML file..."
+msgstr "Στοίχιση μετασχηματισμού μέσα από αρχείο XML..."
+
+#: ../gap/gap_detail_tracking_main.c:302
+msgid "Exact Align via 4-Point Path."
+msgstr "Ακριβής στοίχιση μέσω μονοπατιού 4 σημείων."
+
+#: ../gap/gap_detail_tracking_main.c:314
+msgid "<Image>/Layer/Transform/"
+msgstr "<Image>/Στρώση/Μετασχηματισμός/"
+
+#. The dialog1 and main vbox
+#: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
+msgid "Foreground-Extract"
+msgstr "Εξαγωγή προσκηνίου"
+
+#
+#. the frame
+#: ../gap/gap_fg_from_sel_dialog.c:276 ../gap/gap_fg_matting_dialog.c:408
+#: ../gap/gap_mov_dialog.c:1560
+msgid "Options"
+msgstr "Επιλογές"
+
+#. the InnerRadius spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:297
+msgid "Inner Radius"
+msgstr "Εσωτερική ακτίνα"
+
+#: ../gap/gap_fg_from_sel_dialog.c:305
+msgid "Radius for undefined (e.g. trimmable) area inside the selection border"
+msgstr "Ακτίνα για αόριστη (π.χ. κομμένης) περιοχή μες το περίγραμμα επιλογής"
+
+#. the OuterRadius spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:318
+msgid "Outer Radius"
+msgstr "Εξωτερική ακτίνα"
+
+#: ../gap/gap_fg_from_sel_dialog.c:326
+msgid "Radius for undefined (e.g. trimmable) area outside the selection border"
+msgstr ""
+"Ακτίνα για αόριστη (π.χ. κομμένης) περιοχή έξω από το περίγραμμα επιλογής"
+
+#. create_layermask checkbutton
+#: ../gap/gap_fg_from_sel_dialog.c:343 ../gap/gap_fg_matting_dialog.c:491
+msgid "Create Layermask:"
+msgstr "Δημιουργία μασκών στρώσεων:"
+
+#: ../gap/gap_fg_from_sel_dialog.c:354 ../gap/gap_fg_matting_dialog.c:502
+msgid ""
+"ON: render opacity by creating a new layer mask, OFF: apply rendered opacity "
+"to the alpha channel"
+msgstr ""
+"ΝΑΙ: αποδίδει αδιαφάνεια δημιουργώντας μια νέα μάσκα στρώσης, ΟΧΙ: εφαρμογή "
+"της αποδιδόμενης αδιαφάνειας σε κανάλι άλφα"
+
+#
+#. lock_color checkbutton
+#: ../gap/gap_fg_from_sel_dialog.c:368 ../gap/gap_fg_matting_dialog.c:516
+msgid "Lock Colors:"
+msgstr "Κλείδωμα χρωμάτων:"
+
+#: ../gap/gap_fg_from_sel_dialog.c:378 ../gap/gap_fg_matting_dialog.c:526
+msgid ""
+"ON: Keep RGB channels of the input layer, OFF: allow Background color "
+"removal in processed undefined regions"
+msgstr ""
+"ΝΑΙ: Διατήρηση καναλιών RGB στη στρώση εισόδου, ΟΧΙ: επιτρέπεται η αφαίρεση "
+"χρώματος παρασκηνίου σε επεξεργαζόμενες ακαθόριστες περιοχές"
+
+#. colordiff_threshold spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:392 ../gap/gap_fg_matting_dialog.c:567
+msgid "Color Diff Threshold"
+msgstr "Κατώφλι χρωματικής διαφοράς"
+
+#: ../gap/gap_fg_from_sel_dialog.c:400 ../gap/gap_fg_matting_dialog.c:575
+msgid "sensitivity for color comparison"
+msgstr "ευαισθησία για χρωματική σύγκριση"
+
+#. the tri-map drawable selection combo box
+#: ../gap/gap_fg_matting_dialog.c:429
+msgid "Tri-Map:"
+msgstr "Τριπλός χάρτης:"
+
+#: ../gap/gap_fg_matting_dialog.c:443
+msgid ""
+"Select the tri_map layer (or layermask).  the tri-map shall be of same size "
+"as the input layer and  provides a rough user selection  where WHITE pixels "
+"in the tri map defines FOREGROUND (eg. opaque result)  BLACK pixels define "
+"BACKGROUND (eg. transparent result) GRAY pixels (value 1 upto 240) ar marked "
+"as Undefined  (eg. opacity to be processed by this filter.) )"
+msgstr ""
+"Επιλέξτε τη στρώση τριπλού_χάρτη (ή μάσκας στρώσης). Ο τριπλός χάρτης θα "
+"έχει το ίδιο μέγεθος όπως η στρώση εισόδου και παρέχει μια χοντρική επιλογή "
+"χρήστη όπου ΛΕΥΚΑ εικονοστοιχεία στον τριπλό χάρτη καθορίζουν ΠΡΟΣΚΗΝΙΟ (π."
+"χ. αδιαφανές αποτέλεσμα) ΜΑΥΡΑ εικονοστοιχεία καθορίζουν ΠΑΡΑΣΚΗΝΙΟ (π.χ. "
+"διαφανές αποτέλεσμα) ΓΚΡΙ εικονοστοιχεία (τιμή 1 έως 240) σημειώνονται ως "
+"ακαθόριστα (π.χ. επεξεργαζόμενη αδιαφάνεια από αυτό το φίλτρο.)"
+
+#: ../gap/gap_fg_matting_dialog.c:467
+msgid "Layermask"
+msgstr "Μάσκα στρώσης"
+
+#. create_result (create_result checkbutton
+#: ../gap/gap_fg_matting_dialog.c:539
+msgid "Create Result Layer:"
+msgstr "Δημιουργία στρώσης αποτελέσματος:"
+
+#. gtk_widget_show (checkbutton);
+#: ../gap/gap_fg_matting_dialog.c:551
+msgid ""
+"ON: create a new layer as result of the foreground extraction processing. "
+"OFF: render transparency and background color removal on the input drawable"
+msgstr ""
+"ΝΑΙ: δημιουργία νέας στρώσης ως αποτέλεσμα της διαδικασίας εξαγωγής "
+"προσκηνίου.\n"
+"ΟΧΙ: απόδοση διαφάνειας και αφαίρεση χρωματικού παρασκηνίου στο σχέδιο "
+"εισαγωγής"
+
+#: ../gap/gap_fg_matting_exec.c:130
+msgid "Foreground Extract"
+msgstr "Εξαγωγή προσκηνίου"
+
+#: ../gap/gap_fg_matting_main.c:177
+msgid "Foreground Extract..."
+msgstr "Εξαγωγή προσκηνίου..."
+
+#: ../gap/gap_fg_matting_main.c:203
+msgid "Foreground Extract Via Selection..."
+msgstr "Εξαγωγή προσκηνίου μέσω επιλογής..."
+
+#. Menu names
+#: ../gap/gap_fg_matting_main.c:213
+msgid "<Image>/Layer/Transparency/"
+msgstr "<Image>/Στρώση/Διαφάνεια/"
 
 #: ../gap/gap_filter_foreach.c:133
 msgid "Backup to file"
@@ -2572,139 +2763,6 @@ msgstr "Μοτίβο φωτιάς..."
 msgid "<Image>/Video/Layer/Render/"
 msgstr "<Image>/Βίντεο/Στρώση/Απόδοση"
 
-#: ../gap/gap_fg_matting_main.c:177
-msgid "Foreground Extract..."
-msgstr "Εξαγωγή προσκηνίου..."
-
-#: ../gap/gap_fg_matting_main.c:203
-msgid "Foreground Extract Via Selection..."
-msgstr "Εξαγωγή προσκηνίου μέσω επιλογής..."
-
-#. Menu names
-#: ../gap/gap_fg_matting_main.c:213
-#| msgid "<Image>/Video/Layer/Transform/"
-msgid "<Image>/Layer/Transparency/"
-msgstr "<Image>/Στρώση/Διαφάνεια/"
-
-#: ../gap/gap_fg_matting_exec.c:130
-#| msgid "Grain Extract"
-msgid "Foreground Extract"
-msgstr "Εξαγωγή προσκηνίου"
-
-#. The dialog1 and main vbox
-#: ../gap/gap_fg_matting_dialog.c:372 ../gap/gap_fg_from_sel_dialog.c:240
-msgid "Foreground-Extract"
-msgstr "Εξαγωγή προσκηνίου"
-
-#
-#. the frame
-#: ../gap/gap_fg_matting_dialog.c:408 ../gap/gap_fg_from_sel_dialog.c:276
-#: ../gap/gap_mov_dialog.c:1560
-msgid "Options"
-msgstr "Επιλογές"
-
-#. the tri-map drawable selection combo box
-#: ../gap/gap_fg_matting_dialog.c:429
-msgid "Tri-Map:"
-msgstr "Τριπλός χάρτης:"
-
-#: ../gap/gap_fg_matting_dialog.c:443
-msgid ""
-"Select the tri_map layer (or layermask).  the tri-map shall be of same size "
-"as the input layer and  provides a rough user selection  where WHITE pixels "
-"in the tri map defines FOREGROUND (eg. opaque result)  BLACK pixels define "
-"BACKGROUND (eg. transparent result) GRAY pixels (value 1 upto 240) ar marked "
-"as Undefined  (eg. opacity to be processed by this filter.) )"
-msgstr ""
-"Επιλέξτε τη στρώση τριπλού_χάρτη (ή μάσκας στρώσης). Ο τριπλός χάρτης θα "
-"έχει το ίδιο μέγεθος όπως η στρώση εισόδου και παρέχει μια χοντρική επιλογή "
-"χρήστη όπου ΛΕΥΚΑ εικονοστοιχεία στον τριπλό χάρτη καθορίζουν ΠΡΟΣΚΗΝΙΟ "
-"(π.χ. αδιαφανές αποτέλεσμα) ΜΑΥΡΑ εικονοστοιχεία καθορίζουν ΠΑΡΑΣΚΗΝΙΟ (π.χ. "
-"διαφανές αποτέλεσμα) ΓΚΡΙ εικονοστοιχεία (τιμή 1 έως 240) σημειώνονται ως "
-"ακαθόριστα (π.χ. επεξεργαζόμενη αδιαφάνεια από αυτό το φίλτρο.)"
-
-#: ../gap/gap_fg_matting_dialog.c:467
-#| msgid "layermask"
-msgid "Layermask"
-msgstr "Μάσκα στρώσης"
-
-#. create_layermask checkbutton
-#: ../gap/gap_fg_matting_dialog.c:491 ../gap/gap_fg_from_sel_dialog.c:343
-#| msgid "Create Layers"
-msgid "Create Layermask:"
-msgstr "Δημιουργία μασκών στρώσεων:"
-
-#: ../gap/gap_fg_matting_dialog.c:502 ../gap/gap_fg_from_sel_dialog.c:354
-msgid ""
-"ON: render opacity by creating a new layer mask, OFF: apply rendered opacity "
-"to the alpha channel"
-msgstr ""
-"ΝΑΙ: αποδίδει αδιαφάνεια δημιουργώντας μια νέα μάσκα στρώσης, ΟΧΙ: εφαρμογή "
-"της αποδιδόμενης αδιαφάνειας σε κανάλι άλφα"
-
-#
-#. lock_color checkbutton
-#: ../gap/gap_fg_matting_dialog.c:516 ../gap/gap_fg_from_sel_dialog.c:368
-#| msgid "Color mask:"
-msgid "Lock Colors:"
-msgstr "Κλείδωμα χρωμάτων:"
-
-#: ../gap/gap_fg_matting_dialog.c:526 ../gap/gap_fg_from_sel_dialog.c:378
-msgid ""
-"ON: Keep RGB channels of the input layer, OFF: allow Background color "
-"removal in processed undefined regions"
-msgstr ""
-"ΝΑΙ: Διατήρηση καναλιών RGB στη στρώση εισόδου, ΟΧΙ: επιτρέπεται η αφαίρεση "
-"χρώματος παρασκηνίου σε επεξεργαζόμενες ακαθόριστες περιοχές"
-
-#. create_result (create_result checkbutton
-#: ../gap/gap_fg_matting_dialog.c:539
-#| msgid "Create Layer:"
-msgid "Create Result Layer:"
-msgstr "Δημιουργία στρώσης αποτελέσματος:"
-
-#. gtk_widget_show (checkbutton);
-#: ../gap/gap_fg_matting_dialog.c:551
-msgid ""
-"ON: create a new layer as result of the foreground extraction processing. "
-"OFF: render transparency and background color removal on the input drawable"
-msgstr ""
-"ΝΑΙ: δημιουργία νέας στρώσης ως αποτέλεσμα της διαδικασίας εξαγωγής "
-"προσκηνίου.\n"
-"ΟΧΙ: απόδοση διαφάνειας και αφαίρεση χρωματικού παρασκηνίου στο σχέδιο "
-"εισαγωγής"
-
-#. colordiff_threshold spinbutton
-#: ../gap/gap_fg_matting_dialog.c:567 ../gap/gap_fg_from_sel_dialog.c:392
-#| msgid "Colordiff threshold:"
-msgid "Color Diff Threshold"
-msgstr "Κατώφλι χρωματικής διαφοράς"
-
-#: ../gap/gap_fg_matting_dialog.c:575 ../gap/gap_fg_from_sel_dialog.c:400
-msgid "sensitivity for color comparison"
-msgstr "ευαισθησία για χρωματική σύγκριση"
-
-#. the InnerRadius spinbutton
-#: ../gap/gap_fg_from_sel_dialog.c:297
-#| msgid "Isle Radius:"
-msgid "Inner Radius"
-msgstr "Εσωτερική ακτίνα"
-
-#: ../gap/gap_fg_from_sel_dialog.c:305
-msgid "Radius for undefined (e.g. trimmable) area inside the selection border"
-msgstr "Ακτίνα για αόριστη (π.χ. κομμένης) περιοχή μες το περίγραμμα επιλογής"
-
-#. the OuterRadius spinbutton
-#: ../gap/gap_fg_from_sel_dialog.c:318
-#| msgid "Feather Radius:"
-msgid "Outer Radius"
-msgstr "Εξωτερική ακτίνα"
-
-#: ../gap/gap_fg_from_sel_dialog.c:326
-msgid "Radius for undefined (e.g. trimmable) area outside the selection border"
-msgstr ""
-"Ακτίνα για αόριστη (π.χ. κομμένης) περιοχή έξω από το περίγραμμα επιλογής"
-
 #: ../gap/gap_fmac_base.c:205
 #, c-format
 msgid "filtermacro_file: '%s' is corrupted, could not scan databytes"
@@ -2870,7 +2928,7 @@ msgstr "MPEG2..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Βίντεο/Κωδικοποίηση/"
 
-#: ../gap/gap_lib.c:1835
+#: ../gap/gap_lib.c:1933
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2878,15 +2936,15 @@ msgstr ""
 "Ακύρωση λειτουργίας.\n"
 "Το τρέχον πλαίσιο άλλαξε, ενώ ο διάλογος ήταν ανοιχτός."
 
-#: ../gap/gap_lib.c:2033
+#: ../gap/gap_lib.c:2131
 msgid "Save Flattened"
 msgstr "Αποθήκευση ισοπεδωμένων"
 
-#: ../gap/gap_lib.c:2035
+#: ../gap/gap_lib.c:2133
 msgid "Save As Is"
 msgstr "Αποθήκευση ως είναι"
 
-#: ../gap/gap_lib.c:2039
+#: ../gap/gap_lib.c:2137
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -2905,7 +2963,7 @@ msgstr ""
 "(%s %s)\n"
 "στο αρχείο σας gimprc"
 
-#: ../gap/gap_lib.c:2048
+#: ../gap/gap_lib.c:2146
 msgid "Fileformat Warning"
 msgstr "Προειδοποίηση τύπου αρχείου"
 
@@ -3837,8 +3895,8 @@ msgid ""
 "opaque images.SHIFT-click: adds the new points and keeps the old points"
 msgstr ""
 "Δημιουργία Ν σημείων εργασίας ακολουθώντας το σχήμα του περιγράμματος της "
-"στρώσης. Η ανίχνευση απλού σχήματος αναζητά μη διαφανή εικονοστοιχεία. "
-"CTRL-κλικ χρησιμοποιεί μια ανίχνευση άκρης βασισμένη σε αλγόριθμο ανίχνευσης "
+"στρώσης. Η ανίχνευση απλού σχήματος αναζητά μη διαφανή εικονοστοιχεία. CTRL-"
+"κλικ χρησιμοποιεί μια ανίχνευση άκρης βασισμένη σε αλγόριθμο ανίχνευσης "
 "σχήματος που είναι ικανός να χειριστεί αδιαφανείς εικόνες. SHIFT-κλικ: "
 "προσθέτει τα νέα σημεία και διατηρεί τα παλιά."
 
@@ -3927,9 +3985,9 @@ msgid ""
 msgstr ""
 "ΕΝΕΡΓΟ: χρήση 2 ή περισσότερων ομάδων σημείων από αρχείο. Παρακαλώ "
 "δημιουργήστε και αποθηκεύστε τις ομάδες σημείων πρώτα, χρησιμοποιώντας 2ψηφα "
-"μέρη αριθμών πριν την επέκταση (σημεία_01.txt, σημεία_02.txt, "
-"σημεία_03.txt), έπειτα άνοιγμα και SHIFT άνοιγμα για την πρώτη και τελευταία "
-"ομάδα σημείων\n"
+"μέρη αριθμών πριν την επέκταση (σημεία_01.txt, σημεία_02.txt, σημεία_03."
+"txt), έπειτα άνοιγμα και SHIFT άνοιγμα για την πρώτη και τελευταία ομάδα "
+"σημείων\n"
 "ΑΝΕΝΕΡΓΟ: χρήση της τρέχουσας ομάδας σημείων εργασίας"
 
 #. the lower workpoint label
@@ -4352,7 +4410,6 @@ msgstr "Πληροφορίες:"
 
 #: ../gap/gap_morph_tween_dialog.c:1168
 #, c-format
-#| msgid "this operation creates %d missing frames between frame %d and %d"
 msgid "This operation creates %d missing frame between frame %d and %d"
 msgid_plural "this operation creates %d missing frames between frame %d and %d"
 msgstr[0] ""
@@ -4361,13 +4418,6 @@ msgstr[1] ""
 "Αυτή η λειτουργία δημιουργεί %d ελλείποντα πλαίσια μεταξύ πλαισίου %d και %d"
 
 #: ../gap/gap_morph_tween_dialog.c:1181
-#| msgid ""
-#| "this operation creates copies of all frames in the specified range\n"
-#| "and the specifed number of tweens as additional tween frames\n"
-#| "between all the processed frames in the specified subdirectory.\n"
-#| "Provide workpointfiles (one per frame) for morphing based tween "
-#| "rendering\n"
-#| "(this can be done with the Morph Workpoint Generator)"
 msgid ""
 "This operation creates copies of all frames in the specified range\n"
 "and the specifed number of tweens as additional tween frames\n"
@@ -4451,14 +4501,6 @@ msgstr "Δημιουργία ενδιάμεσων πλαισίων:"
 #: ../gap/gap_morph_tween_dialog.c:1352
 msgid "Local Progress:"
 msgstr "Τοπική πρόοδος:"
-
-#: ../gap/gap_mov_main.c:283
-msgid "Move Path..."
-msgstr "Μετακίνηση μονοπατιού..."
-
-#: ../gap/gap_mov_main.c:370
-msgid "Move Path Singleframe..."
-msgstr "Μετακίνηση μονοπατιού μονού πλαισίου..."
 
 #: ../gap/gap_mov_dialog.c:990
 msgid "Move Path Editor"
@@ -5806,6 +5848,14 @@ msgstr ""
 "Σφάλμα: Περισσότερα σημεία ελέγχου (%d) παρά επεξεργαζόμενα πλαίσια (%d).\n"
 "Παρακαλώ μειώστε τα σημεία ελέγχου ή επιλέξτε περισσότερα πλαίσια"
 
+#: ../gap/gap_mov_main.c:283
+msgid "Move Path..."
+msgstr "Μετακίνηση μονοπατιού..."
+
+#: ../gap/gap_mov_main.c:370
+msgid "Move Path Singleframe..."
+msgstr "Μετακίνηση μονοπατιού μονού πλαισίου..."
+
 #: ../gap/gap_mpege.c:127
 msgid "Requirements to run mpeg2encode 1.2:"
 msgstr "Προπαιτήσεις για εκτέλεση mpeg2encode 1.2:"
@@ -6916,7 +6966,6 @@ msgid "Select Audiofile"
 msgstr "Επιλογή αρχείου ήχου"
 
 #: ../gap/gap_player_dialog.c:6640
-#| msgid "Advanced Settings"
 msgid "Audio Playback Settings"
 msgstr "Ηχητικές ρυθμίσεις αναπαραγωγής"
 
@@ -7069,7 +7118,6 @@ msgid "Videotime:"
 msgstr "Χρόνος βίντεο:"
 
 #: ../gap/gap_player_dialog.c:7234
-#| msgid "Preferences"
 msgid "Playback Preferences"
 msgstr "Προτιμήσεις αναπαραγωγής"
 
@@ -7096,7 +7144,6 @@ msgstr "Προσωρινή αποθήκευση πλαισίων:"
 
 #. tile Chache
 #: ../gap/gap_player_dialog.c:7324
-#| msgid "Filename:"
 msgid "Tile Cache:"
 msgstr "Κρυφή μνήμη παράθεσης:"
 
@@ -7140,7 +7187,6 @@ msgstr ""
 
 #. configure Detail Tracking button
 #: ../gap/gap_player_dialog.c:7405
-#| msgid "Configuration..."
 msgid "Configure Tracking:"
 msgstr "Διευθέτηση παρακολούθησης:"
 
@@ -7149,7 +7195,6 @@ msgid "Configure detail tracking options"
 msgstr "Διευθέτηση επιλογών παρακολούθησης λεπτομέρειας"
 
 #: ../gap/gap_player_dialog.c:7416
-#| msgid "Disable active layer tracking"
 msgid "Enable Detail Tracking"
 msgstr "Ενεργοποίηση παρακολούθησης λεπτομέρειας"
 
@@ -7570,13 +7615,11 @@ msgid "Convert to Indexed"
 msgstr "Μετατροπή σε χρώμα από πίνακα"
 
 #: ../gap/gap_range_ops.c:506
-#| msgid "Flatten:"
 msgid "Flatten"
 msgstr "Ισοπέδωση"
 
 #
 #: ../gap/gap_range_ops.c:507
-#| msgid "Merge Layers"
 msgid "Merge Visible Layers"
 msgstr "Συγχώνευση ορατών στρώσεων"
 
@@ -7662,7 +7705,6 @@ msgstr ""
 
 #
 #: ../gap/gap_range_ops.c:582
-#| msgid "Merge Layers"
 msgid "Merge Layers:"
 msgstr "Συγχώνευση στρώσεων:"
 
@@ -9099,8 +9141,8 @@ msgid ""
 "video frames)."
 msgstr ""
 "Επιλογή λόγου θέασης πλαισίου βίντεο. Εισαγωγή ενός αλφαριθμητικού όπως  "
-"\"4:3\" ή \"16:9\" για ορισμό της διάστασης. Καμία εισαγωγή ή αφήστε κενό εάν "
-"δεν θα χρησιμοποιηθεί κανένας συγκεκριμένος λόγος θέασης (σε αυτήν την "
+"\"4:3\" ή \"16:9\" για ορισμό της διάστασης. Καμία εισαγωγή ή αφήστε κενό "
+"εάν δεν θα χρησιμοποιηθεί κανένας συγκεκριμένος λόγος θέασης (σε αυτήν την "
 "περίπτωση τα πλαίσια του βίντεο χρησιμοποιούν το βασικό μέγεθος "
 "εικονοστοιχείου 1:1 για προβολή πλαισίων βίντεο)."
 
@@ -9145,9 +9187,9 @@ msgid ""
 "framenumber."
 msgstr ""
 "Αλφαριθμητικό μορφής για παροχή εξωτερικής διαφάνειας σε αποσπάσματα ταινίας "
-"(π.χ. εισαγωγή αυτόματου καναλιού άλφα). Αυτό το αλφαριθμητικό θα περιέχει "
-"\\%s ως δεσμευτικό χώρου για το όνομα βάσης ενός αποσπάσματος και κατ' "
-"επιλογή \\%06d ως δεσμευτικό χώρου για τον αριθμό πλαισίου."
+"(π.χ. εισαγωγή αυτόματου καναλιού άλφα). Αυτό το αλφαριθμητικό θα περιέχει \\"
+"%s ως δεσμευτικό χώρου για το όνομα βάσης ενός αποσπάσματος και κατ' επιλογή "
+"\\%06d ως δεσμευτικό χώρου για τον αριθμό πλαισίου."
 
 #: ../gap/gap_story_dialog.c:9300
 msgid "AreaFormat:"
@@ -10180,6 +10222,20 @@ msgstr ""
 "αδυναμία αποθήκευσης αρχείου:\n"
 "'%s'"
 
+#: ../gap/gap_vex_main.c:274
+msgid "MAIN_TST"
+msgstr "ΚΥΡΙΟΣ_ΕΛΕΓΧΟΣ"
+
+#: ../gap/gap_vex_main.c:398
+msgid ""
+"Videoextract is not available because GIMP-GAP was configured and compiled "
+"with\n"
+" --disable-videoapi-support"
+msgstr ""
+"Η εξαγωγή βίντεο δεν είναι διαθέσιμη επειδή το GIMP-GAP διαμορφώθηκε και "
+"μεταγλωττίστηκε με\n"
+" --disable-videoapi-support"
+
 #: ../gap/gap_video_index_creator.c:208
 msgid "Video Index Creation..."
 msgstr "Δημιουργία ευρετηρίου βίντεο..."
@@ -10363,20 +10419,6 @@ msgstr "έξυπνος έλεγχος %0.3f %% (από %0.3f %%)"
 #, c-format
 msgid "Creating video index %0.3f %%"
 msgstr "Δημιουργία ευρετηρίου βίντεο %0.3f %%"
-
-#: ../gap/gap_vex_main.c:274
-msgid "MAIN_TST"
-msgstr "ΚΥΡΙΟΣ_ΕΛΕΓΧΟΣ"
-
-#: ../gap/gap_vex_main.c:398
-msgid ""
-"Videoextract is not available because GIMP-GAP was configured and compiled "
-"with\n"
-" --disable-videoapi-support"
-msgstr ""
-"Η εξαγωγή βίντεο δεν είναι διαθέσιμη επειδή το GIMP-GAP διαμορφώθηκε και "
-"μεταγλωττίστηκε με\n"
-" --disable-videoapi-support"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_water_pattern.c:1036
@@ -10845,11 +10887,12 @@ msgstr ""
 #.
 #: ../vid_common/gap_cme_gui.c:978
 #, c-format
-#| msgid "List[%d] has [%d] valid tracks, Bit:%d Chan:%d Rate:%d"
 msgid "List[%d] has [%d] valid track, Bit:%d Chan:%d Rate:%d"
 msgid_plural "List[%d] has [%d] valid tracks, Bit:%d Chan:%d Rate:%d"
-msgstr[0] "Η λίστα [%d] έχει [%d] έγκυρο κομμάτι, δυαδικά:%d κανάλια:%d ρυθμό:%d"
-msgstr[1] "Η λίστα [%d] έχει [%d] έγκυρα κομμάτια, δυαδικά:%d κανάλια:%d ρυθμό:%d"
+msgstr[0] ""
+"Η λίστα [%d] έχει [%d] έγκυρο κομμάτι, δυαδικά:%d κανάλια:%d ρυθμό:%d"
+msgstr[1] ""
+"Η λίστα [%d] έχει [%d] έγκυρα κομμάτια, δυαδικά:%d κανάλια:%d ρυθμό:%d"
 
 #: ../vid_common/gap_cme_gui.c:990
 #, c-format
@@ -11599,7 +11642,6 @@ msgid "Framerate of the output video (frames/sec)"
 msgstr "Ρυθμός πλαισίων στην έξοδο βίντεο (πλαίσια/δευτερόλεπτο)"
 
 #: ../vid_common/gap_cme_gui.c:3742
-#| msgid "original audio"
 msgid "original"
 msgstr "αρχικός"
 
@@ -11715,8 +11757,8 @@ msgstr ""
 "WAVE (16 δυαδικών PCM) και περνά στο επιλεγμένο πρόσθετο κωδικοποιητή βίντεο "
 "ως προσωρινό αρχείο. (ή άμεσα εάν η μορφή και ο ρυθμός δειγματοληψίας "
 "ταιριάζουν ήδη με τον επιθυμητό στόχο ρυθμού δειγματοληψίας). Η μορφή βίντεο "
-"καθορίζεται με παράμετρο vid_enc_plugin. Το καθορισμένο πρόσθετο καλείται "
-"με τις καθορισμένες παραμέτρους στο διάλογο. Για μη διαδραστικές κλήσεις "
+"καθορίζεται με παράμετρο vid_enc_plugin. Το καθορισμένο πρόσθετο καλείται με "
+"τις καθορισμένες παραμέτρους στο διάλογο. Για μη διαδραστικές κλήσεις "
 "χρησιμοποιούνται οι προεπιλεγμένες τιμές. (Μπορείτε να καλέσετε το επιθυμητό "
 "πρόσθετο άμεσα, εάν θέλετε να καθορίσετε μη διαδραστικές παραμέτρους."
 
@@ -12002,8 +12044,8 @@ msgid ""
 "uncompressed. IMPORTANT:  you should first call \""
 msgstr ""
 "Αυτό το πρόσθετο χειρίζεται την κωδικοποίηση βίντεο για τη μορφή βίντεο AVI. "
-"Τα (προαιρετικά) δεδομένα ήχου πρέπει να είναι αρχεία δεδομένων raw ή "
-"αρχεία.wav (RIFF WAVEfmt ). Τα αρχεία .wav μπορούν να είναι μονοφωνικά (1) ή "
+"Τα (προαιρετικά) δεδομένα ήχου πρέπει να είναι αρχεία δεδομένων raw ή αρχεία."
+"wav (RIFF WAVEfmt ). Τα αρχεία .wav μπορούν να είναι μονοφωνικά (1) ή "
 "στερεοφωνικά (2κάναλα), τα δεδομένα ήχου πρέπει να είναι 16 δυαδικών ψηφίων "
 "ασυμπίεστα. ΣΗΜΑΝΤΙΚΟ: Πρέπει πρώτα να καλέσετε \""
 
@@ -12042,6 +12084,14 @@ msgid "ERROR: GAP AVI encoder CODEC %s delivered empty buffer at frame %d"
 msgstr ""
 "ΣΦΑΛΜΑ: Ο κωδικοποιητής-αποκωδικοποιητής %s του κωδικοποιητή GAP AVI "
 "παρέδωσε κενή περιοχή προσωρινής αποθήκευσης στο πλαίσιο %d"
+
+#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:769
+msgid "Save ffmpeg-encoder parameters"
+msgstr "Αποθήκευση παραμέτρων κωδικοποιητή ffmpeg"
+
+#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:773
+msgid "Load ffmpeg-encoder parameters"
+msgstr "Φόρτωση παραμέτρων κωδικοποιητή ffmpeg"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:153
 msgid "0 sad"
@@ -12111,14 +12161,12 @@ msgstr "ΧΩΡΙΣ ΥΠΟΣΤΗΡΙΞΗ"
 #
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:490
 #, c-format
-#| msgid "Set all selected layers to mode: %s"
 msgid "Selected Preset : %s"
 msgstr "Επιλεγμένες προρυθμίσεις : %s"
 
 #
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:502
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:518
-#| msgid "Renumber Frames"
 msgid "Recommanded Framesize"
 msgstr "Συνιστώμενο μέγεθος πλαισίου"
 
@@ -13061,7 +13109,6 @@ msgstr "Χρήση GMC"
 
 #. the INTRA_REFRESH checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2942
-#| msgid "Initial frame"
 msgid "Intra Refresh"
 msgstr "Ενδοανανέωση"
 
@@ -13346,18 +13393,15 @@ msgstr ""
 
 #. the Set Aspectratio checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3788
-#| msgid "Select aspect ratio"
 msgid "Set aspect ratio"
 msgstr "Ορισμός λόγου θέασης"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3794
-#| msgid "store aspectratio information (width/height) in the output video"
 msgid "Store aspect ratio information (width/height) in the output video"
 msgstr "Αποθήκευση πληροφοριών λόγου θέασης (πλάτος/ύψος) στην έξοδο βίντεο"
 
 #. the ASPECT combo
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3802
-#| msgid "auto"
 msgid "Auto"
 msgstr "Αυτόματο"
 
@@ -13379,18 +13423,15 @@ msgstr "Επιλογή λόγου θέασης"
 
 #. the show expert settings label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3834
-#| msgid "Expert Options"
 msgid "Expert settings:"
 msgstr "Προχωρημένες επιλογές:"
 
 #. the Set Aspectratio checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3843
-#| msgid "Convert Settings"
 msgid "Show expert settings"
 msgstr "Εμφάνιση προχωρημένων ρυθμίσεων"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3849
-#| msgid "Predefined encoder parameter settings"
 msgid "Show video encoder expert settings"
 msgstr "Εμφάνιση προχωρημένων ρυθμίσεων κωδικοποιητή βίντεο"
 
@@ -13499,10 +13540,6 @@ msgstr ""
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:1950
 #, c-format
-#| msgid ""
-#| "The file: %s\n"
-#| "contains too many audio-input tracks\n"
-#| "(only %d tracks are used, the rest are ignored)."
 msgid ""
 "The file: %s\n"
 "contains too many audio-input tracks\n"
@@ -13577,14 +13614,6 @@ msgstr "Αδυναμία δημιουργίας αρχείου βίντεο: '%s
 msgid "Black dummy frame was added"
 msgstr "Προστέθηκε μαύρο εικονικό πλαίσιο"
 
-#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:769
-msgid "Save ffmpeg-encoder parameters"
-msgstr "Αποθήκευση παραμέτρων κωδικοποιητή ffmpeg"
-
-#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:773
-msgid "Load ffmpeg-encoder parameters"
-msgstr "Φόρτωση παραμέτρων κωδικοποιητή ffmpeg"
-
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_par.c:412
 #, c-format
 msgid ""
@@ -13624,8 +13653,8 @@ msgstr ""
 "Αυτό το πρόσθετο έχει έναν κωδικοποιητή βίντεο API, αλλά γράφει μια σειρά "
 "μονών πλαισίων αντί για ένα αρχείο βίντεο. Ο τύπος αρχείου των πλαισίων "
 "εξόδου παράγεται από την επέκταση. Η επέκταση είναι το μέρος του επιθέματος "
-"της παραμέτρου \"αρχείο βίντεο\". Τα ονόματα των πλαισίων εξόδου είναι τα ίδια "
-"όπως η παράμετρος \"αρχείο βίντεο\", αλλά το τμήμα του αριθμού πλαισίου "
+"της παραμέτρου \"αρχείο βίντεο\". Τα ονόματα των πλαισίων εξόδου είναι τα "
+"ίδια όπως η παράμετρος \"αρχείο βίντεο\", αλλά το τμήμα του αριθμού πλαισίου "
 "αντικαθίσταται από τον τρέχοντα αριθμό πλαισίου (ή προστίθεται αυτόματα, εάν "
 "το αρχείο βίντεο δεν έχει τμήμα αριθμού). Τα δεδομένα ήχου αγνοούνται. "
 "ΠΡΟΕΙΔΟΠΟΙΗΣΕΙΣ: για κατάλληλη λειτουργία, τα επεξεργαζόμενα πλαίσια θα "
@@ -13711,8 +13740,8 @@ msgstr ""
 "Αυτό το πρόσθετο έχει έναν κωδικοποιητή βίντεο API, αλλά γράφει μια σειρά "
 "μονών πλαισίων αντί για ένα αρχείο βίντεο. Ο τύπος αρχείου των πλαισίων "
 "εξόδου παράγεται από την επέκταση. Η επέκταση είναι το μέρος του επιθέματος "
-"της παραμέτρου \"αρχείο βίντεο\". Τα ονόματα των πλαισίων εξόδου είναι τα ίδια "
-"όπως η παράμετρος \"αρχείο βίντεο\", αλλά το τμήμα του αριθμού πλαισίου "
+"της παραμέτρου \"αρχείο βίντεο\". Τα ονόματα των πλαισίων εξόδου είναι τα "
+"ίδια όπως η παράμετρος \"αρχείο βίντεο\", αλλά το τμήμα του αριθμού πλαισίου "
 "αντικαθίσταται από τον τρέχοντα αριθμό πλαισίου (ή προστίθεται αυτόματα, εάν "
 "το αρχείο βίντεο δεν έχει τμήμα αριθμού). Τα δεδομένα ήχου αγνοούνται. Μια "
 "κλήση του\""
