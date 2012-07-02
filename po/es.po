@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-03-29 16:24+0000\n"
-"PO-Revision-Date: 2012-02-06 12:37+0100\n"
+"POT-Creation-Date: 2012-06-17 06:35+0000\n"
+"PO-Revision-Date: 2012-07-02 16:38+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -242,7 +242,7 @@ msgstr "Error: no se puede guardar el fotograma %s"
 #: ../gap/gap_base_ops.c:697 ../gap/gap_base_ops.c:704
 #: ../gap/gap_base_ops.c:711 ../gap/gap_base_ops.c:799
 #: ../gap/gap_base_ops.c:821 ../gap/gap_base_ops.c:912
-#: ../gap/gap_base_ops.c:920 ../gap/gap_base_ops.c:928 ../gap/gap_lib.c:3337
+#: ../gap/gap_base_ops.c:920 ../gap/gap_base_ops.c:928 ../gap/gap_lib.c:3435
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Error: no se puede renombrar el fotograma %ld a %ld"
@@ -411,7 +411,7 @@ msgstr "Cambiar la densidad de los fotogramas"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1432 ../gap/gap_base_ops.c:1561 ../gap/gap_lib.c:1858
+#: ../gap/gap_base_ops.c:1432 ../gap/gap_base_ops.c:1561 ../gap/gap_lib.c:1956
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -536,7 +536,7 @@ msgid "Blend Fill..."
 msgstr "Relleno de mezcla…"
 
 #. Menu names
-#: ../gap/gap_blend_fill_main.c:245 ../gap/gap_detail_tracking_main.c:298
+#: ../gap/gap_blend_fill_main.c:245 ../gap/gap_detail_tracking_main.c:313
 #: ../gap/gap_wr_resynth.c:185
 msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Vídeo/Capa/Realzar/"
@@ -1907,20 +1907,20 @@ msgstr ""
 "no se puede encontrar ningún fotograma extraído,\n"
 "XAnim falló o se canceló"
 
-#: ../gap/gap_detail_align_exec.c:617
+#: ../gap/gap_detail_align_exec.c:636
 msgid "Frame Phase:"
 msgstr "Fase de los fotogramas:"
 
 # What??
-#: ../gap/gap_detail_align_exec.c:618
+#: ../gap/gap_detail_align_exec.c:637
 msgid "Frame number (phase) to be rendered."
 msgstr "Número del fotograma (fase) que renderizar."
 
-#: ../gap/gap_detail_align_exec.c:631
+#: ../gap/gap_detail_align_exec.c:650
 msgid "XML file:"
 msgstr "Archivo XML:"
 
-#: ../gap/gap_detail_align_exec.c:632
+#: ../gap/gap_detail_align_exec.c:651
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
@@ -1929,7 +1929,7 @@ msgstr ""
 "detalle (grabadas con la funcionalidad de seguimiento de detalles)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:641 ../gap/gap_detail_tracking_exec.c:1471
+#: ../gap/gap_detail_align_exec.c:660 ../gap/gap_detail_tracking_exec.c:1471
 #: ../gap/gap_mov_dialog.c:1556 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:512 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5224 ../gap/gap_story_dialog.c:5559
@@ -1938,29 +1938,95 @@ msgstr ""
 msgid "Default"
 msgstr "Predeterminado"
 
-#: ../gap/gap_detail_align_exec.c:642 ../gap/gap_detail_tracking_exec.c:1472
+#: ../gap/gap_detail_align_exec.c:661 ../gap/gap_detail_tracking_exec.c:1472
 #: ../gap/gap_mov_dialog.c:1557 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:513 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Restablecer todos los parámetros a los valores predefinidos"
 
-#: ../gap/gap_detail_align_exec.c:644
+#: ../gap/gap_detail_align_exec.c:663
 msgid "Detail Align via XML"
 msgstr "Alineamiento de detalles mediante XML"
 
-#: ../gap/gap_detail_align_exec.c:645 ../gap/gap_detail_tracking_exec.c:1475
+#: ../gap/gap_detail_align_exec.c:664 ../gap/gap_detail_tracking_exec.c:1475
 #: ../gap/gap_name2layer_main.c:519 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Configuración :"
 
-#: ../gap/gap_detail_align_exec.c:807
+#: ../gap/gap_detail_align_exec.c:948
+#, c-format
+msgid ""
+"Current path with 4 point triggers transformations:\n"
+"    Rotation:   %.4f (degree)\n"
+"    Scale:      %.1f (%%)\n"
+"    Movement X: %.0f (pixels)\n"
+"    Movement Y: %.0f (pixels)\n"
+"Press OK button to transform the layer\n"
+"in a way that point3 moves to point1 and point4 moves to point2"
+msgstr ""
+"La ruta actual con 4 puntos desencadena las transformaciones:\n"
+"    Rotación:   %.4f (grados)\n"
+"    Escala:      %.1f (%%)\n"
+"    Movimiento X: %.0f (píxeles)\n"
+"    Movimiento Y: %.0f (píxeles)\n"
+"Pulse Aceptar para transformar la capa\n"
+"de forma que punto3 se mueve a punto1 y punto4 se mueve a punto2"
+
+#: ../gap/gap_detail_align_exec.c:969
+#, c-format
+msgid ""
+"Current path with 2 points triggers simple move:\n"
+"    Movement X: %.0f (pixels)\n"
+"    Movement Y: %.0f (pixels)\n"
+"Press OK button to move the layer\n"
+"in a way that point2 moves to point1"
+msgstr ""
+"La ruta actual con 2 puntos desencadena el movimiento sencillo:\n"
+"    Movimiento X: %.0f (píxeles)\n"
+"    Movimiento Y: %.0f (píxeles)\n"
+"Pulse Aceptar para transformar la capa\n"
+"de forma que punto2 se mueve a punto1 "
+
+#: ../gap/gap_detail_align_exec.c:985
+msgid ""
+"This filter requires a current path with 4 or 2 points\n"
+"It can transform and/or move the current layer according to such path "
+"coordinate points.\n"
+"Please create a path and press the Refresh button."
+msgstr ""
+"Este filtro requiere una ruta actual con 4 o 2 puntos\n"
+"Puede transformar y/o mover la capa actual de acuerdo con dichas coordenadas "
+"de ruta.\n"
+"Cree una ruta y presione el botón Refrescar."
+
+#: ../gap/gap_detail_align_exec.c:1092
+msgid "Transform Layer via 4 (or 2) point Alignment"
+msgstr "Transformar la capa por medio de una alineación de 4 (o 2) puntos"
+
+#. pointOrder radiobutton
+#. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
+#.
+#: ../gap/gap_detail_align_exec.c:1145
+msgid "Path Point Order:"
+msgstr "Orden de los puntos de ruta:"
+
+#. Order Mode the radio buttons
+#: ../gap/gap_detail_align_exec.c:1163
+msgid ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"Target is marked by points 1&2 "
+msgstr ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"El objetivo está marcado por los puntos 1 y 2"
+
+#: ../gap/gap_detail_align_exec.c:1281
 msgid ""
 "This filter requires a current path with 4 points,where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark postions in the target layer.It "
 "transforms the target layer in a way that point3 is moved to point1 and "
-"point4 moves to point2.(this may include rotate an scale transforamtion).\n"
+"point4 moves to point2.(this may include rotate an scale transformation).\n"
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
@@ -1968,6 +2034,23 @@ msgstr ""
 "marcan posiciones de referencia y el 3 y el 4 marcan posiciones en la capa "
 "de destino. Transforma la capa de destino de manera que el punto 3 se mueve "
 "al punto 1 y el punto 4 se mueve al punto 2 (lo que puede incluir "
+"transformaciones de rotación y escalado).\n"
+"Se puede usar una ruta con 2 puntos para mover el punto 2 al punto 1 (por "
+"medio de una operación de traslación simple sin rotación ni escalado)"
+
+#: ../gap/gap_detail_align_exec.c:1292
+msgid ""
+"This filter requires a current path with 4 points,where point 1 and 3 mark "
+"reference positions and point 2 and 4 mark postions in the target layer.It "
+"transforms the target layer in a way that point2 is moved to point1 and "
+"point4 moves to point3.(this may include rotate an scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1.(via simple move "
+"operation without rotate and scale)"
+msgstr ""
+"Este filtro requiere una ruta actual con 4 puntos, de los cuales el 1 y el 3 "
+"marcan posiciones de referencia y el 2 y el 4 marcan posiciones en la capa "
+"de destino. Transforma la capa de destino de manera que el punto 2 se mueve "
+"al punto 1 y el punto 4 se mueve al punto 3 (lo que puede incluir "
 "transformaciones de rotación y escalado).\n"
 "Se puede usar una ruta con 2 puntos para mover el punto 2 al punto 1 (por "
 "medio de una operación de traslación simple sin rotación ni escalado)"
@@ -2118,23 +2201,23 @@ msgstr ""
 msgid "Detail Tracking"
 msgstr "Seguimiento de detalles"
 
-#: ../gap/gap_detail_tracking_main.c:220
+#: ../gap/gap_detail_tracking_main.c:235
 msgid "DetailTracking Config..."
 msgstr "Configurar seguimiento de detalles…"
 
-#: ../gap/gap_detail_tracking_main.c:245
+#: ../gap/gap_detail_tracking_main.c:260
 msgid "DetailTracking"
 msgstr "Seguimiento de detalles:"
 
-#: ../gap/gap_detail_tracking_main.c:267
+#: ../gap/gap_detail_tracking_main.c:282
 msgid "Align Transform via XML file..."
 msgstr "Transformación de alineación mediante un archivo XML…"
 
-#: ../gap/gap_detail_tracking_main.c:287
+#: ../gap/gap_detail_tracking_main.c:302
 msgid "Exact Align via 4-Point Path."
 msgstr "Alineación exacta mediante una ruta de 4 puntos."
 
-#: ../gap/gap_detail_tracking_main.c:299
+#: ../gap/gap_detail_tracking_main.c:314
 msgid "<Image>/Layer/Transform/"
 msgstr "<Image>/Capa/Transformar/"
 
@@ -2799,7 +2882,7 @@ msgstr "MPEG2…"
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Vídeo/Codificar/"
 
-#: ../gap/gap_lib.c:1835
+#: ../gap/gap_lib.c:1933
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2807,15 +2890,15 @@ msgstr ""
 "Operación cancelada.\n"
 "El fotograma actual cambió mientras el diálogo estaba abierto."
 
-#: ../gap/gap_lib.c:2033
+#: ../gap/gap_lib.c:2131
 msgid "Save Flattened"
 msgstr "Guardar aplanada"
 
-#: ../gap/gap_lib.c:2035
+#: ../gap/gap_lib.c:2133
 msgid "Save As Is"
 msgstr "Guardar tal cual"
 
-#: ../gap/gap_lib.c:2039
+#: ../gap/gap_lib.c:2137
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -2834,7 +2917,7 @@ msgstr ""
 "(%s %s)\n"
 "a su archivo gimprc."
 
-#: ../gap/gap_lib.c:2048
+#: ../gap/gap_lib.c:2146
 msgid "Fileformat Warning"
 msgstr "Advertencia de formato de archivo"
 
