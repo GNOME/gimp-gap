@@ -28,6 +28,8 @@
  */
 
 /* Revision history
+ *  (2012/08/27)              hof: use tile cache and skip write for unchanged lines
+ *                                 (for performance reasons)
  *  (2011/11/22)  2.7.0       hof: created
  */
 int gap_debug = 0;  /* 1 == print debug infos , 0 dont print debug infos */
@@ -702,8 +704,9 @@ p_mix_border_colors(guchar *mixRGBAPtr, guchar *pixLine, gint lineLength
  * it is mixed 50:50 with the calculated blend (or border) color value.
  * (this will occure when both horizontal and vertical blend is applied)
  *
+ * return TRUE in case the processing has changedAnyPixel
  */
-static void
+static gboolean
 p_color_blend_pixel_line(guchar *pixLine, gint lineLength, FilterContext *context)
 {
   gint pos;
@@ -711,12 +714,14 @@ p_color_blend_pixel_line(guchar *pixLine, gint lineLength, FilterContext *contex
   BorderPixel border1;
   BorderPixel border2;
   gboolean    insideSelecton;
+  gboolean    changedAnyPixel;
   guchar      mix1RGBA[4];
   guchar      mix2RGBA[4];
 
   border1.colorRGBAPtr = NULL;
   border2.colorRGBAPtr = NULL;
   insideSelecton = FALSE;
+  changedAnyPixel = FALSE;
   idx = 0;
   for (pos = 0; pos < lineLength; pos++)
   {
@@ -734,6 +739,7 @@ p_color_blend_pixel_line(guchar *pixLine, gint lineLength, FilterContext *contex
         gint pos2;
         gint idx2;
         insideSelecton = TRUE;
+        changedAnyPixel = TRUE;
 
         /* find (border2) the next pixel that is outside the selection */
         idx2 = idx +4;
@@ -762,6 +768,8 @@ p_color_blend_pixel_line(guchar *pixLine, gint lineLength, FilterContext *contex
   }
 
   p_do_progress_steps(context, lineLength);
+
+  return (changedAnyPixel);
 
 }  /* end p_color_blend_pixel_line */
 
@@ -793,9 +801,14 @@ p_horizontal_color_blend(FilterContext *context)
 
   for (row = 0; row < context->workLayerHeight; row++)
   {
+    gboolean      changedAnyPixel;
+
     gimp_pixel_rgn_get_row (&workPR, pixLine, 0, row, context->workLayerWidth);
-    p_color_blend_pixel_line(pixLine, context->workLayerWidth, context);
-    gimp_pixel_rgn_set_row (&workPR, pixLine, 0, row, context->workLayerWidth);
+    changedAnyPixel = p_color_blend_pixel_line(pixLine, context->workLayerWidth, context);
+    if (changedAnyPixel)
+    {
+      gimp_pixel_rgn_set_row (&workPR, pixLine, 0, row, context->workLayerWidth);
+    }
 
   }
 
@@ -835,9 +848,14 @@ p_vertical_color_blend(FilterContext *context)
 
   for (col = 0; col < context->workLayerWidth; col++)
   {
+    gboolean      changedAnyPixel;
+
     gimp_pixel_rgn_get_col (&workPR, pixLine, col, 0, context->workLayerHeight);
-    p_color_blend_pixel_line(pixLine, context->workLayerHeight, context);
-    gimp_pixel_rgn_set_col (&workPR, pixLine, col, 0, context->workLayerHeight);
+    changedAnyPixel = p_color_blend_pixel_line(pixLine, context->workLayerHeight, context);
+    if (changedAnyPixel)
+    {
+      gimp_pixel_rgn_set_col (&workPR, pixLine, col, 0, context->workLayerHeight);
+    }
 
   }
 
@@ -974,7 +992,7 @@ p_set_selection_from_vectors_string(FilterContext *context)
   if (context->valPtr->selectionSVGFileName != '\0')
   {
     gint length;
-    
+
     length = strlen(context->valPtr->selectionSVGFileName);
     vectorsOk = gimp_vectors_import_from_string (context->imageId
                                                 ,context->valPtr->selectionSVGFileName
@@ -1249,6 +1267,26 @@ p_create_workLayer(FilterContext *context)
 
 
 
+/* ----------------------------------------
+ * p_set_tile_cache
+ * ----------------------------------------
+ *
+ */
+static void
+p_set_tile_cache(FilterContext *context)
+{
+    gulong cache_ntiles;
+    gulong regionTileWidth;
+    gulong regionTileHeight;
+
+    regionTileWidth = 1 + (context->workLayerWidth / gimp_tile_width()) ;
+    regionTileHeight = 1 + (context->workLayerHeight / gimp_tile_height()) ;
+
+    cache_ntiles = regionTileWidth * regionTileHeight;
+
+    gimp_tile_cache_ntiles (CLAMP(cache_ntiles, 32, 300));
+
+}  /* end p_set_tile_cache */
 
 
 /* ----------------------------------
@@ -1285,6 +1323,8 @@ gap_blend_fill_apply_run(gint32 image_id, gint32 activeDrawableId, gboolean doPr
   p_create_workLayer(context);
   if (context->workLayerId >= 0)
   {
+    p_set_tile_cache(context);
+
     if (context->valPtr->horizontalBlendFlag)
     {
       p_horizontal_color_blend(context);
@@ -1296,7 +1336,7 @@ gap_blend_fill_apply_run(gint32 image_id, gint32 activeDrawableId, gboolean doPr
     }
 
     rc = gimp_image_merge_down(image_id, context->workLayerId, GIMP_EXPAND_AS_NECESSARY);
-    
+
     if(context->doClearSelection)
     {
       gimp_selection_none(context->imageId);
@@ -1376,7 +1416,7 @@ p_check_exec_condition_and_set_ok_sesitivity(GuiStuff *guiStuffPtr)
   gboolean okButtonSensitive;
 
   okButtonSensitive = TRUE;
-  
+
   if ((guiStuffPtr->valPtr == NULL)
   ||  (guiStuffPtr->msg_label == NULL))
   {
@@ -1411,7 +1451,7 @@ p_check_exec_condition_and_set_ok_sesitivity(GuiStuff *guiStuffPtr)
       if(length >= sizeof(guiStuffPtr->valPtr->selectionSVGFileName))
       {
         gchar *msg;
-        
+
         msg = g_strdup_printf(_("Path Vectors too large to fit into buffersize:%d.")
                               , sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
         gtk_label_set_text(GTK_LABEL(guiStuffPtr->msg_label), msg);
@@ -1449,13 +1489,13 @@ p_check_exec_condition_and_set_ok_sesitivity(GuiStuff *guiStuffPtr)
                         , _("please enter SVG filename"));
     }
   }
-  
+
   if(guiStuffPtr->ok_button)
   {
     gtk_widget_set_sensitive(guiStuffPtr->ok_button, okButtonSensitive);
-      
+
   }
-   
+
 }  /* end p_check_exec_condition_and_set_ok_sesitivity */
 
 /* ----------------------------
@@ -1481,9 +1521,9 @@ p_selectionComboCallback (GtkWidget *widget, gint32 *layerId)
   if(layerId != NULL)
   {
     GuiStuff *guiStuffPtr;
-    
+
     *layerId = value;
-    
+
     guiStuffPtr = (GuiStuff *) g_object_get_data (G_OBJECT (widget), "guiStuffPtr");
     if(guiStuffPtr != NULL)
     {
@@ -1668,7 +1708,7 @@ on_save_svg_clicked(GtkButton  *button,
     {
       gboolean svgExportOk;
       gint32   vectors_ID;
-      
+
       vectors_ID = 0;  /* 0 refers to all vectors in the image */
       svgExportOk = gimp_vectors_export_to_file(guiStuffPtr->imageId
                                           , guiStuffPtr->valPtr->selectionSVGFileName
