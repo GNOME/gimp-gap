@@ -4,23 +4,25 @@
 # Hendrik Brandt <heb@gnome-de.org>, 2004.
 # Hendrik Richter <hendrikr@gnome.org>, 2005, 2006.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2012.
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2010, 2012.
+# Christian Kirbach <Christian.Kirbach@gmail.com>, 2010, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-11 15:37+0000\n"
-"PO-Revision-Date: 2012-05-09 21:10+0200\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2012-08-28 16:17+0000\n"
+"PO-Revision-Date: 2012-07-23 22:05+0100\n"
+"Last-Translator: Christian Kirbach <Christian.Kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -526,125 +528,129 @@ msgstr "Einzelbilder neu nummerieren"
 msgid "Renumber Frames 2nd Pass"
 msgstr "Einzelbilder im zweiten Durchgang neu nummerieren"
 
-#: ../gap/gap_blend_fill_main.c:234
+#: ../gap/gap_blend_fill_main.c:236
 msgid "Blend Fill..."
 msgstr ""
 
 #. Menu names
-#: ../gap/gap_blend_fill_main.c:245 ../gap/gap_detail_tracking_main.c:313
+#: ../gap/gap_blend_fill_main.c:247 ../gap/gap_detail_tracking_main.c:313
 #: ../gap/gap_wr_resynth.c:185
 msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Video/Ebene/Verbessern/"
 
-#: ../gap/gap_blend_fill_main.c:311 ../gap/gap_blend_fill_main.c:1937
+#: ../gap/gap_blend_fill_main.c:313 ../gap/gap_blend_fill_main.c:1977
 msgid "selection.svg"
 msgstr "Auswahl.svg"
 
-#: ../gap/gap_blend_fill_main.c:475
+#: ../gap/gap_blend_fill_main.c:477
 msgid "Blendfill ..."
 msgstr ""
 
-#: ../gap/gap_blend_fill_main.c:1415 ../gap/gap_blend_fill_main.c:1717
+#: ../gap/gap_blend_fill_main.c:1455 ../gap/gap_blend_fill_main.c:1757
 #, c-format
 msgid "Path Vectors too large to fit into buffersize:%d."
-msgstr ""
+msgstr "Pfadvektoren sind zu groß für die Puffergröße %d."
 
-#: ../gap/gap_blend_fill_main.c:1426 ../gap/gap_blend_fill_main.c:1724
-#, fuzzy
-#| msgid "no description available"
+#: ../gap/gap_blend_fill_main.c:1466 ../gap/gap_blend_fill_main.c:1764
 msgid "No Path Vectors available."
-msgstr "keine Beschreibung verfügbar"
+msgstr "Keine Pfadverktoren verfügbar."
 
-#: ../gap/gap_blend_fill_main.c:1443
+#: ../gap/gap_blend_fill_main.c:1483
 msgid "SVG file does not exist (use Save Pats button to create)."
 msgstr ""
+"Die SVG-Datei ist nicht vorhanden (verwenden Sie den Knopf »Pfade "
+"speichern«, um sie zu erstellen)."
 
-#: ../gap/gap_blend_fill_main.c:1449
+#: ../gap/gap_blend_fill_main.c:1489
 msgid "please enter SVG filename"
 msgstr "Bitte geben Sie einen SVG-Dateinamen ein"
 
-#: ../gap/gap_blend_fill_main.c:1568
+#: ../gap/gap_blend_fill_main.c:1608
 msgid "Select vectorfile name"
 msgstr "Vektor-Dateiname wählen"
 
-#: ../gap/gap_blend_fill_main.c:1679
+#: ../gap/gap_blend_fill_main.c:1719
 #, c-format
 msgid "Failed to write SVG file: %s"
 msgstr "SVG-Datei konnte nicht geschrieben werden: %s"
 
-#: ../gap/gap_blend_fill_main.c:1765
-#, fuzzy
-#| msgid "Pixel Selection:"
+#: ../gap/gap_blend_fill_main.c:1805
 msgid "Blend Fill Selection"
-msgstr "Pixelauswahl:"
+msgstr ""
 
 #. horizontalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1799
+#: ../gap/gap_blend_fill_main.c:1839
 msgid ""
 "fills the selection by blending opposite border colors outside the selction "
 "to cover the selected area.\n"
 "Intended to fix small pixel errors"
 msgstr ""
+"Füllt die Auswahl durch Mischen der gegenüberliegenden Randfarben außerhalb "
+"der Auswahl,\n"
+"um den gewählten Bereich zu bedecken. Zweck ist es kleine Pixel-Fehler zu "
+"beheben."
 
 #. horizontalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1811
-#, fuzzy
-#| msgid "Flip Horizontally"
+#: ../gap/gap_blend_fill_main.c:1851
 msgid "Horizontal Blend:"
-msgstr "Horizontal spiegeln"
+msgstr "Horizontales mischen:"
 
-#: ../gap/gap_blend_fill_main.c:1820
+#: ../gap/gap_blend_fill_main.c:1860
 msgid ""
 "ON: enable horizontal color blending. OFF: disable horizontal color blending."
 msgstr ""
+"EIN: horizontale Farbmischung aktivieren. AUS: horizontale Farbmischung "
+"deaktivieren."
 
 #. verticalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1833
-#, fuzzy
-#| msgid "Vertical flip:"
+#: ../gap/gap_blend_fill_main.c:1873
 msgid "Vertical Blend:"
-msgstr "Vertikal spiegeln:"
+msgstr "Vertikales mischen:"
 
-#: ../gap/gap_blend_fill_main.c:1842
+#: ../gap/gap_blend_fill_main.c:1882
 msgid ""
 "ON: enable vertical color blending. OFF: disable vertical color blending."
 msgstr ""
+"EIN: vertikale Farbmischung aktivieren. AUS: vertikale Farbmischung "
+"deaktivieren."
 
-#: ../gap/gap_blend_fill_main.c:1855 ../gap/gap_wr_resynth.c:478
+#: ../gap/gap_blend_fill_main.c:1895 ../gap/gap_wr_resynth.c:478
 msgid "Border Radius:"
 msgstr "Kantenradius:"
 
-#: ../gap/gap_blend_fill_main.c:1858
+#: ../gap/gap_blend_fill_main.c:1898
 msgid "radius for picking border colors"
-msgstr ""
+msgstr "Radius bei der Wahl der Randfarben"
 
 #. layer combo_box (altSelection)
 #. layer combo_box (alt_selection)
-#: ../gap/gap_blend_fill_main.c:1869 ../gap/gap_wr_resynth.c:503
+#: ../gap/gap_blend_fill_main.c:1909 ../gap/gap_wr_resynth.c:503
 msgid "Set Selection:"
 msgstr "Auswahl festlegen:"
 
-#: ../gap/gap_blend_fill_main.c:1880
+#: ../gap/gap_blend_fill_main.c:1920
 msgid "Selection From All Paths"
 msgstr "Auswahl aus allen Pfaden"
 
-#: ../gap/gap_blend_fill_main.c:1885
+#: ../gap/gap_blend_fill_main.c:1925
 msgid "Selection From Vectors File"
 msgstr "Auswahl aus Vektordatei"
 
 # TODO context ?
 #. grab vectors button
-#: ../gap/gap_blend_fill_main.c:1915
+#: ../gap/gap_blend_fill_main.c:1955
 msgid "Save Paths"
 msgstr "Pfade speichern"
 
-#: ../gap/gap_blend_fill_main.c:1920
+#: ../gap/gap_blend_fill_main.c:1960
 msgid ""
 "Save all pathes as svg vector file.(use svg file when large or many pathes "
 "shall be used)"
 msgstr ""
+"Alle Pfade als SVG-Vektordatei speichern. (Verwenden Sie die SVG-Datei, wenn "
+"große oder viele Pfade verwendet werden sollen)"
 
-#: ../gap/gap_blend_fill_main.c:1932
+#: ../gap/gap_blend_fill_main.c:1972
 msgid "Name of SVG vector file"
 msgstr "Name der SVG-Vektordatei"
 
@@ -656,7 +662,7 @@ msgstr "Name der SVG-Vektordatei"
 #. the Storyboard filebrowser button
 #. the Audiofile filebrowser button
 #. the pass_logfile fileselector button
-#: ../gap/gap_blend_fill_main.c:1946 ../gap/gap_vex_dialog.c:2109
+#: ../gap/gap_blend_fill_main.c:1986 ../gap/gap_vex_dialog.c:2109
 #: ../gap/gap_vex_dialog.c:2481 ../gap/gap_vex_dialog.c:2705
 #: ../vid_common/gap_cme_gui.c:2686 ../vid_common/gap_cme_gui.c:2964
 #: ../vid_common/gap_cme_gui.c:3000 ../vid_common/gap_cme_gui.c:3316
@@ -664,7 +670,7 @@ msgstr "Name der SVG-Vektordatei"
 msgid "..."
 msgstr "…"
 
-#: ../gap/gap_blend_fill_main.c:1952
+#: ../gap/gap_blend_fill_main.c:1992
 msgid "Select output svg vector file via browser"
 msgstr "Wählen Sie die SVG-Vektorausgabedatei mit Hilfe des Browsers"
 
@@ -1161,10 +1167,8 @@ msgid "Sig Brightness Threshold:"
 msgstr ""
 
 #: ../gap/gap_colormask_dialog.c:695
-#, fuzzy
-#| msgid "Radius:"
 msgid "Sig Radius:"
-msgstr "Der x-Radius des Kreisbogens"
+msgstr ""
 
 #: ../gap/gap_colormask_dialog.c:712
 msgid "_Edge Colordiff threshold:"
@@ -1188,10 +1192,8 @@ msgid "DEBUG Options"
 msgstr "Optionen zur Fehlerdiagnose"
 
 #: ../gap/gap_colormask_dialog.c:817
-#, fuzzy
-#| msgid "Density:"
 msgid "DiffSensitvity:"
-msgstr "DiffSensitvity:"
+msgstr ""
 
 #. connectByCorner checkbutton
 #: ../gap/gap_colormask_dialog.c:835
@@ -1522,7 +1524,8 @@ msgid ""
 "use -nosound (-novideo) in case audiotrack (videotrack) is 0.\n"
 "mplayer will operate silent and faster."
 msgstr ""
-"Verwenden Sie »-nosound« (»-novideo«), falls die Audiospur (Videospur) 0 ist.\n"
+"Verwenden Sie »-nosound« (»-novideo«), falls die Audiospur (Videospur) 0 "
+"ist.\n"
 "mplayer wird leise und schneller arbeiten."
 
 #: ../gap/gap_decode_mplayer.c:591 ../gap/gap_decode_xanim.c:306
@@ -1922,6 +1925,8 @@ msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
 msgstr ""
+"Name der XML-Datei, welche die Koordinaten der Detailverfolgung enthält. "
+"(Aufgezeichnet mit der Detailverfolgungsfunktion)"
 
 #. the Default button
 #: ../gap/gap_detail_align_exec.c:660 ../gap/gap_detail_tracking_exec.c:1471
@@ -1942,7 +1947,7 @@ msgstr "Alle Parameter auf Standardwerte zurücksetzen"
 
 #: ../gap/gap_detail_align_exec.c:663
 msgid "Detail Align via XML"
-msgstr ""
+msgstr "Detailanordnung mittels XML"
 
 #: ../gap/gap_detail_align_exec.c:664 ../gap/gap_detail_tracking_exec.c:1475
 #: ../gap/gap_name2layer_main.c:519 ../gap/gap_video_index_creator.c:1013
@@ -1988,10 +1993,8 @@ msgstr ""
 #. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
 #.
 #: ../gap/gap_detail_align_exec.c:1145
-#, fuzzy
-#| msgid "Load Path Points from File"
 msgid "Path Point Order:"
-msgstr "Pfad-Kontrollpunkte aus Datei laden"
+msgstr "Reihenfolge der Pfad-Kontrollpunkte:"
 
 #. Order Mode the radio buttons
 #: ../gap/gap_detail_align_exec.c:1163
@@ -1999,6 +2002,8 @@ msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Target is marked by points 1&2 "
 msgstr ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"Ziel ist durch die Punkte 1 und 2 markiert"
 
 #: ../gap/gap_detail_align_exec.c:1281
 msgid ""
@@ -2022,7 +2027,7 @@ msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1195
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
-msgstr ""
+msgstr "Detailverfolgung angehalten. (Das Detail konnte nicht gefunden werden)"
 
 #: ../gap/gap_detail_tracking_exec.c:1330
 msgid ""
@@ -2031,10 +2036,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1336
-#, fuzzy
-#| msgid "Colordiff Threshold:"
 msgid "Locate colordiff Thres:"
-msgstr "Schwellenwert für Colordiff:"
+msgstr "Schwellenwert für Colordiff finden:"
 
 #: ../gap/gap_detail_tracking_exec.c:1337
 msgid ""
@@ -2044,17 +2047,20 @@ msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1349 ../gap/gap_morph_tween_dialog.c:818
 msgid "Locate Shape Radius:"
-msgstr ""
+msgstr "Radius bei Formsuche:"
 
 #: ../gap/gap_detail_tracking_exec.c:1350
 msgid ""
 "The quadratic area surrounding a marked detail coordinate +- this radius is "
 "considered as reference shape, to be tracked in the target frame(s)."
 msgstr ""
+"Der quadratische Bereich um eine markierte Detailkoordinate plus/minus "
+"diesem Radius wird als Referenzform angesehen, die in dem/n Ziel-Einzelbild"
+"(ern) verfolgt werden soll."
 
 #: ../gap/gap_detail_tracking_exec.c:1363
 msgid "Locate Target Move Radius:"
-msgstr ""
+msgstr "Radius bei Zielbewegungssuche:"
 
 #: ../gap/gap_detail_tracking_exec.c:1364
 msgid "Limits attempts to locate the Detail within this radius."
@@ -2096,6 +2102,11 @@ msgid ""
 "OFF: Use foreground layer as target, and the layer below as reference\n"
 "."
 msgstr ""
+"EIN: Hintergrundebene als Referenz und Vordergrundebene als Ziel der "
+"Verfolgung verwenden.\n"
+"AUS: Vordergrundebene als Ziel und die Ebene darunter als Referenz "
+"verwenden\n"
+"."
 
 # TODO, lange version?
 #: ../gap/gap_detail_tracking_exec.c:1408
@@ -2108,34 +2119,34 @@ msgid ""
 "detail tracking.\n"
 "OFF: Keep all layers."
 msgstr ""
+"EIN: Ebenen entfernen (ausser Hintergrund und 2 Ebenen darüber), die nicht "
+"für die Detailverfolgung relevant sind.\n"
+"AUS: Alle Ebenen behalten."
 
 #: ../gap/gap_detail_tracking_exec.c:1420
-#, fuzzy
-#| msgid "Offset:"
 msgid "Const X Offset:"
-msgstr "Versatz:"
+msgstr "Konstanter X-Versatz:"
 
 #: ../gap/gap_detail_tracking_exec.c:1421
 msgid "This value is added when logging captured X coordinates."
-msgstr ""
+msgstr "Dieser Wert wird den protokollierten X-Koordinaten aufaddiert."
 
 #: ../gap/gap_detail_tracking_exec.c:1434
-#, fuzzy
-#| msgid "Offset:"
 msgid "Const Y Offset:"
-msgstr "Versatz:"
+msgstr "Konstanter Y-Versatz:"
 
 #: ../gap/gap_detail_tracking_exec.c:1435
 msgid "This value is added when logging captured Y coordinates."
-msgstr ""
+msgstr "Dieser Wert wird den protokollierten Y-Koordinaten aufaddiert."
 
 #: ../gap/gap_detail_tracking_exec.c:1448
 msgid "Const Rotate Offset:"
-msgstr ""
+msgstr "Konstanter Drehungsversatz:"
 
 #: ../gap/gap_detail_tracking_exec.c:1449
+#, fuzzy
 msgid "This value is added when logging rotation values."
-msgstr ""
+msgstr "Dieser Wert wird den protokollierten ? aufaddiert."
 
 # TODO context ?
 #: ../gap/gap_detail_tracking_exec.c:1461
@@ -2149,18 +2160,20 @@ msgid ""
 "Name of the file to log the tracked detail coordinates  as XML parameterfile "
 "for later use in the MovePath plug-in."
 msgstr ""
+"Name der Protokolldatei für die verfolgten Detailkorrdinaten als XML-"
+"Parameterdatei. Für späteren Einsatz im Bewegungspfad-Plugin."
 
 #: ../gap/gap_detail_tracking_exec.c:1474
 msgid "Detail Tracking"
-msgstr ""
+msgstr "Detailverfolgung"
 
 #: ../gap/gap_detail_tracking_main.c:235
 msgid "DetailTracking Config..."
-msgstr ""
+msgstr "Detailverfolgung einstellen …"
 
 #: ../gap/gap_detail_tracking_main.c:260
 msgid "DetailTracking"
-msgstr ""
+msgstr "Detailverfolgung"
 
 #: ../gap/gap_detail_tracking_main.c:282
 msgid "Align Transform via XML file..."
@@ -2168,7 +2181,7 @@ msgstr ""
 
 #: ../gap/gap_detail_tracking_main.c:302
 msgid "Exact Align via 4-Point Path."
-msgstr ""
+msgstr "Exakte Anordnung mit 4-Punkte-Pfad."
 
 #: ../gap/gap_detail_tracking_main.c:314
 msgid "<Image>/Layer/Transform/"
@@ -2177,7 +2190,7 @@ msgstr "<Image>/Ebene/Drehen/"
 #. The dialog1 and main vbox
 #: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
 msgid "Foreground-Extract"
-msgstr ""
+msgstr "Vordergrund-Extraktion"
 
 #. the frame
 #: ../gap/gap_fg_from_sel_dialog.c:276 ../gap/gap_fg_matting_dialog.c:408
@@ -2226,6 +2239,8 @@ msgid ""
 "ON: Keep RGB channels of the input layer, OFF: allow Background color "
 "removal in processed undefined regions"
 msgstr ""
+"EIN: RGB-Kanäle der Eingabeebene beibehalten. AUS: Entfernen der "
+"Hintergrundfarbe in verarbeiteten undefinierten Regionen zulassen"
 
 #. colordiff_threshold spinbutton
 #: ../gap/gap_fg_from_sel_dialog.c:392 ../gap/gap_fg_matting_dialog.c:567
@@ -2265,18 +2280,21 @@ msgid ""
 "ON: create a new layer as result of the foreground extraction processing. "
 "OFF: render transparency and background color removal on the input drawable"
 msgstr ""
+"EIN: eine neue Ebene mit dem Ergebnis der Vordergrund-Extraktion erstellen. "
+"AUS: Transparenz und Hintergrundfarbenentfernung in den "
+"Eingabezeichenbereich einbringen"
 
 #: ../gap/gap_fg_matting_exec.c:130
 msgid "Foreground Extract"
-msgstr ""
+msgstr "Vordergrund extrahieren"
 
 #: ../gap/gap_fg_matting_main.c:177
 msgid "Foreground Extract..."
-msgstr ""
+msgstr "Vordergrund extrahieren …"
 
 #: ../gap/gap_fg_matting_main.c:203
 msgid "Foreground Extract Via Selection..."
-msgstr ""
+msgstr "Vordergrund per Auswahl extrahieren …"
 
 #. Menu names
 #: ../gap/gap_fg_matting_main.c:213
@@ -2411,6 +2429,8 @@ msgid ""
 "ON: create firepattern cloud layer according to options. OFF: Use external "
 "pattern layer. "
 msgstr ""
+"EIN: Feuermuster-Wolkenebene entsprechend der Einstellungen erstellen. AUS: "
+"Externe Musterebene verwenden."
 
 #: ../gap/gap_fire_pattern.c:1883
 msgid "vertical stretch factor for the fire pattern"
@@ -2975,7 +2995,7 @@ msgstr "_msk"
 #: ../gap/gap_mod_layer.c:1009
 #, fuzzy
 msgid "Select Filter for Animated Apply on Frames"
-msgstr "Wählen Sie den Filter für \"Animation filtern\""
+msgstr "Wählen Sie den Filter für »Animation filtern«"
 
 #: ../gap/gap_mod_layer.c:1162
 msgid "Modify Layers cancelled: No layer selected in last handled frame"
@@ -3231,9 +3251,8 @@ msgid "Subtract selection (source is the active frame)"
 msgstr "Auswahl subtrahieren (Quelle ist das aktive Einzelbild)"
 
 #: ../gap/gap_mod_layer_dialog.c:663
-#, fuzzy
 msgid "Intersect selection (source is the active frame)"
-msgstr "Auswahl ersetzen (Quelle ist das aktive Einzelbild)"
+msgstr "Auswahl schneiden (Quelle ist das aktive Einzelbild)"
 
 #: ../gap/gap_mod_layer_dialog.c:669
 msgid "Selection none"
@@ -3814,8 +3833,8 @@ msgid ""
 "destination layer. Steps is ignored if render mode is warp and source and "
 "destination are different layers of the same image"
 msgstr ""
-"Anzahl der zu erstellenden oder bearbeitenden Ebenen. »Schritte« bezieht sich "
-"auf N Ebenen unter der Zielebene. »Schritte« wird ignoriert, wenn der "
+"Anzahl der zu erstellenden oder bearbeitenden Ebenen. »Schritte« bezieht "
+"sich auf N Ebenen unter der Zielebene. »Schritte« wird ignoriert, wenn der "
 "Rendermodus »Warp« ist und Quelle und Ziel verschiedene Ebenen des selben "
 "Bildes sind."
 
@@ -4034,8 +4053,9 @@ msgid "Morph Tweenframes..."
 msgstr "Zwischenbilder morphen …"
 
 #: ../gap/gap_morph_main.c:267
+#, fuzzy
 msgid "Morph One Tween..."
-msgstr ""
+msgstr "Eine Zwischenebenen ?"
 
 #: ../gap/gap_morph_main.c:287
 msgid "Morph Workpoint Generator..."
@@ -4267,10 +4287,17 @@ msgid ""
 "Provide workpointfiles (one per frame) for morphing based tween rendering\n"
 "(this can be done with the Morph Workpoint Generator)"
 msgstr ""
+"Dieser Vorgang erstellt Kopien aller Einzelbilder im angegebenen Bereich\n"
+"und die angegebene Anzahl Zwischenebenen als zusätzliche Zwischenbilder\n"
+"zwischen allen verarbeiteten Einzelbildern im festgelegten Ordner.\n"
+"Liefern Sie Arbeitspunktdateien (eine pro Einzelbild) zum Zwischenbild-"
+"Erstellen\n"
+"auf Morp-Basis (dies kann mit der Erstellung von Morph-Arbeitspunkten "
+"erledigt werden)"
 
 #: ../gap/gap_morph_tween_dialog.c:1191
 msgid "This operation requires more than one frame."
-msgstr ""
+msgstr "Dieser Vorgang erfordert mehr als ein Einzelbild."
 
 #: ../gap/gap_morph_tween_dialog.c:1256
 msgid "Number of Tweens:"
@@ -4336,7 +4363,7 @@ msgstr "Lokaler Fortschritt:"
 # TODO context ?
 #: ../gap/gap_mov_dialog.c:990
 msgid "Move Path Editor"
-msgstr ""
+msgstr "Bewegungspfad-Editor"
 
 # TODO context ?
 #: ../gap/gap_mov_dialog.c:994
@@ -4632,6 +4659,9 @@ msgid ""
 "step the source half time slower. One source step is done only at every 2nd "
 "target frame."
 msgstr ""
+"Quell- und Ziel-Einzelbilder schreiten synchron mit dem Wert 1.0 voran. Bei "
+"einem Wert von 0.5 schreitet die Quelle halb so schnell voran, d.h. ein "
+"Quellenschritt passiert nur bei jedem zweiten Ziel-Einzelbild."
 
 # TODO besserer Ausdruck?
 #. Loop Stepmode combo
@@ -6262,6 +6292,8 @@ msgid ""
 "ON: Far neighbour frames have the higher opacity.\n"
 "OFF: Near neighbour frames have the higher opacity."
 msgstr ""
+"EIN: Entlegene Nachbar-Einzelbilder besitzen die höhere Deckkraft.\n"
+"AUS: Nahe Nachbar-Einzelbilder besitzen die höhere Deckkraft."
 
 #: ../gap/gap_onion_dialog.c:1057
 msgid "Frame Reference:"
@@ -6395,11 +6427,12 @@ msgid "Auto create after load"
 msgstr "Automatische Erzeugung nach dem Laden"
 
 #: ../gap/gap_onion_dialog.c:1326
+#, fuzzy
 msgid ""
 "ON: Automatic creation/replacement of onionskin layer(s). Works on frame "
 "changes via 'VCR Navigator' and go to operations in the video menu -- but "
 "not on explicite load from the file menu."
-msgstr ""
+msgstr "EIN: Automatische Erstellung/Ersetzung von Zwiebelhaut-Ebene(n). ?"
 
 #: ../gap/gap_onion_dialog.c:1335
 msgid "Auto delete before save"
@@ -6805,6 +6838,10 @@ msgid ""
 "OFF: do not sync audio with original position in the referenced videos. Use "
 "this for independent audiofile playback."
 msgstr ""
+"EIN: Bei Video-Wiedergabe Ton-Startpunkte entsprechend der originalen "
+"Startpunkte im Referenzvideo abgleichen. Verwenden Sie diese Option, wenn "
+"die Audio-Datei eine extrahierte Tonspur der voll referenzierten Videodatei "
+"ist."
 
 #: ../gap/gap_player_dialog.c:6827
 msgid "Audio Track"
@@ -6940,20 +6977,16 @@ msgstr ""
 
 #. configure Detail Tracking button
 #: ../gap/gap_player_dialog.c:7405
-#, fuzzy
-#| msgid "Configuration..."
 msgid "Configure Tracking:"
-msgstr "Konfiguration …"
+msgstr "Verfolgung einrichten:"
 
 #: ../gap/gap_player_dialog.c:7408
 msgid "Configure detail tracking options"
-msgstr ""
+msgstr "Optionen der Detailverfolgung einstellen"
 
 #: ../gap/gap_player_dialog.c:7416
-#, fuzzy
-#| msgid "Disable active layer tracking"
 msgid "Enable Detail Tracking"
-msgstr "Verfolgung der aktiven Ebene deaktivieren"
+msgstr "Detailverfolgung aktivieren"
 
 #: ../gap/gap_player_dialog.c:7422
 msgid ""
@@ -6965,6 +6998,14 @@ msgid ""
 "rotation is calculated too.\n"
 "OFF: Disable detail tracking."
 msgstr ""
+"EIN: Detailverfolgung in Einzelbildfoto einschalten. Markieren Sie die "
+"Koordinaten von ein (oder zwei) markanten Details im Einzelbildfoto mit dem "
+"aktuellen Pfad mit einem oder zwei Punkten. Jedes weitere Einzelbildfoto "
+"verfolgt automatisch mit den markierten Punkten die Koordinaten der Details "
+"und protokolliert die Bewegung als XML-Parameter für den Bewegungspfad. "
+"Falls zwei Punkte verwendet werden, so wird die Drehung ebenfalls "
+"berechnet.\n"
+"AUS: Detailverfolgung ausschalten."
 
 #. Save Player Preferences label
 #: ../gap/gap_player_dialog.c:7441
@@ -7376,6 +7417,9 @@ msgid ""
 "Do not merge layers before save to the selected fileformat. Example: use "
 "this when converting to XCF that can handle transparency and multiple layers."
 msgstr ""
+"Die Ebenen nicht vor dem Speichern in das gewählte Dateiformat "
+"zusammenführen. Beispiel: Sie können dies beim Umwandeln nach XCF einsetzen, "
+"welches Transparenz und mehrere Ebenen unterstützt."
 
 #: ../gap/gap_range_ops.c:512 ../gap/gap_range_ops.c:583
 msgid ""
@@ -7396,6 +7440,10 @@ msgid ""
 "Example: use this for PNG fileformat that can handle transpararency (alpha "
 "channel) but is limited to one layer)"
 msgstr ""
+"Ergebnis-Einzelbild mit unterliegender Ebene zusammenführen. So bleiben "
+"Transparanzinformationen erhalten. Beispiel: Dies bietet sich für das PNG-"
+"Dateiformat an, welches Transparenz (per Alpha-Kanal), aber nur eine Ebene "
+"unterstützt"
 
 #. the basename label
 #: ../gap/gap_range_ops.c:555 ../gap/gap_vex_dialog.c:2461
@@ -7753,6 +7801,12 @@ msgid ""
 "\n"
 "%s000001.%s\n"
 msgstr ""
+"Ein Einzelbild (eine Datei) von jeder Ebene erstellen.\n"
+"Einzelbilder werden nach folgendem Muster benannt:\n"
+"<Basisname><Einzelbild-Nummer>.<Erweiterung>\n"
+"Das erste Einzelbild erhält im aktuellen Fall den Namen\n"
+"\n"
+"%s000001.%s\n"
 
 #: ../gap/gap_split.c:455
 msgid ""
@@ -7884,7 +7938,7 @@ msgstr "Rotation folgend"
 
 #: ../gap/gap_story_att_trans_dlg.c:2797
 msgid "Set Movepath Parameterfile (XML)"
-msgstr ""
+msgstr "Bewegungspfad-Parameterdatei (XML) festlegen"
 
 #. auto update toggle  check button
 #: ../gap/gap_story_att_trans_dlg.c:3203
@@ -8222,7 +8276,7 @@ msgstr "Beschleunigungscharakteristik (derzeit ignoriert)"
 #. the movepath label
 #: ../gap/gap_story_att_trans_dlg.c:3936
 msgid "Movepath File:"
-msgstr ""
+msgstr "Datei mit Bewegungspfad:"
 
 #. the comment label
 #. the Comment lable
@@ -8345,6 +8399,9 @@ msgid ""
 "ON: player shows clips transformed to aspect setting from the Storyboard "
 "properties.OFF: player shows clips according to their original pixel sizes"
 msgstr ""
+"EIN: Die Wiedergabe zeigt auf das Seitenverhältnis der Storyboard-"
+"Eigenschaften umgewandelte Clips an. AUS: Die Wiedergabe zeigt Clips in "
+"Originalgröße"
 
 #: ../gap/gap_story_dialog.c:5225
 msgid "Use the standard built in layout settings"
@@ -8375,6 +8432,8 @@ msgid ""
 "Maximum number of videofiles to be opened at same time while storyboard "
 "rendering"
 msgstr ""
+"Maximale Anzahl gleichzeitig geöffneter Video-Dateien während Storyboard-"
+"Zusammenstellung"
 
 #: ../gap/gap_story_dialog.c:5465
 msgid "Framecache / open video:"
@@ -8385,6 +8444,8 @@ msgid ""
 "Maximum number of frames to be cached per open video (only relevant when "
 "video clips are rendered backwards)"
 msgstr ""
+"Maximale Anzahl pro offenem Video zwischenzuspeichernder Einzelbilder (nur "
+"relevant, wenn Video-Clips rückwärts zusammen gestellt werden)"
 
 #: ../gap/gap_story_dialog.c:5479
 msgid "Max Image cache:"
@@ -8427,7 +8488,7 @@ msgstr ""
 
 #: ../gap/gap_story_dialog.c:5533
 msgid "Multiprocessor Storyboard Support:"
-msgstr ""
+msgstr "Storyboard-Unterstützung für Multiprozessoren:"
 
 #: ../gap/gap_story_dialog.c:5534
 msgid ""
@@ -8841,9 +8902,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:9300
-#, fuzzy
 msgid "AreaFormat:"
-msgstr "Format:"
+msgstr ""
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9302
@@ -8919,7 +8979,8 @@ msgstr ""
 #, c-format
 msgid "illegal keyword: %s (expected keywords are: keep, change)"
 msgstr ""
-"Ungültiges Schlüsselwort: %s (erwartete Schlüsselwörter sind: »keep«, »change«)"
+"Ungültiges Schlüsselwort: %s (erwartete Schlüsselwörter sind: »keep«, "
+"»change«)"
 
 #. unsupported lines raise an error for files without correct Header
 #.
@@ -9656,6 +9717,8 @@ msgid ""
 "ON: emulate seek operations by sequential reads, even when videoindex is "
 "available"
 msgstr ""
+"EIN: Suchvorgargang durch sequentielles Lesen emulieren, sofern kein "
+"Videoindex vorhanden ist"
 
 #. the Aspect Ratio Label(s)
 #: ../gap/gap_vex_dialog.c:2397
@@ -9678,6 +9741,9 @@ msgid ""
 "On: extracted frames are stored in one multilayer image\n"
 "Off: extracted frames are written to frame files on disc"
 msgstr ""
+"Ein: Extrahierte Einzelbilder werden in einem Multilayer-Bild gespeichert\n"
+"Aus: Extrahierte Einzelbilder werden als Einzelbilddateien auf einen "
+"Datenträger geschrieben"
 
 #: ../gap/gap_vex_dialog.c:2477
 msgid "Basename for extracted frames (framenr and extension is added)"
@@ -9713,6 +9779,8 @@ msgid ""
 "On: extract grayscale mask (generated by bluebox)\n"
 "Off: extract color frames 1:1"
 msgstr ""
+"Ein: Graustufen-Maske extrahieren (von bluebox erstellt)\n"
+"Aus: Farb-Einzelbilder 1:1 extrahieren"
 
 #. the layermask checkbutton
 #: ../gap/gap_vex_dialog.c:2543
@@ -9851,7 +9919,7 @@ msgstr "<Toolbox>/Xtns/"
 
 #: ../gap/gap_video_index_creator.c:496
 msgid "NO vindex created (QUICK)"
-msgstr ""
+msgstr "KEIN vindex erstellt (SCHNELL)"
 
 #: ../gap/gap_video_index_creator.c:527
 msgid "vindex already OK"
@@ -9859,12 +9927,12 @@ msgstr "vindex bereits in Ordnung"
 
 #: ../gap/gap_video_index_creator.c:552
 msgid "vindex created (FULLSCAN OK)"
-msgstr ""
+msgstr "vindex erstellt (FULLSCAN OK)"
 
 #: ../gap/gap_video_index_creator.c:568
 #, c-format
 msgid "NO vindex created (SMART %.1f%% %d frames)"
-msgstr ""
+msgstr "KEIN vindex erstellt (SMART %.1f%% %d Einzelbilder)"
 
 #: ../gap/gap_video_index_creator.c:575
 #, c-format
@@ -12215,9 +12283,8 @@ msgid "Use AIV"
 msgstr "AIV verwenden"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2318
-#, fuzzy
 msgid "Enable Alternative inter vlc (only h263+ CODEC)"
-msgstr "Uneingeschränkten Bewegungsvektor freischalten (nur H263 + CODEC)"
+msgstr "Alternatives Inter-vlc freischalten (nur H263+ CODEC)"
 
 #. the interlace dct checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2328
@@ -12501,7 +12568,7 @@ msgstr ""
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2843
 msgid "use macroblock tree ratecontrol (x264 only)"
-msgstr ""
+msgstr "Makroblockbaum-Ratenkontrolle verwenden (nur x264)"
 
 #. the use_chunks checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2852
@@ -12573,7 +12640,7 @@ msgstr ""
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2959
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2965
 msgid "Input Preserved"
-msgstr ""
+msgstr "Eingabe bewahrt"
 
 #. the use_gray checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2974
@@ -12617,8 +12684,8 @@ msgstr "qblur:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3072
 msgid ""
-"Video quantiser scale blur (VBR) amount of qscale smoothing over time (0.0-"
-"1.0)"
+"Video quantiser scale blur (VBR) amount of qscale smoothing over time "
+"(0.0-1.0)"
 msgstr ""
 
 #. the qcomp label
@@ -12693,7 +12760,7 @@ msgstr ""
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3290
 msgid "Set max video bitrate tolerance (in kbit/s)"
-msgstr ""
+msgstr "Maximale Video-Bitratentoleranz festlegen (in Kbit/Sek)"
 
 #. the Minrate Tolerance label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3302
@@ -12702,7 +12769,7 @@ msgstr ""
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3318
 msgid "Set min video bitrate tolerance (in kbit/s)"
-msgstr ""
+msgstr "Minimale Video-Bitratentoleranz festlegen (in Kbit/Sek)"
 
 #. the Bufsize label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3329
@@ -12711,7 +12778,7 @@ msgstr "Buffer-Größe:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3345
 msgid "Set ratecontrol buffer size (in kbyte)"
-msgstr ""
+msgstr "Puffergröße der Ratenkontrolle festlegen (in KByte)"
 
 #. the strictness label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3356
@@ -12742,7 +12809,7 @@ msgstr ""
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3456
 msgid "FFMpeg 2 pass and multiplexer expert settings"
-msgstr ""
+msgstr "Experteneinstellungen für FFMpeg 2-pass und Multiplexer"
 
 #. the pass_logfile checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3468
@@ -12761,6 +12828,8 @@ msgstr "Protokolldatei für den Durchlauf:"
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3499
 msgid "The pass logfile is only used as workfile for 2-pass encoding"
 msgstr ""
+"Die pass-Protokolldatei wird nur als Arbeitsdatei für 2-pass-Kodierung "
+"verwendet"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3510
 msgid "Select pass logfile via file browser"
@@ -12778,11 +12847,11 @@ msgstr "Multiplexer-Rate in Bit/s"
 #. the video bitrate label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3559
 msgid "Mux Packetsize:"
-msgstr ""
+msgstr "Mux Paketgröße:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3576
 msgid "Multiplexer packet size"
-msgstr ""
+msgstr "Paketgröße des Multiplexers"
 
 #. the video bitrate label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3589
@@ -12873,7 +12942,7 @@ msgstr "Experten-Einstellungen zeigen"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3849
 msgid "Show video encoder expert settings"
-msgstr ""
+msgstr "Experteneinstellungen für Video-Kodierer anzeigen"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4000
 msgid "FFMPEG Video Encode Parameters"
@@ -13056,7 +13125,8 @@ msgstr ""
 #, c-format
 msgid "Could not save ffmpeg video encoder parameterfile:'%s'%s"
 msgstr ""
-"Parameter für FFmpeg-Encoder konnten nicht in Datei gespeichert werden: »%s«%s"
+"Parameter für FFmpeg-Encoder konnten nicht in Datei gespeichert werden: "
+"»%s«%s"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:183
 msgid "rawframes video encoding for anim frames. Menu: @rawframeS@"
