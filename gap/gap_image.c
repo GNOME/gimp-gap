@@ -34,6 +34,7 @@
 
 
 #include <gap_image.h>
+#include <gap_base.h>
 #include <gap_layer_copy.h>
 
 extern int gap_debug;
@@ -44,18 +45,32 @@ extern int gap_debug;
  *    delete image (with workaround to ensure that most of the
  *    allocatd memory is freed)
  * ============================================================================
+ * The workaround disables undo and scales the image down to miniumum size
+ * before calling the gimp_image_delete procedure.
+ * this way memory resources for big layers will be freed up immediate.
  */
 void
 gap_image_delete_immediate (gint32 image_id)
 {
-    if(gap_debug) printf("gap_image_delete_immediate: SCALED down to 2x2 id = %d (workaround for gimp_image-delete problem)\n", (int)image_id);
-
+  gboolean imageDeleteWorkaroundDefault = TRUE;
+  if(gap_base_get_gimprc_gboolean_value("gap-image-delete-workaround"
+         , imageDeleteWorkaroundDefault))
+  {         
+    if(gap_debug)
+    {
+      printf("gap_image_delete_immediate: SCALED down to 2x2 id = %d (workaround for gimp_image-delete problem)\n"
+              , (int)image_id
+              );
+    }
+    
     gimp_image_undo_disable(image_id);
 
-    gimp_image_scale(image_id, 2, 2);
+    gimp_image_scale_full(image_id, 2, 2, 0 /*INTERPOLATION_NONE*/);
 
     gimp_image_undo_enable(image_id); /* clear undo stack */
-    gimp_image_delete(image_id);
+  }
+
+  gimp_image_delete(image_id);
 }       /* end  gap_image_delete_immediate */
 
 

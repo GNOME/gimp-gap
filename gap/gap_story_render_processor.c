@@ -184,6 +184,8 @@ typedef struct StbMutexPool   /* mutxp */
 #define GVAHAND_HOLDER_RANK_4                4
 #define GVAHAND_HOLDER_RANK_MAX_LEVEL        5
 
+#define GAP_VIDEO_STORYBOARD_PRESCALE_ENABLE_DOWNSCALE_CHAIN "video-storyboard-prescale-enable-downscale-chain"
+
 
 extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 
@@ -446,9 +448,30 @@ static void       p_split_delace_value(gdouble delace
                       , gdouble *threshold_ptr);
 static void       p_conditional_delace_drawable(GapStbFetchData *gfd, gint32 drawable_id);
 
+static void       p_init_gfd(GapStbFetchData *gfd);
+
+static gboolean   p_is_larger_image_variant_expected(GapStbFetchData *gfdCurrent
+                      , GapStoryRenderVidHandle *vidhand
+                      , gint32 master_frame_nr
+                      , gint32 vid_width
+                      , gint32 vid_height
+                      , gint32 originalWidth
+                      , gint32 originalHeight
+                      , gint32 currentPrescaleWidth
+                      , gint32 currentPrescaleHeight
+                      );
+
+static gint32     p_prescale_image_size_handling(GapStbFetchData *gfdCurrent
+                      , GapStoryRenderVidHandle *vidhand
+                      , gint32 master_frame_nr
+                      , gint32 vid_width
+                      , gint32 vid_height
+                      );
+
 static void       p_stb_render_image_or_animimage(GapStbFetchData *gfd
                       , GapStoryRenderVidHandle *vidhand
-                      , gint32 master_frame_nr);
+                      , gint32 master_frame_nr
+                      , gint32 vid_width, gint32 vid_height);
 static gboolean   p_is_another_clip_playing_the_same_video_backwards(GapStoryRenderFrameRangeElem *frn_elem_ref);
 static void       p_check_and_open_video_handle(GapStoryRenderFrameRangeElem *frn_elem
                       , GapStoryRenderVidHandle *vidhand
@@ -489,7 +512,12 @@ static void       p_stb_render_section(GapStbFetchData *gfd
                       , gint32 master_frame_nr
                       , gint32  vid_width, gint32  vid_height
                       , const char *section_name);
-static void       p_stb_render_frame_images(GapStbFetchData *gfd, gint32 master_frame_nr);
+static gboolean    p_check_next_composite_frame_includes_same_image(GapStbFetchData *gfdCurrent
+                      , GapStoryRenderVidHandle *vidhand
+                      , gint32 master_frame_nr);
+static void       p_stb_render_frame_images(GapStbFetchData *gfd
+                      , GapStoryRenderVidHandle *vidhand
+                      , gint32 master_frame_nr, gint32 vid_width, gint32 vid_height);
 static void       p_stb_render_composite_image_postprocessing(GapStbFetchData *gfd
                       , GapStoryRenderVidHandle *vidhand
                       , gint32 master_frame_nr
@@ -5119,7 +5147,7 @@ p_transform_with_movepath_processing( gint32 comp_image_id
     && (result_height >= vid_height))
     {
       /* handle enlarge image in both dimensions scenario */
-      gimp_image_scale(l_tmp_movpath_image_id, result_width, result_height);
+      gap_frame_fetch_image_scale(l_tmp_movpath_image_id, result_width, result_height);
       offs_x = rint((result_width - vid_width) / 2.0);
       offs_y = rint((result_height - vid_height) / 2.0);
       gimp_image_crop(l_tmp_movpath_image_id, vid_width, vid_height, offs_x, offs_y);
@@ -5128,7 +5156,7 @@ p_transform_with_movepath_processing( gint32 comp_image_id
     && (result_height <= vid_height))
     {
       /* handle shrink image in both dimensions scenario */
-      gimp_image_scale(l_tmp_movpath_image_id, result_width, result_height);
+      gap_frame_fetch_image_scale(l_tmp_movpath_image_id, result_width, result_height);
       offs_x = rint((vid_width - result_width) / 2.0);
       offs_y = rint((vid_height - result_height) / 2.0);
 
@@ -5140,13 +5168,13 @@ p_transform_with_movepath_processing( gint32 comp_image_id
     {
       /* handle enlarge width but shrink height scenario */
       /* 1. enlarge width, keep same image height */
-      gimp_image_scale(l_tmp_movpath_image_id, result_width, vid_height);
+      gap_frame_fetch_image_scale(l_tmp_movpath_image_id, result_width, vid_height);
       offs_x = rint((result_width - vid_width) / 2.0);
       offs_y = 0;
       gimp_image_crop(l_tmp_movpath_image_id, vid_width, vid_height, offs_x, offs_y);
 
       /* 2. shrink height, keep same image width */
-      gimp_image_scale(l_tmp_movpath_image_id, vid_width, result_height);
+      gap_frame_fetch_image_scale(l_tmp_movpath_image_id, vid_width, result_height);
       offs_x = 0;
       offs_y = rint((vid_height - result_height) / 2.0);
 
@@ -5159,13 +5187,13 @@ p_transform_with_movepath_processing( gint32 comp_image_id
     {
       /* handle enlarge height but shrink width scenario */
       /* 1. enlarge height, keep same image width */
-      gimp_image_scale(l_tmp_movpath_image_id, vid_width, result_height);
+      gap_frame_fetch_image_scale(l_tmp_movpath_image_id, vid_width, result_height);
       offs_x = 0;
       offs_y = rint((result_height - vid_height) / 2.0);
       gimp_image_crop(l_tmp_movpath_image_id, vid_width, vid_height, offs_x, offs_y);
 
       /* 2. shrink width, keep same image height */
-      gimp_image_scale(l_tmp_movpath_image_id, result_width, vid_height);
+      gap_frame_fetch_image_scale(l_tmp_movpath_image_id, result_width, vid_height);
       offs_x = rint((vid_width - result_width) / 2.0);
       offs_y = 0;
 
@@ -5596,6 +5624,16 @@ p_transform_and_add_layer( gint32 comp_image_id
       ||  (gimp_drawable_height(l_fsel_layer_id) != calculated->visible_height) )
       {
         GAP_TIMM_START_FUNCTION(funcIdClipScale);
+        if(gap_debug)
+        {
+          printf("DEBUG: p_transform_and_add_layer scaling floating sel layer from (%dx%d) to ==> (%dx%d)\n"
+                            , (int)gimp_drawable_width(l_fsel_layer_id)
+                            , (int)gimp_drawable_height(l_fsel_layer_id)
+                            , (int)calculated->visible_width
+                            , (int)calculated->visible_height
+                            );
+
+        }
 
         gimp_layer_scale(l_fsel_layer_id, calculated->visible_width, calculated->visible_height
                       , FALSE  /* FALSE: centered at image TRUE: centered local on layer */
@@ -6544,7 +6582,457 @@ p_conditional_delace_drawable(GapStbFetchData *gfd, gint32 drawable_id)
 #endif
 }  /* end p_conditional_delace_drawable */
 
+/* ------------
+ * p_init_gfd
+ * ------------
+ */
+static void
+p_init_gfd(GapStbFetchData *gfd)
+{
+  gfd->localframe_tween_rest = 0.0;
+  gfd->comp_image_id   = -1;
+  gfd->tmp_image_id    = -1;
+  gfd->layer_id        = -1;
+  gfd->gapStoryFetchResult = NULL;
+  gfd->isRgb888Result      = FALSE;
+}  /* end p_init_gfd */
 
+
+/* -------------------------------------------------------------------
+ * p_is_larger_image_variant_expected
+ * -------------------------------------------------------------------
+ */
+static gboolean
+p_is_larger_image_variant_expected(GapStbFetchData *gfdCurrent
+  , GapStoryRenderVidHandle *vidhand
+  , gint32 master_frame_nr
+  , gint32 vid_width
+  , gint32 vid_height
+  , gint32 originalWidth
+  , gint32 originalHeight
+  , gint32 currentPrescaleWidth
+  , gint32 currentPrescaleHeight
+  )
+{
+  GapStbFetchData gapStbFetchData;
+  GapStbFetchData *gfd;
+  GapStoryCalcAttr  calculate_attributes;
+  GapStoryCalcAttr  *calculated;
+  gint32 lookForwardMasterFframeNr;
+  gboolean foundLargerVariant;
+
+
+  gfd = &gapStbFetchData;
+  p_init_gfd(gfd);
+  calculated = &calculate_attributes;
+  
+  foundLargerVariant = FALSE;
+  
+  /* check upto 500 further frames for usage of the same image
+   * to findout maximum required prescale size in the near rendering future..
+   * (note that in practice it is typical that one of the break conditions
+   * occurs much earlier before the 500 checks are done)
+   */
+  for(lookForwardMasterFframeNr = master_frame_nr + 1; 
+      lookForwardMasterFframeNr < master_frame_nr + 500;
+      lookForwardMasterFframeNr++)
+  {
+    gint32 l_track;
+    gboolean nextCompositeFrameIncludesSameImage;
+
+    nextCompositeFrameIncludesSameImage = FALSE;
+
+    if(gap_debug)
+    {
+      printf("  o lookForwardMasterFframeNr:%d\n", lookForwardMasterFframeNr);
+    }
+    
+    for(l_track = vidhand->maxVidTrack; l_track >= vidhand->minVidTrack; l_track--)
+    {
+      gfd->framename = p_fetch_framename(vidhand->frn_list
+                 , lookForwardMasterFframeNr /* starts at 1 */
+                 , l_track
+                 , gfd
+                 );
+      if (gfd->framename != NULL)
+      {
+        if((gfd->frn_type == GAP_FRN_ANIMIMAGE)
+        || (gfd->frn_type == GAP_FRN_IMAGE)
+        || (gfd->frn_type == GAP_FRN_FRAMES))
+        {
+          if (strcmp(gfd->framename, gfdCurrent->framename) == 0)
+          {
+            nextCompositeFrameIncludesSameImage = TRUE;
+            gap_story_file_calculate_render_attributes(&calculate_attributes
+                  , vid_width
+                  , vid_height
+                  , vid_width
+                  , vid_height
+                  , originalWidth
+                  , originalHeight
+                  , gfd->keep_proportions
+                  , gfd->fit_width
+                  , gfd->fit_height
+                  , gfd->rotate
+                  , gfd->opacity
+                  , gfd->scale_x
+                  , gfd->scale_y
+                  , gfd->move_x
+                  , gfd->move_y
+                  );
+             if ((calculated->width > currentPrescaleWidth)
+             ||  (calculated->height > currentPrescaleHeight))
+             {
+               foundLargerVariant = TRUE;
+             }
+
+  
+          }
+        }
+
+        g_free(gfd->framename);
+      }
+    }
+
+    if ((nextCompositeFrameIncludesSameImage != TRUE)
+    ||  (foundLargerVariant == TRUE))
+    {
+      break;
+    }
+  }
+
+
+  return (foundLargerVariant);
+
+}  /* end p_is_larger_image_variant_expected */
+
+
+
+/* -------------------------------------------------------------------
+ * p_prescale_image_size_handling
+ * -------------------------------------------------------------------
+ * fetch a single image or animimage at prescaled size.
+ * this procedure checks some of the frames to be rendered next
+ * for usage of the same image and calculates the prescale size as the maximum
+ * refered size, except the size grows more than 150 percent.
+ * this calculated prescale size is used to (down) scale the cached image.
+ * this shall speedup rendering of large images
+ * when refered multiple times at video size (that is typically much smaller)
+ */
+static gint32
+p_prescale_image_size_handling(GapStbFetchData *gfdCurrent
+  , GapStoryRenderVidHandle *vidhand
+  , gint32 master_frame_nr
+  , gint32 vid_width
+  , gint32 vid_height
+  )
+{
+  gint32 l_fetched_image_id;
+  GapStbFetchData gapStbFetchData;
+  GapStbFetchData *gfd;
+  GapStoryCalcAttr  calculate_attributes;
+  GapStoryCalcAttr  *calculated;
+  gint32 currentPrescaleWidth;
+  gint32 currentPrescaleHeight;
+  gint32 maxPrescaleWidth;
+  gint32 maxPrescaleHeight;
+  gint32 originalWidth;
+  gint32 originalHeight;
+  gint32 lookForwardMasterFframeNr;
+  gboolean foundSmallerVariant;
+  gboolean foundTooLargeVariant;  /* larger than 150% */
+
+  gfd = gfdCurrent;
+  l_fetched_image_id = gap_frame_fetch_prescaled_image(vidhand->ffetch_user_id
+                        , gfdCurrent->framename            /* full filename of the image */
+                        , TRUE /*  enable caching */
+                        ,0     /* prescaleWidth is not yet known */
+                        ,0     /* prescaleHeight is not yet known */
+                        ,&originalWidth
+                        ,&originalHeight
+                       );
+  if (l_fetched_image_id < 0)
+  {
+    /* failed to fetch image */
+    return (l_fetched_image_id);
+  }
+  
+  calculated = &calculate_attributes;
+
+  /* calculate scaling, offsets and opacity  according to current attributes
+   */
+  gap_story_file_calculate_render_attributes(&calculate_attributes
+      , vid_width
+      , vid_height
+      , vid_width
+      , vid_height
+      , originalWidth
+      , originalHeight
+      , gfd->keep_proportions
+      , gfd->fit_width
+      , gfd->fit_height
+      , gfd->rotate
+      , gfd->opacity
+      , gfd->scale_x
+      , gfd->scale_y
+      , gfd->move_x
+      , gfd->move_y
+      );
+    
+  currentPrescaleWidth = calculated->width;
+  currentPrescaleHeight = calculated->height;
+  maxPrescaleWidth = currentPrescaleWidth;
+  maxPrescaleHeight = currentPrescaleHeight;
+
+  if(gap_debug)
+  {
+    printf("p_prescale_image_size_handling master_frame_nr:%d\n"
+           "original:(%dx%d) currentPrescale:(%dx%d) imgId:%d actualSIZE: (%dx%d) filename:%s\n"
+      , (int)master_frame_nr
+      , (int)originalWidth
+      , (int)originalHeight
+      , (int)currentPrescaleWidth
+      , (int)currentPrescaleHeight
+      , (int)l_fetched_image_id
+      , (int)gimp_image_width(l_fetched_image_id)
+      , (int)gimp_image_height(l_fetched_image_id)
+      , gfdCurrent->framename
+      );
+  }
+
+  if ((gimp_image_width(l_fetched_image_id) == currentPrescaleWidth)
+  &&  (gimp_image_height(l_fetched_image_id) == currentPrescaleHeight))
+  {
+    /* wanted prescale size for rendering current frame
+     * is same as actual size of the cached image
+     * (no need for further checks so far..)
+     */
+    if(gap_debug)
+    {
+      printf("p_prescale_image_size_handling master_frame_nr:%d EXACT SAME SIZE filename:%s\n"
+      , (int)master_frame_nr
+      , gfdCurrent->framename
+      );
+    }
+    return (l_fetched_image_id);
+  }
+  
+  if ((gimp_image_width(l_fetched_image_id) < originalWidth)
+  ||  (gimp_image_height(l_fetched_image_id) < originalHeight))
+  {
+     if ((gimp_image_width(l_fetched_image_id) >= currentPrescaleWidth)
+     &&  (gimp_image_height(l_fetched_image_id) >= currentPrescaleHeight))
+     {
+       /* fetched image is already down scaled.
+        * optional check for further (chained) downscale 
+        */
+       gboolean  foundLargerVariant = FALSE;
+       gboolean  prescaleEnabledDownscaleChainDefault = TRUE;
+       
+       if(gap_base_get_gimprc_gboolean_value(GAP_VIDEO_STORYBOARD_PRESCALE_ENABLE_DOWNSCALE_CHAIN
+         , prescaleEnabledDownscaleChainDefault))
+       {
+         foundLargerVariant = p_is_larger_image_variant_expected(gfdCurrent
+           , vidhand
+           , master_frame_nr
+           , vid_width
+           , vid_height
+           , originalWidth
+           , originalHeight
+           , currentPrescaleWidth
+           , currentPrescaleHeight
+          );
+       }
+       if(foundLargerVariant != TRUE)
+       {
+         /* there is no more reference to the same image
+          * that requires larger variant than currentPrescale size in near rendering future)
+          * ----
+          * this additional scale down step by step results in speed up downscale rendering sequences
+          * because downscale rendering sequences example would look like this:
+          *     frame 000001 800x600 --> 750x550
+          *     frame 000002 750x550 --> 700x500
+          *     frame 000003 700x500 --> 650x450
+          * this behaviour (chained muliple downscales) could also result in some quality loss
+          * (and can be disabled via prescaleEnableChainedDownscale)
+          */
+         if(gap_debug)
+         {
+           printf("p_prescale_image_size_handling master_frame_nr:%d\n"
+                " CHAINED DOWNSCALE from:(%dx%d) --> to:(%dx%d) filename:%s\n"
+           , (int)master_frame_nr
+           , (int)gimp_image_width(l_fetched_image_id)
+           , (int)gimp_image_height(l_fetched_image_id)
+           , (int)currentPrescaleWidth
+           , (int)currentPrescaleHeight
+           , gfdCurrent->framename
+           );
+         }
+         gimp_image_undo_disable(l_fetched_image_id);
+         gap_frame_fetch_image_scale(l_fetched_image_id, currentPrescaleWidth, currentPrescaleHeight);
+       }
+       else
+       {
+         /* without the optional chek the same downscale rendering sequences example looks like this:
+          *     frame 000001 800x600-->750x550
+          *     frame 000002 800x600-->700x500
+          *     frame 000003 800x600-->650x450
+          */
+         if(gap_debug)
+         {
+           printf("p_prescale_image_size_handling master_frame_nr:%d\n"
+                " ALREADY DOWNSCALED filename:%s\n"
+           , (int)master_frame_nr
+           , gfdCurrent->framename
+           );
+         }
+       }
+       
+       return (l_fetched_image_id);
+     }
+  }
+
+
+  gfd = &gapStbFetchData;
+  p_init_gfd(gfd);
+  
+  foundSmallerVariant = FALSE;
+  foundTooLargeVariant = FALSE;
+  
+  /* check upto 500 further frames for usage of the same image
+   * to findout maximum required prescale size in the near rendering future..
+   * (note that in practice it is typical that one of the break conditions
+   * occurs much earlier before the 500 checks are done)
+   */
+  for(lookForwardMasterFframeNr = master_frame_nr + 1; 
+      lookForwardMasterFframeNr < master_frame_nr + 500;
+      lookForwardMasterFframeNr++)
+  {
+    gint32 l_track;
+    gboolean nextCompositeFrameIncludesSameImage;
+    gboolean nextCompositeFrameIncludesSameImageAtSamePrescaleSize;
+
+    if(gap_debug)
+    {
+      printf("  lookForwardMasterFframeNr:%d\n", lookForwardMasterFframeNr);
+    }
+    
+    nextCompositeFrameIncludesSameImage = FALSE;
+    nextCompositeFrameIncludesSameImageAtSamePrescaleSize = FALSE;
+    for(l_track = vidhand->maxVidTrack; l_track >= vidhand->minVidTrack; l_track--)
+    {
+      gfd->framename = p_fetch_framename(vidhand->frn_list
+                 , lookForwardMasterFframeNr /* starts at 1 */
+                 , l_track
+                 , gfd
+                 );
+      if (gfd->framename != NULL)
+      {
+        if((gfd->frn_type == GAP_FRN_ANIMIMAGE)
+        || (gfd->frn_type == GAP_FRN_IMAGE)
+        || (gfd->frn_type == GAP_FRN_FRAMES))
+        {
+          if (strcmp(gfd->framename, gfdCurrent->framename) == 0)
+          {
+            nextCompositeFrameIncludesSameImage = TRUE;
+            
+            gap_story_file_calculate_render_attributes(&calculate_attributes
+                  , vid_width
+                  , vid_height
+                  , vid_width
+                  , vid_height
+                  , originalWidth
+                  , originalHeight
+                  , gfd->keep_proportions
+                  , gfd->fit_width
+                  , gfd->fit_height
+                  , gfd->rotate
+                  , gfd->opacity
+                  , gfd->scale_x
+                  , gfd->scale_y
+                  , gfd->move_x
+                  , gfd->move_y
+                  );
+             if ((calculated->width == maxPrescaleWidth)
+             &&  (calculated->height == maxPrescaleHeight))
+             {
+               nextCompositeFrameIncludesSameImageAtSamePrescaleSize = TRUE;
+             }
+             else
+             {
+               nextCompositeFrameIncludesSameImageAtSamePrescaleSize = FALSE;
+             }
+
+
+             if ((calculated->width < currentPrescaleWidth)
+             &&  (calculated->height < currentPrescaleHeight))
+             {
+               foundSmallerVariant = TRUE;
+             }
+             
+             if (calculated->width > originalWidth)
+             {
+               foundTooLargeVariant = TRUE;
+             }
+             else
+             {
+               if (calculated->width > maxPrescaleWidth)
+               {
+                 maxPrescaleWidth = calculated->width;
+                 maxPrescaleHeight = calculated->height;
+               }
+             }
+
+  
+          }
+        }
+
+        g_free(gfd->framename);
+      }
+    }
+    if ((nextCompositeFrameIncludesSameImage != TRUE)
+    ||  (nextCompositeFrameIncludesSameImageAtSamePrescaleSize == TRUE)
+    ||  (foundSmallerVariant == TRUE)
+    ||  (foundTooLargeVariant == TRUE))
+    {
+      /* stop looking forward when:
+       * o) next frame does not refere to same image
+       * o) or refers to same image at exact same prescale size
+       * o) or refers to smaller representation 
+       *    (assume zoom out where usage of larger variant is NOT expected in near future)
+       * o) or refers to much larger variant > 150 %
+       */
+      break;
+    }
+  }
+
+  /* the 2nd fetch call (with prescale size != 0) triggers prescaling */ 
+  l_fetched_image_id = gap_frame_fetch_prescaled_image(vidhand->ffetch_user_id
+                        , gfdCurrent->framename            /* full filename of the image */
+                        , TRUE /*  enable caching */
+                        , maxPrescaleWidth
+                        , maxPrescaleHeight
+                        , &originalWidth
+                        , &originalHeight
+                       );
+  if(gap_debug)
+  {
+    printf("p_prescale_image_size_handling master_frame_nr:%d lookForwardMasterFframeNr:%d\n"
+           "maxPrescaleWidth:%d maxPrescaleHeight:%d imgId:%d (%dx%d) filename:%s\n"
+      , (int)master_frame_nr
+      , (int)lookForwardMasterFframeNr
+      , (int)maxPrescaleWidth
+      , (int)maxPrescaleHeight
+      , (int)l_fetched_image_id
+      , (int)gimp_image_width(l_fetched_image_id)
+      , (int)gimp_image_height(l_fetched_image_id)
+      , gfdCurrent->framename
+      );
+  }
+
+  return (l_fetched_image_id);
+
+}  /* end p_prescale_image_size_handling */
 
 
 /* -------------------------------------------------------------------
@@ -6555,21 +7043,62 @@ p_conditional_delace_drawable(GapStbFetchData *gfd, gint32 drawable_id)
 static void
 p_stb_render_image_or_animimage(GapStbFetchData *gfd
   , GapStoryRenderVidHandle *vidhand
-  , gint32 master_frame_nr)
+  , gint32 master_frame_nr, gint32 vid_width, gint32 vid_height)
 {
   gint32        l_orig_image_id;
   gint          l_nlayers;
   gint32       *l_layers_list;
 
-  l_orig_image_id = gap_frame_fetch_orig_image(vidhand->ffetch_user_id
+
+  if(gap_debug)
+  {
+    printf("p_stb_render_image_or_animimage START master_frame_nr:%d\n"
+      ,(int)master_frame_nr
+       );
+  }
+
+
+  /* filtermacro shall be applied at original image size
+   * therefore disable prescale handling when filtermacro or
+   * complex movepath processing is present
+   */
+  if ((gfd->trak_filtermacro_file == NULL)
+  &&  (gfd->movepath_file_xml == NULL))
+  {
+    if(gap_debug)
+    {
+      printf("CALLING p_prescale_image_size_handling master_frame_nr:%d\n"
+         ,(int)master_frame_nr
+         );
+    }
+    /* prescale handling */
+    l_orig_image_id = 
+       p_prescale_image_size_handling(gfd, vidhand, master_frame_nr, vid_width, vid_height);
+  }
+  else 
+  {
+    if(gap_debug)
+    {
+      printf("CALLING gap_frame_fetch_orig_image master_frame_nr:%d\n"
+         ,(int)master_frame_nr
+         );
+    }
+    l_orig_image_id = gap_frame_fetch_orig_image(vidhand->ffetch_user_id
                         , gfd->framename            /* full filename of the image */
                         , TRUE /*  enable caching */
                        );
+  }
+
+  if (l_orig_image_id < 0)
+  {
+    printf("Error fetching image: %s", gfd->framename);
+    return;
+  }
 
   gimp_selection_none(l_orig_image_id);
   if(gfd->frn_type == GAP_FRN_IMAGE)
   {
-    gfd->tmp_image_id = gimp_image_duplicate(l_orig_image_id);
+    gfd->tmp_image_id = gap_frame_fetch_image_duplicate(l_orig_image_id);
     gfd->layer_id = p_prepare_RGB_image(gfd->tmp_image_id);
     gap_frame_fetch_remove_parasite(gfd->tmp_image_id);
     if(gap_debug)
@@ -7790,6 +8319,55 @@ p_stb_render_section(GapStbFetchData *gfd
 }  /* end p_stb_render_section */
 
 
+/* -------------------------------------------------------------------
+ * p_check_next_composite_frame_includes_same_image
+ * -------------------------------------------------------------------
+ * return true in case the next composite frame includes the same image.
+ */
+static gboolean
+p_check_next_composite_frame_includes_same_image(GapStbFetchData *gfdCurrent
+  , GapStoryRenderVidHandle *vidhand
+  , gint32 master_frame_nr)
+{
+  gint32 l_track;
+  gboolean nextCompositeFrameIncludesSameImage;
+  GapStbFetchData gapStbFetchData;
+  GapStbFetchData *gfd;
+  
+  nextCompositeFrameIncludesSameImage = FALSE;
+  
+  gfd = &gapStbFetchData;
+  p_init_gfd(gfd);
+  
+  for(l_track = vidhand->maxVidTrack; l_track >= vidhand->minVidTrack; l_track--)
+  {
+    gfd->framename = p_fetch_framename(vidhand->frn_list
+               , master_frame_nr + 1
+               , l_track
+               , gfd
+               );
+    if (gfd->framename != NULL)
+    {
+      if((gfd->frn_type == GAP_FRN_ANIMIMAGE)
+      || (gfd->frn_type == GAP_FRN_IMAGE)
+      || (gfd->frn_type == GAP_FRN_FRAMES))
+      {
+        if (strcmp(gfd->framename, gfdCurrent->framename) == 0)
+        {
+          nextCompositeFrameIncludesSameImage = TRUE;
+        }
+      }
+
+      g_free(gfd->framename);
+    }
+  }
+    
+  return (nextCompositeFrameIncludesSameImage);
+}
+
+
+
+
 /* -------------------------------------------
  * p_stb_render_frame_images (GAP_FRN_FRAMES)
  * -------------------------------------------
@@ -7798,8 +8376,19 @@ p_stb_render_section(GapStbFetchData *gfd
  *  and includes path name, numberpart and extension)
  */
 static void
-p_stb_render_frame_images(GapStbFetchData *gfd, gint32 master_frame_nr)
+p_stb_render_frame_images(GapStbFetchData *gfd, GapStoryRenderVidHandle *vidhand, gint32 master_frame_nr
+  , gint32 vid_width, gint32 vid_height)
 {
+  gboolean nextCompositeFrameIncludesSameImage;
+  gboolean enableCaching;
+  gint32   l_fetched_image_id;
+  gint32   originalWidth;
+  gint32   originalHeight;
+  gint32   prescaleWidth;
+  gint32   prescaleHeight;
+  GapStoryCalcAttr  calculate_attributes;
+  GapStoryCalcAttr  *calculated;
+  
   if(gap_debug)
   {
     printf("FRAME fetch gfd->framename: %s\n    ===> master:%d  from: %d to: %d\n"
@@ -7809,9 +8398,117 @@ p_stb_render_frame_images(GapStbFetchData *gfd, gint32 master_frame_nr)
       ,(int)gfd->frn_elem->frame_to
       );
   }
-  gfd->tmp_image_id = gap_lib_load_image(gfd->framename);
+
+  nextCompositeFrameIncludesSameImage =
+     p_check_next_composite_frame_includes_same_image(gfd, vidhand, master_frame_nr);
+
+  enableCaching = nextCompositeFrameIncludesSameImage;
+
+  l_fetched_image_id = gap_frame_fetch_prescaled_image(vidhand->ffetch_user_id
+                        , gfd->framename            /* full filename of the image */
+                        , enableCaching
+                        ,0     /* prescaleWidth is not yet known */
+                        ,0     /* prescaleHeight is not yet known */
+                        ,&originalWidth
+                        ,&originalHeight
+                       );
+  calculated = &calculate_attributes;
+
+  /* calculate scaling, offsets and opacity  according to current attributes
+   */
+  gap_story_file_calculate_render_attributes(&calculate_attributes
+      , vid_width
+      , vid_height
+      , vid_width
+      , vid_height
+      , originalWidth
+      , originalHeight
+      , gfd->keep_proportions
+      , gfd->fit_width
+      , gfd->fit_height
+      , gfd->rotate
+      , gfd->opacity
+      , gfd->scale_x
+      , gfd->scale_y
+      , gfd->move_x
+      , gfd->move_y
+      );
+    
+  prescaleWidth = calculated->width;
+  prescaleHeight = calculated->height;
+
+  if (gap_frame_fetch_is_image_in_cache(l_fetched_image_id))
+  {
+    gboolean fetchedImageUsable;
+    
+    fetchedImageUsable = FALSE;
+    if ((gimp_image_width(l_fetched_image_id) >= prescaleWidth)
+    &&  (gimp_image_height(l_fetched_image_id) >= prescaleHeight))
+    {
+      fetchedImageUsable = TRUE;
+    }
+    else
+    {
+      if ((gimp_image_width(l_fetched_image_id) == originalWidth)
+      &&  (gimp_image_height(l_fetched_image_id) == originalHeight))
+      {
+        fetchedImageUsable = TRUE;
+      }
+    }
+    
+    
+    if(fetchedImageUsable == TRUE)
+    {
+      if(gap_debug)
+      {
+        printf("p_stb_render_frame_images DUP cached image (%dx%d) at master_frame_nr:%d %s\n"
+           ,(int)gimp_image_width(l_fetched_image_id)
+           ,(int)gimp_image_height(l_fetched_image_id)
+           ,(int)master_frame_nr
+           , gfd->framename
+           );
+      }
+      gfd->tmp_image_id = gap_frame_fetch_image_duplicate(l_fetched_image_id);
+      gap_frame_fetch_remove_parasite(gfd->tmp_image_id);
+    }
+    else
+    {
+      if(gap_debug)
+      {
+        printf("p_stb_render_frame_images RE-LOAD cached image (%dx%d) too small at master_frame_nr:%d %s\n"
+           ,(int)gimp_image_width(l_fetched_image_id)
+           ,(int)gimp_image_height(l_fetched_image_id)
+           ,(int)master_frame_nr
+           , gfd->framename
+           );
+      }
+      /* the cached image is downscaled and smaller than required size.
+       * in this case load again from file (at original size to ensure 
+       * best possible render quality)
+       */
+      gfd->tmp_image_id = gap_lib_load_image(gfd->framename);
+    }
+  }
+  else
+  {
+    if(gap_debug)
+    {
+      printf("p_stb_render_frame_images UNCACHED fetched image (%dx%d) at master_frame_nr:%d %s\n"
+         ,(int)gimp_image_width(l_fetched_image_id)
+         ,(int)gimp_image_height(l_fetched_image_id)
+         ,(int)master_frame_nr
+         , gfd->framename
+         );
+    }
+    /* use fetched image (that is not member of the cache
+     * directly without making a copy
+     */
+    gfd->tmp_image_id = l_fetched_image_id;
+  }
+
 
 }  /* end p_stb_render_frame_images */
+  
 
 /* -------------------------------------------
  * p_stb_render_composite_image_postprocessing
@@ -7912,7 +8609,7 @@ p_stb_render_composite_image_postprocessing(GapStbFetchData *gfd
   {
      if(gap_debug) printf("DEBUG: p_stb_render_composite_image_postprocessing: scaling tmp image\n");
 
-     gimp_image_scale(gfd->comp_image_id, vid_width, vid_height);
+     gap_frame_fetch_image_scale(gfd->comp_image_id, vid_width, vid_height);
   }
 
   /* check again for layerstack (macro could have add more layers)
@@ -8331,7 +9028,7 @@ p_do_insert_alpha_processing(GapStbFetchData *gfd
        {
          printf("DEBUG: p_do_insert_alpha_processing scaling alpha image\n");
        }
-       gimp_image_scale(gfd->comp_image_id, vid_width, vid_height);
+       gap_frame_fetch_image_scale(gfd->comp_image_id, vid_width, vid_height);
     }
 
     if(! gimp_drawable_has_alpha(gfd->layer_id))
@@ -8641,12 +9338,8 @@ p_story_render_fetch_composite_image_private(GapStoryRenderVidHandle *vidhand
 
 
   gfd = &gapStbFetchData;
-  gfd->localframe_tween_rest = 0.0;
-  gfd->comp_image_id   = -1;
-  gfd->tmp_image_id    = -1;
-  gfd->layer_id        = -1;
-  gfd->gapStoryFetchResult = NULL;
-  gfd->isRgb888Result      = FALSE;
+  p_init_gfd(gfd);
+  
   *layer_id         = -1;
 
 
@@ -8752,7 +9445,7 @@ p_story_render_fetch_composite_image_private(GapStoryRenderVidHandle *vidhand
            if((gfd->frn_type == GAP_FRN_ANIMIMAGE)
            || (gfd->frn_type == GAP_FRN_IMAGE))
            {
-             p_stb_render_image_or_animimage(gfd, vidhand, master_frame_nr);
+             p_stb_render_image_or_animimage(gfd, vidhand, master_frame_nr, vid_width, vid_height);
            }
            else
            {
@@ -8769,7 +9462,7 @@ p_story_render_fetch_composite_image_private(GapStoryRenderVidHandle *vidhand
                else
                {
                  /* GAP_FRN_FRAMES */
-                 p_stb_render_frame_images(gfd, master_frame_nr);
+                 p_stb_render_frame_images(gfd, vidhand, master_frame_nr, vid_width, vid_height);
                }
              }
            }
@@ -8852,7 +9545,7 @@ p_story_render_fetch_composite_image_private(GapStoryRenderVidHandle *vidhand
               {
                 printf("DEBUG: p_story_render_fetch_composite_image_private scaling composite image\n");
               }
-              gimp_image_scale(gfd->comp_image_id, vid_width, vid_height);
+              gap_frame_fetch_image_scale(gfd->comp_image_id, vid_width, vid_height);
 
               GAP_TIMM_STOP_FUNCTION(funcIdDirectScale);
            }

@@ -1,3 +1,39 @@
+2012-09-26 Wolfgang Hofer <hof@gimp.org>
+
+- Performance relevant changes for storyboard when rendering
+  large images.
+  o) gap_frame_fetcher supports caching of prescaled images.
+  o) storyboard render processor look ahead when processing
+   frame types GAP_FRN_IMAGE or GAP_FRN_ANIMIMAGE
+   and calculate the max prescale size.
+   
+   look ahead as far as the same imagename is used.
+   
+   procedure: p_stb_render_image_or_animimage
+
+   - "gap-image-delete-workarond"
+   
+    The workaround disables undo and scales the image down to miniumum size
+    before calling the gimp_image_delete procedure.
+    this way memory resources for big layers will be freed up immediate.
+    
+    Note that this workaround implematation is already present in previous
+    GIMP-GAP versions but now can be turned off via gimprc configuration.
+    
+    When using GIMP-GAP with gimp-2.6.x it is recommanded to enable this workaround
+    (otherwise encoding videos or stroryboard editing may quickly run out of memory
+    because lots of internally rendering is done by creating temporary images
+    and deletes them immediate after processing).
+    
+    This workaround may not be required when GIMP-GAP is used with newer gimp
+    versions. (not yet tested)
+
+ * gap/gap_image.c
+ * gap/gap_frame_fetcher.c [.h]
+ * gap/gap_story_render_processor.c
+
+
+
 2012-08-28 Wolfgang Hofer <hof@gimp.org>
 
 - Speed up for the BlendFill filter.

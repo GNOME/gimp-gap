@@ -92,9 +92,6 @@ gap_frame_fetch_delete_list_of_duplicated_images(gint32 ffetch_user_id);
  * ----------------------------
  * returns image_id of the original cached image.
  *    RESTRICTION: the Caller must NOT not modify that image and shall not open a display for it!
- *    In case this image is duplicated, the parasite that marks an image as member of the gap frame fetcher cache
- *    must be removed (by calling procedure gap_frame_fetch_remove_parasite on the duplicate)
- *    otherwise the duplicate might be unexpectedly deleted  when the frame fetcher cache is full.
  */
 gint32
 gap_frame_fetch_orig_image(gint32 ffetch_user_id
@@ -102,6 +99,22 @@ gap_frame_fetch_orig_image(gint32 ffetch_user_id
     ,gboolean addToCache             /* enable caching */
     );
 
+/* -------------------------------
+ * gap_frame_fetch_prescaled_image
+ * -------------------------------
+ * returns image_id of the prescaled cached image.
+ * NOTE: the returned image MUST NOT not be changed by the caller
+ *
+ */
+gint32
+gap_frame_fetch_prescaled_image(gint32 ffetch_user_id
+    ,const char *filename            /* full filename of the image */
+    ,gboolean addToCache             /* enable caching on prescaled image */
+    ,gint32 prescaleWidth            /* use 0 in case prescale size is not yet known */
+    ,gint32 prescaleHeight           /* use 0 in case prescale size is not yet known */
+    ,gint32 *originalWidthPtr        /* OUT: width of the unscaled original image file */
+    ,gint32 *originalHeightPtr       /* OUT: width of the unscaled original image file */
+    );
 
 /* ----------------------------
  * gap_frame_fetch_dup_image
@@ -135,6 +148,30 @@ gap_frame_fetch_dup_video(gint32 ffetch_user_id
     ,const char *preferred_decoder
     );
 
+/* -------------------------------
+ * gap_frame_fetch_image_scale
+ * -------------------------------
+ */
+void
+gap_frame_fetch_image_scale(gint32 imageId, gint32 width, gint32 height);
+
+/* -------------------------------
+ * gap_frame_fetch_image_duplicate
+ * -------------------------------
+ */
+gint32
+gap_frame_fetch_image_duplicate(gint32 imageId);
+
+
+/* ---------------------------------
+ * gap_frame_fetch_is_image_in_cache
+ * ---------------------------------
+ * checks the image for presence of the parasite that marks the image as member
+ * of the gap frame fetcher cache.
+ * return TRUE if the parasite was found (e.g. image is cache member)
+ */
+gboolean
+gap_frame_fetch_is_image_in_cache(gint32 image_id);
 
 /* -------------------------------
  * gap_frame_fetch_remove_parasite
