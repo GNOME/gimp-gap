@@ -1,3 +1,20 @@
+2012-09-30 Wolfgang Hofer <hof@gimp.org>
+
+- fixed german menuname translations. Translated message must keep the prefix "<Image>"
+  (that must NOT be translated to "<Bild>")
+
+  fixes lots of translation warnings at Gimp startup with 
+  in german  setting  (LANG=de_DE.UTF-8)
+  that look like this:
+
+   bad translation "<Bild>/Ebene/Transparanz/"
+   for menu path   "<Image>/Layer/Transparency/"
+   (<Prefix> must not be translated)
+
+
+ * po/de.po
+
+
 2012-09-26 Wolfgang Hofer <hof@gimp.org>
 
 - Performance relevant changes for storyboard when rendering

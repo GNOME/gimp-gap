@@ -2299,7 +2299,7 @@ msgstr "Vordergrund per Auswahl extrahieren …"
 #. Menu names
 #: ../gap/gap_fg_matting_main.c:213
 msgid "<Image>/Layer/Transparency/"
-msgstr "<Bild>/Ebene/Transparanz/"
+msgstr "<Image>/Ebene/Transparanz/"
 
 #: ../gap/gap_filter_foreach.c:133
 msgid "Backup to file"
@@ -6491,7 +6491,7 @@ msgstr "Sichtbarkeit ein-/ausschalten"
 
 #: ../gap/gap_onion_main.c:206
 msgid "<Image>/Video/Onionskin/"
-msgstr "<Bild>/Video/Zwiebelhaut/"
+msgstr "<Image>/Video/Zwiebelhaut/"
 
 #: ../gap/gap_onion_worker.c:367
 msgid "Creating onionskin layers..."
