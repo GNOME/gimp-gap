@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 21:20+0100\n"
-"PO-Revision-Date: 2012-03-19 02:26+0100\n"
+"POT-Creation-Date: 2012-11-04 00:06+0100\n"
+"PO-Revision-Date: 2012-11-04 00:05+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: gimp.linux.it\n"
 "Language: \n"
@@ -244,7 +244,7 @@ msgstr "Errore: impossibile salvare il quadro %s"
 #: ../gap/gap_base_ops.c:697 ../gap/gap_base_ops.c:704
 #: ../gap/gap_base_ops.c:711 ../gap/gap_base_ops.c:799
 #: ../gap/gap_base_ops.c:821 ../gap/gap_base_ops.c:912
-#: ../gap/gap_base_ops.c:920 ../gap/gap_base_ops.c:928 ../gap/gap_lib.c:3337
+#: ../gap/gap_base_ops.c:920 ../gap/gap_base_ops.c:928 ../gap/gap_lib.c:3435
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Errore: impossibile rinumerare quadro %ld a %ld"
@@ -412,7 +412,7 @@ msgstr "Cambia densità quadri"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1432 ../gap/gap_base_ops.c:1561 ../gap/gap_lib.c:1858
+#: ../gap/gap_base_ops.c:1432 ../gap/gap_base_ops.c:1561 ../gap/gap_lib.c:1956
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -528,118 +528,128 @@ msgstr "Rinumerazione quadri"
 msgid "Renumber Frames 2nd Pass"
 msgstr "Seconda passata rinumerazione quadri"
 
-#: ../gap/gap_blend_fill_main.c:234
+#: ../gap/gap_blend_fill_main.c:236
 msgid "Blend Fill..."
 msgstr "Riempimento a sfumatura..."
 
 #. Menu names
-#: ../gap/gap_blend_fill_main.c:245 ../gap/gap_detail_tracking_main.c:298
+#: ../gap/gap_blend_fill_main.c:247 ../gap/gap_detail_tracking_main.c:313
 #: ../gap/gap_wr_resynth.c:185
 msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Video/Livello/Miglioramento"
 
-#: ../gap/gap_blend_fill_main.c:311 ../gap/gap_blend_fill_main.c:1937
+#: ../gap/gap_blend_fill_main.c:313 ../gap/gap_blend_fill_main.c:1977
 msgid "selection.svg"
 msgstr "selezione.svg"
 
-#: ../gap/gap_blend_fill_main.c:475
+#: ../gap/gap_blend_fill_main.c:477
 msgid "Blendfill ..."
 msgstr "Riempimento a sfumatura ..."
 
-#: ../gap/gap_blend_fill_main.c:1415 ../gap/gap_blend_fill_main.c:1717
+#: ../gap/gap_blend_fill_main.c:1455 ../gap/gap_blend_fill_main.c:1757
 #, c-format
 msgid "Path Vectors too large to fit into buffersize:%d."
-msgstr "Vettori tracciato troppo grandi per farli stare nella dimensione del buffer: %d."
+msgstr ""
+"Vettori tracciato troppo grandi per farli stare nella dimensione del buffer: "
+"%d."
 
-#: ../gap/gap_blend_fill_main.c:1426 ../gap/gap_blend_fill_main.c:1724
+#: ../gap/gap_blend_fill_main.c:1466 ../gap/gap_blend_fill_main.c:1764
 msgid "No Path Vectors available."
 msgstr "Nessun vettore tracciato disponibile."
 
-#: ../gap/gap_blend_fill_main.c:1443
+#: ../gap/gap_blend_fill_main.c:1483
 msgid "SVG file does not exist (use Save Pats button to create)."
-msgstr "Il file SVG non esiste (usa il pulsante «Salva tracciati» per crearlo)."
+msgstr ""
+"Il file SVG non esiste (usa il pulsante «Salva tracciati» per crearlo)."
 
-#: ../gap/gap_blend_fill_main.c:1449
+#: ../gap/gap_blend_fill_main.c:1489
 msgid "please enter SVG filename"
 msgstr "inserire il nome del file SVG"
 
-#: ../gap/gap_blend_fill_main.c:1568
+#: ../gap/gap_blend_fill_main.c:1608
 msgid "Select vectorfile name"
 msgstr "Seleziona il nome del file vettori"
 
-#: ../gap/gap_blend_fill_main.c:1679
+#: ../gap/gap_blend_fill_main.c:1719
 #, c-format
 msgid "Failed to write SVG file: %s"
 msgstr "Fallita la scrittura del file SVG: %s"
 
-#: ../gap/gap_blend_fill_main.c:1765
+#: ../gap/gap_blend_fill_main.c:1805
 msgid "Blend Fill Selection"
 msgstr "Selezione riempimento sfumatura"
 
 #. horizontalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1799
+#: ../gap/gap_blend_fill_main.c:1839
 msgid ""
 "fills the selection by blending opposite border colors outside the selction "
 "to cover the selected area.\n"
 "Intended to fix small pixel errors"
 msgstr ""
-"riempie la selezione sfumando i colori dei bordi opposti al di fuori della selezione per ricoprire l'area selezionata.\n"
+"riempie la selezione sfumando i colori dei bordi opposti al di fuori della "
+"selezione per ricoprire l'area selezionata.\n"
 "Serve per riparare errori di pochi pixel"
 
 #. horizontalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1811
+#: ../gap/gap_blend_fill_main.c:1851
 msgid "Horizontal Blend:"
 msgstr "Sfumatura orizzontale:"
 
-#: ../gap/gap_blend_fill_main.c:1820
+#: ../gap/gap_blend_fill_main.c:1860
 msgid ""
 "ON: enable horizontal color blending. OFF: disable horizontal color blending."
-msgstr "ACCESO: abilita la sfumatura di colore orizzontale. SPENTO: disabilita la sfumatura di colore orizzontale."
+msgstr ""
+"ACCESO: abilita la sfumatura di colore orizzontale. SPENTO: disabilita la "
+"sfumatura di colore orizzontale."
 
 #. verticalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1833
+#: ../gap/gap_blend_fill_main.c:1873
 msgid "Vertical Blend:"
 msgstr "Sfumatura verticale:"
 
-#: ../gap/gap_blend_fill_main.c:1842
+#: ../gap/gap_blend_fill_main.c:1882
 msgid ""
 "ON: enable vertical color blending. OFF: disable vertical color blending."
-msgstr "ACCESO: abilita la sfumatura di colore verticale. SPENTO: disabilita la sfumatura di colore verticale."
+msgstr ""
+"ACCESO: abilita la sfumatura di colore verticale. SPENTO: disabilita la "
+"sfumatura di colore verticale."
 
-#: ../gap/gap_blend_fill_main.c:1855 ../gap/gap_wr_resynth.c:478
+#: ../gap/gap_blend_fill_main.c:1895 ../gap/gap_wr_resynth.c:478
 msgid "Border Radius:"
 msgstr "Raggio bordo:"
 
-#: ../gap/gap_blend_fill_main.c:1858
+#: ../gap/gap_blend_fill_main.c:1898
 msgid "radius for picking border colors"
 msgstr "raggio di cattura colori del bordo"
 
 #. layer combo_box (altSelection)
 #. layer combo_box (alt_selection)
-#: ../gap/gap_blend_fill_main.c:1869 ../gap/gap_wr_resynth.c:503
+#: ../gap/gap_blend_fill_main.c:1909 ../gap/gap_wr_resynth.c:503
 msgid "Set Selection:"
 msgstr "Imposta la selezione:"
 
-#: ../gap/gap_blend_fill_main.c:1880
+#: ../gap/gap_blend_fill_main.c:1920
 msgid "Selection From All Paths"
 msgstr "Seleziona da tutti i tracciati"
 
-#: ../gap/gap_blend_fill_main.c:1885
+#: ../gap/gap_blend_fill_main.c:1925
 msgid "Selection From Vectors File"
 msgstr "Selezione dal file vettori"
 
 #. grab vectors button
-#: ../gap/gap_blend_fill_main.c:1915
+#: ../gap/gap_blend_fill_main.c:1955
 msgid "Save Paths"
 msgstr "Salva tracciati"
 
-#: ../gap/gap_blend_fill_main.c:1920
+#: ../gap/gap_blend_fill_main.c:1960
 msgid ""
 "Save all pathes as svg vector file.(use svg file when large or many pathes "
 "shall be used)"
-msgstr "Salva tutti i tracciati come file vettori svg (usando il file svg quando devono essere usati molti o grandi tracciati)."
+msgstr ""
+"Salva tutti i tracciati come file vettori svg (usando il file svg quando "
+"devono essere usati molti o grandi tracciati)."
 
-#: ../gap/gap_blend_fill_main.c:1932
+#: ../gap/gap_blend_fill_main.c:1972
 msgid "Name of SVG vector file"
 msgstr "Nome del file vettori SVG"
 
@@ -651,7 +661,7 @@ msgstr "Nome del file vettori SVG"
 #. the Storyboard filebrowser button
 #. the Audiofile filebrowser button
 #. the pass_logfile fileselector button
-#: ../gap/gap_blend_fill_main.c:1946 ../gap/gap_vex_dialog.c:2109
+#: ../gap/gap_blend_fill_main.c:1986 ../gap/gap_vex_dialog.c:2109
 #: ../gap/gap_vex_dialog.c:2481 ../gap/gap_vex_dialog.c:2705
 #: ../vid_common/gap_cme_gui.c:2686 ../vid_common/gap_cme_gui.c:2964
 #: ../vid_common/gap_cme_gui.c:3000 ../vid_common/gap_cme_gui.c:3316
@@ -659,7 +669,7 @@ msgstr "Nome del file vettori SVG"
 msgid "..."
 msgstr "..."
 
-#: ../gap/gap_blend_fill_main.c:1952
+#: ../gap/gap_blend_fill_main.c:1992
 msgid "Select output svg vector file via browser"
 msgstr "Seleziona il file vettori svg attraverso il browser"
 
@@ -1325,21 +1335,6 @@ msgstr "Ricerca in corso - attendere"
 msgid "No matches"
 msgstr "Nessun riscontro"
 
-#: ../gap/gap_decode_mplayer_main.c:110 ../gap/gap_decode_mplayer_main.c:123
-msgid "MPlayer based extraction..."
-msgstr "Estrazione basata su MPlayer..."
-
-#. Menu names
-#: ../gap/gap_decode_mplayer_main.c:132 ../gap/gap_frontends_main.c:188
-#: ../gap/gap_vex_main.c:203
-msgid "<Image>/Video/Split Video into Frames/"
-msgstr "<Image>/Video/Dividi l'immagine in quadri/"
-
-#: ../gap/gap_decode_mplayer_main.c:133 ../gap/gap_frontends_main.c:189
-#: ../gap/gap_vex_main.c:204
-msgid "<Toolbox>/Xtns/Split Video into Frames/"
-msgstr "<Toolbox>/Xtns/Dividi il video in quadri/"
-
 #: ../gap/gap_decode_mplayer.c:224
 msgid "Requirements to run the mplayer based video split"
 msgstr "Prerequisiti per l'esecuzione dello split video basato su mplayer"
@@ -1704,6 +1699,21 @@ msgstr "Rinomina quadri..."
 msgid "Converting frames..."
 msgstr "Conversione quadri..."
 
+#: ../gap/gap_decode_mplayer_main.c:110 ../gap/gap_decode_mplayer_main.c:123
+msgid "MPlayer based extraction..."
+msgstr "Estrazione basata su MPlayer..."
+
+#. Menu names
+#: ../gap/gap_decode_mplayer_main.c:132 ../gap/gap_frontends_main.c:188
+#: ../gap/gap_vex_main.c:203
+msgid "<Image>/Video/Split Video into Frames/"
+msgstr "<Image>/Video/Dividi l'immagine in quadri/"
+
+#: ../gap/gap_decode_mplayer_main.c:133 ../gap/gap_frontends_main.c:189
+#: ../gap/gap_vex_main.c:204
+msgid "<Toolbox>/Xtns/Split Video into Frames/"
+msgstr "<Toolbox>/Xtns/Dividi il video in quadri/"
+
 #: ../gap/gap_decode_xanim.c:138
 msgid "Requirements to run the xanim based video split"
 msgstr "Prerequisiti per l'esecuzione dell'esportazione video xanim"
@@ -1894,26 +1904,28 @@ msgstr ""
 "non è possibile trovare nessun quadro estratto,\n"
 "xanim ha fallito o è stato interrotto"
 
-#: ../gap/gap_detail_align_exec.c:617
+#: ../gap/gap_detail_align_exec.c:636
 msgid "Frame Phase:"
 msgstr "Fase quadri:"
 
-#: ../gap/gap_detail_align_exec.c:618
+#: ../gap/gap_detail_align_exec.c:637
 msgid "Frame number (phase) to be rendered."
 msgstr "Numero di quadri (fase) da renderizzare."
 
-#: ../gap/gap_detail_align_exec.c:631
+#: ../gap/gap_detail_align_exec.c:650
 msgid "XML file:"
 msgstr "File XML:"
 
-#: ../gap/gap_detail_align_exec.c:632
+#: ../gap/gap_detail_align_exec.c:651
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
-msgstr "Nome del file xml che contiene le coordinate del dettaglio sottoposto al tracking (registrato con la funzione di tracking dei dettagli)."
+msgstr ""
+"Nome del file xml che contiene le coordinate del dettaglio sottoposto al "
+"tracking (registrato con la funzione di tracking dei dettagli)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:641 ../gap/gap_detail_tracking_exec.c:1471
+#: ../gap/gap_detail_align_exec.c:660 ../gap/gap_detail_tracking_exec.c:1471
 #: ../gap/gap_mov_dialog.c:1556 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:512 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5224 ../gap/gap_story_dialog.c:5559
@@ -1922,65 +1934,138 @@ msgstr "Nome del file xml che contiene le coordinate del dettaglio sottoposto al
 msgid "Default"
 msgstr "Predefinito"
 
-#: ../gap/gap_detail_align_exec.c:642 ../gap/gap_detail_tracking_exec.c:1472
+#: ../gap/gap_detail_align_exec.c:661 ../gap/gap_detail_tracking_exec.c:1472
 #: ../gap/gap_mov_dialog.c:1557 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:513 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Reimposta tutti i parametri ai valori predefiniti"
 
-#: ../gap/gap_detail_align_exec.c:644
+#: ../gap/gap_detail_align_exec.c:663
 msgid "Detail Align via XML"
 msgstr "Allineamento dettagli tramite XML"
 
-#: ../gap/gap_detail_align_exec.c:645 ../gap/gap_detail_tracking_exec.c:1475
+#: ../gap/gap_detail_align_exec.c:664 ../gap/gap_detail_tracking_exec.c:1475
 #: ../gap/gap_name2layer_main.c:519 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Impostazioni:"
 
-#: ../gap/gap_detail_align_exec.c:807
+#: ../gap/gap_detail_align_exec.c:948
+#, c-format
+msgid ""
+"Current path with 4 point triggers transformations:\n"
+"    Rotation:   %.4f (degree)\n"
+"    Scale:      %.1f (%%)\n"
+"    Movement X: %.0f (pixels)\n"
+"    Movement Y: %.0f (pixels)\n"
+"Press OK button to transform the layer\n"
+"in a way that point3 moves to point1 and point4 moves to point2"
+msgstr ""
+"Percorso corrente con 4 punti di avvio trasformazioni:\n"
+"    Rotazione:     %.4f (gradi)\n"
+"    Scala:         %.1f (%%)\n"
+"    Spostamento X: %.0f (pixel)\n"
+"    Spostamento Y: %.0f (pixel)\n"
+"Premere il pulsante OK per trasformare il livello in modo tale che\n"
+"il punto 3 si sposti sul punto 1 e il punto 4 si sposti sul punto 2"
+
+#: ../gap/gap_detail_align_exec.c:969
+#, c-format
+msgid ""
+"Current path with 2 points triggers simple move:\n"
+"    Movement X: %.0f (pixels)\n"
+"    Movement Y: %.0f (pixels)\n"
+"Press OK button to move the layer\n"
+"in a way that point2 moves to point1"
+msgstr ""
+"Tracciato corrente con 2 punti avvio spostamento semplice:\n"
+"    Spostamento X: %.0f (pixel)\n"
+"    Spostamento Y: %.0f (pixel)\n"
+"Premere il pulsante OK per spostare il livello\n"
+"in modo che il punto 2 si sposti sul punto 1"
+
+#: ../gap/gap_detail_align_exec.c:985
+msgid ""
+"This filter requires a current path with 4 or 2 points\n"
+"It can transform and/or move the current layer according to such path "
+"coordinate points.\n"
+"Please create a path and press the Refresh button."
+msgstr ""
+"Questo filtro richiede un tracciato corrente con 4 o 2 punti.\n"
+"Può trasformare e/o spostare il livello corrente secondo tali coordinate di "
+"punti di tracciato.\n"
+"Creare un tracciato e poi premere il pulsante di rilettura."
+
+#: ../gap/gap_detail_align_exec.c:1092
+msgid "Transform Layer via 4 (or 2) point Alignment"
+msgstr "Trasforma il livello attraverso 4 (o 2) punti di allineamento"
+
+#. pointOrder radiobutton
+#. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
+#.
+#: ../gap/gap_detail_align_exec.c:1145
+msgid "Path Point Order:"
+msgstr "Ordine dei punti tracciato:"
+
+#. Order Mode the radio buttons
+#: ../gap/gap_detail_align_exec.c:1163
+msgid ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"Target is marked by points 1&2 "
+msgstr ""
+"( 3 --> 1 )  ( 4 --> 2 )\n"
+"L'obiettivo è marcato dai punti 1&2 "
+
+#: ../gap/gap_detail_align_exec.c:1281
 msgid ""
 "This filter requires a current path with 4 points,where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark postions in the target layer.It "
 "transforms the target layer in a way that point3 is moved to point1 and "
-"point4 moves to point2.(this may include rotate an scale transforamtion).\n"
+"point4 moves to point2.(this may include rotate an scale transformation).\n"
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Questo filtro richiede un tracciato corrente con 4 punti, dove i punti 1 e 2 marcano le posizioni di riferimento e i punti 3 e 4 marcano le posizioni nel livello obbiettivo. Trasforma il livello obbiettivo in modo tale che il punto 3 viene spostato sul punto 1 ed il punto 4 sul punto 2 (ciò può includere le trasformazioni di rotazione e di scalatura).\n"
-"Un tracciato con 2 punti può essere usato per spostare il punto 2 sul punto 1 (attraverso una semplice operazione di spostamento senza rotazione né scalatura)."
+"Questo filtro richiede un tracciato corrente con 4 punti, dove i punti 1 e 2 "
+"marcano le posizioni di riferimento e i punti 3 e 4 marcano le posizioni nel "
+"livello obbiettivo. Trasforma il livello obbiettivo in modo tale che il "
+"punto 3 viene spostato sul punto 1 ed il punto 4 sul punto 2 (ciò può "
+"includere le trasformazioni di rotazione e di scalatura).\n"
+"Un tracciato con 2 punti può essere usato per spostare il punto 2 sul punto "
+"1 (attraverso una semplice operazione di spostamento senza rotazione né "
+"scalatura)."
 
-#: ../gap/gap_detail_tracking_main.c:220
-msgid "DetailTracking Config..."
-msgstr "Configurazione DetailTracking..."
-
-#: ../gap/gap_detail_tracking_main.c:245
-msgid "DetailTracking"
-msgstr "DetailTracking"
-
-#: ../gap/gap_detail_tracking_main.c:267
-msgid "Align Transform via XML file..."
-msgstr "Allinea la trasformazione tramite un file XML..."
-
-#: ../gap/gap_detail_tracking_main.c:287
-msgid "Exact Align via 4-Point Path."
-msgstr "Estrae l'allineamento tramite un tracciato a 4 punti."
-
-#: ../gap/gap_detail_tracking_main.c:299
-msgid "<Image>/Layer/Transform/"
-msgstr "<Image>/Livelli/Trasforma/"
+#: ../gap/gap_detail_align_exec.c:1292
+msgid ""
+"This filter requires a current path with 4 points,where point 1 and 3 mark "
+"reference positions and point 2 and 4 mark postions in the target layer.It "
+"transforms the target layer in a way that point2 is moved to point1 and "
+"point4 moves to point3.(this may include rotate an scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1.(via simple move "
+"operation without rotate and scale)"
+msgstr ""
+"Questo filtro richiede un tracciato corrente con 4 punti, dove i punti 1 e 2 "
+"marcano le posizioni di riferimento e i punti 3 e 4 marcano le posizioni nel "
+"livello obbiettivo. Esso trasforma il livello obbiettivo in modo tale da "
+"spostare il punto 3 sul punto 1 ed il punto 4 sul punto 2 (ciò può includere "
+"le trasformazioni di rotazione e di scalatura).\n"
+"Un tracciato con 2 punti può essere usato per spostare il punto 2 sul punto "
+"1 (attraverso una semplice operazione di spostamento senza rotazione né "
+"scalatura)."
 
 #: ../gap/gap_detail_tracking_exec.c:1195
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
-msgstr "Tracking dei dettagli bloccato (impossibile trovare il dettaglio corrispondente)"
+msgstr ""
+"Tracking dei dettagli bloccato (impossibile trovare il dettaglio "
+"corrispondente)"
 
 #: ../gap/gap_detail_tracking_exec.c:1330
 msgid ""
 "This filter requires a current path with one or 2 anchor points\n"
 "to mark coordinate(s) to be tracked in the target frame(s)"
 msgstr ""
-"Questo filtro richiede un tracciato corrente con uno o due punti di ancoraggio\n"
+"Questo filtro richiede un tracciato corrente con uno o due punti di "
+"ancoraggio\n"
 "per marcare le coordinate da tracciare nel/nei quadro/i oggetto."
 
 #: ../gap/gap_detail_tracking_exec.c:1336
@@ -1991,7 +2076,9 @@ msgstr "Trova soglia diff. colore:"
 msgid ""
 "Colordiff threshold value. Locate fails when average color difference is "
 "below this value."
-msgstr "Valore soglia diff. colore. La localizzazione fallisce quando la differenza media di colore è sotto questo valore."
+msgstr ""
+"Valore soglia diff. colore. La localizzazione fallisce quando la differenza "
+"media di colore è sotto questo valore."
 
 #: ../gap/gap_detail_tracking_exec.c:1349 ../gap/gap_morph_tween_dialog.c:818
 msgid "Locate Shape Radius:"
@@ -2001,7 +2088,10 @@ msgstr "Raggio forma local.ne:"
 msgid ""
 "The quadratic area surrounding a marked detail coordinate +- this radius is "
 "considered as reference shape, to be tracked in the target frame(s)."
-msgstr "L'area quadrata che circonda una coordinata dettaglio marcata +- questo raggio è considerata come forma di riferimento, per essere tracciata nei quadri obbiettivo."
+msgstr ""
+"L'area quadrata che circonda una coordinata dettaglio marcata +- questo "
+"raggio è considerata come forma di riferimento, per essere tracciata nei "
+"quadri obbiettivo."
 
 #: ../gap/gap_detail_tracking_exec.c:1363
 msgid "Locate Target Move Radius:"
@@ -2009,7 +2099,8 @@ msgstr "Trova raggio spost. obiettivo:"
 
 #: ../gap/gap_detail_tracking_exec.c:1364
 msgid "Limits attempts to locate the Detail within this radius."
-msgstr "Limita i tentativi di localizzazione del dettaglio entro questo raggio."
+msgstr ""
+"Limita i tentativi di localizzazione del dettaglio entro questo raggio."
 
 #: ../gap/gap_detail_tracking_exec.c:1378
 msgid "Log Relative Coords:"
@@ -2021,7 +2112,8 @@ msgid ""
 "OFF: Coordinates are logged as absolute pixel coordinate values."
 msgstr ""
 "ACCESO: le coordinate sono registrate relativamente alla prima coordinata.\n"
-"SPENTO: le coordinate sono registrate come valori assoluti di coordinate pixel."
+"SPENTO: le coordinate sono registrate come valori assoluti di coordinate "
+"pixel."
 
 #: ../gap/gap_detail_tracking_exec.c:1388
 msgid "Log Scaling:"
@@ -2032,7 +2124,8 @@ msgid ""
 "ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
 "OFF: Calculate only rotation and keep orignal size."
 msgstr ""
-"ACCESO: calcola la scalatura e rotazione quando vengono tracciate 2 coordinate dettaglio.\n"
+"ACCESO: calcola la scalatura e rotazione quando vengono tracciate 2 "
+"coordinate dettaglio.\n"
 "SPENTO: calcola solo la rotazione e mantiene la dimensione originale."
 
 #: ../gap/gap_detail_tracking_exec.c:1399
@@ -2046,8 +2139,10 @@ msgid ""
 "OFF: Use foreground layer as target, and the layer below as reference\n"
 "."
 msgstr ""
-"ACCESO: usa il livello di sfondo come riferimento e quello di primo piano come obbiettivo del tracking.\n"
-"SPENTO: usa il livello di primo piano come obbiettivo, ed il livello sottostante come riferimento\n"
+"ACCESO: usa il livello di sfondo come riferimento e quello di primo piano "
+"come obbiettivo del tracking.\n"
+"SPENTO: usa il livello di primo piano come obbiettivo, ed il livello "
+"sottostante come riferimento\n"
 "."
 
 #: ../gap/gap_detail_tracking_exec.c:1408
@@ -2060,7 +2155,8 @@ msgid ""
 "detail tracking.\n"
 "OFF: Keep all layers."
 msgstr ""
-"ACCESO: rimuove i livelli (eccetto sfondo e secondo livello in cima) che non sono rilevanti per il tracking dei dettagli.\n"
+"ACCESO: rimuove i livelli (eccetto sfondo e secondo livello in cima) che non "
+"sono rilevanti per il tracking dei dettagli.\n"
 "SPENTO: mantiene tutti i livelli."
 
 #: ../gap/gap_detail_tracking_exec.c:1420
@@ -2069,7 +2165,8 @@ msgstr "Costante spostamento X:"
 
 #: ../gap/gap_detail_tracking_exec.c:1421
 msgid "This value is added when logging captured X coordinates."
-msgstr "Questo valore viene aggiunto durante la registrazione delle coordinate X."
+msgstr ""
+"Questo valore viene aggiunto durante la registrazione delle coordinate X."
 
 #: ../gap/gap_detail_tracking_exec.c:1434
 msgid "Const Y Offset:"
@@ -2077,7 +2174,8 @@ msgstr "Costante spostamento Y:"
 
 #: ../gap/gap_detail_tracking_exec.c:1435
 msgid "This value is added when logging captured Y coordinates."
-msgstr "Questo valore viene aggiunto durante la registrazione delle coordinate Y."
+msgstr ""
+"Questo valore viene aggiunto durante la registrazione delle coordinate Y."
 
 #: ../gap/gap_detail_tracking_exec.c:1448
 msgid "Const Rotate Offset:"
@@ -2085,7 +2183,9 @@ msgstr "Costante di rotazione:"
 
 #: ../gap/gap_detail_tracking_exec.c:1449
 msgid "This value is added when logging rotation values."
-msgstr "Questo valore viene aggiunto durante la registrazione dei valori di rotazione."
+msgstr ""
+"Questo valore viene aggiunto durante la registrazione dei valori di "
+"rotazione."
 
 #: ../gap/gap_detail_tracking_exec.c:1461
 msgid "MovePath XML file:"
@@ -2095,11 +2195,158 @@ msgstr "File XML «Spostamento tracciati»:"
 msgid ""
 "Name of the file to log the tracked detail coordinates  as XML parameterfile "
 "for later use in the MovePath plug-in."
-msgstr "Nome del file di registrazione delle coordinate di tracking dei dettagli come file parametro XML per l'uso successivo con il plug-in di «Spostamento tracciati»."
+msgstr ""
+"Nome del file di registrazione delle coordinate di tracking dei dettagli "
+"come file parametro XML per l'uso successivo con il plug-in di «Spostamento "
+"tracciati»."
 
 #: ../gap/gap_detail_tracking_exec.c:1474
 msgid "Detail Tracking"
 msgstr "Tracking dettagli"
+
+#: ../gap/gap_detail_tracking_main.c:235
+msgid "DetailTracking Config..."
+msgstr "Configurazione DetailTracking..."
+
+#: ../gap/gap_detail_tracking_main.c:260
+msgid "DetailTracking"
+msgstr "DetailTracking"
+
+#: ../gap/gap_detail_tracking_main.c:282
+msgid "Align Transform via XML file..."
+msgstr "Allinea la trasformazione tramite un file XML..."
+
+#: ../gap/gap_detail_tracking_main.c:302
+msgid "Exact Align via 4-Point Path."
+msgstr "Estrae l'allineamento tramite un tracciato a 4 punti."
+
+#: ../gap/gap_detail_tracking_main.c:314
+msgid "<Image>/Layer/Transform/"
+msgstr "<Image>/Livelli/Trasforma/"
+
+#. The dialog1 and main vbox
+#: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
+msgid "Foreground-Extract"
+msgstr "Estrazione primo piano"
+
+#. the frame
+#: ../gap/gap_fg_from_sel_dialog.c:276 ../gap/gap_fg_matting_dialog.c:408
+#: ../gap/gap_mov_dialog.c:1560
+msgid "Options"
+msgstr "Opzioni"
+
+#. the InnerRadius spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:297
+msgid "Inner Radius"
+msgstr "Raggio interno"
+
+#: ../gap/gap_fg_from_sel_dialog.c:305
+msgid "Radius for undefined (e.g. trimmable) area inside the selection border"
+msgstr ""
+"Raggio per la l'area non definita (cioè regolabile) interna al bordo della "
+"selezione"
+
+#. the OuterRadius spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:318
+msgid "Outer Radius"
+msgstr "Raggio esterno"
+
+#: ../gap/gap_fg_from_sel_dialog.c:326
+msgid "Radius for undefined (e.g. trimmable) area outside the selection border"
+msgstr ""
+"Raggio per l'area non definita (cioè regolabile) esterna al bordo della "
+"selezione"
+
+#. create_layermask checkbutton
+#: ../gap/gap_fg_from_sel_dialog.c:343 ../gap/gap_fg_matting_dialog.c:491
+msgid "Create Layermask:"
+msgstr "Crea maschera di livello:"
+
+#: ../gap/gap_fg_from_sel_dialog.c:354 ../gap/gap_fg_matting_dialog.c:502
+msgid ""
+"ON: render opacity by creating a new layer mask, OFF: apply rendered opacity "
+"to the alpha channel"
+msgstr ""
+"ACCESO: renderizza l'opacità creando una nuova maschera di livello, SPENTO: "
+"applica l'opacità renderizzata al canale alfa"
+
+#. lock_color checkbutton
+#: ../gap/gap_fg_from_sel_dialog.c:368 ../gap/gap_fg_matting_dialog.c:516
+msgid "Lock Colors:"
+msgstr "Blocca colori:"
+
+#: ../gap/gap_fg_from_sel_dialog.c:378 ../gap/gap_fg_matting_dialog.c:526
+msgid ""
+"ON: Keep RGB channels of the input layer, OFF: allow Background color "
+"removal in processed undefined regions"
+msgstr ""
+"ACCESO: mantiene i canali RGB del livello di ingresso, SPENTO: permette la "
+"rimozione del colore di sfondo nelle regioni elaborate non definite"
+
+#. colordiff_threshold spinbutton
+#: ../gap/gap_fg_from_sel_dialog.c:392 ../gap/gap_fg_matting_dialog.c:567
+msgid "Color Diff Threshold"
+msgstr "Soglia differenza di colore"
+
+#: ../gap/gap_fg_from_sel_dialog.c:400 ../gap/gap_fg_matting_dialog.c:575
+msgid "sensitivity for color comparison"
+msgstr "sensibilità di comparazione del colore"
+
+#. the tri-map drawable selection combo box
+#: ../gap/gap_fg_matting_dialog.c:429
+msgid "Tri-Map:"
+msgstr "Tri-Mappa:"
+
+#: ../gap/gap_fg_matting_dialog.c:443
+msgid ""
+"Select the tri_map layer (or layermask).  the tri-map shall be of same size "
+"as the input layer and  provides a rough user selection  where WHITE pixels "
+"in the tri map defines FOREGROUND (eg. opaque result)  BLACK pixels define "
+"BACKGROUND (eg. transparent result) GRAY pixels (value 1 upto 240) ar marked "
+"as Undefined  (eg. opacity to be processed by this filter.) )"
+msgstr ""
+"Seleziona il livello tri_map (o maschera di controllo).  Il tri-map deve "
+"essere della stessa dimensione del livello di ingresso e fornisce una "
+"grossolana selezione utente dove i pixel BIANCHI nel tri map definiscono il "
+"PRIMO PIANO (cioè il risultato opaco), il pixel NERI definiscono lo SFONDO "
+"(cioè il risultato trasparente) e i pixel GRIGI (valori da 1 a 240) sono "
+"marcati come NON DEFINITI (cioè l'opacità da elaborare con questo filtro)."
+
+#: ../gap/gap_fg_matting_dialog.c:467
+msgid "Layermask"
+msgstr "Maschera di livello"
+
+#. create_result (create_result checkbutton
+#: ../gap/gap_fg_matting_dialog.c:539
+msgid "Create Result Layer:"
+msgstr "Crea livello risultato:"
+
+#. gtk_widget_show (checkbutton);
+#: ../gap/gap_fg_matting_dialog.c:551
+msgid ""
+"ON: create a new layer as result of the foreground extraction processing. "
+"OFF: render transparency and background color removal on the input drawable"
+msgstr ""
+"ACCESO: crea un nuovo livello come risultato dell'elaborazione di estrazione "
+"dello sfondo. SPENTO: renderizza la rimozione della trasparenza e del colore "
+"di sfondo nel disegnabile in ingresso"
+
+#: ../gap/gap_fg_matting_exec.c:130
+msgid "Foreground Extract"
+msgstr "Estrazione primo piano"
+
+#: ../gap/gap_fg_matting_main.c:177
+msgid "Foreground Extract..."
+msgstr "Estrazione primo piano..."
+
+#: ../gap/gap_fg_matting_main.c:203
+msgid "Foreground Extract Via Selection..."
+msgstr "Estrazione primo piano attraverso la selezione..."
+
+#. Menu names
+#: ../gap/gap_fg_matting_main.c:213
+msgid "<Image>/Layer/Transparency/"
+msgstr "<Image>/Livello/Trasparenza/"
 
 #: ../gap/gap_filter_foreach.c:133
 msgid "Backup to file"
@@ -2477,117 +2724,6 @@ msgstr "Motivi fiamme..."
 msgid "<Image>/Video/Layer/Render/"
 msgstr "<Image>/Video/Livello/Render/"
 
-#: ../gap/gap_fg_matting_main.c:177
-msgid "Foreground Extract..."
-msgstr "Estrazione primo piano..."
-
-#: ../gap/gap_fg_matting_main.c:203
-msgid "Foreground Extract Via Selection..."
-msgstr "Estrazione primo piano attraverso la selezione..."
-
-#. Menu names
-#: ../gap/gap_fg_matting_main.c:213
-msgid "<Image>/Layer/Transparency/"
-msgstr "<Image>/Livello/Trasparenza/"
-
-#: ../gap/gap_fg_matting_exec.c:130
-msgid "Foreground Extract"
-msgstr "Estrazione primo piano"
-
-#. The dialog1 and main vbox
-#: ../gap/gap_fg_matting_dialog.c:372 ../gap/gap_fg_from_sel_dialog.c:240
-msgid "Foreground-Extract"
-msgstr "Estrazione primo piano"
-
-#. the frame
-#: ../gap/gap_fg_matting_dialog.c:408 ../gap/gap_fg_from_sel_dialog.c:276
-#: ../gap/gap_mov_dialog.c:1560
-msgid "Options"
-msgstr "Opzioni"
-
-#. the tri-map drawable selection combo box
-#: ../gap/gap_fg_matting_dialog.c:429
-msgid "Tri-Map:"
-msgstr "Tri-Mappa:"
-
-#: ../gap/gap_fg_matting_dialog.c:443
-msgid ""
-"Select the tri_map layer (or layermask).  the tri-map shall be of same size "
-"as the input layer and  provides a rough user selection  where WHITE pixels "
-"in the tri map defines FOREGROUND (eg. opaque result)  BLACK pixels define "
-"BACKGROUND (eg. transparent result) GRAY pixels (value 1 upto 240) ar marked "
-"as Undefined  (eg. opacity to be processed by this filter.) )"
-msgstr "Seleziona il livello tri_map (o maschera di controllo).  Il tri-map deve essere della stessa dimensione del livello di ingresso e fornisce una grossolana selezione utente dove i pixel BIANCHI nel tri map definiscono il PRIMO PIANO (cioè il risultato opaco), il pixel NERI definiscono lo SFONDO (cioè il risultato trasparente) e i pixel GRIGI (valori da 1 a 240) sono marcati come NON DEFINITI (cioè l'opacità da elaborare con questo filtro)."
-
-#: ../gap/gap_fg_matting_dialog.c:467
-msgid "Layermask"
-msgstr "Maschera di livello"
-
-#. create_layermask checkbutton
-#: ../gap/gap_fg_matting_dialog.c:491 ../gap/gap_fg_from_sel_dialog.c:343
-msgid "Create Layermask:"
-msgstr "Crea maschera di livello:"
-
-#: ../gap/gap_fg_matting_dialog.c:502 ../gap/gap_fg_from_sel_dialog.c:354
-msgid ""
-"ON: render opacity by creating a new layer mask, OFF: apply rendered opacity "
-"to the alpha channel"
-msgstr "ACCESO: renderizza l'opacità creando una nuova maschera di livello, SPENTO: applica l'opacità renderizzata al canale alfa"
-
-#. lock_color checkbutton
-#: ../gap/gap_fg_matting_dialog.c:516 ../gap/gap_fg_from_sel_dialog.c:368
-msgid "Lock Colors:"
-msgstr "Blocca colori:"
-
-#: ../gap/gap_fg_matting_dialog.c:526 ../gap/gap_fg_from_sel_dialog.c:378
-msgid ""
-"ON: Keep RGB channels of the input layer, OFF: allow Background color "
-"removal in processed undefined regions"
-msgstr "ACCESO: mantiene i canali RGB del livello di ingresso, SPENTO: permette la rimozione del colore di sfondo nelle regioni elaborate non definite"
-
-#. create_result (create_result checkbutton
-#: ../gap/gap_fg_matting_dialog.c:539
-msgid "Create Result Layer:"
-msgstr "Crea livello risultato:"
-
-#. gtk_widget_show (checkbutton);
-#: ../gap/gap_fg_matting_dialog.c:551
-msgid ""
-"ON: create a new layer as result of the foreground extraction processing. "
-"OFF: render transparency and background color removal on the input drawable"
-msgstr "ACCESO: crea un nuovo livello come risultato dell'elaborazione di estrazione dello sfondo. SPENTO: renderizza la rimozione della trasparenza e del colore di sfondo nel disegnabile in ingresso"
-
-#. colordiff_threshold spinbutton
-#: ../gap/gap_fg_matting_dialog.c:567 ../gap/gap_fg_from_sel_dialog.c:392
-msgid "Color Diff Threshold"
-msgstr "Soglia differenza di colore"
-
-#: ../gap/gap_fg_matting_dialog.c:575 ../gap/gap_fg_from_sel_dialog.c:400
-msgid "sensitivity for color comparison"
-msgstr "sensibilità di comparazione del colore"
-
-#. the InnerRadius spinbutton
-#: ../gap/gap_fg_from_sel_dialog.c:297
-msgid "Inner Radius"
-msgstr "Raggio interno"
-
-#: ../gap/gap_fg_from_sel_dialog.c:305
-msgid "Radius for undefined (e.g. trimmable) area inside the selection border"
-msgstr ""
-"Raggio per la l'area non definita (cioè regolabile) interna al bordo della "
-"selezione"
-
-#. the OuterRadius spinbutton
-#: ../gap/gap_fg_from_sel_dialog.c:318
-msgid "Outer Radius"
-msgstr "Raggio esterno"
-
-#: ../gap/gap_fg_from_sel_dialog.c:326
-msgid "Radius for undefined (e.g. trimmable) area outside the selection border"
-msgstr ""
-"Raggio per l'area non definita (cioè regolabile) esterna al bordo della "
-"selezione"
-
 #: ../gap/gap_fmac_base.c:205
 #, c-format
 msgid "filtermacro_file: '%s' is corrupted, could not scan databytes"
@@ -2747,7 +2883,7 @@ msgstr "MPEG2..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Video/Codifica/"
 
-#: ../gap/gap_lib.c:1835
+#: ../gap/gap_lib.c:1933
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2755,15 +2891,15 @@ msgstr ""
 "Operazione cancellata.\n"
 "Il quadro corrente è cambiato durante l'apertura della finestra di dialogo."
 
-#: ../gap/gap_lib.c:2033
+#: ../gap/gap_lib.c:2131
 msgid "Save Flattened"
 msgstr "Salva appiattita"
 
-#: ../gap/gap_lib.c:2035
+#: ../gap/gap_lib.c:2133
 msgid "Save As Is"
 msgstr "Salva come è"
 
-#: ../gap/gap_lib.c:2039
+#: ../gap/gap_lib.c:2137
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -2782,7 +2918,7 @@ msgstr ""
 "(%s %s)\n"
 "al file gimprc."
 
-#: ../gap/gap_lib.c:2048
+#: ../gap/gap_lib.c:2146
 msgid "Fileformat Warning"
 msgstr "Avvertimenti per il formato file"
 
@@ -4277,14 +4413,6 @@ msgstr "Crea quadri intermedi:"
 msgid "Local Progress:"
 msgstr "Avanzamento locale:"
 
-#: ../gap/gap_mov_main.c:283
-msgid "Move Path..."
-msgstr "Sposta tracciato"
-
-#: ../gap/gap_mov_main.c:370
-msgid "Move Path Singleframe..."
-msgstr "Sposta il tracciato di un singolo quadro..."
-
 #: ../gap/gap_mov_dialog.c:990
 msgid "Move Path Editor"
 msgstr "Sposta l'editor del tracciato"
@@ -5542,7 +5670,9 @@ msgstr "Generazione anteprima animata..."
 
 #: ../gap/gap_mov_exec.c:2250
 msgid "Transforming layer according to move path frame_phase..."
-msgstr "Trasformazione del livello secondo la fase quadro dello spostamento tracciato..."
+msgstr ""
+"Trasformazione del livello secondo la fase quadro dello spostamento "
+"tracciato..."
 
 #: ../gap/gap_mov_exec.c:3525
 #, c-format
@@ -5593,6 +5723,14 @@ msgstr ""
 "\n"
 "Errore: più punti di controllo (%d) che frame gestiti (%d).\n"
 "Ridurre i punti di controllo o selezionare più frame"
+
+#: ../gap/gap_mov_main.c:283
+msgid "Move Path..."
+msgstr "Sposta tracciato"
+
+#: ../gap/gap_mov_main.c:370
+msgid "Move Path Singleframe..."
+msgstr "Sposta il tracciato di un singolo quadro..."
 
 #: ../gap/gap_mpege.c:127
 msgid "Requirements to run mpeg2encode 1.2:"
@@ -6859,7 +6997,9 @@ msgstr "Cache delle tile:"
 
 #: ../gap/gap_player_dialog.c:7344
 msgid "gimp tile cache for the player process. (in tiles 64x64 pixel)"
-msgstr "la cache delle tile di GIMP per il processo di esecuzione (in tile da 64x64 pixel)."
+msgstr ""
+"la cache delle tile di GIMP per il processo di esecuzione (in tile da 64x64 "
+"pixel)."
 
 #. Layout Options label
 #: ../gap/gap_player_dialog.c:7353
@@ -6915,7 +7055,13 @@ msgid ""
 "rotation is calculated too.\n"
 "OFF: Disable detail tracking."
 msgstr ""
-"ACCESO: abilita il tracking dei dettagli nell'immagine catturata. Marca le coordinate di uno (o due) dettagli significativi nell'immagine catturata usando il tracciato corrente con uno o due punti. Ogni cattura successiva sposta automaticamente i punti marcati alle coordinate dei dettagli corrispondenti e registra i movimenti in parametri XML per la funzionalità MovePath. Nel caso di marcatura di 2 punti, viene calcolata anche la rotazione.\n"
+"ACCESO: abilita il tracking dei dettagli nell'immagine catturata. Marca le "
+"coordinate di uno (o due) dettagli significativi nell'immagine catturata "
+"usando il tracciato corrente con uno o due punti. Ogni cattura successiva "
+"sposta automaticamente i punti marcati alle coordinate dei dettagli "
+"corrispondenti e registra i movimenti in parametri XML per la funzionalità "
+"MovePath. Nel caso di marcatura di 2 punti, viene calcolata anche la "
+"rotazione.\n"
 "SPENTO: disabilita il tracking dei dettagli."
 
 #. Save Player Preferences label
@@ -7322,7 +7468,10 @@ msgstr "Fondi i livelli visibili"
 msgid ""
 "Do not merge layers before save to the selected fileformat. Example: use "
 "this when converting to XCF that can handle transparency and multiple layers."
-msgstr "Non fonde i livelli prima di salvare nel formato file selezionato. Esempio: da usare per le conversioni in XCF, che possono gestire trasparenza e livelli multipli."
+msgstr ""
+"Non fonde i livelli prima di salvare nel formato file selezionato. Esempio: "
+"da usare per le conversioni in XCF, che possono gestire trasparenza e "
+"livelli multipli."
 
 #: ../gap/gap_range_ops.c:512 ../gap/gap_range_ops.c:583
 msgid ""
@@ -7341,7 +7490,10 @@ msgid ""
 "Merge resulting frame down to one layer. This keeps transparency information "
 "Example: use this for PNG fileformat that can handle transpararency (alpha "
 "channel) but is limited to one layer)"
-msgstr "Fonde il quadro risultante in un livello. Ciò mantiene le informazioni di trasparenza. Esempio: da usarsi per i file in formato PNG che possono gestire la trasparenza (il canale alfa) ma sono limitati ad un solo livello."
+msgstr ""
+"Fonde il quadro risultante in un livello. Ciò mantiene le informazioni di "
+"trasparenza. Esempio: da usarsi per i file in formato PNG che possono "
+"gestire la trasparenza (il canale alfa) ma sono limitati ad un solo livello."
 
 #. the basename label
 #: ../gap/gap_range_ops.c:555 ../gap/gap_vex_dialog.c:2461
@@ -8143,14 +8295,19 @@ msgstr "Sposta tracciato:"
 msgid ""
 "ON: Enable move path transistions using settings provided via a movepath "
 "parameter file"
-msgstr "ACCESO: abilita le transizioni movepath usando le impostazioni fornite attraverso un file parametri movepath"
+msgstr ""
+"ACCESO: abilita le transizioni movepath usando le impostazioni fornite "
+"attraverso un file parametri movepath"
 
 #: ../gap/gap_story_att_trans_dlg.c:3880
 msgid ""
 "frame number (phase) of the movement/transition along path for the first "
 "handled frame where 1 is the begin of the path using settings of the 1st "
 "controlpoint in the movepath parameter file"
-msgstr "numero di quadro (fase) del movimento/transizione lungo il tracciato per il primo quadro gestito quando 1 è l'inizio del tracciato usando le impostazioni del primo punto di controllo nel file parametri movepath"
+msgstr ""
+"numero di quadro (fase) del movimento/transizione lungo il tracciato per il "
+"primo quadro gestito quando 1 è l'inizio del tracciato usando le "
+"impostazioni del primo punto di controllo nel file parametri movepath"
 
 #: ../gap/gap_story_att_trans_dlg.c:3884
 msgid ""
@@ -8158,7 +8315,11 @@ msgid ""
 "handled frame. note that frame numbers higher than (or equal to) total "
 "frames in the movepath parameter file uses settings of the last controlpoint "
 "in this file."
-msgstr "numero di quadro (fase) del movimento/transizione lungo il tracciato per l'ultimo quadro gestito. Si noti che i quadri di numero maggiore del (o uguali al) totale dei quadri nel file parametri movepath usano le impostazioni dell'ultimo punto di controllo in quest'ultimo file."
+msgstr ""
+"numero di quadro (fase) del movimento/transizione lungo il tracciato per "
+"l'ultimo quadro gestito. Si noti che i quadri di numero maggiore del (o "
+"uguali al) totale dei quadri nel file parametri movepath usano le "
+"impostazioni dell'ultimo punto di controllo in quest'ultimo file."
 
 #: ../gap/gap_story_att_trans_dlg.c:3890
 msgid "acceleration characteristic (currently ignored)"
@@ -9444,25 +9605,25 @@ msgstr "impossibile scrivere l'audio su file: %s"
 msgid "ready"
 msgstr "pronto"
 
-#: ../gap/gap_story_render_processor.c:1010
+#: ../gap/gap_story_render_processor.c:1038
 #, c-format
 msgid "encoding_video_frame_%06d"
 msgstr "encoding_video_frame_%06d"
 
-#: ../gap/gap_story_render_processor.c:3266
+#: ../gap/gap_story_render_processor.c:3294
 #, c-format
 msgid "analyze line %d (out of %d)"
 msgstr "analisi riga %d (di %d)"
 
-#: ../gap/gap_story_render_processor.c:3408
+#: ../gap/gap_story_render_processor.c:3436
 msgid "No Frames or Images found ...."
 msgstr "Nessun frame o immagine trovati..."
 
-#: ../gap/gap_story_render_processor.c:7103
+#: ../gap/gap_story_render_processor.c:7632
 msgid "Seek Inputvideoframe..."
 msgstr "Ricerca video frame in ingresso..."
 
-#: ../gap/gap_story_render_processor.c:7137
+#: ../gap/gap_story_render_processor.c:7666
 msgid "Continue Encoding..."
 msgstr "Continua la codifica..."
 
@@ -9870,6 +10031,20 @@ msgstr ""
 "Impossibile salvare il file:\n"
 "\"%s\""
 
+#: ../gap/gap_vex_main.c:274
+msgid "MAIN_TST"
+msgstr "TST_PRINCIPALE"
+
+#: ../gap/gap_vex_main.c:398
+msgid ""
+"Videoextract is not available because GIMP-GAP was configured and compiled "
+"with\n"
+" --disable-videoapi-support"
+msgstr ""
+"L'estrazione video non è disponibile dato che GIMP-GAP è stato configurato e "
+"compilato con\n"
+"--disable-videoapi-support"
+
 #: ../gap/gap_video_index_creator.c:208
 msgid "Video Index Creation..."
 msgstr "Creazione indice video..."
@@ -10051,20 +10226,6 @@ msgstr "Controllo intelligente %0.3f %% (di %0.3f %%)"
 #, c-format
 msgid "Creating video index %0.3f %%"
 msgstr "Creazione indice del video %0.3f %%"
-
-#: ../gap/gap_vex_main.c:274
-msgid "MAIN_TST"
-msgstr "TST_PRINCIPALE"
-
-#: ../gap/gap_vex_main.c:398
-msgid ""
-"Videoextract is not available because GIMP-GAP was configured and compiled "
-"with\n"
-" --disable-videoapi-support"
-msgstr ""
-"L'estrazione video non è disponibile dato che GIMP-GAP è stato configurato e "
-"compilato con\n"
-"--disable-videoapi-support"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_water_pattern.c:1036
@@ -11705,6 +11866,14 @@ msgstr ""
 "ERRORE: codificatore video AVI GAP CODEC %s ha emesso un buffer vuoto al "
 "frame %d"
 
+#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:769
+msgid "Save ffmpeg-encoder parameters"
+msgstr "Salva i parametri di codifica ffmpeg"
+
+#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:773
+msgid "Load ffmpeg-encoder parameters"
+msgstr "Carica i parametri di codifica ffmpeg"
+
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:153
 msgid "0 sad"
 msgstr "0 sad"
@@ -13184,14 +13353,6 @@ msgstr "Impossibile creare il file video:'%s'%s"
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:3217
 msgid "Black dummy frame was added"
 msgstr "È stato aggiunto un frame nero spurio"
-
-#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:769
-msgid "Save ffmpeg-encoder parameters"
-msgstr "Salva i parametri di codifica ffmpeg"
-
-#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:773
-msgid "Load ffmpeg-encoder parameters"
-msgstr "Carica i parametri di codifica ffmpeg"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_par.c:412
 #, c-format
