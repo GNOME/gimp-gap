@@ -32,7 +32,7 @@
 
 #include "config.h"
 
-/* SYTEM (UNIX) includes */ 
+/* SYTEM (UNIX) includes */
 #include <stdio.h>
 #include <stdlib.h>
 

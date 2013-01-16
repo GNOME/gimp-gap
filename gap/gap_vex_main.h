@@ -81,7 +81,7 @@ typedef struct {
   gdouble begin_frame;
   gdouble end_frame;
   gint    pos_unit;       /* 0 .. frames, 2 percent */
-  gint    multilayer;     /* 0 .. extract to single frames */
+  gint    multilayer;     /* 0 .. extract to single frames, 1 ..extract to multilayer image, 2.. create Stroyboard, 3 create + edit Storyboard */
   gint    disable_mmx;    /* 0 .. use MMX if available, 1 disable MMX  */
   gint    exact_seek;     /* 0 .. NO, 1 .. YES */
   gint    deinterlace;    /* 0 .. NO, 1 .. odd rows only, 2 even rows only, 3 .. odd first, 4 .. even first */
@@ -97,7 +97,7 @@ typedef struct {
 
   gchar preferred_decoder[100];
 
-  /* last checked videoname */ 
+  /* last checked videoname */
   gboolean chk_is_compatible_videofile;
   gint32  chk_total_frames;
   gint32  chk_vtracks;
@@ -110,7 +110,7 @@ typedef struct {
   /* current states of actual loaded (frame)image */
   gint32  image_ID;        /* -1 if there is no valid current image */
   GimpRunMode run_mode;
-  
+
   gboolean generate_alpha_via_bluebox;
   gboolean extract_alpha_as_gray_frames;
   gboolean extract_with_layermask;
@@ -119,18 +119,18 @@ typedef struct {
 
 typedef struct {  /* nick: gpp */
   GapVexMainVal   val;
-  
+
   GapPlayerMainGlobalParams *plp;      /* player widget parameters */
   gboolean   in_player_call;
   gint32     video_width;
   gint32     video_height;
   gdouble    video_speed;    /* original playback speed in frames per sec */
-  
+
   GtkWidget *mw__main_window;
   GtkWidget *fsv__fileselection;
   GtkWidget *fsb__fileselection;
   GtkWidget *fsa__fileselection;
-  
+
   GtkWidget *mw__player_frame;
   GtkWidget *mw__checkbutton_disable_mmx;
   GtkWidget *mw__entry_video;
@@ -157,7 +157,7 @@ typedef struct {  /* nick: gpp */
   GtkWidget *mw__spinbutton_basenum;
   GtkWidget *mw__entry_audiofile;
   GtkWidget *mw__button_audiofile;
-  GtkWidget *mw__checkbutton_multilayer;
+  GtkWidget *mw__combo_mode_multilayer;
   GtkWidget *mw__combo_deinterlace;
   GtkObject *mw__spinbutton_delace_threshold_adj;
   GtkWidget *mw__spinbutton_delace_threshold;
@@ -170,9 +170,32 @@ typedef struct {  /* nick: gpp */
   GtkWidget *mw__checkbutton_generate_alpha_via_bluebox;
   GtkWidget *mw__checkbutton_extract_alpha_as_gray_frames;
   GtkWidget *mw__checkbutton_extract_with_layermask;
-  
+
 } GapVexMainGlobalParams;
 
 extern int gap_debug;
+
+/* -------------------
+ * p_check_aspect
+ * -------------------
+ */
+static gboolean
+p_check_aspect(gdouble aspect_ratio, gint width, gint height)
+{
+  gdouble w_div_h;
+
+  if(height)
+  {
+    w_div_h = (gdouble)width / (gdouble)height;
+
+    if ((aspect_ratio <=  w_div_h + 0.001)
+    &&  (aspect_ratio >=  w_div_h - 0.001))
+    {
+      return(TRUE);
+    }
+  }
+
+  return (FALSE);
+}  /* end p_check_aspect */
 
 #endif

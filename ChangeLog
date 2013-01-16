@@ -1,3 +1,63 @@
+2013-01-16 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug in the storybard master properties that truncated framerate to integer values.
+
+- audio resample via external tool (sox) did not work in WINDOWS environment.
+  The old code was restricted to Unix only.
+  Fixed the parameter substitution and use g_spawn_sync for the external audio converter call
+  that now shall work on other operating systems than unix.
+  
+  tests on windows with sox as external converter were successful,
+  but only in case when the external converter was configured with
+  the full absolute path.
+  sox is available on Linux, Windows, and MacOSX
+  see http://sox.sourceforge.net/
+
+- Support audio rendering of an audiotrack that is an extracted audiotrack from a videofile.
+  I used this as workarond in case of unsupported audio codec.
+  The workaround allows extract the audio with another external tool (that supports the codec)
+  and then refere the external audiotrack in same way as internal audiotracks. 
+  (e.g. access it in the storyboard by frame numbers via AUD_PLAY_MOVIE)
+    
+    ==> manually edit the Storyboard and 
+          replace AUD_PLAY_MOVIE .... "my_video.mpg"
+          by      AUD_PLAY_MOVIE .... "my_video_extracted_audio.wav"
+
+- Added a new feature that creates a storyboard triggered by
+  the video extract plug-in.
+  The new output mode creates the stroryboard from the videofile,
+  adds the current selected range as initial clip,
+  and opens the created storyboard in the storyboard editor dialog.
+
+- new boolean gimprc parameter video-enable-storyboard-debug-features
+  enables the debug menu in the storyboard dialog
+  and preview image extraction by click on the preview image 
+  in the storyboard attributes dialog window.
+
+- fixed a bug in rendering the preview of clip type movie 
+  in the storyboard attributes dialog window.
+  (This bug did occure with gimp-2.6.11 running on Windows7
+   but did not occure with gimp-2.6.11 on Linux)
+
+- automake version check support for automake-1.12
+
+  * autogen.sh
+ 
+  * gap/gap_story_sox.c
+  * gap/gap_story_render_audio.c
+  * gap/gap_story_main.c [.h]
+  * gap/gap_story_dialog.c [.h]
+  * gap/gap_story_att_trans_dlg.c
+  * gap/gap_story_render_processor.c [.h]
+  * gap/gap_vex_dialog.c [.h]
+  * gap/gap_vex_exec.c [.h]
+  * gap/gap_vex_main.c [.h]
+  
+  * docs/reference/txt/gap_gimprc_params.txt
+  
+  * vid_common/gap_cme_gui.c   
+ 
+    
 2012-09-30 Wolfgang Hofer <hof@gimp.org>
 
 - fixed german menuname translations. Translated message must keep the prefix "<Image>"

@@ -36,6 +36,8 @@
 #include "gap_audio_extract.h"
 #include "gap_bluebox.h"
 
+#define GAP_STORY_PLUG_IN_PROC_CREATION   "plug_in_gap_storyboard_create_and_edit"
+
 /* -------------------
  * p_gap_set_framerate
  * -------------------
@@ -55,7 +57,7 @@ p_gap_set_framerate(gint32 image_id, gdouble framerate)
                           GIMP_PDB_FLOAT,    framerate,
                           GIMP_PDB_END);
 
-  g_free(l_params);                               
+  g_free(l_params);
 }  /* end p_gap_set_framerate */
 
 
@@ -100,7 +102,7 @@ p_frame_postprocessing(t_GVA_Handle   *gvahand
 {
   gint32 l_bbox_layer_id;
   gint32 l_layermask_id;
-  
+
   l_bbox_layer_id = gvahand->layer_id;
   if (gpp->val.generate_alpha_via_bluebox == TRUE)
   {
@@ -114,7 +116,7 @@ p_frame_postprocessing(t_GVA_Handle   *gvahand
       {
         printf("created bb_layer_id:%d\n", l_bbox_layer_id);
       }
-      
+
     }
     if (!gimp_drawable_has_alpha(l_bbox_layer_id))
     {
@@ -133,7 +135,7 @@ p_frame_postprocessing(t_GVA_Handle   *gvahand
         printf("GRAY created layermask_id:%d\n", l_layermask_id);
       }
       gap_layer_copy_paste_drawable(gvahand->image_id, gvahand->layer_id, l_layermask_id);
-    } 
+    }
     else if (gpp->val.extract_with_layermask == TRUE)
     {
       l_layermask_id = gimp_layer_create_mask(l_bbox_layer_id, GIMP_ADD_ALPHA_MASK);
@@ -156,9 +158,170 @@ p_frame_postprocessing(t_GVA_Handle   *gvahand
       //gimp_drawable_delete(l_bbox_layer_id);
     }
   }
-  
+
 
 }  /* end p_frame_postprocessing  */
+
+
+/* ---------------------------------------------
+ * p_vex_exe_create_storyboard_from_videorange
+ * ---------------------------------------------
+ * calls a plug-in that creates a storyboard from the selected videorange
+ * and opens it into the storyboard editor dialog.
+ */
+static void
+p_vex_exe_create_storyboard_from_videorange(GapVexMainGlobalParams *gpp)
+{
+#ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
+  t_GVA_Handle   *gvahand;
+  GimpParam* l_params;
+  gint   l_retvals;
+  gint   l_rc;
+
+  char   *l_storyboard_filename;
+  gdouble l_framerate;
+  gdouble l_samplerate;
+  gdouble l_aspect_ratio;
+  gint32  l_aspect_width;
+  gint32  l_aspect_height;
+  gint32  l_vid_width;
+  gint32  l_vid_height;
+  gint32  l_image_id;
+  gint32  l_record_type_int;
+  gint32  l_nloop;
+  gint32  l_from_frame;
+  gint32  l_to_frame;
+
+  if (gpp->val.videotrack <= 0)
+  {
+     printf("No valid videotrack was selected video %s\n", gpp->val.videoname);
+     return;
+  }
+
+  /* --------- OPEN the videofile --------------- */
+  gvahand = GVA_open_read_pref(gpp->val.videoname
+                           ,gpp->val.videotrack
+                           ,gpp->val.audiotrack
+                           ,gpp->val.preferred_decoder
+                           , FALSE  /* use MMX if available (disable_mmx == FALSE) */
+                           );
+  if(gvahand == NULL)
+  {
+     printf("failed to open video %s\n", gpp->val.videoname);
+     return;
+  }
+  l_framerate = gvahand->framerate;
+  l_vid_width = gvahand->width;
+  l_vid_height = gvahand->height;
+  l_samplerate = 44100;
+  if ((gvahand->atracks > 0) && (gvahand->samplerate > 0))
+  {
+    l_samplerate = gvahand->samplerate;
+  }
+  l_aspect_ratio = 0.0;
+  l_aspect_width = 0;
+  l_aspect_height = 0;
+  if (gvahand->aspect_ratio > 0)
+  {
+    l_aspect_ratio = gvahand->aspect_ratio;
+
+    if(p_check_aspect(l_aspect_ratio, 3, 2))
+    {
+      l_aspect_width = 3;
+      l_aspect_height = 2;
+    }
+    if(p_check_aspect(l_aspect_ratio, 4, 3))
+    {
+      l_aspect_width = 4;
+      l_aspect_height = 3;
+    }
+    if(p_check_aspect(l_aspect_ratio, 16, 9))
+    {
+      l_aspect_width = 16;
+      l_aspect_height = 9;
+    }
+  }
+
+
+  /* extract the 1st frame as gimp image
+   * (for passing to the storyboard plug-in as active image
+   *  -- that will be displayed in the player widget of the stroyboard dialog at startup --)
+   */
+  l_image_id = -1;
+  l_rc = GVA_seek_frame(gvahand, gpp->val.begin_frame, GVA_UPOS_FRAMES);
+  l_rc = GVA_get_next_frame(gvahand);
+
+  if(l_rc == GVA_RET_OK)
+  {
+    /* convert fetched frame from buffer to gimp image gvahand->image_id */
+    l_rc = GVA_frame_to_gimp_layer(gvahand
+                                  ,TRUE   /* delete_mode */
+                                  ,gpp->val.begin_frame
+                                  ,0    /* delace */
+                                  ,0.0  /* delace_threshold */
+                                  );
+    if(l_rc == GVA_RET_OK)
+    {
+      l_image_id = gvahand->image_id;
+      if (l_image_id >= 0)
+      {
+        gimp_display_new(l_image_id);
+      }
+    }
+  }
+
+
+  GVA_close(gvahand);
+
+  if (l_image_id < 0)
+  {
+    g_message(_("failed to extract frame from video: %s"),  gpp->val.videoname);
+    return;
+  }
+
+  l_record_type_int = 0;     /* 0: video, 1:image, 2:frame images, 3:anim image */
+  l_nloop = 1;
+
+  l_storyboard_filename = g_strdup_printf("STORY_%s.txt", gpp->val.basename);
+  l_from_frame = gpp->val.begin_frame;
+  l_to_frame = gpp->val.end_frame;
+
+  /* call the stroryboard plug-in */
+  l_params = gimp_run_procedure (GAP_STORY_PLUG_IN_PROC_CREATION,
+                                 &l_retvals,
+                                 GIMP_PDB_INT32,    GIMP_RUN_NONINTERACTIVE,
+                                 GIMP_PDB_IMAGE,    l_image_id,
+                                 GIMP_PDB_STRING,   l_storyboard_filename,
+                                 GIMP_PDB_STRING,   gpp->val.videoname,
+                                 GIMP_PDB_STRING,   gpp->val.preferred_decoder,
+                                 GIMP_PDB_INT32,    l_vid_width,
+                                 GIMP_PDB_INT32,    l_vid_height,
+                                 GIMP_PDB_FLOAT,    l_framerate,
+                                 GIMP_PDB_FLOAT,    l_aspect_ratio,
+                                 GIMP_PDB_INT32,    l_aspect_width,
+                                 GIMP_PDB_INT32,    l_aspect_height,
+                                 GIMP_PDB_FLOAT,    l_samplerate,
+                                 GIMP_PDB_INT32,    l_record_type_int,
+                                 GIMP_PDB_INT32,    l_from_frame,
+                                 GIMP_PDB_INT32,    l_to_frame,
+                                 GIMP_PDB_INT32,    gpp->val.videotrack,
+                                 GIMP_PDB_INT32,    gpp->val.deinterlace,
+                                 GIMP_PDB_FLOAT,    gpp->val.delace_threshold,
+                                 GIMP_PDB_INT32,    gpp->val.exact_seek,
+                                 GIMP_PDB_INT32,    l_nloop,
+                                 GIMP_PDB_END);
+
+  g_free(l_storyboard_filename);
+
+  l_rc = -1;
+  if (l_params[0].data.d_status == GIMP_PDB_SUCCESS)
+  {
+    l_rc = 0;  /* OK */
+  }
+  gimp_destroy_params (l_params, l_retvals);
+
+#endif
+}  /* end p_vex_exe_create_storyboard_from_videorange */
 
 
 /* ------------------------------
@@ -219,11 +382,17 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
       printf("extract_with_layermask: %d\n", (int)gpp->val.extract_with_layermask);
   }
 
+  if (gpp->val.multilayer >= 2)
+  {
+    p_vex_exe_create_storyboard_from_videorange(gpp);
+    return;
+  }
+
   l_save_run_mode = GIMP_RUN_INTERACTIVE;  /* for the 1.st call of saving a non xcf frame */
   l_overwrite_mode = 0;
 
   gpp->val.image_ID = -1;
-  
+
   /* --------- OPEN the videofile --------------- */
   gvahand = GVA_open_read_pref(gpp->val.videoname
                            ,gpp->val.videotrack
@@ -297,7 +466,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
        iid_max = 2;
        framenumber_fil = (framenumber * 2) -1;
 
-       if(gpp->val.deinterlace == GAP_VEX_DELACE_ODD_X2) 
+       if(gpp->val.deinterlace == GAP_VEX_DELACE_ODD_X2)
        {
          delace[0] = GAP_VEX_DELACE_ODD;
          delace[1] = GAP_VEX_DELACE_EVEN;
@@ -334,7 +503,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
       l_empty_layer_id = gimp_layer_new(l_dummy_image_id, "background",
                           32, 32,
                           GIMP_RGB_IMAGE,
-                          100.0,     /* Opacity full opaque */     
+                          100.0,     /* Opacity full opaque */
                           GIMP_NORMAL_MODE);
       gimp_image_add_layer(l_dummy_image_id, l_empty_layer_id, 0);
       gap_layer_clear_to_color(l_empty_layer_id, 0.0, 0.0, 0.0, 1.0);
@@ -343,7 +512,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
 
       /* must use same basename and extension for the dummyname
        * because setup of jpeg save params for further non interactive save operation
-       * depend on a key that includes the same basename and extension. 
+       * depend on a key that includes the same basename and extension.
        */
       l_dummyname = gap_lib_alloc_fname6(&gpp->val.basename[0]
                                         ,99999999
@@ -357,8 +526,8 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
                            );
 
       gap_image_delete_immediate(l_dummy_image_id);
-      g_remove(l_dummyname);                       
-      g_free(l_dummyname);       
+      g_remove(l_dummyname);
+      g_free(l_dummyname);
       l_save_run_mode = GIMP_RUN_WITH_LAST_VALS;     /* for all further calls */
     }
 
@@ -376,7 +545,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
     {
       gint32 l_seekstep;
       gint32 l_seek_framenumber;
- 
+
 
       if(1==1)
       {
@@ -386,7 +555,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
       else
       {
         /* dead code (older and slower seek emulation
-         * implementation outside the API) 
+         * implementation outside the API)
          */
         l_seek_framenumber = l_pos;
         if(l_pos_unit == GVA_UPOS_PRECENTAGE)
@@ -397,7 +566,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
         for(l_seekstep = 1; l_seekstep < l_seek_framenumber; l_seekstep++)
         {
           /* fetch one frame to buffer gvahand->frame_data
-           * (and proceed position to next frame) 
+           * (and proceed position to next frame)
            */
           l_rc = GVA_get_next_frame(gvahand);
           if(l_rc != GVA_RET_OK)
@@ -424,7 +593,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
     while(1)
     {
        /* fetch one frame to buffer gvahand->frame_data
-        * (and proceed position to next frame) 
+        * (and proceed position to next frame)
         */
        l_rc = GVA_get_next_frame(gvahand);
        if(l_rc != GVA_RET_OK)
@@ -433,7 +602,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
        }
        if(gpp->val.multilayer == 0)
        {
-         if((gpp->val.deinterlace == GAP_VEX_DELACE_ODD_X2) 
+         if((gpp->val.deinterlace == GAP_VEX_DELACE_ODD_X2)
          || (gpp->val.deinterlace == GAP_VEX_DELACE_EVEN_X2))
          {
            framenumber_fil = (framenumber * 2) -1;
@@ -472,16 +641,16 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
                                      );
            if (l_overwrite_mode < 0)
            {
-               g_free(framename);       
+               g_free(framename);
                break;
            }
            else
            {
               gint32 l_sav_rc;
               gint32 l_sav_image_id;
-              
+
               l_sav_image_id = gvahand->image_id;
-              
+
               p_frame_postprocessing(gvahand, gpp);
               if (gpp->val.extract_alpha_as_gray_frames == TRUE)
               {
@@ -493,7 +662,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
                            , framename
                            , l_save_run_mode
                            );
-                           
+
               if (l_sav_image_id != gvahand->image_id)
               {
                 /* delete temporary grayscale image */
@@ -505,7 +674,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
                 break;
               }
            }
-           g_free(framename);       
+           g_free(framename);
          }
        }
        else
@@ -523,7 +692,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
            break;
          }
          gpp->val.image_ID = gvahand->image_id;
-         
+
          if((gpp->val.deinterlace == GAP_VEX_DELACE_ODD_X2)
          || (gpp->val.deinterlace == GAP_VEX_DELACE_EVEN_X2))
          {
@@ -539,7 +708,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
              break;
            }
          }
-         
+
        }
 
        framenumber++;
@@ -571,9 +740,9 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
      {
        gdouble l_extracted_frames;
        gboolean do_progress;
-       
+
        l_extracted_frames = framenumber - framenumber1;
-       
+
        do_progress = TRUE;
        if(gpp->val.run_mode != GIMP_RUN_NONINTERACTIVE)
        {
@@ -612,7 +781,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
     gimp_progress_update (l_progress);
   }
 
-  
+
   if(gpp->val.image_ID >= 0)
   {
     gimp_image_undo_enable(gpp->val.image_ID);

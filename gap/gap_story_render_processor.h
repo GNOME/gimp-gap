@@ -334,6 +334,8 @@ GapStoryRenderVidHandle *  gap_story_render_open_extended_video_handle(
                           ,gint32  frame_from
                           ,gint32  frame_to
                           ,gint32 *frame_count   /* output total frame_count , or 0 on failure */
+                          ,char *util_sox
+                          ,char *util_sox_options
                           );
 
 void    gap_story_render_close_vid_handle(GapStoryRenderVidHandle *vidhand);

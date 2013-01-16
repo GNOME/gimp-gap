@@ -1734,7 +1734,7 @@ p_thread_storyboard_file(gpointer data)
     l_create_audio_tmp_files = TRUE;
   }
 
-  vidhand = gap_gve_story_open_extended_video_handle
+  vidhand = gap_story_render_open_extended_video_handle
            ( FALSE   /* dont ignore video */
            , FALSE   /* dont ignore audio */
            , l_create_audio_tmp_files
@@ -1749,15 +1749,13 @@ p_thread_storyboard_file(gpointer data)
            , -1        /* frame_from */
            , 999999    /* frame_to */
            , &gpp->val.storyboard_total_frames
+           , gpp->val.util_sox
+           , gpp->val.util_sox_options
            );
 
   if(vidhand)
   {
     gstb->vidhand_open_ok = TRUE;
-    gap_gve_story_set_audio_resampling_program(vidhand
-                       , gpp->val.util_sox
-                       , gpp->val.util_sox_options
-                       );
 
     if(vidhand->master_framerate != 0.0)
     {

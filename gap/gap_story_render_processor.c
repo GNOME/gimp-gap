@@ -365,6 +365,8 @@ static GapStoryRenderVidHandle * p_open_video_handle_private(    gboolean ignore
                       , gdouble delace
                       , gboolean compensate_framerange
                       , GapStoryBoard *stb_mem_ptr
+                      , char *util_sox
+                      , char *util_sox_options
                       );
 static gint32     p_exec_filtermacro(gint32 image_id
                          , gint32 layer_id
@@ -3588,6 +3590,8 @@ p_open_mask_vidhand(GapStoryElem *stb_elem, GapStoryRenderMaskDefElem *maskdef_e
                             ,stb_elem->delace
                             ,FALSE                      /* compensate_framerange */
                             ,NULL                       /* stb_mem_ptr */
+                            ,NULL                       /* util_sox */
+                            ,NULL                       /* util_sox_options */
                             );
   if(maskdef_elem->mask_vidhand)
   {
@@ -4086,6 +4090,8 @@ p_open_video_handle_private(    gboolean ignore_audio
                       , gdouble delace
                       , gboolean compensate_framerange
                       , GapStoryBoard *stb_mem_ptr
+                      , char *util_sox
+                      , char *util_sox_options
                       )
 {
   GapStoryRenderVidHandle *vidhand;
@@ -4147,8 +4153,10 @@ p_open_video_handle_private(    gboolean ignore_audio
   vidhand->master_height = 0;
   vidhand->master_samplerate = 44100;    /* 44.1 kHZ CD standard Quality */
   vidhand->master_volume     = 1.0;
-  vidhand->util_sox          = NULL;     /* use DEFAULT resample program (sox), where needed */
-  vidhand->util_sox_options  = NULL;     /* use DEFAULT options */
+  vidhand->util_sox          = NULL;
+  vidhand->util_sox_options  = NULL;
+  gap_story_render_set_audio_resampling_program(vidhand, util_sox, util_sox_options);
+  
   vidhand->ignore_audio      = ignore_audio;
   vidhand->ignore_video      = ignore_video;
   vidhand->create_audio_tmp_files = create_audio_tmp_files;
@@ -4509,6 +4517,8 @@ gap_story_render_open_extended_video_handle(    gboolean ignore_audio
                       , gint32  frame_from
                       , gint32  frame_to
                       , gint32 *frame_count   /* output total frame_count , or 0 on failure */
+                      , char *util_sox
+                      , char *util_sox_options
                       )
 {
   return(p_open_video_handle_private( ignore_audio  /* ignore_audio */
@@ -4532,6 +4542,8 @@ gap_story_render_open_extended_video_handle(    gboolean ignore_audio
                             ,0.0            /* delace */
                             ,TRUE           /* compensate_framerange */
                             ,NULL           /* stb_mem_ptr */
+                            ,util_sox
+                            ,util_sox_options
                             )
          );
 
@@ -4581,6 +4593,8 @@ gap_story_render_open_vid_handle_from_stb(GapStoryBoard *stb_mem_ptr
                             ,0.0            /* delace */
                             ,TRUE           /* compensate_framerange */
                             ,stb_mem_ptr    /* stb_mem_ptr */
+                            ,NULL           /* util_sox */
+                            ,NULL           /* util_sox_options */
                             );
   }
 
@@ -4645,6 +4659,8 @@ gap_story_render_open_vid_handle(GapLibTypeInputRange input_mode
                             ,0.0            /* delace */
                             ,TRUE           /* compensate_framerange */
                             ,NULL           /* stb_mem_ptr */
+                            ,NULL           /* util_sox */
+                            ,NULL           /* util_sox_options */
                             );
 
   if(imagename)

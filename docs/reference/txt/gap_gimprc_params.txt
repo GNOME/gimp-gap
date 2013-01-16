@@ -386,3 +386,10 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # rotate transformations on very small angles.
 # default is 0.0125 degree
 (video-move-path-rotate-threshold "0.0125")
+
+
+# enables the debug menu in the storyboard dialog
+# and preview image extraction by click on the preview image 
+# in the storyboard attributes dialog window.
+# default is no
+(video-enable-storyboard-debug-features "no")

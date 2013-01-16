@@ -40,6 +40,7 @@
 
 #define GAP_STORY_PLUG_IN_PROC            "plug_in_gap_storyboard_edit"
 #define GAP_STORYBOARD_EDIT_HELP_ID       "plug-in-gap-storyboard-edit"
+#define GAP_STORY_PLUG_IN_PROC_CREATION   "plug_in_gap_storyboard_create_and_edit"
 
 #define GAP_STORY_MAX_STORYFILENAME_LEN 2048
 #define GAP_STORY_MAX_CLIP_WIDGETS 2000
@@ -55,6 +56,7 @@ typedef gpointer t_GVA_Handle;
 #endif
 #endif
 
+#define GAP_GIMPRC_ENABLE_STORYBOARD_DEBUG_FEATURES "video-enable-storyboard-debug-features"
 
 
 #define GAP_STB_ATT_GFX_ARRAY_MAX 2
@@ -323,7 +325,7 @@ typedef struct GapStbAttrWidget  /* nickname: attw */
   GtkWidget  *button_overlap_dur;
 
   GtkWidget   *comment_entry;
-  
+
   GtkWidget   *movepath_edit_button;
   GtkWidget   *movepath_file_entry;
   GtkWidget   *movepath_filesel;
@@ -517,5 +519,35 @@ typedef struct GapStbMainGlobalParams  /* nickname: sgpp */
   GdkPixbuf *dnd_pixbuf;
 } GapStbMainGlobalParams;
 
+
+typedef struct GapStbCreationParams  /* nickname: scrp */
+{
+  gchar         storyboard_filename[GAP_STORY_MAX_STORYFILENAME_LEN];
+  gint32        vid_width;
+  gint32        vid_height;
+  gdouble       framerate;
+
+  gdouble       aspect_ratio;
+  gint32        aspect_width;
+  gint32        aspect_height;
+
+  gdouble       samplerate;   // from audio track or default 44100 if no audio available...
+  gchar         preferred_decoder[GAP_STORY_MAX_STORYFILENAME_LEN];
+
+  /* Clip parameters */
+  gint32        record_type_int;
+
+
+  gchar         filename[GAP_STORY_MAX_STORYFILENAME_LEN];
+  gint32        from_frame;
+  gint32        to_frame;
+  gint32        vidtrack;
+  gdouble       delace_threshold;
+  gint32        delace_mode;
+  gint32        exact_seek;
+  gint32        nloop;
+
+
+} GapStbCreationParams;
 
 #endif

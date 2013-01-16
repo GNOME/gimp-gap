@@ -4,12 +4,29 @@
  *  GAP storyboard audio rendering.
  *
  */
+/* The GIMP -- an image manipulation program
+ * Copyright (C) 1995 Spencer Kimball and Peter Mattis
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 /*
  * 2006.06.25  hof  - created (moved stuff from the former gap_gve_story modules to this  new module)
  *
  */
- 
+
 #include <config.h>
 
 /* SYTEM (UNIX) includes */
@@ -201,7 +218,7 @@ gap_story_render_remove_tmp_audiofiles(GapStoryRenderVidHandle *vidhand)
         printf("gap_story_render_remove_tmp_audiofiles tmp_audiofile: %s\n"
               , aud_elem->tmp_audiofile);
       }
-      
+
       /* delete tmp_audiofile if still exists
        * (more aud_elements may refere to the same tmp_audiofile)
        */
@@ -821,7 +838,7 @@ p_extract_audioblock(t_GVA_Handle *gvahand
     }
 
     l_to_read = MIN(l_left_to_read, l_block_read);
-    
+
     /* handle progress */
     *vidhand->progress = (gdouble) (MAX((samples_to_extract - l_left_to_read), 0))
                        / (gdouble) (MAX(samples_to_extract, 1)) ;
@@ -880,7 +897,7 @@ p_extract_audiopart(t_GVA_Handle *gvahand
   {
     printf("p_extract_audiopart: START\n");
   }
-  
+
   l_audio_channels = gvahand->audio_cannels;
   l_sample_rate    = gvahand->samplerate;
 
@@ -889,7 +906,7 @@ p_extract_audiopart(t_GVA_Handle *gvahand
   {
     return;
   }
-  
+
   samples_to_skip = min_play_sec * (gdouble)l_sample_rate;
 
   GVA_seek_audio(gvahand, 0.0, GVA_UPOS_SECS);
@@ -1121,7 +1138,7 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
          printf("gap_story_render_audio_new_audiorange_element: list of known audiofiles is empty (NULL)\n");
        }
      }
-     
+
      /* check the list for known audioranges
       * if audiofile is already known, we can skip the file scan
       * (that can save lot of time when the file must be converted or resampled)
@@ -1169,8 +1186,36 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
      }
      if(l_audscan_required)
      {
-#ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
+        gboolean movieIsExtractedAudio = FALSE;
+
         if(aud_type == GAP_AUT_MOVIE)
+        {
+             long samplerate;
+             long channels;
+             long bytes_per_sample;
+             long bits;
+             long samples;
+             int      l_rc;
+
+             l_rc = gap_audio_wav_file_check(aud_elem->audiofile
+                     , &samplerate, &channels
+                     , &bytes_per_sample, &bits, &samples);
+             if (l_rc == 0)
+             {
+               /* the movie filename refers to an already extracted RIFF WAVE audiofile.
+                * Assume that this external audiotrack has full videolength.
+                * in this case force audio processing without offset (e.g. set min_play_sec to 0).
+                * Note that this special case is a workarond in case of unsupported audio codec
+                * where the extraction my be done manually via other tools (that supports the codec)
+                * and allows to access the extracted (external) audiotrack
+                * in the storyboard by frame numbers just like a movie internal audiotrack.
+                */
+               movieIsExtractedAudio = TRUE;
+               min_play_sec = 0;
+             }
+        }
+#ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
+        if((aud_type == GAP_AUT_MOVIE) && (movieIsExtractedAudio == FALSE))
         {
            t_GVA_Handle *gvahand;
 
@@ -1196,7 +1241,7 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
              aud_elem->bytes_per_sample  = gvahand->audio_cannels * 2;  /* API operates with 16 bit per sample */
              aud_elem->samples           = gvahand->total_aud_samples;  /* sometimes this is not an exact value, but just a guess */
              aud_elem->byteoffset_data   = 0;                           /* no headeroffset for audiopart loaded from videofiles */
-             
+
              if(gap_debug)
              {
                printf("AFTER GVA_open_read: %s\n", aud_elem->audiofile);
@@ -1254,8 +1299,8 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
                                           , vidhand
                                           );
                        GVA_close(gvahand);
-                       
-                       
+
+
                        if(vidhand->status_msg)
                        {
                          g_snprintf(vidhand->status_msg, vidhand->status_msg_len
@@ -1348,8 +1393,8 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
            }
         }
 #endif
-        
-        if(aud_type == GAP_AUT_AUDIOFILE)
+
+        if((aud_type == GAP_AUT_AUDIOFILE) || (movieIsExtractedAudio == TRUE))
         {
           if(g_file_test(aud_elem->audiofile, G_FILE_TEST_EXISTS))
           {
@@ -1402,7 +1447,7 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
              {
                if(create_audio_tmp_files)
                {
-                       
+
                   if(vidhand->status_msg)
                   {
                     g_snprintf(vidhand->status_msg, vidhand->status_msg_len
@@ -1411,7 +1456,7 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
                   }
                   /* fake some dummy progress */
                   *vidhand->progress = 0.05;
-                       
+
                   /* aud_elem->tmp_audiofile = g_strdup_printf("%s.tmp.wav", aud_elem->audiofile); */
                   aud_elem->tmp_audiofile = gimp_temp_name("tmp.wav");
                   gap_story_sox_exec_resample(aud_elem->audiofile
@@ -1427,7 +1472,7 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
                   l_rc = gap_audio_wav_file_check(aud_elem->tmp_audiofile
                           , &samplerate, &channels
                           , &bytes_per_sample, &bits, &samples);
-  
+
                   if((l_rc == 0)
                   && ((bits == 16)    || (bits == 8))
                   && ((channels == 2) || (channels == 1))
@@ -1447,14 +1492,14 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
                   {
                     char *l_errtxt;
                     /* conversion failed, cant use that file, delete tmp_audiofile now */
-  
+
                     if(aud_elem->tmp_audiofile)
                     {
                        g_remove(aud_elem->tmp_audiofile);
                        g_free(aud_elem->tmp_audiofile);
                        aud_elem->tmp_audiofile = NULL;
                     }
-  
+
                     l_errtxt = g_strdup_printf(_("cant use file:  %s as audioinput"), aud_elem->audiofile);
                     gap_story_render_set_stb_error(sterr, l_errtxt);
                     g_free(l_errtxt);

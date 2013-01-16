@@ -426,6 +426,11 @@ static void    p_get_gimprc_render_settings(GapStbMainGlobalParams *sgpp);
 
 
 static void    p_reset_progress_bars(GapStbMainGlobalParams *sgpp);
+static void    p_storyboard_init_from_creation_params( GapStbTabWidgets *tabw
+                   , GapStbMainGlobalParams *sgpp
+                   , GapStoryBoard *stb
+                   , GapStbCreationParams  *scrp
+                   );
 static void    p_call_external_image_viewer(GapStbFrameWidget *fw);
 
 
@@ -452,11 +457,15 @@ static gboolean
 p_is_debug_menu_enabled(void)
 {
   gboolean enable;
+  gboolean enableStoryboardDebugFeatures;
   char *filename;
 
   enable = FALSE;
+  enableStoryboardDebugFeatures =
+          gap_base_get_gimprc_gboolean_value(GAP_GIMPRC_ENABLE_STORYBOARD_DEBUG_FEATURES, FALSE);
 
   if((gap_debug)
+  || (enableStoryboardDebugFeatures)
   || (g_file_test(GAP_DEBUG_STORYBOARD_CONFIG_FILE, G_FILE_TEST_EXISTS)))
   {
     return(TRUE);
@@ -1817,10 +1826,10 @@ p_story_call_player(GapStbMainGlobalParams *sgpp
       return;  /* in case of errors: NO playback possible */
       sgpp->in_player_call = FALSE;
     }
-    
+
     if(sgpp->stb_preview_render_full_size != TRUE)
     {
-      /* if the storboard duplicate (stb_dup) includes at least one unscalable clip 
+      /* if the storboard duplicate (stb_dup) includes at least one unscalable clip
        * (where either with or height is fixed to original size)
        * then we must force slow internal rendering at full size.
        */
@@ -1853,12 +1862,12 @@ p_story_call_player(GapStbMainGlobalParams *sgpp
           previewWidth = 320;
           previewHeight = previewWidth * (stb_dup->master_height / MAX(stb_dup->master_width,1));
         }
-      
+
         stb_dup->master_width = MIN(stb_dup->master_width, previewWidth);
         stb_dup->master_height = MIN(stb_dup->master_height, previewHeight);
       }
     }
-    
+
   }
 
   if(sgpp->plp)
@@ -5424,7 +5433,7 @@ p_menu_win_render_properties_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp
 {
   static GapArrArg  argv[8];
   gint l_ii;
-  
+
   gint l_stb_max_open_videofile_idx;
   gint l_stb_fcache_size_per_videofile_idx;
   gint l_ffetch_max_img_cache_elements_idx;
@@ -5432,7 +5441,7 @@ p_menu_win_render_properties_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp
   gint l_stb_preview_render_full_size_idx;
   gint l_stb_isMultithreadEnabled_idx;
   gint l_stb_isMultithreadFfEncoderEnabled_idx;
-  
+
   gint multithreadDefaultFlag;
   gboolean l_rc;
 
@@ -5532,7 +5541,7 @@ p_menu_win_render_properties_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp
   argv[l_ii].constraint = TRUE;
   argv[l_ii].label_txt = _("Multiprocessor Storyboard Support:");
   argv[l_ii].help_txt  = _("ON: Rendering of composite storyboard frames uses more than one processor. "
-                           "(reading frames from videoclips is done by parallel running prefetch processing) " 
+                           "(reading frames from videoclips is done by parallel running prefetch processing) "
                            "OFF: Rendering of composite frames uses only one processor.");
   argv[l_ii].int_ret   = (gint)sgpp->stb_isMultithreadEnabled;
   argv[l_ii].has_default = TRUE;
@@ -5544,7 +5553,7 @@ p_menu_win_render_properties_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp
   argv[l_ii].constraint = TRUE;
   argv[l_ii].label_txt = _("Multiprocessor Encoder Support:");
   argv[l_ii].help_txt  = _("ON: Video encoders shall use more than one processor where implemented. "
-                           "The ffmpeg based video encoder implementation supports parallel processing. " 
+                           "The ffmpeg based video encoder implementation supports parallel processing. "
                            "OFF: Video encoders use only one processor.");
   argv[l_ii].int_ret   = (gint)gap_base_get_gimprc_gboolean_value(
                               GAP_GIMPRC_VIDEO_ENCODER_FFMPEG_MULTIPROCESSOR_ENABLE
@@ -5568,7 +5577,7 @@ p_menu_win_render_properties_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp
   if(l_rc == TRUE)
   {
     gboolean isFFMpegEncoderMultiprocessorSupport;
-    
+
     sgpp->stb_max_open_videofile         = argv[l_stb_max_open_videofile_idx].int_ret;
     sgpp->stb_fcache_size_per_videofile  = argv[l_stb_fcache_size_per_videofile_idx].int_ret;
     sgpp->ffetch_max_img_cache_elements  = argv[l_ffetch_max_img_cache_elements_idx].int_ret;
@@ -5581,7 +5590,7 @@ p_menu_win_render_properties_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp
     p_save_gimprc_gboolean_value(GAP_GIMPRC_VIDEO_ENCODER_FFMPEG_MULTIPROCESSOR_ENABLE
                               , isFFMpegEncoderMultiprocessorSupport
                               );
-    
+
   }
 }  /* end p_menu_win_render_properties_cb  */
 
@@ -8430,6 +8439,129 @@ p_reset_progress_bars(GapStbMainGlobalParams *sgpp)
 }  /* end p_reset_progress_bars */
 
 
+/* --------------------------------------
+ * p_storyboard_init_from_creation_params
+ * --------------------------------------
+ * creates an inital storyboard that includes one inital clip
+ * from the specified GapStbCreationParams.
+ */
+static void
+p_storyboard_init_from_creation_params(
+     GapStbTabWidgets *tabw
+   , GapStbMainGlobalParams *sgpp
+   , GapStoryBoard *stb
+   , GapStbCreationParams  *scrp
+   )
+{
+    GapStoryRecordType record_type;
+
+    stb->master_width = scrp->vid_width;
+    stb->master_height = scrp->vid_height;
+    stb->master_framerate = scrp->framerate;
+
+    stb->master_volume = 1.0;
+    stb->master_samplerate = scrp->samplerate;
+
+    stb->master_aspect_ratio = scrp->aspect_ratio;  /* 0.0 for none */
+    stb->master_aspect_width = scrp->aspect_width;
+    stb->master_aspect_height = scrp->aspect_height;
+
+    stb->stb_section = NULL;
+    stb->storyboardfile = NULL;
+    if(scrp->storyboard_filename[0] != '\0')
+    {
+      stb->storyboardfile = g_strdup(scrp->storyboard_filename);
+    }
+
+    if (scrp->preferred_decoder[0] != '\0')
+    {
+      stb->preferred_decoder = g_strdup(scrp->preferred_decoder);
+    }
+
+     /* refresh storyboard layout and thumbnail list widgets */
+     p_recreate_tab_widgets( stb
+                            ,tabw
+                            ,tabw->mount_col
+                            ,tabw->mount_row
+                            ,sgpp
+                            );
+     p_render_all_frame_widgets(tabw);
+     p_widget_sensibility(sgpp);
+
+     /* creation of one inital clip */
+
+     switch (scrp->record_type_int)
+     {
+       case 0:
+         record_type = GAP_STBREC_VID_MOVIE;
+         break;
+       case 1:
+         record_type = GAP_STBREC_VID_IMAGE;
+         break;
+       case 2:
+         record_type = GAP_STBREC_VID_FRAMES;
+         break;
+       case 3:
+         record_type = GAP_STBREC_VID_ANIMIMAGE;
+         break;
+       default:
+         record_type = GAP_STBREC_VID_UNKNOWN;
+         break;
+     }
+
+     if (record_type != GAP_STBREC_VID_UNKNOWN)
+     {
+       GapStoryElem      *stb_elem;
+
+       stb_elem = gap_story_new_elem(record_type);
+       if(stb_elem)
+       {
+         stb_elem->orig_filename = g_strdup(scrp->filename);
+         stb_elem->track = tabw->vtrack;
+         stb_elem->from_frame = scrp->from_frame;
+         stb_elem->to_frame = scrp->to_frame;
+         stb_elem->nloop = scrp->nloop;
+         stb_elem->nframes = (1 + abs(scrp->to_frame - scrp->from_frame) ) * scrp->nloop;
+
+         stb_elem->seltrack     = scrp->vidtrack;
+         stb_elem->exact_seek   = scrp->exact_seek;
+         stb_elem->delace       = 0.0;
+         if (scrp->delace_mode != 0)
+         {
+           stb_elem->delace = scrp->delace_mode + CLAMP(scrp->delace_threshold, 0.0, 0.999999);
+         }
+
+         if (scrp->preferred_decoder[0] != '\0')
+         {
+           stb_elem->preferred_decoder = g_strdup(scrp->preferred_decoder);
+         }
+
+
+
+         gap_stb_undo_group_begin(tabw);
+         gap_stb_undo_push(tabw, GAP_STB_FEATURE_CREATE_CLIP);
+
+         gap_story_list_append_elem(stb, stb_elem);
+
+         /* refresh storyboard layout and thumbnail list widgets */
+         p_recreate_tab_widgets( stb
+                                 ,tabw
+                                 ,tabw->mount_col
+                                 ,tabw->mount_row
+                                 ,sgpp
+                                 );
+         p_render_all_frame_widgets(tabw);
+         // gap_story_stb_elem_properties_dialog(tabw, stb_elem, stb);
+         gap_stb_undo_group_end(tabw);
+       }
+
+       p_tabw_update_frame_label_and_rowpage_limits(tabw, sgpp);
+
+     }
+
+
+}  /* end p_storyboard_new_from_creation_params */
+
 
 
 /* -----------------------------
@@ -8437,7 +8569,7 @@ p_reset_progress_bars(GapStbMainGlobalParams *sgpp)
  * -----------------------------
  */
 void
-gap_storyboard_dialog(GapStbMainGlobalParams *sgpp)
+gap_storyboard_dialog(GapStbMainGlobalParams *sgpp, GapStbCreationParams  *scrp)
 {
   GtkWidget *dialog;
   GtkWidget  *vbox;
@@ -8783,6 +8915,14 @@ gap_storyboard_dialog(GapStbMainGlobalParams *sgpp)
     /* register for frame fetcher resources (image cache)
      */
     ffetch_user_id = gap_frame_fetch_register_user("gap_storyboard_dialog");
+
+    if (scrp != NULL)
+    {
+      /* create an initial cliplist according to creation parameters */
+      sgpp->cll = gap_story_new_story_board(NULL);
+      sgpp->cll->master_type = GAP_STB_MASTER_TYPE_CLIPLIST;
+      p_storyboard_init_from_creation_params(sgpp->cll_widgets, sgpp, sgpp->cll, scrp);
+    }
 
     gtk_main ();
     gdk_flush ();
@@ -9338,7 +9478,7 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
 
      stb_dst->master_width = (gint32)(argv[l_ii_width].int_ret);
      stb_dst->master_height = (gint32)(argv[l_ii_height].int_ret);
-     stb_dst->master_framerate = (gint32)(argv[l_ii_framerate].flt_ret);
+     stb_dst->master_framerate = (gdouble)(argv[l_ii_framerate].flt_ret);
      stb_dst->master_vtrack1_is_toplayer = (argv[l_ii_vtrack1_is_toplayer].int_ret != 0);
 
      p_parse_aspect_width_and_height(buf_aspect_string

@@ -32,7 +32,7 @@
 #include "gap_story_main.h"
 #include "gap_story_properties.h"
 
-void    gap_storyboard_dialog(GapStbMainGlobalParams *gpp);
+void    gap_storyboard_dialog(GapStbMainGlobalParams *sgpp, GapStbCreationParams  *scrp);
 
 void    gap_story_dlg_attw_render_all(GapStbAttrWidget *attw);
 

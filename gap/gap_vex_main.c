@@ -63,7 +63,7 @@
 #include "gap_vex_exec.h"
 
 
-int gap_debug = 0;  /* 1 == print debug infos , 0 dont print debug infos */ 
+int gap_debug = 0;  /* 1 == print debug infos , 0 dont print debug infos */
 
 
 static void   query      (void);
@@ -104,7 +104,7 @@ query ()
     { GIMP_PDB_STRING, "basename", "The name for extracted ouput frames _0001.<extension> is added" },
     { GIMP_PDB_STRING, "extension", "select image save format by extension (.xcf, .ppm, .jpg, ...)" },
     { GIMP_PDB_INT32, "basenum", "number for the 1.st extracted output frame, 0: use original framenr" },
-    { GIMP_PDB_INT32, "multilayer", "0: save each frame to one file, 1: load all frames into one multilayer image" },
+    { GIMP_PDB_INT32, "multilayer", "0: save each frame to one file, 1: load all frames into one multilayer image, 2: create storyboard with selected clip" },
     { GIMP_PDB_INT32, "extract_videotrack", "0:ignore video frames, 1 upto n: extract frames from videotrack" },
     { GIMP_PDB_INT32, "extract_audiotrack", "0:ignore audio, 1 upto n: extract audiotrack to .wav file" },
     { GIMP_PDB_INT32, "overwrite_mode", "1: overwrite all existing files, other values: cancel if files already exists" },
@@ -281,7 +281,7 @@ run (const gchar *name,          /* name of plugin */
 
 
   /* init return status
-   * (if this plug-in is compiled without GAP_ENABLE_VIDEOAPI_SUPPORT 
+   * (if this plug-in is compiled without GAP_ENABLE_VIDEOAPI_SUPPORT
    *  it will always fail)
    */
   values[0].data.d_status = GIMP_PDB_EXECUTION_ERROR;
@@ -390,9 +390,9 @@ run (const gchar *name,          /* name of plugin */
         values[0].data.d_status = GIMP_PDB_EXECUTION_ERROR;
     }
   }
-  
+
   return;
-  
+
 /* endif GAP_ENABLE_VIDEOAPI_SUPPORT */
 #endif
   g_message(_("Videoextract is not available because "
