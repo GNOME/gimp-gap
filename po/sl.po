@@ -2,18 +2,19 @@
 # Copyright (C) 2000-2011 THE GIMP'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the GIMP package.
 #
-# Miha Tomšič <miha.tomsic@guest.arnes.si>, 2000 - 2002.
+# Miha Tomšič <miha.tomsic@guest.arnes.si>, 2000-2002.
 # Nedeljko Grabant <nedeljkograbant@gmail.com>, 2007.
-# Martin Srebotnjak <miles@filmsi.net>, 2007 - 2011, translated from scratch.
+# Martin Srebotnjak <miles@filmsi.net>, 2007-2013, translated from scratch.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Gimp-gap 2.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-15 23:19+0000\n"
-"PO-Revision-Date: 2012-06-16 16:52+0100\n"
+"POT-Creation-Date: 2013-01-16 19:21+0000\n"
+"PO-Revision-Date: 2013-01-18 00:10+0100\n"
 "Last-Translator: filmsi\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -60,7 +61,7 @@ msgstr "Datoteka z imenom '%s' že obstaja."
 #: ../gap/gap_morph_tween_dialog.c:881
 #: ../gap/gap_morph_tween_dialog.c:1316
 #: ../gap/gap_vex_dialog.c:247
-#: ../vid_common/gap_cme_gui.c:2375
+#: ../vid_common/gap_cme_gui.c:2373
 msgid "Overwrite"
 msgstr "Prepiši"
 
@@ -364,8 +365,8 @@ msgstr "Spremeni zgoščenost sličic"
 #: ../gap/gap_range_ops.c:301
 #: ../gap/gap_range_ops.c:537
 #: ../gap/gap_range_ops.c:735
-#: ../gap/gap_vex_dialog.c:2129
-#: ../vid_common/gap_cme_gui.c:3578
+#: ../gap/gap_vex_dialog.c:2102
+#: ../vid_common/gap_cme_gui.c:3576
 msgid "From Frame:"
 msgstr "Od sličice:"
 
@@ -391,8 +392,8 @@ msgstr "Prizadeti obseg se začne s številko te sličice."
 #: ../gap/gap_range_ops.c:311
 #: ../gap/gap_range_ops.c:545
 #: ../gap/gap_range_ops.c:743
-#: ../gap/gap_vex_dialog.c:2185
-#: ../vid_common/gap_cme_gui.c:3612
+#: ../gap/gap_vex_dialog.c:2158
+#: ../vid_common/gap_cme_gui.c:3610
 msgid "To Frame:"
 msgstr "Do sličice:"
 
@@ -525,7 +526,7 @@ msgstr "Nova številka za prvo sličico"
 #. the framenumber digits label
 #: ../gap/gap_base_ops.c:1920
 #: ../gap/gap_split.c:495
-#: ../gap/gap_vex_dialog.c:2494
+#: ../gap/gap_vex_dialog.c:2467
 msgid "Digits:"
 msgstr "Število cifer:"
 
@@ -542,60 +543,60 @@ msgstr "Preštevilči sličice"
 msgid "Renumber Frames 2nd Pass"
 msgstr "Drugi prehod pri preštevilčenju sličic"
 
-#: ../gap/gap_blend_fill_main.c:234
+#: ../gap/gap_blend_fill_main.c:236
 msgid "Blend Fill..."
 msgstr "Zapolni z zlivanjem ..."
 
 #. Menu names
-#: ../gap/gap_blend_fill_main.c:245
+#: ../gap/gap_blend_fill_main.c:247
 #: ../gap/gap_detail_tracking_main.c:313
 #: ../gap/gap_wr_resynth.c:185
 msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Video/Plast/Izboljšaj/"
 
-#: ../gap/gap_blend_fill_main.c:311
-#: ../gap/gap_blend_fill_main.c:1937
+#: ../gap/gap_blend_fill_main.c:313
+#: ../gap/gap_blend_fill_main.c:1977
 msgid "selection.svg"
 msgstr "izbor.svg"
 
-#: ../gap/gap_blend_fill_main.c:475
+#: ../gap/gap_blend_fill_main.c:477
 msgid "Blendfill ..."
 msgstr "Zapolni z zlivanjem ..."
 
-#: ../gap/gap_blend_fill_main.c:1415
-#: ../gap/gap_blend_fill_main.c:1717
+#: ../gap/gap_blend_fill_main.c:1455
+#: ../gap/gap_blend_fill_main.c:1757
 #, c-format
 msgid "Path Vectors too large to fit into buffersize:%d."
 msgstr "Vektorji poti preveliki za velikost medpomnilnika: %d."
 
-#: ../gap/gap_blend_fill_main.c:1426
-#: ../gap/gap_blend_fill_main.c:1724
+#: ../gap/gap_blend_fill_main.c:1466
+#: ../gap/gap_blend_fill_main.c:1764
 msgid "No Path Vectors available."
 msgstr "Vektorji poti niso na voljo."
 
-#: ../gap/gap_blend_fill_main.c:1443
+#: ../gap/gap_blend_fill_main.c:1483
 msgid "SVG file does not exist (use Save Pats button to create)."
 msgstr "Datoteka SVG ne obstaja (za ustvarjanje uporabi gumb Shrani poti)."
 
-#: ../gap/gap_blend_fill_main.c:1449
+#: ../gap/gap_blend_fill_main.c:1489
 msgid "please enter SVG filename"
 msgstr "Vnesite ime za datoteko SVG."
 
-#: ../gap/gap_blend_fill_main.c:1568
+#: ../gap/gap_blend_fill_main.c:1608
 msgid "Select vectorfile name"
 msgstr "Izberite ime vektorske datoteke"
 
-#: ../gap/gap_blend_fill_main.c:1679
+#: ../gap/gap_blend_fill_main.c:1719
 #, c-format
 msgid "Failed to write SVG file: %s"
 msgstr "Datoteke SVG ni mogoče zapisati: %s"
 
-#: ../gap/gap_blend_fill_main.c:1765
+#: ../gap/gap_blend_fill_main.c:1805
 msgid "Blend Fill Selection"
 msgstr "Zapolni izbor z zlivanjem"
 
 #. horizontalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1799
+#: ../gap/gap_blend_fill_main.c:1839
 msgid ""
 "fills the selection by blending opposite border colors outside the selction to cover the selected area.\n"
 "Intended to fix small pixel errors"
@@ -604,57 +605,57 @@ msgstr ""
 "Namenjeno popravljanju manjših napak slikovnih točk."
 
 #. horizontalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1811
+#: ../gap/gap_blend_fill_main.c:1851
 msgid "Horizontal Blend:"
 msgstr "Vodoravno zlivanje:"
 
-#: ../gap/gap_blend_fill_main.c:1820
+#: ../gap/gap_blend_fill_main.c:1860
 msgid "ON: enable horizontal color blending. OFF: disable horizontal color blending."
 msgstr "VKLJUČENO: omogoči vodoravno barvno zlivanje. IZKLJUČENO: onemogoči vodoravno barvno zlivanje."
 
 #. verticalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1833
+#: ../gap/gap_blend_fill_main.c:1873
 msgid "Vertical Blend:"
 msgstr "Navpično zlivanje:"
 
-#: ../gap/gap_blend_fill_main.c:1842
+#: ../gap/gap_blend_fill_main.c:1882
 msgid "ON: enable vertical color blending. OFF: disable vertical color blending."
 msgstr "VKLJUČENO: omogoči navpično barvno zlivanje. IZKLJUČENO: onemogoči navpično barvno zlivanje."
 
-#: ../gap/gap_blend_fill_main.c:1855
+#: ../gap/gap_blend_fill_main.c:1895
 #: ../gap/gap_wr_resynth.c:478
 msgid "Border Radius:"
 msgstr "Polmer robu:"
 
-#: ../gap/gap_blend_fill_main.c:1858
+#: ../gap/gap_blend_fill_main.c:1898
 msgid "radius for picking border colors"
 msgstr "Radij za izbiranje barv obrobe"
 
 #. layer combo_box (altSelection)
 #. layer combo_box (alt_selection)
-#: ../gap/gap_blend_fill_main.c:1869
+#: ../gap/gap_blend_fill_main.c:1909
 #: ../gap/gap_wr_resynth.c:503
 msgid "Set Selection:"
 msgstr "Določite izbor:"
 
-#: ../gap/gap_blend_fill_main.c:1880
+#: ../gap/gap_blend_fill_main.c:1920
 msgid "Selection From All Paths"
 msgstr "Izbor z vseh poti"
 
-#: ../gap/gap_blend_fill_main.c:1885
+#: ../gap/gap_blend_fill_main.c:1925
 msgid "Selection From Vectors File"
 msgstr "Izbor iz vektorske datoteke"
 
 #. grab vectors button
-#: ../gap/gap_blend_fill_main.c:1915
+#: ../gap/gap_blend_fill_main.c:1955
 msgid "Save Paths"
 msgstr "Shrani poti"
 
-#: ../gap/gap_blend_fill_main.c:1920
+#: ../gap/gap_blend_fill_main.c:1960
 msgid "Save all pathes as svg vector file.(use svg file when large or many pathes shall be used)"
 msgstr "Shrani vse poti kot vektorsko datoteko svg (uporabite datoteko svg, ko so v rabi obsežne ali številne poti)."
 
-#: ../gap/gap_blend_fill_main.c:1932
+#: ../gap/gap_blend_fill_main.c:1972
 msgid "Name of SVG vector file"
 msgstr "Ime vektorske datoteke SVG"
 
@@ -666,19 +667,19 @@ msgstr "Ime vektorske datoteke SVG"
 #. the Storyboard filebrowser button
 #. the Audiofile filebrowser button
 #. the pass_logfile fileselector button
-#: ../gap/gap_blend_fill_main.c:1946
-#: ../gap/gap_vex_dialog.c:2109
-#: ../gap/gap_vex_dialog.c:2481
-#: ../gap/gap_vex_dialog.c:2705
-#: ../vid_common/gap_cme_gui.c:2686
-#: ../vid_common/gap_cme_gui.c:2964
-#: ../vid_common/gap_cme_gui.c:3000
-#: ../vid_common/gap_cme_gui.c:3316
+#: ../gap/gap_blend_fill_main.c:1986
+#: ../gap/gap_vex_dialog.c:2082
+#: ../gap/gap_vex_dialog.c:2454
+#: ../gap/gap_vex_dialog.c:2674
+#: ../vid_common/gap_cme_gui.c:2684
+#: ../vid_common/gap_cme_gui.c:2962
+#: ../vid_common/gap_cme_gui.c:2998
+#: ../vid_common/gap_cme_gui.c:3314
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3505
 msgid "..."
 msgstr "..."
 
-#: ../gap/gap_blend_fill_main.c:1952
+#: ../gap/gap_blend_fill_main.c:1992
 msgid "Select output svg vector file via browser"
 msgstr "Izberite izhodno vektorsko datoteko SVG z brskalnikom"
 
@@ -989,7 +990,7 @@ msgstr "Modro ozadje ..."
 #: ../gap/gap_navigator_dialog.c:552
 #: ../gap/gap_onion_main.c:205
 #: ../gap/gap_player_main.c:297
-#: ../gap/gap_story_main.c:190
+#: ../gap/gap_story_main.c:215
 #: ../vid_common/gap_cme_main.c:168
 msgid "<Image>/Video/"
 msgstr "<Image>/Video/"
@@ -1343,8 +1344,8 @@ msgstr "Izločanje se začne na navedenem časovnem odmiku HH:MM:SS slike"
 #. Frames Duration button
 #. Frames Overlap duration button
 #: ../gap/gap_decode_mplayer.c:455
-#: ../gap/gap_story_att_trans_dlg.c:3400
-#: ../gap/gap_story_att_trans_dlg.c:3654
+#: ../gap/gap_story_att_trans_dlg.c:3407
+#: ../gap/gap_story_att_trans_dlg.c:3661
 msgid "Frames:"
 msgstr "Št. sličic:"
 
@@ -1355,7 +1356,7 @@ msgstr "Število sličic za izločanje"
 #. the videotrack to label
 #: ../gap/gap_decode_mplayer.c:467
 #: ../gap/gap_story_properties.c:4297
-#: ../gap/gap_vex_dialog.c:2242
+#: ../gap/gap_vex_dialog.c:2215
 msgid "Videotrack:"
 msgstr "Slikovna sled:"
 
@@ -1367,7 +1368,7 @@ msgstr "Številka slikovne sledi za izločitev. (0 == prezri sliko)"
 #. the audiotrack to label
 #: ../gap/gap_decode_mplayer.c:479
 #: ../gap/gap_player_dialog.c:6807
-#: ../gap/gap_vex_dialog.c:2276
+#: ../gap/gap_vex_dialog.c:2249
 msgid "Audiotrack:"
 msgstr "Zvočna sled:"
 
@@ -1855,11 +1856,11 @@ msgstr "Ime datoteke xml, ki vsebuje sledene koordinate podrobnosti (posneta s f
 #: ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:512
 #: ../gap/gap_split.c:505
-#: ../gap/gap_story_dialog.c:5224
-#: ../gap/gap_story_dialog.c:5559
+#: ../gap/gap_story_dialog.c:5233
+#: ../gap/gap_story_dialog.c:5568
 #: ../gap/gap_video_index_creator.c:1006
 #: ../gap/gap_wr_opacity.c:356
-#: ../vid_common/gap_cme_gui.c:3247
+#: ../vid_common/gap_cme_gui.c:3245
 msgid "Default"
 msgstr "Privzeto"
 
@@ -2224,7 +2225,7 @@ msgstr "Varnostno kopiranje slike po vsakem koraku"
 
 #: ../gap/gap_filter_foreach.c:139
 #: ../gap/gap_mod_layer.c:108
-#: ../gap/gap_story_dialog.c:6494
+#: ../gap/gap_story_dialog.c:6503
 msgid "Continue"
 msgstr "Nadaljuj"
 
@@ -2541,7 +2542,7 @@ msgstr "VKLJUČENO: upodobi plast ognja s prosojnim ozadjem, IZKLJUČENO: upodob
 #: ../gap/gap_mov_dialog.c:4634
 #: ../gap/gap_mov_dialog.c:4909
 #: ../gap/gap_onion_dialog.c:1130
-#: ../gap/gap_story_att_trans_dlg.c:3724
+#: ../gap/gap_story_att_trans_dlg.c:3731
 #: ../gap/gap_water_pattern.c:1404
 #: ../gap/gap_wr_opacity.c:332
 msgid "Opacity:"
@@ -4233,8 +4234,8 @@ msgstr "Pomanjšaj merilo slike za predogled animacije (v %)"
 #: ../gap/gap_mov_dialog.c:1531
 #: ../gap/gap_mpege.c:321
 #: ../gap/gap_navigator_dialog.c:4255
-#: ../gap/gap_story_dialog.c:9118
-#: ../vid_common/gap_cme_gui.c:3717
+#: ../gap/gap_story_dialog.c:9258
+#: ../vid_common/gap_cme_gui.c:3715
 msgid "Framerate:"
 msgstr "Hitrost sličic:"
 
@@ -4387,7 +4388,7 @@ msgstr "Izvorni objekt, ki naj bo vstavljen v ciljno sličico v navedenem obsegu
 #. the operating Mode label
 #: ../gap/gap_mov_dialog.c:3680
 #: ../gap/gap_name2layer_main.c:444
-#: ../gap/gap_vex_dialog.c:2437
+#: ../gap/gap_vex_dialog.c:2406
 #: ../gap/gap_video_index_creator.c:982
 #: ../gap/gap_wr_opacity.c:344
 msgid "Mode:"
@@ -4790,8 +4791,8 @@ msgstr "Obreži vse iz izvora skopirane plasti na mejno velikost ciljnih sličic
 #. table col, row
 #. the width label
 #: ../gap/gap_mov_dialog.c:4582
-#: ../gap/gap_story_dialog.c:9095
-#: ../vid_common/gap_cme_gui.c:3638
+#: ../gap/gap_story_dialog.c:9235
+#: ../vid_common/gap_cme_gui.c:3636
 msgid "Width:"
 msgstr "Širina:"
 
@@ -4811,8 +4812,8 @@ msgstr "Spremeni merilo širino izvorne plasti v odstotkih"
 #. table col, row
 #. the height label
 #: ../gap/gap_mov_dialog.c:4600
-#: ../gap/gap_story_dialog.c:9106
-#: ../vid_common/gap_cme_gui.c:3691
+#: ../gap/gap_story_dialog.c:9246
+#: ../vid_common/gap_cme_gui.c:3689
 msgid "Height:"
 msgstr "Višina:"
 
@@ -4848,7 +4849,7 @@ msgstr "Nastavi izvorno prekrivnost plasti v odstotkih"
 #. Rotation
 #. table col, row
 #: ../gap/gap_mov_dialog.c:4652
-#: ../gap/gap_story_att_trans_dlg.c:3698
+#: ../gap/gap_story_att_trans_dlg.c:3705
 msgid "Rotate:"
 msgstr "Zasukaj:"
 
@@ -5035,7 +5036,7 @@ msgstr "značilnost pospeševanja za gibanje (1 za konstantno hitrost, pozitivno
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4917
-#: ../gap/gap_story_att_trans_dlg.c:3746
+#: ../gap/gap_story_att_trans_dlg.c:3753
 msgid "acceleration characteristic for opacity (1 for constant speed, positive: acceleration, negative: deceleration)"
 msgstr "značilnost pospeševanja za prekrivnost (1 za konstantno hitrost, pozitivno pospešuje, negativno pojemuje)"
 
@@ -5072,7 +5073,7 @@ msgstr "Zasukanost:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4957
-#: ../gap/gap_story_att_trans_dlg.c:3718
+#: ../gap/gap_story_att_trans_dlg.c:3725
 msgid "acceleration characteristic for rotation (1 for constant speed, positive: acceleration, negative: deceleration)"
 msgstr "značilnost pospeševanja za sukanje (1 za konstantno hitrost, pozitivno pospešuje, negativno pojemuje)"
 
@@ -5285,7 +5286,7 @@ msgid "Name of the file containing move path paramters and controlpoints in XML 
 msgstr "Ime datoteke, ki vsebuje parametre poti in nadzorne točke v zapisu XML"
 
 #: ../gap/gap_mov_dialog.c:6812
-#: ../vid_common/gap_cme_gui.c:2822
+#: ../vid_common/gap_cme_gui.c:2820
 msgid "Total Frames:"
 msgstr "Skupaj sličic:"
 
@@ -5308,9 +5309,9 @@ msgstr "Kopiraj zvočno datoteko v zapisu WAV"
 
 #: ../gap/gap_mov_dialog.c:6834
 #: ../gap/gap_player_dialog.c:481
-#: ../gap/gap_story_dialog.c:5228
-#: ../gap/gap_story_dialog.c:8874
-#: ../gap/gap_story_dialog.c:9324
+#: ../gap/gap_story_dialog.c:5237
+#: ../gap/gap_story_dialog.c:9014
+#: ../gap/gap_story_dialog.c:9464
 msgid "Settings"
 msgstr "Nastavitve"
 
@@ -6216,8 +6217,8 @@ msgstr ""
 #. the Samplerate label
 #: ../gap/gap_player_dialog.c:458
 #: ../gap/gap_player_dialog.c:6956
-#: ../gap/gap_story_dialog.c:9237
-#: ../vid_common/gap_cme_gui.c:3351
+#: ../gap/gap_story_dialog.c:9377
+#: ../vid_common/gap_cme_gui.c:3349
 msgid "Samplerate:"
 msgstr "Hitrost vzorčenja:"
 
@@ -6374,7 +6375,7 @@ msgid "No videoindex available. Access is limited to (slow) sequential read on f
 msgstr "Slikovno kazalo ni na voljo. Dostop je omejen s (počasnim) zaporednim branjem datoteke: %s"
 
 #: ../gap/gap_player_dialog.c:2997
-#: ../gap/gap_story_dialog.c:6767
+#: ../gap/gap_story_dialog.c:6776
 #, c-format
 msgid "Videoseek"
 msgstr "Iskanje slike"
@@ -6450,8 +6451,8 @@ msgstr "Nastavitve predvajanja zvoka"
 #. the output audiofile label
 #. the Audiofile label
 #: ../gap/gap_player_dialog.c:6665
-#: ../gap/gap_vex_dialog.c:2685
-#: ../vid_common/gap_cme_gui.c:3290
+#: ../gap/gap_vex_dialog.c:2654
+#: ../vid_common/gap_cme_gui.c:3288
 msgid "Audiofile:"
 msgstr "Zvočna datoteka:"
 
@@ -6465,7 +6466,7 @@ msgstr "Odpri pogovorno okno za izbiro zvočne datoteke"
 
 #. Volume
 #: ../gap/gap_player_dialog.c:6710
-#: ../gap/gap_story_dialog.c:9253
+#: ../gap/gap_story_dialog.c:9393
 msgid "Volume:"
 msgstr "Glasnost:"
 
@@ -6537,7 +6538,7 @@ msgstr "Časovni zamik:"
 #. Total Audio Length (mm:ss:msec)
 #. the audio timing information labels
 #: ../gap/gap_player_dialog.c:6911
-#: ../vid_common/gap_cme_gui.c:3523
+#: ../vid_common/gap_cme_gui.c:3521
 msgid "Audiotime:"
 msgstr "Časovna dolžina zvoka:"
 
@@ -6564,7 +6565,7 @@ msgstr "Bitov/vzorec:"
 #. Total Video Length (mm:ss:msec)
 #. the video timing information labels
 #: ../gap/gap_player_dialog.c:6999
-#: ../vid_common/gap_cme_gui.c:3496
+#: ../vid_common/gap_cme_gui.c:3494
 msgid "Videotime:"
 msgstr "Dolžina videa:"
 
@@ -6667,7 +6668,7 @@ msgstr "Predvajanje video sličic"
 #. vid options TAB frame
 #. the video options notebook tab
 #: ../gap/gap_player_dialog.c:7583
-#: ../vid_common/gap_cme_gui.c:2596
+#: ../vid_common/gap_cme_gui.c:2594
 msgid "Video Options"
 msgstr "Možnosti videa"
 
@@ -6679,7 +6680,7 @@ msgstr "Nastavitve"
 #. audio options TAB frame
 #. the Audio Options notebook tab
 #: ../gap/gap_player_dialog.c:7623
-#: ../vid_common/gap_cme_gui.c:2608
+#: ../vid_common/gap_cme_gui.c:2606
 msgid "Audio Options"
 msgstr "Možnosti zvoka"
 
@@ -6896,8 +6897,8 @@ msgid "Scale (original %dx%d)"
 msgstr "Spremeni merilo (izvirnik %dx%d)"
 
 #: ../gap/gap_range_ops.c:220
-#: ../gap/gap_story_dialog.c:8864
-#: ../gap/gap_story_dialog.c:9311
+#: ../gap/gap_story_dialog.c:9004
+#: ../gap/gap_story_dialog.c:9451
 msgid "Reset"
 msgstr "Ponastavi"
 
@@ -7029,7 +7030,7 @@ msgstr "Spoji rezultirajočo sličico v eno plast. S tem ohranjate podatke o pro
 
 #. the basename label
 #: ../gap/gap_range_ops.c:555
-#: ../gap/gap_vex_dialog.c:2461
+#: ../gap/gap_vex_dialog.c:2434
 msgid "Basename:"
 msgstr "Osnova imena:"
 
@@ -7040,7 +7041,7 @@ msgstr "Osnova imena izhodne sličice. Del s številko in končnica (000001.ext)
 #. the extension label
 #: ../gap/gap_range_ops.c:562
 #: ../gap/gap_split.c:454
-#: ../gap/gap_vex_dialog.c:2575
+#: ../gap/gap_vex_dialog.c:2548
 msgid "Extension:"
 msgstr "Končnica:"
 
@@ -7446,96 +7447,96 @@ msgstr "Ponastavi točko"
 msgid "Rotate Follow"
 msgstr "Sledi zasuku"
 
-#: ../gap/gap_story_att_trans_dlg.c:2797
+#: ../gap/gap_story_att_trans_dlg.c:2804
 msgid "Set Movepath Parameterfile (XML)"
 msgstr "Določi datoteko parametro poti premika (XML)"
 
 #. auto update toggle  check button
-#: ../gap/gap_story_att_trans_dlg.c:3203
+#: ../gap/gap_story_att_trans_dlg.c:3210
 msgid "Update"
 msgstr "Posodobi"
 
-#: ../gap/gap_story_att_trans_dlg.c:3208
+#: ../gap/gap_story_att_trans_dlg.c:3215
 msgid "automatic update using the referred frame"
 msgstr "Samodejna posodobitev z uporabo sličice sklica"
 
 #. from start label
-#: ../gap/gap_story_att_trans_dlg.c:3313
+#: ../gap/gap_story_att_trans_dlg.c:3320
 msgid "Start:"
 msgstr "Začetek:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3316
-#: ../gap/gap_story_att_trans_dlg.c:3359
+#: ../gap/gap_story_att_trans_dlg.c:3323
+#: ../gap/gap_story_att_trans_dlg.c:3366
 msgid "Reset to: defaults, use modifyer keys CTRL, ALT for alternative defaults. SHIFT resets to initial value"
 msgstr "Ponastavi na: privzete vrednosti, uporabite tipki CTRL in ALT za alternativne privzete vrednosti. SHIFT ponastavi na začetno vrednost."
 
 #. to (end value of transition) button
-#: ../gap/gap_story_att_trans_dlg.c:3356
+#: ../gap/gap_story_att_trans_dlg.c:3363
 msgid "End:"
 msgstr "Konec:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3403
-#: ../gap/gap_story_att_trans_dlg.c:3657
+#: ../gap/gap_story_att_trans_dlg.c:3410
+#: ../gap/gap_story_att_trans_dlg.c:3664
 msgid "Copy this number of frames to all enabled rows"
 msgstr "Kopiraj to število sličic v vse omogočene vrstice"
 
-#: ../gap/gap_story_att_trans_dlg.c:3430
+#: ../gap/gap_story_att_trans_dlg.c:3437
 msgid "Number of frames (duration of transition from start to end value)"
 msgstr "Število sličic (dolžina prehoda od začetne do končne vrednosti)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3527
-#: ../gap/gap_story_att_trans_dlg.c:3538
+#: ../gap/gap_story_att_trans_dlg.c:3534
+#: ../gap/gap_story_att_trans_dlg.c:3545
 msgid "Transition Attributes"
 msgstr "Lastnosti prehoda"
 
 #. the frame
-#: ../gap/gap_story_att_trans_dlg.c:3560
-#: ../gap/gap_story_dialog.c:6192
-#: ../gap/gap_story_dialog.c:6277
-#: ../gap/gap_story_dialog.c:6377
+#: ../gap/gap_story_att_trans_dlg.c:3567
+#: ../gap/gap_story_dialog.c:6201
+#: ../gap/gap_story_dialog.c:6286
+#: ../gap/gap_story_dialog.c:6386
 #: ../gap/gap_story_properties.c:4010
 #: ../gap/gap_story_section_properties.c:779
 msgid "Properties"
 msgstr "Lastnosti"
 
 #. the fit size label
-#: ../gap/gap_story_att_trans_dlg.c:3576
+#: ../gap/gap_story_att_trans_dlg.c:3583
 msgid "FitSize:"
 msgstr "Umeri velikost:"
 
 #. the fit width check button
-#: ../gap/gap_story_att_trans_dlg.c:3582
+#: ../gap/gap_story_att_trans_dlg.c:3589
 msgid "Width"
 msgstr "Širina"
 
-#: ../gap/gap_story_att_trans_dlg.c:3590
+#: ../gap/gap_story_att_trans_dlg.c:3597
 msgid "scale width of frame to fit master width"
 msgstr "Spremeni merilo širine sličice, da bo ustrezala glavni širini"
 
 #. the fit height check button
-#: ../gap/gap_story_att_trans_dlg.c:3601
+#: ../gap/gap_story_att_trans_dlg.c:3608
 msgid "Height"
 msgstr "Višina"
 
-#: ../gap/gap_story_att_trans_dlg.c:3609
+#: ../gap/gap_story_att_trans_dlg.c:3616
 msgid "scale height of frame to fit master height"
 msgstr "Spremeni merilo višine sličice, da bo ustrezala glavni višini"
 
 #. the keep proportions check button
-#: ../gap/gap_story_att_trans_dlg.c:3620
+#: ../gap/gap_story_att_trans_dlg.c:3627
 msgid "Keep Proportion"
 msgstr "Ohrani razmerja"
 
-#: ../gap/gap_story_att_trans_dlg.c:3628
+#: ../gap/gap_story_att_trans_dlg.c:3635
 msgid "ON: keep proportions at scaling.  (this may result in black borders)OFF: allow changes of image proportions at scaling"
 msgstr "VKLJUČENO: Ohrani razmerje ob spremembi merila (to lahko povzroči črne robove). IZKLJUČENO: Dovoli spremembe razmerja stranic ob spremembi merila."
 
 #. the overlap label (same row as FitSize)
-#: ../gap/gap_story_att_trans_dlg.c:3647
+#: ../gap/gap_story_att_trans_dlg.c:3654
 msgid "Overlap:"
 msgstr "Prekrivajoče sličice:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3682
+#: ../gap/gap_story_att_trans_dlg.c:3689
 msgid "Number of overlapping frames within this track"
 msgstr "Število prekrivajočih se sličic na tej sledi"
 
@@ -7545,25 +7546,25 @@ msgstr "Število prekrivajočih se sličic na tej sledi"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3710
+#: ../gap/gap_story_att_trans_dlg.c:3717
 msgid "ON: Enable rotation settings"
 msgstr "VKLJUČENO: Omogoči nastavitve sukanja"
 
-#: ../gap/gap_story_att_trans_dlg.c:3712
+#: ../gap/gap_story_att_trans_dlg.c:3719
 msgid "rotation value in degree for the first handled frame "
 msgstr "vrednost sukanja v stopinjah za prvo obravnavano sličico"
 
-#: ../gap/gap_story_att_trans_dlg.c:3714
+#: ../gap/gap_story_att_trans_dlg.c:3721
 msgid "rotation value in degree for the last handled frame "
 msgstr "Vrednost sukanja v stopinjah za zadnjo obravnavano sličico"
 
-#: ../gap/gap_story_att_trans_dlg.c:3716
-#: ../gap/gap_story_att_trans_dlg.c:3744
-#: ../gap/gap_story_att_trans_dlg.c:3773
-#: ../gap/gap_story_att_trans_dlg.c:3802
-#: ../gap/gap_story_att_trans_dlg.c:3830
-#: ../gap/gap_story_att_trans_dlg.c:3858
-#: ../gap/gap_story_att_trans_dlg.c:3888
+#: ../gap/gap_story_att_trans_dlg.c:3723
+#: ../gap/gap_story_att_trans_dlg.c:3751
+#: ../gap/gap_story_att_trans_dlg.c:3780
+#: ../gap/gap_story_att_trans_dlg.c:3809
+#: ../gap/gap_story_att_trans_dlg.c:3837
+#: ../gap/gap_story_att_trans_dlg.c:3865
+#: ../gap/gap_story_att_trans_dlg.c:3895
 msgid "number of frames"
 msgstr "Število sličic"
 
@@ -7573,19 +7574,19 @@ msgstr "Število sličic"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3736
+#: ../gap/gap_story_att_trans_dlg.c:3743
 msgid "ON: Enable opacity settings"
 msgstr "VKLJUČENO: Omogoči nastavitve prekrivnosti"
 
-#: ../gap/gap_story_att_trans_dlg.c:3738
+#: ../gap/gap_story_att_trans_dlg.c:3745
 msgid "opacity value for the first handled frame where 100 is fully opaque, 0 is fully transparent"
 msgstr "vrednost prekrivnosti prve obravnavane sličice, kjer je 100 povsem prekrivno, 0 pa povsem prosojno"
 
-#: ../gap/gap_story_att_trans_dlg.c:3741
+#: ../gap/gap_story_att_trans_dlg.c:3748
 msgid "opacity value for the last handled frame where 100 is fully opaque, 0 is fully transparent"
 msgstr "vrednost prekrivnosti zadnje obravnavane sličice, kjer je 100 povsem prekrivno, 0 pa povsem prosojno"
 
-#: ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_story_att_trans_dlg.c:3760
 msgid "Move X:"
 msgstr "Premakni X:"
 
@@ -7595,23 +7596,23 @@ msgstr "Premakni X:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3765
+#: ../gap/gap_story_att_trans_dlg.c:3772
 msgid "ON: Enable move horizontal settings"
 msgstr "VKLJUČENO: Omogoči nastavitve vodoravnega premika"
 
-#: ../gap/gap_story_att_trans_dlg.c:3767
+#: ../gap/gap_story_att_trans_dlg.c:3774
 msgid "move horizontal value for the first handled frame where 0.0 is centered, 100.0 is outside right, -100.0 is outside left"
 msgstr "Vrednost vodoravnega premika prve obravnavane sličice (0,0 je sredina, 100,0 desni rob, -100,0 pa levi rob)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3770
+#: ../gap/gap_story_att_trans_dlg.c:3777
 msgid "move horizontal value for the last handled frame where 0.0 is centered, 100.0 is outside right, -100.0 is outside left"
 msgstr "Vrednost vodoravnega premika zadnje obravnavane sličice (0,0 je sredina, 100,0 desni rob, -100,0 pa levi rob)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3775
+#: ../gap/gap_story_att_trans_dlg.c:3782
 msgid "acceleration characteristic for horizontal move (1 for constant speed, positive: acceleration, negative: deceleration)"
 msgstr "značilnost pospeševanja za vodoravni premik (1 za konstantno hitrost, pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3782
+#: ../gap/gap_story_att_trans_dlg.c:3789
 msgid "Move Y:"
 msgstr "Premakni Y:"
 
@@ -7621,23 +7622,23 @@ msgstr "Premakni Y:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3794
+#: ../gap/gap_story_att_trans_dlg.c:3801
 msgid "ON: Enable move vertical settings"
 msgstr "VKLJUČENO: Omogoči nastavitve navpičnega premika"
 
-#: ../gap/gap_story_att_trans_dlg.c:3796
+#: ../gap/gap_story_att_trans_dlg.c:3803
 msgid "move vertical value for the first handled frame where 0.0 is centered, 100.0 is outside at bottom, -100.0 is outside at top"
 msgstr "Vrednost navpičnega premika prve obravnavane sličice (0,0 je sredina, 100,0 spodnji rob, -100,0 pa zgornji rob)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3799
+#: ../gap/gap_story_att_trans_dlg.c:3806
 msgid "move vertical value for the last handled frame where 0.0 is centered, 100.0 is outside at bottom, -100.0 is outside at top"
 msgstr "Vrednost navpičnega premika zadnje obravnavane sličice (0,0 je sredina, 100,0 spodnji rob, -100,0 pa zgornji rob)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3804
+#: ../gap/gap_story_att_trans_dlg.c:3811
 msgid "acceleration characteristic for vertical move (1 for constant speed, positive: acceleration, negative: deceleration)"
 msgstr "značilnost pospeševanja za navpični premik (1 za konstantno hitrost, pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3810
+#: ../gap/gap_story_att_trans_dlg.c:3817
 msgid "Scale Width:"
 msgstr "Sprememba merila po širini:"
 
@@ -7647,23 +7648,23 @@ msgstr "Sprememba merila po širini:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3822
+#: ../gap/gap_story_att_trans_dlg.c:3829
 msgid "ON: Enable scale width settings"
 msgstr "VKLJUČENO: Omogoči nastavitve spremembe merila širine"
 
-#: ../gap/gap_story_att_trans_dlg.c:3824
+#: ../gap/gap_story_att_trans_dlg.c:3831
 msgid "scale width value for the first handled frame where 100 is 1:1, 50 is half, 200 is double width"
 msgstr "spremeni merilo širine za prvo obravnavano sličico (kjer 100 pomeni 1:1, 50 polovično, 200 pa dvojno širino)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3827
+#: ../gap/gap_story_att_trans_dlg.c:3834
 msgid "scale width value for the last handled frame where 100 is 1:1, 50 is half, 200 is double width"
 msgstr "spremeni merilo širine za zadnjo obravnavano sličico (kjer 100 pomeni 1:1, 50 polovično, 200 pa dvojno širino)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3832
+#: ../gap/gap_story_att_trans_dlg.c:3839
 msgid "acceleration characteristic for scale width (1 for constant speed, positive: acceleration, negative: deceleration)"
 msgstr "značilnost pospeševanja za spr. velikosti po širini (1 za konstantno hitrost, pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3838
+#: ../gap/gap_story_att_trans_dlg.c:3845
 msgid "Scale Height:"
 msgstr "Sprememba merila po višini:"
 
@@ -7673,23 +7674,23 @@ msgstr "Sprememba merila po višini:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3850
+#: ../gap/gap_story_att_trans_dlg.c:3857
 msgid "ON: Enable scale height settings"
 msgstr "VKLJUČENO: Omogoči nastavitve spremembe merila višine"
 
-#: ../gap/gap_story_att_trans_dlg.c:3852
+#: ../gap/gap_story_att_trans_dlg.c:3859
 msgid "scale height value for the first handled frame where 100 is 1:1, 50 is half, 200 is double height"
 msgstr "spremeni merilo višine za prvo obravnavano sličico (kjer 100 pomeni 1:1, 50 polovično, 200 pa dvojno višino)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3855
+#: ../gap/gap_story_att_trans_dlg.c:3862
 msgid "scale height value for the last handled frame where 100 is 1:1, 50 is half, 200 is double height"
 msgstr "spremeni merilo višine za zadnjo obravnavano sličico (kjer 100 pomeni 1:1, 50 polovično, 200 pa dvojno višino)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3860
+#: ../gap/gap_story_att_trans_dlg.c:3867
 msgid "acceleration characteristic for scale height (1 for constant speed, positive: acceleration, negative: deceleration)"
 msgstr "značilnost pospeševanja za spr. velikosti po višini (1 za konstantno hitrost, pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3866
+#: ../gap/gap_story_att_trans_dlg.c:3873
 msgid "Move Path:"
 msgstr "Pot premika:"
 
@@ -7699,30 +7700,30 @@ msgstr "Pot premika:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3878
+#: ../gap/gap_story_att_trans_dlg.c:3885
 msgid "ON: Enable move path transistions using settings provided via a movepath parameter file"
 msgstr "VKLJUČENO: Omogoči prehode premika vzdolž poti z nastavitvami, ki so zapisane v datoteki parametrov poti premika"
 
-#: ../gap/gap_story_att_trans_dlg.c:3880
+#: ../gap/gap_story_att_trans_dlg.c:3887
 msgid "frame number (phase) of the movement/transition along path for the first handled frame where 1 is the begin of the path using settings of the 1st controlpoint in the movepath parameter file"
 msgstr "Število sličic (faza) gibanja/prehoda vzdolž poti za prvo obravnavano sličico, kjer 1 pomeni začetek poti z uporabo nastavitev prve nadzorne točke v datoteki parametrov poti premika."
 
-#: ../gap/gap_story_att_trans_dlg.c:3884
+#: ../gap/gap_story_att_trans_dlg.c:3891
 msgid "frame number (phase) of the movement/transition along path for the last handled frame. note that frame numbers higher than (or equal to) total frames in the movepath parameter file uses settings of the last controlpoint in this file."
 msgstr "Število sličic (faza) gibanja/prehoda vzdolž poti za zadnjo obravnavano sličico. Upoštevajte, da za sličice s številko, večjo (ali enako) od skupnega števila sličic, v datoteki parametrov poti premika veljajo nastavitve zadnje nadzorne točke v tej datoteki."
 
-#: ../gap/gap_story_att_trans_dlg.c:3890
+#: ../gap/gap_story_att_trans_dlg.c:3897
 msgid "acceleration characteristic (currently ignored)"
 msgstr "značilnost pospeševanja (trenutno prezrta)"
 
 #. the movepath label
-#: ../gap/gap_story_att_trans_dlg.c:3936
+#: ../gap/gap_story_att_trans_dlg.c:3943
 msgid "Movepath File:"
 msgstr "Datoteka poti premika:"
 
 #. the comment label
 #. the Comment lable
-#: ../gap/gap_story_att_trans_dlg.c:3983
+#: ../gap/gap_story_att_trans_dlg.c:3990
 #: ../gap/gap_story_properties.c:5018
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3745
 msgid "Comment:"
@@ -7730,12 +7731,12 @@ msgstr "Komentar:"
 
 #. refuse player call while vthumb prefetch is busy
 #.
-#: ../gap/gap_story_dialog.c:1675
+#: ../gap/gap_story_dialog.c:1684
 msgid "playback was blocked (video file access is busy)"
 msgstr "Predvajanje je bilo blokirano (dostop do video-datoteke je moten)"
 
-#: ../gap/gap_story_dialog.c:2305
-#: ../gap/gap_story_dialog.c:2343
+#: ../gap/gap_story_dialog.c:2314
+#: ../gap/gap_story_dialog.c:2352
 #, c-format
 msgid ""
 "** ERROR: Storyboard parser reported:\n"
@@ -7744,195 +7745,195 @@ msgstr ""
 "** NAPAKA: Razčlenjevalnik zgodborisa poroča:\n"
 "%s\n"
 
-#: ../gap/gap_story_dialog.c:3053
+#: ../gap/gap_story_dialog.c:3062
 msgid "Load Storyboard"
 msgstr "Naloži zgodboris"
 
-#: ../gap/gap_story_dialog.c:3057
+#: ../gap/gap_story_dialog.c:3066
 msgid "Load Cliplist"
 msgstr "Naloži seznam posnetkov"
 
-#: ../gap/gap_story_dialog.c:3095
+#: ../gap/gap_story_dialog.c:3104
 msgid "Save Storyboard file"
 msgstr "Shrani datoteko zgodborisa"
 
-#: ../gap/gap_story_dialog.c:4708
+#: ../gap/gap_story_dialog.c:4717
 #, c-format
 msgid "UNDO %s"
 msgstr "Razveljavi: %s"
 
-#: ../gap/gap_story_dialog.c:4713
-#: ../gap/gap_story_dialog.c:7983
+#: ../gap/gap_story_dialog.c:4722
+#: ../gap/gap_story_dialog.c:7992
 msgid "UNDO"
 msgstr "Razveljavi"
 
-#: ../gap/gap_story_dialog.c:4747
+#: ../gap/gap_story_dialog.c:4756
 #, c-format
 msgid "REDO %s"
 msgstr "Ponovi: %s"
 
-#: ../gap/gap_story_dialog.c:4752
-#: ../gap/gap_story_dialog.c:7993
+#: ../gap/gap_story_dialog.c:4761
+#: ../gap/gap_story_dialog.c:8002
 msgid "REDO"
 msgstr "Ponovi"
 
-#: ../gap/gap_story_dialog.c:5121
+#: ../gap/gap_story_dialog.c:5130
 msgid "Global Layout Properties dialog already open"
 msgstr "Pogovorno okno Lastnosti splošne postavitve je že odprto"
 
-#: ../gap/gap_story_dialog.c:5128
+#: ../gap/gap_story_dialog.c:5137
 msgid "large"
 msgstr "velika"
 
-#: ../gap/gap_story_dialog.c:5129
+#: ../gap/gap_story_dialog.c:5138
 msgid "medium"
 msgstr "srednja"
 
-#: ../gap/gap_story_dialog.c:5130
+#: ../gap/gap_story_dialog.c:5139
 msgid "small"
 msgstr "majhna"
 
-#: ../gap/gap_story_dialog.c:5135
+#: ../gap/gap_story_dialog.c:5144
 msgid "Cliplist Layout:"
 msgstr "Postavitev seznama posnetkov:"
 
-#: ../gap/gap_story_dialog.c:5140
-#: ../gap/gap_story_dialog.c:5180
+#: ../gap/gap_story_dialog.c:5149
+#: ../gap/gap_story_dialog.c:5189
 msgid "Thumbnail Size:"
 msgstr "Velikost sličice za predogled:"
 
-#: ../gap/gap_story_dialog.c:5141
+#: ../gap/gap_story_dialog.c:5150
 msgid "Thumbnail size in the cliplist"
 msgstr "Velikost sličice za predogled v seznamu posnetkov"
 
-#: ../gap/gap_story_dialog.c:5151
-#: ../gap/gap_story_dialog.c:5191
+#: ../gap/gap_story_dialog.c:5160
+#: ../gap/gap_story_dialog.c:5200
 msgid "Columns:"
 msgstr "Stolpcev:"
 
-#: ../gap/gap_story_dialog.c:5152
+#: ../gap/gap_story_dialog.c:5161
 msgid "columns in the cliplist"
 msgstr "število stolpcev v seznamu posnetkov"
 
-#: ../gap/gap_story_dialog.c:5162
-#: ../gap/gap_story_dialog.c:5202
+#: ../gap/gap_story_dialog.c:5171
+#: ../gap/gap_story_dialog.c:5211
 msgid "Rows:"
 msgstr "Vrstic:"
 
-#: ../gap/gap_story_dialog.c:5163
+#: ../gap/gap_story_dialog.c:5172
 msgid "rows in the cliplist"
 msgstr "število vrstic v seznamu posnetkov"
 
-#: ../gap/gap_story_dialog.c:5175
+#: ../gap/gap_story_dialog.c:5184
 msgid "Storyboard Layout:"
 msgstr "Postavitev zgodborisa:"
 
-#: ../gap/gap_story_dialog.c:5181
+#: ../gap/gap_story_dialog.c:5190
 msgid "Thumbnail size in the storyboard list"
 msgstr "Velikost slik za predogled v seznamu zgodborisa"
 
-#: ../gap/gap_story_dialog.c:5192
+#: ../gap/gap_story_dialog.c:5201
 msgid "columns in the storyboard list"
 msgstr "število stolpcev v seznamu zgodborisov"
 
-#: ../gap/gap_story_dialog.c:5203
+#: ../gap/gap_story_dialog.c:5212
 msgid "rows in the storyboard list"
 msgstr "število vrstic v seznamu zgodborisov"
 
-#: ../gap/gap_story_dialog.c:5214
+#: ../gap/gap_story_dialog.c:5223
 msgid "Force Aspect:"
 msgstr "Vsili razmerje stranic:"
 
-#: ../gap/gap_story_dialog.c:5215
+#: ../gap/gap_story_dialog.c:5224
 msgid "ON: player shows clips transformed to aspect setting from the Storyboard properties.OFF: player shows clips according to their original pixel sizes"
 msgstr "VKLJUČENO: predvajalnik pokaže posnetke, preoblikovane glede na nastavitev razmerja strani iz lastnosti zgodborisa. IZKLJUČENO: predvajalnik pokaže posnetke glede na njihovo izvorno ločljivost"
 
-#: ../gap/gap_story_dialog.c:5225
+#: ../gap/gap_story_dialog.c:5234
 msgid "Use the standard built in layout settings"
 msgstr "Uporabi običajne vgrajene nastavitve postavitve"
 
-#: ../gap/gap_story_dialog.c:5227
+#: ../gap/gap_story_dialog.c:5236
 msgid "Global Layout Properties"
 msgstr "Lastnosti splošne postavitve"
 
-#: ../gap/gap_story_dialog.c:5341
+#: ../gap/gap_story_dialog.c:5350
 msgid "GIMP-GAP is compiled without videoapi support. Therefore thumbnails for videoframes can not be displayed."
 msgstr "GIMP-GAP je preveden brez podpore za videoapi. Zato prikaz sličic za predogled ni podprt."
 
-#: ../gap/gap_story_dialog.c:5444
+#: ../gap/gap_story_dialog.c:5453
 msgid "Global Render Properties dialog already open"
 msgstr "Pogovorno okno Splošne lastnosti upodabljanja je že odprto"
 
-#: ../gap/gap_story_dialog.c:5454
+#: ../gap/gap_story_dialog.c:5463
 msgid "Max open Videofiles:"
 msgstr "Največ odprtih video datotek:"
 
-#: ../gap/gap_story_dialog.c:5455
+#: ../gap/gap_story_dialog.c:5464
 msgid "Maximum number of videofiles to be opened at same time while storyboard rendering"
 msgstr "Največje število video datotek, odprtih naenkrat med upodabljanjem zgodborisa"
 
-#: ../gap/gap_story_dialog.c:5465
+#: ../gap/gap_story_dialog.c:5474
 msgid "Framecache / open video:"
 msgstr "Predpomnilnik sličic / odprti video:"
 
-#: ../gap/gap_story_dialog.c:5466
+#: ../gap/gap_story_dialog.c:5475
 msgid "Maximum number of frames to be cached per open video (only relevant when video clips are rendered backwards)"
 msgstr "Največje število sličic, predpomnjenih na odprti video (velja le, če so posnetki upodobljeni v obratni smeri)"
 
-#: ../gap/gap_story_dialog.c:5479
+#: ../gap/gap_story_dialog.c:5488
 msgid "Max Image cache:"
 msgstr "Največ hranjenih slik:"
 
-#: ../gap/gap_story_dialog.c:5480
+#: ../gap/gap_story_dialog.c:5489
 msgid "Maximum number of images to keep cached (in memory as gimp image without display) while storyboard rendering"
 msgstr "Največje število slik v predpomnilniku (v pomnilniku kot slike gimp brez dejanskega prikaza) med upodabljanjem zgodborisa"
 
-#: ../gap/gap_story_dialog.c:5492
+#: ../gap/gap_story_dialog.c:5501
 msgid "Resource Loginterval:"
 msgstr "Interval beleženja virov:"
 
-#: ../gap/gap_story_dialog.c:5493
+#: ../gap/gap_story_dialog.c:5502
 msgid "Value 0 turns off resource logging to stdout. Value n logs current resource usage afte each n processed frames to stdout (this includes the list of cached images and opened videofiles)"
 msgstr "Vrednost 0 izključi beleženje virov na standardni izhod. Vrednost n beleži trenutno rabo virov po vsakih n obdelanih sličicah na standardni izhod (to vključuje seznam predpomnjenih slik in odprtih video datotek)."
 
-#: ../gap/gap_story_dialog.c:5506
+#: ../gap/gap_story_dialog.c:5515
 msgid "Render preview at full size:"
 msgstr "Upodobi predogled pri polni velikosti:"
 
-#: ../gap/gap_story_dialog.c:5507
+#: ../gap/gap_story_dialog.c:5516
 msgid "ON: Rendering of composite frames for preview purpose is done (slow) at full size.OFF: storyboard rendering for preview purpose is done at small size where possible.(typically faster but disables extraction of a composite frame at original size via click into the player preview)"
 msgstr "VKLJUČENO: upodabljanje sestavljenih sličic za namen predogleda je opravljeno (počasno) pri polni velikosti. IZKLJUČENO: upodabljanje zgodborisa za namen predogleda je opravljeno pri manjši velikosti, kjer je to možno (običajno hitrejše, vendar onemogoči izluščenje sestavljene sličice pri izvorni velikosti prek klika v predogledu predvajalnika)."
 
-#: ../gap/gap_story_dialog.c:5533
+#: ../gap/gap_story_dialog.c:5542
 msgid "Multiprocessor Storyboard Support:"
 msgstr "Podpora več procesorjev za zgodboris:"
 
-#: ../gap/gap_story_dialog.c:5534
+#: ../gap/gap_story_dialog.c:5543
 msgid "ON: Rendering of composite storyboard frames uses more than one processor. (reading frames from videoclips is done by parallel running prefetch processing) OFF: Rendering of composite frames uses only one processor."
 msgstr "VKLJUČENO: upodabljanje sestavljenih sličic zgodborisa uporablja več kot en procesor (branje sličic iz posnetkov opravlja vzporedno potekajoče obdelovanje s predprevzemom). IZKLJUČENO: upodabljanje kompozitnih sličic uporablja le en procesor."
 
-#: ../gap/gap_story_dialog.c:5545
+#: ../gap/gap_story_dialog.c:5554
 msgid "Multiprocessor Encoder Support:"
 msgstr "Podpora večprocesorskemu kodirniku:"
 
-#: ../gap/gap_story_dialog.c:5546
+#: ../gap/gap_story_dialog.c:5555
 msgid "ON: Video encoders shall use more than one processor where implemented. The ffmpeg based video encoder implementation supports parallel processing. OFF: Video encoders use only one processor."
 msgstr "VKLJUČENO: kodirniki videa naj uporabljajo več kot en procesor, kjer je to podprto. Kodirnik videa na temelju ffmpeg podpira vzporedno obdelovanje. IZKLJUČENO: kodirniki videa uporabljajo samo en procesor."
 
-#: ../gap/gap_story_dialog.c:5560
+#: ../gap/gap_story_dialog.c:5569
 msgid "Use the standard built in storyboard render settings"
 msgstr "Uporabi običajne vgrajene nastavitve upodabljanja zgodborisa"
 
-#: ../gap/gap_story_dialog.c:5562
+#: ../gap/gap_story_dialog.c:5571
 msgid "Global Storyboard Render Properties"
 msgstr "Splošne lastnosti upodabljanja zgodborisa"
 
-#: ../gap/gap_story_dialog.c:5563
-#: ../gap/gap_story_dialog.c:6197
+#: ../gap/gap_story_dialog.c:5572
+#: ../gap/gap_story_dialog.c:6206
 msgid "Render Settings"
 msgstr "Nastavitve upodabljanja"
 
-#: ../gap/gap_story_dialog.c:5661
+#: ../gap/gap_story_dialog.c:5670
 #, c-format
 msgid ""
 "Failed to write cliplistfile\n"
@@ -7943,7 +7944,7 @@ msgstr ""
 "ime datoteke: '%s':\n"
 "%s"
 
-#: ../gap/gap_story_dialog.c:5918
+#: ../gap/gap_story_dialog.c:5927
 #, c-format
 msgid ""
 "Failed to write storyboardfile\n"
@@ -7954,168 +7955,168 @@ msgstr ""
 "ime datoteke: '%s':\n"
 "%s"
 
-#: ../gap/gap_story_dialog.c:6190
+#: ../gap/gap_story_dialog.c:6199
 msgid "Global"
 msgstr "Splošno"
 
-#: ../gap/gap_story_dialog.c:6204
+#: ../gap/gap_story_dialog.c:6213
 msgid "Video thumbnails"
 msgstr "Video sličice za predogled"
 
-#: ../gap/gap_story_dialog.c:6212
+#: ../gap/gap_story_dialog.c:6221
 msgid "DEBUG: log to stdout"
 msgstr "RAZHROŠČEVANJE: beleži v stdout"
 
-#: ../gap/gap_story_dialog.c:6232
+#: ../gap/gap_story_dialog.c:6241
 msgid "Help"
 msgstr "Pomoč"
 
 #. the clp_frame
-#: ../gap/gap_story_dialog.c:6247
-#: ../gap/gap_story_dialog.c:8591
+#: ../gap/gap_story_dialog.c:6256
+#: ../gap/gap_story_dialog.c:8723
 msgid "Cliplist"
 msgstr "Seznam posnetkov"
 
 #. XXXXXXXXXXX Player Frame  XXXXXXXXXXXX
 #. the player_frame
-#: ../gap/gap_story_dialog.c:6271
-#: ../gap/gap_story_dialog.c:6371
-#: ../gap/gap_story_dialog.c:8642
+#: ../gap/gap_story_dialog.c:6280
+#: ../gap/gap_story_dialog.c:6380
+#: ../gap/gap_story_dialog.c:8774
 msgid "Playback"
 msgstr "Predvajanje"
 
-#: ../gap/gap_story_dialog.c:6283
-#: ../gap/gap_story_dialog.c:6383
+#: ../gap/gap_story_dialog.c:6292
+#: ../gap/gap_story_dialog.c:6392
 msgid "Create Clip"
 msgstr "Ustvari posnetek"
 
-#: ../gap/gap_story_dialog.c:6289
-#: ../gap/gap_story_dialog.c:6389
+#: ../gap/gap_story_dialog.c:6298
+#: ../gap/gap_story_dialog.c:6398
 msgid "Create Section Clip"
 msgstr "Ustvari posnetek odlomka"
 
-#: ../gap/gap_story_dialog.c:6295
-#: ../gap/gap_story_dialog.c:6395
+#: ../gap/gap_story_dialog.c:6304
+#: ../gap/gap_story_dialog.c:6404
 msgid "Create Transition"
 msgstr "Ustvari prehod"
 
-#: ../gap/gap_story_dialog.c:6300
-#: ../gap/gap_story_dialog.c:6400
+#: ../gap/gap_story_dialog.c:6309
+#: ../gap/gap_story_dialog.c:6409
 msgid "Toggle Unit"
 msgstr "Preklopi enote"
 
-#: ../gap/gap_story_dialog.c:6306
-#: ../gap/gap_story_dialog.c:6406
+#: ../gap/gap_story_dialog.c:6315
+#: ../gap/gap_story_dialog.c:6415
 msgid "Add Original Audio Track"
 msgstr "Dodaj izvorno zvočno sled"
 
-#: ../gap/gap_story_dialog.c:6312
-#: ../gap/gap_story_dialog.c:6412
+#: ../gap/gap_story_dialog.c:6321
+#: ../gap/gap_story_dialog.c:6421
 msgid "Encode"
 msgstr "Kodiraj"
 
-#: ../gap/gap_story_dialog.c:6347
+#: ../gap/gap_story_dialog.c:6356
 msgid "_Storyboard"
 msgstr "_Zgodboris"
 
-#: ../gap/gap_story_dialog.c:6466
+#: ../gap/gap_story_dialog.c:6475
 #, c-format
 msgid "Unsaved cliplist changes '%s'"
 msgstr "Neshranjene spremembe seznama posnetkov '%s'"
 
-#: ../gap/gap_story_dialog.c:6478
+#: ../gap/gap_story_dialog.c:6487
 #, c-format
 msgid "Unsaved storyboard changes '%s'"
 msgstr "Neshranjene spremembe zgodborisa '%s'"
 
-#: ../gap/gap_story_dialog.c:6490
+#: ../gap/gap_story_dialog.c:6499
 msgid "Quit Storyboard"
 msgstr "Zapri zgodboris"
 
-#: ../gap/gap_story_dialog.c:6503
-#: ../gap/gap_story_dialog.c:6504
+#: ../gap/gap_story_dialog.c:6512
+#: ../gap/gap_story_dialog.c:6513
 msgid "Storyboard unsaved changes"
 msgstr "Neshranjene spremembe zgodborisa"
 
-#: ../gap/gap_story_dialog.c:6556
+#: ../gap/gap_story_dialog.c:6565
 msgid "Storyboard:"
 msgstr "Zgodboris:"
 
-#: ../gap/gap_story_dialog.c:6571
-#: ../gap/gap_story_dialog.c:6600
+#: ../gap/gap_story_dialog.c:6580
+#: ../gap/gap_story_dialog.c:6609
 msgid "(modified)"
 msgstr "(spremenjeno)"
 
-#: ../gap/gap_story_dialog.c:6577
+#: ../gap/gap_story_dialog.c:6586
 msgid "Cliplist:"
 msgstr "Seznam posnetkov:"
 
-#: ../gap/gap_story_dialog.c:6763
+#: ../gap/gap_story_dialog.c:6772
 #, c-format
 msgid "Videoseek (decoder: %s)"
 msgstr "Slikovno iskanje (dekodirnik: %s)"
 
-#: ../gap/gap_story_dialog.c:6899
+#: ../gap/gap_story_dialog.c:6908
 msgid "video thumbnail cancelled"
 msgstr "Sličica slikovnega predogleda preklicana"
 
-#: ../gap/gap_story_dialog.c:6925
+#: ../gap/gap_story_dialog.c:6934
 #, c-format
 msgid "Fetching video thumbnail for clip: %d (out of %d)"
 msgstr "Pridobivanje slikovnega predogleda za posnetek: %d (od %d)"
 
-#: ../gap/gap_story_dialog.c:7770
+#: ../gap/gap_story_dialog.c:7779
 #: ../gap/gap_story_section_properties.c:637
 msgid "MAIN"
 msgstr "Glavni"
 
-#: ../gap/gap_story_dialog.c:7773
+#: ../gap/gap_story_dialog.c:7782
 msgid "Masks"
 msgstr "Maske"
 
-#: ../gap/gap_story_dialog.c:7888
+#: ../gap/gap_story_dialog.c:7897
 msgid "Load storyboard file"
 msgstr "Naloži datoteko zgodborisa"
 
-#: ../gap/gap_story_dialog.c:7894
+#: ../gap/gap_story_dialog.c:7903
 msgid "Load cliplist file"
 msgstr "Naloži datoteko seznama posnetkov"
 
-#: ../gap/gap_story_dialog.c:7909
+#: ../gap/gap_story_dialog.c:7918
 msgid "Save storyboard to file"
 msgstr "Shrani zgodboris v datoteko"
 
-#: ../gap/gap_story_dialog.c:7918
+#: ../gap/gap_story_dialog.c:7927
 msgid "Save cliplist to file"
 msgstr "Shrani seznam posnetkov v datoteko"
 
-#: ../gap/gap_story_dialog.c:7949
+#: ../gap/gap_story_dialog.c:7958
 msgid "Show Section properties window"
 msgstr "Pokaži okno lastnosti odlomka"
 
 #. Track label
-#: ../gap/gap_story_dialog.c:7954
+#: ../gap/gap_story_dialog.c:7963
 #: ../gap/gap_video_index_creator.c:970
 msgid "Track:"
 msgstr "Sled:"
 
-#: ../gap/gap_story_dialog.c:7969
+#: ../gap/gap_story_dialog.c:7978
 msgid "Video Track Number (0 refers to mask definition track)"
 msgstr "Številka video sledi (0 se nanaša na sled definicije maske)"
 
-#: ../gap/gap_story_dialog.c:8005
+#: ../gap/gap_story_dialog.c:8014
 msgid "Cut a clip"
 msgstr "Obreži posnetek"
 
-#: ../gap/gap_story_dialog.c:8017
+#: ../gap/gap_story_dialog.c:8026
 msgid "Copy a clip"
 msgstr "Kopiraj posnetek"
 
-#: ../gap/gap_story_dialog.c:8029
+#: ../gap/gap_story_dialog.c:8038
 msgid "Paste a clip after last (selected) element"
 msgstr "Prilepi posnetek za zadnjim (izbranim) elementom"
 
-#: ../gap/gap_story_dialog.c:8041
+#: ../gap/gap_story_dialog.c:8050
 msgid ""
 "Create new clip\n"
 "(SHIFT create transition\n"
@@ -8125,7 +8126,7 @@ msgstr ""
 "(SHIFT ustvari prehod\n"
 "CTRL ustvari posnetek odlomka)"
 
-#: ../gap/gap_story_dialog.c:8055
+#: ../gap/gap_story_dialog.c:8064
 msgid ""
 "Play selected clips\n"
 "SHIFT: Playback all clips of current track.\n"
@@ -8136,78 +8137,78 @@ msgstr ""
 
 #. gtk_widget_show (entry);
 #. Row label
-#: ../gap/gap_story_dialog.c:8086
+#: ../gap/gap_story_dialog.c:8095
 msgid "Row:"
 msgstr "Vrstica:"
 
-#: ../gap/gap_story_dialog.c:8100
+#: ../gap/gap_story_dialog.c:8109
 msgid "Top rownumber"
 msgstr "Številka vrstice na vrhu"
 
 #. of label
-#: ../gap/gap_story_dialog.c:8106
+#: ../gap/gap_story_dialog.c:8115
 msgid "of:"
 msgstr "od:"
 
 #. the stb_frame
 #. radio button Storyboard input_mode
-#: ../gap/gap_story_dialog.c:8540
-#: ../gap/gap_story_dialog.c:8658
-#: ../vid_common/gap_cme_gui.c:2509
+#: ../gap/gap_story_dialog.c:8672
+#: ../gap/gap_story_dialog.c:8790
+#: ../vid_common/gap_cme_gui.c:2507
 msgid "Storyboard"
 msgstr "Zgodboris"
 
-#: ../gap/gap_story_dialog.c:8731
+#: ../gap/gap_story_dialog.c:8863
 msgid "ON: clip target is storyboard (for clips created from playback range)."
 msgstr "VKLJUČENO: cilj posnetka je zgodboris (za posnetke, ustvarjene iz obsega predvajanja)."
 
-#: ../gap/gap_story_dialog.c:8761
-#: ../vid_common/gap_cme_gui.c:2381
+#: ../gap/gap_story_dialog.c:8893
+#: ../vid_common/gap_cme_gui.c:2379
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: ../gap/gap_story_dialog.c:8765
+#: ../gap/gap_story_dialog.c:8897
 #: ../gap/gap_video_index_creator.c:1447
 msgid "Cancel video access if in progress and disable automatic video thumbnails"
 msgstr "Prekliči dostop do slike, če je v teku, in onemogoči samodejne sličice za predogled"
 
-#: ../gap/gap_story_dialog.c:8823
+#: ../gap/gap_story_dialog.c:8963
 msgid "Generate original tone audio track for all video clips in the storyboard"
 msgstr "Ustvari zvočno sled z izvornim tonom za vse posnetke zgodborisa."
 
-#: ../gap/gap_story_dialog.c:8829
+#: ../gap/gap_story_dialog.c:8969
 msgid "Input Audiotrack:"
 msgstr "Vhodna zvočna sled:"
 
-#: ../gap/gap_story_dialog.c:8830
+#: ../gap/gap_story_dialog.c:8970
 msgid "select input audiotrack in the videofile(s)."
 msgstr "Izberite vhodno zvočno sled datotek(e)."
 
-#: ../gap/gap_story_dialog.c:8841
+#: ../gap/gap_story_dialog.c:8981
 msgid "Output Audiotrack:"
 msgstr "Izhodna zvočna sled:"
 
-#: ../gap/gap_story_dialog.c:8842
+#: ../gap/gap_story_dialog.c:8982
 msgid "output audiotrack to be generated in the storyboard file. The generated storyboard audiotrack will be a list of references to the audioparts in the input videos, corresponding to all used video clip references."
 msgstr "Izhodna zvočna sled, ki naj bo ustvarjena v datoteki zgodborisa. Ustvarjena zvočna sled zgodborisa bo seznam sklicev na zvočne dele vhodnih slikovnih posnetkov, podobno vsem uporabljenim slikovnim sklicem po posnetkih."
 
-#: ../gap/gap_story_dialog.c:8854
+#: ../gap/gap_story_dialog.c:8994
 msgid "Replace Audiotrack:"
 msgstr "Zamenjaj zvočno sled:"
 
-#: ../gap/gap_story_dialog.c:8855
+#: ../gap/gap_story_dialog.c:8995
 msgid "ON: Allow replacing of already existing audio clip references  in the storyboard"
 msgstr "VKLJUČENO: Dovoli zamenjavo že obstoječih sklicev na zvočne posnetke v zgodborisu"
 
-#: ../gap/gap_story_dialog.c:8865
+#: ../gap/gap_story_dialog.c:9005
 msgid "Reset parameters to default values"
 msgstr "Ponastavi parametre na privzete vrednosti"
 
-#: ../gap/gap_story_dialog.c:8873
+#: ../gap/gap_story_dialog.c:9013
 msgid "Generate Original Tone Audio"
 msgstr "Ustvari zvok izvornega tona"
 
-#: ../gap/gap_story_dialog.c:8907
+#: ../gap/gap_story_dialog.c:9047
 #, c-format
 msgid ""
 "Original tone track was not created.\n"
@@ -8220,7 +8221,7 @@ msgstr ""
 "že ima sklice na zvočne posnetke na sledi %d.\n"
 "Uporabite drugo sled ali dovolite zamenjavo ob naslednjem poskusu."
 
-#: ../gap/gap_story_dialog.c:8919
+#: ../gap/gap_story_dialog.c:9059
 #, c-format
 msgid ""
 "Original tone track was created with warnings.\n"
@@ -8233,113 +8234,113 @@ msgstr ""
 "ima slikovne posnetke s hitrostjo sličic %.4f. Ta se razlikuje od nastavljene hitrosti %.4f.\n"
 "Ustvarjeni zvok NI sinhron s sliko."
 
-#: ../gap/gap_story_dialog.c:9018
+#: ../gap/gap_story_dialog.c:9158
 msgid "automatic"
 msgstr "samodejno"
 
-#: ../gap/gap_story_dialog.c:9019
+#: ../gap/gap_story_dialog.c:9159
 msgid "none"
 msgstr "brez"
 
 #. the section_name label
-#: ../gap/gap_story_dialog.c:9063
+#: ../gap/gap_story_dialog.c:9203
 #: ../gap/gap_story_section_properties.c:849
 msgid "Name:"
 msgstr "Ime:"
 
-#: ../gap/gap_story_dialog.c:9067
+#: ../gap/gap_story_dialog.c:9207
 msgid "Name of the Storyboardfile"
 msgstr "Ime datoteke zgodborisa"
 
-#: ../gap/gap_story_dialog.c:9073
+#: ../gap/gap_story_dialog.c:9213
 msgid "Name of the Cliplistfile"
 msgstr "Ime datoteke seznama posnetkov"
 
-#: ../gap/gap_story_dialog.c:9083
-#: ../gap/gap_story_dialog.c:9087
+#: ../gap/gap_story_dialog.c:9223
+#: ../gap/gap_story_dialog.c:9227
 #, c-format
 msgid "Name: %s"
 msgstr "Ime: %s"
 
-#: ../gap/gap_story_dialog.c:9096
+#: ../gap/gap_story_dialog.c:9236
 msgid "Master width of the resulting video in pixels"
 msgstr "Glavna širina izhodne slike v slikovnih točkah"
 
-#: ../gap/gap_story_dialog.c:9107
+#: ../gap/gap_story_dialog.c:9247
 msgid "Master height of the resulting video in pixels)"
 msgstr "Glavna višina izhodne slike v slikovnih točkah"
 
-#: ../gap/gap_story_dialog.c:9119
+#: ../gap/gap_story_dialog.c:9259
 msgid "Framerate in frames/sec."
 msgstr "Hitrosti v sličicah/sekundo"
 
-#: ../gap/gap_story_dialog.c:9137
+#: ../gap/gap_story_dialog.c:9277
 msgid "Track 1 on top:"
 msgstr "Sled 1 na vrhu:"
 
-#: ../gap/gap_story_dialog.c:9138
+#: ../gap/gap_story_dialog.c:9278
 msgid "ON: video track1 is Foregrond (on top). OFF: video track 1 is on Background."
 msgstr "VKLJUČENO: slikovna sled 1 je v ospredju (na vrhu). IZKLJUČENO: video sled 1 je v ozadju."
 
 #. the aspect label
-#: ../gap/gap_story_dialog.c:9176
+#: ../gap/gap_story_dialog.c:9316
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3779
 msgid "Aspect:"
 msgstr "Razmerje stranic:"
 
-#: ../gap/gap_story_dialog.c:9177
+#: ../gap/gap_story_dialog.c:9317
 msgid "Select video frame aspect ratio; enter a string like \"4:3\" or \"16:9\" to specify the aspect. Enter none or leave empty if no special aspect shall be used (in this case video frames use the master pixelsize 1:1 for displaying video frames)."
 msgstr "Izberite razmerje stranic slike; vnesite niz \"4:3\" ali \"16:9\", da ga določite. Ne vnesite ničesar ali pustite polje prazno, če naj ne bo uporabljeno nobeno posebno razmerje stranic (v tem primeru bodo sličice upodobljene v glavni velikosti slikovnih točk 1:1 za prikaz sličic)."
 
 #. the (preferred) Decoder label
-#: ../gap/gap_story_dialog.c:9219
-#: ../gap/gap_vex_dialog.c:2312
+#: ../gap/gap_story_dialog.c:9359
+#: ../gap/gap_vex_dialog.c:2285
 #: ../gap/gap_video_index_creator.c:956
 msgid "Decoder:"
 msgstr "Dekodirnik:"
 
-#: ../gap/gap_story_dialog.c:9220
+#: ../gap/gap_story_dialog.c:9360
 msgid "Select preferred video decoder library, or leave empty for automatic selection.The decoder setting is only relevant if videoclips are used (but not for frames that are imagefiles)"
 msgstr "Izberite najljubšo knjižnico dekodirnika slike ali pustite prazno za samodejno določitev. Nastavitev dekodirnika je smiselna le, če uporabljate filmske posnetke (ne pa tudi sličic, ki so slikovne datoteke)."
 
-#: ../gap/gap_story_dialog.c:9238
+#: ../gap/gap_story_dialog.c:9378
 msgid "Master audio samplerate for the resulting video in samples/sec."
 msgstr "Glavna hitrost vzorčenja zvoka za izhodni film v vzorcih/s."
 
-#: ../gap/gap_story_dialog.c:9254
+#: ../gap/gap_story_dialog.c:9394
 msgid "Master audio volume, where 1.0 keeps original volume"
 msgstr "Glavna zvočna jakost, kjer 1,0 pomeni izvorno jakost"
 
-#: ../gap/gap_story_dialog.c:9279
+#: ../gap/gap_story_dialog.c:9419
 msgid "Ext. Transparency Format:"
 msgstr "Zunanji zapis prosojnosti:"
 
 #. pixel
-#: ../gap/gap_story_dialog.c:9281
+#: ../gap/gap_story_dialog.c:9421
 #, c-format
 msgid "Format string to provide external tranparency in movie clips. (e.g automatic alpha channel insertation)this string shall contain \\%s as placeholder for the basename of a videoclip and optional \\%06d as placeholder for the framenumber."
 msgstr "Oblikujte niz za zunanjo prosojnost v filmskih posnetkih (npr. samodejno vstavljen kanal alfa). Ta niz naj vsebuje \\%s kot ogrado za osnovno ime videoposnetka in neobvezno tudi \\%06d kot ogrado za številko sličice."
 
-#: ../gap/gap_story_dialog.c:9300
+#: ../gap/gap_story_dialog.c:9440
 msgid "AreaFormat:"
 msgstr "Zapis območja:"
 
 #. pixel
-#: ../gap/gap_story_dialog.c:9302
+#: ../gap/gap_story_dialog.c:9442
 #, c-format
 msgid "Format string for area replacement in movie clips. (e.g automatic logo insert)this string shall contain \\%s as placeholder for the basename of a videoclip and optional \\%06d as placeholder for the framenumber."
 msgstr "Oblikujte niz za površinsko umestitev v filmske posnetke (npr. samodejno vstavljen logotip). Ta niz naj vsebuje \\%s kot ogrado za osnovno ime videoposnetka in neobvezno tudi \\%06d kot ogrado za številko sličice."
 
 #. should use GIMP_STOCK_RESET if possible
-#: ../gap/gap_story_dialog.c:9312
+#: ../gap/gap_story_dialog.c:9452
 msgid "Reset parameters to inital values"
 msgstr "Ponastavi parametre na privzete vrednosti"
 
-#: ../gap/gap_story_dialog.c:9323
+#: ../gap/gap_story_dialog.c:9463
 msgid "Master Properties"
 msgstr "Glavne lastnosti"
 
-#: ../gap/gap_story_dialog.c:9820
+#: ../gap/gap_story_dialog.c:9960
 msgid "STORY_new.txt"
 msgstr "ZGODBORIS_nov.txt"
 
@@ -8410,7 +8411,7 @@ msgstr "Nepodprta črta je bila prezrta"
 msgid "the passed filename %s has irrelevant content or could not be opened by the parser"
 msgstr "podano ime datoteke %s ima neustrezno vsebino ali pa je razčlenjevalnik ni mogel odpreti"
 
-#: ../gap/gap_story_main.c:180
+#: ../gap/gap_story_main.c:205
 msgid "Storyboard..."
 msgstr "Zgodboris ..."
 
@@ -8625,7 +8626,7 @@ msgstr "Izberite vhodno slikovno sled (večina datotek ima samo eno slikovno sle
 #. the Deinterlace Mode label
 #. the deinterlace Mode label
 #: ../gap/gap_story_properties.c:4315
-#: ../gap/gap_vex_dialog.c:2639
+#: ../gap/gap_vex_dialog.c:2612
 msgid "Deinterlace:"
 msgstr "Odstrani prepletanje:"
 
@@ -8815,84 +8816,84 @@ msgstr "Koraki za uveljavljanje makra z različnimi vrednostmi: (1 za rabo s kon
 msgid "acceleration characteristic for filtermacro 0=off positive accelerate, negative decelerate"
 msgstr "značilnost pospeševanja za makro filtra (0 za izključeno, pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_render_audio.c:449
+#: ../gap/gap_story_render_audio.c:466
 #, c-format
 msgid "cant load:  %s to memory"
 msgstr "Ni mogoče naložiti: %s v pomnilnik"
 
-#: ../gap/gap_story_render_audio.c:834
+#: ../gap/gap_story_render_audio.c:851
 #, c-format
 msgid "extracting audio to tmp audiofile"
 msgstr "Izločanje zvoka v začasno zvočno datoteko"
 
-#: ../gap/gap_story_render_audio.c:839
+#: ../gap/gap_story_render_audio.c:856
 #, c-format
 msgid "seeking audio"
 msgstr "Iskanje zvoka"
 
-#: ../gap/gap_story_render_audio.c:1111
+#: ../gap/gap_story_render_audio.c:1128
 #, c-format
 msgid "file not found:  %s for audioinput"
 msgstr "Datoteke ni mogoče najti: %s kot zvočni vhod"
 
-#: ../gap/gap_story_render_audio.c:1262
-#: ../gap/gap_story_render_audio.c:1409
+#: ../gap/gap_story_render_audio.c:1307
+#: ../gap/gap_story_render_audio.c:1454
 #, c-format
 msgid "converting audio (via external programm)"
 msgstr "pretvarjanje zvoka (prek zunanjega programa)"
 
-#: ../gap/gap_story_render_audio.c:1328
-#: ../gap/gap_story_render_audio.c:1458
+#: ../gap/gap_story_render_audio.c:1373
+#: ../gap/gap_story_render_audio.c:1503
 #, c-format
 msgid "cant use file:  %s as audioinput"
 msgstr "Datoteke ni mogoče uporabiti: %s kot zvočni vhod"
 
-#: ../gap/gap_story_render_audio.c:1345
+#: ../gap/gap_story_render_audio.c:1390
 #, c-format
 msgid "ERROR file: %s is not a supported videoformat"
 msgstr "NAPAKA: Slikovni zapis datoteke %s ni podprt."
 
-#: ../gap/gap_story_render_audio.c:1600
+#: ../gap/gap_story_render_audio.c:1645
 #, c-format
 msgid "checking audio peaks"
 msgstr "Preverjanje zvočnih vrhov"
 
-#: ../gap/gap_story_render_audio.c:1634
+#: ../gap/gap_story_render_audio.c:1679
 #, c-format
 msgid "writing composite audiofile"
 msgstr "pisanje sestavljene zvočne datoteke"
 
-#: ../gap/gap_story_render_audio.c:1653
+#: ../gap/gap_story_render_audio.c:1698
 #, c-format
 msgid "cant write audio to file: %s "
 msgstr "Zapisovanje zvoka v datoteko ni možno: %s"
 
-#: ../gap/gap_story_render_audio.c:1665
+#: ../gap/gap_story_render_audio.c:1710
 #: ../vid_common/gap_cme_gui.c:1439
 #: ../vid_common/gap_cme_gui.c:1605
 #, c-format
 msgid "ready"
 msgstr "pripravljen"
 
-#: ../gap/gap_story_render_processor.c:1010
+#: ../gap/gap_story_render_processor.c:1040
 #, c-format
 msgid "encoding_video_frame_%06d"
 msgstr "kodiranje_slike_sličica_%06d"
 
-#: ../gap/gap_story_render_processor.c:3266
+#: ../gap/gap_story_render_processor.c:3296
 #, c-format
 msgid "analyze line %d (out of %d)"
 msgstr "Analiziraj vrstico %d (od %d-ih)"
 
-#: ../gap/gap_story_render_processor.c:3408
+#: ../gap/gap_story_render_processor.c:3438
 msgid "No Frames or Images found ...."
 msgstr "Ni najdenih sličic ali slik ..."
 
-#: ../gap/gap_story_render_processor.c:7103
+#: ../gap/gap_story_render_processor.c:7648
 msgid "Seek Inputvideoframe..."
 msgstr "Poišči sličico vhodne slike ..."
 
-#: ../gap/gap_story_render_processor.c:7137
+#: ../gap/gap_story_render_processor.c:7682
 msgid "Continue Encoding..."
 msgstr "Nadaljuj s kodiranjem ..."
 
@@ -8968,29 +8969,29 @@ msgstr "Prepiši datoteko"
 msgid "File: %s already exists"
 msgstr "Datoteka z imenom '%s' že obstaja."
 
-#: ../gap/gap_vex_dialog.c:687
-#: ../gap/gap_vex_dialog.c:690
+#: ../gap/gap_vex_dialog.c:682
+#: ../gap/gap_vex_dialog.c:685
 msgid "Set range to extract"
 msgstr "Določite obseg za izločanje"
 
-#: ../gap/gap_vex_dialog.c:815
+#: ../gap/gap_vex_dialog.c:786
 msgid "unknown"
 msgstr "neznano"
 
-#: ../gap/gap_vex_dialog.c:1803
+#: ../gap/gap_vex_dialog.c:1776
 msgid "Select input videofile"
 msgstr "Izberite vhodno video datoteko"
 
-#: ../gap/gap_vex_dialog.c:1841
+#: ../gap/gap_vex_dialog.c:1814
 msgid "Select basename for frame(s)"
 msgstr "Izberite osnovno ime za sličice"
 
-#: ../gap/gap_vex_dialog.c:1879
-#: ../vid_common/gap_cme_gui.c:2282
+#: ../gap/gap_vex_dialog.c:1852
+#: ../vid_common/gap_cme_gui.c:2280
 msgid "Select Audiofilename"
 msgstr "Izberite ime zvočne datoteke"
 
-#: ../gap/gap_vex_dialog.c:2023
+#: ../gap/gap_vex_dialog.c:1996
 #: ../gap/gap_vex_main.c:176
 #: ../gap/gap_vex_main.c:196
 msgid "Extract Videorange"
@@ -8999,7 +9000,7 @@ msgstr "Izloči slikovni obseg"
 #. gtk_container_set_border_width (GTK_CONTAINER (mw__vbox1), 5);
 #. XXXXXXXXXXX Player Frame  XXXXXXXXXXXX
 #. the player_frame
-#: ../gap/gap_vex_dialog.c:2054
+#: ../gap/gap_vex_dialog.c:2027
 msgid "Select Videorange"
 msgstr "Izberite slikovni obseg"
 
@@ -9009,40 +9010,40 @@ msgstr "Izberite slikovni obseg"
 #.
 #. gtk_widget_show (mw__player_frame);
 #. not yet, show the widget later
-#: ../gap/gap_vex_dialog.c:2068
+#: ../gap/gap_vex_dialog.c:2041
 msgid "Input Video selection"
 msgstr "Vnesite video izbor"
 
 #. the videofile label
-#: ../gap/gap_vex_dialog.c:2087
+#: ../gap/gap_vex_dialog.c:2060
 msgid "Videofilename:"
 msgstr "ImeVideoDatoteke:"
 
-#: ../gap/gap_vex_dialog.c:2105
+#: ../gap/gap_vex_dialog.c:2078
 msgid "Name of videofile (used as inputfile)"
 msgstr "Ime video datoteke (kot vhodna datoteka)"
 
-#: ../gap/gap_vex_dialog.c:2116
+#: ../gap/gap_vex_dialog.c:2089
 msgid "Select video using file browser"
 msgstr "Izberite video z uporabo datotečnega brskalnika"
 
 #. MMX sometimes gives unusable results, and therefore is always OFF
 #. * checkbox is not needed any more..
 #.
-#: ../gap/gap_vex_dialog.c:2123
+#: ../gap/gap_vex_dialog.c:2096
 msgid "Disable MMX"
 msgstr "Onemogoči MMX"
 
-#: ../gap/gap_vex_dialog.c:2151
+#: ../gap/gap_vex_dialog.c:2124
 msgid "Frame number of 1.st frame to extract"
 msgstr "Številka prve sličice za izločanje"
 
 #. the videorange button (that invokes the player for video range selection)
-#: ../gap/gap_vex_dialog.c:2169
+#: ../gap/gap_vex_dialog.c:2142
 msgid "Video Range"
 msgstr "Slikovni obseg"
 
-#: ../gap/gap_vex_dialog.c:2177
+#: ../gap/gap_vex_dialog.c:2150
 msgid ""
 "Visual video range selection via videoplayer\n"
 "SHIFT: Open a separate player window"
@@ -9050,38 +9051,38 @@ msgstr ""
 "Izbor vidnega obsega slike prek predvajalnika.\n"
 "SHIFT: Odpri ločeno okno predvajalnika."
 
-#: ../gap/gap_vex_dialog.c:2208
+#: ../gap/gap_vex_dialog.c:2181
 msgid "Frame number of last frame to extract. To extract all frames use a range from 1 to 999999. (Extract stops at the last available frame)"
 msgstr "Številka zadnje sličice za izločanje. Za izločitev vseh sličic, uporabite obseg od 1 do 999999. (Izločanje se ustavi pri zadnji sličici, ki je na voljo)."
 
 #. the videorange button (that invokes the player for video range selection in docked mode)
-#: ../gap/gap_vex_dialog.c:2229
+#: ../gap/gap_vex_dialog.c:2202
 msgid "VideoRange"
 msgstr "Slikovni obseg"
 
-#: ../gap/gap_vex_dialog.c:2266
+#: ../gap/gap_vex_dialog.c:2239
 msgid "Videotrack number (0 == extract no frames)"
 msgstr "Številka slikovne sledi (0 == ne izloči sličic)"
 
-#: ../gap/gap_vex_dialog.c:2300
+#: ../gap/gap_vex_dialog.c:2273
 msgid "Audiotrack number (0 == extract no audio)"
 msgstr "Številka zvočne sledi (0 == ne izloči zvoka)"
 
-#: ../gap/gap_vex_dialog.c:2329
+#: ../gap/gap_vex_dialog.c:2302
 msgid "leave empty or select your preferred decoder (libmpeg3, libavformat, quicktime4linux)"
 msgstr "Pustite prazno ali izberite svoj priljubljeni dekodirnik (libmpeg3, libavformat, quicktime4linux)."
 
-#: ../gap/gap_vex_dialog.c:2335
+#: ../gap/gap_vex_dialog.c:2308
 msgid "(none, automatic)"
 msgstr "(brez, samodejno)"
 
 #. the (Active) Decoder Label(s)
-#: ../gap/gap_vex_dialog.c:2359
+#: ../gap/gap_vex_dialog.c:2328
 msgid "Active Decoder:"
 msgstr "Aktivni dekodirnik:"
 
-#: ../gap/gap_vex_dialog.c:2369
-#: ../gap/gap_vex_dialog.c:2407
+#: ../gap/gap_vex_dialog.c:2338
+#: ../gap/gap_vex_dialog.c:2376
 msgid "****"
 msgstr "****"
 
@@ -9089,61 +9090,65 @@ msgstr "****"
 #. * (the videoapi delivers exact frame positions on most videos
 #. *  but sometimes is not exact when libmepg3 is used)
 #.
-#: ../gap/gap_vex_dialog.c:2382
+#: ../gap/gap_vex_dialog.c:2351
 msgid "Exact Seek"
 msgstr "Natančno določanje mesta"
 
-#: ../gap/gap_vex_dialog.c:2385
+#: ../gap/gap_vex_dialog.c:2354
 msgid "ON: emulate seek operations by sequential reads, even when videoindex is available"
 msgstr "VKLJUČENO: Oponaša iskalne operacije z zaporednim branjem, tudi če je slikovno kazalo na voljo."
 
 #. the Aspect Ratio Label(s)
-#: ../gap/gap_vex_dialog.c:2397
+#: ../gap/gap_vex_dialog.c:2366
 msgid "Aspect Ratio:"
 msgstr "Razmerje stranic:"
 
 #. the output frame
 #. the hbox
-#: ../gap/gap_vex_dialog.c:2421
-#: ../vid_common/gap_cme_gui.c:2659
+#: ../gap/gap_vex_dialog.c:2390
+#: ../vid_common/gap_cme_gui.c:2657
 msgid "Output"
 msgstr "Izhod "
 
-#. the multilayer checkbox (decide if extract writes to frames on disc or to one image)
-#: ../gap/gap_vex_dialog.c:2447
-msgid "Create only one multilayer Image"
-msgstr "Ustvari le eno večplastno sliko"
+#: ../gap/gap_vex_dialog.c:2417
+#| msgid ""
+#| "On: extracted frames are stored in one multilayer image\n"
+#| "Off: extracted frames are written to frame files on disc"
+msgid "extracted frames are written to frame files on disc"
+msgstr "Izločene sličice so zapisane v datoteke sličic na disk."
 
-#: ../gap/gap_vex_dialog.c:2453
-msgid ""
-"On: extracted frames are stored in one multilayer image\n"
-"Off: extracted frames are written to frame files on disc"
-msgstr ""
-"VKLJUČENO: Izločene sličice so shranjene v eno večplastno sliko.\n"
-"IZKLJUČENO: Izločene sličice so zapisane v datoteke sličic na disk."
+#: ../gap/gap_vex_dialog.c:2418
+#| msgid "Generate animated preview as multilayer image"
+msgid "extracted frames are stored in one multilayer image"
+msgstr "Izločene sličice so shranjene v eno večplastno sliko."
 
-#: ../gap/gap_vex_dialog.c:2477
+#: ../gap/gap_vex_dialog.c:2419
+#| msgid "Delete storyboard section"
+msgid "create a storyboard from selected video clip"
+msgstr "Ustvari zgodboris iz izbranega videoposnetka"
+
+#: ../gap/gap_vex_dialog.c:2450
 msgid "Basename for extracted frames (framenr and extension is added)"
 msgstr "Osnova imena za izločene sličice (št. sličice in končnica bosta dodatni)"
 
-#: ../gap/gap_vex_dialog.c:2478
+#: ../gap/gap_vex_dialog.c:2451
 msgid "frame_"
 msgstr "slicica_"
 
-#: ../gap/gap_vex_dialog.c:2488
+#: ../gap/gap_vex_dialog.c:2461
 msgid "Use filebrowser to select basename for extracted frames"
 msgstr "Uporabite izbirnik datotek za izbor osnove imena za izločene datoteke"
 
-#: ../gap/gap_vex_dialog.c:2519
+#: ../gap/gap_vex_dialog.c:2492
 msgid "Digits to use for framenumber part in filenames (use 1 if you dont want leading zeroes)"
 msgstr "Števke, uporabljene za del številke sličice v imenu datotek (uporabite 1, če ne želite vodilnih ničel)."
 
 #. the graymask checkbutton
-#: ../gap/gap_vex_dialog.c:2530
+#: ../gap/gap_vex_dialog.c:2503
 msgid "graymask"
 msgstr "Sivinska maska"
 
-#: ../gap/gap_vex_dialog.c:2535
+#: ../gap/gap_vex_dialog.c:2508
 msgid ""
 "On: extract grayscale mask (generated by bluebox)\n"
 "Off: extract color frames 1:1"
@@ -9152,11 +9157,11 @@ msgstr ""
 "Izključeno: izlušči barvne sličice 1:1"
 
 #. the layermask checkbutton
-#: ../gap/gap_vex_dialog.c:2543
+#: ../gap/gap_vex_dialog.c:2516
 msgid "layermask"
 msgstr "Maska plasti"
 
-#: ../gap/gap_vex_dialog.c:2548
+#: ../gap/gap_vex_dialog.c:2521
 msgid ""
 "On: bluebox shall generate transparency as layermask\n"
 "Off: bluebox shall generate transparency as alpha channel"
@@ -9165,11 +9170,11 @@ msgstr ""
 "Izključeno: modro ozadje naj tvori prosojnost kot kanal alfa"
 
 #. the bluebox checkbutton
-#: ../gap/gap_vex_dialog.c:2556
+#: ../gap/gap_vex_dialog.c:2529
 msgid "bluebox"
 msgstr "Modro ozadje"
 
-#: ../gap/gap_vex_dialog.c:2563
+#: ../gap/gap_vex_dialog.c:2536
 msgid ""
 "On: add trasparency for extracted frames via blubox filter (using values of last run in this session)\n"
 "Off: extract frames 1.1"
@@ -9177,76 +9182,82 @@ msgstr ""
 "Vključeno: dodaj prosojnost za izločene sličice prek filtra modrega ozadja (z uporabo vrednosti zadnje rabe v tej seji)\n"
 "Izključeno: izloči sličice 1.1"
 
-#: ../gap/gap_vex_dialog.c:2596
+#: ../gap/gap_vex_dialog.c:2569
 msgid "Extension of extracted frames (.xcf, .jpg, .ppm)"
 msgstr "Končnica za izločene sličice (.xcf, .jpg, .ppm)"
 
-#: ../gap/gap_vex_dialog.c:2597
+#: ../gap/gap_vex_dialog.c:2570
 msgid ".xcf"
 msgstr ".xcf"
 
 #. the framenumber for 1st frame label
-#: ../gap/gap_vex_dialog.c:2608
+#: ../gap/gap_vex_dialog.c:2581
 msgid "Framenr 1:"
 msgstr "Št. sličice 1:"
 
-#: ../gap/gap_vex_dialog.c:2629
+#: ../gap/gap_vex_dialog.c:2602
 msgid "Framenumber for 1st extracted frame (use 0 for keeping original framenumbers)"
 msgstr "Številka prve izločene sličice (uporabite 0 za ohranitev izvornih številk sličic)"
 
-#: ../gap/gap_vex_dialog.c:2660
+#: ../gap/gap_vex_dialog.c:2633
 msgid "0.0 .. no interpolation, 1.0 smooth interpolation at deinterlacing"
 msgstr "0,0 ... brez interpolacije, 1,0 gladka interpolacija pri odstranjevanju prepletanja"
 
-#: ../gap/gap_vex_dialog.c:2665
+#: ../gap/gap_vex_dialog.c:2638
 msgid "no deinterlace"
 msgstr "brez odstranitve prepletanja"
 
-#: ../gap/gap_vex_dialog.c:2666
+#: ../gap/gap_vex_dialog.c:2639
 msgid "deinterlace (odd lines only)"
 msgstr "odstrani prepletanje (samo lihe črte)"
 
-#: ../gap/gap_vex_dialog.c:2667
+#: ../gap/gap_vex_dialog.c:2640
 msgid "deinterlace (even lines only)"
 msgstr "odstrani prepletanje (samo sode črte)"
 
-#: ../gap/gap_vex_dialog.c:2668
+#: ../gap/gap_vex_dialog.c:2641
 msgid "deinterlace frames x 2 (odd 1st)"
 msgstr "Odstrani prepletanje pri sličicah x 2 (najprej lihe)"
 
-#: ../gap/gap_vex_dialog.c:2669
+#: ../gap/gap_vex_dialog.c:2642
 msgid "deinterlace frames x 2 (even 1st)"
 msgstr "Odstrani prepletanje pri sličicah x 2 (najprej sode)"
 
-#: ../gap/gap_vex_dialog.c:2680
+#: ../gap/gap_vex_dialog.c:2649
 msgid "Deinterlace splits each extracted frame in 2 frames"
 msgstr "Odstrani prepletanje razdeli vsako izločeno sličico v dve sličici (polji)"
 
-#: ../gap/gap_vex_dialog.c:2701
+#: ../gap/gap_vex_dialog.c:2670
 msgid "Name for extracted audio (audio is written in RIFF WAV format)"
 msgstr "Ime za izločen zvok (zvok je zapisan v vrsti datotek RIFF WAV)"
 
-#: ../gap/gap_vex_dialog.c:2702
+#: ../gap/gap_vex_dialog.c:2671
 msgid "frame.wav"
 msgstr "sličica.wav"
 
-#: ../gap/gap_vex_dialog.c:2712
+#: ../gap/gap_vex_dialog.c:2681
 msgid "Use filebrowser to select audiofilename"
 msgstr "Z raziskovalcem izberite ime zvočne datoteke"
 
-#: ../gap/gap_vex_dialog.c:2718
+#: ../gap/gap_vex_dialog.c:2687
 msgid "Start extraction"
 msgstr "Začni z izločanjem"
 
-#: ../gap/gap_vex_exec.c:370
+#: ../gap/gap_vex_exec.c:278
+#, c-format
+#| msgid "Failed to write SVG file: %s"
+msgid "failed to extract frame from video: %s"
+msgstr "Sličice iz videa ni mogoče izločiti: %s"
+
+#: ../gap/gap_vex_exec.c:539
 msgid "Seek Frame Position..."
 msgstr "Poišči mesto sličice ..."
 
-#: ../gap/gap_vex_exec.c:422
+#: ../gap/gap_vex_exec.c:591
 msgid "Extracting Frames..."
 msgstr "Izločanje sličic ..."
 
-#: ../gap/gap_vex_exec.c:504
+#: ../gap/gap_vex_exec.c:673
 #, c-format
 msgid ""
 "failed to save file:\n"
@@ -9391,7 +9402,7 @@ msgstr "videodatoteka"
 
 #. the Status frame
 #: ../gap/gap_video_index_creator.c:1340
-#: ../vid_common/gap_cme_gui.c:2698
+#: ../vid_common/gap_cme_gui.c:2696
 msgid "Status"
 msgstr "Stanje"
 
@@ -10021,29 +10032,29 @@ msgstr ""
 "Preverjanje SKLADNJE ni uspelo (prišlo je do notranje napake)"
 
 #. g_message(_("Go for checking storyboard file"));
-#: ../vid_common/gap_cme_gui.c:1911
+#: ../vid_common/gap_cme_gui.c:1909
 msgid "Checking Storyboard File"
 msgstr "Preverjanje datoteke zgodborisa"
 
-#: ../vid_common/gap_cme_gui.c:1914
+#: ../vid_common/gap_cme_gui.c:1912
 #, c-format
 msgid "Parsing Storyboardfile"
 msgstr "Razčelenjevanje datoteke zgodborisa"
 
-#: ../vid_common/gap_cme_gui.c:1957
+#: ../vid_common/gap_cme_gui.c:1955
 msgid "Go for checking storyboard file"
 msgstr "Zaženite preverjanje datoteke zgodborisa"
 
-#: ../vid_common/gap_cme_gui.c:1959
-#: ../vid_common/gap_cme_gui.c:1960
+#: ../vid_common/gap_cme_gui.c:1957
+#: ../vid_common/gap_cme_gui.c:1958
 msgid "Storyboardfile Check"
 msgstr "Preveri datoteko zgodborisa"
 
-#: ../vid_common/gap_cme_gui.c:2013
+#: ../vid_common/gap_cme_gui.c:2011
 msgid "Encoder specific parameter window is still open"
 msgstr "Okno parametra, značilnega za kodirnik, je še vedno odprto"
 
-#: ../vid_common/gap_cme_gui.c:2022
+#: ../vid_common/gap_cme_gui.c:2020
 msgid ""
 "ERROR: No valid storyboardfile was specified.\n"
 "(a storyboard file can be specified in the extras tab)"
@@ -10051,7 +10062,7 @@ msgstr ""
 "NAPAKA: Navedena ni bila veljavna datoteka zgodborisa.\n"
 "(datoteko zgodborisa navedete v zavihku Dodatki)"
 
-#: ../vid_common/gap_cme_gui.c:2034
+#: ../vid_common/gap_cme_gui.c:2032
 #, c-format
 msgid ""
 "Error:\n"
@@ -10064,7 +10075,7 @@ msgstr ""
 "nastavite širino na %d\n"
 "nastavite višino na %d"
 
-#: ../vid_common/gap_cme_gui.c:2057
+#: ../vid_common/gap_cme_gui.c:2055
 #, c-format
 msgid ""
 "Error: Unsupported Bit per Sample %d\n"
@@ -10075,7 +10086,7 @@ msgstr ""
 "datoteka: %s\n"
 "Podprti sta vrednosti 8 ali 16 bitov."
 
-#: ../vid_common/gap_cme_gui.c:2078
+#: ../vid_common/gap_cme_gui.c:2076
 #, c-format
 msgid ""
 "Error: Audiofile not found\n"
@@ -10084,7 +10095,7 @@ msgstr ""
 "Napaka: zvočne datoteke ni mogoče najti,\n"
 "datoteka: %s\n"
 
-#: ../vid_common/gap_cme_gui.c:2101
+#: ../vid_common/gap_cme_gui.c:2099
 #, c-format
 msgid ""
 "Error: Unsupported Samplerate for MPEG1 Layer2 Audio Encoding\n"
@@ -10097,7 +10108,7 @@ msgstr ""
 "Podprte hitrosti: \n"
 " 22050, 24000, 32000, 44100, 48000"
 
-#: ../vid_common/gap_cme_gui.c:2129
+#: ../vid_common/gap_cme_gui.c:2127
 #, c-format
 msgid ""
 "Error: Unsupported Samplerate for MPEG2 Layer3 Audio Encoding\n"
@@ -10110,171 +10121,171 @@ msgstr ""
 "Podprte hitrosti:\n"
 " 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000"
 
-#: ../vid_common/gap_cme_gui.c:2152
+#: ../vid_common/gap_cme_gui.c:2150
 msgid "Can't process the audio input file. You should check audio options and audio tool configuration"
 msgstr "Vhodne zvočne datoteke ni mogoče obdelati. Preverite nastavitve zvoka in orodje za nastavitev zvoka."
 
-#: ../vid_common/gap_cme_gui.c:2173
+#: ../vid_common/gap_cme_gui.c:2171
 msgid "Select Storyboardfile"
 msgstr "Izberite datoteko zgodborisa"
 
-#: ../vid_common/gap_cme_gui.c:2209
+#: ../vid_common/gap_cme_gui.c:2207
 msgid "Select Videofile"
 msgstr "Izberi video datoteko"
 
-#: ../vid_common/gap_cme_gui.c:2246
+#: ../vid_common/gap_cme_gui.c:2244
 msgid "Select Macrofile"
 msgstr "Izberi makro datoteko"
 
-#: ../vid_common/gap_cme_gui.c:2330
+#: ../vid_common/gap_cme_gui.c:2328
 msgid "Overwrite warning"
 msgstr "Opozorilo o prepisovanju"
 
-#: ../vid_common/gap_cme_gui.c:2349
+#: ../vid_common/gap_cme_gui.c:2347
 msgid "File already exists:"
 msgstr "Datoteka že obstaja:"
 
-#: ../vid_common/gap_cme_gui.c:2358
+#: ../vid_common/gap_cme_gui.c:2356
 msgid "filename"
 msgstr "ime datoteke"
 
-#: ../vid_common/gap_cme_gui.c:2371
+#: ../vid_common/gap_cme_gui.c:2369
 msgid "  "
 msgstr "  "
 
-#: ../vid_common/gap_cme_gui.c:2451
+#: ../vid_common/gap_cme_gui.c:2449
 msgid "Input Mode:"
 msgstr "Način vnosa:"
 
 #. radio button Frames input_mode
-#: ../vid_common/gap_cme_gui.c:2461
+#: ../vid_common/gap_cme_gui.c:2459
 msgid "Frames"
 msgstr "Sličice"
 
-#: ../vid_common/gap_cme_gui.c:2471
+#: ../vid_common/gap_cme_gui.c:2469
 msgid "Input is a sequence of frame images"
 msgstr "Vhod predstavlja zaporedje posameznih sličic"
 
 #. radio button Layers input_mode
-#: ../vid_common/gap_cme_gui.c:2485
+#: ../vid_common/gap_cme_gui.c:2483
 msgid "Layers"
 msgstr "Plasti"
 
-#: ../vid_common/gap_cme_gui.c:2494
+#: ../vid_common/gap_cme_gui.c:2492
 msgid "Input is all the layers of one image"
 msgstr "Vhod predstavljajo vse plasti ene slike"
 
-#: ../vid_common/gap_cme_gui.c:2518
+#: ../vid_common/gap_cme_gui.c:2516
 msgid "Input is videoclips and frames, defined via storyboard file. (specify the storyboard filename in the extras tab)"
 msgstr "Vhod so slikovni posnetki in sličice, kot jih določa datoteka zgodborisa (določite ime datoteke zgodborisa v zavihku Dodatki)."
 
-#: ../vid_common/gap_cme_gui.c:2564
+#: ../vid_common/gap_cme_gui.c:2562
 msgid "Master Videoencoder"
 msgstr "Glavni video kodirnik"
 
 #. the Audio Tool notebook tab
-#: ../vid_common/gap_cme_gui.c:2620
+#: ../vid_common/gap_cme_gui.c:2618
 msgid "Audio Tool Configuration"
 msgstr "Prilagajanje orodja za zvok"
 
 #. the Extras notebook tab
-#: ../vid_common/gap_cme_gui.c:2633
+#: ../vid_common/gap_cme_gui.c:2631
 msgid "Extras"
 msgstr "Dodatki"
 
 #. add the Encoding notebook tab
-#: ../vid_common/gap_cme_gui.c:2644
+#: ../vid_common/gap_cme_gui.c:2642
 msgid "Encoding"
 msgstr "Kodiranje"
 
 #. the (output) video label
-#: ../vid_common/gap_cme_gui.c:2670
+#: ../vid_common/gap_cme_gui.c:2668
 msgid "Video :"
 msgstr "Video:"
 
-#: ../vid_common/gap_cme_gui.c:2679
+#: ../vid_common/gap_cme_gui.c:2677
 msgid "Name of output videofile"
 msgstr "Ime izhodne slikovne datoteke"
 
-#: ../vid_common/gap_cme_gui.c:2691
+#: ../vid_common/gap_cme_gui.c:2689
 msgid "Select output videofile via browser"
 msgstr "Izberite izhodno slikovno datoteko z brskalnikom"
 
 #. the Status label
-#: ../vid_common/gap_cme_gui.c:2709
+#: ../vid_common/gap_cme_gui.c:2707
 msgid "READY"
 msgstr "PRIPRAVLJEN"
 
-#: ../vid_common/gap_cme_gui.c:2784
+#: ../vid_common/gap_cme_gui.c:2782
 msgid "Video Encoder Status"
 msgstr "Stanje kodirnika videa"
 
-#: ../vid_common/gap_cme_gui.c:2796
+#: ../vid_common/gap_cme_gui.c:2794
 msgid "Active Encoder:"
 msgstr "Aktivni kodirnik:"
 
-#: ../vid_common/gap_cme_gui.c:2841
+#: ../vid_common/gap_cme_gui.c:2839
 msgid "Frames Done:"
 msgstr "Dokončanih sličic:"
 
-#: ../vid_common/gap_cme_gui.c:2860
+#: ../vid_common/gap_cme_gui.c:2858
 msgid "Frames Encoded:"
 msgstr "Kodiranih sličic:"
 
-#: ../vid_common/gap_cme_gui.c:2879
+#: ../vid_common/gap_cme_gui.c:2877
 msgid "Frames Copied (lossless):"
 msgstr "Kopirane sličice (brez izgub):"
 
-#: ../vid_common/gap_cme_gui.c:2898
+#: ../vid_common/gap_cme_gui.c:2896
 msgid "Encoding Time Elapsed:"
 msgstr "Pretečeni čas za kodiranje:"
 
-#: ../vid_common/gap_cme_gui.c:2932
+#: ../vid_common/gap_cme_gui.c:2930
 msgid "Encoding Extras"
 msgstr "Kodiranje dodatkov"
 
 #. the Macrofile label
-#: ../vid_common/gap_cme_gui.c:2942
+#: ../vid_common/gap_cme_gui.c:2940
 msgid "Macrofile:"
 msgstr "Datoteka z makri:"
 
-#: ../vid_common/gap_cme_gui.c:2957
+#: ../vid_common/gap_cme_gui.c:2955
 msgid "optional filtermacro file to be performed on each handled frame "
 msgstr "dodatna datoteka z makri filtrov, ki naj bo izvedena na vsaki obdelani sličici"
 
-#: ../vid_common/gap_cme_gui.c:2970
+#: ../vid_common/gap_cme_gui.c:2968
 msgid "select macrofile via browser"
 msgstr "Izberite datoteko z makri prek brskalnika"
 
 #. the Storyboard label
-#: ../vid_common/gap_cme_gui.c:2979
+#: ../vid_common/gap_cme_gui.c:2977
 msgid "Storyboard File:"
 msgstr "Datoteka zgodborisa:"
 
-#: ../vid_common/gap_cme_gui.c:2993
+#: ../vid_common/gap_cme_gui.c:2991
 msgid "optionally use a storyboard file to feed the encoder"
 msgstr "Po želji uporabi datoteko zgodborisa za vhod kodirnika"
 
-#: ../vid_common/gap_cme_gui.c:3005
+#: ../vid_common/gap_cme_gui.c:3003
 msgid "select storyboard file via browser"
 msgstr "izberite datoteko zgodborisa z brskalnikom"
 
 #. the Storyboard Audio
-#: ../vid_common/gap_cme_gui.c:3012
+#: ../vid_common/gap_cme_gui.c:3010
 msgid "Storyboard Audio:"
 msgstr "Zvok zgodborisa:"
 
 #. the Storyboard filebrowser button
-#: ../vid_common/gap_cme_gui.c:3020
+#: ../vid_common/gap_cme_gui.c:3018
 msgid "Create Composite Audiofile"
 msgstr "Ustvari sestavljeno zvočno datoteko"
 
-#: ../vid_common/gap_cme_gui.c:3027
+#: ../vid_common/gap_cme_gui.c:3025
 msgid "create a composite audiofile as mixdown of all audio tracks in the storyboard file and use the created composite audiofile as input for encoding"
 msgstr "Ustvari sestavljeno zvočno datoteko kot zmešano sled vseh zvočnih sledi v datoteki zgodborisa in uporabi ustvarjeno sestavljeno zvočno datoteko kot vhod za kodiranje."
 
 #. the  storyboard helptext & parsing report label
-#: ../vid_common/gap_cme_gui.c:3039
+#: ../vid_common/gap_cme_gui.c:3037
 msgid ""
 "Storyboardfiles are textfiles that are used to\n"
 "assemble a video from a list of single images,\n"
@@ -10287,21 +10298,21 @@ msgstr ""
 "(glejte STORYBOARD_FILE_DOC.txt za podrobnosti)"
 
 #. the Monitor label
-#: ../vid_common/gap_cme_gui.c:3054
+#: ../vid_common/gap_cme_gui.c:3052
 msgid "Monitor"
 msgstr "Zaslon"
 
 #. the Monitor checkbutton
-#: ../vid_common/gap_cme_gui.c:3062
+#: ../vid_common/gap_cme_gui.c:3060
 msgid "Monitor Frames while Encoding"
 msgstr "Prikaži sličice med kodiranjem"
 
-#: ../vid_common/gap_cme_gui.c:3067
+#: ../vid_common/gap_cme_gui.c:3065
 msgid "Show each frame before passed to encoder"
 msgstr "Pokaži vsako sličico pred pošiljanjem kodirniku"
 
 #. the Debug Flat File label
-#: ../vid_common/gap_cme_gui.c:3076
+#: ../vid_common/gap_cme_gui.c:3074
 msgid ""
 "Debug\n"
 "Flat File:"
@@ -10309,12 +10320,12 @@ msgstr ""
 "Razhrošči\n"
 "sploščeno datoteko:"
 
-#: ../vid_common/gap_cme_gui.c:3090
+#: ../vid_common/gap_cme_gui.c:3088
 msgid "optional Save each composite frame to JPEG file, before it is passed to the encoder"
 msgstr "Dodatno shrani vsako sestavljeno sličico v datoteko JPEG, preden je poslana kodirniku."
 
 #. the Debug Multilayer File label
-#: ../vid_common/gap_cme_gui.c:3099
+#: ../vid_common/gap_cme_gui.c:3097
 msgid ""
 "Debug\n"
 "Multilayer File:"
@@ -10322,33 +10333,33 @@ msgstr ""
 "Razhrošči\n"
 "večplastno datoteko:"
 
-#: ../vid_common/gap_cme_gui.c:3113
+#: ../vid_common/gap_cme_gui.c:3111
 msgid "optional save each composite multilayer frame to XCF file, before flattening and executing macro"
 msgstr "Dodatno shrani vsako sestavljeno večplastno sličico v datoteko XCF, preden jo splošči in izvrši makro."
 
-#: ../vid_common/gap_cme_gui.c:3139
+#: ../vid_common/gap_cme_gui.c:3137
 msgid "Configuration of external audiotool program"
 msgstr "Nastavitev zunanjega programa za zvok"
 
 #. the audiotool (sox) label
-#: ../vid_common/gap_cme_gui.c:3149
+#: ../vid_common/gap_cme_gui.c:3147
 msgid "Audiotool:"
 msgstr "Zvočno orodje:"
 
-#: ../vid_common/gap_cme_gui.c:3163
+#: ../vid_common/gap_cme_gui.c:3161
 msgid "name of audiotool (something like sox with or without path)"
 msgstr "ime zvočnega orodja (nekaj kot je sox z ali brez poti)"
 
 #. the audiotool options (sox options) label
-#: ../vid_common/gap_cme_gui.c:3173
+#: ../vid_common/gap_cme_gui.c:3171
 msgid "Options:"
 msgstr "Možnosti:"
 
-#: ../vid_common/gap_cme_gui.c:3188
+#: ../vid_common/gap_cme_gui.c:3186
 msgid "Options to call the audiotool ($IN, $OUT $RATE are replaced)"
 msgstr "Možnosti za klicanje zvočnega programa ($IN, $OUT $RATE so zamenjani)"
 
-#: ../vid_common/gap_cme_gui.c:3200
+#: ../vid_common/gap_cme_gui.c:3198
 msgid ""
 "Configuration of an audiotool (like sox on UNIX).\n"
 "\n"
@@ -10373,112 +10384,112 @@ msgstr ""
 "     s hitrostjo datoteke .wav"
 
 #. the Save button
-#: ../vid_common/gap_cme_gui.c:3229
+#: ../vid_common/gap_cme_gui.c:3227
 msgid "Save"
 msgstr "Shrani"
 
-#: ../vid_common/gap_cme_gui.c:3232
+#: ../vid_common/gap_cme_gui.c:3230
 msgid "Save audiotool configuration to gimprc"
 msgstr "Shrani prilagoditve zvočnega orodja v gimprc"
 
 #. the Load button
-#: ../vid_common/gap_cme_gui.c:3238
+#: ../vid_common/gap_cme_gui.c:3236
 msgid "Load"
 msgstr "Naloži"
 
-#: ../vid_common/gap_cme_gui.c:3241
+#: ../vid_common/gap_cme_gui.c:3239
 msgid "Load audiotool configuration from gimprc"
 msgstr "Naloži prilagoditve zvočnega orodja iz gimprc"
 
-#: ../vid_common/gap_cme_gui.c:3250
+#: ../vid_common/gap_cme_gui.c:3248
 msgid "Set default audiotool configuration "
 msgstr "Nastavite privzeto prilagoditev zvočnega orodja"
 
-#: ../vid_common/gap_cme_gui.c:3277
+#: ../vid_common/gap_cme_gui.c:3275
 msgid "Audio Input"
 msgstr "Zvočni vhod"
 
-#: ../vid_common/gap_cme_gui.c:3305
+#: ../vid_common/gap_cme_gui.c:3303
 msgid "Name of audiofile (.wav 16 bit mono or stereo samples preferred). Optionally you may select a textfile that contains a list of file names referring to audio files. Each of those audio files will be encoded as a separate audio track."
 msgstr "Ime zvočne datoteke (priporočamo .wav, in sicer 16-bitni vzorci mono ali stereo). Dodatno lahko izberete besedilno datoteko, ki vsebuje seznam imen zvočnih datotek. Vsaka izmed njih bo kodirana kot ločena zvočna sled."
 
-#: ../vid_common/gap_cme_gui.c:3322
+#: ../vid_common/gap_cme_gui.c:3320
 msgid "Select input audiofile via browser"
 msgstr "Izberite vhodno zvočno datoteko prek brskalnika"
 
 #. the audiofile information label
 #. the Tmp audioinformation  label
-#: ../vid_common/gap_cme_gui.c:3331
-#: ../vid_common/gap_cme_gui.c:3434
+#: ../vid_common/gap_cme_gui.c:3329
+#: ../vid_common/gap_cme_gui.c:3432
 msgid "WAV, 16 Bit stereo, rate: 44100"
 msgstr "WAV, 16-bitni stereo, hitrost: 44100"
 
 #. the audiofile total playtime information label
 #. the Tmp audio playtime information  label
 #. the timestamp of the last frame
-#: ../vid_common/gap_cme_gui.c:3340
-#: ../vid_common/gap_cme_gui.c:3443
-#: ../vid_common/gap_cme_gui.c:3514
-#: ../vid_common/gap_cme_gui.c:3529
+#: ../vid_common/gap_cme_gui.c:3338
+#: ../vid_common/gap_cme_gui.c:3441
+#: ../vid_common/gap_cme_gui.c:3512
+#: ../vid_common/gap_cme_gui.c:3527
 msgid "00:00:000"
 msgstr "00:00:000"
 
-#: ../vid_common/gap_cme_gui.c:3368
+#: ../vid_common/gap_cme_gui.c:3366
 msgid "Output samplerate in samples/sec"
 msgstr "Izhodno vzorčenje v vzorcih/sekundo"
 
 #. the Samplerate combo
-#: ../vid_common/gap_cme_gui.c:3374
+#: ../vid_common/gap_cme_gui.c:3372
 msgid " 8k Phone"
 msgstr " 8k telefon"
 
-#: ../vid_common/gap_cme_gui.c:3375
+#: ../vid_common/gap_cme_gui.c:3373
 msgid "11.025k"
 msgstr "11,025k"
 
-#: ../vid_common/gap_cme_gui.c:3376
+#: ../vid_common/gap_cme_gui.c:3374
 msgid "12k Voice"
 msgstr "12k glas"
 
-#: ../vid_common/gap_cme_gui.c:3377
+#: ../vid_common/gap_cme_gui.c:3375
 msgid "16k FM"
 msgstr "16k FM"
 
-#: ../vid_common/gap_cme_gui.c:3378
+#: ../vid_common/gap_cme_gui.c:3376
 msgid "22.05k"
 msgstr "22,05k"
 
-#: ../vid_common/gap_cme_gui.c:3379
+#: ../vid_common/gap_cme_gui.c:3377
 msgid "24k Tape"
 msgstr "24k trak"
 
-#: ../vid_common/gap_cme_gui.c:3380
+#: ../vid_common/gap_cme_gui.c:3378
 msgid "32k HiFi"
 msgstr "32k HiFi"
 
-#: ../vid_common/gap_cme_gui.c:3381
+#: ../vid_common/gap_cme_gui.c:3379
 msgid "44.1k CD"
 msgstr "44,1k CD"
 
-#: ../vid_common/gap_cme_gui.c:3382
+#: ../vid_common/gap_cme_gui.c:3380
 msgid "48 k Studio"
 msgstr "48 k studijsko"
 
-#: ../vid_common/gap_cme_gui.c:3391
+#: ../vid_common/gap_cme_gui.c:3389
 msgid "Select a commonly-used samplerate"
 msgstr "Izberite pogosto uporabljeno hitrost vzorčenja"
 
 #. the Tmp audiofile label
-#: ../vid_common/gap_cme_gui.c:3401
+#: ../vid_common/gap_cme_gui.c:3399
 msgid "Tmpfile:"
 msgstr "Začasna datoteka:"
 
 #. the convert Tmp audiofilefile button
-#: ../vid_common/gap_cme_gui.c:3418
+#: ../vid_common/gap_cme_gui.c:3416
 msgid "Audioconvert"
 msgstr "Pretvori zvok"
 
-#: ../vid_common/gap_cme_gui.c:3424
+#: ../vid_common/gap_cme_gui.c:3422
 msgid ""
 "Convert audio input file to a temporary file\n"
 "and feed the temporary file to the selected encoder\n"
@@ -10489,7 +10500,7 @@ msgstr ""
 "(začasna datoteka je po končanem kodiranju izbrisana)."
 
 #. the resample general information label
-#: ../vid_common/gap_cme_gui.c:3453
+#: ../vid_common/gap_cme_gui.c:3451
 msgid ""
 "\n"
 "Note:\n"
@@ -10505,163 +10516,163 @@ msgstr ""
 "vendar pa višje hitrosti vzorčenja ne morejo\n"
 "izboljšati kakovosti izvornega zvoka."
 
-#: ../vid_common/gap_cme_gui.c:3559
+#: ../vid_common/gap_cme_gui.c:3557
 msgid "Video Encode Options"
 msgstr "Možnosti kodiranja videa"
 
-#: ../vid_common/gap_cme_gui.c:3596
+#: ../vid_common/gap_cme_gui.c:3594
 msgid "Start encoding at this frame"
 msgstr "Začni kodiranje s to sličico"
 
-#: ../vid_common/gap_cme_gui.c:3629
+#: ../vid_common/gap_cme_gui.c:3627
 msgid "Stop encoding at this frame"
 msgstr "Končaj kodiranje s to sličico"
 
-#: ../vid_common/gap_cme_gui.c:3655
+#: ../vid_common/gap_cme_gui.c:3653
 msgid "Width of the output video (pixels)"
 msgstr "Širina izhodnega videa (v slikovnih točkah)"
 
 #. the Frame width/height scale combo (for picking common used video sizes)
 #. the framerate combo (to select common used video framerates)
-#: ../vid_common/gap_cme_gui.c:3662
-#: ../vid_common/gap_cme_gui.c:3741
+#: ../vid_common/gap_cme_gui.c:3660
+#: ../vid_common/gap_cme_gui.c:3739
 msgid "keep"
 msgstr "ohrani"
 
-#: ../vid_common/gap_cme_gui.c:3663
+#: ../vid_common/gap_cme_gui.c:3661
 msgid "Framesize (1:1)"
 msgstr "Velikost sličice (1:1)"
 
-#: ../vid_common/gap_cme_gui.c:3664
+#: ../vid_common/gap_cme_gui.c:3662
 msgid "320x240 NTSC"
 msgstr "320x240 NTSC"
 
-#: ../vid_common/gap_cme_gui.c:3665
+#: ../vid_common/gap_cme_gui.c:3663
 msgid "320x288 PAL"
 msgstr "320x288 PAL"
 
-#: ../vid_common/gap_cme_gui.c:3666
+#: ../vid_common/gap_cme_gui.c:3664
 msgid "640x480"
 msgstr "640x480"
 
-#: ../vid_common/gap_cme_gui.c:3667
+#: ../vid_common/gap_cme_gui.c:3665
 msgid "720x480 NTSC"
 msgstr "720x480 NTSC"
 
-#: ../vid_common/gap_cme_gui.c:3668
+#: ../vid_common/gap_cme_gui.c:3666
 msgid "720x576 PAL"
 msgstr "720x576 PAL"
 
-#: ../vid_common/gap_cme_gui.c:3669
+#: ../vid_common/gap_cme_gui.c:3667
 msgid "1280x720 HD"
 msgstr "1280x720 HD"
 
-#: ../vid_common/gap_cme_gui.c:3670
+#: ../vid_common/gap_cme_gui.c:3668
 msgid "1920x1080 FullHD"
 msgstr "1920x1080 FullHD"
 
-#: ../vid_common/gap_cme_gui.c:3671
+#: ../vid_common/gap_cme_gui.c:3669
 msgid "1920x1088 EosHD"
 msgstr "1920x1088 EosHD"
 
-#: ../vid_common/gap_cme_gui.c:3680
+#: ../vid_common/gap_cme_gui.c:3678
 msgid "Scale width/height to common size"
 msgstr "Spremeni merilo višine/širine na običajno velikost"
 
-#: ../vid_common/gap_cme_gui.c:3707
+#: ../vid_common/gap_cme_gui.c:3705
 msgid "Height of the output video (pixels)"
 msgstr "Višina izhodnega videa (v slikovnih točkah)"
 
-#: ../vid_common/gap_cme_gui.c:3734
+#: ../vid_common/gap_cme_gui.c:3732
 msgid "Framerate of the output video (frames/sec)"
 msgstr "Hitrost sličic izhodnega videa (v sličicah/s)"
 
-#: ../vid_common/gap_cme_gui.c:3742
+#: ../vid_common/gap_cme_gui.c:3740
 msgid "original"
 msgstr "Izvorno"
 
-#: ../vid_common/gap_cme_gui.c:3764
+#: ../vid_common/gap_cme_gui.c:3762
 msgid "Set framerate"
 msgstr "Nastavi hitrost predvajanja"
 
 #. the Videonorm label
-#: ../vid_common/gap_cme_gui.c:3775
+#: ../vid_common/gap_cme_gui.c:3773
 msgid "Videonorm:"
 msgstr "Slikovni standard:"
 
 #. the Videonorm combo
-#: ../vid_common/gap_cme_gui.c:3783
+#: ../vid_common/gap_cme_gui.c:3781
 msgid "NTSC"
 msgstr "NTSC"
 
-#: ../vid_common/gap_cme_gui.c:3784
+#: ../vid_common/gap_cme_gui.c:3782
 msgid "PAL"
 msgstr "PAL"
 
-#: ../vid_common/gap_cme_gui.c:3785
+#: ../vid_common/gap_cme_gui.c:3783
 msgid "SECAM"
 msgstr "SECAM"
 
-#: ../vid_common/gap_cme_gui.c:3786
+#: ../vid_common/gap_cme_gui.c:3784
 msgid "MAC"
 msgstr "MAC"
 
-#: ../vid_common/gap_cme_gui.c:3787
+#: ../vid_common/gap_cme_gui.c:3785
 msgid "COMP"
 msgstr "COMP"
 
-#: ../vid_common/gap_cme_gui.c:3788
+#: ../vid_common/gap_cme_gui.c:3786
 msgid "undefined"
 msgstr "nedoločeno"
 
-#: ../vid_common/gap_cme_gui.c:3797
+#: ../vid_common/gap_cme_gui.c:3795
 msgid "Select videonorm"
 msgstr "Izberite vrsto slike"
 
 #. the videoencoder label
-#: ../vid_common/gap_cme_gui.c:3807
+#: ../vid_common/gap_cme_gui.c:3805
 msgid "Encoder:"
 msgstr "Kodirnik:"
 
 #. the parameters button (invokes videoencoder specific GUI dialog)
-#: ../vid_common/gap_cme_gui.c:3815
+#: ../vid_common/gap_cme_gui.c:3813
 msgid "Parameters"
 msgstr "Parametri"
 
-#: ../vid_common/gap_cme_gui.c:3821
+#: ../vid_common/gap_cme_gui.c:3819
 msgid "Edit encoder specific parameters"
 msgstr "Uredi parametre kodirnika"
 
-#: ../vid_common/gap_cme_gui.c:3837
+#: ../vid_common/gap_cme_gui.c:3835
 msgid "Select video encoder plugin"
 msgstr "Izberite vtičnik za kodiranje slike"
 
-#: ../vid_common/gap_cme_gui.c:3936
+#: ../vid_common/gap_cme_gui.c:3934
 #, c-format
 msgid "Required Plugin %s not available"
 msgstr "Zahtevani vtičnik %s ni na voljo"
 
-#: ../vid_common/gap_cme_gui.c:3988
+#: ../vid_common/gap_cme_gui.c:3986
 #, c-format
 msgid "Call of Required Plugin %s failed"
 msgstr "Klic zahtevanega vtičnika %s ni uspel"
 
-#: ../vid_common/gap_cme_gui.c:4073
+#: ../vid_common/gap_cme_gui.c:4071
 #, c-format
 msgid "Video encoding %d of %d frames done, PASS 1 of 2"
 msgstr "Video-kodiranje %d sličic od %d dokončano, PREHOD 1/2"
 
-#: ../vid_common/gap_cme_gui.c:4085
+#: ../vid_common/gap_cme_gui.c:4083
 #, c-format
 msgid "Video encoding %d of %d frames done, PASS 2 of 2"
 msgstr "Video-kodiranje %d sličic od %d dokončano, PREHOD 2/2"
 
-#: ../vid_common/gap_cme_gui.c:4098
+#: ../vid_common/gap_cme_gui.c:4096
 #, c-format
 msgid "Video encoding %d of %d frames done"
 msgstr "Video-kodiranje %d sličic od %d dokončano"
 
-#: ../vid_common/gap_cme_gui.c:4117
+#: ../vid_common/gap_cme_gui.c:4115
 msgid "ENCODER process has terminated"
 msgstr "KODIRNI proces se je zaključil"
 
