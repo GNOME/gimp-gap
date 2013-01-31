@@ -2,14 +2,14 @@
 # Copyright (C) 2001 Free Software Foundation.
 # Simos Xenitellis <simos@hellug.gr>, 2001.
 # Dimitris Spingos (Δημήτρης  Σπίγγος) <dmtrs32@gmail.com>, 2012.
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-plugins 1.0\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-11 15:37+0000\n"
-"PO-Revision-Date: 2012-06-17 08:28+0300\n"
+"POT-Creation-Date: 2013-01-16 19:21+0000\n"
+"PO-Revision-Date: 2013-01-31 17:30+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
 #
@@ -58,7 +58,7 @@ msgstr "Το αρχείο '%s' υπάρχει ήδη"
 #. the overwrite checkbutton
 #: ../gap/gap_arr_dialog.c:1818 ../gap/gap_morph_tween_dialog.c:881
 #: ../gap/gap_morph_tween_dialog.c:1316 ../gap/gap_vex_dialog.c:247
-#: ../vid_common/gap_cme_gui.c:2375
+#: ../vid_common/gap_cme_gui.c:2373
 msgid "Overwrite"
 msgstr "Αντικατάσταση"
 
@@ -346,7 +346,7 @@ msgstr "Αλλαγή πυκνότητας πλαισίου"
 #: ../gap/gap_mov_dialog.c:4440 ../gap/gap_mpege.c:302
 #: ../gap/gap_onion_dialog.c:914 ../gap/gap_range_ops.c:301
 #: ../gap/gap_range_ops.c:537 ../gap/gap_range_ops.c:735
-#: ../gap/gap_vex_dialog.c:2129 ../vid_common/gap_cme_gui.c:3578
+#: ../gap/gap_vex_dialog.c:2102 ../vid_common/gap_cme_gui.c:3576
 msgid "From Frame:"
 msgstr "Από πλαίσιο:"
 
@@ -365,7 +365,7 @@ msgstr "Η επηρεαζόμενη περιοχή ξεκινά από αυτό�
 #: ../gap/gap_mov_dialog.c:4462 ../gap/gap_mpege.c:312
 #: ../gap/gap_onion_dialog.c:921 ../gap/gap_range_ops.c:311
 #: ../gap/gap_range_ops.c:545 ../gap/gap_range_ops.c:743
-#: ../gap/gap_vex_dialog.c:2185 ../vid_common/gap_cme_gui.c:3612
+#: ../gap/gap_vex_dialog.c:2158 ../vid_common/gap_cme_gui.c:3610
 msgid "To Frame:"
 msgstr "Σε πλαίσιο:"
 
@@ -509,7 +509,7 @@ msgstr "Νέος αριθμός πλαισίου για το πρώτο πλαί
 
 #. the framenumber digits label
 #: ../gap/gap_base_ops.c:1920 ../gap/gap_split.c:495
-#: ../gap/gap_vex_dialog.c:2494
+#: ../gap/gap_vex_dialog.c:2467
 msgid "Digits:"
 msgstr "Ψηφία:"
 
@@ -526,61 +526,61 @@ msgstr "Νέα αρίθμηση πλαισίων"
 msgid "Renumber Frames 2nd Pass"
 msgstr "Νέα αρίθμηση πλαισίων 2ου περάσματος"
 
-#: ../gap/gap_blend_fill_main.c:234
+#: ../gap/gap_blend_fill_main.c:236
 msgid "Blend Fill..."
 msgstr "Ανάμιξη γεμίσματος..."
 
 #. Menu names
-#: ../gap/gap_blend_fill_main.c:245 ../gap/gap_detail_tracking_main.c:313
+#: ../gap/gap_blend_fill_main.c:247 ../gap/gap_detail_tracking_main.c:313
 #: ../gap/gap_wr_resynth.c:185
 msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Βίντεο/Στρώση/Βελτίωση/"
 
 #
-#: ../gap/gap_blend_fill_main.c:311 ../gap/gap_blend_fill_main.c:1937
+#: ../gap/gap_blend_fill_main.c:313 ../gap/gap_blend_fill_main.c:1977
 msgid "selection.svg"
 msgstr "selection.svg"
 
-#: ../gap/gap_blend_fill_main.c:475
+#: ../gap/gap_blend_fill_main.c:477
 msgid "Blendfill ..."
 msgstr "Ανάμιξη γεμίσματος ..."
 
-#: ../gap/gap_blend_fill_main.c:1415 ../gap/gap_blend_fill_main.c:1717
+#: ../gap/gap_blend_fill_main.c:1455 ../gap/gap_blend_fill_main.c:1757
 #, c-format
 msgid "Path Vectors too large to fit into buffersize:%d."
 msgstr ""
 "Τα διανύσματα του μονοπατιού πολύ μεγάλα για να ταιριάξουν στο μέγεθος της "
 "μνήμης:%d."
 
-#: ../gap/gap_blend_fill_main.c:1426 ../gap/gap_blend_fill_main.c:1724
+#: ../gap/gap_blend_fill_main.c:1466 ../gap/gap_blend_fill_main.c:1764
 msgid "No Path Vectors available."
 msgstr "Χωρίς διαθέσιμα διανύσματα μονοπατιού."
 
-#: ../gap/gap_blend_fill_main.c:1443
+#: ../gap/gap_blend_fill_main.c:1483
 msgid "SVG file does not exist (use Save Pats button to create)."
 msgstr ""
 "Αρχεία SVG δεν υπάρχουν (χρησιμοποιήστε το πλήκτρο αποθήκευση Pats για "
 "δημιουργία)."
 
-#: ../gap/gap_blend_fill_main.c:1449
+#: ../gap/gap_blend_fill_main.c:1489
 msgid "please enter SVG filename"
 msgstr "παρακαλώ εισάγετε όνομα αρχείου SVG"
 
-#: ../gap/gap_blend_fill_main.c:1568
+#: ../gap/gap_blend_fill_main.c:1608
 msgid "Select vectorfile name"
 msgstr "Επιλογή ονόματος αρχείου διανύσματος"
 
-#: ../gap/gap_blend_fill_main.c:1679
+#: ../gap/gap_blend_fill_main.c:1719
 #, c-format
 msgid "Failed to write SVG file: %s"
 msgstr "Αδυναμία εγγραφής αρχείου SVG: %s"
 
-#: ../gap/gap_blend_fill_main.c:1765
+#: ../gap/gap_blend_fill_main.c:1805
 msgid "Blend Fill Selection"
 msgstr "Επιλογή γεμίσματος ανάμιξης"
 
 #. horizontalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1799
+#: ../gap/gap_blend_fill_main.c:1839
 msgid ""
 "fills the selection by blending opposite border colors outside the selction "
 "to cover the selected area.\n"
@@ -591,11 +591,11 @@ msgstr ""
 "Αποσκοπεί στην επιδιόρθωση μικρών σφαλμάτων εικονοστοιχείου"
 
 #. horizontalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1811
+#: ../gap/gap_blend_fill_main.c:1851
 msgid "Horizontal Blend:"
 msgstr "Οριζόντια ανάμειξη:"
 
-#: ../gap/gap_blend_fill_main.c:1820
+#: ../gap/gap_blend_fill_main.c:1860
 msgid ""
 "ON: enable horizontal color blending. OFF: disable horizontal color blending."
 msgstr ""
@@ -603,46 +603,46 @@ msgstr ""
 "οριζόντια μίξη χρωμάτων."
 
 #. verticalBlendFlag checkbutton
-#: ../gap/gap_blend_fill_main.c:1833
+#: ../gap/gap_blend_fill_main.c:1873
 msgid "Vertical Blend:"
 msgstr "Κάθετη ανάμειξη:"
 
-#: ../gap/gap_blend_fill_main.c:1842
+#: ../gap/gap_blend_fill_main.c:1882
 msgid ""
 "ON: enable vertical color blending. OFF: disable vertical color blending."
 msgstr ""
 "ΝΑΙ: ενεργοποιεί την κάθετη μίξη χρωμάτων. ΟΧΙ: απενεργοποιεί την κάθετη "
 "μίξη χρωμάτων."
 
-#: ../gap/gap_blend_fill_main.c:1855 ../gap/gap_wr_resynth.c:478
+#: ../gap/gap_blend_fill_main.c:1895 ../gap/gap_wr_resynth.c:478
 msgid "Border Radius:"
 msgstr "Ακτίνα περιγράμματος:"
 
-#: ../gap/gap_blend_fill_main.c:1858
+#: ../gap/gap_blend_fill_main.c:1898
 msgid "radius for picking border colors"
 msgstr "ακτίνα για επιλογή χρωμάτων περιγράμματος"
 
 #. layer combo_box (altSelection)
 #. layer combo_box (alt_selection)
-#: ../gap/gap_blend_fill_main.c:1869 ../gap/gap_wr_resynth.c:503
+#: ../gap/gap_blend_fill_main.c:1909 ../gap/gap_wr_resynth.c:503
 msgid "Set Selection:"
 msgstr "Ορισμός επιλογής:"
 
 #
-#: ../gap/gap_blend_fill_main.c:1880
+#: ../gap/gap_blend_fill_main.c:1920
 msgid "Selection From All Paths"
 msgstr "Επιλογή από όλα τα μονοπάτια"
 
-#: ../gap/gap_blend_fill_main.c:1885
+#: ../gap/gap_blend_fill_main.c:1925
 msgid "Selection From Vectors File"
 msgstr "Επιλογή από αρχείο διανυσμάτων"
 
 #. grab vectors button
-#: ../gap/gap_blend_fill_main.c:1915
+#: ../gap/gap_blend_fill_main.c:1955
 msgid "Save Paths"
 msgstr "Αποθήκευση μονοπατιού"
 
-#: ../gap/gap_blend_fill_main.c:1920
+#: ../gap/gap_blend_fill_main.c:1960
 msgid ""
 "Save all pathes as svg vector file.(use svg file when large or many pathes "
 "shall be used)"
@@ -650,7 +650,7 @@ msgstr ""
 "Αποθήκευση όλων των μονοπατιών ως αρχείο διανύσματος svg.(χρήση αρχείου svg "
 "όταν μεγάλα ή πολλά μονοπάτια θα χρησιμοποιηθούν)"
 
-#: ../gap/gap_blend_fill_main.c:1932
+#: ../gap/gap_blend_fill_main.c:1972
 msgid "Name of SVG vector file"
 msgstr "Όνομα του αρχείου διανύσματος SVG"
 
@@ -662,15 +662,15 @@ msgstr "Όνομα του αρχείου διανύσματος SVG"
 #. the Storyboard filebrowser button
 #. the Audiofile filebrowser button
 #. the pass_logfile fileselector button
-#: ../gap/gap_blend_fill_main.c:1946 ../gap/gap_vex_dialog.c:2109
-#: ../gap/gap_vex_dialog.c:2481 ../gap/gap_vex_dialog.c:2705
-#: ../vid_common/gap_cme_gui.c:2686 ../vid_common/gap_cme_gui.c:2964
-#: ../vid_common/gap_cme_gui.c:3000 ../vid_common/gap_cme_gui.c:3316
+#: ../gap/gap_blend_fill_main.c:1986 ../gap/gap_vex_dialog.c:2082
+#: ../gap/gap_vex_dialog.c:2454 ../gap/gap_vex_dialog.c:2674
+#: ../vid_common/gap_cme_gui.c:2684 ../vid_common/gap_cme_gui.c:2962
+#: ../vid_common/gap_cme_gui.c:2998 ../vid_common/gap_cme_gui.c:3314
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3505
 msgid "..."
 msgstr "..."
 
-#: ../gap/gap_blend_fill_main.c:1952
+#: ../gap/gap_blend_fill_main.c:1992
 msgid "Select output svg vector file via browser"
 msgstr "Επιλογή εξόδου αρχείου διανύσματος svg μέσω περιηγητή"
 
@@ -991,7 +991,7 @@ msgstr "Μπλε κουτί ..."
 #: ../gap/gap_bluebox_main.c:187 ../gap/gap_main.c:922
 #: ../gap/gap_mov_main.c:381 ../gap/gap_name2layer_main.c:177
 #: ../gap/gap_navigator_dialog.c:552 ../gap/gap_onion_main.c:205
-#: ../gap/gap_player_main.c:297 ../gap/gap_story_main.c:190
+#: ../gap/gap_player_main.c:297 ../gap/gap_story_main.c:215
 #: ../vid_common/gap_cme_main.c:168
 msgid "<Image>/Video/"
 msgstr "<Image>/βίντεο/"
@@ -1403,8 +1403,8 @@ msgstr ""
 
 #. Frames Duration button
 #. Frames Overlap duration button
-#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3400
-#: ../gap/gap_story_att_trans_dlg.c:3654
+#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3407
+#: ../gap/gap_story_att_trans_dlg.c:3661
 msgid "Frames:"
 msgstr "Πλαίσια:"
 
@@ -1414,7 +1414,7 @@ msgstr "Αριθμός πλαισίων για εξαγωγή"
 
 #. the videotrack to label
 #: ../gap/gap_decode_mplayer.c:467 ../gap/gap_story_properties.c:4297
-#: ../gap/gap_vex_dialog.c:2242
+#: ../gap/gap_vex_dialog.c:2215
 msgid "Videotrack:"
 msgstr "Ίχνος βίντεο:"
 
@@ -1425,7 +1425,7 @@ msgstr "Αριθμός κομματιών βίντεο για εξαγωγή. (0
 #. Sample Offset
 #. the audiotrack to label
 #: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:6807
-#: ../gap/gap_vex_dialog.c:2276
+#: ../gap/gap_vex_dialog.c:2249
 msgid "Audiotrack:"
 msgstr "Ίχνος ήχου:"
 
@@ -1946,9 +1946,9 @@ msgstr ""
 #: ../gap/gap_detail_align_exec.c:660 ../gap/gap_detail_tracking_exec.c:1471
 #: ../gap/gap_mov_dialog.c:1556 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:512 ../gap/gap_split.c:505
-#: ../gap/gap_story_dialog.c:5224 ../gap/gap_story_dialog.c:5559
+#: ../gap/gap_story_dialog.c:5233 ../gap/gap_story_dialog.c:5568
 #: ../gap/gap_video_index_creator.c:1006 ../gap/gap_wr_opacity.c:356
-#: ../vid_common/gap_cme_gui.c:3247
+#: ../vid_common/gap_cme_gui.c:3245
 msgid "Default"
 msgstr "Προεπιλογή"
 
@@ -2025,7 +2025,6 @@ msgstr "Μετασχηματισμός στρώσης μέσω 4 (ή 2) σημε
 #. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
 #.
 #: ../gap/gap_detail_align_exec.c:1145
-#| msgid "Load Path Points from File"
 msgid "Path Point Order:"
 msgstr "Σειρά σημείων μονοπατιού:"
 
@@ -2039,14 +2038,6 @@ msgstr ""
 "Ο στόχος σημειώνεται από τα σημεία 1&2 "
 
 #: ../gap/gap_detail_align_exec.c:1281
-#| msgid ""
-#| "This filter requires a current path with 4 points,where point 1 and 2 "
-#| "mark reference positions and point 3 and 4 mark postions in the target "
-#| "layer.It transforms the target layer in a way that point3 is moved to "
-#| "point1 and point4 moves to point2.(this may include rotate an scale "
-#| "transforamtion).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points,where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark postions in the target layer.It "
@@ -2065,14 +2056,6 @@ msgstr ""
 "και κλίμακα)"
 
 #: ../gap/gap_detail_align_exec.c:1292
-#| msgid ""
-#| "This filter requires a current path with 4 points,where point 1 and 2 "
-#| "mark reference positions and point 3 and 4 mark postions in the target "
-#| "layer.It transforms the target layer in a way that point3 is moved to "
-#| "point1 and point4 moves to point2.(this may include rotate an scale "
-#| "transforamtion).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points,where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark postions in the target layer.It "
@@ -2393,7 +2376,7 @@ msgstr "Δημιουργία αντιγράφου ασφαλείας της ει
 
 #
 #: ../gap/gap_filter_foreach.c:139 ../gap/gap_mod_layer.c:108
-#: ../gap/gap_story_dialog.c:6494
+#: ../gap/gap_story_dialog.c:6503
 msgid "Continue"
 msgstr "Συνέχεια"
 
@@ -2734,7 +2717,7 @@ msgstr ""
 #. table col, row
 #: ../gap/gap_fire_pattern.c:2324 ../gap/gap_mov_dialog.c:4634
 #: ../gap/gap_mov_dialog.c:4909 ../gap/gap_onion_dialog.c:1130
-#: ../gap/gap_story_att_trans_dlg.c:3724 ../gap/gap_water_pattern.c:1404
+#: ../gap/gap_story_att_trans_dlg.c:3731 ../gap/gap_water_pattern.c:1404
 #: ../gap/gap_wr_opacity.c:332
 msgid "Opacity:"
 msgstr "Διαφάνεια:"
@@ -4571,8 +4554,8 @@ msgstr "Σμίκρυνση μεγέθους της δημιουργημένης 
 
 #. the Framerate lable
 #: ../gap/gap_mov_dialog.c:1531 ../gap/gap_mpege.c:321
-#: ../gap/gap_navigator_dialog.c:4255 ../gap/gap_story_dialog.c:9118
-#: ../vid_common/gap_cme_gui.c:3717
+#: ../gap/gap_navigator_dialog.c:4255 ../gap/gap_story_dialog.c:9258
+#: ../vid_common/gap_cme_gui.c:3715
 msgid "Framerate:"
 msgstr "Ρυθμός πλαισίου:"
 
@@ -4734,7 +4717,7 @@ msgstr ""
 #. Paintmode combo (menu)
 #. the operating Mode label
 #: ../gap/gap_mov_dialog.c:3680 ../gap/gap_name2layer_main.c:444
-#: ../gap/gap_vex_dialog.c:2437 ../gap/gap_video_index_creator.c:982
+#: ../gap/gap_vex_dialog.c:2406 ../gap/gap_video_index_creator.c:982
 #: ../gap/gap_wr_opacity.c:344
 msgid "Mode:"
 msgstr "Κατάσταση:"
@@ -5205,8 +5188,8 @@ msgstr ""
 #. Width Scale
 #. table col, row
 #. the width label
-#: ../gap/gap_mov_dialog.c:4582 ../gap/gap_story_dialog.c:9095
-#: ../vid_common/gap_cme_gui.c:3638
+#: ../gap/gap_mov_dialog.c:4582 ../gap/gap_story_dialog.c:9235
+#: ../vid_common/gap_cme_gui.c:3636
 msgid "Width:"
 msgstr "Πλάτος:"
 
@@ -5225,8 +5208,8 @@ msgstr "Κλιμάκωση πλάτους πηγαίας στρώσης σε π�
 #. Height Scale
 #. table col, row
 #. the height label
-#: ../gap/gap_mov_dialog.c:4600 ../gap/gap_story_dialog.c:9106
-#: ../vid_common/gap_cme_gui.c:3691
+#: ../gap/gap_mov_dialog.c:4600 ../gap/gap_story_dialog.c:9246
+#: ../vid_common/gap_cme_gui.c:3689
 msgid "Height:"
 msgstr "Ύψος:"
 
@@ -5260,7 +5243,7 @@ msgstr "Ορισμός αδιαφάνειας πηγαίας στρώσης σε
 
 #. Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4652 ../gap/gap_story_att_trans_dlg.c:3698
+#: ../gap/gap_mov_dialog.c:4652 ../gap/gap_story_att_trans_dlg.c:3705
 msgid "Rotate:"
 msgstr "Περιστροφή:"
 
@@ -5458,7 +5441,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4917 ../gap/gap_story_att_trans_dlg.c:3746
+#: ../gap/gap_mov_dialog.c:4917 ../gap/gap_story_att_trans_dlg.c:3753
 msgid ""
 "acceleration characteristic for opacity (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5503,7 +5486,7 @@ msgstr "Περιστροφή:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4957 ../gap/gap_story_att_trans_dlg.c:3718
+#: ../gap/gap_mov_dialog.c:4957 ../gap/gap_story_att_trans_dlg.c:3725
 msgid ""
 "acceleration characteristic for rotation (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5741,7 +5724,7 @@ msgstr ""
 "Όνομα του αρχείου που περιέχει τις παραμέτρους και σημεία ελέγχου του "
 "μονοπατιού μετακίνησης σε μορφή XML"
 
-#: ../gap/gap_mov_dialog.c:6812 ../vid_common/gap_cme_gui.c:2822
+#: ../gap/gap_mov_dialog.c:6812 ../vid_common/gap_cme_gui.c:2820
 msgid "Total Frames:"
 msgstr "Συνολικά πλαίσια"
 
@@ -5766,8 +5749,8 @@ msgstr "Αντιγραφή αρχείου ήχου ως αρχείου κύμα�
 
 #
 #: ../gap/gap_mov_dialog.c:6834 ../gap/gap_player_dialog.c:481
-#: ../gap/gap_story_dialog.c:5228 ../gap/gap_story_dialog.c:8874
-#: ../gap/gap_story_dialog.c:9324
+#: ../gap/gap_story_dialog.c:5237 ../gap/gap_story_dialog.c:9014
+#: ../gap/gap_story_dialog.c:9464
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
@@ -6736,7 +6719,7 @@ msgstr ""
 #. Audio Samplerate
 #. the Samplerate label
 #: ../gap/gap_player_dialog.c:458 ../gap/gap_player_dialog.c:6956
-#: ../gap/gap_story_dialog.c:9237 ../vid_common/gap_cme_gui.c:3351
+#: ../gap/gap_story_dialog.c:9377 ../vid_common/gap_cme_gui.c:3349
 msgid "Samplerate:"
 msgstr "Ρυθμός δειγματοληψίας:"
 
@@ -6896,7 +6879,7 @@ msgstr ""
 "Χωρίς ευρετήριο βίντεο. Η πρόσβαση περιορίζεται σε (αργή) σειριακή ανάγνωση "
 "σε αρχείο: %s"
 
-#: ../gap/gap_player_dialog.c:2997 ../gap/gap_story_dialog.c:6767
+#: ../gap/gap_player_dialog.c:2997 ../gap/gap_story_dialog.c:6776
 #, c-format
 msgid "Videoseek"
 msgstr "Αναζήτηση βίντεο"
@@ -6972,8 +6955,8 @@ msgstr "Ηχητικές ρυθμίσεις αναπαραγωγής"
 #. audiofile label
 #. the output audiofile label
 #. the Audiofile label
-#: ../gap/gap_player_dialog.c:6665 ../gap/gap_vex_dialog.c:2685
-#: ../vid_common/gap_cme_gui.c:3290
+#: ../gap/gap_player_dialog.c:6665 ../gap/gap_vex_dialog.c:2654
+#: ../vid_common/gap_cme_gui.c:3288
 msgid "Audiofile:"
 msgstr "Αρχείο ήχου:"
 
@@ -6989,7 +6972,7 @@ msgstr "Άνοιγμα παραθύρου διαλόγου περιηγητή ε
 
 #
 #. Volume
-#: ../gap/gap_player_dialog.c:6710 ../gap/gap_story_dialog.c:9253
+#: ../gap/gap_player_dialog.c:6710 ../gap/gap_story_dialog.c:9393
 msgid "Volume:"
 msgstr "Ένταση:"
 
@@ -7086,7 +7069,7 @@ msgstr "Χρόνος μετατόπισης:"
 
 #. Total Audio Length (mm:ss:msec)
 #. the audio timing information labels
-#: ../gap/gap_player_dialog.c:6911 ../vid_common/gap_cme_gui.c:3523
+#: ../gap/gap_player_dialog.c:6911 ../vid_common/gap_cme_gui.c:3521
 msgid "Audiotime:"
 msgstr "Χρόνος ήχου:"
 
@@ -7113,7 +7096,7 @@ msgstr "Δυαδικά ψηφία/δείγμα:"
 
 #. Total Video Length (mm:ss:msec)
 #. the video timing information labels
-#: ../gap/gap_player_dialog.c:6999 ../vid_common/gap_cme_gui.c:3496
+#: ../gap/gap_player_dialog.c:6999 ../vid_common/gap_cme_gui.c:3494
 msgid "Videotime:"
 msgstr "Χρόνος βίντεο:"
 
@@ -7234,7 +7217,7 @@ msgstr "Αναπαραγωγή πλαισίου βίντεο"
 
 #. vid options TAB frame
 #. the video options notebook tab
-#: ../gap/gap_player_dialog.c:7583 ../vid_common/gap_cme_gui.c:2596
+#: ../gap/gap_player_dialog.c:7583 ../vid_common/gap_cme_gui.c:2594
 msgid "Video Options"
 msgstr "Επιλογές βίντεο"
 
@@ -7246,7 +7229,7 @@ msgstr "Προτιμήσεις"
 #
 #. audio options TAB frame
 #. the Audio Options notebook tab
-#: ../gap/gap_player_dialog.c:7623 ../vid_common/gap_cme_gui.c:2608
+#: ../gap/gap_player_dialog.c:7623 ../vid_common/gap_cme_gui.c:2606
 msgid "Audio Options"
 msgstr "Επιλογές ήχου"
 
@@ -7494,8 +7477,8 @@ msgstr "Κλιμάκωση πλαισίων βίντεο (όλα)"
 msgid "Scale (original %dx%d)"
 msgstr "Κλιμάκωση (αρχικό %dx%d)"
 
-#: ../gap/gap_range_ops.c:220 ../gap/gap_story_dialog.c:8864
-#: ../gap/gap_story_dialog.c:9311
+#: ../gap/gap_range_ops.c:220 ../gap/gap_story_dialog.c:9004
+#: ../gap/gap_story_dialog.c:9451
 msgid "Reset"
 msgstr "Επαναφορά"
 
@@ -7656,7 +7639,7 @@ msgstr ""
 "να επεξεργαστεί διαφάνεια (κανάλι άλφα) αλλά περιορίζεται σε μια στρώση)"
 
 #. the basename label
-#: ../gap/gap_range_ops.c:555 ../gap/gap_vex_dialog.c:2461
+#: ../gap/gap_range_ops.c:555 ../gap/gap_vex_dialog.c:2434
 msgid "Basename:"
 msgstr "Όνομα βάσης:"
 
@@ -7670,7 +7653,7 @@ msgstr ""
 
 #. the extension label
 #: ../gap/gap_range_ops.c:562 ../gap/gap_split.c:454
-#: ../gap/gap_vex_dialog.c:2575
+#: ../gap/gap_vex_dialog.c:2548
 msgid "Extension:"
 msgstr "Επέκταση:"
 
@@ -8150,25 +8133,25 @@ msgstr "Επαναφορά σημείου"
 msgid "Rotate Follow"
 msgstr "Ακολουθεί περιστροφή"
 
-#: ../gap/gap_story_att_trans_dlg.c:2797
+#: ../gap/gap_story_att_trans_dlg.c:2804
 msgid "Set Movepath Parameterfile (XML)"
 msgstr "Ορισμός παραμετρικού αρχείου μονοπατιού μετακίνησης (XML)"
 
 #. auto update toggle  check button
-#: ../gap/gap_story_att_trans_dlg.c:3203
+#: ../gap/gap_story_att_trans_dlg.c:3210
 msgid "Update"
 msgstr "Ενημέρωση"
 
-#: ../gap/gap_story_att_trans_dlg.c:3208
+#: ../gap/gap_story_att_trans_dlg.c:3215
 msgid "automatic update using the referred frame"
 msgstr "αυτόματη ενημέρωση χρησιμοποιώντας το αναφερόμενο πλαίσιο"
 
 #. from start label
-#: ../gap/gap_story_att_trans_dlg.c:3313
+#: ../gap/gap_story_att_trans_dlg.c:3320
 msgid "Start:"
 msgstr "Εκκίνηση:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3316 ../gap/gap_story_att_trans_dlg.c:3359
+#: ../gap/gap_story_att_trans_dlg.c:3323 ../gap/gap_story_att_trans_dlg.c:3366
 msgid ""
 "Reset to: defaults, use modifyer keys CTRL, ALT for alternative defaults. "
 "SHIFT resets to initial value"
@@ -8177,60 +8160,60 @@ msgstr ""
 "εναλλακτικές προεπιλογές. Το SHIFT επαναφέρει στην αρχική τιμή"
 
 #. to (end value of transition) button
-#: ../gap/gap_story_att_trans_dlg.c:3356
+#: ../gap/gap_story_att_trans_dlg.c:3363
 msgid "End:"
 msgstr "Τέλος:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3403 ../gap/gap_story_att_trans_dlg.c:3657
+#: ../gap/gap_story_att_trans_dlg.c:3410 ../gap/gap_story_att_trans_dlg.c:3664
 msgid "Copy this number of frames to all enabled rows"
 msgstr ""
 "Αντιγραφή αυτού του αριθμού των πλαισίων σε όλες τις ενεργοποιημένες γραμμές"
 
-#: ../gap/gap_story_att_trans_dlg.c:3430
+#: ../gap/gap_story_att_trans_dlg.c:3437
 msgid "Number of frames (duration of transition from start to end value)"
 msgstr "Αριθμός πλαισίων (διάρκεια της μετάβασης από αρχική σε τελική τιμή)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3527 ../gap/gap_story_att_trans_dlg.c:3538
+#: ../gap/gap_story_att_trans_dlg.c:3534 ../gap/gap_story_att_trans_dlg.c:3545
 msgid "Transition Attributes"
 msgstr "Γνωρίσματα μετάβασης"
 
 #. the frame
-#: ../gap/gap_story_att_trans_dlg.c:3560 ../gap/gap_story_dialog.c:6192
-#: ../gap/gap_story_dialog.c:6277 ../gap/gap_story_dialog.c:6377
+#: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6201
+#: ../gap/gap_story_dialog.c:6286 ../gap/gap_story_dialog.c:6386
 #: ../gap/gap_story_properties.c:4010
 #: ../gap/gap_story_section_properties.c:779
 msgid "Properties"
 msgstr "Ιδιότητες"
 
 #. the fit size label
-#: ../gap/gap_story_att_trans_dlg.c:3576
+#: ../gap/gap_story_att_trans_dlg.c:3583
 msgid "FitSize:"
 msgstr "Προσαρμογή μεγέθους:"
 
 #. the fit width check button
-#: ../gap/gap_story_att_trans_dlg.c:3582
+#: ../gap/gap_story_att_trans_dlg.c:3589
 msgid "Width"
 msgstr "Πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3590
+#: ../gap/gap_story_att_trans_dlg.c:3597
 msgid "scale width of frame to fit master width"
 msgstr "κλιμάκωση πλάτους του πλαισίου για να ταιριάζει στο κύριο πλάτος"
 
 #. the fit height check button
-#: ../gap/gap_story_att_trans_dlg.c:3601
+#: ../gap/gap_story_att_trans_dlg.c:3608
 msgid "Height"
 msgstr "Ύψος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3609
+#: ../gap/gap_story_att_trans_dlg.c:3616
 msgid "scale height of frame to fit master height"
 msgstr "κλιμάκωση ύψους πλαισίου για να ταιριάξει με το κύριο ύψος"
 
 #. the keep proportions check button
-#: ../gap/gap_story_att_trans_dlg.c:3620
+#: ../gap/gap_story_att_trans_dlg.c:3627
 msgid "Keep Proportion"
 msgstr "Διατήρηση αναλογίας"
 
-#: ../gap/gap_story_att_trans_dlg.c:3628
+#: ../gap/gap_story_att_trans_dlg.c:3635
 msgid ""
 "ON: keep proportions at scaling.  (this may result in black borders)OFF: "
 "allow changes of image proportions at scaling"
@@ -8240,11 +8223,11 @@ msgstr ""
 "κλιμάκωση"
 
 #. the overlap label (same row as FitSize)
-#: ../gap/gap_story_att_trans_dlg.c:3647
+#: ../gap/gap_story_att_trans_dlg.c:3654
 msgid "Overlap:"
 msgstr "Επικάλυψη:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3682
+#: ../gap/gap_story_att_trans_dlg.c:3689
 msgid "Number of overlapping frames within this track"
 msgstr "Αριθμός των επικαλυπτόμενων πλαισίων μέσα σε αυτό το κομμάτι"
 
@@ -8254,23 +8237,23 @@ msgstr "Αριθμός των επικαλυπτόμενων πλαισίων μ
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3710
+#: ../gap/gap_story_att_trans_dlg.c:3717
 msgid "ON: Enable rotation settings"
 msgstr "ΕΝΕΡΓΟ: Ενεργοποίηση ρυθμίσεων περιστροφής"
 
-#: ../gap/gap_story_att_trans_dlg.c:3712
+#: ../gap/gap_story_att_trans_dlg.c:3719
 msgid "rotation value in degree for the first handled frame "
 msgstr "τιμή περιστροφής σε βαθμούς για το πρώτο επεξεργασμένο πλαίσιο"
 
-#: ../gap/gap_story_att_trans_dlg.c:3714
+#: ../gap/gap_story_att_trans_dlg.c:3721
 msgid "rotation value in degree for the last handled frame "
 msgstr "τιμή περιστροφής σε βαθμούς για το τελευταίο επεξεργασμένο πλαίσιο"
 
 #
-#: ../gap/gap_story_att_trans_dlg.c:3716 ../gap/gap_story_att_trans_dlg.c:3744
-#: ../gap/gap_story_att_trans_dlg.c:3773 ../gap/gap_story_att_trans_dlg.c:3802
-#: ../gap/gap_story_att_trans_dlg.c:3830 ../gap/gap_story_att_trans_dlg.c:3858
-#: ../gap/gap_story_att_trans_dlg.c:3888
+#: ../gap/gap_story_att_trans_dlg.c:3723 ../gap/gap_story_att_trans_dlg.c:3751
+#: ../gap/gap_story_att_trans_dlg.c:3780 ../gap/gap_story_att_trans_dlg.c:3809
+#: ../gap/gap_story_att_trans_dlg.c:3837 ../gap/gap_story_att_trans_dlg.c:3865
+#: ../gap/gap_story_att_trans_dlg.c:3895
 msgid "number of frames"
 msgstr "αριθμός πλαισίων"
 
@@ -8280,11 +8263,11 @@ msgstr "αριθμός πλαισίων"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3736
+#: ../gap/gap_story_att_trans_dlg.c:3743
 msgid "ON: Enable opacity settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων αδιαφάνειας"
 
-#: ../gap/gap_story_att_trans_dlg.c:3738
+#: ../gap/gap_story_att_trans_dlg.c:3745
 msgid ""
 "opacity value for the first handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
@@ -8292,7 +8275,7 @@ msgstr ""
 "η τιμή αδιαφάνειας για το πρώτο επεξεργαζόμενο πλαίσιο όπου 100 είναι πλήρως "
 "αδιαφανές, 0 είναι πλήρως διαφανές"
 
-#: ../gap/gap_story_att_trans_dlg.c:3741
+#: ../gap/gap_story_att_trans_dlg.c:3748
 msgid ""
 "opacity value for the last handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
@@ -8300,7 +8283,7 @@ msgstr ""
 "η τιμή αδιαφάνειας για το τελευταίο επεξεργασμένο πλαίσιο όπου 100 είναι "
 "πλήρως αδιαφανές, 0 είναι ολότελα διαφανές"
 
-#: ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_story_att_trans_dlg.c:3760
 msgid "Move X:"
 msgstr "Μετακίνηση Χ:"
 
@@ -8310,11 +8293,11 @@ msgstr "Μετακίνηση Χ:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3765
+#: ../gap/gap_story_att_trans_dlg.c:3772
 msgid "ON: Enable move horizontal settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων οριζόντιας μετακίνησης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3767
+#: ../gap/gap_story_att_trans_dlg.c:3774
 msgid ""
 "move horizontal value for the first handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
@@ -8322,7 +8305,7 @@ msgstr ""
 "τιμή οριζόντιας μετακίνησης για το πρώτο επεξεργαζόμενο πλαίσιο όπου 0 είναι "
 "κεντραρισμένο, 100 είναι έξω δεξιά, -100 είναι έξω αριστερά"
 
-#: ../gap/gap_story_att_trans_dlg.c:3770
+#: ../gap/gap_story_att_trans_dlg.c:3777
 msgid ""
 "move horizontal value for the last handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
@@ -8330,7 +8313,7 @@ msgstr ""
 "τιμή οριζόντιας μετακίνησης για το τελευταίο επεξεργαζόμενο πλαίσιο όπου 0 "
 "είναι κεντραρισμένο, 100 είναι έξω δεξιά, -100 είναι έξω αριστερά"
 
-#: ../gap/gap_story_att_trans_dlg.c:3775
+#: ../gap/gap_story_att_trans_dlg.c:3782
 msgid ""
 "acceleration characteristic for horizontal move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8338,7 +8321,7 @@ msgstr ""
 "χαρακτηριστικά επιτάχυνσης για οριζόντια μετακίνηση (1 για σταθερή ταχύτητα, "
 "θετικός: επιτάχυνση, αρνητικός: επιβράδυνση)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3782
+#: ../gap/gap_story_att_trans_dlg.c:3789
 msgid "Move Y:"
 msgstr "Μετακίνηση Υ:"
 
@@ -8348,11 +8331,11 @@ msgstr "Μετακίνηση Υ:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3794
+#: ../gap/gap_story_att_trans_dlg.c:3801
 msgid "ON: Enable move vertical settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων κάθετης μετακίνησης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3796
+#: ../gap/gap_story_att_trans_dlg.c:3803
 msgid ""
 "move vertical value for the first handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
@@ -8360,7 +8343,7 @@ msgstr ""
 "τιμή κάθετης μετακίνησης για το πρώτο επεξεργασμένο πλαίσιο όπου 0 είναι "
 "κεντραρισμένο, 100 είναι έξω και στον πυθμένα, -100 είναι έξω και στην κορυφή"
 
-#: ../gap/gap_story_att_trans_dlg.c:3799
+#: ../gap/gap_story_att_trans_dlg.c:3806
 msgid ""
 "move vertical value for the last handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
@@ -8368,7 +8351,7 @@ msgstr ""
 "τιμή κάθετης μετακίνησης για το τελευταίο επεξεργασμένο πλαίσιο όπου 0 είναι "
 "κεντραρισμένο, 100 είναι έξω και στον πυθμένα, -100 είναι έξω και στην κορυφή"
 
-#: ../gap/gap_story_att_trans_dlg.c:3804
+#: ../gap/gap_story_att_trans_dlg.c:3811
 msgid ""
 "acceleration characteristic for vertical move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8377,7 +8360,7 @@ msgstr ""
 "θετικός: επιτάχυνση, αρνητικός: επιβράδυνση)"
 
 #
-#: ../gap/gap_story_att_trans_dlg.c:3810
+#: ../gap/gap_story_att_trans_dlg.c:3817
 msgid "Scale Width:"
 msgstr "Κλιμάκωση πλάτους:"
 
@@ -8387,11 +8370,11 @@ msgstr "Κλιμάκωση πλάτους:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3822
+#: ../gap/gap_story_att_trans_dlg.c:3829
 msgid "ON: Enable scale width settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων πλάτους κλιμάκωσης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3824
+#: ../gap/gap_story_att_trans_dlg.c:3831
 msgid ""
 "scale width value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
@@ -8399,7 +8382,7 @@ msgstr ""
 "τιμή πλάτους κλίμακας για το πρώτο επεξεργαζόμενο πλαίσιο όπου 100 είναι "
 "1:1, 50 είναι το μισό, 200 είναι το διπλό πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3827
+#: ../gap/gap_story_att_trans_dlg.c:3834
 msgid ""
 "scale width value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
@@ -8407,7 +8390,7 @@ msgstr ""
 "τιμή πλάτους κλίμακας για το τελευταίο επεξεργαζόμενο πλαίσιο όπου 100 είναι "
 "1:1, 50 είναι το μισό, 200 είναι το διπλό πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3832
+#: ../gap/gap_story_att_trans_dlg.c:3839
 msgid ""
 "acceleration characteristic for scale width (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -8415,7 +8398,7 @@ msgstr ""
 "χαρακτηριστικά επιτάχυνσης για πλάτος κλίμακας (1 για σταθερή ταχύτητα, "
 "θετικός: επιτάχυνση, αρνητικός: επιβράδυνση)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3838
+#: ../gap/gap_story_att_trans_dlg.c:3845
 msgid "Scale Height:"
 msgstr "Κλιμάκωση ύψους:"
 
@@ -8425,11 +8408,11 @@ msgstr "Κλιμάκωση ύψους:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3850
+#: ../gap/gap_story_att_trans_dlg.c:3857
 msgid "ON: Enable scale height settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων ύψους κλιμάκωσης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3852
+#: ../gap/gap_story_att_trans_dlg.c:3859
 msgid ""
 "scale height value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
@@ -8437,7 +8420,7 @@ msgstr ""
 "τιμή ύψους κλίμακας για το πρώτο επεξεργαζόμενο πλαίσιο όπου 100 είναι 1:1, "
 "50 είναι το μισό, 200 είναι το διπλό πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3855
+#: ../gap/gap_story_att_trans_dlg.c:3862
 msgid ""
 "scale height value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
@@ -8445,7 +8428,7 @@ msgstr ""
 "τιμή ύψους κλίμακας για το τελευταίο επεξεργαζόμενο πλαίσιο όπου 100 είναι "
 "1:1, 50 είναι το μισό, 200 είναι το διπλό πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3860
+#: ../gap/gap_story_att_trans_dlg.c:3867
 msgid ""
 "acceleration characteristic for scale height (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8453,7 +8436,7 @@ msgstr ""
 "χαρακτηριστικά επιτάχυνσης για ύψος κλίμακας (1 για σταθερή ταχύτητα, "
 "θετικός: επιτάχυνση, αρνητικός: επιβράδυνση)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3866
+#: ../gap/gap_story_att_trans_dlg.c:3873
 msgid "Move Path:"
 msgstr "Μετακίνηση μονοπατιού:"
 
@@ -8463,7 +8446,7 @@ msgstr "Μετακίνηση μονοπατιού:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3878
+#: ../gap/gap_story_att_trans_dlg.c:3885
 msgid ""
 "ON: Enable move path transistions using settings provided via a movepath "
 "parameter file"
@@ -8472,7 +8455,7 @@ msgstr ""
 "ρυθμίσεις που παρέχονται μέσω ενός παραμετρικού αρχείου μονοπατιού "
 "μετακίνησης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3880
+#: ../gap/gap_story_att_trans_dlg.c:3887
 msgid ""
 "frame number (phase) of the movement/transition along path for the first "
 "handled frame where 1 is the begin of the path using settings of the 1st "
@@ -8483,7 +8466,7 @@ msgstr ""
 "χρησιμοποιώντας ρυθμίσεις του πρώτου σημείου ελέγχου στο παραμετρικό αρχείο "
 "μονοπατιού μετακίνησης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3884
+#: ../gap/gap_story_att_trans_dlg.c:3891
 msgid ""
 "frame number (phase) of the movement/transition along path for the last "
 "handled frame. note that frame numbers higher than (or equal to) total "
@@ -8496,30 +8479,30 @@ msgstr ""
 "μετακίνησης χρησιμοποιούν ρυθμίσεις του τελευταίου σημείου ελέγχου σε αυτό "
 "το αρχείο."
 
-#: ../gap/gap_story_att_trans_dlg.c:3890
+#: ../gap/gap_story_att_trans_dlg.c:3897
 msgid "acceleration characteristic (currently ignored)"
 msgstr "χαρακτηριστικά επιτάχυνσης (προς το παρόν αγνοούμενα)"
 
 #. the movepath label
-#: ../gap/gap_story_att_trans_dlg.c:3936
+#: ../gap/gap_story_att_trans_dlg.c:3943
 msgid "Movepath File:"
 msgstr "Αρχείο μονοπατιού κίνησης:"
 
 #. the comment label
 #. the Comment lable
-#: ../gap/gap_story_att_trans_dlg.c:3983 ../gap/gap_story_properties.c:5018
+#: ../gap/gap_story_att_trans_dlg.c:3990 ../gap/gap_story_properties.c:5018
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3745
 msgid "Comment:"
 msgstr "Σχόλιο:"
 
 #. refuse player call while vthumb prefetch is busy
 #.
-#: ../gap/gap_story_dialog.c:1675
+#: ../gap/gap_story_dialog.c:1684
 msgid "playback was blocked (video file access is busy)"
 msgstr ""
 "η αναπαραγωγή φράχτηκε (η πρόσβαση του αρχείου βίντεο είναι απασχολημένη)"
 
-#: ../gap/gap_story_dialog.c:2305 ../gap/gap_story_dialog.c:2343
+#: ../gap/gap_story_dialog.c:2314 ../gap/gap_story_dialog.c:2352
 #, c-format
 msgid ""
 "** ERROR: Storyboard parser reported:\n"
@@ -8528,102 +8511,102 @@ msgstr ""
 "**ΣΦΑΛΜΑ: ο αναλυτής πίνακα ιστορίας ανέφερε:\n"
 "%s\n"
 
-#: ../gap/gap_story_dialog.c:3053
+#: ../gap/gap_story_dialog.c:3062
 msgid "Load Storyboard"
 msgstr "Φόρτωση πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:3057
+#: ../gap/gap_story_dialog.c:3066
 msgid "Load Cliplist"
 msgstr "Φόρτωση λίστας αποσπασμάτων"
 
-#: ../gap/gap_story_dialog.c:3095
+#: ../gap/gap_story_dialog.c:3104
 msgid "Save Storyboard file"
 msgstr "Αποθήκευση αρχείου πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:4708
+#: ../gap/gap_story_dialog.c:4717
 #, c-format
 msgid "UNDO %s"
 msgstr "ΑΝΑΙΡΕΣΗ %s"
 
-#: ../gap/gap_story_dialog.c:4713 ../gap/gap_story_dialog.c:7983
+#: ../gap/gap_story_dialog.c:4722 ../gap/gap_story_dialog.c:7992
 msgid "UNDO"
 msgstr "ΑΝΑΙΡΕΣΗ"
 
-#: ../gap/gap_story_dialog.c:4747
+#: ../gap/gap_story_dialog.c:4756
 #, c-format
 msgid "REDO %s"
 msgstr "ΕΠΑΝΑΛΗΨΗ %s"
 
-#: ../gap/gap_story_dialog.c:4752 ../gap/gap_story_dialog.c:7993
+#: ../gap/gap_story_dialog.c:4761 ../gap/gap_story_dialog.c:8002
 msgid "REDO"
 msgstr "ΕΠΑΝΑΛΗΨΗ"
 
-#: ../gap/gap_story_dialog.c:5121
+#: ../gap/gap_story_dialog.c:5130
 msgid "Global Layout Properties dialog already open"
 msgstr "Ο διάλογος ιδιοτήτων γενικής διάταξης είναι ήδη ανοιχτός"
 
-#: ../gap/gap_story_dialog.c:5128
+#: ../gap/gap_story_dialog.c:5137
 msgid "large"
 msgstr "μεγάλο"
 
-#: ../gap/gap_story_dialog.c:5129
+#: ../gap/gap_story_dialog.c:5138
 msgid "medium"
 msgstr "μεσαίο"
 
-#: ../gap/gap_story_dialog.c:5130
+#: ../gap/gap_story_dialog.c:5139
 msgid "small"
 msgstr "μικρό"
 
-#: ../gap/gap_story_dialog.c:5135
+#: ../gap/gap_story_dialog.c:5144
 msgid "Cliplist Layout:"
 msgstr "Διάταξη λίστας αποσπασμάτων:"
 
-#: ../gap/gap_story_dialog.c:5140 ../gap/gap_story_dialog.c:5180
+#: ../gap/gap_story_dialog.c:5149 ../gap/gap_story_dialog.c:5189
 msgid "Thumbnail Size:"
 msgstr "Μέγεθος μικρογραφίας:"
 
-#: ../gap/gap_story_dialog.c:5141
+#: ../gap/gap_story_dialog.c:5150
 msgid "Thumbnail size in the cliplist"
 msgstr "Μέγεθος μικρογραφίας στη λίστα αποσπασμάτων"
 
 #
-#: ../gap/gap_story_dialog.c:5151 ../gap/gap_story_dialog.c:5191
+#: ../gap/gap_story_dialog.c:5160 ../gap/gap_story_dialog.c:5200
 msgid "Columns:"
 msgstr "Στήλες:"
 
-#: ../gap/gap_story_dialog.c:5152
+#: ../gap/gap_story_dialog.c:5161
 msgid "columns in the cliplist"
 msgstr "στήλες στη λίστα αποσπασμάτων"
 
-#: ../gap/gap_story_dialog.c:5162 ../gap/gap_story_dialog.c:5202
+#: ../gap/gap_story_dialog.c:5171 ../gap/gap_story_dialog.c:5211
 msgid "Rows:"
 msgstr "Γραμμές:"
 
-#: ../gap/gap_story_dialog.c:5163
+#: ../gap/gap_story_dialog.c:5172
 msgid "rows in the cliplist"
 msgstr "γραμμές στη λίστα αποσπασμάτων"
 
-#: ../gap/gap_story_dialog.c:5175
+#: ../gap/gap_story_dialog.c:5184
 msgid "Storyboard Layout:"
 msgstr "Διάταξη πίνακα ιστορίας:"
 
-#: ../gap/gap_story_dialog.c:5181
+#: ../gap/gap_story_dialog.c:5190
 msgid "Thumbnail size in the storyboard list"
 msgstr "Μέγεθος μικρογραφίας στη λίστα πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:5192
+#: ../gap/gap_story_dialog.c:5201
 msgid "columns in the storyboard list"
 msgstr "στήλες στη λίστα πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:5203
+#: ../gap/gap_story_dialog.c:5212
 msgid "rows in the storyboard list"
 msgstr "γραμμές στη λίστα πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:5214
+#: ../gap/gap_story_dialog.c:5223
 msgid "Force Aspect:"
 msgstr "Εξαναγκασμός όψης:"
 
-#: ../gap/gap_story_dialog.c:5215
+#: ../gap/gap_story_dialog.c:5224
 msgid ""
 "ON: player shows clips transformed to aspect setting from the Storyboard "
 "properties.OFF: player shows clips according to their original pixel sizes"
@@ -8632,15 +8615,15 @@ msgstr ""
 "όψης από τις ιδιότητες πίνακα ιστορίας. ΑΝΕΝΕΡΓΟ: η συσκευή εμφανίζει "
 "αποσπάσματα σύμφωνα με τα μεγέθη των αρχικών εικονοστοιχείων τους"
 
-#: ../gap/gap_story_dialog.c:5225
+#: ../gap/gap_story_dialog.c:5234
 msgid "Use the standard built in layout settings"
 msgstr "Χρήση της τυπικής δομής σε ρυθμίσεις διάταξης"
 
-#: ../gap/gap_story_dialog.c:5227
+#: ../gap/gap_story_dialog.c:5236
 msgid "Global Layout Properties"
 msgstr "Γενικές ιδιότητες διάταξης"
 
-#: ../gap/gap_story_dialog.c:5341
+#: ../gap/gap_story_dialog.c:5350
 msgid ""
 "GIMP-GAP is compiled without videoapi support. Therefore thumbnails for "
 "videoframes can not be displayed."
@@ -8648,16 +8631,16 @@ msgstr ""
 "Το GIMP-GAP μεταγλωττίστηκε χωρίς υποστήριξη videoapi. Συνεπώς μικρογραφίες "
 "για πλαίσια βίντεο δεν μπορούν να προβληθούν."
 
-#: ../gap/gap_story_dialog.c:5444
+#: ../gap/gap_story_dialog.c:5453
 msgid "Global Render Properties dialog already open"
 msgstr "Ο διάλογος ιδιοτήτων γενικής απόδοσης είναι ήδη ανοιχτός"
 
 #
-#: ../gap/gap_story_dialog.c:5454
+#: ../gap/gap_story_dialog.c:5463
 msgid "Max open Videofiles:"
 msgstr "Μέγιστα ανοιχτά αρχεία βίντεο:"
 
-#: ../gap/gap_story_dialog.c:5455
+#: ../gap/gap_story_dialog.c:5464
 msgid ""
 "Maximum number of videofiles to be opened at same time while storyboard "
 "rendering"
@@ -8665,11 +8648,11 @@ msgstr ""
 "Μέγιστος αριθμός των αρχείων βίντεο για άνοιγμα ταυτόχρονα, ενώ αποδίδεται ο "
 "πίνακας ιστορίας"
 
-#: ../gap/gap_story_dialog.c:5465
+#: ../gap/gap_story_dialog.c:5474
 msgid "Framecache / open video:"
 msgstr "Κρυφή μνήμη πλαισίου / άνοιγμα βίντεο:"
 
-#: ../gap/gap_story_dialog.c:5466
+#: ../gap/gap_story_dialog.c:5475
 msgid ""
 "Maximum number of frames to be cached per open video (only relevant when "
 "video clips are rendered backwards)"
@@ -8677,11 +8660,11 @@ msgstr ""
 "Μέγιστος αριθμός πλαισίων σε κρυφή μνήμη ανά ανοιχτό βίντεο (κατάλληλος μόνο "
 "όταν τα αποσπάσματα βίντεο αποδίδονται προς τα πίσω)"
 
-#: ../gap/gap_story_dialog.c:5479
+#: ../gap/gap_story_dialog.c:5488
 msgid "Max Image cache:"
 msgstr "Μέγιστη κρυφή μνήμη εικόνας:"
 
-#: ../gap/gap_story_dialog.c:5480
+#: ../gap/gap_story_dialog.c:5489
 msgid ""
 "Maximum number of images to keep cached (in memory as gimp image without "
 "display) while storyboard rendering"
@@ -8689,11 +8672,11 @@ msgstr ""
 "Μέγιστος αριθμός εικόνων που διατηρούνται στην κρυφή μνήμη (στη μνήμη ως "
 "εικόνες gimp χωρίς προβολή), ενώ αποδίδεται ο πίνακας ιστορίας"
 
-#: ../gap/gap_story_dialog.c:5492
+#: ../gap/gap_story_dialog.c:5501
 msgid "Resource Loginterval:"
 msgstr "Διάστημα ημερολογίου πόρων:"
 
-#: ../gap/gap_story_dialog.c:5493
+#: ../gap/gap_story_dialog.c:5502
 msgid ""
 "Value 0 turns off resource logging to stdout. Value n logs current resource "
 "usage afte each n processed frames to stdout (this includes the list of "
@@ -8704,11 +8687,11 @@ msgstr ""
 "(αυτό περιλαμβάνει τη λίστα των εικόνων με κρυφή μνήμη και ανοιγμένα αρχεία "
 "βίντεο)"
 
-#: ../gap/gap_story_dialog.c:5506
+#: ../gap/gap_story_dialog.c:5515
 msgid "Render preview at full size:"
 msgstr "Απόδοση προεπισκόπησης σε πλήρες μέγεθος:"
 
-#: ../gap/gap_story_dialog.c:5507
+#: ../gap/gap_story_dialog.c:5516
 msgid ""
 "ON: Rendering of composite frames for preview purpose is done (slow) at full "
 "size.OFF: storyboard rendering for preview purpose is done at small size "
@@ -8721,11 +8704,11 @@ msgstr ""
 "την εξαγωγή σύνθετου πλαισίου σε αρχικό μέγεθος μέσω κλικ στην προεπισκόπηση "
 "του αναπαραγωγέα)"
 
-#: ../gap/gap_story_dialog.c:5533
+#: ../gap/gap_story_dialog.c:5542
 msgid "Multiprocessor Storyboard Support:"
 msgstr "Υποστήριξη πίνακα ιστορίας πολυεπεξεργαστή"
 
-#: ../gap/gap_story_dialog.c:5534
+#: ../gap/gap_story_dialog.c:5543
 msgid ""
 "ON: Rendering of composite storyboard frames uses more than one processor. "
 "(reading frames from videoclips is done by parallel running prefetch "
@@ -8736,11 +8719,11 @@ msgstr ""
 "βίντεο έγινε με παράλληλη εκτέλεση της επεξεργασίας προανάκτησης) ΑΝΕΝΕΡΓΟ: "
 "απόδοση των σύνθετων πλαισίων χρησιμοποιώντας μόνο ένα επεξεργαστή."
 
-#: ../gap/gap_story_dialog.c:5545
+#: ../gap/gap_story_dialog.c:5554
 msgid "Multiprocessor Encoder Support:"
 msgstr "Υποστήριξη κωδικοποιητή πολυεπεξεργαστή"
 
-#: ../gap/gap_story_dialog.c:5546
+#: ../gap/gap_story_dialog.c:5555
 msgid ""
 "ON: Video encoders shall use more than one processor where implemented. The "
 "ffmpeg based video encoder implementation supports parallel processing. OFF: "
@@ -8751,19 +8734,19 @@ msgstr ""
 "βίντεο ffmpeg δέχεται παράλληλη επεξεργασία. ΑΝΕΝΕΡΓΟ: οι κωδικοποιητές "
 "βίντεο χρησιμοποιούν μόνο έναν επεξεργαστή."
 
-#: ../gap/gap_story_dialog.c:5560
+#: ../gap/gap_story_dialog.c:5569
 msgid "Use the standard built in storyboard render settings"
 msgstr "Χρήση της τυπικής ενσωμάτωσης στις ρυθμίσεις απόδοσης πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:5562
+#: ../gap/gap_story_dialog.c:5571
 msgid "Global Storyboard Render Properties"
 msgstr "Γενικές ιδιότητες απόδοσης πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:5563 ../gap/gap_story_dialog.c:6197
+#: ../gap/gap_story_dialog.c:5572 ../gap/gap_story_dialog.c:6206
 msgid "Render Settings"
 msgstr "Ρυθμίσεις απόδοσης"
 
-#: ../gap/gap_story_dialog.c:5661
+#: ../gap/gap_story_dialog.c:5670
 #, c-format
 msgid ""
 "Failed to write cliplistfile\n"
@@ -8774,7 +8757,7 @@ msgstr ""
 "όνομα αρχείου: '%s':\n"
 "%s"
 
-#: ../gap/gap_story_dialog.c:5918
+#: ../gap/gap_story_dialog.c:5927
 #, c-format
 msgid ""
 "Failed to write storyboardfile\n"
@@ -8785,159 +8768,159 @@ msgstr ""
 "όνομα αρχείου: '%s':\n"
 "%s"
 
-#: ../gap/gap_story_dialog.c:6190
+#: ../gap/gap_story_dialog.c:6199
 msgid "Global"
 msgstr "Γενικό"
 
-#: ../gap/gap_story_dialog.c:6204
+#: ../gap/gap_story_dialog.c:6213
 msgid "Video thumbnails"
 msgstr "Μικρογραφίες βίντεο"
 
-#: ../gap/gap_story_dialog.c:6212
+#: ../gap/gap_story_dialog.c:6221
 msgid "DEBUG: log to stdout"
 msgstr "ΑΠΟΣΦΑΛΜΑΤΩΣΗ: καταγραφή στην τυπική έξοδο"
 
 #
-#: ../gap/gap_story_dialog.c:6232
+#: ../gap/gap_story_dialog.c:6241
 msgid "Help"
 msgstr "Βοήθεια"
 
 #. the clp_frame
-#: ../gap/gap_story_dialog.c:6247 ../gap/gap_story_dialog.c:8591
+#: ../gap/gap_story_dialog.c:6256 ../gap/gap_story_dialog.c:8723
 msgid "Cliplist"
 msgstr "Λίστα αποσπασμάτων"
 
 #. XXXXXXXXXXX Player Frame  XXXXXXXXXXXX
 #. the player_frame
-#: ../gap/gap_story_dialog.c:6271 ../gap/gap_story_dialog.c:6371
-#: ../gap/gap_story_dialog.c:8642
+#: ../gap/gap_story_dialog.c:6280 ../gap/gap_story_dialog.c:6380
+#: ../gap/gap_story_dialog.c:8774
 msgid "Playback"
 msgstr "Αναπαραγωγή"
 
-#: ../gap/gap_story_dialog.c:6283 ../gap/gap_story_dialog.c:6383
+#: ../gap/gap_story_dialog.c:6292 ../gap/gap_story_dialog.c:6392
 msgid "Create Clip"
 msgstr "Δημιουργία αποσπάσματος"
 
-#: ../gap/gap_story_dialog.c:6289 ../gap/gap_story_dialog.c:6389
+#: ../gap/gap_story_dialog.c:6298 ../gap/gap_story_dialog.c:6398
 msgid "Create Section Clip"
 msgstr "Δημιουργία αποσπάσματος ενότητας"
 
-#: ../gap/gap_story_dialog.c:6295 ../gap/gap_story_dialog.c:6395
+#: ../gap/gap_story_dialog.c:6304 ../gap/gap_story_dialog.c:6404
 msgid "Create Transition"
 msgstr "Δημιουργία μετάβασης"
 
-#: ../gap/gap_story_dialog.c:6300 ../gap/gap_story_dialog.c:6400
+#: ../gap/gap_story_dialog.c:6309 ../gap/gap_story_dialog.c:6409
 msgid "Toggle Unit"
 msgstr "Μονάδα εναλλαγής"
 
-#: ../gap/gap_story_dialog.c:6306 ../gap/gap_story_dialog.c:6406
+#: ../gap/gap_story_dialog.c:6315 ../gap/gap_story_dialog.c:6415
 msgid "Add Original Audio Track"
 msgstr "Προσθήκη αρχικού κομματιού ήχου"
 
-#: ../gap/gap_story_dialog.c:6312 ../gap/gap_story_dialog.c:6412
+#: ../gap/gap_story_dialog.c:6321 ../gap/gap_story_dialog.c:6421
 msgid "Encode"
 msgstr "Κωδικοποίηση"
 
-#: ../gap/gap_story_dialog.c:6347
+#: ../gap/gap_story_dialog.c:6356
 msgid "_Storyboard"
 msgstr "Πίνκας ι_στορίας"
 
-#: ../gap/gap_story_dialog.c:6466
+#: ../gap/gap_story_dialog.c:6475
 #, c-format
 msgid "Unsaved cliplist changes '%s'"
 msgstr "Αναποθήκευτες αλλαγές λίστας αποσπασμάτων '%s'"
 
-#: ../gap/gap_story_dialog.c:6478
+#: ../gap/gap_story_dialog.c:6487
 #, c-format
 msgid "Unsaved storyboard changes '%s'"
 msgstr "Αναποθήκευτες αλλαγές πίνακα ιστορίας '%s'"
 
-#: ../gap/gap_story_dialog.c:6490
+#: ../gap/gap_story_dialog.c:6499
 msgid "Quit Storyboard"
 msgstr "Έξοδος από πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:6503 ../gap/gap_story_dialog.c:6504
+#: ../gap/gap_story_dialog.c:6512 ../gap/gap_story_dialog.c:6513
 msgid "Storyboard unsaved changes"
 msgstr "Αναποθήκευτες αλλαγές πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:6556
+#: ../gap/gap_story_dialog.c:6565
 msgid "Storyboard:"
 msgstr "Πίνακας ιστορίας:"
 
-#: ../gap/gap_story_dialog.c:6571 ../gap/gap_story_dialog.c:6600
+#: ../gap/gap_story_dialog.c:6580 ../gap/gap_story_dialog.c:6609
 msgid "(modified)"
 msgstr "(τροποποιημένο)"
 
-#: ../gap/gap_story_dialog.c:6577
+#: ../gap/gap_story_dialog.c:6586
 msgid "Cliplist:"
 msgstr "Λίστα αποσπασμάτων:"
 
-#: ../gap/gap_story_dialog.c:6763
+#: ../gap/gap_story_dialog.c:6772
 #, c-format
 msgid "Videoseek (decoder: %s)"
 msgstr "Αναζήτηση βίντεο (αποκωδικοποιητής: %s)"
 
-#: ../gap/gap_story_dialog.c:6899
+#: ../gap/gap_story_dialog.c:6908
 msgid "video thumbnail cancelled"
 msgstr "ακύρωση μικρογραφίας βίντεο"
 
-#: ../gap/gap_story_dialog.c:6925
+#: ../gap/gap_story_dialog.c:6934
 #, c-format
 msgid "Fetching video thumbnail for clip: %d (out of %d)"
 msgstr "Λήψη μικρογραφίας βίντεο για απόσπασμα: %d (από %d)"
 
-#: ../gap/gap_story_dialog.c:7770 ../gap/gap_story_section_properties.c:637
+#: ../gap/gap_story_dialog.c:7779 ../gap/gap_story_section_properties.c:637
 msgid "MAIN"
 msgstr "ΚΥΡΙΟ"
 
-#: ../gap/gap_story_dialog.c:7773
+#: ../gap/gap_story_dialog.c:7782
 msgid "Masks"
 msgstr "Μάσκες"
 
-#: ../gap/gap_story_dialog.c:7888
+#: ../gap/gap_story_dialog.c:7897
 msgid "Load storyboard file"
 msgstr "Φόρτωση αρχείου πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:7894
+#: ../gap/gap_story_dialog.c:7903
 msgid "Load cliplist file"
 msgstr "Φόρτωση αρχείου λίστας αποσπασμάτων"
 
 #
-#: ../gap/gap_story_dialog.c:7909
+#: ../gap/gap_story_dialog.c:7918
 msgid "Save storyboard to file"
 msgstr "Αποθήκευση της ιστορίας σε αρχείο"
 
 #
-#: ../gap/gap_story_dialog.c:7918
+#: ../gap/gap_story_dialog.c:7927
 msgid "Save cliplist to file"
 msgstr "Αποθήκευση της λίστας αποσπασμάτων σε αρχείο"
 
-#: ../gap/gap_story_dialog.c:7949
+#: ../gap/gap_story_dialog.c:7958
 msgid "Show Section properties window"
 msgstr "Προβολή παραθύρου ιδιοτήτων ενότητας"
 
 #. Track label
-#: ../gap/gap_story_dialog.c:7954 ../gap/gap_video_index_creator.c:970
+#: ../gap/gap_story_dialog.c:7963 ../gap/gap_video_index_creator.c:970
 msgid "Track:"
 msgstr "Κομμάτι:"
 
-#: ../gap/gap_story_dialog.c:7969
+#: ../gap/gap_story_dialog.c:7978
 msgid "Video Track Number (0 refers to mask definition track)"
 msgstr "Αριθμός κομματιού βίντεο (το 0 αναφέρεται σε κομμάτι ορισμού μάσκας)"
 
-#: ../gap/gap_story_dialog.c:8005
+#: ../gap/gap_story_dialog.c:8014
 msgid "Cut a clip"
 msgstr "Αποκοπή ενός αποσπάσματος"
 
-#: ../gap/gap_story_dialog.c:8017
+#: ../gap/gap_story_dialog.c:8026
 msgid "Copy a clip"
 msgstr "Αντιγραφή ενός αποσπάσματος"
 
-#: ../gap/gap_story_dialog.c:8029
+#: ../gap/gap_story_dialog.c:8038
 msgid "Paste a clip after last (selected) element"
 msgstr "Επικόλληση ενός αποσπάσματος μετά το τελευταίο (επιλεγμένο) στοιχείο"
 
-#: ../gap/gap_story_dialog.c:8041
+#: ../gap/gap_story_dialog.c:8050
 msgid ""
 "Create new clip\n"
 "(SHIFT create transition\n"
@@ -8947,7 +8930,7 @@ msgstr ""
 "(το SHIFT δημιουργεί μετάβαση\n"
 "το CTRL δημιουργεί απόσπασμα ενότητας)"
 
-#: ../gap/gap_story_dialog.c:8055
+#: ../gap/gap_story_dialog.c:8064
 msgid ""
 "Play selected clips\n"
 "SHIFT: Playback all clips of current track.\n"
@@ -8959,64 +8942,64 @@ msgstr ""
 
 #. gtk_widget_show (entry);
 #. Row label
-#: ../gap/gap_story_dialog.c:8086
+#: ../gap/gap_story_dialog.c:8095
 msgid "Row:"
 msgstr "Γραμμή:"
 
-#: ../gap/gap_story_dialog.c:8100
+#: ../gap/gap_story_dialog.c:8109
 msgid "Top rownumber"
 msgstr "Κορυφαίος αριθμός γραμμής"
 
 #
 #. of label
-#: ../gap/gap_story_dialog.c:8106
+#: ../gap/gap_story_dialog.c:8115
 msgid "of:"
 msgstr "του:"
 
 #. the stb_frame
 #. radio button Storyboard input_mode
-#: ../gap/gap_story_dialog.c:8540 ../gap/gap_story_dialog.c:8658
-#: ../vid_common/gap_cme_gui.c:2509
+#: ../gap/gap_story_dialog.c:8672 ../gap/gap_story_dialog.c:8790
+#: ../vid_common/gap_cme_gui.c:2507
 msgid "Storyboard"
 msgstr "Πίνακας ιστορίας"
 
-#: ../gap/gap_story_dialog.c:8731
+#: ../gap/gap_story_dialog.c:8863
 msgid "ON: clip target is storyboard (for clips created from playback range)."
 msgstr ""
 "ΕΝΕΡΓΟ: ο στόχος του αποσπάσματος είναι ο πίνακας ιστορίας (για αποσπάσματα "
 "που δημιουργήθηκαν από την περιοχή αναπαραγωγής)."
 
-#: ../gap/gap_story_dialog.c:8761 ../vid_common/gap_cme_gui.c:2381
+#: ../gap/gap_story_dialog.c:8893 ../vid_common/gap_cme_gui.c:2379
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: ../gap/gap_story_dialog.c:8765 ../gap/gap_video_index_creator.c:1447
+#: ../gap/gap_story_dialog.c:8897 ../gap/gap_video_index_creator.c:1447
 msgid ""
 "Cancel video access if in progress and disable automatic video thumbnails"
 msgstr ""
 "Ακύρωση πρόσβασης βίντεο εάν είναι σε εξέλιξη και απενεργοποίηση αυτόματων "
 "μικρογραφιών βίντεο"
 
-#: ../gap/gap_story_dialog.c:8823
+#: ../gap/gap_story_dialog.c:8963
 msgid ""
 "Generate original tone audio track for all video clips in the storyboard"
 msgstr ""
 "Δημιουργία αρχικού κομματιού τονικού ήχου για όλα τα αποσπάσματα βίντεο στον "
 "πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:8829
+#: ../gap/gap_story_dialog.c:8969
 msgid "Input Audiotrack:"
 msgstr "Είσοδος κομματιού ήχου:"
 
-#: ../gap/gap_story_dialog.c:8830
+#: ../gap/gap_story_dialog.c:8970
 msgid "select input audiotrack in the videofile(s)."
 msgstr "επιλογή εισόδου κομματιού ήχου στα αρχεία βίντεο."
 
-#: ../gap/gap_story_dialog.c:8841
+#: ../gap/gap_story_dialog.c:8981
 msgid "Output Audiotrack:"
 msgstr "Έξοδος κομματιού ήχου:"
 
-#: ../gap/gap_story_dialog.c:8842
+#: ../gap/gap_story_dialog.c:8982
 msgid ""
 "output audiotrack to be generated in the storyboard file. The generated "
 "storyboard audiotrack will be a list of references to the audioparts in the "
@@ -9027,11 +9010,11 @@ msgstr ""
 "μέρη ήχου στην έξοδο βίντεο, που αντιστοιχεί σε όλες τις χρησιμοποιημένες "
 "αναφορές αποσπάσματος βίντεο."
 
-#: ../gap/gap_story_dialog.c:8854
+#: ../gap/gap_story_dialog.c:8994
 msgid "Replace Audiotrack:"
 msgstr "Αντικατάσταση κομματιού ήχου:"
 
-#: ../gap/gap_story_dialog.c:8855
+#: ../gap/gap_story_dialog.c:8995
 msgid ""
 "ON: Allow replacing of already existing audio clip references  in the "
 "storyboard"
@@ -9039,15 +9022,15 @@ msgstr ""
 "ΕΝΕΡΓΟ: Δυνατότητα αντικατάστασης των ήδη υπαρχουσών αναφορών αποσπασμάτων "
 "ήχου στον πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:8865
+#: ../gap/gap_story_dialog.c:9005
 msgid "Reset parameters to default values"
 msgstr "Επαναφορά παραμέτρων στις προεπιλεγμένες τιμές"
 
-#: ../gap/gap_story_dialog.c:8873
+#: ../gap/gap_story_dialog.c:9013
 msgid "Generate Original Tone Audio"
 msgstr "Δημιουργία ήχου αρχικού τόνου"
 
-#: ../gap/gap_story_dialog.c:8907
+#: ../gap/gap_story_dialog.c:9047
 #, c-format
 msgid ""
 "Original tone track was not created.\n"
@@ -9061,7 +9044,7 @@ msgstr ""
 "Χρήση άλλου αριθμού κομματιού ή δυνατότητα αντικατάστασης στην επόμενη "
 "προσπάθεια."
 
-#: ../gap/gap_story_dialog.c:8919
+#: ../gap/gap_story_dialog.c:9059
 #, c-format
 msgid ""
 "Original tone track was created with warnings.\n"
@@ -9076,52 +9059,52 @@ msgstr ""
 "τον κύριο ρυθμό πλαισίου %.4f.\n"
 "Ο δημιουργημένος ήχος ΔΕΝ συγχρονίζεται με το βίντεο."
 
-#: ../gap/gap_story_dialog.c:9018
+#: ../gap/gap_story_dialog.c:9158
 msgid "automatic"
 msgstr "αυτόματο"
 
 #
-#: ../gap/gap_story_dialog.c:9019
+#: ../gap/gap_story_dialog.c:9159
 msgid "none"
 msgstr "Κανένα"
 
 #
 #. the section_name label
-#: ../gap/gap_story_dialog.c:9063 ../gap/gap_story_section_properties.c:849
+#: ../gap/gap_story_dialog.c:9203 ../gap/gap_story_section_properties.c:849
 msgid "Name:"
 msgstr "Όνομα:"
 
-#: ../gap/gap_story_dialog.c:9067
+#: ../gap/gap_story_dialog.c:9207
 msgid "Name of the Storyboardfile"
 msgstr "Όνομα του αρχείου πίνακα ιστορίας"
 
-#: ../gap/gap_story_dialog.c:9073
+#: ../gap/gap_story_dialog.c:9213
 msgid "Name of the Cliplistfile"
 msgstr "Όνομα του αρχείου λίστας αποκομμάτων"
 
 #
-#: ../gap/gap_story_dialog.c:9083 ../gap/gap_story_dialog.c:9087
+#: ../gap/gap_story_dialog.c:9223 ../gap/gap_story_dialog.c:9227
 #, c-format
 msgid "Name: %s"
 msgstr "Όνομα: %s"
 
-#: ../gap/gap_story_dialog.c:9096
+#: ../gap/gap_story_dialog.c:9236
 msgid "Master width of the resulting video in pixels"
 msgstr "Κύριο πλάτος του τελικού βίντεο σε εικονοστοιχεία"
 
-#: ../gap/gap_story_dialog.c:9107
+#: ../gap/gap_story_dialog.c:9247
 msgid "Master height of the resulting video in pixels)"
 msgstr "Κύριο ύψος του τελικού βίντεο σε εικονοστοιχεία)"
 
-#: ../gap/gap_story_dialog.c:9119
+#: ../gap/gap_story_dialog.c:9259
 msgid "Framerate in frames/sec."
 msgstr "Ρυθμός πλαισίων σε πλαίσια/δευτερόλεπτο."
 
-#: ../gap/gap_story_dialog.c:9137
+#: ../gap/gap_story_dialog.c:9277
 msgid "Track 1 on top:"
 msgstr "Κομμάτι 1 στην κορυφή:"
 
-#: ../gap/gap_story_dialog.c:9138
+#: ../gap/gap_story_dialog.c:9278
 msgid ""
 "ON: video track1 is Foregrond (on top). OFF: video track 1 is on Background."
 msgstr ""
@@ -9129,11 +9112,11 @@ msgstr ""
 "κομμάτι βίντεο 1 είναι στο παρασκήνιο."
 
 #. the aspect label
-#: ../gap/gap_story_dialog.c:9176 ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3779
+#: ../gap/gap_story_dialog.c:9316 ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3779
 msgid "Aspect:"
 msgstr "Όψη:"
 
-#: ../gap/gap_story_dialog.c:9177
+#: ../gap/gap_story_dialog.c:9317
 msgid ""
 "Select video frame aspect ratio; enter a string like \"4:3\" or \"16:9\" to "
 "specify the aspect. Enter none or leave empty if no special aspect shall be "
@@ -9147,12 +9130,12 @@ msgstr ""
 "εικονοστοιχείου 1:1 για προβολή πλαισίων βίντεο)."
 
 #. the (preferred) Decoder label
-#: ../gap/gap_story_dialog.c:9219 ../gap/gap_vex_dialog.c:2312
+#: ../gap/gap_story_dialog.c:9359 ../gap/gap_vex_dialog.c:2285
 #: ../gap/gap_video_index_creator.c:956
 msgid "Decoder:"
 msgstr "Αποκωδικοποιητής"
 
-#: ../gap/gap_story_dialog.c:9220
+#: ../gap/gap_story_dialog.c:9360
 msgid ""
 "Select preferred video decoder library, or leave empty for automatic "
 "selection.The decoder setting is only relevant if videoclips are used (but "
@@ -9163,22 +9146,22 @@ msgstr ""
 "χρησιμοποιούνται αποσπάσματα βίντεο (αλλά όχι για πλαίσια που είναι αρχεία "
 "εικόνας)"
 
-#: ../gap/gap_story_dialog.c:9238
+#: ../gap/gap_story_dialog.c:9378
 msgid "Master audio samplerate for the resulting video in samples/sec."
 msgstr ""
 "Κύριος ρυθμός δειγματοληψίας ήχου για το τελικό βίντεο σε δείγματα/"
 "δευτερόλεπτο."
 
-#: ../gap/gap_story_dialog.c:9254
+#: ../gap/gap_story_dialog.c:9394
 msgid "Master audio volume, where 1.0 keeps original volume"
 msgstr "Κύρια ένταση ήχου, όπου 1,0 διατηρεί την αρχική ένταση"
 
-#: ../gap/gap_story_dialog.c:9279
+#: ../gap/gap_story_dialog.c:9419
 msgid "Ext. Transparency Format:"
 msgstr "Μορφή εξωτερικής διαφάνειας:"
 
 #. pixel
-#: ../gap/gap_story_dialog.c:9281
+#: ../gap/gap_story_dialog.c:9421
 #, c-format
 msgid ""
 "Format string to provide external tranparency in movie clips. (e.g automatic "
@@ -9191,12 +9174,12 @@ msgstr ""
 "%s ως δεσμευτικό χώρου για το όνομα βάσης ενός αποσπάσματος και κατ' επιλογή "
 "\\%06d ως δεσμευτικό χώρου για τον αριθμό πλαισίου."
 
-#: ../gap/gap_story_dialog.c:9300
+#: ../gap/gap_story_dialog.c:9440
 msgid "AreaFormat:"
 msgstr "Μορφή περιοχής:"
 
 #. pixel
-#: ../gap/gap_story_dialog.c:9302
+#: ../gap/gap_story_dialog.c:9442
 #, c-format
 msgid ""
 "Format string for area replacement in movie clips. (e.g automatic logo "
@@ -9209,15 +9192,15 @@ msgstr ""
 "επιλογή \\%06d ως δεσμευτικό χώρου για τον αριθμό πλαισίου."
 
 #. should use GIMP_STOCK_RESET if possible
-#: ../gap/gap_story_dialog.c:9312
+#: ../gap/gap_story_dialog.c:9452
 msgid "Reset parameters to inital values"
 msgstr "Επαναφορά παραμέτρων στις αρχικές τιμές"
 
-#: ../gap/gap_story_dialog.c:9323
+#: ../gap/gap_story_dialog.c:9463
 msgid "Master Properties"
 msgstr "Κύριες ιδιότητες"
 
-#: ../gap/gap_story_dialog.c:9820
+#: ../gap/gap_story_dialog.c:9960
 msgid "STORY_new.txt"
 msgstr "STORY_new.txt"
 
@@ -9293,7 +9276,7 @@ msgstr ""
 "το περασμένο όνομα αρχείου %s έχει άσχετο περιεχόμενο ή δεν μπορεί να "
 "ανοιχθεί από τον αναλυτή"
 
-#: ../gap/gap_story_main.c:180
+#: ../gap/gap_story_main.c:205
 msgid "Storyboard..."
 msgstr "Πίνακας ιστορίας..."
 
@@ -9521,7 +9504,7 @@ msgstr ""
 
 #. the Deinterlace Mode label
 #. the deinterlace Mode label
-#: ../gap/gap_story_properties.c:4315 ../gap/gap_vex_dialog.c:2639
+#: ../gap/gap_story_properties.c:4315 ../gap/gap_vex_dialog.c:2612
 msgid "Deinterlace:"
 msgstr "Απόπλεξη:"
 
@@ -9738,81 +9721,81 @@ msgstr ""
 "χαρακτηριστικά επιτάχυνσης για μακροφίλτρο 0=εκτός, θετικός επιτάχυνση, "
 "αρνητικός επιβράδυνση"
 
-#: ../gap/gap_story_render_audio.c:449
+#: ../gap/gap_story_render_audio.c:466
 #, c-format
 msgid "cant load:  %s to memory"
 msgstr "αδυναμία φόρτωσης: %s στη μνήμη"
 
-#: ../gap/gap_story_render_audio.c:834
+#: ../gap/gap_story_render_audio.c:851
 #, c-format
 msgid "extracting audio to tmp audiofile"
 msgstr "εξαγωγή ήχου στο προσωρινό αρχείο ήχου"
 
-#: ../gap/gap_story_render_audio.c:839
+#: ../gap/gap_story_render_audio.c:856
 #, c-format
 msgid "seeking audio"
 msgstr "αναζήτηση ήχου"
 
-#: ../gap/gap_story_render_audio.c:1111
+#: ../gap/gap_story_render_audio.c:1128
 #, c-format
 msgid "file not found:  %s for audioinput"
 msgstr "δε βρέθηκε αρχείο: %s για είσοδο ήχου"
 
-#: ../gap/gap_story_render_audio.c:1262 ../gap/gap_story_render_audio.c:1409
+#: ../gap/gap_story_render_audio.c:1307 ../gap/gap_story_render_audio.c:1454
 #, c-format
 msgid "converting audio (via external programm)"
 msgstr "μετατροπή ήχου (μέσω εξωτερικού προγράμματος)"
 
-#: ../gap/gap_story_render_audio.c:1328 ../gap/gap_story_render_audio.c:1458
+#: ../gap/gap_story_render_audio.c:1373 ../gap/gap_story_render_audio.c:1503
 #, c-format
 msgid "cant use file:  %s as audioinput"
 msgstr "αδυναμία χρήσης αρχείου: %s ως εισόδου ήχου"
 
-#: ../gap/gap_story_render_audio.c:1345
+#: ../gap/gap_story_render_audio.c:1390
 #, c-format
 msgid "ERROR file: %s is not a supported videoformat"
 msgstr "Αρχείο ΣΦΑΛΜΑΤΟΣ: %s δεν είναι υποστηριζόμενος τύπος βίντεο"
 
-#: ../gap/gap_story_render_audio.c:1600
+#: ../gap/gap_story_render_audio.c:1645
 #, c-format
 msgid "checking audio peaks"
 msgstr "έλεγχος κορυφών βίντεο"
 
-#: ../gap/gap_story_render_audio.c:1634
+#: ../gap/gap_story_render_audio.c:1679
 #, c-format
 msgid "writing composite audiofile"
 msgstr "εγγραφή σύνθετου αρχείου ήχου"
 
-#: ../gap/gap_story_render_audio.c:1653
+#: ../gap/gap_story_render_audio.c:1698
 #, c-format
 msgid "cant write audio to file: %s "
 msgstr "αδυναμία εγγραφής ήχου στο αρχείο: %s"
 
-#: ../gap/gap_story_render_audio.c:1665 ../vid_common/gap_cme_gui.c:1439
+#: ../gap/gap_story_render_audio.c:1710 ../vid_common/gap_cme_gui.c:1439
 #: ../vid_common/gap_cme_gui.c:1605
 #, c-format
 msgid "ready"
 msgstr "έτοιμο"
 
-#: ../gap/gap_story_render_processor.c:1010
+#: ../gap/gap_story_render_processor.c:1040
 #, c-format
 msgid "encoding_video_frame_%06d"
 msgstr "κωδικοποίηση_πλαισίου_βίντεο_%06d"
 
-#: ../gap/gap_story_render_processor.c:3266
+#: ../gap/gap_story_render_processor.c:3296
 #, c-format
 msgid "analyze line %d (out of %d)"
 msgstr "ανάλυση γραμμής %d (από %d)"
 
-#: ../gap/gap_story_render_processor.c:3408
+#: ../gap/gap_story_render_processor.c:3438
 msgid "No Frames or Images found ...."
 msgstr "Χωρίς πλαίσια ή εικόνες...."
 
-#: ../gap/gap_story_render_processor.c:7103
+#: ../gap/gap_story_render_processor.c:7648
 msgid "Seek Inputvideoframe..."
 msgstr "Αναζήτηση πλαισίου εισόδου βίντεο..."
 
-#: ../gap/gap_story_render_processor.c:7137
+#: ../gap/gap_story_render_processor.c:7682
 msgid "Continue Encoding..."
 msgstr "Συνέχεια κωδικοποίησης..."
 
@@ -9913,27 +9896,27 @@ msgstr "Αντικατάσταση αρχείου"
 msgid "File: %s already exists"
 msgstr "Το αρχείο %s υπάρχει ήδη"
 
-#: ../gap/gap_vex_dialog.c:687 ../gap/gap_vex_dialog.c:690
+#: ../gap/gap_vex_dialog.c:682 ../gap/gap_vex_dialog.c:685
 msgid "Set range to extract"
 msgstr "Ορισμός περιοχής για εξαγωγή"
 
-#: ../gap/gap_vex_dialog.c:815
+#: ../gap/gap_vex_dialog.c:786
 msgid "unknown"
 msgstr "άγνωστο"
 
-#: ../gap/gap_vex_dialog.c:1803
+#: ../gap/gap_vex_dialog.c:1776
 msgid "Select input videofile"
 msgstr "Επιλογή εισόδου αρχείου βίντεο"
 
-#: ../gap/gap_vex_dialog.c:1841
+#: ../gap/gap_vex_dialog.c:1814
 msgid "Select basename for frame(s)"
 msgstr "Επιλογή ονόματος βάσης για πλαίσια"
 
-#: ../gap/gap_vex_dialog.c:1879 ../vid_common/gap_cme_gui.c:2282
+#: ../gap/gap_vex_dialog.c:1852 ../vid_common/gap_cme_gui.c:2280
 msgid "Select Audiofilename"
 msgstr "Επιλογή ονόματος αρχείου ήχου"
 
-#: ../gap/gap_vex_dialog.c:2023 ../gap/gap_vex_main.c:176
+#: ../gap/gap_vex_dialog.c:1996 ../gap/gap_vex_main.c:176
 #: ../gap/gap_vex_main.c:196
 msgid "Extract Videorange"
 msgstr "Εξαγωγή περιοχής βίντεο"
@@ -9942,7 +9925,7 @@ msgstr "Εξαγωγή περιοχής βίντεο"
 #. gtk_container_set_border_width (GTK_CONTAINER (mw__vbox1), 5);
 #. XXXXXXXXXXX Player Frame  XXXXXXXXXXXX
 #. the player_frame
-#: ../gap/gap_vex_dialog.c:2054
+#: ../gap/gap_vex_dialog.c:2027
 msgid "Select Videorange"
 msgstr "Επιλογή περιοχής βίντεο"
 
@@ -9952,40 +9935,40 @@ msgstr "Επιλογή περιοχής βίντεο"
 #.
 #. gtk_widget_show (mw__player_frame);
 #. not yet, show the widget later
-#: ../gap/gap_vex_dialog.c:2068
+#: ../gap/gap_vex_dialog.c:2041
 msgid "Input Video selection"
 msgstr "Επιλογή εισόδου βίντεο"
 
 #. the videofile label
-#: ../gap/gap_vex_dialog.c:2087
+#: ../gap/gap_vex_dialog.c:2060
 msgid "Videofilename:"
 msgstr "Όνομα αρχείου βίντεο:"
 
-#: ../gap/gap_vex_dialog.c:2105
+#: ../gap/gap_vex_dialog.c:2078
 msgid "Name of videofile (used as inputfile)"
 msgstr "Όνομα του αρχείου βίντεο (χρησιμοποιείται ως αρχείο εισόδου)"
 
-#: ../gap/gap_vex_dialog.c:2116
+#: ../gap/gap_vex_dialog.c:2089
 msgid "Select video using file browser"
 msgstr "Επιλογή βίντεο χρησιμοποιώντας περιηγητή αρχείου"
 
 #. MMX sometimes gives unusable results, and therefore is always OFF
 #. * checkbox is not needed any more..
 #.
-#: ../gap/gap_vex_dialog.c:2123
+#: ../gap/gap_vex_dialog.c:2096
 msgid "Disable MMX"
 msgstr "Απενεργοποίηση MMX"
 
-#: ../gap/gap_vex_dialog.c:2151
+#: ../gap/gap_vex_dialog.c:2124
 msgid "Frame number of 1.st frame to extract"
 msgstr "Αριθμός πλαισίου του πρώτου πλαισίου για εξαγωγή"
 
 #. the videorange button (that invokes the player for video range selection)
-#: ../gap/gap_vex_dialog.c:2169
+#: ../gap/gap_vex_dialog.c:2142
 msgid "Video Range"
 msgstr "Περιοχή βίντεο"
 
-#: ../gap/gap_vex_dialog.c:2177
+#: ../gap/gap_vex_dialog.c:2150
 msgid ""
 "Visual video range selection via videoplayer\n"
 "SHIFT: Open a separate player window"
@@ -9993,7 +9976,7 @@ msgstr ""
 "Επιλογή περιοχής οπτικού βίντεο μέσω βιντεοαναπαραγωγέα\n"
 "SHIFT: ανοίγει ένα ξεχωριστό παράθυρο αναπαραρωγέα"
 
-#: ../gap/gap_vex_dialog.c:2208
+#: ../gap/gap_vex_dialog.c:2181
 msgid ""
 "Frame number of last frame to extract. To extract all frames use a range "
 "from 1 to 999999. (Extract stops at the last available frame)"
@@ -10003,19 +9986,19 @@ msgstr ""
 "τελευταίο διαθέσιμο πλαίσιο)"
 
 #. the videorange button (that invokes the player for video range selection in docked mode)
-#: ../gap/gap_vex_dialog.c:2229
+#: ../gap/gap_vex_dialog.c:2202
 msgid "VideoRange"
 msgstr "Περιοχή βίντεο"
 
-#: ../gap/gap_vex_dialog.c:2266
+#: ../gap/gap_vex_dialog.c:2239
 msgid "Videotrack number (0 == extract no frames)"
 msgstr "Αριθμός κομματιού βίντεο (0 == χωρίς εξαγωγή πλαισίων)"
 
-#: ../gap/gap_vex_dialog.c:2300
+#: ../gap/gap_vex_dialog.c:2273
 msgid "Audiotrack number (0 == extract no audio)"
 msgstr "αριθμός κομματιών ήχου (0 == χωρίς εξαγωγή ήχου)"
 
-#: ../gap/gap_vex_dialog.c:2329
+#: ../gap/gap_vex_dialog.c:2302
 msgid ""
 "leave empty or select your preferred decoder (libmpeg3, libavformat, "
 "quicktime4linux)"
@@ -10023,16 +10006,16 @@ msgstr ""
 "αφήστε κενό ή επιλέξτε τον επιθυμητό αποκωδικοποιητή (libmpeg3, libavformat, "
 "quicktime4linux)"
 
-#: ../gap/gap_vex_dialog.c:2335
+#: ../gap/gap_vex_dialog.c:2308
 msgid "(none, automatic)"
 msgstr "(τίποτα, αυτόματο)"
 
 #. the (Active) Decoder Label(s)
-#: ../gap/gap_vex_dialog.c:2359
+#: ../gap/gap_vex_dialog.c:2328
 msgid "Active Decoder:"
 msgstr "Ενεργός αποκωδικοποιητής:"
 
-#: ../gap/gap_vex_dialog.c:2369 ../gap/gap_vex_dialog.c:2407
+#: ../gap/gap_vex_dialog.c:2338 ../gap/gap_vex_dialog.c:2376
 msgid "****"
 msgstr "****"
 
@@ -10040,11 +10023,11 @@ msgstr "****"
 #. * (the videoapi delivers exact frame positions on most videos
 #. *  but sometimes is not exact when libmepg3 is used)
 #.
-#: ../gap/gap_vex_dialog.c:2382
+#: ../gap/gap_vex_dialog.c:2351
 msgid "Exact Seek"
 msgstr "Ακριβής αναζήτηση"
 
-#: ../gap/gap_vex_dialog.c:2385
+#: ../gap/gap_vex_dialog.c:2354
 msgid ""
 "ON: emulate seek operations by sequential reads, even when videoindex is "
 "available"
@@ -10053,45 +10036,50 @@ msgstr ""
 "κι όταν το ευρετήριο βίντεο είναι διαθέσιμο"
 
 #. the Aspect Ratio Label(s)
-#: ../gap/gap_vex_dialog.c:2397
+#: ../gap/gap_vex_dialog.c:2366
 msgid "Aspect Ratio:"
 msgstr "Λόγος θέασης"
 
 #. the output frame
 #. the hbox
-#: ../gap/gap_vex_dialog.c:2421 ../vid_common/gap_cme_gui.c:2659
+#: ../gap/gap_vex_dialog.c:2390 ../vid_common/gap_cme_gui.c:2657
 msgid "Output"
 msgstr "Έξοδος"
 
-#. the multilayer checkbox (decide if extract writes to frames on disc or to one image)
-#: ../gap/gap_vex_dialog.c:2447
-msgid "Create only one multilayer Image"
-msgstr "Δημιουργία μόνο μιας εικόνας πολλαπλών στρώσεων"
+#: ../gap/gap_vex_dialog.c:2417
+#| msgid ""
+#| "On: extracted frames are stored in one multilayer image\n"
+#| "Off: extracted frames are written to frame files on disc"
+msgid "extracted frames are written to frame files on disc"
+msgstr "τα πλαίσια που εξάχθηκαν γράφονται σε αρχεία πλαισίου στον δίσκο"
 
-#: ../gap/gap_vex_dialog.c:2453
-msgid ""
-"On: extracted frames are stored in one multilayer image\n"
-"Off: extracted frames are written to frame files on disc"
-msgstr ""
-"Ενεργό: τα εξαχθέντα πλαίσια αποθηκεύονται σε μια εικόνα πολλαπλών στρώσεων\n"
-"Ανενεργό: τα εξαχθέντα πλαίσια γράφονται σε αρχεία πλαισίου στο δίσκο"
+#: ../gap/gap_vex_dialog.c:2418
+#| msgid "Generate animated preview as multilayer image"
+msgid "extracted frames are stored in one multilayer image"
+msgstr "τα πλαίσια που εξάχθηκαν αποθηκεύονται σε μια εικόνα πολλαπλών στρώσεων"
 
-#: ../gap/gap_vex_dialog.c:2477
+#
+#: ../gap/gap_vex_dialog.c:2419
+#| msgid "Delete storyboard section"
+msgid "create a storyboard from selected video clip"
+msgstr "δημιουργία ενός πίνακα διάταξης από επιλεγμένα κομμάτια βίντεο"
+
+#: ../gap/gap_vex_dialog.c:2450
 msgid "Basename for extracted frames (framenr and extension is added)"
 msgstr ""
 "Το όνομα βάσης για εξαχθέντα πλαίσια (αριθμός πλαισίου και επέκταση "
 "προστίθενται)"
 
-#: ../gap/gap_vex_dialog.c:2478
+#: ../gap/gap_vex_dialog.c:2451
 msgid "frame_"
 msgstr "Πλαίσιο_"
 
-#: ../gap/gap_vex_dialog.c:2488
+#: ../gap/gap_vex_dialog.c:2461
 msgid "Use filebrowser to select basename for extracted frames"
 msgstr ""
 "Χρήση περιηγητή αρχείων για επιλογή ονόματος βάσης για εξαχθέντα πλαίσια"
 
-#: ../gap/gap_vex_dialog.c:2519
+#: ../gap/gap_vex_dialog.c:2492
 msgid ""
 "Digits to use for framenumber part in filenames (use 1 if you dont want "
 "leading zeroes)"
@@ -10100,11 +10088,11 @@ msgstr ""
 "θέλετε αρχικά μηδενικά)"
 
 #. the graymask checkbutton
-#: ../gap/gap_vex_dialog.c:2530
+#: ../gap/gap_vex_dialog.c:2503
 msgid "graymask"
 msgstr "γκρι μάσκα"
 
-#: ../gap/gap_vex_dialog.c:2535
+#: ../gap/gap_vex_dialog.c:2508
 msgid ""
 "On: extract grayscale mask (generated by bluebox)\n"
 "Off: extract color frames 1:1"
@@ -10113,11 +10101,11 @@ msgstr ""
 "Ανενεργό: εξαγωγή πλαισίων χρώματος 1:1"
 
 #. the layermask checkbutton
-#: ../gap/gap_vex_dialog.c:2543
+#: ../gap/gap_vex_dialog.c:2516
 msgid "layermask"
 msgstr "μάσκα στρώσης"
 
-#: ../gap/gap_vex_dialog.c:2548
+#: ../gap/gap_vex_dialog.c:2521
 msgid ""
 "On: bluebox shall generate transparency as layermask\n"
 "Off: bluebox shall generate transparency as alpha channel"
@@ -10127,11 +10115,11 @@ msgstr ""
 
 #
 #. the bluebox checkbutton
-#: ../gap/gap_vex_dialog.c:2556
+#: ../gap/gap_vex_dialog.c:2529
 msgid "bluebox"
 msgstr "Μπλε κουτί"
 
-#: ../gap/gap_vex_dialog.c:2563
+#: ../gap/gap_vex_dialog.c:2536
 msgid ""
 "On: add trasparency for extracted frames via blubox filter (using values of "
 "last run in this session)\n"
@@ -10141,79 +10129,85 @@ msgstr ""
 "(χρησιμοποιώντας τιμές της τελευταίας εκτέλεσης σε αυτή τη σύνοδο)\n"
 "Ανενεργό: εξαγωγή πλαισίων 1.1"
 
-#: ../gap/gap_vex_dialog.c:2596
+#: ../gap/gap_vex_dialog.c:2569
 msgid "Extension of extracted frames (.xcf, .jpg, .ppm)"
 msgstr "Επέκταση εξαγμένων πλαισίων (.xcf, .jpg, .ppm)"
 
-#: ../gap/gap_vex_dialog.c:2597
+#: ../gap/gap_vex_dialog.c:2570
 msgid ".xcf"
 msgstr ".xcf"
 
 #. the framenumber for 1st frame label
-#: ../gap/gap_vex_dialog.c:2608
+#: ../gap/gap_vex_dialog.c:2581
 msgid "Framenr 1:"
 msgstr "Αριθμός πλαισίου 1:"
 
-#: ../gap/gap_vex_dialog.c:2629
+#: ../gap/gap_vex_dialog.c:2602
 msgid ""
 "Framenumber for 1st extracted frame (use 0 for keeping original framenumbers)"
 msgstr ""
 "Ο αριθμός πλαισίου για το πρώτο εξαγμένο πλαίσιο (χρήση 0 για διατήρηση "
 "αρχικών αριθμών πλαισίου)"
 
-#: ../gap/gap_vex_dialog.c:2660
+#: ../gap/gap_vex_dialog.c:2633
 msgid "0.0 .. no interpolation, 1.0 smooth interpolation at deinterlacing"
 msgstr "0,0 .. χωρίς παρεμβολή, 1,0 ομαλή παρεμβολή στην απόπλεξη"
 
-#: ../gap/gap_vex_dialog.c:2665
+#: ../gap/gap_vex_dialog.c:2638
 msgid "no deinterlace"
 msgstr "χωρίς απόπλεξη"
 
-#: ../gap/gap_vex_dialog.c:2666
+#: ../gap/gap_vex_dialog.c:2639
 msgid "deinterlace (odd lines only)"
 msgstr "απόπλεξη (μονές γραμμές μόνο)"
 
-#: ../gap/gap_vex_dialog.c:2667
+#: ../gap/gap_vex_dialog.c:2640
 msgid "deinterlace (even lines only)"
 msgstr "απόπλεξη (ζυγές γραμμές μόνο)"
 
-#: ../gap/gap_vex_dialog.c:2668
+#: ../gap/gap_vex_dialog.c:2641
 msgid "deinterlace frames x 2 (odd 1st)"
 msgstr "απόπλεξη πλαισίων x 2 (μονό πρώτα)"
 
-#: ../gap/gap_vex_dialog.c:2669
+#: ../gap/gap_vex_dialog.c:2642
 msgid "deinterlace frames x 2 (even 1st)"
 msgstr "απόπλεξη πλαισίων x 2 (ζυγό πρώτα)"
 
-#: ../gap/gap_vex_dialog.c:2680
+#: ../gap/gap_vex_dialog.c:2649
 msgid "Deinterlace splits each extracted frame in 2 frames"
 msgstr "Η απόπλεξη διαιρεί κάθε εξαγόμενο πλαίσιο σε δύο πλαίσια"
 
-#: ../gap/gap_vex_dialog.c:2701
+#: ../gap/gap_vex_dialog.c:2670
 msgid "Name for extracted audio (audio is written in RIFF WAV format)"
 msgstr "Όνομα για εξαγόμενο ήχο (ο ήχος γράφεται σε μορφή RIFF WAV)"
 
-#: ../gap/gap_vex_dialog.c:2702
+#: ../gap/gap_vex_dialog.c:2671
 msgid "frame.wav"
 msgstr "πλαίσιο.wav"
 
-#: ../gap/gap_vex_dialog.c:2712
+#: ../gap/gap_vex_dialog.c:2681
 msgid "Use filebrowser to select audiofilename"
 msgstr "Χρήση περιηγητή αρχείου για επιλογή ονόματος αρχείου ήχου"
 
-#: ../gap/gap_vex_dialog.c:2718
+#: ../gap/gap_vex_dialog.c:2687
 msgid "Start extraction"
 msgstr "Εκκίνηση εξαγωγής"
 
-#: ../gap/gap_vex_exec.c:370
+#: ../gap/gap_vex_exec.c:278
+#, c-format
+#| msgid "Failed to write SVG file: %s"
+msgid "failed to extract frame from video: %s"
+msgstr "αποτυχία εξαγωγής πλαισίου από βίντεο: %s"
+
+#: ../gap/gap_vex_exec.c:539
 msgid "Seek Frame Position..."
 msgstr "Αναζήτηση θέσης πλαισίου..."
 
-#: ../gap/gap_vex_exec.c:422
+#: ../gap/gap_vex_exec.c:591
 msgid "Extracting Frames..."
 msgstr "Εξαγωγή πλαισίων..."
 
-#: ../gap/gap_vex_exec.c:504
+#: ../gap/gap_vex_exec.c:673
 #, c-format
 msgid ""
 "failed to save file:\n"
@@ -10389,7 +10383,7 @@ msgid "videofile"
 msgstr "αρχείο βίντεο"
 
 #. the Status frame
-#: ../gap/gap_video_index_creator.c:1340 ../vid_common/gap_cme_gui.c:2698
+#: ../gap/gap_video_index_creator.c:1340 ../vid_common/gap_cme_gui.c:2696
 msgid "Status"
 msgstr "Κατάσταση"
 
@@ -11047,28 +11041,28 @@ msgstr ""
 "αποτυχία ελέγχου SYNTAX (συνέβη εσωτερικό σφάλμα)"
 
 #. g_message(_("Go for checking storyboard file"));
-#: ../vid_common/gap_cme_gui.c:1911
+#: ../vid_common/gap_cme_gui.c:1909
 msgid "Checking Storyboard File"
 msgstr "Έλεγχος αρχείου πίνακα ιστορίας"
 
-#: ../vid_common/gap_cme_gui.c:1914
+#: ../vid_common/gap_cme_gui.c:1912
 #, c-format
 msgid "Parsing Storyboardfile"
 msgstr "Ανάλυση αρχείου πίνακα ιστορίας"
 
-#: ../vid_common/gap_cme_gui.c:1957
+#: ../vid_common/gap_cme_gui.c:1955
 msgid "Go for checking storyboard file"
 msgstr "Μετάβαση για έλεγχο αρχείου πίνακα ιστορίας"
 
-#: ../vid_common/gap_cme_gui.c:1959 ../vid_common/gap_cme_gui.c:1960
+#: ../vid_common/gap_cme_gui.c:1957 ../vid_common/gap_cme_gui.c:1958
 msgid "Storyboardfile Check"
 msgstr "Έλεγχος αρχείου πίνακα ιστορίας"
 
-#: ../vid_common/gap_cme_gui.c:2013
+#: ../vid_common/gap_cme_gui.c:2011
 msgid "Encoder specific parameter window is still open"
 msgstr "Το παράθυρο ειδικών παραμέτρων κωδικοποιητή είναι ακόμα ανοιχτό"
 
-#: ../vid_common/gap_cme_gui.c:2022
+#: ../vid_common/gap_cme_gui.c:2020
 msgid ""
 "ERROR: No valid storyboardfile was specified.\n"
 "(a storyboard file can be specified in the extras tab)"
@@ -11076,7 +11070,7 @@ msgstr ""
 "ΣΦΑΛΜΑ: Χωρίς καθορισμό έγκυρου αρχείου πίνακα ιστορίας.\n"
 "(ένα αρχείο πίνακα ιστορίας μπορεί να οριστεί στις πρόσθετες καρτέλες)"
 
-#: ../vid_common/gap_cme_gui.c:2034
+#: ../vid_common/gap_cme_gui.c:2032
 #, c-format
 msgid ""
 "Error:\n"
@@ -11089,7 +11083,7 @@ msgstr ""
 "ορισμός πλάτους σε %d\n"
 "ορισμός ύψους σε %d"
 
-#: ../vid_common/gap_cme_gui.c:2057
+#: ../vid_common/gap_cme_gui.c:2055
 #, c-format
 msgid ""
 "Error: Unsupported Bit per Sample %d\n"
@@ -11100,7 +11094,7 @@ msgstr ""
 "αρχείο: %s\n"
 "υποστηρίζει 8 ή 16 δυαδικά"
 
-#: ../vid_common/gap_cme_gui.c:2078
+#: ../vid_common/gap_cme_gui.c:2076
 #, c-format
 msgid ""
 "Error: Audiofile not found\n"
@@ -11109,7 +11103,7 @@ msgstr ""
 "Σφάλμα: χωρίς αρχείο ήχου\n"
 "αρχείο: %s\n"
 
-#: ../vid_common/gap_cme_gui.c:2101
+#: ../vid_common/gap_cme_gui.c:2099
 #, c-format
 msgid ""
 "Error: Unsupported Samplerate for MPEG1 Layer2 Audio Encoding\n"
@@ -11123,7 +11117,7 @@ msgstr ""
 "υποστηριζόμενοι ρυθμοί:\n"
 " 22050, 24000, 32000, 44100, 48000"
 
-#: ../vid_common/gap_cme_gui.c:2129
+#: ../vid_common/gap_cme_gui.c:2127
 #, c-format
 msgid ""
 "Error: Unsupported Samplerate for MPEG2 Layer3 Audio Encoding\n"
@@ -11137,7 +11131,7 @@ msgstr ""
 "υποστηριζόμενοι ρυθμοί:\n"
 " 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000"
 
-#: ../vid_common/gap_cme_gui.c:2152
+#: ../vid_common/gap_cme_gui.c:2150
 msgid ""
 "Can't process the audio input file. You should check audio options and audio "
 "tool configuration"
@@ -11146,59 +11140,59 @@ msgstr ""
 "επιλογές ήχου και διαμόρφωσης εργαλείου ήχου"
 
 #
-#: ../vid_common/gap_cme_gui.c:2173
+#: ../vid_common/gap_cme_gui.c:2171
 msgid "Select Storyboardfile"
 msgstr "Επιλογή αρχείου πίνακα ιστορίας"
 
 #
-#: ../vid_common/gap_cme_gui.c:2209
+#: ../vid_common/gap_cme_gui.c:2207
 msgid "Select Videofile"
 msgstr "Επιλογή αρχείου βίντεο"
 
 #
-#: ../vid_common/gap_cme_gui.c:2246
+#: ../vid_common/gap_cme_gui.c:2244
 msgid "Select Macrofile"
 msgstr "Επιλογή μακροαρχείου"
 
-#: ../vid_common/gap_cme_gui.c:2330
+#: ../vid_common/gap_cme_gui.c:2328
 msgid "Overwrite warning"
 msgstr "Προειδοποίηση αντικατάστασης"
 
-#: ../vid_common/gap_cme_gui.c:2349
+#: ../vid_common/gap_cme_gui.c:2347
 msgid "File already exists:"
 msgstr "Το αρχείο ήδη υπάρχει:"
 
-#: ../vid_common/gap_cme_gui.c:2358
+#: ../vid_common/gap_cme_gui.c:2356
 msgid "filename"
 msgstr "Όνομα αρχείου"
 
-#: ../vid_common/gap_cme_gui.c:2371
+#: ../vid_common/gap_cme_gui.c:2369
 msgid "  "
 msgstr "  "
 
-#: ../vid_common/gap_cme_gui.c:2451
+#: ../vid_common/gap_cme_gui.c:2449
 msgid "Input Mode:"
 msgstr "Κατάσταση εισόδου:"
 
 #. radio button Frames input_mode
-#: ../vid_common/gap_cme_gui.c:2461
+#: ../vid_common/gap_cme_gui.c:2459
 msgid "Frames"
 msgstr "Πλαίσια"
 
-#: ../vid_common/gap_cme_gui.c:2471
+#: ../vid_common/gap_cme_gui.c:2469
 msgid "Input is a sequence of frame images"
 msgstr "Η είσοδος είναι μια σειρά πλαισίων εικόνων"
 
 #. radio button Layers input_mode
-#: ../vid_common/gap_cme_gui.c:2485
+#: ../vid_common/gap_cme_gui.c:2483
 msgid "Layers"
 msgstr "Στρώσεις"
 
-#: ../vid_common/gap_cme_gui.c:2494
+#: ../vid_common/gap_cme_gui.c:2492
 msgid "Input is all the layers of one image"
 msgstr "Η είσοδος είναι όλες οι στρώσεις μιας εικόνας"
 
-#: ../vid_common/gap_cme_gui.c:2518
+#: ../vid_common/gap_cme_gui.c:2516
 msgid ""
 "Input is videoclips and frames, defined via storyboard file. (specify the "
 "storyboard filename in the extras tab)"
@@ -11207,111 +11201,111 @@ msgstr ""
 "αρχείου πίνκα ιστορίας. (καθορισμός του ονόματος αρχείου πίνακα ιστορίας "
 "στις πρόσθετες καρτέλες)"
 
-#: ../vid_common/gap_cme_gui.c:2564
+#: ../vid_common/gap_cme_gui.c:2562
 msgid "Master Videoencoder"
 msgstr "Κύριος κωδικοποιητής βίντεο"
 
 #. the Audio Tool notebook tab
-#: ../vid_common/gap_cme_gui.c:2620
+#: ../vid_common/gap_cme_gui.c:2618
 msgid "Audio Tool Configuration"
 msgstr "Ρύθμιση ηχητικού εργαλείου"
 
 #. the Extras notebook tab
-#: ../vid_common/gap_cme_gui.c:2633
+#: ../vid_common/gap_cme_gui.c:2631
 msgid "Extras"
 msgstr "Επιπρόσθετα"
 
 #. add the Encoding notebook tab
-#: ../vid_common/gap_cme_gui.c:2644
+#: ../vid_common/gap_cme_gui.c:2642
 msgid "Encoding"
 msgstr "Κωδικοποίηση"
 
 #. the (output) video label
-#: ../vid_common/gap_cme_gui.c:2670
+#: ../vid_common/gap_cme_gui.c:2668
 msgid "Video :"
 msgstr "Βίντεο:"
 
-#: ../vid_common/gap_cme_gui.c:2679
+#: ../vid_common/gap_cme_gui.c:2677
 msgid "Name of output videofile"
 msgstr "Όνομα της εξόδου αρχείου βίντεο"
 
-#: ../vid_common/gap_cme_gui.c:2691
+#: ../vid_common/gap_cme_gui.c:2689
 msgid "Select output videofile via browser"
 msgstr "Επιλογή εξόδου αρχείου βίντεο μέσω περιηγητή"
 
 #. the Status label
-#: ../vid_common/gap_cme_gui.c:2709
+#: ../vid_common/gap_cme_gui.c:2707
 msgid "READY"
 msgstr "ΕΤΟΙΜΟ"
 
-#: ../vid_common/gap_cme_gui.c:2784
+#: ../vid_common/gap_cme_gui.c:2782
 msgid "Video Encoder Status"
 msgstr "Κατάσταση κωδικοποιητών βίντεο"
 
-#: ../vid_common/gap_cme_gui.c:2796
+#: ../vid_common/gap_cme_gui.c:2794
 msgid "Active Encoder:"
 msgstr "Ενεργός κωδικοποιητής"
 
-#: ../vid_common/gap_cme_gui.c:2841
+#: ../vid_common/gap_cme_gui.c:2839
 msgid "Frames Done:"
 msgstr "Ολοκλήρωση πλαισίων:"
 
-#: ../vid_common/gap_cme_gui.c:2860
+#: ../vid_common/gap_cme_gui.c:2858
 msgid "Frames Encoded:"
 msgstr "Κωδικοποιημένα πλαίσια:"
 
-#: ../vid_common/gap_cme_gui.c:2879
+#: ../vid_common/gap_cme_gui.c:2877
 msgid "Frames Copied (lossless):"
 msgstr "Αντιγραμμένα πλαίσια (χωρίς απώλειες):"
 
-#: ../vid_common/gap_cme_gui.c:2898
+#: ../vid_common/gap_cme_gui.c:2896
 msgid "Encoding Time Elapsed:"
 msgstr "Κωδικοποίηση χρόνου που παρήλθε:"
 
-#: ../vid_common/gap_cme_gui.c:2932
+#: ../vid_common/gap_cme_gui.c:2930
 msgid "Encoding Extras"
 msgstr "Επιπρόσθετες κωδικοποιήσεις"
 
 #. the Macrofile label
-#: ../vid_common/gap_cme_gui.c:2942
+#: ../vid_common/gap_cme_gui.c:2940
 msgid "Macrofile:"
 msgstr "Μακροαρχεία:"
 
-#: ../vid_common/gap_cme_gui.c:2957
+#: ../vid_common/gap_cme_gui.c:2955
 msgid "optional filtermacro file to be performed on each handled frame "
 msgstr ""
 "προαιρετικό αρχείο μακροφίλτρου για εκτέλεση σε κάθε επεξεργαζόμενο πλαίσιο"
 
-#: ../vid_common/gap_cme_gui.c:2970
+#: ../vid_common/gap_cme_gui.c:2968
 msgid "select macrofile via browser"
 msgstr "επιλογή μακροαρχείου μέσω περιηγητή"
 
 #. the Storyboard label
-#: ../vid_common/gap_cme_gui.c:2979
+#: ../vid_common/gap_cme_gui.c:2977
 msgid "Storyboard File:"
 msgstr "Αρχείο πίνακα ιστορίας:"
 
-#: ../vid_common/gap_cme_gui.c:2993
+#: ../vid_common/gap_cme_gui.c:2991
 msgid "optionally use a storyboard file to feed the encoder"
 msgstr ""
 "προαιρετικά χρήση ενός αρχείου πίνακα ιστορίας για τροφοδοσία του "
 "κωδικοποιητή"
 
-#: ../vid_common/gap_cme_gui.c:3005
+#: ../vid_common/gap_cme_gui.c:3003
 msgid "select storyboard file via browser"
 msgstr "επιλογή αρχείου πίνακα ιστορίας μέσω περιηγητή"
 
 #. the Storyboard Audio
-#: ../vid_common/gap_cme_gui.c:3012
+#: ../vid_common/gap_cme_gui.c:3010
 msgid "Storyboard Audio:"
 msgstr "Ήχος πίνακα ιστορίας:"
 
 #. the Storyboard filebrowser button
-#: ../vid_common/gap_cme_gui.c:3020
+#: ../vid_common/gap_cme_gui.c:3018
 msgid "Create Composite Audiofile"
 msgstr "Δημιουργία σύνθετου αρχείου ήχου"
 
-#: ../vid_common/gap_cme_gui.c:3027
+#: ../vid_common/gap_cme_gui.c:3025
 msgid ""
 "create a composite audiofile as mixdown of all audio tracks in the "
 "storyboard file and use the created composite audiofile as input for encoding"
@@ -11321,7 +11315,7 @@ msgstr ""
 "ήχου ως εισόδου για κωδικοποίηση"
 
 #. the  storyboard helptext & parsing report label
-#: ../vid_common/gap_cme_gui.c:3039
+#: ../vid_common/gap_cme_gui.c:3037
 msgid ""
 "Storyboardfiles are textfiles that are used to\n"
 "assemble a video from a list of single images,\n"
@@ -11334,21 +11328,21 @@ msgstr ""
 "(δείτε STORYBOARD_FILE_DOC.txt για λεπτομέρειες)"
 
 #. the Monitor label
-#: ../vid_common/gap_cme_gui.c:3054
+#: ../vid_common/gap_cme_gui.c:3052
 msgid "Monitor"
 msgstr "Οθόνη"
 
 #. the Monitor checkbutton
-#: ../vid_common/gap_cme_gui.c:3062
+#: ../vid_common/gap_cme_gui.c:3060
 msgid "Monitor Frames while Encoding"
 msgstr "Πλαίσια οθόνης ενώ γίνεται κωδικοποίηση"
 
-#: ../vid_common/gap_cme_gui.c:3067
+#: ../vid_common/gap_cme_gui.c:3065
 msgid "Show each frame before passed to encoder"
 msgstr "Εμφάνιση κάθε πλαισίου πριν περάσει στον κωδικοποιητή"
 
 #. the Debug Flat File label
-#: ../vid_common/gap_cme_gui.c:3076
+#: ../vid_common/gap_cme_gui.c:3074
 msgid ""
 "Debug\n"
 "Flat File:"
@@ -11356,7 +11350,7 @@ msgstr ""
 "Αποσφαλμάτωση\n"
 "Επίπεδο αρχείο:"
 
-#: ../vid_common/gap_cme_gui.c:3090
+#: ../vid_common/gap_cme_gui.c:3088
 msgid ""
 "optional Save each composite frame to JPEG file, before it is passed to the "
 "encoder"
@@ -11365,7 +11359,7 @@ msgstr ""
 "στον κωδικοποιητή"
 
 #. the Debug Multilayer File label
-#: ../vid_common/gap_cme_gui.c:3099
+#: ../vid_common/gap_cme_gui.c:3097
 msgid ""
 "Debug\n"
 "Multilayer File:"
@@ -11373,7 +11367,7 @@ msgstr ""
 "Αποσφαλμάτωση\n"
 "Αρχείο πολλαπλής στρώσης:"
 
-#: ../vid_common/gap_cme_gui.c:3113
+#: ../vid_common/gap_cme_gui.c:3111
 msgid ""
 "optional save each composite multilayer frame to XCF file, before flattening "
 "and executing macro"
@@ -11381,32 +11375,32 @@ msgstr ""
 "προαιρετική αποθήκευση κάθε σύνθετου πλαισίου πολλαπλής στρώσης σε αρχείο "
 "XCF, πριν την ισοπέδωση και εκτέλεση μάκρο"
 
-#: ../vid_common/gap_cme_gui.c:3139
+#: ../vid_common/gap_cme_gui.c:3137
 msgid "Configuration of external audiotool program"
 msgstr "Ρύθμιση εξωτερικού προγράμματος εργαλείου ήχου"
 
 #
 #. the audiotool (sox) label
-#: ../vid_common/gap_cme_gui.c:3149
+#: ../vid_common/gap_cme_gui.c:3147
 msgid "Audiotool:"
 msgstr "Εργαλεία ήχου:"
 
-#: ../vid_common/gap_cme_gui.c:3163
+#: ../vid_common/gap_cme_gui.c:3161
 msgid "name of audiotool (something like sox with or without path)"
 msgstr "όνομα εργαλείου ήχου (κάτι σαν sox με ή χωρίς διαδρομή)"
 
 #
 #. the audiotool options (sox options) label
-#: ../vid_common/gap_cme_gui.c:3173
+#: ../vid_common/gap_cme_gui.c:3171
 msgid "Options:"
 msgstr "Επιλογές:"
 
-#: ../vid_common/gap_cme_gui.c:3188
+#: ../vid_common/gap_cme_gui.c:3186
 msgid "Options to call the audiotool ($IN, $OUT $RATE are replaced)"
 msgstr ""
 "Επιλογές για κλήση του εργαλείου ήχου ($IN, $OUT $RATE αντικαθίστανται)"
 
-#: ../vid_common/gap_cme_gui.c:3200
+#: ../vid_common/gap_cme_gui.c:3198
 msgid ""
 "Configuration of an audiotool (like sox on UNIX).\n"
 "\n"
@@ -11432,33 +11426,33 @@ msgstr ""
 
 #
 #. the Save button
-#: ../vid_common/gap_cme_gui.c:3229
+#: ../vid_common/gap_cme_gui.c:3227
 msgid "Save"
 msgstr "Αποθήκευση"
 
-#: ../vid_common/gap_cme_gui.c:3232
+#: ../vid_common/gap_cme_gui.c:3230
 msgid "Save audiotool configuration to gimprc"
 msgstr "Αποθήκευση ρύθμισης εργαλείου ήχου στο gimprc"
 
 #. the Load button
-#: ../vid_common/gap_cme_gui.c:3238
+#: ../vid_common/gap_cme_gui.c:3236
 msgid "Load"
 msgstr "Φόρτωση"
 
-#: ../vid_common/gap_cme_gui.c:3241
+#: ../vid_common/gap_cme_gui.c:3239
 msgid "Load audiotool configuration from gimprc"
 msgstr "Φόρτωση ρύθμισης εργαλείου ήχου από το gimprc"
 
-#: ../vid_common/gap_cme_gui.c:3250
+#: ../vid_common/gap_cme_gui.c:3248
 msgid "Set default audiotool configuration "
 msgstr "Ορισμός της προεπιλεγμένης ρύθμισης εργαλείου ήχου"
 
 #
-#: ../vid_common/gap_cme_gui.c:3277
+#: ../vid_common/gap_cme_gui.c:3275
 msgid "Audio Input"
 msgstr "Είσοδος ήχου"
 
-#: ../vid_common/gap_cme_gui.c:3305
+#: ../vid_common/gap_cme_gui.c:3303
 msgid ""
 "Name of audiofile (.wav 16 bit mono or stereo samples preferred). Optionally "
 "you may select a textfile that contains a list of file names referring to "
@@ -11471,80 +11465,80 @@ msgstr ""
 "ήχου. Καθένα από αυτά τα αρχεία ήχου θα κωδικοποιηθεί ως ξεχωριστό κομμάτι "
 "ήχου."
 
-#: ../vid_common/gap_cme_gui.c:3322
+#: ../vid_common/gap_cme_gui.c:3320
 msgid "Select input audiofile via browser"
 msgstr "Επιλογή εισόδου αρχείου ήχου μέσω περιηγητή"
 
 #. the audiofile information label
 #. the Tmp audioinformation  label
-#: ../vid_common/gap_cme_gui.c:3331 ../vid_common/gap_cme_gui.c:3434
+#: ../vid_common/gap_cme_gui.c:3329 ../vid_common/gap_cme_gui.c:3432
 msgid "WAV, 16 Bit stereo, rate: 44100"
 msgstr "WAV, 16 Bit στερεοφωνικό, ρυθμός: 44100"
 
 #. the audiofile total playtime information label
 #. the Tmp audio playtime information  label
 #. the timestamp of the last frame
-#: ../vid_common/gap_cme_gui.c:3340 ../vid_common/gap_cme_gui.c:3443
-#: ../vid_common/gap_cme_gui.c:3514 ../vid_common/gap_cme_gui.c:3529
+#: ../vid_common/gap_cme_gui.c:3338 ../vid_common/gap_cme_gui.c:3441
+#: ../vid_common/gap_cme_gui.c:3512 ../vid_common/gap_cme_gui.c:3527
 msgid "00:00:000"
 msgstr "00:00:000"
 
-#: ../vid_common/gap_cme_gui.c:3368
+#: ../vid_common/gap_cme_gui.c:3366
 msgid "Output samplerate in samples/sec"
 msgstr "Ρυθμός δειγματοληψίας εξόδου σε δείγματα/δευτερόλεπτο"
 
 #. the Samplerate combo
-#: ../vid_common/gap_cme_gui.c:3374
+#: ../vid_common/gap_cme_gui.c:3372
 msgid " 8k Phone"
 msgstr "Tηλέφωνο 8kHz"
 
-#: ../vid_common/gap_cme_gui.c:3375
+#: ../vid_common/gap_cme_gui.c:3373
 msgid "11.025k"
 msgstr "11.025k"
 
-#: ../vid_common/gap_cme_gui.c:3376
+#: ../vid_common/gap_cme_gui.c:3374
 msgid "12k Voice"
 msgstr "12k φωνή"
 
-#: ../vid_common/gap_cme_gui.c:3377
+#: ../vid_common/gap_cme_gui.c:3375
 msgid "16k FM"
 msgstr "16k FM"
 
-#: ../vid_common/gap_cme_gui.c:3378
+#: ../vid_common/gap_cme_gui.c:3376
 msgid "22.05k"
 msgstr "22.05k"
 
-#: ../vid_common/gap_cme_gui.c:3379
+#: ../vid_common/gap_cme_gui.c:3377
 msgid "24k Tape"
 msgstr "24k κασέτα"
 
-#: ../vid_common/gap_cme_gui.c:3380
+#: ../vid_common/gap_cme_gui.c:3378
 msgid "32k HiFi"
 msgstr "32k Υψηλή πιστότητα"
 
-#: ../vid_common/gap_cme_gui.c:3381
+#: ../vid_common/gap_cme_gui.c:3379
 msgid "44.1k CD"
 msgstr "44.1k CD"
 
-#: ../vid_common/gap_cme_gui.c:3382
+#: ../vid_common/gap_cme_gui.c:3380
 msgid "48 k Studio"
 msgstr "48 k στούντιο"
 
-#: ../vid_common/gap_cme_gui.c:3391
+#: ../vid_common/gap_cme_gui.c:3389
 msgid "Select a commonly-used samplerate"
 msgstr "Επιλογή μιας κοινά χρησιμοποιούμενου ρυθμού δείγματος"
 
 #. the Tmp audiofile label
-#: ../vid_common/gap_cme_gui.c:3401
+#: ../vid_common/gap_cme_gui.c:3399
 msgid "Tmpfile:"
 msgstr "Προσωρινό αρχείο:"
 
 #. the convert Tmp audiofilefile button
-#: ../vid_common/gap_cme_gui.c:3418
+#: ../vid_common/gap_cme_gui.c:3416
 msgid "Audioconvert"
 msgstr "Αυτόματη μετατροπή"
 
-#: ../vid_common/gap_cme_gui.c:3424
+#: ../vid_common/gap_cme_gui.c:3422
 msgid ""
 "Convert audio input file to a temporary file\n"
 "and feed the temporary file to the selected encoder\n"
@@ -11555,7 +11549,7 @@ msgstr ""
 "(το προσωρινό αρχείο διαγράφεται όταν ολοκληρωθεί η κωδικοποίηση)"
 
 #. the resample general information label
-#: ../vid_common/gap_cme_gui.c:3453
+#: ../vid_common/gap_cme_gui.c:3451
 msgid ""
 "\n"
 "Note:\n"
@@ -11571,164 +11565,164 @@ msgstr ""
 "αλλά υψηλότεροι ρυθμοί δειγμάτων αδυνατούν να βελτιώσουν την\n"
 "ποιότητα του αρχικού ήχου."
 
-#: ../vid_common/gap_cme_gui.c:3559
+#: ../vid_common/gap_cme_gui.c:3557
 msgid "Video Encode Options"
 msgstr "Επιλογές κωδικοποίησης βίντεο"
 
-#: ../vid_common/gap_cme_gui.c:3596
+#: ../vid_common/gap_cme_gui.c:3594
 msgid "Start encoding at this frame"
 msgstr "Έναρξη κωδικοποίησης σε αυτό το πλαίσιο"
 
-#: ../vid_common/gap_cme_gui.c:3629
+#: ../vid_common/gap_cme_gui.c:3627
 msgid "Stop encoding at this frame"
 msgstr "Τέλος κωδικοποίησης σε αυτό το πλαίσιο"
 
-#: ../vid_common/gap_cme_gui.c:3655
+#: ../vid_common/gap_cme_gui.c:3653
 msgid "Width of the output video (pixels)"
 msgstr "πλάτος του βίντεο εξόδου (εικονοστοιχεία)"
 
 #. the Frame width/height scale combo (for picking common used video sizes)
 #. the framerate combo (to select common used video framerates)
-#: ../vid_common/gap_cme_gui.c:3662 ../vid_common/gap_cme_gui.c:3741
+#: ../vid_common/gap_cme_gui.c:3660 ../vid_common/gap_cme_gui.c:3739
 msgid "keep"
 msgstr "διατήρηση"
 
-#: ../vid_common/gap_cme_gui.c:3663
+#: ../vid_common/gap_cme_gui.c:3661
 msgid "Framesize (1:1)"
 msgstr "Μέγεθος πλαισίου (1:1)"
 
-#: ../vid_common/gap_cme_gui.c:3664
+#: ../vid_common/gap_cme_gui.c:3662
 msgid "320x240 NTSC"
 msgstr "320x240 NTSC"
 
-#: ../vid_common/gap_cme_gui.c:3665
+#: ../vid_common/gap_cme_gui.c:3663
 msgid "320x288 PAL"
 msgstr "320x288 PAL"
 
-#: ../vid_common/gap_cme_gui.c:3666
+#: ../vid_common/gap_cme_gui.c:3664
 msgid "640x480"
 msgstr "640x480"
 
-#: ../vid_common/gap_cme_gui.c:3667
+#: ../vid_common/gap_cme_gui.c:3665
 msgid "720x480 NTSC"
 msgstr "720x480 NTSC"
 
-#: ../vid_common/gap_cme_gui.c:3668
+#: ../vid_common/gap_cme_gui.c:3666
 msgid "720x576 PAL"
 msgstr "720x576 PAL"
 
-#: ../vid_common/gap_cme_gui.c:3669
+#: ../vid_common/gap_cme_gui.c:3667
 msgid "1280x720 HD"
 msgstr "1280x720 Υψηλής ευκρίνειας"
 
-#: ../vid_common/gap_cme_gui.c:3670
+#: ../vid_common/gap_cme_gui.c:3668
 msgid "1920x1080 FullHD"
 msgstr "1920x1080 Πλήρης υψηλή ευκρίνεια"
 
-#: ../vid_common/gap_cme_gui.c:3671
+#: ../vid_common/gap_cme_gui.c:3669
 msgid "1920x1088 EosHD"
 msgstr "1920x1088 Eos υψηλής ευκρίνειας"
 
-#: ../vid_common/gap_cme_gui.c:3680
+#: ../vid_common/gap_cme_gui.c:3678
 msgid "Scale width/height to common size"
 msgstr "Κλίμακα πλάτους/ύψος σε κοινό μέγεθος"
 
-#: ../vid_common/gap_cme_gui.c:3707
+#: ../vid_common/gap_cme_gui.c:3705
 msgid "Height of the output video (pixels)"
 msgstr "Ύψος της εξόδου βίντεο (σε εικονοστοιχεία)"
 
-#: ../vid_common/gap_cme_gui.c:3734
+#: ../vid_common/gap_cme_gui.c:3732
 msgid "Framerate of the output video (frames/sec)"
 msgstr "Ρυθμός πλαισίων στην έξοδο βίντεο (πλαίσια/δευτερόλεπτο)"
 
-#: ../vid_common/gap_cme_gui.c:3742
+#: ../vid_common/gap_cme_gui.c:3740
 msgid "original"
 msgstr "αρχικός"
 
-#: ../vid_common/gap_cme_gui.c:3764
+#: ../vid_common/gap_cme_gui.c:3762
 msgid "Set framerate"
 msgstr "Ορισμός ρυθμού πλαισίων"
 
 #
 #. the Videonorm label
-#: ../vid_common/gap_cme_gui.c:3775
+#: ../vid_common/gap_cme_gui.c:3773
 msgid "Videonorm:"
 msgstr "Προδιαγραφή βίντεο:"
 
 #. the Videonorm combo
-#: ../vid_common/gap_cme_gui.c:3783
+#: ../vid_common/gap_cme_gui.c:3781
 msgid "NTSC"
 msgstr "NTSC"
 
-#: ../vid_common/gap_cme_gui.c:3784
+#: ../vid_common/gap_cme_gui.c:3782
 msgid "PAL"
 msgstr "PAL"
 
-#: ../vid_common/gap_cme_gui.c:3785
+#: ../vid_common/gap_cme_gui.c:3783
 msgid "SECAM"
 msgstr "SECAM"
 
-#: ../vid_common/gap_cme_gui.c:3786
+#: ../vid_common/gap_cme_gui.c:3784
 msgid "MAC"
 msgstr "MAC"
 
-#: ../vid_common/gap_cme_gui.c:3787
+#: ../vid_common/gap_cme_gui.c:3785
 msgid "COMP"
 msgstr "COMP"
 
-#: ../vid_common/gap_cme_gui.c:3788
+#: ../vid_common/gap_cme_gui.c:3786
 msgid "undefined"
 msgstr "αόριστο"
 
 #
-#: ../vid_common/gap_cme_gui.c:3797
+#: ../vid_common/gap_cme_gui.c:3795
 msgid "Select videonorm"
 msgstr "Επιλογή προδιαγραφής βίντεο"
 
 #. the videoencoder label
-#: ../vid_common/gap_cme_gui.c:3807
+#: ../vid_common/gap_cme_gui.c:3805
 msgid "Encoder:"
 msgstr "Κωδικοποιητής:"
 
 #. the parameters button (invokes videoencoder specific GUI dialog)
-#: ../vid_common/gap_cme_gui.c:3815
+#: ../vid_common/gap_cme_gui.c:3813
 msgid "Parameters"
 msgstr "Παράμετροι"
 
-#: ../vid_common/gap_cme_gui.c:3821
+#: ../vid_common/gap_cme_gui.c:3819
 msgid "Edit encoder specific parameters"
 msgstr "Επεξεργασία κωδικοποιητή ειδικών παραμέτρων"
 
-#: ../vid_common/gap_cme_gui.c:3837
+#: ../vid_common/gap_cme_gui.c:3835
 msgid "Select video encoder plugin"
 msgstr "Επιλογή πρόσθετου κωδικοποιητή βίντεο"
 
-#: ../vid_common/gap_cme_gui.c:3936
+#: ../vid_common/gap_cme_gui.c:3934
 #, c-format
 msgid "Required Plugin %s not available"
 msgstr "Το απαιτούμενο πρόσθετο %s δεν είναι διαθέσιμο"
 
-#: ../vid_common/gap_cme_gui.c:3988
+#: ../vid_common/gap_cme_gui.c:3986
 #, c-format
 msgid "Call of Required Plugin %s failed"
 msgstr "Αποτυχία κλήσης του απαιτούμενου πρόσθετου %s"
 
-#: ../vid_common/gap_cme_gui.c:4073
+#: ../vid_common/gap_cme_gui.c:4071
 #, c-format
 msgid "Video encoding %d of %d frames done, PASS 1 of 2"
 msgstr "Κωδικοποίηση βίντεο %d από %d πλαίσια ολοκληρώθηκε, ΠΕΡΑΣΜΑ 1 από 2"
 
-#: ../vid_common/gap_cme_gui.c:4085
+#: ../vid_common/gap_cme_gui.c:4083
 #, c-format
 msgid "Video encoding %d of %d frames done, PASS 2 of 2"
 msgstr "Κωδικοποίηση βίντεο %d από %d πλαίσια ολοκληρώθηκε, ΠΕΡΑΣΜΑ 2 από 2"
 
-#: ../vid_common/gap_cme_gui.c:4098
+#: ../vid_common/gap_cme_gui.c:4096
 #, c-format
 msgid "Video encoding %d of %d frames done"
 msgstr "Κωδικοποίηση βίντεο %d από %d πλαίσια τελείωσε"
 
-#: ../vid_common/gap_cme_gui.c:4117
+#: ../vid_common/gap_cme_gui.c:4115
 msgid "ENCODER process has terminated"
 msgstr "Η διαδικασία κωδικοποιητή τελείωσε"
 
@@ -12761,8 +12755,8 @@ msgstr "αντικαταστημένη ομάδα"
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2348
 msgid "Enable use overlapped block motion compensation (only h263+ CODEC)"
 msgstr ""
-"Ενεργοποίηση χρήσης αντιστάθμισης αντικατεστημένης κίνησης ομάδας (μόνο h263"
-"+ κωδικοποιητής-αποκωδικοποιητής)"
+"Ενεργοποίηση χρήσης αντιστάθμισης αντικατεστημένης κίνησης ομάδας (μόνο "
+"h263+ κωδικοποιητής-αποκωδικοποιητής)"
 
 #. the quarter pel checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2358
@@ -13165,8 +13159,8 @@ msgstr "Ποιότητα θόλωσης:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3072
 msgid ""
-"Video quantiser scale blur (VBR) amount of qscale smoothing over time (0.0-"
-"1.0)"
+"Video quantiser scale blur (VBR) amount of qscale smoothing over time "
+"(0.0-1.0)"
 msgstr ""
 "Το ποσό θόλωσης κλίμακας κβαντιστή βίντεο (VBR) της εξομάλυνσης ποιότητας "
 "κλίμακας στο χρόνο (0.0-1.0)"
@@ -13784,6 +13778,9 @@ msgid "the Singleframe Encoder has no encoder specific parameters"
 msgstr ""
 "αυτός ο κωδικοποιητής μονού πλαισίου δεν έχει ειδικές παραμέτρους "
 "κωδικοποιητή"
+
+#~ msgid "Create only one multilayer Image"
+#~ msgstr "Δημιουργία μόνο μιας εικόνας πολλαπλών στρώσεων"
 
 #~ msgid "FeatherRadius:"
 #~ msgstr "Ακτίνα απάλυνσης;"
