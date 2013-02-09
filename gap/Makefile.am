@@ -12,9 +12,15 @@ endif
 
 GAP_DECODE_MPLAYER_FRONTEND = gap_decode_mplayer
 
-if GAP_AUDIO_SUPPORT
-WAVPLAYCLIENT = $(top_builddir)/libwavplayclient/libwavplayclient.a
+if GAP_AUDIO_SUPPORT_WAVPLAY
+GAP_AUDIO_LIBS = $(top_builddir)/libwavplayclient/libwavplayclient.a
 endif
+
+if GAP_AUDIO_SUPPORT_SDL
+GAP_SDL_AUDIO_EXTRASRC = gap_sdl_audioplayer.h gap_sdl_audioplayer.c
+GAP_AUDIO_LIBS = $(GAP_AUDIO_SDL_LIBS)
+endif
+
 
 if GAP_VIDEOAPI_SUPPORT
 GAPVIDEOAPI = $(top_builddir)/libgapvidapi/libgapvidapi.a  $(GAPVIDEOAPI_EXTLIBS)
@@ -339,6 +345,7 @@ gap_player_SOURCES = \
 	gap_player_dialog.h	\
 	gap_player_cache.c	\
 	gap_player_cache.h	\
+	$(GAP_SDL_AUDIO_EXTRASRC) \
 	gap_audio_extract.c	\
 	gap_audio_extract.h	\
 	gap_drawable_vref_parasite.c	\
@@ -379,6 +386,7 @@ gap_storyboard_SOURCES = \
 	gap_player_dialog.h	\
 	gap_player_cache.c	\
 	gap_player_cache.h	\
+	$(GAP_SDL_AUDIO_EXTRASRC) \
 	gap_drawable_vref_parasite.c	\
 	gap_drawable_vref_parasite.h	\
 	gap_libgapstory.h	\
@@ -400,6 +408,7 @@ gap_video_extract_SOURCES = \
 	gap_player_dialog.h	\
 	gap_player_cache.c	\
 	gap_player_cache.h	\
+	$(GAP_SDL_AUDIO_EXTRASRC) \
 	gap_drawable_vref_parasite.c	\
 	gap_drawable_vref_parasite.h	\
 	gap_libgapstory.h	\
@@ -488,6 +497,7 @@ INCLUDES = \
 	-I$(top_srcdir)/libwavplayclient	\
 	$(INC_LIBGAPBASE)	\
 	$(INC_GAPVIDEOAPI)	\
+	$(GAP_AUDIO_SDL_CFLAGS)	\
 	$(GIMP_CFLAGS)	\
 	-I$(includedir)
 
@@ -511,10 +521,10 @@ gap_decode_mplayer_LDADD =   $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_morph_LDADD =            $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS) -lm
 gap_name2layer_LDADD =       $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_navigator_dialog_LDADD = $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
-gap_player_LDADD =           $(GAPVIDEOAPI) $(WAVPLAYCLIENT) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
+gap_player_LDADD =           $(GAPVIDEOAPI) $(GAP_AUDIO_LIBS) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
 gap_onion_LDADD =            $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
-gap_storyboard_LDADD =       $(GAPVIDEOAPI) $(WAVPLAYCLIENT) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
-gap_video_extract_LDADD =    $(GAPVIDEOAPI) $(WAVPLAYCLIENT) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
+gap_storyboard_LDADD =       $(GAPVIDEOAPI) $(GAP_AUDIO_LIBS) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
+gap_video_extract_LDADD =    $(GAPVIDEOAPI) $(GAP_AUDIO_LIBS) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
 gap_video_index_LDADD =      $(GAPVIDEOAPI) $(LIBGAPSTORY) $(LIBGAPBASE)  $(GIMP_LIBS)
 gap_fg_matting_LDADD =       $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS) -lm
 gap_fire_pattern_LDADD =     $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)

@@ -1,3 +1,36 @@
+2013-02-10 Wolfgang Hofer <hof@gimp.org>
+
+- added audio support for other Operating Systems than Linux.
+  Audio playback now can be configured to use an SDL media library based
+  audio playback module (as alternative to the already existing
+  wavplay client/server based audio playback).
+
+  The configure option --disable-audio-support was removed and
+  replaced by the new options: 
+
+     --disable-audio-support-sdl
+     --disable-audio-support-wavplay  
+
+  on Linux
+    enable-audio-support-sdl is default
+    enable-audio-support-wavplay  is fallback (when SDL library is not installed)
+
+  on Windows
+    enable-audio-support-sdl is default,
+    
+    NO audio playback possible when SDL library  library is not installed)
+    
+
+  The SDL library is available for Linux, Windows and MacOS
+
+
+    * configure.in
+    * Makefile.am
+    * gap/Makefile.am
+    * gap/gap_apcl_lib.h              #new file
+    * gap/gap_sdl_audioplayer.c [.h]  #new files
+    * gap/gap_player_dialog.c
+
 2013-01-16 Wolfgang Hofer <hof@gimp.org>
 
 - fixed bug in the storybard master properties that truncated framerate to integer values.

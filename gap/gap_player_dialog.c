@@ -113,15 +113,17 @@
 #include "gap_audio_extract.h"
 #include "gap_drawable_vref_parasite.h"
 #include "gap_detail_tracking_exec.h"
+#include "gap_audio_wav.h"
 
 #include "gap-intl.h"
 
 extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 int cmdopt_x = 0;                               /* Debug option flag for wavplay */
 
-#ifdef GAP_ENABLE_AUDIO_SUPPORT
+#include "gap_apcl_lib.h"   /* headerfile for libwavplayclient (preferred) */
 
-#include "wpc_lib.h"   /* headerfile for libwavplayclient (preferred) */
+#ifdef GAP_ENABLE_AUDIO_SUPPORT_WAVPLAY
+
 
 char *env_WAVPLAYPATH = WAVPLAYPATH;            /* Default pathname of executable /usr/local/bin/wavplay */
 char *env_AUDIODEV = AUDIODEV;                  /* Default compiled in audio device */
@@ -726,13 +728,12 @@ static void
 p_audio_filename_changed(GapPlayerMainGlobalParams *gpp)
 {
 #ifdef GAP_ENABLE_AUDIO_SUPPORT
-  int fd;
   int rc;
-  int channels;                         /* Channels recorded in this wav file */
-  u_long samplerate;                    /* Sampling rate */
-  int sample_bits;                      /* data bit size (8/12/16) */
-  u_long samples;                       /* The number of samples in this file */
-  u_long datastart;                     /* The offset to the wav data */
+  long samplerate;                   /* Sampling rate in Hz */
+  long channels;                     /* Channels recorded in this wav file */
+  long bytes_per_sample;             /* data bit size (8/12/16) */
+  long sample_bits;                  /* data bit size of one sample value (8/12/16) */
+  long samples;                      /* The number of samples in this file */
 
   if (gap_debug)
   {
@@ -741,21 +742,8 @@ p_audio_filename_changed(GapPlayerMainGlobalParams *gpp)
   p_audio_stop(gpp);
   gpp->audio_status = MIN(gpp->audio_status, GAP_PLAYER_MAIN_AUSTAT_SERVER_STARTED);
 
-  /* Open the file for reading: */
-  if ( (fd = g_open(gpp->audio_filename,O_RDONLY)) < 0 )
-  {
-     p_print_and_clear_audiolabels(gpp);
-     return;
-  }
-
-  rc = WaveReadHeader(fd
-                   ,&channels
-                   ,&samplerate
-                   ,&sample_bits
-                   ,&samples
-                   ,&datastart
-                   ,p_audio_errfunc);
-  close(fd);
+  rc = gap_audio_wav_file_check(gpp->audio_filename, &samplerate, &channels
+                           , &bytes_per_sample, &sample_bits, &samples);
 
   if(rc != 0)
   {
@@ -1051,23 +1039,23 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
   && (flt_samplerate >= GAP_PLAYER_MAIN_MIN_SAMPLERATE)
   )
   {
-    UInt32  lu_samplerate;
+    guint32  lu_samplerate;
 
     p_audio_init(gpp);  /* tell ausioserver to go standby for this audiofile */
     gpp->audio_required_samplerate = (guint32)flt_samplerate;
     if(flt_samplerate > GAP_PLAYER_MAIN_MAX_SAMPLERATE)
     {
-      lu_samplerate = (UInt32)GAP_PLAYER_MAIN_MAX_SAMPLERATE;
+      lu_samplerate = (guint32)GAP_PLAYER_MAIN_MAX_SAMPLERATE;
       /* required samplerate is faster than highest possible audioplayback speed
        * (the audioplayback will be played but runs out of sync and cant follow)
        */
     }
     else
     {
-      lu_samplerate = (UInt32)flt_samplerate;
+      lu_samplerate = (guint32)flt_samplerate;
     }
     apcl_sampling_rate(lu_samplerate,0,p_audio_errfunc);
-    apcl_start_sample((UInt32)offset_start_samples,0,p_audio_errfunc);
+    apcl_start_sample((guint32)offset_start_samples,0,p_audio_errfunc);
     apcl_play(0,p_audio_errfunc);  /* Tell server to play */
     apcl_volume(gpp->audio_volume, 0, p_audio_errfunc);
 
@@ -1082,11 +1070,22 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
 /* -----------------------------
  * p_audio_startup_server
  * -----------------------------
+ * In case compiled with (older) wavplay client/server
+ * implementation, this method checks if the wavplay server
+ * is available.
+ *
+ * In case newer audiosupport  is availabel just enable the relevant GUI widgets
+ *
+ * In case audiosupport is NOT available 
+ *
  */
 static void
 p_audio_startup_server(GapPlayerMainGlobalParams *gpp)
 {
-#ifdef GAP_ENABLE_AUDIO_SUPPORT
+  gboolean l_audio_enable = FALSE;
+  
+    
+#ifdef GAP_ENABLE_AUDIO_SUPPORT_WAVPLAY
   const char *cp;
   gboolean wavplay_server_found;
 
@@ -1163,11 +1162,11 @@ p_audio_startup_server(GapPlayerMainGlobalParams *gpp)
   if(wavplay_server_found)
   {
     p_audio_filename_changed(gpp);
-    gpp->audio_enable = TRUE;
+    l_audio_enable = TRUE;
   }
   else
   {
-    gpp->audio_enable = FALSE;
+    l_audio_enable = FALSE;
     g_message(_("No audiosupport available\n"
                  "the audioserver executable file '%s' was not found.\n"
                  "If you have installed '%s'\n"
@@ -1179,7 +1178,15 @@ p_audio_startup_server(GapPlayerMainGlobalParams *gpp)
                  , "WAVPLAYPATH"
                  );
   }
+#else
+#ifdef GAP_ENABLE_AUDIO_SUPPORT
+    p_audio_filename_changed(gpp);
+    l_audio_enable = TRUE;
 #endif
+
+#endif
+
+  gpp->audio_enable = l_audio_enable;
   return;
 }  /* end p_audio_startup_server */
 
@@ -7202,7 +7209,7 @@ on_prefs_save_gimprc_button_clicked (GtkButton       *button,
   p_gimprc_save_boolean_option("video_player_enable_detail_tracking"
                              ,gpp->enableDetailTracking);
 
-  valueAsString = g_strdup_printf("%d", gpp->cache_ntiles);
+  valueAsString = g_strdup_printf("%ld", (long)gpp->cache_ntiles);
   gimp_gimprc_set("video_player_cache_ntiles", valueAsString);
   g_free(valueAsString);
   

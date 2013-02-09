@@ -1085,30 +1085,88 @@ AC_SUBST(GAPVIDEOAPI_EXTINCS)
 
 
 dnl Test for audiosupport
-dnl audiosupport currently is based on wavplay that is available on UNIX systems
-dnl (the wavplay client does not compile on Windows)
+dnl First check for the SDL media library and configure to compile and link
+dnl with the SDL based audioplayer when present.
+dnl (the check for libsdl uses the SDL specific sdl-config when available
+dnl  and uses pkg-config as alternative check when sdl-config was not found.)
 dnl ------------------------
-AC_ARG_ENABLE(audio_support,
-              [  --disable-audio-support      don't build with audio support])
-  if test "x$os_win32" = "xyes"; then
-     enable_audio_support=no
+sdl_audio_err=""
+SDL_CONFIG="sdl-config"
+GAP_AUDIO_SDL_LIBS=""
+GAP_AUDIO_SDL_CFLAGS=""
+AC_ARG_ENABLE(audio_support_sdl,
+              [  --disable-audio-support-sdl      don't build with SDL based audio support])
+  if test "x$enable_audio_support_sdl" != "xno"; then
+
+dnl  -- TODO the AC_CHECK_HEADER  for SDL_audio.h seems not to work 
+dnl    (e.g failed in my development environment even when SDL_audio.h is present
+dnl    at the rellevant directory (that both  pkg-config --cflags sdl    AND sdl-config --cflags 
+dnl    gives as result) 
+dnl    -- therefore skip the check for SDL_audio.h 
+dnl
+dnl
+dnl      AC_CHECK_LIB(SDL, SDL_OpenAudio,
+dnl        [AC_CHECK_HEADER(SDL_audio.h,
+dnl          sdl_audio_err="",
+dnl          sdl_audio_err="$NEW_LINE SDL audio header file (SDL_audio.h) not found (audio playback will be disabled)")],
+dnl        sdl_audio_err="SDL library (libsdl) not found (audio playback will be disabled)")
+
+      AC_CHECK_LIB(SDL, SDL_OpenAudio,
+        sdl_audio_err="",
+        sdl_audio_err="SDL library (libsdl) not found (audio playback will be disabled)")
+        
+      if test "x$sdl_audio_err" != "x"; then
+        enable_audio_support_sdl="no"
+      else
+        enable_audio_support_sdl="yes"
+        AC_CHECK_PROG(SDL_CONFIG, "$SDL_CONFIG", yes, no)
+        if test $SDL_CONFIG = no; then
+          GAP_AUDIO_SDL_CFLAGS=`$PKG_CONFIG --cflags sdl`
+          GAP_AUDIO_SDL_LIBS=`$PKG_CONFIG --libs sdl`
+        else
+          GAP_AUDIO_SDL_CFLAGS=`$SDL_CONFIG --cflags`
+          GAP_AUDIO_SDL_LIBS=`$SDL_CONFIG --libs`
+        fi
+
+        AC_DEFINE(GAP_ENABLE_AUDIO_SUPPORT_SDL, 1,
+              [Define to 1 to enable audio support via SDL media library])
+      fi
   fi
 
-  if test "x$enable_audio_support" != "xno"; then
+AM_CONDITIONAL(GAP_AUDIO_SUPPORT_SDL, test "x$enable_audio_support_sdl" != "xno")
+AC_SUBST(GAP_AUDIO_SDL_CFLAGS)
+AC_SUBST(GAP_AUDIO_SDL_LIBS)
+
+
+dnl further checks for alternative audiosupport, based on wavplay client-server that is available on UNIX systems
+dnl (note that the wavplay client does not compile on Windows)
+dnl ------------------------
+AC_ARG_ENABLE(audio_support_wavplay,
+              [  --disable-audio-support-wavplay      don't build with wavplay based audio support])
+  if test "x$os_win32" = "xyes"; then
+     enable_audio_support_wavplay=no
+  fi
+  if test "x$enable_audio_support_sdl" != "xno"; then
+     if test "x$enable_audio_support_sdl" != "x"; then
+        enable_audio_support_wavplay=no
+     fi;
+  fi
+
+  if test "x$enable_audio_support_wavplay" != "xno"; then
     AC_CHECK_PROG(WAVPLAY_SERVER, wavplay, yes, no)
       if test $WAVPLAY_SERVER = no; then
         audio_warning="
-Audio support will be compiled in but will not work because the wavplay
-executable was not found. For audio support the wavplay audioserver must
+Audio support based on wavplay client-server implementation will be compiled but will not work because the wavplay
+executable was not found. For this kind of audio support the wavplay audioserver must
 be installed at runtime.
 "
       fi
 
-    AC_DEFINE(GAP_ENABLE_AUDIO_SUPPORT, 1,
-              [Define to 1 to enable audio support])
+    AC_DEFINE(GAP_ENABLE_AUDIO_SUPPORT_WAVPLAY, 1,
+              [Define to 1 to enable audio support via wavplay client])
   fi
 
-AM_CONDITIONAL(GAP_AUDIO_SUPPORT, test "x$enable_audio_support" != "xno")
+AM_CONDITIONAL(GAP_AUDIO_SUPPORT_WAVPLAY, test "x$enable_audio_support_wavplay" != "xno")
 
 dnl optional compile preview widget with GDK-pixbuf support
 dnl 
@@ -1221,4 +1279,4 @@ docs/reference/Makefile
 docs/reference/txt/Makefile
 ])
 
-AC_MSG_RESULT($frontends_warning $audio_warning $videoapi_warning $moved_old_ffmpeg_warn $moved_old_libmpeg3_warn $vid_ffmpeg_warning $yasm_warn $vid_mpeg3_warning $vid_quicktime_warning $vid_xvidcore_warning $pkg_cfg_warning)
+AC_MSG_RESULT($frontends_warning $sdl_audio_err $audio_warning $videoapi_warning $moved_old_ffmpeg_warn $moved_old_libmpeg3_warn $vid_ffmpeg_warning $yasm_warn $vid_mpeg3_warning $vid_quicktime_warning $vid_xvidcore_warning $pkg_cfg_warning)
