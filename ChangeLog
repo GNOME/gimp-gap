@@ -1,3 +1,32 @@
+2013-02-19 Wolfgang Hofer <hof@gimp.org>
+
+- storyboard debug features now support logging to file.
+  This can be optionally configured in the file "GAP_DEBUG_STORYBOARD"  (located in gimpdir)
+  by adding a line like this:
+    logfile=/tmp/GAP_STORYBOARD_DEBUG.log  
+
+  or like that (on Windows):
+    logfile=S:\SsdShare\GAP_STORYBOARD_DEBUG.log
+  
+  Note that logging to stdout is default, in case no logfile is specified.
+  (the filename must start immediate after the = character,
+   blanks in the logfilename/path are not supported !)
+
+  This feature was added for analyse of Storyboard bugs in Windows environment.
+
+- bugfix creation of storyboard from video extract plug-in.
+  A broken storyboard was created (with section list NULL)
+  
+
+
+  * gap/gap_story_dialog.c
+  * gap/gap_story_file.c [.h]
+  * gap/gap_story_undo.c [.h]
+  * gap/gap_story_vthumb.c [.h]
+  
+  * gap/gap_vex_dialog.c
+  * gap/gap_vex_exec.c
+
 2013-02-10 Wolfgang Hofer <hof@gimp.org>
 
 - added audio support for other Operating Systems than Linux.

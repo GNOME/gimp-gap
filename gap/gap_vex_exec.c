@@ -282,9 +282,15 @@ p_vex_exe_create_storyboard_from_videorange(GapVexMainGlobalParams *gpp)
   l_record_type_int = 0;     /* 0: video, 1:image, 2:frame images, 3:anim image */
   l_nloop = 1;
 
-  l_storyboard_filename = g_strdup_printf("STORY_%s.txt", gpp->val.basename);
+  l_storyboard_filename = g_strdup_printf("%s", gpp->val.basename);
   l_from_frame = gpp->val.begin_frame;
   l_to_frame = gpp->val.end_frame;
+
+
+  if(gap_debug)
+  {
+    printf("VEX: l_storyboard_filename:%s\n", l_storyboard_filename); 
+  }
 
   /* call the stroryboard plug-in */
   l_params = gimp_run_procedure (GAP_STORY_PLUG_IN_PROC_CREATION,

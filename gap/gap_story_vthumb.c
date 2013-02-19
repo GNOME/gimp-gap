@@ -63,7 +63,8 @@ static gint32 global_stb_video_id = 0;
 
 
 static void                    p_debug_print_vthumbs_refering_video_id(
-                                  GapVThumbElem *vthumb_list
+                                  FILE *fp
+                                  , GapVThumbElem *vthumb_list
                                   , gint32 video_id
                                   );
 static gboolean               p_vid_progress_callback(gdouble progress
@@ -85,56 +86,57 @@ static GapVThumbElem *         p_new_vthumb(gint32 video_id
  * to stdout (typical used for logging and debug purpose)
  */
 static void
-p_debug_print_vthumbs_refering_video_id(GapVThumbElem *vthumb_list, gint32 video_id)
+p_debug_print_vthumbs_refering_video_id(FILE *fp, GapVThumbElem *vthumb_list, gint32 video_id)
 {
   GapVThumbElem *vthumb_elem;
 
-  printf("        vthumbs: [");  
+  fprintf(fp, "        vthumbs: [");  
   for(vthumb_elem = vthumb_list; vthumb_elem != NULL; vthumb_elem = vthumb_elem->next)
   {
     if(vthumb_elem->video_id == video_id)
     {
-      printf(" %06d", (int)vthumb_elem->framenr);
+      fprintf(fp, " %06d", (int)vthumb_elem->framenr);
     }
   }
-  printf("]\n");  
+  fprintf(fp, "]\n");  
   
 }  /* end p_debug_print_vthumbs_refering_video_id */
 
+
 /* --------------------------------------
- * gap_story_vthumb_debug_print_videolist
+ * gap_story_vthumb_debug_fprint_videolist
  * --------------------------------------
  * print the list of video elements
  * to stdout (typical used for logging and debug purpose)
  */
 void
-gap_story_vthumb_debug_print_videolist(GapStoryVTResurceElem *video_list, GapVThumbElem *vthumb_list)
+gap_story_vthumb_debug_fprint_videolist(FILE *fp, GapStoryVTResurceElem *video_list, GapVThumbElem *vthumb_list)
 {
   GapStoryVTResurceElem *velem;
   gint ii;
   
-  printf("gap_story_vthumb_debug_print_videolist: START\n");
+  fprintf(fp, "gap_story_vthumb_debug_fprint_videolist: START\n");
   ii = 0;
   for(velem=video_list; velem != NULL; velem = velem->next)
   {
     const char *filename;
     
-    printf(" [%03d] ", (int)ii);
+    fprintf(fp, " [%03d] ", (int)ii);
     switch(velem->vt_type)
     {
       case GAP_STB_VLIST_MOVIE:
-        printf("GAP_STB_VLIST_MOVIE:");
+        fprintf(fp, "GAP_STB_VLIST_MOVIE:");
         break;
       case GAP_STB_VLIST_SECTION:
-        printf("GAP_STB_VLIST_SECTION: section_id:%d"
+        fprintf(fp, "GAP_STB_VLIST_SECTION: section_id:%d"
              , (int)velem->section_id
              );
         break;
       case GAP_STB_VLIST_ANIM_IMAGE:
-        printf("GAP_STB_VLIST_ANIM_IMAGE:");
+        fprintf(fp, "GAP_STB_VLIST_ANIM_IMAGE:");
         break;
       default:
-        printf("** Type Unknown **:");
+        fprintf(fp, "** Type Unknown **:");
         break;
     }
     
@@ -147,7 +149,7 @@ gap_story_vthumb_debug_print_videolist(GapStoryVTResurceElem *video_list, GapVTh
       filename = "(null)";
     }
     
-    printf(" total_frames:%d version:%d video_id:%d name:%s\n"
+    fprintf(fp, " total_frames:%d version:%d video_id:%d name:%s\n"
       , (int)velem->total_frames
       , (int)velem->version
       , (int)velem->video_id
@@ -155,13 +157,13 @@ gap_story_vthumb_debug_print_videolist(GapStoryVTResurceElem *video_list, GapVTh
       );
     if (vthumb_list != NULL)
     {
-      p_debug_print_vthumbs_refering_video_id(vthumb_list, velem->video_id);
+      p_debug_print_vthumbs_refering_video_id(fp, vthumb_list, velem->video_id);
     }
     ii++;
   }
-  printf("gap_story_vthumb_debug_print_videolist: END\n");
+  fprintf(fp, "gap_story_vthumb_debug_fprint_videolist: END\n");
   
-}  /* end gap_story_vthumb_debug_print_videolist */
+}  /* end gap_story_vthumb_debug_fprint_videolist */
 
 
 /* --------------------------------

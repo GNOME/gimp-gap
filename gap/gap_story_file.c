@@ -143,119 +143,125 @@ p_null_strcmp(const char *str1, const char *str2)
 }  /* end p_null_strcmp */
 
 /* ----------------------------------------------------
- * gap_story_debug_print_elem
+ * gap_story_debug_(f)print_elem
  * ----------------------------------------------------
  */
 void
 gap_story_debug_print_elem(GapStoryElem *stb_elem)
 {
+  gap_story_debug_fprint_elem(stdout, stb_elem);
+}
+
+void
+gap_story_debug_fprint_elem(FILE *fp, GapStoryElem *stb_elem)
+{
   if(stb_elem == NULL)
   {
-    printf("\n  gap_story_debug_print_elem:  stb_elem is NULL\n");
+    fprintf(fp, "\n  gap_story_debug_print_elem:  stb_elem is NULL\n");
   }
   else
   {
-    printf("\n  gap_story_debug_print_elem:  stb_elem: %d\n", (int)stb_elem);
+    fprintf(fp, "\n  gap_story_debug_print_elem:  stb_elem: %d\n", (int)stb_elem);
 
-    printf("  gap_story_debug_print_elem: START\n");
-    printf("  record_type: %d  %s\n", (int)stb_elem->record_type
+    fprintf(fp, "  gap_story_debug_print_elem: START\n");
+    fprintf(fp, "  record_type: %d  %s\n", (int)stb_elem->record_type
                                   , p_record_type_to_string(stb_elem->record_type)
                                   );
-    printf("  story_id: %d\n", (int)stb_elem->story_id);
-    printf("  story_orig_id: %d\n", (int)stb_elem->story_orig_id);
-    printf("  selected: %d\n", (int)stb_elem->selected);
-    printf("  playmode: %d\n", (int)stb_elem->playmode);
-    printf("  track: %d", (int)stb_elem->track);
+    fprintf(fp, "  story_id: %d\n", (int)stb_elem->story_id);
+    fprintf(fp, "  story_orig_id: %d\n", (int)stb_elem->story_orig_id);
+    fprintf(fp, "  selected: %d\n", (int)stb_elem->selected);
+    fprintf(fp, "  playmode: %d\n", (int)stb_elem->playmode);
+    fprintf(fp, "  track: %d", (int)stb_elem->track);
 
     if(stb_elem->track == GAP_STB_MASK_TRACK_NUMBER)
     {
-      printf(" (MASK-DEFINITION track)");
+      fprintf(fp, " (MASK-DEFINITION track)");
     }
-    printf("\n");
+    fprintf(fp, "\n");
 
-    printf("  from_frame: %d\n", (int)stb_elem->from_frame);
-    printf("  to_frame: %d\n", (int)stb_elem->to_frame);
-    printf("  nloop: %d\n", (int)stb_elem->nloop);
-    printf("  seltrack: %d\n", (int)stb_elem->seltrack);
-    printf("  exact_seek: %d\n", (int)stb_elem->exact_seek);
-    printf("  delace: %f\n", (float)stb_elem->delace);
-    printf("  nframes: %d\n", (int)stb_elem->nframes);
-    printf("  step_density: %f\n", (float)stb_elem->step_density);
-    printf("  aud_play_from_sec: %f\n", (float)stb_elem->aud_play_from_sec);
-    printf("  aud_play_to_sec: %f\n", (float)stb_elem->aud_play_to_sec);
-    printf("  aud_min_play_sec: %f\n", (float)stb_elem->aud_min_play_sec);
-    printf("  aud_max_play_sec: %f\n", (float)stb_elem->aud_max_play_sec);
-    printf("  aud_volume: %f\n", (float)stb_elem->aud_volume);
-    printf("  aud_volume_start: %f\n", (float)stb_elem->aud_volume_start);
-    printf("  aud_fade_in_sec: %f\n", (float)stb_elem->aud_fade_in_sec);
-    printf("  aud_volume_end: %f\n", (float)stb_elem->aud_volume_end);
-    printf("  aud_fade_out_sec: %f\n", (float)stb_elem->aud_fade_out_sec);
-    printf("  file_line_nr: %d\n", (int)stb_elem->file_line_nr);
+    fprintf(fp, "  from_frame: %d\n", (int)stb_elem->from_frame);
+    fprintf(fp, "  to_frame: %d\n", (int)stb_elem->to_frame);
+    fprintf(fp, "  nloop: %d\n", (int)stb_elem->nloop);
+    fprintf(fp, "  seltrack: %d\n", (int)stb_elem->seltrack);
+    fprintf(fp, "  exact_seek: %d\n", (int)stb_elem->exact_seek);
+    fprintf(fp, "  delace: %f\n", (float)stb_elem->delace);
+    fprintf(fp, "  nframes: %d\n", (int)stb_elem->nframes);
+    fprintf(fp, "  step_density: %f\n", (float)stb_elem->step_density);
+    fprintf(fp, "  aud_play_from_sec: %f\n", (float)stb_elem->aud_play_from_sec);
+    fprintf(fp, "  aud_play_to_sec: %f\n", (float)stb_elem->aud_play_to_sec);
+    fprintf(fp, "  aud_min_play_sec: %f\n", (float)stb_elem->aud_min_play_sec);
+    fprintf(fp, "  aud_max_play_sec: %f\n", (float)stb_elem->aud_max_play_sec);
+    fprintf(fp, "  aud_volume: %f\n", (float)stb_elem->aud_volume);
+    fprintf(fp, "  aud_volume_start: %f\n", (float)stb_elem->aud_volume_start);
+    fprintf(fp, "  aud_fade_in_sec: %f\n", (float)stb_elem->aud_fade_in_sec);
+    fprintf(fp, "  aud_volume_end: %f\n", (float)stb_elem->aud_volume_end);
+    fprintf(fp, "  aud_fade_out_sec: %f\n", (float)stb_elem->aud_fade_out_sec);
+    fprintf(fp, "  file_line_nr: %d\n", (int)stb_elem->file_line_nr);
     if(stb_elem->orig_filename)
     {
-      printf("  orig_filename :%s:\n", stb_elem->orig_filename);
+      fprintf(fp, "  orig_filename :%s:\n", stb_elem->orig_filename);
     }
     else
     {
-      printf("  orig_filename: (NULL)\n");
+      fprintf(fp, "  orig_filename: (NULL)\n");
     }
 
     if(stb_elem->orig_src_line)
     {
-      printf("  orig_src_line :%s:\n", stb_elem->orig_src_line);
+      fprintf(fp, "  orig_src_line :%s:\n", stb_elem->orig_src_line);
     }
     else
     {
-      printf("  orig_src_line: (NULL)\n");
+      fprintf(fp, "  orig_src_line: (NULL)\n");
     }
 
 
     if(stb_elem->basename)
     {
-      printf("  basename :%s:\n", stb_elem->basename);
+      fprintf(fp, "  basename :%s:\n", stb_elem->basename);
     }
     else
     {
-      printf("  basename: (NULL)\n");
+      fprintf(fp, "  basename: (NULL)\n");
     }
 
     if(stb_elem->ext)
     {
-      printf("  ext :%s:\n", stb_elem->ext);
+      fprintf(fp, "  ext :%s:\n", stb_elem->ext);
     }
     else
     {
-      printf("  ext: (NULL)\n");
+      fprintf(fp, "  ext: (NULL)\n");
     }
 
 
     if(stb_elem->filtermacro_file)
     {
-      printf("  filtermacro_file :%s:\n", stb_elem->filtermacro_file);
+      fprintf(fp, "  filtermacro_file :%s:\n", stb_elem->filtermacro_file);
     }
     else
     {
-      printf("  filtermacro_file: (NULL)\n");
+      fprintf(fp, "  filtermacro_file: (NULL)\n");
     }
 
     if(stb_elem->colormask_file)
     {
-      printf("  colormask_file :%s:\n", stb_elem->colormask_file);
+      fprintf(fp, "  colormask_file :%s:\n", stb_elem->colormask_file);
     }
     else
     {
-      printf("  colormask_file: (NULL)\n");
+      fprintf(fp, "  colormask_file: (NULL)\n");
     }
-    printf("  fmac_total_steps: %d\n", (int)stb_elem->fmac_total_steps);
-    printf("  fmac_accel:       %d\n", (int)stb_elem->fmac_accel);
+    fprintf(fp, "  fmac_total_steps: %d\n", (int)stb_elem->fmac_total_steps);
+    fprintf(fp, "  fmac_accel:       %d\n", (int)stb_elem->fmac_accel);
 
     if(stb_elem->preferred_decoder)
     {
-      printf("  preferred_decoder :%s:\n", stb_elem->preferred_decoder);
+      fprintf(fp, "  preferred_decoder :%s:\n", stb_elem->preferred_decoder);
     }
     else
     {
-      printf("  preferred_decoder: (NULL)\n");
+      fprintf(fp, "  preferred_decoder: (NULL)\n");
     }
 
     if(stb_elem->record_type == GAP_STBREC_ATT_TRANSITION)
@@ -265,7 +271,7 @@ gap_story_debug_print_elem(GapStoryElem *stb_elem)
       {
         if(stb_elem->att_arr_enable[ii])
         {
-          printf("  [%d] %s  from: %f  to: %f   dur: %d  accel: %d\n"
+          fprintf(fp, "  [%d] %s  from: %f  to: %f   dur: %d  accel: %d\n"
             , (int)ii
             , gtab_att_transition_key_words[ii]
             , (float)stb_elem->att_arr_value_from[ii]
@@ -277,74 +283,78 @@ gap_story_debug_print_elem(GapStoryElem *stb_elem)
       }
       if(stb_elem->att_movepath_file_xml != NULL)
       {
-        printf("   att_movepath_file_xml: %s\n", stb_elem->att_movepath_file_xml);
+        fprintf(fp, "   att_movepath_file_xml: %s\n", stb_elem->att_movepath_file_xml);
       }
-      printf("   overlap: %d\n", (int)stb_elem->att_overlap);
+      fprintf(fp, "   overlap: %d\n", (int)stb_elem->att_overlap);
     }
 
-    printf("   flip_request: %d\n", (int)stb_elem->flip_request);
+    fprintf(fp, "   flip_request: %d\n", (int)stb_elem->flip_request);
     if(stb_elem->mask_name)
     {
-      printf("  mask_name :%s:\n", stb_elem->mask_name);
+      fprintf(fp, "  mask_name :%s:\n", stb_elem->mask_name);
     }
     else
     {
-      printf("  mask_name: (NULL)\n");
+      fprintf(fp, "  mask_name: (NULL)\n");
     }
-    printf("  mask_anchor:   %d\n", (int)stb_elem->mask_anchor);
-    printf("  mask_stepsize: %f\n", (float)stb_elem->mask_stepsize);
-    printf("  mask_disable:  %d\n", (int)stb_elem->mask_disable);
+    fprintf(fp, "  mask_anchor:   %d\n", (int)stb_elem->mask_anchor);
+    fprintf(fp, "  mask_stepsize: %f\n", (float)stb_elem->mask_stepsize);
+    fprintf(fp, "  mask_disable:  %d\n", (int)stb_elem->mask_disable);
 
-    printf("  comment ptr:%d\n", (int)stb_elem->comment);
-    printf("  next    ptr:%d\n", (int)stb_elem->next);
+    fprintf(fp, "  comment ptr:%d\n", (int)stb_elem->comment);
+    fprintf(fp, "  next    ptr:%d\n", (int)stb_elem->next);
   }
-  fflush(stdout);
-}  /* end gap_story_debug_print_elem */
-
+  fflush(fp);
+}  /* end gap_story_debug_fprint_elem */
 
 /* -----------------------------
- * gap_story_debug_print_list
+ * gap_story_debug_(f)print_list
  * -----------------------------
  */
 void
 gap_story_debug_print_list(GapStoryBoard *stb)
 {
+  gap_story_debug_fprint_list(stdout, stb);
+}
+void
+gap_story_debug_fprint_list(FILE *fp, GapStoryBoard *stb)
+{
   GapStoryElem *stb_elem;
   gint ii;
 
-  printf("\n\ngap_story_debug_print_list:  START stb: %d\n", (int)stb);
+  fprintf(fp, "\n\ngap_story_debug_print_list:  START stb: %d\n", (int)stb);
 
   if(stb == NULL)
   {
-    printf("NULL POINTER\n");
-    fflush(stdout);
+    fprintf(fp, "NULL POINTER\n");
+    fflush(fp);
     return;
   }
 
-  printf("master_type               : %d\n", (int)stb->master_type );
-  printf("master_width              : %d\n", (int)stb->master_width );
-  printf("master_height             : %d\n", (int)stb->master_height );
-  printf("master_framerate          : %f\n", (float)stb->master_framerate );
-  printf("master_aspect_ratio       : %f (%d : %d)\n"
+  fprintf(fp, "master_type               : %d\n", (int)stb->master_type );
+  fprintf(fp, "master_width              : %d\n", (int)stb->master_width );
+  fprintf(fp, "master_height             : %d\n", (int)stb->master_height );
+  fprintf(fp, "master_framerate          : %f\n", (float)stb->master_framerate );
+  fprintf(fp, "master_aspect_ratio       : %f (%d : %d)\n"
             , (float)stb->master_aspect_ratio
             , (int)stb->master_aspect_width
             , (int)stb->master_aspect_height
             );
-  printf("master_1is_toplayer       : %d\n", (int)stb->master_vtrack1_is_toplayer );
+  fprintf(fp, "master_1is_toplayer       : %d\n", (int)stb->master_vtrack1_is_toplayer );
   if (stb->master_insert_alpha_format)
   {
-    printf("master_insert_alpha_format :%s", stb->master_insert_alpha_format);
+    fprintf(fp, "master_insert_alpha_format :%s", stb->master_insert_alpha_format);
   }
   if (stb->master_insert_area_format)
   {
-    printf("master_insert_area_format :%s", stb->master_insert_area_format);
+    fprintf(fp, "master_insert_area_format :%s", stb->master_insert_area_format);
   }
-  printf("layout_cols               : %d\n", (int)stb->layout_cols );
-  printf("layout_rows               : %d\n", (int)stb->layout_rows );
-  printf("layout_thumbsize          : %d\n", (int)stb->layout_thumbsize );
+  fprintf(fp, "layout_cols               : %d\n", (int)stb->layout_cols );
+  fprintf(fp, "layout_rows               : %d\n", (int)stb->layout_rows );
+  fprintf(fp, "layout_thumbsize          : %d\n", (int)stb->layout_thumbsize );
 
-  printf("stb_parttype              : %d\n", (int)stb->stb_parttype );
-  printf("stb_unique_id             : %d\n", (int)stb->stb_unique_id );
+  fprintf(fp, "stb_parttype              : %d\n", (int)stb->stb_parttype );
+  fprintf(fp, "stb_unique_id             : %d\n", (int)stb->stb_unique_id );
 
   GapStorySection *active_section;
 
@@ -352,11 +362,11 @@ gap_story_debug_print_list(GapStoryBoard *stb)
   {
     if(active_section->section_name == NULL)
     {
-      printf("\nSECTION_NAME is NULL (refers to MAIN section)\n");
+      fprintf(fp, "\nSECTION_NAME is NULL (refers to MAIN section)\n");
     }
     else
     {
-      printf("\nSECTION_NAME %s\n", active_section->section_name);
+      fprintf(fp, "\nSECTION_NAME %s\n", active_section->section_name);
     }
 
     ii = 0;
@@ -365,21 +375,21 @@ gap_story_debug_print_list(GapStoryBoard *stb)
       ii++;
       if(stb_elem->track == GAP_STB_MASK_TRACK_NUMBER)
       {
-        printf("\nMask-Element # (%03d)\n", (int)ii);
+        fprintf(fp, "\nMask-Element # (%03d)\n", (int)ii);
       }
       else
       {
-        printf("\nElement # (%03d)\n", (int)ii);
+        fprintf(fp, "\nElement # (%03d)\n", (int)ii);
       }
 
-      gap_story_debug_print_elem(stb_elem);
+      gap_story_debug_fprint_elem(fp, stb_elem);
     }
 
   }
 
-  printf("\ngap_story_debug_print_list:  END stb: %d\n", (int)stb);
-  fflush(stdout);
-}  /* end gap_story_debug_print_list */
+  fprintf(fp, "\ngap_story_debug_print_list:  END stb: %d\n", (int)stb);
+  fflush(fp);
+}  /* end gap_story_debug_fprint_list */
 
 
 /* -----------------------------

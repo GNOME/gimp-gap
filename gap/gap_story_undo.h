@@ -36,7 +36,7 @@
 #include "gap_story_file.h"
 #include "gap_story_undo_types.h"
 
-void                    gap_stb_undo_debug_print_stack(GapStbTabWidgets *tabw);
+void                    gap_stb_undo_debug_fprint_stack(FILE *fp, GapStbTabWidgets *tabw);
 const char *            gap_stb_undo_feature_to_string(GapStoryFeatureEnum feature_id);
 GapStoryBoard *         gap_stb_undo_pop(GapStbTabWidgets *tabw);
 GapStoryBoard *         gap_stb_undo_redo(GapStbTabWidgets *tabw);
@@ -57,4 +57,4 @@ const char *            gap_stb_undo_get_undo_feature(GapStbTabWidgets *tabw);
 const char *            gap_stb_undo_get_redo_feature(GapStbTabWidgets *tabw);
 void                    gap_stb_undo_stack_set_unsaved_changes(GapStbTabWidgets *tabw);
 
-#endif 
+#endif

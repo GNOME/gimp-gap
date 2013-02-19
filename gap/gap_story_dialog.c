@@ -125,11 +125,12 @@ extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 
 
 /* the file GAP_DEBUG_STORYBOARD_CONFIG_FILE
- * is a debug configuration intended for development an test
+ * is a debug configuration intended for development and test
  * if this file exists at start of the storyboard plug-in
  * it has an additional menu item that triggers debug output of internal
- * memory structures to stdout.
+ * memory structures to stdout. (or logifile)
  * the content of this file selects what to print by symbolic names
+ * and optionally specifies the name of a logfile (default print goes to stdout)
  * (see procedure p_is_debug_feature_item_enabled for details)
  */
 #define GAP_DEBUG_STORYBOARD_CONFIG_FILE "GAP_DEBUG_STORYBOARD"
@@ -139,6 +140,7 @@ typedef void (*GapStbMenuCallbackFptr)(GtkWidget *widget, GapStbMainGlobalParams
 static char *   p_get_gapdebug_storyboard_config_file();
 static gboolean p_is_debug_menu_enabled(void);
 static gboolean p_is_debug_feature_item_enabled(const char *debug_item);
+static FILE *   p_debug_feature_open_optional_logfile();
 static void     p_get_begin_and_end_for_single_clip_playback(gint32 *begin_frame, gint32 *end_frame, GapStoryElem *stb_elem);
 
 
@@ -552,6 +554,63 @@ p_is_debug_feature_item_enabled(const char *debug_item)
 }  /* end p_is_debug_feature_item_enabled */
 
 
+/* ---------------------------------------
+ * p_debug_feature_open_optional_logfile
+ * ---------------------------------------
+ * check for presence of a "logfile=" item int the debug configuration file.
+ * if present, then open the logfilename (starts immediate after the "=" character)
+ * for write append (or create if not yet exist) and return the file handle pointer.
+ * ELSE return NULL.
+ */
+static FILE *
+p_debug_feature_open_optional_logfile()
+{
+  FILE *loggingFp;
+  char *filename;
+
+  loggingFp = NULL;
+  filename = p_get_gapdebug_storyboard_config_file();
+  if(filename)
+  {
+    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    {
+      FILE *l_fp;
+      char         l_buf[400];
+
+      l_fp = g_fopen(filename, "r");
+      if(l_fp)
+      {
+        while (NULL != fgets (l_buf, sizeof(l_buf)-1, l_fp))
+        {
+          l_buf[sizeof(l_buf)-1] = '\0';
+          gap_file_chop_trailingspace_and_nl(&l_buf[0]);
+
+          if(gap_debug)
+          {
+            printf("  CFG:'%s'\n", l_buf);
+          }
+
+          if (strncmp(l_buf, "logfile=", strlen("logfile=")) ==0)
+          {
+            char *logfileName;
+
+            logfileName = &l_buf[strlen("logfile=")];
+            loggingFp = g_fopen(logfileName, "a");
+            break;
+          }
+        }
+
+        fclose(l_fp);
+      }
+
+    }
+    g_free(filename);
+  }
+
+
+  return(loggingFp);
+
+}  /* end p_debug_feature_open_optional_logfile */
 
 
 /* ---------------------------------------------
@@ -5369,7 +5428,10 @@ p_menu_win_vthumbs_toggle_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp)
 /* ---------------------------------
  * p_menu_win_debug_log_to_stdout_cb
  * ---------------------------------
- * check
+ * callback to handle logging of the configured debug output.
+ * per default logging goes to stdout
+ * (unless the logfilename is configured in the GAP_DEBUG_STORYBOARD_CONFIG_FILE
+ *  via item "logfile=")
  */
 static void
 p_menu_win_debug_log_to_stdout_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp)
@@ -5377,50 +5439,69 @@ p_menu_win_debug_log_to_stdout_cb (GtkWidget *widget, GapStbMainGlobalParams *sg
   if(sgpp)
   {
     gboolean selection_found;
+    FILE *loggingFp;
+    FILE *fpLog;
 
     selection_found = FALSE;
-    printf("\n\nDEBUG LOG_MENU START\n");
+
+    loggingFp = p_debug_feature_open_optional_logfile();
+    if (loggingFp != NULL)
+    {
+      fpLog = loggingFp;
+    }
+    else
+    {
+      fpLog = stdout;
+    }
+
+
+    fprintf(fpLog, "\n\nDEBUG LOG_MENU START\n");
     if(TRUE == p_is_debug_feature_item_enabled("dump_vthumb_list"))
     {
       selection_found = TRUE;
-      printf("\ndump_vthumb_list enabled\n");
-      gap_story_vthumb_debug_print_videolist(sgpp->video_list, sgpp->vthumb_list);
+      fprintf(fpLog, "\ndump_vthumb_list enabled\n");
+      gap_story_vthumb_debug_fprint_videolist(fpLog, sgpp->video_list, sgpp->vthumb_list);
     }
     if(TRUE == p_is_debug_feature_item_enabled("dump_cliplist"))
     {
       selection_found = TRUE;
-      printf("\ndump_cliplist enabled\n");
-      gap_story_debug_print_list(sgpp->cll);
+      fprintf(fpLog, "\ndump_cliplist enabled\n");
+      gap_story_debug_fprint_list(fpLog, sgpp->cll);
     }
     if(TRUE == p_is_debug_feature_item_enabled("dump_undostack_cliplist"))
     {
       selection_found = TRUE;
-      printf("\ndump_undostack_cliplist enabled\n");
-      gap_stb_undo_debug_print_stack(sgpp->cll_widgets);
+      fprintf(fpLog, "\ndump_undostack_cliplist enabled\n");
+      gap_stb_undo_debug_fprint_stack(fpLog, sgpp->cll_widgets);
     }
     if(TRUE == p_is_debug_feature_item_enabled("dump_stroryboard"))
     {
       selection_found = TRUE;
-      printf("\ndump_stroryboard enabled\n");
-      gap_story_debug_print_list(sgpp->stb);
+      fprintf(fpLog, "\ndump_stroryboard enabled\n");
+      gap_story_debug_fprint_list(fpLog, sgpp->stb);
     }
     if(TRUE == p_is_debug_feature_item_enabled("dump_undostack_stroryboard"))
     {
       selection_found = TRUE;
-      printf("\ndump_undostack_stroryboard enabled\n");
-      gap_stb_undo_debug_print_stack(sgpp->stb_widgets);
+      fprintf(fpLog, "\ndump_undostack_stroryboard enabled\n");
+      gap_stb_undo_debug_fprint_stack(fpLog, sgpp->stb_widgets);
     }
 
     if (selection_found != TRUE)
     {
-       printf("INFO p_menu_win_debug_log_to_stdout_cb:"
+       fprintf(fpLog, "INFO p_menu_win_debug_log_to_stdout_cb:"
               " The file: %s does not exist or does not contain"
               " any valid selction what to print for debug purpose.\n"
               , GAP_DEBUG_STORYBOARD_CONFIG_FILE);
     }
 
-    printf("\n\nDEBUG LOG_MENU END\n");
-    fflush(stdout);
+    fprintf(fpLog, "\n\nDEBUG LOG_MENU END\n");
+    fflush(fpLog);
+    if (loggingFp != NULL)
+    {
+      fclose(loggingFp);
+      loggingFp = NULL;
+    }
   }
 }  /* end p_menu_win_debug_log_to_stdout_cb */
 
@@ -8466,12 +8547,35 @@ p_storyboard_init_from_creation_params(
     stb->master_aspect_width = scrp->aspect_width;
     stb->master_aspect_height = scrp->aspect_height;
 
-    stb->stb_section = NULL;
+
+    if(gap_debug)
+    {
+      printf("p_storyboard_init_from_creation_params: storyboard_filename:%s\n"
+        ,scrp->storyboard_filename
+        );
+    }
+    
     stb->storyboardfile = NULL;
     if(scrp->storyboard_filename[0] != '\0')
     {
       stb->storyboardfile = g_strdup(scrp->storyboard_filename);
+      if(tabw->filename_refptr)
+      {
+        g_snprintf(tabw->filename_refptr
+              , tabw->filename_maxlen
+              , "%s"
+              , scrp->storyboard_filename
+              );
+      }
+      /* replace the internal copy of the name in the GapStoryBoard struct */
+      if(sgpp->cll->storyboardfile)
+      {
+        g_free(sgpp->cll->storyboardfile);
+      }
     }
+
+
+
 
     if (scrp->preferred_decoder[0] != '\0')
     {

@@ -330,6 +330,8 @@
   } GapStoryVideoFileRef;
 
 
+void                gap_story_debug_fprint_list(FILE *fp, GapStoryBoard *stb);
+void                gap_story_debug_fprint_elem(FILE *fp, GapStoryElem *stb_elem);
 void                gap_story_debug_print_list(GapStoryBoard *stb);
 void                gap_story_debug_print_elem(GapStoryElem *stb_elem);
 

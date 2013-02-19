@@ -52,44 +52,44 @@ static void             p_free_undo_elem(GapStoryUndoElem    *undo_elem);
 static void             p_delete_redo_stack_area(GapStbTabWidgets *tabw);
 
 /* ----------------------------------------------------
- * gap_stb_undo_debug_print_stack
+ * gap_stb_undo_debug_fprint_stack
  * ----------------------------------------------------
  */
 void
-gap_stb_undo_debug_print_stack(GapStbTabWidgets *tabw)
+gap_stb_undo_debug_fprint_stack(FILE *fp, GapStbTabWidgets *tabw)
 {
   GapStoryUndoElem    *undo_elem;
 
   if(tabw == NULL)
   {
-    printf("\nStack NOT present (NULL POINTER)\n");
-    fflush(stdout);
+    fprintf(fp, "\nStack NOT present (NULL POINTER)\n");
+    fflush(fp);
     return;
   }
-  printf("\n-------------------------------- Top of STACK ---\n\n");
-  printf("gap_stb_undo_debug_print_stack: tabw:%d stack_list:%d stack_ptr:%d group_counter:%.2f\n"
+  fprintf(fp, "\n-------------------------------- Top of STACK ---\n\n");
+  fprintf(fp, "gap_stb_undo_debug_fprint_stack: tabw:%d stack_list:%d stack_ptr:%d group_counter:%.2f\n"
     , (int)tabw
     , (int)tabw->undo_stack_list
     , (int)tabw->undo_stack_ptr
     , (float)tabw->undo_stack_group_counter
     );
-  fflush(stdout);
+  fflush(fp);
 
   for(undo_elem = tabw->undo_stack_list; undo_elem != NULL; undo_elem = undo_elem->next)
   {
-    printf("  addr:%d fPtr:%d %s"
+    fprintf(fp, "  addr:%d fPtr:%d %s"
           , (int)undo_elem
           , (int)undo_elem->filenamePtr
           , gap_stb_undo_feature_to_string(undo_elem->feature_id)
           );
     if(undo_elem == tabw->undo_stack_ptr)
     {
-      printf(" <-- stack_ptr");
+      fprintf(fp, " <-- stack_ptr");
     }
     
     if(undo_elem->fileSnapshotBefore != NULL)
     {
-      printf(" (BEFORE: fname:%s size:%d mtime:%d)"
+      fprintf(fp, " (BEFORE: fname:%s size:%d mtime:%d)"
             ,undo_elem->fileSnapshotBefore->filename
             ,(int)undo_elem->fileSnapshotBefore->filesize
             ,(int)undo_elem->fileSnapshotBefore->mtimefile
@@ -97,21 +97,21 @@ gap_stb_undo_debug_print_stack(GapStbTabWidgets *tabw)
     }
     if(undo_elem->fileSnapshotAfter != NULL)
     {
-      printf(" (AFTER: fname:%s size:%d mtime:%d)"
+      fprintf(fp, " (AFTER: fname:%s size:%d mtime:%d)"
             ,undo_elem->fileSnapshotAfter->filename
             ,(int)undo_elem->fileSnapshotAfter->filesize
             ,(int)undo_elem->fileSnapshotAfter->mtimefile
             );
     }
     
-    printf("\n");
-    fflush(stdout);
+    fprintf(fp, "\n");
+    fflush(fp);
   }
 
-  printf("\n-------------------------------- End of STACK ---\n\n");
-  fflush(stdout);
+  fprintf(fp, "\n-------------------------------- End of STACK ---\n\n");
+  fflush(fp);
 
-}  /* end gap_stb_undo_debug_print_stack */
+}  /* end gap_stb_undo_debug_fprint_stack */
 
 
 /* ----------------------------------------------------

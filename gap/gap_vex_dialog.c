@@ -164,7 +164,8 @@ static GtkWidget* create_fsa__fileselection (GapVexMainGlobalParams *gpp);
 
 
 
-
+#define DEFAULT_BASENAME "frame_"
+#define DEFAULT_STORYBASENAME "STORYBOARD.txt"
 
 /* ------------------------
  * gap_vex_dlg_init_gpp
@@ -178,7 +179,7 @@ gap_vex_dlg_init_gpp (GapVexMainGlobalParams *gpp)
  /* set initial values in val */
 
  g_snprintf(gpp->val.videoname, sizeof(gpp->val.videoname), "TEST.MPG");
- g_snprintf(gpp->val.basename, sizeof(gpp->val.basename), "frame_");
+ g_snprintf(gpp->val.basename, sizeof(gpp->val.basename), DEFAULT_BASENAME);
  g_snprintf(gpp->val.extension, sizeof(gpp->val.extension), ".xcf");
  g_snprintf(gpp->val.audiofile, sizeof(gpp->val.audiofile), "frame.wav");
  gpp->val.basenum = 0;
@@ -405,6 +406,12 @@ p_update_wgt_sensitivity(GapVexMainGlobalParams *gpp)
   if((gpp->val.multilayer == 0) && (sensitive_vid))
   {
       sensitive = TRUE;  /* we want to extract to frame files on disc */
+
+      if((gpp->mw__entry_basename)
+      && (strcmp(gpp->val.basename, DEFAULT_STORYBASENAME) == 0))
+      {
+        gtk_entry_set_text(GTK_ENTRY(gpp->mw__entry_basename), DEFAULT_BASENAME);
+      }
   }
   else
   {
@@ -414,6 +421,20 @@ p_update_wgt_sensitivity(GapVexMainGlobalParams *gpp)
   gtk_widget_set_sensitive(gpp->mw__button_basename, sensitive);
   gtk_widget_set_sensitive(gpp->mw__spinbutton_fn_digits, sensitive);
   gtk_widget_set_sensitive(gpp->mw__entry_extension, sensitive);
+
+  if((gpp->val.multilayer == 2) && (sensitive_vid))
+  {
+    sensitive = TRUE;  /* we want to extract to frame files on disc */
+    gtk_widget_set_sensitive(gpp->mw__entry_basename, sensitive);
+    gtk_widget_set_sensitive(gpp->mw__button_basename, sensitive);
+    
+    if((gpp->mw__entry_basename)
+    && (strcmp(gpp->val.basename, DEFAULT_BASENAME) == 0))
+    {
+      gtk_entry_set_text(GTK_ENTRY(gpp->mw__entry_basename), DEFAULT_STORYBASENAME);
+    }
+  }
+
 
 
   if((gpp->val.audiotrack > 0)
