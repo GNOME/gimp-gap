@@ -8558,6 +8558,7 @@ p_storyboard_init_from_creation_params(
     stb->storyboardfile = NULL;
     if(scrp->storyboard_filename[0] != '\0')
     {
+      /* replace the internal copy of the name in the GapStoryBoard struct */
       stb->storyboardfile = g_strdup(scrp->storyboard_filename);
       if(tabw->filename_refptr)
       {
@@ -8566,11 +8567,6 @@ p_storyboard_init_from_creation_params(
               , "%s"
               , scrp->storyboard_filename
               );
-      }
-      /* replace the internal copy of the name in the GapStoryBoard struct */
-      if(sgpp->cll->storyboardfile)
-      {
-        g_free(sgpp->cll->storyboardfile);
       }
     }
 

@@ -1,3 +1,12 @@
+2013-02-20 Wolfgang Hofer <hof@gimp.org>
+
+- 2nd. bugfix for creation of storyboard from video extract plug-in.
+  fixes crash on attempt to save the created storyboard immediate after creation.
+   [the internal copy of the filename in the GapStoryBoard struct
+    was replaced (OK) but then free'd (NOT OK)]
+
+  * gap/gap_story_dialog.c
+
 2013-02-19 Wolfgang Hofer <hof@gimp.org>
 
 - storyboard debug features now support logging to file.
