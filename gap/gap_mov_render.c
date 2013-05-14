@@ -151,7 +151,7 @@ p_mov_selection_handling(gint32 orig_layer_id
                                   GIMP_RGBA_IMAGE,
                                  100.0,     /* full opaque */
                                  GIMP_NORMAL_MODE);
-  gimp_image_add_layer(val_ptr->tmpsel_image_id, l_tmp_layer_id, 0);
+  gimp_image_insert_layer(val_ptr->tmpsel_image_id, l_tmp_layer_id, 0, 0);
   gimp_layer_set_offsets(l_tmp_layer_id, src_offset_x, src_offset_y);
   gimp_selection_none(val_ptr->tmpsel_image_id);
 
@@ -796,7 +796,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
          cur_ptr->processedLayerId = -1;
          return -1;
       }
-      gimp_image_add_layer(image_id, l_cp_layer_id, val_ptr->dst_layerstack);
+      gimp_image_insert_layer(image_id, l_cp_layer_id, 0, val_ptr->dst_layerstack);
 
     }
 
@@ -853,7 +853,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
        return -1;
     }
 
-    gimp_image_add_layer(image_id, l_cp_layer_id,
+    gimp_image_insert_layer(image_id, l_cp_layer_id, 0,
                          val_ptr->dst_layerstack);
     if(gap_debug)
     {
@@ -1106,7 +1106,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                                    &l_src_offset_x,
                                    &l_src_offset_y);
 
-     gimp_image_add_layer(val_ptr->trace_image_id, l_trc_layer_id, 0);
+     gimp_image_insert_layer(val_ptr->trace_image_id, l_trc_layer_id, 0, 0);
 
      /* merge the newly added l_trc_layer_id down to one tracelayer again */
      val_ptr->trace_layer_id = gap_image_merge_visible_layers(val_ptr->trace_image_id, l_mergemode);

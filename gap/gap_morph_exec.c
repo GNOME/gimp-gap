@@ -2116,7 +2116,7 @@ p_mix_layers (gint32  curr_image_id
   }
   
 
-  gimp_image_add_layer(curr_image_id, dst_layer_id, 0);
+  gimp_image_insert_layer(curr_image_id, dst_layer_id, 0, 0);
 
 
   dst_drawable = gimp_drawable_get (dst_layer_id);
@@ -2360,7 +2360,7 @@ p_create_morph_tween_frame(gint32 total_steps
                                , GIMP_NORMAL_MODE
                                );
    }
-   gimp_image_add_layer(curr_image_id, bg_layer_id, 0);
+   gimp_image_insert_layer(curr_image_id, bg_layer_id, 0, 0);
 
    /* add empty TOP layer */
    curr_opacity = p_linear_advance((gdouble)total_steps
@@ -2388,7 +2388,7 @@ p_create_morph_tween_frame(gint32 total_steps
                                , GIMP_NORMAL_MODE
                                );
    }
-   gimp_image_add_layer(curr_image_id, top_layer_id, 0);
+   gimp_image_insert_layer(curr_image_id, top_layer_id, 0, 0);
 
 
    if(!mgpp->render_mode == GAP_MORPH_RENDER_MODE_WARP)
@@ -2849,8 +2849,9 @@ gap_morph_execute(GapMorphGlobalParams *mgpp)
                                      ,&l_src_offset_x
                                      ,&l_src_offset_y
                                      );
-        gimp_image_add_layer(dst_image_id
+        gimp_image_insert_layer(dst_image_id
                             , cp_layer_id
+                            , 0
                             , dst_stack_position
                             );
       }

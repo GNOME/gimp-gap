@@ -1118,7 +1118,7 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
            */
 
           /* add new layer on top of the layerstack */
-          gimp_image_add_layer (fetchResult->image_id, fetchResult->layer_id, 0);
+          gimp_image_insert_layer (fetchResult->image_id, fetchResult->layer_id, 0, 0);
           gimp_drawable_set_visible(fetchResult->layer_id, TRUE);
 
           /* clear undo stack */
@@ -1450,7 +1450,7 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
 //            */
 // 
 //           /* add new layer on top of the layerstack */
-//           gimp_image_add_layer (image_id, l_new_layer_id, 0);
+//           gimp_image_insert_layer (image_id, l_new_layer_id, 0, 0);
 //           gimp_drawable_set_visible(l_new_layer_id, TRUE);
 // 
 //           /* clear undo stack */
@@ -3267,7 +3267,7 @@ GVA_frame_to_gimp_layer_2(t_GVA_Handle *gvahand
 
 
   /* add new layer on top of the layerstack */
-  gimp_image_add_layer (*image_id, l_new_layer_id, 0);
+  gimp_image_insert_layer (*image_id, l_new_layer_id, 0, 0);
   gimp_drawable_set_visible(l_new_layer_id, TRUE);
 
   /* clear undo stack */

@@ -551,7 +551,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
 
 
       /* add the layer to current frame at desired stackposition  */
-      gimp_image_add_layer (image_id, l_new_layer_id, l_layerstack);
+      gimp_image_insert_layer (image_id, l_new_layer_id, 0, l_layerstack);
       gimp_layer_set_offsets(l_new_layer_id, l_src_offset_x, l_src_offset_y);
 
       /* set layername */

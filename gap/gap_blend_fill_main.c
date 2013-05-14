@@ -1255,7 +1255,7 @@ p_create_workLayer(FilterContext *context)
                 , 100.0   /* full opacity */
                 , 0       /* normal mode */
                 );
-  gimp_image_add_layer(context->imageId, context->workLayerId, 0);
+  gimp_image_insert_layer(context->imageId, context->workLayerId, 0, 0);
   gimp_layer_set_offsets(context->workLayerId
                         , context->workLayerOffsX
                         , context->workLayerOffsY

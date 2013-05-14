@@ -175,7 +175,7 @@ p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *
                                    );
 
     /* add the layer to the destination image */
-    gimp_image_add_layer (dest_image_id, l_new_layer_id, mov_ptr->val_ptr->dst_layerstack +1);
+    gimp_image_insert_layer (dest_image_id, l_new_layer_id, 0, mov_ptr->val_ptr->dst_layerstack +1);
 
     /* keep the trace_layer for all further move path processing steps */
   }
@@ -206,7 +206,7 @@ p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *
                                    );
 
     /* add the layer to the destination image */
-    gimp_image_add_layer (dest_image_id, l_new_layer_id, mov_ptr->val_ptr->dst_layerstack +1);
+    gimp_image_insert_layer (dest_image_id, l_new_layer_id, 0, mov_ptr->val_ptr->dst_layerstack +1);
 
     if((mov_ptr->val_ptr->trace_image_id >= 0)
     && (mov_ptr->val_ptr->trace_layer_id >= 0))
@@ -329,7 +329,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
                                          );
 
         /* add the layer to the anim preview multilayer image */
-        gimp_image_add_layer (mov_ptr->val_ptr->tween_image_id, l_new_layer_id, 0 /* top of layerstack */ );
+        gimp_image_insert_layer (mov_ptr->val_ptr->tween_image_id, l_new_layer_id, 0, 0 /* top of layerstack */ );
       }
     }
     else
@@ -467,7 +467,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
                                  ((gint)(gimp_image_base_type(l_tmp_image_id)) * 2),
                                  100.0,     /* Opacity full opaque */
                                  0);        /* NORMAL */
-          gimp_image_add_layer(l_tmp_image_id, l_layer_id, 0);
+          gimp_image_insert_layer(l_tmp_image_id, l_layer_id, 0, 0);
           gimp_layer_set_offsets(l_layer_id, -1, -1);
           l_layer_id = gimp_image_flatten(l_tmp_image_id);
         }
@@ -501,7 +501,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
                                          );
 
           /* add the layer to the anim preview multilayer image */
-          gimp_image_add_layer (mov_ptr->val_ptr->apv_mlayer_image, l_new_layer_id, apv_layerstack);
+          gimp_image_insert_layer (mov_ptr->val_ptr->apv_mlayer_image, l_new_layer_id, 0, apv_layerstack);
         }
       }
       else l_rc = -1;
@@ -1650,7 +1650,7 @@ p_duplicate_layer(gint32 layerId)
   imageId = gimp_drawable_get_image(layerId);
   gimp_image_set_active_layer(imageId, layerId);
   dupLayerId = gimp_layer_copy(layerId);
-  gimp_image_add_layer(imageId, dupLayerId, -1 /* -1 place above active layer */);
+  gimp_image_insert_layer(imageId, dupLayerId, 0, -1 /* -1 place above active layer */);
   
   return(dupLayerId);
   

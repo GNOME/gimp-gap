@@ -372,7 +372,7 @@ p_createEmptyEdgeDrawable(GapEdgeContext *ectx)
                 , 0       /* normal mode */
                 );
 
-  gimp_image_add_layer (ectx->edgeImageId, ectx->edgeDrawableId, 0 /* stackposition */ );
+  gimp_image_insert_layer (ectx->edgeImageId, ectx->edgeDrawableId, 0, 0 /* stackposition */ );
 
   ectx->edgeDrawable = gimp_drawable_get(ectx->edgeDrawableId);
   
@@ -756,7 +756,7 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    imageId = gimp_drawable_get_image(activeDrawableId);
  
    edgeLayerId = gimp_layer_copy(activeDrawableId);
-   gimp_image_add_layer (imageId, edgeLayerId, 0 /* stackposition */ );
+   gimp_image_insert_layer (imageId, edgeLayerId, 0, 0 /* stackposition */ );
  
    edgeDrawable = gimp_drawable_get(edgeLayerId);
    refDrawable = gimp_drawable_get(activeDrawableId);
@@ -768,7 +768,7 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    
    blurDrawable = NULL;
 //    blurLayerId = gimp_layer_copy(edgeLayerId);
-//    gimp_image_add_layer (imageId, blurLayerId, 0 /* stackposition */ );
+//    gimp_image_add_layer (imageId, blurLayerId, 0, 0 /* stackposition */ );
 //    blurDrawable = gimp_drawable_get(blurLayerId);
 
    p_subtract_ref_layer(imageId, edgeDrawable, refDrawable, threshold, shift, invert);

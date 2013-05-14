@@ -170,7 +170,7 @@ gap_layer_copy_to_image (gint32 dst_image_id, gint32 src_layer_id)
   }
 
   /* add the copied layer to  destination dst_image_id (0 == on top of layerstack) */
-  gimp_image_add_layer(dst_image_id, l_new_layer_id, 0);
+  gimp_image_insert_layer(dst_image_id, l_new_layer_id, 0, 0);
   gimp_layer_set_offsets(l_new_layer_id, l_src_offset_x, l_src_offset_y);
 
   return l_new_layer_id; /* all done OK */
@@ -494,7 +494,7 @@ gap_layer_copy_picked_channel (gint32 dst_drawable_id,  guint dst_channel_pick
  * create a new RGB or RGBA layer for the image with image_id
  * and init with supplied data.
  * The caller is responsible to add the returned layer
- * to the image ( by calling gimp_image_add_layer )
+ * to the image ( by calling gimp_image_insert_layer )
  *
  * return layer_id or -1 in case of errors
  */
@@ -785,7 +785,7 @@ gap_layer_make_duplicate(gint32 src_layer_id, gint32 image_id
   
   /* and add at stackposition above src_layer */
   l_stackposition = gap_layer_get_stackposition(image_id, src_layer_id);
-  gimp_image_add_layer (image_id, l_new_layer_id, l_stackposition);
+  gimp_image_insert_layer (image_id, l_new_layer_id, 0, l_stackposition);
 
   /* build name with optional prefix and/or suffix */  
   l_suffix = "\0";

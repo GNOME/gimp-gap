@@ -1617,7 +1617,7 @@ gap_bluebox_apply(GapBlueboxGlobalParams *bbp)
                                  ,100.0            /* Opacity full opaque */
                                  ,GIMP_NORMAL_MODE
                                  );
-    gimp_image_add_layer(bbp->pv_image_id, bbp->pv_layer_id, 0);
+    gimp_image_insert_layer(bbp->pv_image_id, bbp->pv_layer_id, 0, 0);
     gimp_layer_set_offsets(bbp->pv_layer_id, 0, 0);
 
     if(!gimp_drawable_has_alpha(bbp->pv_layer_id))
@@ -1646,7 +1646,7 @@ gap_bluebox_apply(GapBlueboxGlobalParams *bbp)
                                    ,100.0            /* Opacity full opaque */
                                    ,GIMP_NORMAL_MODE
                                    );
-      gimp_image_add_layer(bbp->pv_image_id, bbp->pv_master_layer_id, 1);
+      gimp_image_insert_layer(bbp->pv_image_id, bbp->pv_master_layer_id, 0, 1);
 
       if(!gimp_drawable_has_alpha(bbp->pv_master_layer_id))
       {

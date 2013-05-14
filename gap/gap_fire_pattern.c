@@ -811,8 +811,8 @@ p_init_context_and_cloud_and_shape_layers(gint32 drawable_id, firepattern_val_t 
                                         , 100.0                 /* full opaque */
                                         , GIMP_NORMAL_MODE      /* 0 */
                                         );
-    gimp_image_add_layer(ctxt->ref_image_id, cuvals->fireShapeLayer, -1);
-    gimp_image_add_layer(ctxt->ref_image_id, cuvals->cloudLayer1, -1);
+    gimp_image_insert_layer(ctxt->ref_image_id, cuvals->fireShapeLayer, 0, -1);
+    gimp_image_insert_layer(ctxt->ref_image_id, cuvals->cloudLayer1, 0, -1);
 
 
     /* Adds the solid noise */
@@ -1128,7 +1128,7 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
        * copy the drawable to a new layer in this new image
        */
       templayer_id = gimp_layer_new_from_drawable(drawable_id, ctxt->image_id);
-      gimp_image_add_layer(ctxt->image_id, templayer_id, -1 /* -1 place above active layer */);
+      gimp_image_insert_layer(ctxt->image_id, templayer_id, 0, -1 /* -1 place above active layer */);
     }
   
     /* copy cloud layers from ref image to current processed image_id
@@ -1147,16 +1147,16 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
                                         , 100.0                 /* full opaque */
                                         , GIMP_NORMAL_MODE      /* 0 */
                                         );
-      gimp_image_add_layer(ctxt->image_id, newlayer2_id, -1 /* -1 place above active layer */);
+      gimp_image_insert_layer(ctxt->image_id, newlayer2_id, 0, -1 /* -1 place above active layer */);
       p_render_fireshape_layer(ctxt, cuvals, newlayer2_id);
     }
     else
     {
       newlayer2_id = gimp_layer_new_from_drawable(cuvals->fireShapeLayer, ctxt->image_id);
-      gimp_image_add_layer(ctxt->image_id, newlayer2_id, -1 /* -1 place above active layer */);
+      gimp_image_insert_layer(ctxt->image_id, newlayer2_id, 0, -1 /* -1 place above active layer */);
     }
 
-    gimp_image_add_layer(ctxt->image_id, newlayer1_id, -1 /* -1 place above active layer */);
+    gimp_image_insert_layer(ctxt->image_id, newlayer1_id, 0, -1 /* -1 place above active layer */);
 
     p_cloud_size_check(newlayer1_id, ctxt);
     p_shape_size_check(newlayer2_id, ctxt);

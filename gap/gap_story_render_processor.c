@@ -5076,7 +5076,7 @@ p_transform_with_movepath_processing( gint32 comp_image_id
                         GIMP_RGBA_IMAGE,
                         100.0,     /* Opacity */
                         GIMP_NORMAL_MODE);
-  gimp_image_add_layer(l_tmp_movpath_image_id, l_empty_layer_id, 0);
+  gimp_image_insert_layer(l_tmp_movpath_image_id, l_empty_layer_id, 0, 0);
   gap_layer_clear_to_color(l_empty_layer_id
                           , 0.0, 0.0, 0.0, 0.0  /* r,g,b,a (black full transparent) */
                           );
@@ -5240,7 +5240,7 @@ p_transform_with_movepath_processing( gint32 comp_image_id
        /* have to add alpha channel */
        gimp_layer_add_alpha(l_new_layer_id);
     }
-    gimp_image_add_layer(comp_image_id, l_new_layer_id, 0);
+    gimp_image_insert_layer(comp_image_id, l_new_layer_id, 0, 0);
     gimp_layer_set_offsets(l_new_layer_id, 0, 0);
   }
   
@@ -5462,7 +5462,7 @@ p_transform_and_add_layer( gint32 comp_image_id
                               , GIMP_RGBA_IMAGE
                               , 0.0         /* Opacity full transparent */
                               ,GIMP_NORMAL_MODE);
-    gimp_image_add_layer(comp_image_id, l_new_layer_id, 0);
+    gimp_image_insert_layer(comp_image_id, l_new_layer_id, 0, 0);
     gap_layer_clear_to_color(l_new_layer_id, 0.0, 0.0, 0.0, 0.0);
 
     if (TRUE == p_transform_operate_on_full_layer(calculated, comp_image_id, l_tmp_image_id, frn_elem))
@@ -5767,7 +5767,7 @@ p_create_unicolor_image(gint32 *layer_id, gint32 width , gint32 height
                           GIMP_RGBA_IMAGE,
                           100.0,     /* Opacity full opaque */
                           GIMP_NORMAL_MODE);
-    gimp_image_add_layer(l_image_id, l_empty_layer_id, 0);
+    gimp_image_insert_layer(l_image_id, l_empty_layer_id, 0, 0);
 
     /* clear layer to unique color */
     gap_layer_clear_to_color(l_empty_layer_id, r_f, g_f, b_f, a_f);

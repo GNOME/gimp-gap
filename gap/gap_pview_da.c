@@ -937,7 +937,7 @@ gap_pview_render_f_from_image (GapPView *pv_ptr
                                 , 0.0       /* Opacity full transparent */     
                                 , 0         /* NORMAL */
                                 );   
-    gimp_image_add_layer(image_id, l_layer_id, 0);
+    gimp_image_insert_layer(image_id, l_layer_id, 0, 0);
 
     l_layer_id = gimp_layer_new(image_id, "dummy_02"
                                 , 4, 4
@@ -945,7 +945,7 @@ gap_pview_render_f_from_image (GapPView *pv_ptr
                                 , 0.0       /* Opacity full transparent */     
                                 , 0         /* NORMAL */
                                 );   
-    gimp_image_add_layer(image_id, l_layer_id, 0);
+    gimp_image_insert_layer(image_id, l_layer_id, 0, 0);
     gimp_layer_resize_to_image_size(l_layer_id);
   }
   

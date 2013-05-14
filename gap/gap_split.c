@@ -286,7 +286,7 @@ p_split_image(GapAnimInfo *ainfo_ptr, split_vals_t *valPtr)
                                      &l_src_offset_x,
                                      &l_src_offset_y);
          /* add the copied layer to current destination image */
-          gimp_image_add_layer(l_new_image_id, l_cp_layer_id, 0);
+          gimp_image_insert_layer(l_new_image_id, l_cp_layer_id, 0, 0);
           gimp_layer_set_offsets(l_cp_layer_id, l_src_offset_x, l_src_offset_y);
           gimp_drawable_set_visible(l_cp_layer_id, TRUE);
        }
@@ -301,7 +301,7 @@ p_split_image(GapAnimInfo *ainfo_ptr, split_vals_t *valPtr)
                                           ((l_type * 2 ) + 1),  /* convert from GimpImageBaseType to GimpImageType, and add alpha */
                                           0.0,          /* Opacity full transparent */
                                           0);           /* NORMAL */
-           gimp_image_add_layer(l_new_image_id, l_cp_layer_id, 0);
+           gimp_image_insert_layer(l_new_image_id, l_cp_layer_id, 0, 0);
            gimp_image_flatten (l_new_image_id);
 
        }

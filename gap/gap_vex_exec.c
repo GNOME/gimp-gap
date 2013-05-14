@@ -110,7 +110,7 @@ p_frame_postprocessing(t_GVA_Handle   *gvahand
     || (gpp->val.extract_with_layermask == TRUE))
     {
       l_bbox_layer_id = gimp_layer_copy(gvahand->layer_id);
-      gimp_image_add_layer(gvahand->image_id, l_bbox_layer_id, -1);
+      gimp_image_insert_layer(gvahand->image_id, l_bbox_layer_id, 0, -1);
 
       if(gap_debug)
       {
@@ -511,7 +511,7 @@ gap_vex_exe_extract_videorange(GapVexMainGlobalParams *gpp)
                           GIMP_RGB_IMAGE,
                           100.0,     /* Opacity full opaque */
                           GIMP_NORMAL_MODE);
-      gimp_image_add_layer(l_dummy_image_id, l_empty_layer_id, 0);
+      gimp_image_insert_layer(l_dummy_image_id, l_empty_layer_id, 0, 0);
       gap_layer_clear_to_color(l_empty_layer_id, 0.0, 0.0, 0.0, 1.0);
 
       l_save_run_mode = GIMP_RUN_INTERACTIVE;  /* for the 1.st call of saving a non xcf frame */

@@ -1106,7 +1106,7 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
                                      &l_src_offset_y);
 
         /* add the copied layer to current destination image */
-        gimp_image_add_layer(l_new_image_id, l_cp_layer_id, 0);
+        gimp_image_insert_layer(l_new_image_id, l_cp_layer_id, 0, 0);
         gimp_layer_set_offsets(l_cp_layer_id, l_src_offset_x, l_src_offset_y);
 
         if(l_clear_selected_area)
@@ -1445,7 +1445,7 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
                                  ((gint)(gimp_image_base_type(l_tmp_image_id)) * 2),
                                  100.0,     /* Opacity full opaque */
                                  0);        /* NORMAL */
-         gimp_image_add_layer(l_tmp_image_id, l_dummy_layer_id, 0);
+         gimp_image_insert_layer(l_tmp_image_id, l_dummy_layer_id, 0, 0);
          gimp_layer_set_offsets(l_dummy_layer_id, -1, -1);
 
          if(l_nlayers == 0)
@@ -1457,7 +1457,7 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
                                    ((gint)(gimp_image_base_type(l_tmp_image_id)) * 2),
                                    100.0,     /* Opacity full opaque */
                                    0);        /* NORMAL */
-           gimp_image_add_layer(l_tmp_image_id, l_dummy_layer_id, 0);
+           gimp_image_insert_layer(l_tmp_image_id, l_dummy_layer_id, 0, 0);
            gimp_layer_set_offsets(l_dummy_layer_id, -1, -1);
          }
 

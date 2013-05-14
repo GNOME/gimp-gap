@@ -1256,7 +1256,7 @@ p_check_and_make_opre_default_layer(GapStbAttrWidget *attw, gint img_idx)
                   , 0       /* normal mode */
                   );
 
-    gimp_image_add_layer (image_id, layer_id, LAYERSTACK_TOP);
+    gimp_image_insert_layer (image_id, layer_id, 0, LAYERSTACK_TOP);
     red   = 0.72;
     green = 0.80;
     blue  = 0.25;
@@ -1297,7 +1297,7 @@ p_check_and_make_orig_default_layer(GapStbAttrWidget *attw, gint img_idx)
                   , 0       /* normal mode */
                   );
 
-    gimp_image_add_layer (image_id, layer_id, LAYERSTACK_TOP);
+    gimp_image_insert_layer (image_id, layer_id, 0, LAYERSTACK_TOP);
     red   = 0.42;
     green = 0.90;
     blue  = 0.35;
@@ -1337,7 +1337,7 @@ p_create_color_layer(GapStbAttrWidget *attw, gint32 image_id
                   , opacity
                   , 0       /* normal mode */
                   );
-  gimp_image_add_layer (image_id, layer_id, stackposition);
+  gimp_image_insert_layer (image_id, layer_id, 0, stackposition);
   gap_layer_clear_to_color(layer_id, red, green, blue, 1.0);
   gimp_drawable_set_visible(layer_id, TRUE);
 
@@ -1629,7 +1629,7 @@ p_create_transformed_layer_movepath(gint32 image_id
        /* have to add alpha channel */
        gimp_layer_add_alpha(mov_obj_layer_id);
     }
-    gimp_image_add_layer(mov_obj_image_id, mov_obj_layer_id, 0);
+    gimp_image_insert_layer(mov_obj_image_id, mov_obj_layer_id, 0, 0);
     gimp_layer_set_offsets(mov_obj_layer_id, 0, 0);
   }
 
@@ -1787,7 +1787,7 @@ p_create_transformed_layer(gint32 image_id
     }
 
     new_layer_id = gimp_layer_copy(origsize_layer_id);
-    gimp_image_add_layer (image_id, new_layer_id, stackposition);
+    gimp_image_insert_layer (image_id, new_layer_id, 0, stackposition);
     gimp_drawable_set_name(new_layer_id, layername);
 
     gimp_layer_scale(new_layer_id, calculated->width, calculated->height, 0);
@@ -2246,7 +2246,7 @@ p_orig_layer_frame_fetcher(GapStbAttrWidget *attw
                                  ,100.0     /* Opacity */
                                  ,GIMP_NORMAL_MODE
                                  );
-           gimp_image_add_layer(image_id, l_layer_id, LAYERSTACK_TOP);
+           gimp_image_insert_layer(image_id, l_layer_id, 0, LAYERSTACK_TOP);
            gap_layer_clear_to_color(l_layer_id
                                    , stb_ret->stb_elem->color_red
                                    , stb_ret->stb_elem->color_green
@@ -2562,7 +2562,7 @@ p_fetch_video_frame_as_layer(GapStbMainGlobalParams *sgpp
       gimp_layer_add_alpha(l_new_layer_id);
     }
 
-    gimp_image_add_layer (image_id,l_new_layer_id, LAYERSTACK_TOP);
+    gimp_image_insert_layer (image_id,l_new_layer_id, 0, LAYERSTACK_TOP);
   }
 
   return(l_new_layer_id);
@@ -2616,7 +2616,7 @@ p_fetch_imagefile_as_layer (const char *img_filename
                                    &l_src_offset_y
                                    );
 
-    gimp_image_add_layer (image_id, l_new_layer_id, LAYERSTACK_TOP);
+    gimp_image_insert_layer (image_id, l_new_layer_id, 0, LAYERSTACK_TOP);
 
     /* destroy the tmp image */
     gimp_image_delete(l_tmp_image_id);
@@ -2705,7 +2705,7 @@ p_fetch_layer_from_animimage (const char *img_filename
                                    &l_src_offset_y
                                    );
 
-          gimp_image_add_layer (image_id, l_new_layer_id, LAYERSTACK_TOP);
+          gimp_image_insert_layer (image_id, l_new_layer_id, 0, LAYERSTACK_TOP);
 
        }
        g_free (l_layers_list);
@@ -2859,7 +2859,7 @@ p_create_movepath_edit_resources(GapStbAttrWidget *attw)
                   , 100.0   /* opacity */
                   , 0       /* normal mode */
                   );
-  gimp_image_add_layer (image_id, bg_layer_id, 0);
+  gimp_image_insert_layer (image_id, bg_layer_id, 0, 0);
   gap_layer_clear_to_color(bg_layer_id, 0.0, 0.0, 0.0, 0.0);
   gimp_drawable_set_visible(bg_layer_id, TRUE);
 
@@ -2876,7 +2876,7 @@ p_create_movepath_edit_resources(GapStbAttrWidget *attw)
                        );
   gimp_image_undo_disable (attw->movepath_obj_image_id);
   attw->movepath_obj_layer_id = gimp_layer_new_from_drawable(origsize_layer_id, attw->movepath_obj_image_id);
-  gimp_image_add_layer (attw->movepath_obj_image_id, attw->movepath_obj_layer_id, 0);
+  gimp_image_insert_layer (attw->movepath_obj_image_id, attw->movepath_obj_layer_id, 0, 0);
   gimp_drawable_set_visible(attw->movepath_obj_layer_id, TRUE);
 
 

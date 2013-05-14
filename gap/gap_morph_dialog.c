@@ -1780,7 +1780,7 @@ p_render_zoomed_pview(GapMorphSubWin  *swp)
                                 , 100.0      /* full opaque */
                                 , GIMP_NORMAL_MODE
                                 );
-    gimp_image_add_layer (tmp_image_id, tmp_layer_id, 0);
+    gimp_image_insert_layer (tmp_image_id, tmp_layer_id, 0, 0);
 
     /* copy the visible region to temp_layer_id */
     {

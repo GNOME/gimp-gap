@@ -1357,8 +1357,9 @@ p_mtrace_image( GapPlayerMainGlobalParams *gpp
                                    ,&l_src_offset_x
                                    ,&l_src_offset_y);
 
-    gimp_image_add_layer(gpp->mtrace_image_id
+    gimp_image_insert_layer(gpp->mtrace_image_id
                         , dst_layer_id
+                        , 0
                         , 0              /* top of layerstack */
                         );
     if((width != mtrace_width)
@@ -1422,8 +1423,9 @@ p_mtrace_tmpbuf( GapPlayerMainGlobalParams *gpp
                                  , th_bpp
                                  , th_data
                                  );
-    gimp_image_add_layer(gpp->mtrace_image_id
+    gimp_image_insert_layer(gpp->mtrace_image_id
                         , dst_layer_id
+                        , 0
                         , 0              /* top of layerstack */
                         );
     if(th_bpp == 3)

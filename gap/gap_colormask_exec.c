@@ -333,7 +333,7 @@ p_create_empty_layer(gint32 image_id
                 , 0       /* normal mode */
                 );
 
-  gimp_image_add_layer (image_id, layer_id, 0 /* stackposition */ );
+  gimp_image_insert_layer (image_id, layer_id, 0, 0 /* stackposition */ );
 
   return (layer_id);
 

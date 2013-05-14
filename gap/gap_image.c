@@ -102,13 +102,13 @@ gap_image_merge_visible_layers(gint32 image_id, GimpMergeType mergemode)
                                  l_width, l_height,  l_type,
                                  0.0,       /* Opacity full transparent */
                                  0);        /* NORMAL */
-  gimp_image_add_layer(image_id, l_layer_id, 0);
+  gimp_image_insert_layer(image_id, l_layer_id, 0, 0);
 
   l_layer_id = gimp_layer_new(image_id, "dummy",
                                  10, 10,  l_type,
                                  0.0,       /* Opacity full transparent */
                                  0);        /* NORMAL */
-  gimp_image_add_layer(image_id, l_layer_id, 0);
+  gimp_image_insert_layer(image_id, l_layer_id, 0, 0);
 
   return gimp_image_merge_visible_layers (image_id, mergemode);
 }       /* end gap_image_merge_visible_layers */
@@ -152,7 +152,7 @@ void gap_image_prevent_empty_image(gint32 image_id)
                                     l_width, l_height,  l_type,
                                     0.0,       /* Opacity full transparent */     
                                     0);        /* NORMAL */
-     gimp_image_add_layer(image_id, l_layer_id, 0);
+     gimp_image_insert_layer(image_id, l_layer_id, 0, 0);
   }
 
 }       /* end gap_image_prevent_empty_image */
@@ -195,7 +195,7 @@ gap_image_new_with_layer_of_samesize(gint32 old_image_id, gint32 *layer_id)
                                  l_width, l_height,  l_type,
                                  0.0,       /* Opacity full transparent */     
                                  0);        /* NORMAL */
-    gimp_image_add_layer(new_image_id, *layer_id, 0);
+    gimp_image_insert_layer(new_image_id, *layer_id, 0, 0);
   }
   
   return (new_image_id);

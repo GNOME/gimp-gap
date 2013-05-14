@@ -270,7 +270,7 @@ p_tri_map_preprocessing (GimpDrawable *drawable, GapFgExtractValues *fgValPtr, g
     gimp_drawable_offsets (drawable->drawable_id, &offset_x, &offset_y);
 
     /* add dummy layer (of same size at same offsets) to the same image */
-    gimp_image_add_layer(imageId, *dummyLayerId, -1 /* stackposition */ );
+    gimp_image_insert_layer(imageId, *dummyLayerId, 0, -1 /* stackposition */ );
     gimp_layer_set_offsets(*dummyLayerId, offset_x, offset_y);
 
     /* create a new layermask (black is full transparent */
@@ -354,7 +354,7 @@ gap_drawable_foreground_extract (GimpDrawable              *drawable,
         gimp_drawable_offsets (drawable->drawable_id, &offset_x, &offset_y);
 
         /* add resulting layer (of same size at same offsets) to the same image */
-        gimp_image_add_layer(imageId, resultLayerId, -1 /* stackposition */ );
+        gimp_image_insert_layer(imageId, resultLayerId, 0, -1 /* stackposition */ );
         gimp_layer_set_offsets(resultLayerId, offset_x, offset_y);
 
         /* perform the foreground extraction */
