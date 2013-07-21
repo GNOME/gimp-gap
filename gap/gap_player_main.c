@@ -227,6 +227,8 @@ static GapPlayerMainGlobalParams global_params =
 , GAP_PLAYER_MAIN_DEFAULT_CACHE_NTILES  /* gulong cache_ntiles */
 , NULL                /* GtkObject *cache_ntiles_spinbutton_adj */
 , NULL                /* GtkWidget   *detail_tracking_checkbutton */
+, TRUE                /* gboolean     enableAutoSkipMissingFrames */
+, NULL                /* GtkWidget   *autoSkipMissingFrames_checkbutton */
 };
 
 

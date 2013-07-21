@@ -996,7 +996,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
   }
 
 
-  if((cur_ptr->currRotation  > val_ptr->rotate_threshold) 
+  if((cur_ptr->currRotation  > val_ptr->rotate_threshold)
   || (cur_ptr->currRotation <  (0.0 - val_ptr->rotate_threshold)))
   {
     gboolean     l_interpolation;
@@ -1122,7 +1122,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
 
 
 /* ============================================================================
- * gap_mov_render_fetch_src_frame
+ * gap_mov_render_fetch_src_frame_autoskip
  *   fetch the requested video frame SourceImage into cache_tmp_image_id
  *   and
  *    - reduce all visible layers to one layer (cache_tmp_layer_id)
@@ -1131,17 +1131,27 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
  *      of the same source image -- for  GAP_STEP_FRAME_NONE
  *    - never load current frame number from diskfile (use duplicate of the src_image)
  *  returns 0 (OK) or -1 (on Errors)
+ *
+ *  For the frame based modes this procedure supports the autoskip feature
+ *  that will automatically advance to the next/previous availble frame
+ *  (depending on stepsize) when the specified wanted_frame_nr is not availble.
+ *
+ *  IN/OUTPUT: but_got_frame_nr will be overwritten when the frame with the wanted_frame_nr
+ *             is not availble but autoskip to the next/prev frame was successful
+ *             in this case *but_got_frame_nr contains the number of an available frame image
+ *             in all other cases *but_got_frame_nr is NOT changed by this procedure.
  * ============================================================================
  */
 gint
-gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
+gap_mov_render_fetch_src_frame_autoskip(GapMovValues *pvals,  gint32 wanted_frame_nr
+   , gint32 *but_got_frame_nr, long stepsize)
 {
   GapAnimInfo  *l_ainfo_ptr;
   GapAnimInfo  *l_old_ainfo_ptr;
 
   if(gap_debug)
   {
-     printf("gap_mov_render_fetch_src_frame: START src_image_id: %d wanted_frame_nr:%d"
+     printf("gap_mov_render_fetch_src_frame_autoskip: START src_image_id: %d wanted_frame_nr:%d"
             " cache_src_image_id:%d cache_frame_number:%d\n"
             , (int)pvals->src_image_id
             , (int)wanted_frame_nr
@@ -1162,7 +1172,7 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
      {
         if(gap_debug)
         {
-           printf("gap_mov_render_fetch_src_frame: DELETE cache_tmp_image_id:%d\n",
+           printf("gap_mov_render_fetch_src_frame_autoskip: DELETE cache_tmp_image_id:%d\n",
                     (int)pvals->cache_tmp_image_id);
         }
         /* destroy the cached frame image */
@@ -1195,6 +1205,7 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
         }
      }
 
+render_fetch_wanted_src_frame:
      if ((wanted_frame_nr == pvals->cache_ainfo_ptr->curr_frame_nr)
      ||  (wanted_frame_nr < 0))
      {
@@ -1220,15 +1231,43 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
           return -1;
        }
 
-       /* load the wanted source frame */
-       pvals->cache_tmp_image_id =  gap_lib_load_image(pvals->cache_ainfo_ptr->new_filename);
-       if(pvals->cache_tmp_image_id < 0)
+       if (g_file_test(pvals->cache_ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
        {
-          printf("gap: load error on src image %s\n", pvals->cache_ainfo_ptr->new_filename);
-          return -1;
+         /* load the wanted source frame */
+         pvals->cache_tmp_image_id =  gap_lib_load_image(pvals->cache_ainfo_ptr->new_filename);
+         if(pvals->cache_tmp_image_id < 0)
+         {
+            printf("gap: load error on src image %s\n", pvals->cache_ainfo_ptr->new_filename);
+            return -1;
+         }
        }
+       else
+       {
+         long    l_available_frame_nr;
+         gboolean l_frame_found;
 
+         l_available_frame_nr = gap_lib_get_next_available_frame_number(
+               wanted_frame_nr, stepsize
+             , pvals->cache_ainfo_ptr->basename, pvals->cache_ainfo_ptr->extension
+             , &l_frame_found);
+         if (l_frame_found)
+         {
+           /* autoskip to next or previous available frame number */
+           *but_got_frame_nr = l_available_frame_nr;
+           wanted_frame_nr = l_available_frame_nr;
+           goto render_fetch_wanted_src_frame;
+         }
+         else
+         {
+            printf("gap: missing frame number error on src image %s\n", pvals->cache_ainfo_ptr->new_filename);
+            return -1;
+         }
+
+       }
      }
+
+
+     /* frame fetch done at this point */
 
      gimp_image_undo_disable (pvals->cache_tmp_image_id);
 
@@ -1245,7 +1284,7 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
 
        if(gap_debug)
        {
-          printf("gap_mov_render_fetch_src_frame: Scale for Animpreview apv_scalex %f apv_scaley %f\n"
+          printf("gap_mov_render_fetch_src_frame_autoskip: Scale for Animpreview apv_scalex %f apv_scaley %f\n"
                  , (float)pvals->apv_scalex, (float)pvals->apv_scaley );
        }
 
@@ -1280,9 +1319,33 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
 
   }
 
-
-
   return 0; /* OK */
+
+}       /* end gap_mov_render_fetch_src_frame_autoskip */
+
+
+/* ============================================================================
+ * gap_mov_render_fetch_src_frame
+ *   fetch the requested video frame SourceImage into cache_tmp_image_id
+ *   and
+ *    - reduce all visible layers to one layer (cache_tmp_layer_id)
+ *    - (scale to animated preview size if called for AnimPreview )
+ *    - reuse cached image (for subsequent calls for the same framenumber
+ *      of the same source image -- for  GAP_STEP_FRAME_NONE
+ *    - never load current frame number from diskfile (use duplicate of the src_image)
+ *  returns 0 (OK) or -1 (on Errors)
+ * ============================================================================
+ */
+gint
+gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
+{
+  gint32 l_but_got_frame_nr;
+  gint   l_rc;
+
+  l_rc = gap_mov_render_fetch_src_frame_autoskip(pvals
+                    ,  wanted_frame_nr, &l_but_got_frame_nr, 1);
+  return (l_rc);
+
 }       /* end gap_mov_render_fetch_src_frame */
 
 

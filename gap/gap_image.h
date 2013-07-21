@@ -34,7 +34,7 @@
 
 #include "config.h"
 
-/* SYTEM (UNIX) includes */ 
+/* SYTEM (UNIX) includes */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -56,6 +56,9 @@ gboolean  gap_image_set_selection_from_selection_or_drawable(gint32 image_id, gi
 void      gap_image_remove_invisble_layers(gint32 image_id);
 void      gap_image_remove_all_guides(gint32 image_id);
 void      gap_image_limit_layers(gint32 image_id, gint keepTopLayers,  gint keepBgLayers);
+
+gint32    gap_image_create_unicolor_image(gint32 *layer_id, gint32 width , gint32 height
+                       , gdouble r_f, gdouble g_f, gdouble b_f, gdouble a_f);
 
 
 #endif

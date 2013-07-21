@@ -168,7 +168,7 @@ static gint32       p_set_or_pick_active_layer_by_name(gint32 image_id
                           ,gboolean setActiveLayer
                           ,gboolean ignoreOnionLayers
                           );
-                          
+
 
 static gchar *      p_get_active_layer_name(gint32 image_id
                        ,gint32 *active_layer
@@ -193,6 +193,11 @@ static gint32       p_lib_save_named_image2(gint32 image_id, const char *sav_nam
                         gboolean enable_thumbnailsave, const GAPJpegSaveVals *jpg_save_vals);
 static char*        p_gzip (char *orig_name, char *new_name, char *zip);
 
+
+long     gap_lib_dir_find_next_frame_number(long cur_frame_nr, long stepsize,
+            char *basename, char *extension, gboolean *frame_found_ptr);
+long     gap_lib_dir_find_next_frame_number_for_imagename(long stepsize,
+            char *imagename, gboolean *frame_found_ptr);
 
 
 
@@ -224,7 +229,7 @@ gap_lib_layer_tracking(gint32 image_id
                     )
 {
   gint32 l_matching_layer_id;
-  
+
   l_matching_layer_id = -1;
   if (trackByName)
   {
@@ -239,7 +244,7 @@ gap_lib_layer_tracking(gint32 image_id
       return(l_matching_layer_id);
     }
   }
-  
+
   if (trackByStackPosition)
   {
     l_matching_layer_id = p_set_or_pick_active_layer_by_pos(image_id
@@ -250,7 +255,7 @@ gap_lib_layer_tracking(gint32 image_id
   }
 
   return(l_matching_layer_id);
-  
+
 }  /* end gap_lib_layer_tracking */
 
 
@@ -308,10 +313,10 @@ p_set_or_pick_active_layer_by_pos(gint32 image_id
         l_pos++;
       }
     }
-    
+
     g_free(l_layers_list);
   }
-  
+
   if(l_matching_layer_id >= 0)
   {
     if(setActiveLayer == TRUE)
@@ -322,7 +327,7 @@ p_set_or_pick_active_layer_by_pos(gint32 image_id
     if(gap_debug)
     {
       char       *l_name;
-     
+
       l_name = gimp_drawable_get_name(l_matching_layer_id);
       if(setActiveLayer == TRUE)
       {
@@ -341,13 +346,13 @@ p_set_or_pick_active_layer_by_pos(gint32 image_id
       if(l_name)
       {
         g_free(l_name);
-      }     
+      }
     }
     return (l_matching_layer_id);
   }
-  
+
   return (-1);
-  
+
 }  /* end p_set_or_pick_active_layer_by_pos */
 
 
@@ -389,17 +394,17 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
   l_pos = 0;
   l_max_score = 0;
   l_matching_layer_id = -1;
-  
+
   if(ref_layer_name == NULL)
   {
     return(p_set_or_pick_active_layer_by_pos(image_id, ref_layer_stackpos, setActiveLayer, ignoreOnionLayers));
   }
-  
+
   if(!g_utf8_validate(ref_layer_name, -1, NULL))
   {
     return(p_set_or_pick_active_layer_by_pos(image_id, ref_layer_stackpos, setActiveLayer, ignoreOnionLayers));
   }
-  
+
   l_ref_len = g_utf8_strlen(ref_layer_name, -1);
   l_layers_list = gimp_image_get_layers(image_id, &l_nlayers);
   if(l_layers_list)
@@ -428,7 +433,7 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
           {
             gunichar refname_char;
             gunichar layername_char;
-            
+
             refname_char = g_utf8_get_char(uni_ref_ptr);
             layername_char = g_utf8_get_char(uni_nam_ptr);
 
@@ -468,7 +473,7 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
 
         g_free(l_layer_name);
       }
-      
+
       if(l_score == l_max_score)
       {
         /* stackposition is checked as secondary criterium
@@ -483,8 +488,8 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
         {
           l_is_layer_ignored = FALSE;
         }
-        
-        
+
+
         if(!l_is_layer_ignored)
         {
           if(l_pos == ref_layer_stackpos)
@@ -500,10 +505,10 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
         l_max_score = l_score;
       }
     }
-    
+
     g_free(l_layers_list);
   }
-  
+
   if(l_matching_layer_id >= 0)
   {
     if (setActiveLayer == TRUE)
@@ -514,7 +519,7 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
     if(gap_debug)
     {
       char       *l_name;
-     
+
       l_name = gimp_drawable_get_name(l_matching_layer_id);
       if (setActiveLayer == TRUE)
       {
@@ -533,11 +538,11 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
       if(l_name)
       {
         g_free(l_name);
-      }     
+      }
     }
     return (l_matching_layer_id);
   }
-  
+
   return (-1);
 }  /* end p_set_or_pick_active_layer_by_name */
 
@@ -563,12 +568,12 @@ p_get_active_layer_name(gint32 image_id
   gint        l_pos;
   gboolean    l_is_onion;
   gint32      l_layer_id;
-  
+
   layer_name = NULL;
 
   *stack_pos = -1;
   *active_layer = gimp_image_get_active_layer(image_id);
-  
+
   if(*active_layer >= 0)
   {
     layer_name = gimp_drawable_get_name(*active_layer);
@@ -588,18 +593,18 @@ p_get_active_layer_name(gint32 image_id
           *stack_pos = l_pos;
           break;
         }
-        
+
         l_is_onion = gap_onion_base_check_is_onion_layer(l_layer_id);
         if(!l_is_onion)
         {
           l_pos++;
         }
       }
-    
+
       g_free(l_layers_list);
     }
   }
-  
+
   return (layer_name);
 }  /* end p_get_active_layer_name */
 
@@ -639,7 +644,7 @@ p_do_active_layer_tracking(gint32 image_id
       break;
   }
 }  /* end p_do_active_layer_tracking */
-                
+
 
 /* ============================================================================
  * gap_lib_file_exists
@@ -914,7 +919,7 @@ gap_lib_count_framenumber_digits(const char *imagename)
 
     l_ptr--;
   }
-  
+
   if(gap_debug)
   {
     printf("DEBUG gap_lib_count_framenumber_digits  imagename:'%s' digits_used:%d\n"
@@ -953,7 +958,7 @@ gap_lib_rename_frame(GapAnimInfo *ainfo_ptr, long from_nr, long to_nr)
    {
      return(1);
    }
-   
+
    l_digits_used = gap_lib_count_framenumber_digits(l_from_fname);
    if (l_digits_used > 0)
    {
@@ -964,11 +969,11 @@ gap_lib_rename_frame(GapAnimInfo *ainfo_ptr, long from_nr, long to_nr)
      /* this should not occur when the frame imagfile with from_nr already exists */
      l_to_fname = gap_lib_alloc_fname(ainfo_ptr->basename, to_nr, ainfo_ptr->extension);
    }
-   
-   if(l_to_fname == NULL) 
+
+   if(l_to_fname == NULL)
    {
-     g_free(l_from_fname); 
-     return(1); 
+     g_free(l_from_fname);
+     return(1);
    }
 
 
@@ -1109,7 +1114,7 @@ gap_lib_build_basename_without_ext(const char *filename)
 {
   char *basename;
   gint  idx;
-  
+
   basename = g_filename_display_basename(filename);
   idx = strlen(basename) -1;
   while(idx > 0)
@@ -1273,10 +1278,10 @@ gap_lib_alloc_fname6(char *basename, long nr, char *extension, long default_digi
             l_digits_used = 7;
             break;
          }
-         
 
 
-         
+
+
          /* check if frame is on disk with 4-digit style framenumber */
          g_snprintf(l_fname, l_len, "%s%04ld%s", basename, l_nr_chk, extension);
          if (gap_lib_file_exists(l_fname))
@@ -1422,12 +1427,12 @@ gap_lib_exists_frame_nr(GapAnimInfo *ainfo_ptr, long nr, long *l_has_digits)
         }
         break;
      }
-     
-     
-     
-     
-     
-     
+
+
+
+
+
+
      /* check if frame is on disk with 4-digit style framenumber */
      g_snprintf(l_fname, l_len, "%s%04ld%s", ainfo_ptr->basename, l_nr_chk, ainfo_ptr->extension);
      if (gap_lib_file_exists(l_fname))
@@ -1512,10 +1517,10 @@ gap_lib_exists_frame_nr(GapAnimInfo *ainfo_ptr, long nr, long *l_has_digits)
  * gap_lib_alloc_ainfo_from_name
  *
  * allocate and init an ainfo structure from the given imagename
- * (use this to get anim informations if none of the frame is not loaded
+ * (use this to get anim informations if none of the frame is loaded
  *  as image into the gimp
  *  and no image_id is available)
- * The ainfo_type is just a first guess. 
+ * The ainfo_type is just a first guess.
  *  (check for videofiles GAP_AINFO_MOVIE is not supported here,
  *   because this would require an video-api open attempt that would slow down)
  * ============================================================================
@@ -1559,6 +1564,8 @@ gap_lib_alloc_ainfo_from_name(const char *imagename, GimpRunMode run_mode)
    l_ainfo_ptr->last_frame_nr = -1;
    l_ainfo_ptr->frame_cnt = 0;
    l_ainfo_ptr->run_mode = run_mode;
+   l_ainfo_ptr->frame_nr_before_curr_frame_nr = -1;   /* -1 if no frame found before curr_frame_nr */
+   l_ainfo_ptr->frame_nr_after_curr_frame_nr = -1;    /* -1 if no frame found after curr_frame_nr */
 
 
    return(l_ainfo_ptr);
@@ -1777,11 +1784,16 @@ gap_lib_dir_ainfo(GapAnimInfo *ainfo_ptr)
                  }
 
                  if (l_nr > l_maxnr)
+                 {
                     l_maxnr = l_nr;
+                 }
                  if (l_nr < l_minnr)
+                 {
                     l_minnr = l_nr;
-                 
-                 if ((l_nr < ainfo_ptr->curr_frame_nr) && (l_nr > ainfo_ptr->frame_nr_before_curr_frame_nr))
+                 }
+
+                 if ((l_nr < ainfo_ptr->curr_frame_nr) 
+                 && (l_nr > ainfo_ptr->frame_nr_before_curr_frame_nr))
                  {
                    ainfo_ptr->frame_nr_before_curr_frame_nr = l_nr;
                  }
@@ -2045,7 +2057,7 @@ p_decide_save_as(gint32 image_id, const char *sav_name, const char *final_sav_na
   int               l_argc;
   int               l_save_as_mode;
   GimpRunMode      l_run_mode;
-    
+
 
    /* check if there are SAVE_AS_MODE settings (from privious calls within one gimp session) */
   l_save_as_mode = -1;
@@ -2305,7 +2317,7 @@ p_lib_save_jpg_non_interactive(gint32 image_id, gint32 l_drawable_id, const char
      l_rc = TRUE;
   }
   gimp_destroy_params (l_params, l_retvals);
-  
+
   return (l_rc);
 
 }  /* end p_lib_save_jpg_non_interactive */
@@ -2333,7 +2345,7 @@ p_extension_is_jpeg(const char *extension)
 
   }
   return (FALSE);
-  
+
 }
 
 /* -------------------------------------
@@ -2352,11 +2364,11 @@ p_lib_save_named_image_1(gint32 image_id, const char *sav_name, GimpRunMode run_
   GAPJpegSaveVals   *jpg_save_vals;
   gint32 l_sav_rc;
   char *l_key_save_vals_jpg;
-  
-  
+
+
   l_sav_rc = -1;
   jpg_save_vals = NULL;
-  
+
   l_key_save_vals_jpg = g_strdup_printf("GIMP_GAP_SAVE_VALS_JPG_%s%s"
                        ,l_basename
                        ,l_extension
@@ -2379,7 +2391,7 @@ p_lib_save_named_image_1(gint32 image_id, const char *sav_name, GimpRunMode run_
   if (run_mode != GIMP_RUN_INTERACTIVE)
   {
     int jpg_parsize;
-    
+
     jpg_parsize = gimp_get_data_size(l_key_save_vals_jpg);
     if(gap_debug)
     {
@@ -2425,15 +2437,15 @@ p_lib_save_named_image_1(gint32 image_id, const char *sav_name, GimpRunMode run_
     {
       const GAPJpegSaveVals   *const_jpg_save_vals;
       const_jpg_save_vals = gimp_parasite_data (jpg_save_parasite);
-      
+
       /* store the jpeg save options for the handled frame basename and extension in this session */
       gimp_set_data (l_key_save_vals_jpg, const_jpg_save_vals, sizeof(GAPJpegSaveVals));
       gimp_parasite_free (jpg_save_parasite);
     }
   }
-  
+
   g_free(l_key_save_vals_jpg);
-  
+
   return (l_sav_rc);
 }  /* end p_lib_save_named_image_1 */
 
@@ -2468,13 +2480,13 @@ p_lib_save_named_image2(gint32 image_id, const char *sav_name, GimpRunMode run_m
 
   l_drawable_id = l_layers_list[l_nlayers -1];  /* use the background layer */
 
-  if ((jpg_save_vals != NULL) 
+  if ((jpg_save_vals != NULL)
   && (run_mode != GIMP_RUN_INTERACTIVE))
   {
     /* Special case: save JPG noninteractive
      * Since GIMP-2.4.x jpeg file save plugin changed behaviour:
      * when saved in GIMP_RUN_WITH_LAST_VALS mode it acts the same way
-     * as interactive mode (e.q. opens a dialog) 
+     * as interactive mode (e.q. opens a dialog)
      * this behaviour is not acceptable when saving lots of frames.
      * therefore GAP tries to figure out the jpeg save paramters that
      * are available as parasite data, and perform a non interactive
@@ -2597,7 +2609,7 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
       );
     return -1;
   }
-  
+
   gimp_image_set_filename(image_id, sav_name);
 
   if(0 == strcmp(l_ext, ".xcf"))
@@ -2722,7 +2734,7 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
          {
            printf("DEBUG: gap_lib_save_named_frame: RENAME 2nd try\n");
          }
-         
+
          if(0 == gap_lib_file_copy(l_tmpname, sav_name))
          {
             g_remove(l_tmpname);
@@ -2895,7 +2907,7 @@ gap_lib_load_named_frame (gint32 old_image_id, char *lod_name)
   {
       return -1;
   }
-  
+
   if (gap_pdb_gimp_displays_reconnect(old_image_id, l_new_image_id))
   {
       /* deleting the old image if it is still alive
@@ -2907,7 +2919,7 @@ gap_lib_load_named_frame (gint32 old_image_id, char *lod_name)
        * GAP has no more chance of explicitly deleting the old image
        * (hope that this is already done implicitly by gimp_reconnect_displays ?)
        */
-       
+
       if(gap_image_is_alive(old_image_id))
       {
         gimp_image_delete(old_image_id);
@@ -2970,8 +2982,8 @@ gap_lib_replace_image(GapAnimInfo *ainfo_ptr)
   ref_layer_name = p_get_active_layer_name(ainfo_ptr->image_id
                                           ,&ref_active_layer
                                           ,&ref_layer_stackpos
-                                          );  
-  
+                                          );
+
   if(ainfo_ptr->new_filename != NULL)
   {
     g_free(ainfo_ptr->new_filename);
@@ -2987,7 +2999,7 @@ gap_lib_replace_image(GapAnimInfo *ainfo_ptr)
      }
      return -1;
   }
-  
+
   if(0 == gap_lib_file_exists(ainfo_ptr->new_filename ))
   {
      if(gap_debug)
@@ -3238,13 +3250,13 @@ gap_vid_edit_copy(GimpRunMode run_mode, gint32 image_id, long range_from, long r
 
   gchar *l_curr_name;
   gchar *l_fname ;
-  gchar *l_fname_copy;
   gchar *l_basename;
   gint32 l_frame_nr;
-  gint32 l_cnt_range;
   gint32 l_cnt2;
-  gint32 l_idx;
   gint32 l_tmp_image_id;
+  long   l_cur_frame_nr;
+  long   l_top_frame_nr;
+  gboolean   l_frame_found;
 
   ainfo_ptr = gap_lib_alloc_ainfo(image_id, run_mode);
   if(ainfo_ptr == NULL)
@@ -3268,36 +3280,57 @@ gap_vid_edit_copy(GimpRunMode run_mode, gint32 image_id, long range_from, long r
   l_cnt2 = gap_vid_edit_framecount();  /* count frames in the video paste buffer */
   l_frame_nr = 1 + l_cnt2;           /* start at one, or continue (append) at end +1 */
 
-  l_cnt_range = 1 + MAX(range_to, range_from) - MIN(range_to, range_from);
-  for(l_idx = 0; l_idx < l_cnt_range;  l_idx++)
+
+
+  l_top_frame_nr = MAX(range_to, range_from);
+  l_cur_frame_nr = MIN(range_to, range_from);
+  l_frame_found = TRUE;
+  while(l_frame_found == TRUE)
   {
-     if(rc < 0)
+     if((rc < 0) || (l_cur_frame_nr > l_top_frame_nr))
      {
        break;
      }
      l_fname = gap_lib_alloc_fname(ainfo_ptr->basename,
-                             MIN(range_to, range_from) + l_idx,
+                             l_cur_frame_nr,
                              ainfo_ptr->extension);
-     l_fname_copy = g_strdup_printf("%s%06ld.xcf", l_basename, (long)l_frame_nr);
+     if (g_file_test(l_fname, G_FILE_TEST_EXISTS))
+     {
+       gchar *l_fname_copy;
 
-     if(strcmp(ainfo_ptr->extension, ".xcf") == 0)
-     {
-        rc = gap_lib_image_file_copy(l_fname, l_fname_copy);
-     }
-     else
-     {
-        /* convert other fileformats to xcf before saving to video paste buffer */
-        l_tmp_image_id = gap_lib_load_image(l_fname);
-        rc = gap_lib_save_named_frame(l_tmp_image_id, l_fname_copy);
-        gimp_image_delete(l_tmp_image_id);
+       l_fname_copy = g_strdup_printf("%s%06ld.xcf", l_basename, (long)l_frame_nr);
+
+       if(strcmp(ainfo_ptr->extension, ".xcf") == 0)
+       {
+         rc = gap_lib_image_file_copy(l_fname, l_fname_copy);
+       }
+       else
+       {
+         /* convert other fileformats to xcf before saving to video paste buffer */
+         l_tmp_image_id = gap_lib_load_image(l_fname);
+         rc = gap_lib_save_named_frame(l_tmp_image_id, l_fname_copy);
+         gimp_image_delete(l_tmp_image_id);
+       }
+       g_free(l_fname_copy);
+       l_frame_nr++;
      }
      g_free(l_fname);
-     g_free(l_fname_copy);
-     l_frame_nr++;
+
+     /* advance l_cur_frame_nr to the next available frame number
+      * (normally to l_cur_frame_nr += 1;
+      * sometimes to higher number when frames are missing)
+      */
+     l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, 1
+                                , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
+
+
   }
   gap_lib_free_ainfo(&ainfo_ptr);
   return(rc);
 }       /* end gap_vid_edit_copy */
+
+
+
 
 /* ============================================================================
  * p_custom_palette_file
@@ -3360,6 +3393,7 @@ gap_vid_edit_paste(GimpRunMode run_mode, gint32 image_id, long paste_mode)
   gint32 l_tmp_image_id;
   gint       l_rc;
   GimpImageBaseType  l_orig_basetype;
+  gboolean   l_frame_found;
 
   l_cnt2 = gap_vid_edit_framecount();
   if(gap_debug)
@@ -3429,17 +3463,31 @@ gap_vid_edit_paste(GimpRunMode run_mode, gint32 image_id, long paste_mode)
 
      while(l_lo >= l_insert_frame_nr)
      {
-       if(0 != gap_lib_rename_frame(ainfo_ptr, l_lo, l_hi))
+       l_hi   = l_lo + l_cnt2;
+       l_frame_found = gap_lib_framefile_with_framenr_exists(ainfo_ptr, l_lo);
+       if (l_frame_found)
        {
-          gchar *tmp_errtxt;
-          tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), (long int)l_lo, (long int)l_hi);
-          gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
-          g_free(tmp_errtxt);
-          return -1;
+         if(0 != gap_lib_rename_frame(ainfo_ptr, l_lo, l_hi))
+         {
+           gchar *tmp_errtxt;
+           tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), (long int)l_lo, (long int)l_hi);
+           gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
+           g_free(tmp_errtxt);
+           return -1;
+         }
        }
-       l_lo--;
-       l_hi--;
-     }
+       /* advance l_lo to the previous available frame number
+        * (normally to l_lo -= 1;
+        * sometimes to lower number when frames are missing)
+        */
+       l_lo = gap_lib_get_next_available_frame_number(l_lo, -1
+                              , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
+       if (!l_frame_found)
+       {
+         break;
+       }
+
+     }  /* end while */
   }
 
   l_basename = gap_lib_get_video_paste_name();
@@ -3587,3 +3635,243 @@ gap_vid_edit_paste(GimpRunMode run_mode, gint32 image_id, long paste_mode)
 }       /* end gap_vid_edit_paste */
 
 
+/* ---------------------------------------
+ * gap_lib_get_next_available_frame_number
+ * ---------------------------------------
+ * returns the next available frame_number in sequence
+ * (for ascending sequence use stepsize 1
+ * for descending sequence use stepsize -1)
+ * if the frame image file with the next expected frame number is not
+ * found, the number is derived from the next available frame image file.
+ *
+ * if there are no more next frame images,
+ *     *frame_found_ptr is set to FALSE (if it is not NULL)
+ *     and cur_frame_nr + stepsize is returned
+ * otherwise (when a next frame image was found)
+ *     *frame_found_ptr is set to TRUE (if it is not NULL)
+ *     and the frame number of the next matching frame image is returned.
+ */
+long
+gap_lib_get_next_available_frame_number(long cur_frame_nr, long stepsize,
+  char *basename, char *extension, gboolean *frame_found_ptr)
+{
+  long     l_next_frame_nr;
+  gint     l_idx;
+  gboolean l_frame_found;
+
+  l_next_frame_nr = cur_frame_nr + stepsize;
+  l_frame_found = FALSE;
+
+  for(l_idx=1; l_idx < 10; l_idx++)
+  {
+    char *new_filename;
+    long l_potential_next_frame_nr;
+
+    l_potential_next_frame_nr =  cur_frame_nr + (l_idx * stepsize);
+    new_filename = gap_lib_alloc_fname(basename,
+                                       l_potential_next_frame_nr,
+                                       extension);
+    if (new_filename == NULL)
+    {
+      break;
+    }
+    else
+    {
+      if(g_file_test(new_filename, G_FILE_TEST_EXISTS))
+      {
+         l_next_frame_nr = l_potential_next_frame_nr;
+         l_frame_found = TRUE;
+      }
+      g_free(new_filename);
+    }
+    if (l_frame_found)
+    {
+      break;
+    }
+  }
+
+  if (l_frame_found != TRUE)
+  {
+     l_next_frame_nr = gap_lib_dir_find_next_frame_number(cur_frame_nr
+                         , stepsize
+                         , basename
+                         , extension
+                         , &l_frame_found
+                         );
+  }
+
+
+  if (frame_found_ptr != NULL)
+  {
+    *frame_found_ptr = l_frame_found;
+  }
+  return (l_next_frame_nr);
+
+
+}  /* end gap_lib_get_next_available_frame_number */
+
+
+
+/* ----------------------------------
+ * gap_lib_dir_find_next_frame_number
+ * ----------------------------------
+ * returns the next available frame_number in sequence
+ * for the frame that is specified by basename, cur_frame_nr, extension.
+ * (for ascending sequence use stepsize 1
+ * for descending sequence use stepsize -1)
+ * if the frame image file with the next expected frame number is not
+ * found, the number is derived from the next available frame image file.
+ *
+ * NOTE that this variant performs an uncodintional directory scan
+ * of the directory that contains the specified imagename.
+ * For performance reasons gap_lib_get_next_available_frame_number
+ * should be used where possible.
+ *
+ * if there are no more next frame images,
+ *     *frame_found_ptr is set to FALSE (if it is not NULL)
+ *     and cur_frame_nr + stepsize is returned
+ * otherwise (when a next frame image was found)
+ *     *frame_found_ptr is set to TRUE (if it is not NULL)
+ *     and the frame number of the next matching frame image is returned.
+ */
+long
+gap_lib_dir_find_next_frame_number(long cur_frame_nr, long stepsize,
+  char *basename, char *extension, gboolean *frame_found_ptr)
+{
+  char        *imagename;
+  long         l_next_frame_nr;
+
+  l_next_frame_nr = cur_frame_nr + stepsize;
+
+  imagename = gap_lib_alloc_fname(basename,
+                                  cur_frame_nr,
+                                  extension);
+  l_next_frame_nr = gap_lib_dir_find_next_frame_number_for_imagename(
+                      stepsize, imagename, frame_found_ptr);
+  g_free(imagename);
+
+  return (l_next_frame_nr);
+
+}       /* end gap_lib_dir_find_next_frame_number */
+
+
+/* -----------------------------------------------
+ * gap_lib_dir_find_next_frame_number_for_imagename
+ * ------------------------------------------------
+ * returns the next available frame_number for the specified frame imganame in sequence
+ * (for ascending sequence use stepsize 1
+ * for descending sequence use stepsize -1)
+ * if the frame image file with the next expected frame number is not
+ * found, the number is derived from the next available frame image file.
+ *
+ * NOTE that this variant performs a directory scan of the directory
+ * that contains the specified imagename.
+ *
+ *
+ * if there are no more next frame images,
+ *     *frame_found_ptr is set to FALSE (if it is not NULL)
+ *     and cur_frame_nr + stepsize is returned
+ * otherwise (when a next frame image was found)
+ *     *frame_found_ptr is set to TRUE (if it is not NULL)
+ *     and the frame number of the next matching frame image is returned.
+ */
+long
+gap_lib_dir_find_next_frame_number_for_imagename(long stepsize,
+  char *imagename, gboolean *frame_found_ptr)
+{
+  GapAnimInfo *ainfo_ptr;
+  long         l_next_frame_nr;
+  gboolean     l_frame_found;
+
+  l_next_frame_nr = -1;
+  l_frame_found = FALSE;
+
+  ainfo_ptr = gap_lib_alloc_ainfo_from_name(imagename, GIMP_RUN_NONINTERACTIVE);
+  if (ainfo_ptr == NULL)
+  {
+    printf("gap_lib_dir_find_next_frame_number_for_imagename: FAILED, ainfo_ptr is null for %s\n"
+          , imagename);
+  }
+  else
+  {
+    l_next_frame_nr = ainfo_ptr->curr_frame_nr + stepsize;
+
+    if (0 == gap_lib_dir_ainfo(ainfo_ptr))
+    {
+      if (stepsize >= 0)
+      {
+        if (ainfo_ptr->frame_nr_after_curr_frame_nr >= 0)
+        {
+          l_frame_found = TRUE;
+          l_next_frame_nr = ainfo_ptr->frame_nr_after_curr_frame_nr;
+        }
+      }
+      else
+      {
+        if (ainfo_ptr->frame_nr_before_curr_frame_nr >= 0)
+        {
+          l_frame_found = TRUE;
+          l_next_frame_nr = ainfo_ptr->frame_nr_before_curr_frame_nr;
+        }
+      }
+
+    }
+
+    if(gap_debug)
+    {
+      printf("gap_lib_dir_find_next_frame_number_for_imagename: %s \n"
+           "  l_next_frame_nr:%d found:%d TRUE:%d\n"
+           "  curr_frame_nr:%d  frame_nr_after_curr_frame_nr:%d  frame_nr_before_curr_frame_nr:%d stepsize:%d \n"
+          , imagename
+          , (int)l_next_frame_nr
+          , (int)l_frame_found
+          , (int)TRUE
+          , (int)ainfo_ptr->curr_frame_nr
+          , (int)ainfo_ptr->frame_nr_after_curr_frame_nr
+          , (int)ainfo_ptr->frame_nr_before_curr_frame_nr
+          , (int)stepsize
+          );
+    }
+
+    gap_lib_free_ainfo(&ainfo_ptr);
+  }
+
+
+  if (frame_found_ptr != NULL)
+  {
+    *frame_found_ptr = l_frame_found;
+  }
+
+
+  return (l_next_frame_nr);
+}       /* end gap_lib_dir_find_next_frame_number_for_imagename */
+
+
+/* -------------------------------------
+ * gap_lib_framefile_with_framenr_exists
+ * -------------------------------------
+ *
+ * return FALSE ... file does not exist
+ * return TRUE  ... file exists
+ */
+gboolean
+gap_lib_framefile_with_framenr_exists(GapAnimInfo *ainfo_ptr, long frame_nr)
+{
+  char *filename;
+  gboolean l_rc;
+
+  l_rc = FALSE;
+
+  /* build the frame name */
+  filename = gap_lib_alloc_fname(ainfo_ptr->basename,
+                                 frame_nr,
+                                 ainfo_ptr->extension);
+  if(filename != NULL)
+  {
+    l_rc = g_file_test(filename, G_FILE_TEST_EXISTS);
+    g_free(filename);
+  }
+
+  return (l_rc);
+
+}       /* end gap_lib_framefile_with_framenr_exists */

@@ -173,8 +173,7 @@ static void query (void)
                           in_args,
                           out_args);
 
-  // gimp_plugin_menu_branch_register("<Image>", "Video");
-  gimp_plugin_menu_register (PLUG_IN_NAME, N_("<Image>/Video/"));
+  gimp_plugin_menu_register (PLUG_IN_NAME, N_("<Image>/Video/Layer/Render/"));
 }  /* end query */
 
 static void

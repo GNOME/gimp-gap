@@ -899,10 +899,10 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
   gint32 calling_frame_nr;
   gdouble    l_xresoulution, l_yresoulution;
   gint32     l_unit;
+  gboolean   l_frame_found;
 
   calling_image_id = ainfo_ptr->image_id;
   calling_frame_nr = ainfo_ptr->curr_frame_nr;
-
 
   l_percentage = 0.0;
   l_nlayers_result = 0;
@@ -991,7 +991,8 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
 
 
   l_cur_frame_nr = l_begin;
-  while(1)
+  l_frame_found = TRUE;
+  while(l_frame_found == TRUE)
   {
     /* build the frame name */
     if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
@@ -1008,8 +1009,15 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
     }
     else
     {
-      /* load current frame into temporary image */
-      l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
+      if (g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
+      {
+        /* load current frame into temporary image */
+        l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
+      }
+      else
+      {
+         goto frames_to_multilayer_advance_to_next_frame;
+      }
     }
     if(l_tmp_image_id < 0)
        goto error;
@@ -1139,6 +1147,7 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
     /* destroy the tmp image */
     gimp_image_delete(l_tmp_image_id);
 
+frames_to_multilayer_advance_to_next_frame:
     if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
     {
       l_percentage += l_percentage_step;
@@ -1147,10 +1156,21 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
 
     /* advance to next frame */
     if(l_cur_frame_nr == l_end)
-       break;
-    l_cur_frame_nr += l_step;
+    {
+      break;
+    }
 
-  }
+     /* advance l_hi to the next available frame number 
+      * (normally to l_cur_frame_nr += l_step;
+      * sometimes to higher/lower number when frames are missing) 
+      */
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, l_step
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
+    if (l_frame_found != TRUE)
+    {
+      break;
+    }
+  }  /* end while */
 
   gap_image_prevent_empty_image(l_new_image_id);
 
@@ -1402,17 +1422,30 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
   while(l_rc >= 0)
   {
     /* build the frame name */
-    if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
+    if(ainfo_ptr->new_filename != NULL)
+    {
+      g_free(ainfo_ptr->new_filename);
+    }
+    
     ainfo_ptr->new_filename = gap_lib_alloc_fname(ainfo_ptr->basename,
                                         l_cur_frame_nr,
                                         ainfo_ptr->extension);
     if(ainfo_ptr->new_filename == NULL)
-       return -1;
+    {
+       goto check_end_or_advance_to_next_frame;
+    }
 
+    if(1 != gap_lib_file_exists(ainfo_ptr->new_filename)) 
+    {
+       goto check_end_or_advance_to_next_frame;
+    }
+    
     /* load current frame */
     l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
     if(l_tmp_image_id < 0)
+    {
        return -1;
+    }
 
     l_img_already_flat = FALSE; /* an image without any layer is considered as not flattend */
     l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
@@ -1566,6 +1599,8 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
       break;
     }
 
+check_end_or_advance_to_next_frame:
+
     /* break at last handled frame */
     if(l_cur_frame_nr == l_end)
     {
@@ -1581,11 +1616,12 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
     }
 
     /* advance to next frame */
-    l_cur_frame_nr += l_step;
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr
+                      , l_step, ainfo_ptr->basename, ainfo_ptr->extension, NULL);
   }
 
-
   return l_rc;
+
 }       /* end p_frames_convert */
 
 
@@ -1654,6 +1690,7 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
   gdouble    l_percentage, l_percentage_step;
   GimpParam     *l_params;
   int         l_rc;
+  gboolean    l_frame_found;
 
   l_rc = 0;
   l_params = NULL;
@@ -1691,7 +1728,8 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
 
   l_cur_frame_nr = l_begin;
 
-  while(1)
+  l_frame_found = TRUE;
+  while(l_frame_found == TRUE)
   {
     /* build the frame name */
     if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
@@ -1699,23 +1737,37 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
                                         l_cur_frame_nr,
                                         ainfo_ptr->extension);
     if(ainfo_ptr->new_filename == NULL)
+    {
        return -1;
+    }
 
-    /* load current frame into temporary image */
-    l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
-    if(l_tmp_image_id < 0)
-       return -1;
+    if (g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
+    {
+      /* load current frame into temporary image */
+      l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
+      if(l_tmp_image_id < 0)
+      {
+         return -1;
+      }
 
-    l_rc = p_image_sizechange(l_tmp_image_id, asiz_mode,
+      l_rc = p_image_sizechange(l_tmp_image_id, asiz_mode,
                               size_x, size_y, offs_x, offs_y);
-    if(l_rc < 0) break;
+      if(l_rc < 0)
+      {
+        break;
+      }
 
-    /* save back the current frame with same name */
-    l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
-    if(l_rc < 0) break;
+      /* save back the current frame with same name */
+      l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
+      if(l_rc < 0)
+      {
+        break;
+      }
 
-    /* destroy the tmp image */
-    gimp_image_delete(l_tmp_image_id);
+      /* destroy the tmp image */
+      gimp_image_delete(l_tmp_image_id);
+    }
+
 
     if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
     {
@@ -1725,8 +1777,16 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
 
     /* advance to next frame */
     if(l_cur_frame_nr == l_end)
+    {
        break;
-    l_cur_frame_nr += l_step;
+    }
+
+    /* advance l_cur_frame_nr to the next available frame number 
+     * (normally to l_cur_frame_nr += l_step; 
+     * sometimes to higher number when frames are missing) 
+     */
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, l_step
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
 
   }   /* end while loop over all frames*/
 
@@ -1822,6 +1882,7 @@ p_frames_layer_del(GapAnimInfo *ainfo_ptr,
   gdouble    l_percentage, l_percentage_step;
   gchar     *l_buff;
   int        l_rc;
+  gboolean   l_frame_found;
 
 
   l_rc = 0;
@@ -1866,7 +1927,8 @@ p_frames_layer_del(GapAnimInfo *ainfo_ptr,
 
 
   l_cur_frame_nr = l_begin;
-  while(1)
+  l_frame_found = TRUE;
+  while(l_frame_found == TRUE)
   {
     /* build the frame name */
     if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
@@ -1874,37 +1936,44 @@ p_frames_layer_del(GapAnimInfo *ainfo_ptr,
                                         l_cur_frame_nr,
                                         ainfo_ptr->extension);
     if(ainfo_ptr->new_filename == NULL)
-       return -1;
-
-    /* load current frame */
-    l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
-    if(l_tmp_image_id < 0)
-       return -1;
-
-    /* remove layer[position] */
-    l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
-    if(l_layers_list != NULL)
     {
-      /* findout layer id of the requestetd position within layerstack */
-      if(position < l_nlayers) l_tmp_layer_id = l_layers_list[position];
-      else                     l_tmp_layer_id = l_layers_list[l_nlayers -1];
-
-      g_free (l_layers_list);
-
-      /* check for last layer (MUST NOT be deleted !) */
-      if(l_nlayers > 1)
-      {
-        /* remove and delete requested layer */
-        gimp_image_remove_layer(l_tmp_image_id, l_tmp_layer_id);
-
-        /* save current frame */
-        l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
-      }
+       return -1;
     }
+   
+    if (g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
+    {
+      /* load current frame */
+      l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
+      if(l_tmp_image_id < 0)
+      {
+        return -1;
+      }
 
-    /* destroy the tmp image */
-    gimp_image_delete(l_tmp_image_id);
+      /* remove layer[position] */
+      l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
+      if(l_layers_list != NULL)
+      {
+        /* findout layer id of the requestetd position within layerstack */
+        if(position < l_nlayers) l_tmp_layer_id = l_layers_list[position];
+        else                     l_tmp_layer_id = l_layers_list[l_nlayers -1];
 
+        g_free (l_layers_list);
+
+        /* check for last layer (MUST NOT be deleted !) */
+        if(l_nlayers > 1)
+        {
+          /* remove and delete requested layer */
+          gimp_image_remove_layer(l_tmp_image_id, l_tmp_layer_id);
+
+          /* save current frame */
+          l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
+        }
+      }
+
+      /* destroy the tmp image */
+      gimp_image_delete(l_tmp_image_id);
+    }
+    
     if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
     {
       l_percentage += l_percentage_step;
@@ -1913,13 +1982,20 @@ p_frames_layer_del(GapAnimInfo *ainfo_ptr,
 
     /* advance to next frame */
     if((l_cur_frame_nr == l_end) || (l_rc < 0))
+    {
        break;
-    l_cur_frame_nr += l_step;
+    }
 
+    /* advance l_cur_frame_nr to the next available frame number 
+     * (normally to l_cur_frame_nr += l_step; 
+     * sometimes to higher number when frames are missing) 
+     */
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, l_step
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
   }
 
-
   return l_rc;
+
 }       /* end p_frames_layer_del */
 
 

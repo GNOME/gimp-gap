@@ -1301,6 +1301,19 @@ p_frame_widget_render (GapStbFrameWidget *fw)
      {
        switch(tabw->edmode)
        {
+        case GAP_STB_EDMO_SRC_FRAME_NUMBER_AND_COUNT:
+           if((fw->stb_refptr) && (fw->stb_elem_refptr))
+           {
+             gint l_src_framenr;
+             gint l_frame_count;
+             
+             l_src_framenr = fw->stb_elem_refptr->from_frame;
+             l_frame_count = fw->stb_elem_refptr->nframes;
+             l_txt = g_strdup_printf(":%d#%d", (int)l_src_framenr, (int)l_frame_count);
+             gtk_label_set_text ( GTK_LABEL(fw->val_label), l_txt);
+             g_free(l_txt);
+             break;
+           }
         case GAP_STB_EDMO_FRAME_NUMBER:
            if(fw->stb_refptr)
            {
@@ -5658,7 +5671,7 @@ p_menu_win_render_properties_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp
   if(l_rc == TRUE)
   {
     gboolean isFFMpegEncoderMultiprocessorSupport;
-
+ 
     sgpp->stb_max_open_videofile         = argv[l_stb_max_open_videofile_idx].int_ret;
     sgpp->stb_fcache_size_per_videofile  = argv[l_stb_fcache_size_per_videofile_idx].int_ret;
     sgpp->ffetch_max_img_cache_elements  = argv[l_ffetch_max_img_cache_elements_idx].int_ret;
@@ -5829,6 +5842,7 @@ p_menu_cll_add_att_elem_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp)
   p_tabw_add_att_elem(sgpp->cll_widgets, sgpp, sgpp->cll);
 }  /* end p_menu_cll_add_att_elem_cb */
 
+
 /* -----------------------------
  * p_menu_cll_toggle_edmode
  * -----------------------------
@@ -5847,6 +5861,9 @@ p_menu_cll_toggle_edmode (GtkWidget *widget, GapStbMainGlobalParams *sgpp)
         break;
       case GAP_STB_EDMO_FRAME_NUMBER:
         sgpp->cll_widgets->edmode = GAP_STB_EDMO_TIMECODE;
+        break;
+      case GAP_STB_EDMO_TIMECODE:
+        sgpp->cll_widgets->edmode = GAP_STB_EDMO_SRC_FRAME_NUMBER_AND_COUNT;
         break;
       default:
         sgpp->cll_widgets->edmode = GAP_STB_EDMO_SEQUENCE_NUMBER;
@@ -6105,6 +6122,9 @@ p_menu_stb_toggle_edmode (GtkWidget *widget, GapStbMainGlobalParams *sgpp)
         break;
       case GAP_STB_EDMO_FRAME_NUMBER:
         sgpp->stb_widgets->edmode = GAP_STB_EDMO_TIMECODE;
+        break;
+      case GAP_STB_EDMO_TIMECODE:
+        sgpp->stb_widgets->edmode = GAP_STB_EDMO_SRC_FRAME_NUMBER_AND_COUNT;
         break;
       default:
         sgpp->stb_widgets->edmode = GAP_STB_EDMO_SEQUENCE_NUMBER;

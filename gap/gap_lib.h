@@ -106,6 +106,10 @@ int      gap_lib_rename_frame(GapAnimInfo *ainfo_ptr, long from_nr, long to_nr);
 int      gap_lib_delete_frame(GapAnimInfo *ainfo_ptr, long nr);
 gint32   gap_lib_replace_image(GapAnimInfo *ainfo_ptr);
 
+long     gap_lib_get_next_available_frame_number(long cur_frame_nr, long stepsize,
+            char *basename, char *extension, gboolean *frame_found_ptr);
+gboolean gap_lib_framefile_with_framenr_exists(GapAnimInfo *ainfo_ptr, long frame_nr);
+
 
 #endif
 

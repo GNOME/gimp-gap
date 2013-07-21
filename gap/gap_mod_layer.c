@@ -159,7 +159,7 @@ p_get_nb_layer_id(gint32 image_id, gint32 ref_layer_id, gint32 nb_ref)
   gint32        l_nb_idx;
 
   l_nb_layer_id = -1;
-  
+
   l_layers_list = gimp_image_get_layers(image_id, &l_nlayers);
   if(l_layers_list != NULL)
   {
@@ -175,7 +175,7 @@ p_get_nb_layer_id(gint32 image_id, gint32 ref_layer_id, gint32 nb_ref)
         break;
       }
     }
-  
+
     g_free (l_layers_list);
   }
 
@@ -359,7 +359,7 @@ p_selection_combine(gint32 image_id
  *       To perform the action on the master image pass -1 as master_image_id.
  *       (this shall be done deferred after processing all the other frame images)
  *
- * return TRUE if action was handled 
+ * return TRUE if action was handled
  *             (this is also TRUE if the action was skiped due to the condition
  *              image_id == master_image_id)
  * return FALSE for all other actions
@@ -391,7 +391,7 @@ p_apply_selection_action(gint32 image_id, gint32 action_mode
 
   if(action_mode == GAP_MOD_ACM_SEL_ADD)
   {
-    /* if we are processing the master image, 
+    /* if we are processing the master image,
      * no need to add selection to itself
      */
     if (image_id != master_image_id)
@@ -403,7 +403,7 @@ p_apply_selection_action(gint32 image_id, gint32 action_mode
 
   if(action_mode == GAP_MOD_ACM_SEL_SUBTRACT)
   {
-    /* if we are processing the master image, 
+    /* if we are processing the master image,
      * we must defere action until all other images are handled
      * to keep original master selection intact.
      * (subtract from itself would clear the selection)
@@ -417,7 +417,7 @@ p_apply_selection_action(gint32 image_id, gint32 action_mode
 
   if(action_mode == GAP_MOD_ACM_SEL_INTERSECT)
   {
-    /* if we are processing the master image, 
+    /* if we are processing the master image,
      * intersect with itself can be skipped, because
      * the result will be the same selection as before.
      */
@@ -448,7 +448,7 @@ p_apply_selection_action(gint32 image_id, gint32 action_mode
 
 
   return(FALSE);
-  
+
 }  /* end p_apply_selection_action */
 
 
@@ -491,7 +491,7 @@ p_apply_action(gint32 image_id,
   if(gap_debug) printf("gap: p_apply_action START\n");
 
   l_rc = 0;
-  
+
   l_merge_mode = -44; /* none of the flatten modes */
 
   if(action_mode == GAP_MOD_ACM_MERGE_EXPAND) l_merge_mode = GAP_RANGE_OPS_FLAM_MERG_EXPAND;
@@ -504,9 +504,9 @@ p_apply_action(gint32 image_id,
   {
     gint32  master_channel_id;
     gboolean action_was_applied;
-    
+
     master_channel_id = gimp_image_get_selection(master_image_id);
-    action_was_applied = p_apply_selection_action(image_id 
+    action_was_applied = p_apply_selection_action(image_id
                                                 , action_mode
                                                 , master_image_id
                                                 , master_channel_id
@@ -818,7 +818,7 @@ p_apply_action(gint32 image_id,
             gint32 l_nb_ref;
             gint32 l_fsel_layer_id;
             gint32 l_nb_had_layermask;
-            
+
             l_nb_ref = 1;
             if(action_mode == GAP_MOD_ACM_LMASK_COPY_FROM_UPPER_LMASK)
             {
@@ -838,7 +838,7 @@ p_apply_action(gint32 image_id,
                 l_nb_mask_id = gimp_layer_create_mask(l_nb_layer_id, GIMP_ADD_COPY_MASK);
                 gimp_layer_add_mask(l_nb_layer_id, l_nb_mask_id);
               }
-              
+
               if(l_nb_mask_id >= 0)
               {
                 /* the referenced neigbour layer has a layermask
@@ -848,7 +848,7 @@ p_apply_action(gint32 image_id,
                 gimp_edit_copy(l_nb_mask_id);
                 l_fsel_layer_id = gimp_edit_paste(l_layermask_id, FALSE);
                 gimp_floating_sel_anchor(l_fsel_layer_id);
-                
+
                 if(l_nb_had_layermask == FALSE)
                 {
                   /* remove the temporary created layermask in the neigbour layer */
@@ -898,7 +898,7 @@ p_apply_action(gint32 image_id,
                                                , _("_msk")   /* name suffix */
                                                );
           break;
-        case GAP_MOD_ACM_SET_MODE_NORMAL: 
+        case GAP_MOD_ACM_SET_MODE_NORMAL:
           gimp_layer_set_mode(l_layer_id, GIMP_NORMAL_MODE);
           break;
         case GAP_MOD_ACM_SET_MODE_DISSOLVE:
@@ -1003,7 +1003,7 @@ p_do_filter_dialogs(GapAnimInfo *ainfo_ptr,
   static char *canonical_proc_name;
 
   l_browser_result.accelCharacteristic = GAP_ACCEL_CHAR_LINEAR;
-  
+
   /* GAP-PDB-Browser Dialog */
   /* ---------------------- */
   if(gap_db_browser_dialog( _("Select Filter for Animated Apply on Frames"),
@@ -1025,9 +1025,9 @@ p_do_filter_dialogs(GapAnimInfo *ainfo_ptr,
   strncpy(filter_procname, canonical_proc_name, filt_len-1);
   filter_procname[filt_len-1] = '\0';
   g_free(canonical_proc_name);
-  
+
   /* invert acceleration to deceleration and vice versa
-   * (because processing runs backwards from total_frames down to 0) 
+   * (because processing runs backwards from total_frames down to 0)
    */
   *accelCharacteristic = (-1 * l_browser_result.accelCharacteristic);
 
@@ -1260,16 +1260,17 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
   gint          l_count;
   gboolean      l_operating_on_current_image;
   gboolean      l_operate_on_layermask;
-      
+  gboolean      l_frame_found;
+
 
 
 
   if(gap_debug)
-  { 
+  {
     printf("gap: gap_mod_frames_modify START, action_mode=%d  sel_mode=%d case=%d, invert=%d patt:%s:\n",
         (int)action_mode, (int)sel_mode, (int)sel_case, (int)sel_invert, sel_pattern);
   }
-  
+
   l_operate_on_layermask = FALSE;
   l_percentage = 0.0;
   if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
@@ -1335,7 +1336,10 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
                                         l_cur_frame_nr,
                                         ainfo_ptr->extension);
     if(ainfo_ptr->new_filename == NULL)
+    {
        goto error;
+    }
+
 
     if(ainfo_ptr->curr_frame_nr == l_cur_frame_nr)
     {
@@ -1345,12 +1349,19 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
     }
     else
     {
+      l_frame_found = g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS);
+      if (l_frame_found != TRUE)
+      {
+        goto modify_advance_to_next_frame;
+      }
       /* load current frame into temporary image */
       l_operating_on_current_image = FALSE;
       l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
     }
     if(l_tmp_image_id < 0)
+    {
        goto error;
+    }
 
     /* get informations (id, visible, selected) about all layers */
     l_layli_ptr = gap_mod_alloc_layli(l_tmp_image_id, &l_sel_cnt, &l_nlayers,
@@ -1362,9 +1373,9 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
        goto error;
     }
 
-    if((l_cur_frame_nr == l_begin) 
+    if((l_cur_frame_nr == l_begin)
     && ((action_mode == GAP_MOD_ACM_APPLY_FILTER) || (action_mode == GAP_MOD_ACM_APPLY_FILTER_ON_LAYERMASK)))
-    {      
+    {
       /* ------------- 1.st frame: extra dialogs for APPLY_FILTER ---------- */
 
       if(l_sel_cnt < 1)
@@ -1372,7 +1383,7 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
          g_message(_("No selected layer in start frame"));
          goto error;
       }
-      
+
       if(action_mode == GAP_MOD_ACM_APPLY_FILTER_ON_LAYERMASK)
       {
         gint l_ii;
@@ -1447,7 +1458,9 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
     }
 
     if(l_rc != 0)
+    {
       goto error;
+    }
 
     /* perform function (defined by action_mode) on selcted layer(s) */
     l_rc = p_apply_action(l_tmp_image_id,
@@ -1490,11 +1503,11 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
     && (l_plugin_iterator != NULL) && (accelCharacteristic != GAP_ACCEL_CHAR_NONE ))
     {
        gdouble accelStep;
-       
+
        l_cur_step -= 1.0;
-       
+
        accelStep = gap_calculate_current_step_with_acceleration(l_cur_step, l_total_steps, accelCharacteristic);
-       if(gap_debug) 
+       if(gap_debug)
        {
          printf("DEBUG: calling iterator %s  current frame:%d  accelStep:%f\n"
                                ,l_plugin_iterator
@@ -1542,6 +1555,7 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
     {
       /* destroy the tmp image */
       gimp_image_delete(l_tmp_image_id);
+      l_tmp_image_id = -1;
     }
 
     /* close display (if open) */
@@ -1553,19 +1567,19 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
 
 
     if(l_rc != 0)
+    {
       goto error;
-
-
+    }
 
     if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
     {
       l_percentage += l_percentage_step;
-     
+
       if(progress_bar != NULL)
       {
         guchar *progressText;
         progressText = g_strdup_printf("frame:%d (%d)", (int)l_cur_frame_nr, (int)l_end);
-        
+
         gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progress_bar), progressText);
         gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress_bar), l_percentage);
         g_free(progressText);
@@ -1585,10 +1599,21 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
       }
     }
 
-    /* advance to next frame */
+modify_advance_to_next_frame:
     if(l_cur_frame_nr == l_end)
+    {
        break;
-    l_cur_frame_nr += l_step;
+    }
+    /* advance l_cur_frame_nr to the next available frame number
+     * (normally to l_cur_frame_nr += l_step;
+     * sometimes to higher/lower number when frames are missing)
+     */
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, l_step
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
+    if(l_frame_found != TRUE)
+    {
+       break;
+    }
 
   }             /* end while(1)  loop foreach frame in range */
 
@@ -1612,7 +1637,7 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
         *  than using a copy)
         */
        master_channel_id = gimp_selection_save(ainfo_ptr->image_id);
-       p_apply_selection_action(ainfo_ptr->image_id 
+       p_apply_selection_action(ainfo_ptr->image_id
                              , action_mode
                              , -1   /* MASTER_image_id */
                              , master_channel_id
@@ -1642,7 +1667,6 @@ error:
   return -1;
 
 }               /* end gap_mod_frames_modify */
-
 
 /* ============================================================================
  * gap_mod_layer
@@ -1709,7 +1733,7 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
       if(l_rc >= 0)
       {
         gboolean run_flag;
-         
+
         run_flag = TRUE;
         /* no need to save the current image before processing
          * because the gap_mod_frames_modify procedure operates directly on the current frame

@@ -262,6 +262,9 @@ typedef struct GapPlayerMainGlobalParams {
   gulong       cache_ntiles;                 /* gimp tile cache size for the player process */
   GtkObject   *cache_ntiles_spinbutton_adj;
   GtkWidget   *detail_tracking_checkbutton;
+
+  gboolean     enableAutoSkipMissingFrames;
+  GtkWidget   *autoSkipMissingFrames_checkbutton;
   
 } GapPlayerMainGlobalParams;
 

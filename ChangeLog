@@ -1,3 +1,144 @@
+2013-07-21 Wolfgang Hofer <hof@gimp.org>
+
+
+- Moved render framename feature to submenu.
+   from menu  <Image>/Video/Filename to Layer
+   to menu    <Image>/Video/Layer/Render/Filename to Layer
+ 
+   
+- added support for processing of incomplete frame sequences where some frame images are missing.
+  old behaviour handled this case as error condition and stopped processing.
+  new behaviour makes attempts to find the next available framenumber and continues
+  processing when a next frame image can be found.
+
+  The implemted strategy checks some (10) potential next frame numbers
+  and triggers a directory scan (that is more expensive tha a single file exists check)
+  in case when more frames are missing.
+  Example how this works:
+  
+      IMG_0050.XCF
+      IMG_0051.XCF
+      ............   (frames 52 to 59 are missing and will be checked via
+                      if (IMG_nr.XCF exists) in a loop.
+                      processing continues with IMG_0060.XCF)
+      IMG_0060.XCF
+      IMG_0061.XCF
+      IMG_0062.XCF
+      ............   (frames 62 to 89 are missing
+                      after 10 failed attempts if (IMG_nr.XCF exists)
+                      a directory scan is performed to find the next framenumber 90
+                      and processing continues with IMG_0090.XCF)
+      IMG_0090.XCF
+      
+  The following features (menu entries) were updated
+  to support the new behaviour:
+
+   Video/Go to/Next Frame
+   Video/Go to/Previous Frame
+   Video/Delete Frames
+   Video/Duplicate Frames
+   Video/Frames To Image
+   Video/Frames Flatten
+   Video/Frames Layer Delete
+ 
+   Video/Frames Convert
+   Video/Frames Resize
+   Video/Frames Crop
+   Video/Frames Scale
+   Video/Frame Sequence Shift
+   Video/Frame Sequence Reverse
+   Video/Frames Renumber
+   Video/Frames Modify
+
+   Video/VCR navigator
+     - dont show old thumbnails when corresponding image does (no longer) exits.
+     - show icons for all frames in range from first frame number up to last frame number.
+       all missing frames are shown but rendered as default icon.
+
+   Video/Onionskin/*
+     process all available frames in range but no longer stop
+     when frames are missing.
+     skip onionskin rendering whenever referenced frame 
+          (at number +n or -n) is not available.
+
+   Video/Playback   
+    implemented new preferences option to automatically skip missing frames at playback
+    OFF: missing frame images are shown as fully transparent (checker board) 
+    ON:  automatically step over missing frames
+    
+    this option is persisted as new gimprc parameter
+        "video_player_enable_auto_skip_missing_frames"
+        
+   Video/Movepath   
+    autoskip rendering of missing frames.
+    (and also skip missing frames in the moving object
+    when Frame based source stepmodes are used)
+
+
+   NOTE:
+      Missing frames in storyboard clips (with cliptype frames)
+      are still handled as ERROR.
+      .. and there are no plans to support autoskip of the missing frames there.
+         Because this would 
+         - remarkable slow down both storyboard rendering and editing.
+           To get the amount of frames included in a clip
+           this feature would require a directory scan
+           and not just a simple calculation 1 + (end_range - start_range)
+         - be much effort and makes the code more complex..
+
+
+           
+
+
+  * gap/gap_lib.c [.h]
+  * gap/gap_image.c [.h]
+  * gap/gap_base_ops.c
+  * gap/gap_range_ops.c
+  * gap/gap_mod_layer.c
+  * gap/gap_player_main.c [.h]
+  * gap/gap_player_dialog.c
+  * gap/gap_story_main.h 
+  * gap/gap_story_dialog.c 
+  * gap/gap_story_render_processor.c 
+  * gap/gap_navigator_dialog.c
+  * gap/gap_name2layer_main.c  
+  * gap/gap_onion_base.c
+  * gap/gap_onion_worker.c
+
+  * gap/gap_mov_exec.c
+  * gap/gap_mov_render.c [.h]
+
+
+
+
+   (added local features from 2013-06-02 that were not yet published until now)
+
+- workaround for winodows specific Audio Playback deadlock on short clips (only 1 frame)
+
+- added capability to set layermode in storyboard processing via filtermacro.
+   Therfore GIMP-GAP now provides a wrapper plug-in (gap_wr_layermode.c)
+   to set the layermode.
+   This wrapper plug-in can be recorded as filtermacro, and applied
+   to clips while storyboard processing via filtermacro calls.
+
+- support autogen versions 1.13 1.12 (as suggested in #699207)
+
+- Storyboard toggle unit support to display src frame number and frame count
+  as additional mode.
+
+
+
+  * autogen.sh
+  * gap/Makefile.am
+  * gap/gap_wr_layermode.c # new file
+  
+  * gap/gap_player_dialog.c
+  * gap/gap_range_ops.c
+  * gap/gap_story_render_processor.c 
+  * gap/gap_story_dialog.c
+  * gap/gap_story_main.h
+
+
 2013-02-20 Wolfgang Hofer <hof@gimp.org>
 
 - 2nd. bugfix for creation of storyboard from video extract plug-in.
