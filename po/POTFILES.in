@@ -1,6 +1,5 @@
 # Files from the gimp-gap distribution which have already been
 # marked to allow runtime translation of messages
-
 gap/gap_arr_dialog.c
 gap/gap_audio_extract.c
 gap/gap_audio_wav.c
@@ -11,6 +10,7 @@ gap/gap_dbbrowser_utils.c
 gap/gap_decode_mplayer_main.c
 gap/gap_decode_mplayer.c
 gap/gap_decode_xanim.c
+gap/gap-dup-continue.scm
 gap/gap_filter_foreach.c
 gap/gap_filter_main.c
 gap/gap_fmac_base.c
@@ -60,6 +60,7 @@ gap/gap_wr_color_levels.c
 gap/gap_wr_opacity.c
 gap/gap_wr_resynth.c
 gap/gap_wr_trans.c
+gap/sel-to-anim-img.scm
 libgapvidapi/gap_vid_api_mpeg3.c
 libgapvidapi/gap_vid_api_vidindex.c
 libgapvidutil/gap_gve_sox.c
