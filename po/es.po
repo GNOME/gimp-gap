@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-16 19:21+0000\n"
-"PO-Revision-Date: 2013-01-18 10:37+0100\n"
+"POT-Creation-Date: 2013-07-21 18:00+0000\n"
+"PO-Revision-Date: 2013-07-22 13:44+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -63,13 +63,13 @@ msgstr "El archivo «%s» ya existe"
 
 #. the overwrite checkbutton
 #: ../gap/gap_arr_dialog.c:1818 ../gap/gap_morph_tween_dialog.c:881
-#: ../gap/gap_morph_tween_dialog.c:1316 ../gap/gap_vex_dialog.c:247
+#: ../gap/gap_morph_tween_dialog.c:1316 ../gap/gap_vex_dialog.c:248
 #: ../vid_common/gap_cme_gui.c:2373
 msgid "Overwrite"
 msgstr "Sobreescribir"
 
 #: ../gap/gap_arr_dialog.c:1829 ../gap/gap_decode_mplayer.c:702
-#: ../gap/gap_decode_xanim.c:375 ../gap/gap_range_ops.c:1516
+#: ../gap/gap_decode_xanim.c:375 ../gap/gap_range_ops.c:1549
 #: ../gap/gap_split.c:112
 msgid "GAP Question"
 msgstr "Pregunta de GAP"
@@ -233,48 +233,48 @@ msgstr "Error: no se puede renombrar el fotograma %d a %d"
 msgid "Density duplicating frames..."
 msgstr "Duplicando la densidad de fotogramas…"
 
-#: ../gap/gap_base_ops.c:368 ../gap/gap_base_ops.c:542
+#: ../gap/gap_base_ops.c:368 ../gap/gap_base_ops.c:553
 #, c-format
 msgid "Error: could not save frame %s"
 msgstr "Error: no se puede guardar el fotograma %s"
 
-#: ../gap/gap_base_ops.c:472 ../gap/gap_base_ops.c:604
-#: ../gap/gap_base_ops.c:697 ../gap/gap_base_ops.c:704
-#: ../gap/gap_base_ops.c:711 ../gap/gap_base_ops.c:799
-#: ../gap/gap_base_ops.c:821 ../gap/gap_base_ops.c:912
-#: ../gap/gap_base_ops.c:920 ../gap/gap_base_ops.c:928 ../gap/gap_lib.c:3435
+#: ../gap/gap_base_ops.c:477 ../gap/gap_base_ops.c:619
+#: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
+#: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
+#: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3473
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Error: no se puede renombrar el fotograma %ld a %ld"
 
-#: ../gap/gap_base_ops.c:592
+#: ../gap/gap_base_ops.c:603
 msgid "Duplicating frames..."
 msgstr "Duplicando fotogramas…"
 
-#: ../gap/gap_base_ops.c:787 ../gap/gap_base_ops.c:902
+#: ../gap/gap_base_ops.c:810 ../gap/gap_base_ops.c:949
 msgid "Renumber frame sequence..."
 msgstr "Renumerar secuencia de fotogramas…"
 
-#: ../gap/gap_base_ops.c:1077
+#: ../gap/gap_base_ops.c:1180
 #, c-format
 msgid "Go To Frame (%ld/%ld)"
 msgstr "Ir a fotograma (%ld/%ld)"
 
-#: ../gap/gap_base_ops.c:1080
+#: ../gap/gap_base_ops.c:1183
 #, c-format
 msgid "Destination Frame Number (%ld - %ld)"
 msgstr "Número de fotograma destino (%ld - %ld)"
 
-#: ../gap/gap_base_ops.c:1085 ../gap/gap_base_ops.c:1198
-#: ../gap/gap_base_ops.c:1642
+#: ../gap/gap_base_ops.c:1188 ../gap/gap_base_ops.c:1303
+#: ../gap/gap_base_ops.c:1747
 msgid "Number:"
 msgstr "Número:"
 
-#: ../gap/gap_base_ops.c:1086
+#: ../gap/gap_base_ops.c:1189
 msgid "Go to this frame number"
 msgstr "Ir al fotograma nº"
 
-#: ../gap/gap_base_ops.c:1136
+#: ../gap/gap_base_ops.c:1239
 #, c-format
 msgid ""
 "Frames %d - %d will be deleted. There will be no undo for this operation."
@@ -283,22 +283,22 @@ msgstr ""
 "operación"
 
 #. title_txt
-#: ../gap/gap_base_ops.c:1142 ../gap/gap_base_ops.c:1143
+#: ../gap/gap_base_ops.c:1245 ../gap/gap_base_ops.c:1246
 #: ../gap/gap_navigator_dialog.c:667 ../gap/gap_navigator_dialog.c:668
 msgid "Confirm Frame Delete"
 msgstr "Confirmar borrado de fotograma"
 
-#: ../gap/gap_base_ops.c:1178
+#: ../gap/gap_base_ops.c:1283
 #, c-format
 msgid "Delete Frames (%ld/%ld)"
 msgstr "Borrar fotogramas (%ld/%ld)"
 
-#: ../gap/gap_base_ops.c:1181
+#: ../gap/gap_base_ops.c:1286
 #, c-format
 msgid "Delete frames from %ld to (number)"
 msgstr "Borrar fotogramas desde %ld hasta (nº)"
 
-#: ../gap/gap_base_ops.c:1194
+#: ../gap/gap_base_ops.c:1299
 #, c-format
 msgid ""
 "Delete frames starting at current number %d up to this number (inclusive)"
@@ -306,7 +306,7 @@ msgstr ""
 "Borrar fotogramas comenzando en el número actual %d hasta este número "
 "(incluido)"
 
-#: ../gap/gap_base_ops.c:1275
+#: ../gap/gap_base_ops.c:1380
 #, c-format
 msgid ""
 "Frames in the range: %d - %d will be duplicated %.4f times.\n"
@@ -317,7 +317,7 @@ msgstr ""
 "Esto incrementará el número total de fotogramas desde %d hasta %d\n"
 "No habrá operación de DESHACER\n"
 
-#: ../gap/gap_base_ops.c:1293
+#: ../gap/gap_base_ops.c:1398
 #, c-format
 msgid ""
 "%.04f percent of the frames in the range: %d - %d\n"
@@ -331,11 +331,11 @@ msgstr ""
 "No será posible DESHACER esta operación\n"
 
 #. title_txt
-#: ../gap/gap_base_ops.c:1306 ../gap/gap_base_ops.c:1307
+#: ../gap/gap_base_ops.c:1411 ../gap/gap_base_ops.c:1412
 msgid "Confirm Frame Density Change"
 msgstr "Confirmar cambio de densidad de fotogramas"
 
-#: ../gap/gap_base_ops.c:1329
+#: ../gap/gap_base_ops.c:1434
 #, c-format
 msgid "Change Frame Density"
 msgstr "Cambiar la densidad de los fotogramas"
@@ -344,18 +344,18 @@ msgstr "Cambiar la densidad de los fotogramas"
 #. table col, row
 #. the videoextract range from label
 #. the from_frame label
-#: ../gap/gap_base_ops.c:1332 ../gap/gap_base_ops.c:1486
-#: ../gap/gap_base_ops.c:1692 ../gap/gap_base_ops.c:1751
+#: ../gap/gap_base_ops.c:1437 ../gap/gap_base_ops.c:1591
+#: ../gap/gap_base_ops.c:1797 ../gap/gap_base_ops.c:1856
 #: ../gap/gap_decode_xanim.c:247 ../gap/gap_mod_layer_dialog.c:1380
 #: ../gap/gap_mov_dialog.c:4440 ../gap/gap_mpege.c:302
 #: ../gap/gap_onion_dialog.c:914 ../gap/gap_range_ops.c:301
 #: ../gap/gap_range_ops.c:537 ../gap/gap_range_ops.c:735
-#: ../gap/gap_vex_dialog.c:2102 ../vid_common/gap_cme_gui.c:3576
+#: ../gap/gap_vex_dialog.c:2123 ../vid_common/gap_cme_gui.c:3576
 msgid "From Frame:"
 msgstr "Desde fotograma:"
 
-#: ../gap/gap_base_ops.c:1337 ../gap/gap_base_ops.c:1697
-#: ../gap/gap_base_ops.c:1756
+#: ../gap/gap_base_ops.c:1442 ../gap/gap_base_ops.c:1802
+#: ../gap/gap_base_ops.c:1861
 msgid "Affected range starts at this framenumber"
 msgstr "El rango afectado comienza en este nº de fotograma"
 
@@ -363,26 +363,26 @@ msgstr "El rango afectado comienza en este nº de fotograma"
 #. table col, row
 #. the videoextract range to label
 #. the to_frame label
-#: ../gap/gap_base_ops.c:1340 ../gap/gap_base_ops.c:1494
-#: ../gap/gap_base_ops.c:1700 ../gap/gap_base_ops.c:1759
+#: ../gap/gap_base_ops.c:1445 ../gap/gap_base_ops.c:1599
+#: ../gap/gap_base_ops.c:1805 ../gap/gap_base_ops.c:1864
 #: ../gap/gap_decode_xanim.c:257 ../gap/gap_mod_layer_dialog.c:1402
 #: ../gap/gap_mov_dialog.c:4462 ../gap/gap_mpege.c:312
 #: ../gap/gap_onion_dialog.c:921 ../gap/gap_range_ops.c:311
 #: ../gap/gap_range_ops.c:545 ../gap/gap_range_ops.c:743
-#: ../gap/gap_vex_dialog.c:2158 ../vid_common/gap_cme_gui.c:3610
+#: ../gap/gap_vex_dialog.c:2179 ../vid_common/gap_cme_gui.c:3610
 msgid "To Frame:"
 msgstr "Hasta fotograma:"
 
-#: ../gap/gap_base_ops.c:1345 ../gap/gap_base_ops.c:1705
-#: ../gap/gap_base_ops.c:1764
+#: ../gap/gap_base_ops.c:1450 ../gap/gap_base_ops.c:1810
+#: ../gap/gap_base_ops.c:1869
 msgid "Affected range ends at this framenumber"
 msgstr "El rango afectado termina en este nº de fotograma"
 
-#: ../gap/gap_base_ops.c:1348
+#: ../gap/gap_base_ops.c:1453
 msgid "Density:"
 msgstr "Densidad:"
 
-#: ../gap/gap_base_ops.c:1358
+#: ../gap/gap_base_ops.c:1463
 msgid ""
 "Factor to increase the frame density (acts as divisor if checkbutton "
 "increase density is off)"
@@ -390,11 +390,11 @@ msgstr ""
 "Factor de incremento de la densidad de fotogramas (actúa como divisor si el "
 "botón de verificación «Incrementar densidad» no está marcado)"
 
-#: ../gap/gap_base_ops.c:1361
+#: ../gap/gap_base_ops.c:1466
 msgid "Increase Density"
 msgstr "Incrementar densidad"
 
-#: ../gap/gap_base_ops.c:1362
+#: ../gap/gap_base_ops.c:1467
 msgid ""
 "ON: Duplicate frames to get a target rate that is density * original_rate..\n"
 "OFF: Delete frames to get a target rate that is original_rate/density."
@@ -404,14 +404,14 @@ msgstr ""
 "Desactivado: Borrar fotogramas para obtener una tasa objetivo que sea "
 "«tasa_original/densidad»"
 
-#: ../gap/gap_base_ops.c:1369
+#: ../gap/gap_base_ops.c:1474
 msgid "Change Frames Density"
 msgstr "Cambiar la densidad de los fotogramas"
 
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1432 ../gap/gap_base_ops.c:1561 ../gap/gap_lib.c:1956
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:1968
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -424,37 +424,37 @@ msgstr ""
 "de archivo que acaben en números como _000001.xcf .\n"
 "==> Renombre su imagen e inténtelo de nuevo."
 
-#: ../gap/gap_base_ops.c:1481
+#: ../gap/gap_base_ops.c:1586
 #, c-format
 msgid "Duplicate Frames (%ld/%ld)"
 msgstr "Duplicar fotogramas (%ld/%ld)"
 
-#: ../gap/gap_base_ops.c:1491
+#: ../gap/gap_base_ops.c:1596
 msgid "Source range starts at this framenumber"
 msgstr "El rango de origen comienza en este nº de fotograma"
 
-#: ../gap/gap_base_ops.c:1499
+#: ../gap/gap_base_ops.c:1604
 msgid "Source range ends at this framenumber"
 msgstr "El rango de origen termina en este nº de fotograma"
 
-#: ../gap/gap_base_ops.c:1502
+#: ../gap/gap_base_ops.c:1607
 msgid "N times:"
 msgstr "N veces:"
 
-#: ../gap/gap_base_ops.c:1509
+#: ../gap/gap_base_ops.c:1614
 msgid "Copy selected range n-times (you may type in values > 99)"
 msgstr "Copiar rango seleccionado n veces (puede teclear valores > 99)"
 
-#: ../gap/gap_base_ops.c:1514
+#: ../gap/gap_base_ops.c:1619
 msgid "Make Duplicates of Frame Range"
 msgstr "Hacer duplicados del rango de fotogramas"
 
-#: ../gap/gap_base_ops.c:1634
+#: ../gap/gap_base_ops.c:1739
 #, c-format
 msgid "Exchange Current Frame (%ld)"
 msgstr "Intercambiar fotograma actual (%ld)"
 
-#: ../gap/gap_base_ops.c:1637
+#: ../gap/gap_base_ops.c:1742
 #, c-format
 msgid ""
 "Exchange the current frame %d with the frame that has the number entered here"
@@ -462,22 +462,22 @@ msgstr ""
 "Intercambiar el fotograma actual %d con el fotograma que tiene el número "
 "introducido aquí"
 
-#: ../gap/gap_base_ops.c:1641
+#: ../gap/gap_base_ops.c:1746
 msgid "Exchange with Frame"
 msgstr "Intercambiar con fotograma"
 
 # //R Revisar lo de desplazamiento
-#: ../gap/gap_base_ops.c:1687
+#: ../gap/gap_base_ops.c:1792
 #, c-format
 msgid "Frame Sequence Shift (%ld/%ld)"
 msgstr "Desplazamiento de la secuencia de fotogramas (%ld/%ld)"
 
 # //R Huy huy
-#: ../gap/gap_base_ops.c:1708
+#: ../gap/gap_base_ops.c:1813
 msgid "N-Shift:"
 msgstr "Desplazar N:"
 
-#: ../gap/gap_base_ops.c:1713
+#: ../gap/gap_base_ops.c:1818
 msgid ""
 "Renumber the affected frame sequence (numbers are shifted in circle by N "
 "steps)"
@@ -485,49 +485,49 @@ msgstr ""
 "Renumerar la secuencia de fotogramas afectada (se desplaza circularmente los "
 "nºs por N)"
 
-#: ../gap/gap_base_ops.c:1718
+#: ../gap/gap_base_ops.c:1823
 msgid "Frame Sequence Shift"
 msgstr "Desplazamiento de la secuencia de fotogramas"
 
 # //R Revisar lo de desplazamiento
-#: ../gap/gap_base_ops.c:1746
+#: ../gap/gap_base_ops.c:1851
 #, c-format
 msgid "Frame Sequence reverse (%ld/%ld)"
 msgstr "Desplazamiento inverso de la secuencia de fotogramas (%ld/%ld)"
 
-#: ../gap/gap_base_ops.c:1769
+#: ../gap/gap_base_ops.c:1874
 msgid "Frame Sequence Reverse"
 msgstr "Secuencia de fotogramas inversa"
 
-#: ../gap/gap_base_ops.c:1908
+#: ../gap/gap_base_ops.c:2013
 #, c-format
 msgid "Renumber Frames (%ld)"
 msgstr "Renumerar fotogramas (%ld)"
 
-#: ../gap/gap_base_ops.c:1912
+#: ../gap/gap_base_ops.c:2017
 msgid "First Frame Number:"
 msgstr "Número de fotograma de inicio:"
 
-#: ../gap/gap_base_ops.c:1917
+#: ../gap/gap_base_ops.c:2022
 msgid "New framenumber for the first frame"
 msgstr "Número de fotograma nuevo para el primer fotograma"
 
 #. the framenumber digits label
-#: ../gap/gap_base_ops.c:1920 ../gap/gap_split.c:495
-#: ../gap/gap_vex_dialog.c:2467
+#: ../gap/gap_base_ops.c:2025 ../gap/gap_split.c:495
+#: ../gap/gap_vex_dialog.c:2488
 msgid "Digits:"
 msgstr "Dígitos:"
 
-#: ../gap/gap_base_ops.c:1925
+#: ../gap/gap_base_ops.c:2030
 msgid "How many digits to use for the framenumber in the filename"
 msgstr ""
 "Cuántos dígitos usar para el número de fotograma en el nombre del archivo"
 
-#: ../gap/gap_base_ops.c:1931 ../gap/gap_base_ops.c:2040
+#: ../gap/gap_base_ops.c:2036 ../gap/gap_base_ops.c:2145
 msgid "Renumber Frames"
 msgstr "Renumerar fotogramas"
 
-#: ../gap/gap_base_ops.c:2080
+#: ../gap/gap_base_ops.c:2190
 msgid "Renumber Frames 2nd Pass"
 msgstr "Renumerar fotogramas en la segunda pasada"
 
@@ -661,8 +661,8 @@ msgstr "Nombre del archivo de vectores SVG"
 #. the Storyboard filebrowser button
 #. the Audiofile filebrowser button
 #. the pass_logfile fileselector button
-#: ../gap/gap_blend_fill_main.c:1986 ../gap/gap_vex_dialog.c:2082
-#: ../gap/gap_vex_dialog.c:2454 ../gap/gap_vex_dialog.c:2674
+#: ../gap/gap_blend_fill_main.c:1986 ../gap/gap_vex_dialog.c:2103
+#: ../gap/gap_vex_dialog.c:2475 ../gap/gap_vex_dialog.c:2695
 #: ../vid_common/gap_cme_gui.c:2684 ../vid_common/gap_cme_gui.c:2962
 #: ../vid_common/gap_cme_gui.c:2998 ../vid_common/gap_cme_gui.c:3314
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3505
@@ -979,13 +979,10 @@ msgstr "Bluebox…"
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
 #. Menu names
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
-#. Menu names
-#. gimp_plugin_menu_branch_register("<Image>", "Video");
 #: ../gap/gap_bluebox_main.c:187 ../gap/gap_main.c:922
-#: ../gap/gap_mov_main.c:381 ../gap/gap_name2layer_main.c:177
-#: ../gap/gap_navigator_dialog.c:552 ../gap/gap_onion_main.c:205
-#: ../gap/gap_player_main.c:297 ../gap/gap_story_main.c:215
-#: ../vid_common/gap_cme_main.c:168
+#: ../gap/gap_mov_main.c:381 ../gap/gap_navigator_dialog.c:552
+#: ../gap/gap_onion_main.c:205 ../gap/gap_player_main.c:299
+#: ../gap/gap_story_main.c:215 ../vid_common/gap_cme_main.c:168
 msgid "<Image>/Video/"
 msgstr "<Image>/Vídeo/"
 
@@ -1276,7 +1273,8 @@ msgid "Apply Colormask..."
 msgstr "Aplicar máscara de color…"
 
 #. Menu names
-#: ../gap/gap_colormask_main.c:266 ../gap/gap_wr_opacity.c:150
+#: ../gap/gap_colormask_main.c:266 ../gap/gap_wr_layermode.c:140
+#: ../gap/gap_wr_opacity.c:150
 msgid "<Image>/Video/Layer/Attributes/"
 msgstr "<Image>/Vídeo/Capa/Colores/"
 
@@ -1402,7 +1400,7 @@ msgstr "Número de fotogramas a extraer"
 
 #. the videotrack to label
 #: ../gap/gap_decode_mplayer.c:467 ../gap/gap_story_properties.c:4297
-#: ../gap/gap_vex_dialog.c:2215
+#: ../gap/gap_vex_dialog.c:2236
 msgid "Videotrack:"
 msgstr "Pista de vídeo:"
 
@@ -1412,8 +1410,8 @@ msgstr "Número de la pista de vídeo a extraer. (0 == ignorar vídeo)"
 
 #. Sample Offset
 #. the audiotrack to label
-#: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:6807
-#: ../gap/gap_vex_dialog.c:2249
+#: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:6966
+#: ../gap/gap_vex_dialog.c:2270
 msgid "Audiotrack:"
 msgstr "Pista de sonido:"
 
@@ -1569,7 +1567,7 @@ msgid "MPlayer based extraction"
 msgstr "Extracción basada en MPlayer"
 
 #: ../gap/gap_decode_mplayer.c:617 ../gap/gap_decode_xanim.c:326
-#: ../gap/gap_range_ops.c:1765
+#: ../gap/gap_range_ops.c:1825
 msgid "Select Frame Range"
 msgstr "Seleccione el rango de fotogramas"
 
@@ -1584,13 +1582,13 @@ msgid "Illegal starttime %s"
 msgstr "Hora de comienzo no válida «%s»"
 
 #: ../gap/gap_decode_mplayer.c:692 ../gap/gap_decode_xanim.c:365
-#: ../gap/gap_range_ops.c:1509 ../gap/gap_split.c:102
+#: ../gap/gap_range_ops.c:1542 ../gap/gap_split.c:102
 msgid "Overwrite Frame"
 msgstr "Sobreescribir fotograma"
 
 #: ../gap/gap_decode_mplayer.c:694 ../gap/gap_decode_xanim.c:367
-#: ../gap/gap_range_ops.c:1511 ../gap/gap_split.c:104
-#: ../gap/gap_vex_dialog.c:238
+#: ../gap/gap_range_ops.c:1544 ../gap/gap_split.c:104
+#: ../gap/gap_vex_dialog.c:239
 msgid "Overwrite All"
 msgstr "Sobreescribir todo"
 
@@ -1698,7 +1696,7 @@ msgid "Renaming frames..."
 msgstr "Renombrando fotogramas…"
 
 #: ../gap/gap_decode_mplayer.c:1639 ../gap/gap_decode_xanim.c:1203
-#: ../gap/gap_range_ops.c:1368
+#: ../gap/gap_range_ops.c:1388
 msgid "Converting frames..."
 msgstr "Convirtiendo fotogramas…"
 
@@ -1788,7 +1786,7 @@ msgid "Enable extraction of frames"
 msgstr "Activar extracción de fotogramas"
 
 #. create extract audio otone track button
-#: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:6834
+#: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:6993
 msgid "Extract Audio"
 msgstr "Extraer audio"
 
@@ -1931,8 +1929,8 @@ msgstr ""
 #. the Default button
 #: ../gap/gap_detail_align_exec.c:660 ../gap/gap_detail_tracking_exec.c:1471
 #: ../gap/gap_mov_dialog.c:1556 ../gap/gap_mpege.c:373
-#: ../gap/gap_name2layer_main.c:512 ../gap/gap_split.c:505
-#: ../gap/gap_story_dialog.c:5233 ../gap/gap_story_dialog.c:5568
+#: ../gap/gap_name2layer_main.c:511 ../gap/gap_split.c:505
+#: ../gap/gap_story_dialog.c:5305 ../gap/gap_story_dialog.c:5662
 #: ../gap/gap_video_index_creator.c:1006 ../gap/gap_wr_opacity.c:356
 #: ../vid_common/gap_cme_gui.c:3245
 msgid "Default"
@@ -1940,7 +1938,7 @@ msgstr "Predeterminado"
 
 #: ../gap/gap_detail_align_exec.c:661 ../gap/gap_detail_tracking_exec.c:1472
 #: ../gap/gap_mov_dialog.c:1557 ../gap/gap_mpege.c:374
-#: ../gap/gap_name2layer_main.c:513 ../gap/gap_split.c:506
+#: ../gap/gap_name2layer_main.c:512 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Restablecer todos los parámetros a los valores predefinidos"
@@ -1950,7 +1948,7 @@ msgid "Detail Align via XML"
 msgstr "Alineamiento de detalles mediante XML"
 
 #: ../gap/gap_detail_align_exec.c:664 ../gap/gap_detail_tracking_exec.c:1475
-#: ../gap/gap_name2layer_main.c:519 ../gap/gap_video_index_creator.c:1013
+#: ../gap/gap_name2layer_main.c:518 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Configuración :"
@@ -2227,8 +2225,9 @@ msgid "Foreground-Extract"
 msgstr "Foreground-Extract"
 
 #. the frame
+#. Options section
 #: ../gap/gap_fg_from_sel_dialog.c:276 ../gap/gap_fg_matting_dialog.c:408
-#: ../gap/gap_mov_dialog.c:1560
+#: ../gap/gap_mov_dialog.c:1560 ../gap/gap_wr_layermode.c:329
 msgid "Options"
 msgstr "Opciones"
 
@@ -2356,7 +2355,7 @@ msgid "Make backup of the image after each step"
 msgstr "Hacer copia de seguridad de la imagen después de cada paso"
 
 #: ../gap/gap_filter_foreach.c:139 ../gap/gap_mod_layer.c:108
-#: ../gap/gap_story_dialog.c:6503
+#: ../gap/gap_story_dialog.c:6604
 msgid "Continue"
 msgstr "Continuar"
 
@@ -2498,7 +2497,7 @@ msgstr ""
 #. table col, row
 #. shiftPhaseY spinbutton
 #: ../gap/gap_fire_pattern.c:1915 ../gap/gap_morph_dialog.c:3225
-#: ../gap/gap_mov_dialog.c:5174 ../gap/gap_name2layer_main.c:486
+#: ../gap/gap_mov_dialog.c:5174 ../gap/gap_name2layer_main.c:485
 #: ../gap/gap_resi_dialog.c:853 ../gap/gap_water_pattern.c:1158
 #: ../gap/gap_water_pattern.c:1295
 msgid "Y:"
@@ -2656,17 +2655,17 @@ msgstr "Modo de mezclado:"
 
 #. Blend Mode the radio buttons
 #: ../gap/gap_fire_pattern.c:2266 ../gap/gap_mod_layer_dialog.c:500
-#: ../gap/gap_mov_dialog.c:3693
+#: ../gap/gap_mov_dialog.c:3693 ../gap/gap_wr_layermode.c:355
 msgid "Burn"
 msgstr "Quemar"
 
 #: ../gap/gap_fire_pattern.c:2277 ../gap/gap_mod_layer_dialog.c:479
-#: ../gap/gap_mov_dialog.c:3700
+#: ../gap/gap_mov_dialog.c:3700 ../gap/gap_wr_layermode.c:362
 msgid "Subtract"
 msgstr "Sustraer"
 
 #: ../gap/gap_fire_pattern.c:2288 ../gap/gap_mod_layer_dialog.c:448
-#: ../gap/gap_mov_dialog.c:3688
+#: ../gap/gap_mov_dialog.c:3688 ../gap/gap_wr_layermode.c:350
 msgid "Multiply"
 msgstr "Multiplicar"
 
@@ -2717,7 +2716,8 @@ msgid "Fire Pattern..."
 msgstr "Patrón del fuego…"
 
 #. Menu names
-#: ../gap/gap_fire_pattern.c:2536 ../gap/gap_water_pattern.c:1665
+#: ../gap/gap_fire_pattern.c:2536 ../gap/gap_name2layer_main.c:176
+#: ../gap/gap_water_pattern.c:1665
 msgid "<Image>/Video/Layer/Render/"
 msgstr "<Imagen>/Vídeo/Capa/Renderizar/"
 
@@ -2797,7 +2797,7 @@ msgid "** File is not a filtermacro **"
 msgstr "** El archivo no es una macro de filtrado **"
 
 #: ../gap/gap_fmac_main.c:1020 ../gap/gap_onion_dialog.c:1366
-#: ../gap/gap_player_dialog.c:8301
+#: ../gap/gap_player_dialog.c:8479
 msgid "Show help page"
 msgstr "Mostrar la página de ayuda"
 
@@ -2840,7 +2840,7 @@ msgstr ""
 "actual y que han configurado el búfer interno con los parámetros de la "
 "última llamada"
 
-#: ../gap/gap_fmac_main.c:1080 ../gap/gap_player_dialog.c:8349
+#: ../gap/gap_fmac_main.c:1080 ../gap/gap_player_dialog.c:8527
 msgid "Close window"
 msgstr "Cerrar ventana"
 
@@ -2882,7 +2882,7 @@ msgstr "MPEG2…"
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Vídeo/Codificar/"
 
-#: ../gap/gap_lib.c:1933
+#: ../gap/gap_lib.c:1945
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2890,15 +2890,15 @@ msgstr ""
 "Operación cancelada.\n"
 "El fotograma actual cambió mientras el diálogo estaba abierto."
 
-#: ../gap/gap_lib.c:2131
+#: ../gap/gap_lib.c:2143
 msgid "Save Flattened"
 msgstr "Guardar aplanada"
 
-#: ../gap/gap_lib.c:2133
+#: ../gap/gap_lib.c:2145
 msgid "Save As Is"
 msgstr "Guardar tal cual"
 
-#: ../gap/gap_lib.c:2137
+#: ../gap/gap_lib.c:2149
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -2917,7 +2917,7 @@ msgstr ""
 "(%s %s)\n"
 "a su archivo gimprc."
 
-#: ../gap/gap_lib.c:2146
+#: ../gap/gap_lib.c:2158
 msgid "Fileformat Warning"
 msgstr "Advertencia de formato de archivo"
 
@@ -3055,15 +3055,15 @@ msgstr ""
 "Se canceló la modificación de capas: la primera capa seleccionada «%s»\n"
 "en el último fotograma no tiene máscara de capa"
 
-#: ../gap/gap_mod_layer.c:1277
+#: ../gap/gap_mod_layer.c:1278
 msgid "Modifying frames/layer(s)..."
 msgstr "Modificando fotogramas/capa(s)…"
 
-#: ../gap/gap_mod_layer.c:1372
+#: ../gap/gap_mod_layer.c:1383
 msgid "No selected layer in start frame"
 msgstr "No hay capa seleccionada en el fotograma inicial"
 
-#: ../gap/gap_mod_layer.c:1384
+#: ../gap/gap_mod_layer.c:1395
 #, c-format
 msgid ""
 "first selected layer \"%s\"\n"
@@ -3137,34 +3137,38 @@ msgid "Layer Modes"
 msgstr "Modos de capas"
 
 #: ../gap/gap_mod_layer_dialog.c:438 ../gap/gap_mov_dialog.c:3685
+#: ../gap/gap_wr_layermode.c:347
 msgid "Normal"
 msgstr "Normal"
 
 #: ../gap/gap_mod_layer_dialog.c:443 ../gap/gap_mov_dialog.c:3686
+#: ../gap/gap_wr_layermode.c:348
 msgid "Dissolve"
 msgstr "Disolver"
 
 #: ../gap/gap_mod_layer_dialog.c:453 ../gap/gap_mov_dialog.c:3689
+#: ../gap/gap_wr_layermode.c:351
 msgid "Divide"
 msgstr "Divide"
 
 #: ../gap/gap_mod_layer_dialog.c:458 ../gap/gap_mov_dialog.c:3690
-#: ../gap/gap_water_pattern.c:1467
+#: ../gap/gap_water_pattern.c:1467 ../gap/gap_wr_layermode.c:352
 msgid "Screen"
 msgstr "Pantalla"
 
 #. Blend Mode the radio buttons
 #: ../gap/gap_mod_layer_dialog.c:463 ../gap/gap_mov_dialog.c:3691
-#: ../gap/gap_water_pattern.c:1445
+#: ../gap/gap_water_pattern.c:1445 ../gap/gap_wr_layermode.c:353
 msgid "Overlay"
 msgstr "Solapar"
 
 #: ../gap/gap_mod_layer_dialog.c:469 ../gap/gap_mov_dialog.c:3698
+#: ../gap/gap_wr_layermode.c:360
 msgid "Difference"
 msgstr "Diferencia"
 
 #: ../gap/gap_mod_layer_dialog.c:474 ../gap/gap_mov_dialog.c:3699
-#: ../gap/gap_water_pattern.c:1456
+#: ../gap/gap_water_pattern.c:1456 ../gap/gap_wr_layermode.c:361
 msgid "Addition"
 msgstr "Suma"
 
@@ -3177,7 +3181,7 @@ msgid "Lighten only"
 msgstr "Iluminar sólo"
 
 #: ../gap/gap_mod_layer_dialog.c:495 ../gap/gap_mov_dialog.c:3692
-#: ../gap/gap_water_pattern.c:1478
+#: ../gap/gap_water_pattern.c:1478 ../gap/gap_wr_layermode.c:354
 msgid "Dodge"
 msgstr "Esquivar"
 
@@ -3202,18 +3206,22 @@ msgid "Grain merge"
 msgstr "Combinación de grano"
 
 #: ../gap/gap_mod_layer_dialog.c:530 ../gap/gap_mov_dialog.c:3703
+#: ../gap/gap_wr_layermode.c:365
 msgid "Hue"
 msgstr "Tono"
 
 #: ../gap/gap_mod_layer_dialog.c:535 ../gap/gap_mov_dialog.c:3704
+#: ../gap/gap_wr_layermode.c:366
 msgid "Saturation"
 msgstr "Saturación"
 
 #: ../gap/gap_mod_layer_dialog.c:540 ../gap/gap_mov_dialog.c:3705
+#: ../gap/gap_wr_layermode.c:367
 msgid "Color"
 msgstr "Color"
 
 #: ../gap/gap_mod_layer_dialog.c:545 ../gap/gap_mov_dialog.c:3707
+#: ../gap/gap_wr_layermode.c:369
 msgid "Value"
 msgstr "Valor"
 
@@ -3736,7 +3744,7 @@ msgstr "Seleccione la capa de destino"
 #. gtk_container_add (GTK_CONTAINER (abox), table3);
 #. the x/y offest labels
 #: ../gap/gap_morph_dialog.c:3194 ../gap/gap_mov_dialog.c:5156
-#: ../gap/gap_name2layer_main.c:475 ../gap/gap_resi_dialog.c:847
+#: ../gap/gap_name2layer_main.c:474 ../gap/gap_resi_dialog.c:847
 msgid "X:"
 msgstr "X:"
 
@@ -4477,7 +4485,7 @@ msgstr "Cambia el tamaño de la vista previa animada (en %)"
 
 #. the Framerate lable
 #: ../gap/gap_mov_dialog.c:1531 ../gap/gap_mpege.c:321
-#: ../gap/gap_navigator_dialog.c:4255 ../gap/gap_story_dialog.c:9258
+#: ../gap/gap_navigator_dialog.c:4259 ../gap/gap_story_dialog.c:9378
 #: ../vid_common/gap_cme_gui.c:3715
 msgid "Framerate:"
 msgstr "Tasa de fotogramas:"
@@ -4635,41 +4643,42 @@ msgstr ""
 
 #. Paintmode combo (menu)
 #. the operating Mode label
-#: ../gap/gap_mov_dialog.c:3680 ../gap/gap_name2layer_main.c:444
-#: ../gap/gap_vex_dialog.c:2406 ../gap/gap_video_index_creator.c:982
-#: ../gap/gap_wr_opacity.c:344
+#. Paintmode combo (menu)
+#: ../gap/gap_mov_dialog.c:3680 ../gap/gap_name2layer_main.c:443
+#: ../gap/gap_vex_dialog.c:2427 ../gap/gap_video_index_creator.c:982
+#: ../gap/gap_wr_layermode.c:342 ../gap/gap_wr_opacity.c:344
 msgid "Mode:"
 msgstr "Modo:"
 
-#: ../gap/gap_mov_dialog.c:3687
+#: ../gap/gap_mov_dialog.c:3687 ../gap/gap_wr_layermode.c:349
 msgid "Behind"
 msgstr "Detrás"
 
-#: ../gap/gap_mov_dialog.c:3694
+#: ../gap/gap_mov_dialog.c:3694 ../gap/gap_wr_layermode.c:356
 msgid "Hard Light"
 msgstr "Luz fuerte"
 
-#: ../gap/gap_mov_dialog.c:3695
+#: ../gap/gap_mov_dialog.c:3695 ../gap/gap_wr_layermode.c:357
 msgid "Soft Light"
 msgstr "Luz débil"
 
-#: ../gap/gap_mov_dialog.c:3696
+#: ../gap/gap_mov_dialog.c:3696 ../gap/gap_wr_layermode.c:358
 msgid "Grain Extract"
 msgstr "Extracción de grano"
 
-#: ../gap/gap_mov_dialog.c:3697
+#: ../gap/gap_mov_dialog.c:3697 ../gap/gap_wr_layermode.c:359
 msgid "Grain Merge"
 msgstr "Combinación de grano"
 
-#: ../gap/gap_mov_dialog.c:3701
+#: ../gap/gap_mov_dialog.c:3701 ../gap/gap_wr_layermode.c:363
 msgid "Darken Only"
 msgstr "Oscurecer sólo"
 
-#: ../gap/gap_mov_dialog.c:3702
+#: ../gap/gap_mov_dialog.c:3702 ../gap/gap_wr_layermode.c:364
 msgid "Lighten Only"
 msgstr "Iluminar sólo"
 
-#: ../gap/gap_mov_dialog.c:3706
+#: ../gap/gap_mov_dialog.c:3706 ../gap/gap_wr_layermode.c:368
 msgid "Color Erase"
 msgstr "Borrado de color"
 
@@ -4677,7 +4686,7 @@ msgstr "Borrado de color"
 msgid "Keep Paintmode"
 msgstr "Conserver modo de pintura"
 
-#: ../gap/gap_mov_dialog.c:3730
+#: ../gap/gap_mov_dialog.c:3730 ../gap/gap_wr_layermode.c:387
 msgid "Paintmode"
 msgstr "Modo pintura"
 
@@ -4713,7 +4722,7 @@ msgstr ""
 #. Loop Stepmode combo
 #. the playback mode checkbuttons
 #. Loop Toggle
-#: ../gap/gap_mov_dialog.c:3788 ../gap/gap_player_dialog.c:8138
+#: ../gap/gap_mov_dialog.c:3788 ../gap/gap_player_dialog.c:8316
 msgid "Loop"
 msgstr "Bucle"
 
@@ -4820,7 +4829,7 @@ msgstr ""
 "el filtro bluebox"
 
 #. toggle Tracelayer
-#: ../gap/gap_mov_dialog.c:3989 ../gap/gap_mov_exec.c:1884
+#: ../gap/gap_mov_dialog.c:3989 ../gap/gap_mov_exec.c:1993
 msgid "Tracelayer"
 msgstr "Trazador de capas"
 
@@ -5092,7 +5101,7 @@ msgstr "Recorta todas las capas origen copiadas a los bordes del fotograma"
 #. Width Scale
 #. table col, row
 #. the width label
-#: ../gap/gap_mov_dialog.c:4582 ../gap/gap_story_dialog.c:9235
+#: ../gap/gap_mov_dialog.c:4582 ../gap/gap_story_dialog.c:9355
 #: ../vid_common/gap_cme_gui.c:3636
 msgid "Width:"
 msgstr "Anchura:"
@@ -5112,7 +5121,7 @@ msgstr "Escalar anchura de capa origen en porcentaje"
 #. Height Scale
 #. table col, row
 #. the height label
-#: ../gap/gap_mov_dialog.c:4600 ../gap/gap_story_dialog.c:9246
+#: ../gap/gap_mov_dialog.c:4600 ../gap/gap_story_dialog.c:9366
 #: ../vid_common/gap_cme_gui.c:3689
 msgid "Height:"
 msgstr "Altura:"
@@ -5640,21 +5649,21 @@ msgstr "Fotograma en curso:"
 msgid "Curent Frame number (e.g. phase to be phase Total number of frames"
 msgstr "Número del fotograma en curso"
 
-#: ../gap/gap_mov_dialog.c:6833 ../gap/gap_player_dialog.c:480
+#: ../gap/gap_mov_dialog.c:6833 ../gap/gap_player_dialog.c:490
 msgid "Copy Audiofile as Wavefile"
 msgstr "Copiar archivo de sonido como archivo de ondas"
 
-#: ../gap/gap_mov_dialog.c:6834 ../gap/gap_player_dialog.c:481
-#: ../gap/gap_story_dialog.c:5237 ../gap/gap_story_dialog.c:9014
-#: ../gap/gap_story_dialog.c:9464
+#: ../gap/gap_mov_dialog.c:6834 ../gap/gap_player_dialog.c:491
+#: ../gap/gap_story_dialog.c:5309 ../gap/gap_story_dialog.c:9134
+#: ../gap/gap_story_dialog.c:9584
 msgid "Settings"
 msgstr "Configuración"
 
-#: ../gap/gap_mov_exec.c:296
+#: ../gap/gap_mov_exec.c:298
 msgid "Tweenlayer"
 msgstr "Capa tween"
 
-#: ../gap/gap_mov_exec.c:1707
+#: ../gap/gap_mov_exec.c:1816
 msgid ""
 "No source image was selected.\n"
 "Please open a 2nd image of the same type before opening 'Move Path'."
@@ -5662,20 +5671,20 @@ msgstr ""
 "No se seleccionó imagen origen.\n"
 "Por favor, abra una 2ª imagen del mismo tipo antes de abrir Mover camino."
 
-#: ../gap/gap_mov_exec.c:1721
+#: ../gap/gap_mov_exec.c:1830
 msgid "Copying layers into frames..."
 msgstr "Copiando capas en fotogramas…"
 
-#: ../gap/gap_mov_exec.c:1725
+#: ../gap/gap_mov_exec.c:1834
 msgid "Generating animated preview..."
 msgstr "Generando vista previa animada…"
 
-#: ../gap/gap_mov_exec.c:2250
+#: ../gap/gap_mov_exec.c:2404
 msgid "Transforming layer according to move path frame_phase..."
 msgstr ""
 "Capa de transformación según la fase de fotograma de la ruta de movimiento…"
 
-#: ../gap/gap_mov_exec.c:3525
+#: ../gap/gap_mov_exec.c:3679
 #, c-format
 msgid ""
 "\n"
@@ -5685,7 +5694,7 @@ msgstr ""
 "Error: El fotograma clave %d en el punto [%d] es mayor o igual que el último "
 "fotograma manipulado"
 
-#: ../gap/gap_mov_exec.c:3533
+#: ../gap/gap_mov_exec.c:3687
 #, c-format
 msgid ""
 "\n"
@@ -5696,7 +5705,7 @@ msgstr ""
 "Error: El fotograma clave %d en el punto [%d] no deja el suficiente\n"
 "espacio (fotogramas) para los puntos de control anteriores"
 
-#: ../gap/gap_mov_exec.c:3543
+#: ../gap/gap_mov_exec.c:3697
 #, c-format
 msgid ""
 "\n"
@@ -5705,7 +5714,7 @@ msgstr ""
 "\n"
 "Error: El fotograma clave %d no está en secuencia en el punto [%d]"
 
-#: ../gap/gap_mov_exec.c:3561
+#: ../gap/gap_mov_exec.c:3715
 #, c-format
 msgid ""
 "\n"
@@ -5715,7 +5724,7 @@ msgstr ""
 "Error: El punto de control [%d] está fuera del rango de fotogramas "
 "manipulados"
 
-#: ../gap/gap_mov_exec.c:3575
+#: ../gap/gap_mov_exec.c:3729
 #, c-format
 msgid ""
 "\n"
@@ -6038,50 +6047,50 @@ msgstr ""
 msgid "Filename to Layer..."
 msgstr "Nombre de archivo a capa…"
 
-#: ../gap/gap_name2layer_main.c:445
+#: ../gap/gap_name2layer_main.c:444
 msgid "Modes to choose entire filename or just parts of the filename"
 msgstr ""
 "Modos para elegir el nombre de archivo nuevo o sólo partes del nombre del "
 "archivo"
 
-#: ../gap/gap_name2layer_main.c:454
+#: ../gap/gap_name2layer_main.c:453
 msgid "Fontname:"
 msgstr "Nombre de tipografía:"
 
 #. pixel
-#: ../gap/gap_name2layer_main.c:456
+#: ../gap/gap_name2layer_main.c:455
 msgid "Select Fontname"
 msgstr "Seleccionar nombre de tipografía"
 
-#: ../gap/gap_name2layer_main.c:464
+#: ../gap/gap_name2layer_main.c:463
 msgid "Fontsize:"
 msgstr "Tamaño de tipografía:"
 
-#: ../gap/gap_name2layer_main.c:465
+#: ../gap/gap_name2layer_main.c:464
 msgid "Fontsize in pixels"
 msgstr "Tamaño de tipografía en píxeles"
 
-#: ../gap/gap_name2layer_main.c:476
+#: ../gap/gap_name2layer_main.c:475
 msgid "Position X-offset in pixels"
 msgstr "Posición del desplazamiento-X en píxeles"
 
-#: ../gap/gap_name2layer_main.c:487
+#: ../gap/gap_name2layer_main.c:486
 msgid "Position Y-offset in pixels"
 msgstr "Posición del desplazamiento-Y en píxeles"
 
-#: ../gap/gap_name2layer_main.c:496
+#: ../gap/gap_name2layer_main.c:495
 msgid "Antialias:"
 msgstr "Antialias:"
 
-#: ../gap/gap_name2layer_main.c:497
+#: ../gap/gap_name2layer_main.c:496
 msgid "Use antialias"
 msgstr "Usar antialias"
 
-#: ../gap/gap_name2layer_main.c:503
+#: ../gap/gap_name2layer_main.c:502
 msgid "Create Layer:"
 msgstr "Crear capa:"
 
-#: ../gap/gap_name2layer_main.c:504
+#: ../gap/gap_name2layer_main.c:503
 msgid ""
 "ON: Create a new layer.\n"
 "OFF: Render on active drawable."
@@ -6089,11 +6098,11 @@ msgstr ""
 "Activado: Crea una capa nueva.\n"
 "Desactivado: Renderiza en la Dibujable activa"
 
-#: ../gap/gap_name2layer_main.c:518
+#: ../gap/gap_name2layer_main.c:517
 msgid "Render Filename to Layer"
 msgstr "Renderizar nombre de archivo a capa"
 
-#: ../gap/gap_navigator_dialog.c:440
+#: ../gap/gap_navigator_dialog.c:441
 msgid ""
 "Playback\n"
 "SHIFT converts the selected frames to temporary image, and does "
@@ -6103,7 +6112,7 @@ msgstr ""
 "<Mayúsculas> convierte los fotogramas seleccionados en una imagen temporal y "
 "reproducir capa de animación en la imagen temporal."
 
-#: ../gap/gap_navigator_dialog.c:446
+#: ../gap/gap_navigator_dialog.c:447
 msgid ""
 "Smart update thumbnails\n"
 "SHIFT forces thumbnail update for all frames"
@@ -6111,19 +6120,19 @@ msgstr ""
 "Actualización inteligente de miniaturas\n"
 "<Mayúsculas> fuerza la actualización para todos los fotogramas"
 
-#: ../gap/gap_navigator_dialog.c:451
+#: ../gap/gap_navigator_dialog.c:452
 msgid "Duplicate selected frames"
 msgstr "Duplicar fotogramas seleccionados"
 
-#: ../gap/gap_navigator_dialog.c:455
+#: ../gap/gap_navigator_dialog.c:456
 msgid "Delete selected frames"
 msgstr "Borrar fotogramas seleccionados"
 
-#: ../gap/gap_navigator_dialog.c:464
+#: ../gap/gap_navigator_dialog.c:465
 msgid "Goto first frame"
 msgstr "Ir al primer fotograma"
 
-#: ../gap/gap_navigator_dialog.c:468
+#: ../gap/gap_navigator_dialog.c:469
 msgid ""
 "Goto prev frame\n"
 "SHIFT use timezoom stepsize"
@@ -6131,7 +6140,7 @@ msgstr ""
 "Ir al fotograma anterior\n"
 "<Mayúsculas> Usar tamaño de paso como zoom de tiempo"
 
-#: ../gap/gap_navigator_dialog.c:473
+#: ../gap/gap_navigator_dialog.c:474
 msgid ""
 "Goto next frame\n"
 "SHIFT use timezoom stepsize"
@@ -6139,11 +6148,11 @@ msgstr ""
 "Ir al fotograma siguiente\n"
 "<Mayúsculas> Usar tamaño de paso como zoom de tiempo"
 
-#: ../gap/gap_navigator_dialog.c:478
+#: ../gap/gap_navigator_dialog.c:479
 msgid "Goto last frame"
 msgstr "Ir al último fotograma"
 
-#: ../gap/gap_navigator_dialog.c:546
+#: ../gap/gap_navigator_dialog.c:547
 msgid "VCR Navigator..."
 msgstr "Navegador de VCR…"
 
@@ -6190,104 +6199,104 @@ msgstr ""
 "de preferencias"
 
 #. the active layer tracking label
-#: ../gap/gap_navigator_dialog.c:3978
+#: ../gap/gap_navigator_dialog.c:3982
 msgid "AL-Tracking:"
 msgstr "Seguimiento-AL:"
 
 #. radio button active layer tracking OFF
-#: ../gap/gap_navigator_dialog.c:3988
+#: ../gap/gap_navigator_dialog.c:3992
 msgid "OFF"
 msgstr "Desactivado"
 
-#: ../gap/gap_navigator_dialog.c:4001
+#: ../gap/gap_navigator_dialog.c:4005
 msgid "Disable active layer tracking"
 msgstr "Desactivar el seguimiento de la capa activa"
 
 #. radio button thres_mode HSV
-#: ../gap/gap_navigator_dialog.c:4011
+#: ../gap/gap_navigator_dialog.c:4015
 msgid "Name"
 msgstr "Nombre"
 
-#: ../gap/gap_navigator_dialog.c:4024
+#: ../gap/gap_navigator_dialog.c:4028
 msgid "Enable tracking of the active layer by name at framechanges"
 msgstr ""
 "Activar el seguimiento de la capa activa por nombre en cambios de fotograma"
 
 #. radio button thres_mode VAL
-#: ../gap/gap_navigator_dialog.c:4035
+#: ../gap/gap_navigator_dialog.c:4039
 msgid "Pos"
 msgstr "Pos"
 
-#: ../gap/gap_navigator_dialog.c:4048
+#: ../gap/gap_navigator_dialog.c:4052
 msgid "Enable tracking of the active layer by stack position at framechanges"
 msgstr ""
 "Activar el seguimiento de la capa activa por posición en la pila en cambios "
 "de fotograma"
 
 #. menu_item copy
-#: ../gap/gap_navigator_dialog.c:4155
+#: ../gap/gap_navigator_dialog.c:4159
 msgid "Copy"
 msgstr "Copiar"
 
 #. menu_item cut
-#: ../gap/gap_navigator_dialog.c:4165
+#: ../gap/gap_navigator_dialog.c:4169
 msgid "Cut"
 msgstr "Cortar"
 
 #. menu_item paste before
-#: ../gap/gap_navigator_dialog.c:4174
+#: ../gap/gap_navigator_dialog.c:4178
 msgid "Paste Before"
 msgstr "Pegar antes"
 
 #. menu_item copy
-#: ../gap/gap_navigator_dialog.c:4183
+#: ../gap/gap_navigator_dialog.c:4187
 msgid "Paste After"
 msgstr "Pegar después"
 
 #. menu_item copy
-#: ../gap/gap_navigator_dialog.c:4192
+#: ../gap/gap_navigator_dialog.c:4196
 msgid "Paste Replace"
 msgstr "Pegar reemplazando"
 
 #. menu_item copy
-#: ../gap/gap_navigator_dialog.c:4201
+#: ../gap/gap_navigator_dialog.c:4205
 msgid "Clear Video Buffer"
 msgstr "Vaciar el búfer de vídeo"
 
 #. menu_item Select All
-#: ../gap/gap_navigator_dialog.c:4211
+#: ../gap/gap_navigator_dialog.c:4215
 msgid "Select All"
 msgstr "Seleccionar todo"
 
 #. menu_item Select None
-#: ../gap/gap_navigator_dialog.c:4220
+#: ../gap/gap_navigator_dialog.c:4224
 msgid "Select None"
 msgstr "No seleccionar nada"
 
 #. Video Length (frames)
-#: ../gap/gap_navigator_dialog.c:4240 ../gap/gap_player_dialog.c:7014
+#: ../gap/gap_navigator_dialog.c:4244 ../gap/gap_player_dialog.c:7173
 msgid "Videoframes:"
 msgstr "Fotogramas de vídeo:"
 
-#: ../gap/gap_navigator_dialog.c:4277
+#: ../gap/gap_navigator_dialog.c:4281
 msgid "Set framerate in frames/sec"
 msgstr "Establecer tasa de fotogramas en fotogramas/segundo"
 
-#: ../gap/gap_navigator_dialog.c:4285
+#: ../gap/gap_navigator_dialog.c:4289
 msgid "Timezoom:"
 msgstr "Zoom de tiempo:"
 
-#: ../gap/gap_navigator_dialog.c:4307
+#: ../gap/gap_navigator_dialog.c:4311
 msgid "Show only every Nth frame"
 msgstr "Mostrar sólo cada n-ésimo fotograma"
 
 #. The main shell
-#: ../gap/gap_navigator_dialog.c:4418
+#: ../gap/gap_navigator_dialog.c:4422
 msgid "Video Navigator"
 msgstr "Navegador de vídeo"
 
 #. set layername
-#: ../gap/gap_onion_base.c:558
+#: ../gap/gap_onion_base.c:570
 #, c-format
 msgid "onionskin_%06d"
 msgstr "papel cebolla_%06d"
@@ -6554,16 +6563,16 @@ msgstr "Conmutar visibilidad"
 msgid "<Image>/Video/Onionskin/"
 msgstr "<Image>/Vídeo/Papel cebolla/"
 
-#: ../gap/gap_onion_worker.c:367
+#: ../gap/gap_onion_worker.c:368
 msgid "Creating onionskin layers..."
 msgstr "Creando capas de papel cebolla…"
 
-#: ../gap/gap_onion_worker.c:371
+#: ../gap/gap_onion_worker.c:372
 msgid "Removing onionskin layers..."
 msgstr "Eliminando capas de papel cebolla…"
 
 #. Format the message
-#: ../gap/gap_player_dialog.c:408
+#: ../gap/gap_player_dialog.c:418
 #, c-format
 msgid ""
 "Problem with audioplayback. The audiolib reported:\n"
@@ -6572,23 +6581,23 @@ msgstr ""
 "Problema con la reproducción de sonido. Audiolib informó:\n"
 "%s"
 
-#: ../gap/gap_player_dialog.c:429
+#: ../gap/gap_player_dialog.c:439
 msgid "Audiosource:"
 msgstr "Origen de de sonido:"
 
-#: ../gap/gap_player_dialog.c:440
+#: ../gap/gap_player_dialog.c:450
 msgid "Wavefile:"
 msgstr "Archivo de sonido:"
 
-#: ../gap/gap_player_dialog.c:442
+#: ../gap/gap_player_dialog.c:452
 msgid "Name of wavefile to create as copy in RIFF WAVE format"
 msgstr "Nombre del archivo onda para crear como copia en formato RIFF WAVE"
 
-#: ../gap/gap_player_dialog.c:449
+#: ../gap/gap_player_dialog.c:459
 msgid "Resample:"
 msgstr "Remuestreo:"
 
-#: ../gap/gap_player_dialog.c:450
+#: ../gap/gap_player_dialog.c:460
 msgid ""
 "ON: Resample the copy at specified samplerate.\n"
 "OFF: Use original samplerate"
@@ -6598,18 +6607,18 @@ msgstr ""
 
 #. Audio Samplerate
 #. the Samplerate label
-#: ../gap/gap_player_dialog.c:458 ../gap/gap_player_dialog.c:6956
-#: ../gap/gap_story_dialog.c:9377 ../vid_common/gap_cme_gui.c:3349
+#: ../gap/gap_player_dialog.c:468 ../gap/gap_player_dialog.c:7115
+#: ../gap/gap_story_dialog.c:9497 ../vid_common/gap_cme_gui.c:3349
 msgid "Samplerate:"
 msgstr "Velocidad de muestreo:"
 
-#: ../gap/gap_player_dialog.c:459
+#: ../gap/gap_player_dialog.c:469
 msgid "Target audio samplerate in samples/sec. Ignored if resample is off"
 msgstr ""
 "Tasa de muestreo del sonido destino en muestras/seg. Ignorado si el "
 "remuestreo está desactivado"
 
-#: ../gap/gap_player_dialog.c:574
+#: ../gap/gap_player_dialog.c:584
 msgid ""
 "Failure to start the wavplay server is fatal.\n"
 "Please check the executability of the 'wavplay' command.\n"
@@ -6622,29 +6631,29 @@ msgstr ""
 "puede establecer la variable de entorno WAVPLAYPATH antes\n"
 "del inicio de Gimp\n"
 
-#: ../gap/gap_player_dialog.c:637
+#: ../gap/gap_player_dialog.c:647
 msgid "Audio Delay"
 msgstr "Retardo del sonido"
 
-#: ../gap/gap_player_dialog.c:649
+#: ../gap/gap_player_dialog.c:659
 msgid "Syncron"
 msgstr "Sincron."
 
-#: ../gap/gap_player_dialog.c:653
+#: ../gap/gap_player_dialog.c:663
 msgid "Audio Skipped"
 msgstr "Sonido omitido"
 
-#: ../gap/gap_player_dialog.c:665
+#: ../gap/gap_player_dialog.c:675
 #, c-format
 msgid "%d (at %.4f frames/sec)"
 msgstr "%d (a %.4f fotogramas/sec)"
 
-#: ../gap/gap_player_dialog.c:762
+#: ../gap/gap_player_dialog.c:758
 #, c-format
 msgid "Error at reading WAV header from file '%s'"
 msgstr "Error al leer la cabecera WAV del archivo «%s»"
 
-#: ../gap/gap_player_dialog.c:1114
+#: ../gap/gap_player_dialog.c:1145
 #, c-format
 msgid ""
 "WARNING: your gimprc file configuration for the wavplay audio server\n"
@@ -6656,7 +6665,7 @@ msgstr ""
 "no apunta a un programa ejecutable\n"
 "el valor configurado para %s es: %s\n"
 
-#: ../gap/gap_player_dialog.c:1135
+#: ../gap/gap_player_dialog.c:1166
 #, c-format
 msgid ""
 "WARNING: the environment variable %s\n"
@@ -6667,7 +6676,7 @@ msgstr ""
 "no hace referencia a un programa ejecutable\n"
 "el valor actual es: «%s»\n"
 
-#: ../gap/gap_player_dialog.c:1171
+#: ../gap/gap_player_dialog.c:1202
 #, c-format
 msgid ""
 "No audiosupport available\n"
@@ -6685,71 +6694,71 @@ msgstr ""
 "antes de iniciar GIMP"
 
 #. filename prefix shortcut for storyboard single track playback for specified track number
-#: ../gap/gap_player_dialog.c:2152
+#: ../gap/gap_player_dialog.c:2191
 #, c-format
 msgid "STB:[%d]"
 msgstr "STB:[%d]"
 
 #. filename prefix shortcut for storyboard in composite video playback mode
-#: ../gap/gap_player_dialog.c:2157
+#: ../gap/gap_player_dialog.c:2196
 msgid "STB:"
 msgstr "STB:"
 
 #. shortname prefix to indicate that displayed filename is a single videofile
-#: ../gap/gap_player_dialog.c:2174
+#: ../gap/gap_player_dialog.c:2213
 msgid "VIDEO:"
 msgstr "Vídeo:"
 
 #. shortname prefix to indicate that displayed filename is basename of the frames
-#: ../gap/gap_player_dialog.c:2186
+#: ../gap/gap_player_dialog.c:2225
 msgid "FRAMES:"
 msgstr "Fotogramas:"
 
 #. pending timer_go_job gets useless, since we start playback now
-#: ../gap/gap_player_dialog.c:2285 ../gap/gap_player_dialog.c:4634
+#: ../gap/gap_player_dialog.c:2324 ../gap/gap_player_dialog.c:4768
 msgid "Playing"
 msgstr "Reproduciendo"
 
 #. the status value label
-#: ../gap/gap_player_dialog.c:2324 ../gap/gap_player_dialog.c:8237
+#: ../gap/gap_player_dialog.c:2363 ../gap/gap_player_dialog.c:8415
 msgid "Ready"
 msgstr "Preparado"
 
-#: ../gap/gap_player_dialog.c:2458
+#: ../gap/gap_player_dialog.c:2497
 msgid "cheking audiotrack"
 msgstr "comprobando pista de sonido"
 
-#: ../gap/gap_player_dialog.c:2478
+#: ../gap/gap_player_dialog.c:2517
 msgid "extracted audio is up to date"
 msgstr "el sonido extraído está actualizado"
 
-#: ../gap/gap_player_dialog.c:2487
+#: ../gap/gap_player_dialog.c:2526
 msgid "extracting audio"
 msgstr "extrayendo sonido"
 
-#: ../gap/gap_player_dialog.c:2518
+#: ../gap/gap_player_dialog.c:2557
 msgid "Audio Extract CANCELLED"
 msgstr "Extracción de sonido CANCELADA"
 
-#: ../gap/gap_player_dialog.c:2528 ../gap/gap_player_dialog.c:2539
+#: ../gap/gap_player_dialog.c:2567 ../gap/gap_player_dialog.c:2578
 msgid "Audio Extract FAILED"
 msgstr "Extracción de sonido FALLIDA"
 
-#: ../gap/gap_player_dialog.c:2529 ../gap/gap_player_dialog.c:2540
+#: ../gap/gap_player_dialog.c:2568 ../gap/gap_player_dialog.c:2579
 #, c-format
 msgid "Extract of audiotrack failed on videofile: %s"
 msgstr "La extracción de pista de sonido falló en el archivo de vídeo: %s"
 
-#: ../gap/gap_player_dialog.c:2855
+#: ../gap/gap_player_dialog.c:2894
 msgid "seek-selftest"
 msgstr "autocomprobación de búsqueda"
 
-#: ../gap/gap_player_dialog.c:2877 ../gap/gap_story_vthumb.c:301
+#: ../gap/gap_player_dialog.c:2916 ../gap/gap_story_vthumb.c:303
 #, c-format
 msgid "Creating Index"
 msgstr "Creando índice"
 
-#: ../gap/gap_player_dialog.c:2907
+#: ../gap/gap_player_dialog.c:2946
 #, c-format
 msgid ""
 "No videoindex available. Access is limited to (slow) sequential read on "
@@ -6758,27 +6767,27 @@ msgstr ""
 "No hay un índice de vídeo disponible. El acceso está limitado a la lectura "
 "secuencial (lenta) del archivo: %s"
 
-#: ../gap/gap_player_dialog.c:2997 ../gap/gap_story_dialog.c:6776
+#: ../gap/gap_player_dialog.c:3036 ../gap/gap_story_dialog.c:6877
 #, c-format
 msgid "Videoseek"
 msgstr "Búsqueda en vídeo"
 
-#: ../gap/gap_player_dialog.c:3620 ../gap/gap_player_dialog.c:4097
-#: ../gap/gap_story_vthumb.c:359
+#: ../gap/gap_player_dialog.c:3675 ../gap/gap_player_dialog.c:4155
+#: ../gap/gap_story_vthumb.c:361
 msgid "Canceled"
 msgstr "Cancelado"
 
 #. printf("DROP (SKIP) frame\n");
-#: ../gap/gap_player_dialog.c:4617
+#: ../gap/gap_player_dialog.c:4751
 msgid "Skip"
 msgstr "Saltar"
 
-#: ../gap/gap_player_dialog.c:4646
+#: ../gap/gap_player_dialog.c:4780
 #, c-format
 msgid "Delay %.2f"
 msgstr "Retardo %.2f"
 
-#: ../gap/gap_player_dialog.c:6348
+#: ../gap/gap_player_dialog.c:6507
 #, c-format
 msgid ""
 "WARNING: Your gimprc file configuration for the audioconverter script\n"
@@ -6790,7 +6799,7 @@ msgstr ""
 "no apunta a un programa ejecutable\n"
 "el valor configurado para %s es: %s\n"
 
-#: ../gap/gap_player_dialog.c:6370
+#: ../gap/gap_player_dialog.c:6529
 #, c-format
 msgid ""
 "WARNING: The environment variable %s\n"
@@ -6801,7 +6810,7 @@ msgstr ""
 "no apunta a un programa ejecutable\n"
 "el valor actual es: %s\n"
 
-#: ../gap/gap_player_dialog.c:6389
+#: ../gap/gap_player_dialog.c:6548
 #, c-format
 msgid ""
 "ERROR: The external program for audioconversion is not executable.\n"
@@ -6810,58 +6819,58 @@ msgstr ""
 "Error: El programa externo para la conversión de sonido no es ejecutable.\n"
 "Nombre: «%s»\n"
 
-#: ../gap/gap_player_dialog.c:6409
+#: ../gap/gap_player_dialog.c:6568
 msgid "Creating audiofile - please wait"
 msgstr "Creando archivo de ondas - espere por favor"
 
-#: ../gap/gap_player_dialog.c:6445
+#: ../gap/gap_player_dialog.c:6604
 msgid "external audioconverter FAILED."
 msgstr "FALLÓ la conversión de sonido externo"
 
-#: ../gap/gap_player_dialog.c:6446
+#: ../gap/gap_player_dialog.c:6605
 msgid "extern audioconverter FAILED"
 msgstr "FALLÓ la conversión de sonido externo"
 
-#: ../gap/gap_player_dialog.c:6592
+#: ../gap/gap_player_dialog.c:6751
 msgid "Select Audiofile"
 msgstr "Seleccionar archivo de sonido"
 
-#: ../gap/gap_player_dialog.c:6640
+#: ../gap/gap_player_dialog.c:6799
 msgid "Audio Playback Settings"
 msgstr "Ajustes de la reproducción de audio"
 
 #. audiofile label
 #. the output audiofile label
 #. the Audiofile label
-#: ../gap/gap_player_dialog.c:6665 ../gap/gap_vex_dialog.c:2654
+#: ../gap/gap_player_dialog.c:6824 ../gap/gap_vex_dialog.c:2675
 #: ../vid_common/gap_cme_gui.c:3288
 msgid "Audiofile:"
 msgstr "Archivo de sonido:"
 
-#: ../gap/gap_player_dialog.c:6677
+#: ../gap/gap_player_dialog.c:6836
 msgid "Enter an audiofile. The file must be in RIFF WAVE fileformat."
 msgstr ""
 "Introduzca un archivo de sonido. El archivo debe estar en formato RIFF WAVE."
 
-#: ../gap/gap_player_dialog.c:6698
+#: ../gap/gap_player_dialog.c:6857
 msgid "Open audiofile selection browser dialog window"
 msgstr "Abrir la ventana de selección de archivos de sonido"
 
 #. Volume
-#: ../gap/gap_player_dialog.c:6710 ../gap/gap_story_dialog.c:9393
+#: ../gap/gap_player_dialog.c:6869 ../gap/gap_story_dialog.c:9513
 msgid "Volume:"
 msgstr "Volumen:"
 
-#: ../gap/gap_player_dialog.c:6730
+#: ../gap/gap_player_dialog.c:6889
 msgid "Audio Volume"
 msgstr "Volumen del sonido"
 
 #. check button
-#: ../gap/gap_player_dialog.c:6736
+#: ../gap/gap_player_dialog.c:6895
 msgid "Enable"
 msgstr "Activar"
 
-#: ../gap/gap_player_dialog.c:6741
+#: ../gap/gap_player_dialog.c:6900
 msgid ""
 "ON: Play button plays video + audio.\n"
 "OFF: Play video silently"
@@ -6870,11 +6879,11 @@ msgstr ""
 "Desactivado: Reproduce en silencio"
 
 #. Sample Offset
-#: ../gap/gap_player_dialog.c:6751
+#: ../gap/gap_player_dialog.c:6910
 msgid "Offset:"
 msgstr "Desplazamiento:"
 
-#: ../gap/gap_player_dialog.c:6771
+#: ../gap/gap_player_dialog.c:6930
 msgid ""
 "Audio offset in frames at original video playback speed. A value of 0 starts "
 "audio and video at synchron time. A value of -10 will play frame 1 up to "
@@ -6890,11 +6899,11 @@ msgstr ""
 "a la duración de 10 fotogramas."
 
 #. check button
-#: ../gap/gap_player_dialog.c:6786
+#: ../gap/gap_player_dialog.c:6945
 msgid "original audio"
 msgstr "sonido original"
 
-#: ../gap/gap_player_dialog.c:6791
+#: ../gap/gap_player_dialog.c:6950
 msgid ""
 "ON: for video clip playback sync audio startposition according to original "
 "position in the referenced video. Use this option if the audiofile is an "
@@ -6910,11 +6919,11 @@ msgstr ""
 "video de referencia. Use esto para la reproducción independiente del archivo "
 "de sonido."
 
-#: ../gap/gap_player_dialog.c:6827
+#: ../gap/gap_player_dialog.c:6986
 msgid "Audio Track"
 msgstr "Pista de sonido"
 
-#: ../gap/gap_player_dialog.c:6837
+#: ../gap/gap_player_dialog.c:6996
 msgid ""
 "Extract Audio Track from videofile for the current videofile and use it for "
 "origial audiotrack playback"
@@ -6923,11 +6932,11 @@ msgstr ""
 "RIFF WAVE y usar la copia para la reproducción de sonido"
 
 #. create wavfile button
-#: ../gap/gap_player_dialog.c:6851
+#: ../gap/gap_player_dialog.c:7010
 msgid "Copy As Wavfile"
 msgstr "Copiar como archivo de ondas"
 
-#: ../gap/gap_player_dialog.c:6853
+#: ../gap/gap_player_dialog.c:7012
 msgid ""
 "Create a copy from audiofile as RIFF WAVE audiofile and use the copy for "
 "audio playback"
@@ -6935,92 +6944,92 @@ msgstr ""
 "Crea una copia del archivo de sonido como un archivo RIFF WAVE y usar la "
 "copia para reproducción de sonido"
 
-#: ../gap/gap_player_dialog.c:6865
+#: ../gap/gap_player_dialog.c:7024
 msgid "Reset offset and volume"
 msgstr "Restablecer desplazamiento y volumen"
 
 #. Audio Offset Length (mm:ss:msec)
-#: ../gap/gap_player_dialog.c:6897
+#: ../gap/gap_player_dialog.c:7056
 msgid "Offsettime:"
 msgstr "Tiempo de desplazamiento:"
 
 #. Total Audio Length (mm:ss:msec)
 #. the audio timing information labels
-#: ../gap/gap_player_dialog.c:6911 ../vid_common/gap_cme_gui.c:3521
+#: ../gap/gap_player_dialog.c:7070 ../vid_common/gap_cme_gui.c:3521
 msgid "Audiotime:"
 msgstr "Tiempo de sonido:"
 
 #. Length (frames)
-#: ../gap/gap_player_dialog.c:6926
+#: ../gap/gap_player_dialog.c:7085
 msgid "Audioframes:"
 msgstr "Fotogramas de sonido:"
 
 #. Audiolength (Samples)
-#: ../gap/gap_player_dialog.c:6941
+#: ../gap/gap_player_dialog.c:7100
 msgid "Samples:"
 msgstr "Muestras:"
 
 #. Audio Channels
-#: ../gap/gap_player_dialog.c:6970
+#: ../gap/gap_player_dialog.c:7129
 msgid "Channels:"
 msgstr "Canales:"
 
 #. Bits per Audio Sample
-#: ../gap/gap_player_dialog.c:6984
+#: ../gap/gap_player_dialog.c:7143
 msgid "Bits/Sample:"
 msgstr "Bits/muestra:"
 
 #. Total Video Length (mm:ss:msec)
 #. the video timing information labels
-#: ../gap/gap_player_dialog.c:6999 ../vid_common/gap_cme_gui.c:3494
+#: ../gap/gap_player_dialog.c:7158 ../vid_common/gap_cme_gui.c:3494
 msgid "Videotime:"
 msgstr "Tiempo de vídeo:"
 
-#: ../gap/gap_player_dialog.c:7234
+#: ../gap/gap_player_dialog.c:7395
 msgid "Playback Preferences"
 msgstr "Preferencias de reproducción"
 
 #. Cache size label
-#: ../gap/gap_player_dialog.c:7252
+#: ../gap/gap_player_dialog.c:7413
 msgid "Cache Size (MB):"
 msgstr "Tamaño de la caché (MB):"
 
-#: ../gap/gap_player_dialog.c:7278
+#: ../gap/gap_player_dialog.c:7439
 msgid "Player frame cache maximum size in MB. Value 0 turns the cache off."
 msgstr ""
 "Tamaño máximo de la caché de fotogramas en MB. Valor 0 desactiva la caché."
 
-#: ../gap/gap_player_dialog.c:7287
+#: ../gap/gap_player_dialog.c:7448
 msgid "Clear the frame cache"
 msgstr "Limpiar la caché de fotogramas"
 
 #. Chache Status (number of frames currently in the cache)
-#: ../gap/gap_player_dialog.c:7298
+#: ../gap/gap_player_dialog.c:7459
 msgid "Cached Frames:"
 msgstr "Fotogramas cacheados:"
 
 #. tile Chache
-#: ../gap/gap_player_dialog.c:7324
+#: ../gap/gap_player_dialog.c:7485
 msgid "Tile Cache:"
 msgstr "Caché de enlosado:"
 
-#: ../gap/gap_player_dialog.c:7344
+#: ../gap/gap_player_dialog.c:7505
 msgid "gimp tile cache for the player process. (in tiles 64x64 pixel)"
 msgstr ""
 "Caché de enlosado de GIMP para el proceso del reproductor (en losetas de "
 "64x64 píxeles)."
 
 #. Layout Options label
-#: ../gap/gap_player_dialog.c:7353
+#: ../gap/gap_player_dialog.c:7514
 msgid "Layout Options:"
 msgstr "Opciones de distribución:"
 
 #. Show Go button array (configure to show/hide this optional positioning tool)
-#: ../gap/gap_player_dialog.c:7363
+#: ../gap/gap_player_dialog.c:7524
 msgid "Show Button Array"
 msgstr "Mostrar ordenación de botones"
 
-#: ../gap/gap_player_dialog.c:7369
+#: ../gap/gap_player_dialog.c:7530
 msgid ""
 "ON: Show the go button array positioning tool.\n"
 "OFF: Hide the go button array."
@@ -7029,11 +7038,11 @@ msgstr ""
 "Desactivado: Ocultar el botón de ordenación."
 
 #. Show Position Scale (configure to show/hide this optional positioning tool)
-#: ../gap/gap_player_dialog.c:7382
+#: ../gap/gap_player_dialog.c:7543
 msgid "Show Position Scale"
 msgstr "Muestra la posición de escala"
 
-#: ../gap/gap_player_dialog.c:7388
+#: ../gap/gap_player_dialog.c:7549
 msgid ""
 "ON: Show the position scale.\n"
 "OFF: Hide the position scale."
@@ -7041,20 +7050,34 @@ msgstr ""
 "Activado: Mostrar la posición de escalado.\n"
 "Desactivado: Ocultar la posición de escalado."
 
+#. Auto skip missing frames
+#: ../gap/gap_player_dialog.c:7562
+msgid "Auto Skip Missing Frames"
+msgstr "Omitir automática los marcos que falten"
+
+#: ../gap/gap_player_dialog.c:7568
+msgid ""
+"ON: Automatically skip missing frames on playback.\n"
+"OFF: Show missing frames as empty (transparent) image."
+msgstr ""
+"ACTIVADO: omitir automáticamente los marcos que falten al reproducir.\n"
+"DESACTIVADO: mostrar los marcos que falten como imágenes vacías "
+"(transparentes)."
+
 #. configure Detail Tracking button
-#: ../gap/gap_player_dialog.c:7405
+#: ../gap/gap_player_dialog.c:7583
 msgid "Configure Tracking:"
 msgstr "Configurar seguimiento:"
 
-#: ../gap/gap_player_dialog.c:7408
+#: ../gap/gap_player_dialog.c:7586
 msgid "Configure detail tracking options"
 msgstr "Configurar las opciones de seguimiento de detalles"
 
-#: ../gap/gap_player_dialog.c:7416
+#: ../gap/gap_player_dialog.c:7594
 msgid "Enable Detail Tracking"
 msgstr "Activar el seguimiento de los detalles"
 
-#: ../gap/gap_player_dialog.c:7422
+#: ../gap/gap_player_dialog.c:7600
 msgid ""
 "ON: Enable detail tracking in snapshot image. Mark coordinates of one (or 2) "
 "significant details in the snapshot image using the current path with one or "
@@ -7074,49 +7097,49 @@ msgstr ""
 "DESACTIVADO: desactivar el seguimiento de detalles."
 
 #. Save Player Preferences label
-#: ../gap/gap_player_dialog.c:7441
+#: ../gap/gap_player_dialog.c:7619
 msgid "Save Preferences:"
 msgstr "Guardar preferencias:"
 
-#: ../gap/gap_player_dialog.c:7453
+#: ../gap/gap_player_dialog.c:7631
 msgid "Save player cache and layout settings (as gimprc parameters)"
 msgstr ""
 "Guardar la caché del reproductor y la configuración de distribución (como "
 "parámetros gimprc)"
 
-#: ../gap/gap_player_dialog.c:7568
+#: ../gap/gap_player_dialog.c:7746
 msgid "Videoframe Playback"
 msgstr "Reproducir fotogramas de vídeo"
 
 #. vid options TAB frame
 #. the video options notebook tab
-#: ../gap/gap_player_dialog.c:7583 ../vid_common/gap_cme_gui.c:2594
+#: ../gap/gap_player_dialog.c:7761 ../vid_common/gap_cme_gui.c:2594
 msgid "Video Options"
 msgstr "Opciones de vídeo"
 
 #. configure options TAB frame
-#: ../gap/gap_player_dialog.c:7607
+#: ../gap/gap_player_dialog.c:7785
 msgid "Preferences"
 msgstr "Preferencias"
 
 #. audio options TAB frame
 #. the Audio Options notebook tab
-#: ../gap/gap_player_dialog.c:7623 ../vid_common/gap_cme_gui.c:2606
+#: ../gap/gap_player_dialog.c:7801 ../vid_common/gap_cme_gui.c:2606
 msgid "Audio Options"
 msgstr "Opciones de sonido"
 
-#: ../gap/gap_player_dialog.c:7716
+#: ../gap/gap_player_dialog.c:7894
 msgid ""
 "Click: go to frame, Ctrl-Click: set 'From Frame', Alt-Click: set 'To Frame'"
 msgstr ""
 "Pulsar: ir al fotograma, Ctrl-pulsar: Establecer fotograma de inicial, Alt-"
 "Pulsar: Establecer fotograma final"
 
-#: ../gap/gap_player_dialog.c:7789 ../gap/gap_player_dialog.c:7922
+#: ../gap/gap_player_dialog.c:7967 ../gap/gap_player_dialog.c:8100
 msgid "The currently displayed frame number"
 msgstr "El número de fotograma actualmente mostrado"
 
-#: ../gap/gap_player_dialog.c:7869
+#: ../gap/gap_player_dialog.c:8047
 msgid ""
 "Click: Set current framenr as selection range start 'From Frame',\n"
 "SHIFT-Click: load this frame into the calling image"
@@ -7125,13 +7148,13 @@ msgstr ""
 "selección «Desde fotograma»,\n"
 "Mayús + pulsación: carga este fotograma en la imagen origen"
 
-#: ../gap/gap_player_dialog.c:7880
+#: ../gap/gap_player_dialog.c:8058
 msgid "Set current framenr as selection range start 'From Frame'"
 msgstr ""
 "Establecer el nº de fotograma actual como inicio de rango de selección «desde "
 "fotograma»"
 
-#: ../gap/gap_player_dialog.c:7896
+#: ../gap/gap_player_dialog.c:8074
 msgid ""
 "Click: Set current framenr as selection range end 'To Frame',\n"
 "SHIFT-Click: load this frame into the calling image"
@@ -7140,55 +7163,55 @@ msgstr ""
 "selección «hasta fotograma»,\n"
 "Mayús + pulsación: carga este fotograma en la imagen origen"
 
-#: ../gap/gap_player_dialog.c:7907
+#: ../gap/gap_player_dialog.c:8085
 msgid "Set current framenr as selection range end 'To Frame'"
 msgstr ""
 "Establecer el nº de fotograma actual como fin de rango de selección «hasta "
 "fotograma»"
 
-#: ../gap/gap_player_dialog.c:7950
+#: ../gap/gap_player_dialog.c:8128
 msgid "Add range to cliplist"
 msgstr "Añadir rango a la lista de clips"
 
-#: ../gap/gap_player_dialog.c:7954
+#: ../gap/gap_player_dialog.c:8132
 msgid "Print range to stdout"
 msgstr "Imprimir rango en stdout"
 
-#: ../gap/gap_player_dialog.c:7976
+#: ../gap/gap_player_dialog.c:8154
 msgid "Start framenumber of selection range"
 msgstr "Iniciar número de fotogramas del rango de selección"
 
-#: ../gap/gap_player_dialog.c:7999
+#: ../gap/gap_player_dialog.c:8177
 msgid "Add inverse range to cliplist"
 msgstr "Añadir rango inverso a la lista de clips"
 
-#: ../gap/gap_player_dialog.c:8003
+#: ../gap/gap_player_dialog.c:8181
 msgid "Print inverse range to stdout"
 msgstr "Imprimir el rango inverso a stdout"
 
-#: ../gap/gap_player_dialog.c:8027
+#: ../gap/gap_player_dialog.c:8205
 msgid "End framenumber of selection range"
 msgstr "Número de fotograma de fin del rango de selección"
 
-#: ../gap/gap_player_dialog.c:8043
+#: ../gap/gap_player_dialog.c:8221
 msgid "Reset playback speed to original (or previous) value"
 msgstr "Restablecer velocidad de reproducción al valor original (o anterior)"
 
-#: ../gap/gap_player_dialog.c:8066
+#: ../gap/gap_player_dialog.c:8244
 msgid "Current playback speed (frames/sec)"
 msgstr "Velocidad de reproducción actual (fotogramas/segundo)"
 
-#: ../gap/gap_player_dialog.c:8092
+#: ../gap/gap_player_dialog.c:8270
 msgid "Toggle size 128/256. <Shift> Set 1:1 full image size"
 msgstr ""
 "Cambiar tamaño 128/256, <Mayúsculas>: Establecer tamaño de imagen completo "
 "1:1"
 
-#: ../gap/gap_player_dialog.c:8114
+#: ../gap/gap_player_dialog.c:8292
 msgid "Video preview size (pixels)"
 msgstr "Tamaño de previsualización del vídeo (píxeles)"
 
-#: ../gap/gap_player_dialog.c:8144
+#: ../gap/gap_player_dialog.c:8322
 msgid ""
 "ON: Play in endless loop.\n"
 "OFF: Play only once"
@@ -7197,11 +7220,11 @@ msgstr ""
 "Desactivado: Reproducir sólo una vez"
 
 #. SelOnly Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8158
+#: ../gap/gap_player_dialog.c:8336
 msgid "Selection only"
 msgstr "Seleccionar sólo"
 
-#: ../gap/gap_player_dialog.c:8164
+#: ../gap/gap_player_dialog.c:8342
 msgid ""
 "ON: Play only frames within the selected range.\n"
 "OFF: Play all frames"
@@ -7210,20 +7233,20 @@ msgstr ""
 "Desactivado: Reproducir todos los fotogramas"
 
 #. PingPong Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8177
+#: ../gap/gap_player_dialog.c:8355
 msgid "Ping pong"
 msgstr "Ping-Pong"
 
-#: ../gap/gap_player_dialog.c:8183
+#: ../gap/gap_player_dialog.c:8361
 msgid "ON: Play alternating forward/backward"
 msgstr "Activado: Reproducir alternando adelante/atrás"
 
 #. UseThumbnails Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8196
+#: ../gap/gap_player_dialog.c:8374
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
-#: ../gap/gap_player_dialog.c:8202
+#: ../gap/gap_player_dialog.c:8380
 msgid ""
 "ON: Use thumbnails when available.\n"
 "OFF: Read full sized frames"
@@ -7232,11 +7255,11 @@ msgstr ""
 "Desactivado: Leer fotogramas a tamaño completo"
 
 #. ExactTiming Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8217
+#: ../gap/gap_player_dialog.c:8395
 msgid "Exact timing"
 msgstr "Temporización exacta"
 
-#: ../gap/gap_player_dialog.c:8223
+#: ../gap/gap_player_dialog.c:8401
 msgid ""
 "ON: Skip frames to hold exact timing.\n"
 "OFF: Disable frame skipping"
@@ -7245,11 +7268,11 @@ msgstr ""
 "Desactivado: desactivar salto de fotogramas"
 
 #. the Cancel Videoindex Creation button (only visible while creating vindex)
-#: ../gap/gap_player_dialog.c:8281
+#: ../gap/gap_player_dialog.c:8459
 msgid "Cancel Videoindex creation"
 msgstr "Cancelar la creación de índice de vídeo"
 
-#: ../gap/gap_player_dialog.c:8285
+#: ../gap/gap_player_dialog.c:8463
 msgid ""
 "Cancel videoindex creation. Videoindex creation requires full scanning of "
 "the video but allows fast random access to frames afterwards. Without a "
@@ -7261,11 +7284,11 @@ msgstr ""
 "forma secuencial (muy lenta)"
 
 #. the PLAY button
-#: ../gap/gap_player_dialog.c:8309
+#: ../gap/gap_player_dialog.c:8487
 msgid "Play"
 msgstr "Reproducir"
 
-#: ../gap/gap_player_dialog.c:8312
+#: ../gap/gap_player_dialog.c:8490
 msgid ""
 "Start playback. SHIFT: snapshot frames in a multilayer image at original "
 "size CTRL: snapshot at preview size ALT: force creation of new snapshot image"
@@ -7275,11 +7298,11 @@ msgstr ""
 "la creación de una nueva instantánea"
 
 #. the PAUSE button
-#: ../gap/gap_player_dialog.c:8321
+#: ../gap/gap_player_dialog.c:8499
 msgid "Pause"
 msgstr "Pausar"
 
-#: ../gap/gap_player_dialog.c:8325
+#: ../gap/gap_player_dialog.c:8503
 msgid ""
 "Pause if playing (any mousebutton). Go to selection start/active/end (left/"
 "middle/right mousebutton) if not playing"
@@ -7289,11 +7312,11 @@ msgstr ""
 "reproduciendo"
 
 #. the PLAY_REVERSE button
-#: ../gap/gap_player_dialog.c:8332
+#: ../gap/gap_player_dialog.c:8510
 msgid "Reverse"
 msgstr "Invertir"
 
-#: ../gap/gap_player_dialog.c:8335
+#: ../gap/gap_player_dialog.c:8513
 msgid ""
 "Start reverse playback. SHIFT: snapshot frames in a multilayer image at "
 "original size CTRL: snapshot at preview size ALT: force creation of new "
@@ -7303,7 +7326,7 @@ msgstr ""
 "multicapa a tamaño original. «Ctrl.»: capturar a tamaño de vista previa. "
 "«Alt.»: forzar la creación de una nueva instantánea"
 
-#: ../gap/gap_player_main.c:287
+#: ../gap/gap_player_main.c:289
 msgid "Playback..."
 msgstr "Reproducción…"
 
@@ -7350,8 +7373,8 @@ msgstr "Escalar fotogramas de vídeo (todos)"
 msgid "Scale (original %dx%d)"
 msgstr "Escalar (original %dx%d)"
 
-#: ../gap/gap_range_ops.c:220 ../gap/gap_story_dialog.c:9004
-#: ../gap/gap_story_dialog.c:9451
+#: ../gap/gap_range_ops.c:220 ../gap/gap_story_dialog.c:9124
+#: ../gap/gap_story_dialog.c:9571
 msgid "Reset"
 msgstr "Restablecer"
 
@@ -7508,7 +7531,7 @@ msgstr ""
 "(canal alfa) pero se limita a una capa."
 
 #. the basename label
-#: ../gap/gap_range_ops.c:555 ../gap/gap_vex_dialog.c:2434
+#: ../gap/gap_range_ops.c:555 ../gap/gap_vex_dialog.c:2455
 msgid "Basename:"
 msgstr "Nombre base"
 
@@ -7522,7 +7545,7 @@ msgstr ""
 
 #. the extension label
 #: ../gap/gap_range_ops.c:562 ../gap/gap_split.c:454
-#: ../gap/gap_vex_dialog.c:2548
+#: ../gap/gap_vex_dialog.c:2569
 msgid "Extension:"
 msgstr "Extensión:"
 
@@ -7730,19 +7753,19 @@ msgstr ""
 msgid "Creating layer-animated image..."
 msgstr "Creando imagen animada mediante capas…"
 
-#: ../gap/gap_range_ops.c:1212
+#: ../gap/gap_range_ops.c:1232
 msgid "Frames to Image"
 msgstr "Fotogramas a imagen"
 
-#: ../gap/gap_range_ops.c:1213
+#: ../gap/gap_range_ops.c:1233
 msgid "Create Multilayer-Image from Frames"
 msgstr "Crear imagen multicapa desde fotogramas"
 
-#: ../gap/gap_range_ops.c:1367
+#: ../gap/gap_range_ops.c:1387
 msgid "Flattening frames..."
 msgstr "Aplanando fotogramas…"
 
-#: ../gap/gap_range_ops.c:1537
+#: ../gap/gap_range_ops.c:1570
 msgid ""
 "Convert Frames: Save operation failed.\n"
 "Desired save plugin can't handle type\n"
@@ -7753,32 +7776,32 @@ msgstr ""
 "ese tipo de imagen, o bien dicho complemento no \n"
 "está disponible."
 
-#: ../gap/gap_range_ops.c:1668
+#: ../gap/gap_range_ops.c:1705
 msgid "Cropping all video frames..."
 msgstr "Recortando todos los fotogramas de animación…"
 
-#: ../gap/gap_range_ops.c:1671
+#: ../gap/gap_range_ops.c:1708
 msgid "Resizing all video frames..."
 msgstr "Redimensionando todos los fotogramas…"
 
-#: ../gap/gap_range_ops.c:1674
+#: ../gap/gap_range_ops.c:1711
 msgid "Scaling all video frames..."
 msgstr "Escalando todos los fotogramas de animación…"
 
-#: ../gap/gap_range_ops.c:1764
+#: ../gap/gap_range_ops.c:1824
 msgid "Flatten Frames"
 msgstr "Aplanar fotogramas"
 
-#: ../gap/gap_range_ops.c:1831
+#: ../gap/gap_range_ops.c:1892
 #, c-format
 msgid "Removing layer (pos:%ld) from frames..."
 msgstr "Quitando capa (pos:%ld) de fotogramas…"
 
-#: ../gap/gap_range_ops.c:1952
+#: ../gap/gap_range_ops.c:2028
 msgid "Delete Layers in Frames"
 msgstr "Borrar capas en fotogramas"
 
-#: ../gap/gap_range_ops.c:1953
+#: ../gap/gap_range_ops.c:2029
 msgid "Select Frame Range & Stack Position"
 msgstr "Seleccionar rango y posición en la pila de fotogramas"
 
@@ -8041,8 +8064,8 @@ msgid "Transition Attributes"
 msgstr "Atributos de transición"
 
 #. the frame
-#: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6201
-#: ../gap/gap_story_dialog.c:6286 ../gap/gap_story_dialog.c:6386
+#: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6302
+#: ../gap/gap_story_dialog.c:6387 ../gap/gap_story_dialog.c:6487
 #: ../gap/gap_story_properties.c:4010
 #: ../gap/gap_story_section_properties.c:779
 msgid "Properties"
@@ -8360,11 +8383,11 @@ msgstr "Comentario:"
 
 #. refuse player call while vthumb prefetch is busy
 #.
-#: ../gap/gap_story_dialog.c:1684
+#: ../gap/gap_story_dialog.c:1756
 msgid "playback was blocked (video file access is busy)"
 msgstr "reproducción bloqueada (acceso a archivos de vídeo ocupado)"
 
-#: ../gap/gap_story_dialog.c:2314 ../gap/gap_story_dialog.c:2352
+#: ../gap/gap_story_dialog.c:2386 ../gap/gap_story_dialog.c:2424
 #, c-format
 msgid ""
 "** ERROR: Storyboard parser reported:\n"
@@ -8373,101 +8396,101 @@ msgstr ""
 "** Error: el analizador del «storyboard» informó:\n"
 "%s\n"
 
-#: ../gap/gap_story_dialog.c:3062
+#: ../gap/gap_story_dialog.c:3134
 msgid "Load Storyboard"
 msgstr "Cargar «storyboard»"
 
-#: ../gap/gap_story_dialog.c:3066
+#: ../gap/gap_story_dialog.c:3138
 msgid "Load Cliplist"
 msgstr "Cargar lista de clips"
 
-#: ../gap/gap_story_dialog.c:3104
+#: ../gap/gap_story_dialog.c:3176
 msgid "Save Storyboard file"
 msgstr "Guardar archivo de «storyboard»"
 
-#: ../gap/gap_story_dialog.c:4717
+#: ../gap/gap_story_dialog.c:4789
 #, c-format
 msgid "UNDO %s"
 msgstr "DESHACER %s"
 
-#: ../gap/gap_story_dialog.c:4722 ../gap/gap_story_dialog.c:7992
+#: ../gap/gap_story_dialog.c:4794 ../gap/gap_story_dialog.c:8093
 msgid "UNDO"
 msgstr "DESHACER"
 
-#: ../gap/gap_story_dialog.c:4756
+#: ../gap/gap_story_dialog.c:4828
 #, c-format
 msgid "REDO %s"
 msgstr "REHACER «%s»"
 
-#: ../gap/gap_story_dialog.c:4761 ../gap/gap_story_dialog.c:8002
+#: ../gap/gap_story_dialog.c:4833 ../gap/gap_story_dialog.c:8103
 msgid "REDO"
 msgstr "REHACER"
 
-#: ../gap/gap_story_dialog.c:5130
+#: ../gap/gap_story_dialog.c:5202
 msgid "Global Layout Properties dialog already open"
 msgstr "La ventana de propiedades de la capa global ya está abierta"
 
-#: ../gap/gap_story_dialog.c:5137
+#: ../gap/gap_story_dialog.c:5209
 msgid "large"
 msgstr "grande"
 
-#: ../gap/gap_story_dialog.c:5138
+#: ../gap/gap_story_dialog.c:5210
 msgid "medium"
 msgstr "mediano"
 
-#: ../gap/gap_story_dialog.c:5139
+#: ../gap/gap_story_dialog.c:5211
 msgid "small"
 msgstr "pequeño"
 
-#: ../gap/gap_story_dialog.c:5144
+#: ../gap/gap_story_dialog.c:5216
 msgid "Cliplist Layout:"
 msgstr "Disposición de la lista de clips:"
 
-#: ../gap/gap_story_dialog.c:5149 ../gap/gap_story_dialog.c:5189
+#: ../gap/gap_story_dialog.c:5221 ../gap/gap_story_dialog.c:5261
 msgid "Thumbnail Size:"
 msgstr "Tamaño de la imagen en miniatura:"
 
-#: ../gap/gap_story_dialog.c:5150
+#: ../gap/gap_story_dialog.c:5222
 msgid "Thumbnail size in the cliplist"
 msgstr "Tamaño de la imagen en miniatura en la lista de clips"
 
-#: ../gap/gap_story_dialog.c:5160 ../gap/gap_story_dialog.c:5200
+#: ../gap/gap_story_dialog.c:5232 ../gap/gap_story_dialog.c:5272
 msgid "Columns:"
 msgstr "Columnas:"
 
-#: ../gap/gap_story_dialog.c:5161
+#: ../gap/gap_story_dialog.c:5233
 msgid "columns in the cliplist"
 msgstr "columnas en la lista de clips"
 
-#: ../gap/gap_story_dialog.c:5171 ../gap/gap_story_dialog.c:5211
+#: ../gap/gap_story_dialog.c:5243 ../gap/gap_story_dialog.c:5283
 msgid "Rows:"
 msgstr "Filas:"
 
-#: ../gap/gap_story_dialog.c:5172
+#: ../gap/gap_story_dialog.c:5244
 msgid "rows in the cliplist"
 msgstr "filas en la lista de clips"
 
-#: ../gap/gap_story_dialog.c:5184
+#: ../gap/gap_story_dialog.c:5256
 msgid "Storyboard Layout:"
 msgstr "Apariencia del «storyboard»:"
 
-#: ../gap/gap_story_dialog.c:5190
+#: ../gap/gap_story_dialog.c:5262
 msgid "Thumbnail size in the storyboard list"
 msgstr "Tamaño de la imagen en miniatura en la lista del «storyboard»"
 
-#: ../gap/gap_story_dialog.c:5201
+#: ../gap/gap_story_dialog.c:5273
 msgid "columns in the storyboard list"
 msgstr "columnas en la lista del «storyboard»"
 
-#: ../gap/gap_story_dialog.c:5212
+#: ../gap/gap_story_dialog.c:5284
 msgid "rows in the storyboard list"
 msgstr "filas en la lista del «storyboard»"
 
-#: ../gap/gap_story_dialog.c:5223
+#: ../gap/gap_story_dialog.c:5295
 msgid "Force Aspect:"
 msgstr "Forzar aspecto:"
 
-#: ../gap/gap_story_dialog.c:5224
+#: ../gap/gap_story_dialog.c:5296
 msgid ""
 "ON: player shows clips transformed to aspect setting from the Storyboard "
 "properties.OFF: player shows clips according to their original pixel sizes"
@@ -8476,15 +8499,15 @@ msgstr ""
 "aspecto de las propiedades de «storyboard». Desactivado: el reproductor "
 "muestra los clips de acuerdo a los tamaños de píxel originales"
 
-#: ../gap/gap_story_dialog.c:5234
+#: ../gap/gap_story_dialog.c:5306
 msgid "Use the standard built in layout settings"
 msgstr "Usar las opciones de capa incorporadas estándar"
 
-#: ../gap/gap_story_dialog.c:5236
+#: ../gap/gap_story_dialog.c:5308
 msgid "Global Layout Properties"
 msgstr "Propiedades de capa global"
 
-#: ../gap/gap_story_dialog.c:5350
+#: ../gap/gap_story_dialog.c:5422
 msgid ""
 "GIMP-GAP is compiled without videoapi support. Therefore thumbnails for "
 "videoframes can not be displayed."
@@ -8492,15 +8515,15 @@ msgstr ""
 "GIMP-GAP está compilado sin soporte «videoapi». Debido a esto las miniaturas "
 "para los fotogramas de vídeo no pueden mostrarse."
 
-#: ../gap/gap_story_dialog.c:5453
+#: ../gap/gap_story_dialog.c:5547
 msgid "Global Render Properties dialog already open"
 msgstr "El diálogo de propiedades de renderización globales ya está abierto"
 
-#: ../gap/gap_story_dialog.c:5463
+#: ../gap/gap_story_dialog.c:5557
 msgid "Max open Videofiles:"
 msgstr "Número máximo de archivos de vídeo abiertos:"
 
-#: ../gap/gap_story_dialog.c:5464
+#: ../gap/gap_story_dialog.c:5558
 msgid ""
 "Maximum number of videofiles to be opened at same time while storyboard "
 "rendering"
@@ -8508,11 +8531,11 @@ msgstr ""
 "Número máximo de archivos de vídeo abiertos al mismo tiempo mientras se "
 "renderiza el «storyboard»"
 
-#: ../gap/gap_story_dialog.c:5474
+#: ../gap/gap_story_dialog.c:5568
 msgid "Framecache / open video:"
 msgstr "Caché de fotogramas por cada vídeo abierto:"
 
-#: ../gap/gap_story_dialog.c:5475
+#: ../gap/gap_story_dialog.c:5569
 msgid ""
 "Maximum number of frames to be cached per open video (only relevant when "
 "video clips are rendered backwards)"
@@ -8521,11 +8544,11 @@ msgstr ""
 "abierto (sólo es relevante cuando los clips de vídeo se renderizan en "
 "sentido inverso)"
 
-#: ../gap/gap_story_dialog.c:5488
+#: ../gap/gap_story_dialog.c:5582
 msgid "Max Image cache:"
 msgstr "Caché máx. de imágenes:"
 
-#: ../gap/gap_story_dialog.c:5489
+#: ../gap/gap_story_dialog.c:5583
 msgid ""
 "Maximum number of images to keep cached (in memory as gimp image without "
 "display) while storyboard rendering"
@@ -8533,11 +8556,11 @@ msgstr ""
 "Número máximo de imágenes que conservar en la caché (en memoria como imagen "
 "de GIMP sin presentación) mientras se renderiza el «storyboard»"
 
-#: ../gap/gap_story_dialog.c:5501
+#: ../gap/gap_story_dialog.c:5595
 msgid "Resource Loginterval:"
 msgstr "Intervalo de registro del recurso:"
 
-#: ../gap/gap_story_dialog.c:5502
+#: ../gap/gap_story_dialog.c:5596
 msgid ""
 "Value 0 turns off resource logging to stdout. Value n logs current resource "
 "usage afte each n processed frames to stdout (this includes the list of "
@@ -8548,11 +8571,11 @@ msgstr ""
 "stdout (incluye la lista de imágenes en caché y los archivos de vídeo "
 "abiertos)"
 
-#: ../gap/gap_story_dialog.c:5515
+#: ../gap/gap_story_dialog.c:5609
 msgid "Render preview at full size:"
 msgstr "Renderizar vista previa a tamaño completo:"
 
-#: ../gap/gap_story_dialog.c:5516
+#: ../gap/gap_story_dialog.c:5610
 msgid ""
 "ON: Rendering of composite frames for preview purpose is done (slow) at full "
 "size.OFF: storyboard rendering for preview purpose is done at small size "
@@ -8566,11 +8589,11 @@ msgstr ""
 "fotograma de composición al tamaño original mediante una pulsación sobre la "
 "vista previa del reproductor)."
 
-#: ../gap/gap_story_dialog.c:5542
+#: ../gap/gap_story_dialog.c:5636
 msgid "Multiprocessor Storyboard Support:"
 msgstr "Soporte de multiprocesador para el «storyboard»:"
 
-#: ../gap/gap_story_dialog.c:5543
+#: ../gap/gap_story_dialog.c:5637
 msgid ""
 "ON: Rendering of composite storyboard frames uses more than one processor. "
 "(reading frames from videoclips is done by parallel running prefetch "
@@ -8582,11 +8605,11 @@ msgstr ""
 "DESACTIVADO: la renderización de los fotogramas de composición utiliza un "
 "solo procesador."
 
-#: ../gap/gap_story_dialog.c:5554
+#: ../gap/gap_story_dialog.c:5648
 msgid "Multiprocessor Encoder Support:"
 msgstr "Soporte de codificación multiprocesador:"
 
-#: ../gap/gap_story_dialog.c:5555
+#: ../gap/gap_story_dialog.c:5649
 msgid ""
 "ON: Video encoders shall use more than one processor where implemented. The "
 "ffmpeg based video encoder implementation supports parallel processing. OFF: "
@@ -8597,20 +8620,20 @@ msgstr ""
 "soporta el procesado paralelo. DESACTIVADO: los codificadores de vídeo usan "
 "un solo procesador."
 
-#: ../gap/gap_story_dialog.c:5569
+#: ../gap/gap_story_dialog.c:5663
 msgid "Use the standard built in storyboard render settings"
 msgstr ""
 "Usar las opciones incorporadas estándar de renderización del «storyboard»"
 
-#: ../gap/gap_story_dialog.c:5571
+#: ../gap/gap_story_dialog.c:5665
 msgid "Global Storyboard Render Properties"
 msgstr "Propiedades globales de renderización del «storyboard»"
 
-#: ../gap/gap_story_dialog.c:5572 ../gap/gap_story_dialog.c:6206
+#: ../gap/gap_story_dialog.c:5666 ../gap/gap_story_dialog.c:6307
 msgid "Render Settings"
 msgstr "Configuración del renderizado"
 
-#: ../gap/gap_story_dialog.c:5670
+#: ../gap/gap_story_dialog.c:5764
 #, c-format
 msgid ""
 "Failed to write cliplistfile\n"
@@ -8621,7 +8644,7 @@ msgstr ""
 "archivo: «%s»:\n"
 "%s"
 
-#: ../gap/gap_story_dialog.c:5927
+#: ../gap/gap_story_dialog.c:6025
 #, c-format
 msgid ""
 "Failed to write storyboardfile\n"
@@ -8632,158 +8655,158 @@ msgstr ""
 "archivo: «%s»:\n"
 "%s"
 
-#: ../gap/gap_story_dialog.c:6199
+#: ../gap/gap_story_dialog.c:6300
 msgid "Global"
 msgstr "Global"
 
-#: ../gap/gap_story_dialog.c:6213
+#: ../gap/gap_story_dialog.c:6314
 msgid "Video thumbnails"
 msgstr "Miniaturas de vídeo"
 
-#: ../gap/gap_story_dialog.c:6221
+#: ../gap/gap_story_dialog.c:6322
 msgid "DEBUG: log to stdout"
 msgstr "DEBUG: registrar en stdout"
 
-#: ../gap/gap_story_dialog.c:6241
+#: ../gap/gap_story_dialog.c:6342
 msgid "Help"
 msgstr "Ayuda"
 
 #. the clp_frame
-#: ../gap/gap_story_dialog.c:6256 ../gap/gap_story_dialog.c:8723
+#: ../gap/gap_story_dialog.c:6357 ../gap/gap_story_dialog.c:8843
 msgid "Cliplist"
 msgstr "Lista de clips"
 
 #. XXXXXXXXXXX Player Frame  XXXXXXXXXXXX
 #. the player_frame
-#: ../gap/gap_story_dialog.c:6280 ../gap/gap_story_dialog.c:6380
-#: ../gap/gap_story_dialog.c:8774
+#: ../gap/gap_story_dialog.c:6381 ../gap/gap_story_dialog.c:6481
+#: ../gap/gap_story_dialog.c:8894
 msgid "Playback"
 msgstr "Reproducción"
 
-#: ../gap/gap_story_dialog.c:6292 ../gap/gap_story_dialog.c:6392
+#: ../gap/gap_story_dialog.c:6393 ../gap/gap_story_dialog.c:6493
 msgid "Create Clip"
 msgstr "Crear clip"
 
-#: ../gap/gap_story_dialog.c:6298 ../gap/gap_story_dialog.c:6398
+#: ../gap/gap_story_dialog.c:6399 ../gap/gap_story_dialog.c:6499
 msgid "Create Section Clip"
 msgstr "Crear sección clip"
 
-#: ../gap/gap_story_dialog.c:6304 ../gap/gap_story_dialog.c:6404
+#: ../gap/gap_story_dialog.c:6405 ../gap/gap_story_dialog.c:6505
 msgid "Create Transition"
 msgstr "Crear transición"
 
-#: ../gap/gap_story_dialog.c:6309 ../gap/gap_story_dialog.c:6409
+#: ../gap/gap_story_dialog.c:6410 ../gap/gap_story_dialog.c:6510
 msgid "Toggle Unit"
 msgstr "Conmutar unidad"
 
-#: ../gap/gap_story_dialog.c:6315 ../gap/gap_story_dialog.c:6415
+#: ../gap/gap_story_dialog.c:6416 ../gap/gap_story_dialog.c:6516
 msgid "Add Original Audio Track"
 msgstr "Añadir pista de sonido original"
 
-#: ../gap/gap_story_dialog.c:6321 ../gap/gap_story_dialog.c:6421
+#: ../gap/gap_story_dialog.c:6422 ../gap/gap_story_dialog.c:6522
 msgid "Encode"
 msgstr "Codificar"
 
-#: ../gap/gap_story_dialog.c:6356
+#: ../gap/gap_story_dialog.c:6457
 msgid "_Storyboard"
 msgstr "_«storyboard»"
 
-#: ../gap/gap_story_dialog.c:6475
+#: ../gap/gap_story_dialog.c:6576
 #, c-format
 msgid "Unsaved cliplist changes '%s'"
 msgstr "Cambios sin guardar en la lista de clips «%s»"
 
-#: ../gap/gap_story_dialog.c:6487
+#: ../gap/gap_story_dialog.c:6588
 #, c-format
 msgid "Unsaved storyboard changes '%s'"
 msgstr "Cambios sin guardar en el «storyboard» «%s»"
 
-#: ../gap/gap_story_dialog.c:6499
+#: ../gap/gap_story_dialog.c:6600
 msgid "Quit Storyboard"
 msgstr "Salir del «storyboard»"
 
-#: ../gap/gap_story_dialog.c:6512 ../gap/gap_story_dialog.c:6513
+#: ../gap/gap_story_dialog.c:6613 ../gap/gap_story_dialog.c:6614
 msgid "Storyboard unsaved changes"
 msgstr "Hay cambios sin guardar en el «storyboard»"
 
-#: ../gap/gap_story_dialog.c:6565
+#: ../gap/gap_story_dialog.c:6666
 msgid "Storyboard:"
 msgstr "«storyboard»:"
 
-#: ../gap/gap_story_dialog.c:6580 ../gap/gap_story_dialog.c:6609
+#: ../gap/gap_story_dialog.c:6681 ../gap/gap_story_dialog.c:6710
 msgid "(modified)"
 msgstr "(modificado)"
 
-#: ../gap/gap_story_dialog.c:6586
+#: ../gap/gap_story_dialog.c:6687
 msgid "Cliplist:"
 msgstr "Lista de clips:"
 
-#: ../gap/gap_story_dialog.c:6772
+#: ../gap/gap_story_dialog.c:6873
 #, c-format
 msgid "Videoseek (decoder: %s)"
 msgstr "Búsqueda de vídeo (decodificador: %s)"
 
-#: ../gap/gap_story_dialog.c:6908
+#: ../gap/gap_story_dialog.c:7009
 msgid "video thumbnail cancelled"
 msgstr "miniaturas de vídeo canceladas"
 
-#: ../gap/gap_story_dialog.c:6934
+#: ../gap/gap_story_dialog.c:7035
 #, c-format
 msgid "Fetching video thumbnail for clip: %d (out of %d)"
 msgstr "Obteniendo miniatura de vídeo para el clip: %d (de %d)"
 
-#: ../gap/gap_story_dialog.c:7779 ../gap/gap_story_section_properties.c:637
+#: ../gap/gap_story_dialog.c:7880 ../gap/gap_story_section_properties.c:637
 msgid "MAIN"
 msgstr "PRINCIPAL"
 
-#: ../gap/gap_story_dialog.c:7782
+#: ../gap/gap_story_dialog.c:7883
 msgid "Masks"
 msgstr "Máscaras"
 
-#: ../gap/gap_story_dialog.c:7897
+#: ../gap/gap_story_dialog.c:7998
 msgid "Load storyboard file"
 msgstr "Cargar archivo de «storyboard»"
 
-#: ../gap/gap_story_dialog.c:7903
+#: ../gap/gap_story_dialog.c:8004
 msgid "Load cliplist file"
 msgstr "Cargar archivo de lista de clips"
 
-#: ../gap/gap_story_dialog.c:7918
+#: ../gap/gap_story_dialog.c:8019
 msgid "Save storyboard to file"
 msgstr "Guardar «storyboard» en un archivo"
 
-#: ../gap/gap_story_dialog.c:7927
+#: ../gap/gap_story_dialog.c:8028
 msgid "Save cliplist to file"
 msgstr "Guardar lista de clips en un archivo"
 
-#: ../gap/gap_story_dialog.c:7958
+#: ../gap/gap_story_dialog.c:8059
 msgid "Show Section properties window"
 msgstr "Mostrar ventana de Propiedades de sección"
 
 #. Track label
-#: ../gap/gap_story_dialog.c:7963 ../gap/gap_video_index_creator.c:970
+#: ../gap/gap_story_dialog.c:8064 ../gap/gap_video_index_creator.c:970
 msgid "Track:"
 msgstr "Pista:"
 
-#: ../gap/gap_story_dialog.c:7978
+#: ../gap/gap_story_dialog.c:8079
 msgid "Video Track Number (0 refers to mask definition track)"
 msgstr ""
 "Número de pista de vídeo (0 se refiere a la definición de la máscara de la "
 "pista)"
 
-#: ../gap/gap_story_dialog.c:8014
+#: ../gap/gap_story_dialog.c:8115
 msgid "Cut a clip"
 msgstr "Cortar un clip"
 
-#: ../gap/gap_story_dialog.c:8026
+#: ../gap/gap_story_dialog.c:8127
 msgid "Copy a clip"
 msgstr "Copiar un clip"
 
-#: ../gap/gap_story_dialog.c:8038
+#: ../gap/gap_story_dialog.c:8139
 msgid "Paste a clip after last (selected) element"
 msgstr "Pegar un clip después del último elemento seleccionado"
 
-#: ../gap/gap_story_dialog.c:8050
+#: ../gap/gap_story_dialog.c:8151
 msgid ""
 "Create new clip\n"
 "(SHIFT create transition\n"
@@ -8793,7 +8816,7 @@ msgstr ""
 "(Mayús crea transición\n"
 "Ctrl crea sección de clip)"
 
-#: ../gap/gap_story_dialog.c:8064
+#: ../gap/gap_story_dialog.c:8165
 msgid ""
 "Play selected clips\n"
 "SHIFT: Playback all clips of current track.\n"
@@ -8805,63 +8828,63 @@ msgstr ""
 
 #. gtk_widget_show (entry);
 #. Row label
-#: ../gap/gap_story_dialog.c:8095
+#: ../gap/gap_story_dialog.c:8196
 msgid "Row:"
 msgstr "Fila:"
 
-#: ../gap/gap_story_dialog.c:8109
+#: ../gap/gap_story_dialog.c:8210
 msgid "Top rownumber"
 msgstr "Número de fila superior"
 
 #. of label
-#: ../gap/gap_story_dialog.c:8115
+#: ../gap/gap_story_dialog.c:8216
 msgid "of:"
 msgstr "de:"
 
 #. the stb_frame
 #. radio button Storyboard input_mode
-#: ../gap/gap_story_dialog.c:8672 ../gap/gap_story_dialog.c:8790
+#: ../gap/gap_story_dialog.c:8792 ../gap/gap_story_dialog.c:8910
 #: ../vid_common/gap_cme_gui.c:2507
 msgid "Storyboard"
 msgstr "«storyboard»"
 
-#: ../gap/gap_story_dialog.c:8863
+#: ../gap/gap_story_dialog.c:8983
 msgid "ON: clip target is storyboard (for clips created from playback range)."
 msgstr ""
 "Activado: el clip es el «storyboard» (para clips creados desde el rango de "
 "reproducción)."
 
-#: ../gap/gap_story_dialog.c:8893 ../vid_common/gap_cme_gui.c:2379
+#: ../gap/gap_story_dialog.c:9013 ../vid_common/gap_cme_gui.c:2379
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../gap/gap_story_dialog.c:8897 ../gap/gap_video_index_creator.c:1447
+#: ../gap/gap_story_dialog.c:9017 ../gap/gap_video_index_creator.c:1447
 msgid ""
 "Cancel video access if in progress and disable automatic video thumbnails"
 msgstr ""
 "Cancelar el acceso al vídeo si está en progreso y desactivar las miniaturas "
 "de video automáticas"
 
-#: ../gap/gap_story_dialog.c:8963
+#: ../gap/gap_story_dialog.c:9083
 msgid ""
 "Generate original tone audio track for all video clips in the storyboard"
 msgstr ""
 "Generar pista de sonido con el tono original para todos los clips de vídeo "
 "en el «storyboard»"
 
-#: ../gap/gap_story_dialog.c:8969
+#: ../gap/gap_story_dialog.c:9089
 msgid "Input Audiotrack:"
 msgstr "Pista de sonido de entrada:"
 
-#: ../gap/gap_story_dialog.c:8970
+#: ../gap/gap_story_dialog.c:9090
 msgid "select input audiotrack in the videofile(s)."
 msgstr "seleccione la pista de sonido de entrada en el archivo de vídeo."
 
-#: ../gap/gap_story_dialog.c:8981
+#: ../gap/gap_story_dialog.c:9101
 msgid "Output Audiotrack:"
 msgstr "Pista de sonido de salida:"
 
-#: ../gap/gap_story_dialog.c:8982
+#: ../gap/gap_story_dialog.c:9102
 msgid ""
 "output audiotrack to be generated in the storyboard file. The generated "
 "storyboard audiotrack will be a list of references to the audioparts in the "
@@ -8872,11 +8895,11 @@ msgstr ""
 "sonido en los vídeos de entrada, que se corresponderá con todas las "
 "referencias a clips de vídeo usadas."
 
-#: ../gap/gap_story_dialog.c:8994
+#: ../gap/gap_story_dialog.c:9114
 msgid "Replace Audiotrack:"
 msgstr "Reemplazar pista de sonido:"
 
-#: ../gap/gap_story_dialog.c:8995
+#: ../gap/gap_story_dialog.c:9115
 msgid ""
 "ON: Allow replacing of already existing audio clip references  in the "
 "storyboard"
@@ -8884,15 +8907,15 @@ msgstr ""
 "Activado: Permitir el reemplazo de referencias a clips de sonido ya "
 "existentes en el «storyboard»"
 
-#: ../gap/gap_story_dialog.c:9005
+#: ../gap/gap_story_dialog.c:9125
 msgid "Reset parameters to default values"
 msgstr "Restablecer parámetros a los valores predeterminados"
 
-#: ../gap/gap_story_dialog.c:9013
+#: ../gap/gap_story_dialog.c:9133
 msgid "Generate Original Tone Audio"
 msgstr "Generar sonido con tono original"
 
-#: ../gap/gap_story_dialog.c:9047
+#: ../gap/gap_story_dialog.c:9167
 #, c-format
 msgid ""
 "Original tone track was not created.\n"
@@ -8905,7 +8928,7 @@ msgstr ""
 "ya tiene referencias de clip de sonido en la pista %d.\n"
 "Use otro número de pista o permita su reemplazo en el próximo intento."
 
-#: ../gap/gap_story_dialog.c:9059
+#: ../gap/gap_story_dialog.c:9179
 #, c-format
 msgid ""
 "Original tone track was created with warnings.\n"
@@ -8920,49 +8943,49 @@ msgstr ""
 "la frecuencia maestra%.4f.\n"
 "El sonido generado NO está sincronizado con el vídeo."
 
-#: ../gap/gap_story_dialog.c:9158
+#: ../gap/gap_story_dialog.c:9278
 msgid "automatic"
 msgstr "automático"
 
-#: ../gap/gap_story_dialog.c:9159
+#: ../gap/gap_story_dialog.c:9279
 msgid "none"
 msgstr "ninguno"
 
 #. the section_name label
-#: ../gap/gap_story_dialog.c:9203 ../gap/gap_story_section_properties.c:849
+#: ../gap/gap_story_dialog.c:9323 ../gap/gap_story_section_properties.c:849
 msgid "Name:"
 msgstr "Nombre:"
 
-#: ../gap/gap_story_dialog.c:9207
+#: ../gap/gap_story_dialog.c:9327
 msgid "Name of the Storyboardfile"
 msgstr "Nombre del archivo de «storyboard»"
 
-#: ../gap/gap_story_dialog.c:9213
+#: ../gap/gap_story_dialog.c:9333
 msgid "Name of the Cliplistfile"
 msgstr "Nombre del archivo lista de clips"
 
-#: ../gap/gap_story_dialog.c:9223 ../gap/gap_story_dialog.c:9227
+#: ../gap/gap_story_dialog.c:9343 ../gap/gap_story_dialog.c:9347
 #, c-format
 msgid "Name: %s"
 msgstr "Nombre: %s"
 
-#: ../gap/gap_story_dialog.c:9236
+#: ../gap/gap_story_dialog.c:9356
 msgid "Master width of the resulting video in pixels"
 msgstr "Anchura principal del vídeo obtenido en píxeles"
 
-#: ../gap/gap_story_dialog.c:9247
+#: ../gap/gap_story_dialog.c:9367
 msgid "Master height of the resulting video in pixels)"
 msgstr "Altura principal del vídeo obtenido en píxeles"
 
-#: ../gap/gap_story_dialog.c:9259
+#: ../gap/gap_story_dialog.c:9379
 msgid "Framerate in frames/sec."
 msgstr "Frecuencia de fotogramas en fotogramas/s."
 
-#: ../gap/gap_story_dialog.c:9277
+#: ../gap/gap_story_dialog.c:9397
 msgid "Track 1 on top:"
 msgstr "Pista 1 encima:"
 
-#: ../gap/gap_story_dialog.c:9278
+#: ../gap/gap_story_dialog.c:9398
 msgid ""
 "ON: video track1 is Foregrond (on top). OFF: video track 1 is on Background."
 msgstr ""
@@ -8970,11 +8993,11 @@ msgstr ""
 "Desactivado: pista 2 de vídeo es la base de la pila (de fondo)."
 
 #. the aspect label
-#: ../gap/gap_story_dialog.c:9316 ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3779
+#: ../gap/gap_story_dialog.c:9436 ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3779
 msgid "Aspect:"
 msgstr "Proporción:"
 
-#: ../gap/gap_story_dialog.c:9317
+#: ../gap/gap_story_dialog.c:9437
 msgid ""
 "Select video frame aspect ratio; enter a string like \"4:3\" or \"16:9\" to "
 "specify the aspect. Enter none or leave empty if no special aspect shall be "
@@ -8988,12 +9011,12 @@ msgstr ""
 "fotogramas de vídeo)."
 
 #. the (preferred) Decoder label
-#: ../gap/gap_story_dialog.c:9359 ../gap/gap_vex_dialog.c:2285
+#: ../gap/gap_story_dialog.c:9479 ../gap/gap_vex_dialog.c:2306
 #: ../gap/gap_video_index_creator.c:956
 msgid "Decoder:"
 msgstr "Decodificador:"
 
-#: ../gap/gap_story_dialog.c:9360
+#: ../gap/gap_story_dialog.c:9480
 msgid ""
 "Select preferred video decoder library, or leave empty for automatic "
 "selection.The decoder setting is only relevant if videoclips are used (but "
@@ -9004,22 +9027,22 @@ msgstr ""
 "relevantes si se usan videoclips (pero no con fotogramas que sean archivos "
 "de imagen)"
 
-#: ../gap/gap_story_dialog.c:9378
+#: ../gap/gap_story_dialog.c:9498
 msgid "Master audio samplerate for the resulting video in samples/sec."
 msgstr ""
 "Frecuencia de muestreo del sonido principal para el vídeo obtenido en "
 "muestras/s."
 
-#: ../gap/gap_story_dialog.c:9394
+#: ../gap/gap_story_dialog.c:9514
 msgid "Master audio volume, where 1.0 keeps original volume"
 msgstr "Volumen de sonido principal, donde 1.0 mantiene el volumen original"
 
-#: ../gap/gap_story_dialog.c:9419
+#: ../gap/gap_story_dialog.c:9539
 msgid "Ext. Transparency Format:"
 msgstr "Formato de transparencia externa:"
 
 #. pixel
-#: ../gap/gap_story_dialog.c:9421
+#: ../gap/gap_story_dialog.c:9541
 #, c-format
 msgid ""
 "Format string to provide external tranparency in movie clips. (e.g automatic "
@@ -9032,12 +9055,12 @@ msgstr ""
 "como marcador de posición para el nombre base de un clip de vídeo y un \\%"
 "06d opcional como marcador de posición para el número de fotograma."
 
-#: ../gap/gap_story_dialog.c:9440
+#: ../gap/gap_story_dialog.c:9560
 msgid "AreaFormat:"
 msgstr "ÁreaFormato:"
 
 #. pixel
-#: ../gap/gap_story_dialog.c:9442
+#: ../gap/gap_story_dialog.c:9562
 #, c-format
 msgid ""
 "Format string for area replacement in movie clips. (e.g automatic logo "
@@ -9050,51 +9073,51 @@ msgstr ""
 "como marcador de posición para el número de fotograma."
 
 #. should use GIMP_STOCK_RESET if possible
-#: ../gap/gap_story_dialog.c:9452
+#: ../gap/gap_story_dialog.c:9572
 msgid "Reset parameters to inital values"
 msgstr "Restablecer parámetros a los valores iniciales"
 
-#: ../gap/gap_story_dialog.c:9463
+#: ../gap/gap_story_dialog.c:9583
 msgid "Master Properties"
 msgstr "Propiedades principales"
 
-#: ../gap/gap_story_dialog.c:9960
+#: ../gap/gap_story_dialog.c:10080
 msgid "STORY_new.txt"
 msgstr "HISTORIA_nueva.txt"
 
-#: ../gap/gap_story_file.c:566 ../gap/gap_story_file.c:611
+#: ../gap/gap_story_file.c:576 ../gap/gap_story_file.c:621
 msgid "internal error"
 msgstr "error interno"
 
-#: ../gap/gap_story_file.c:1141
+#: ../gap/gap_story_file.c:1151
 #, c-format
 msgid "section_%02d"
 msgstr "sección_%02d"
 
-#: ../gap/gap_story_file.c:2699
+#: ../gap/gap_story_file.c:2709
 #, c-format
 msgid "illegal number: %s (valid range is %d upto %d)\n"
 msgstr "número ilegal: %s (rango válido entre %d y %d)\n"
 
-#: ../gap/gap_story_file.c:2738
+#: ../gap/gap_story_file.c:2748
 #, c-format
 msgid "illegal number: %s (valid range is %.3f upto %.3f)"
 msgstr "número ilegal: %s (rango válido entre %.3f y %.3f)"
 
-#: ../gap/gap_story_file.c:2780
+#: ../gap/gap_story_file.c:2790
 #, c-format
 msgid "illegal boolean value: %s (valid range is %s or %s)\n"
 msgstr "número ilegal: %s (rango válido entre %s y %s)\n"
 
-#: ../gap/gap_story_file.c:3135
+#: ../gap/gap_story_file.c:3145
 msgid "same parameter used more than once"
 msgstr "el mismo parámetro usado más de una vez"
 
-#: ../gap/gap_story_file.c:3147
+#: ../gap/gap_story_file.c:3157
 msgid "conflict: positional parameter shadows named parameter"
 msgstr "conflicto: el parámetro posicional oculta un parámetro con nombre"
 
-#: ../gap/gap_story_file.c:3195
+#: ../gap/gap_story_file.c:3205
 #, c-format
 msgid ""
 "Header not found!\n"
@@ -9103,14 +9126,14 @@ msgstr ""
 "No se encontró la cabecera\n"
 "(la línea 1 debe comenzar con: %s o %s)"
 
-#: ../gap/gap_story_file.c:3634
+#: ../gap/gap_story_file.c:3644
 #, c-format
 msgid "illegal keyword: %s (expected keywords are: width, height, both, none)"
 msgstr ""
 "palabra clave no permitida: «%s» (las palabras permitidas son: width, height, "
 "both, none)"
 
-#: ../gap/gap_story_file.c:3661
+#: ../gap/gap_story_file.c:3671
 #, c-format
 msgid "illegal keyword: %s (expected keywords are: keep, change)"
 msgstr ""
@@ -9122,11 +9145,11 @@ msgstr ""
 #. accept unsupported lines (with just a warning)
 #. * because the file has correct Header
 #.
-#: ../gap/gap_story_file.c:4470 ../gap/gap_story_file.c:4477
+#: ../gap/gap_story_file.c:4480 ../gap/gap_story_file.c:4487
 msgid "Unsupported line was ignored"
 msgstr "Se omitió una línea no admitida"
 
-#: ../gap/gap_story_file.c:4674
+#: ../gap/gap_story_file.c:4684
 #, c-format
 msgid ""
 "the passed filename %s has irrelevant content or could not be opened by the "
@@ -9364,7 +9387,7 @@ msgstr ""
 
 #. the Deinterlace Mode label
 #. the deinterlace Mode label
-#: ../gap/gap_story_properties.c:4315 ../gap/gap_vex_dialog.c:2612
+#: ../gap/gap_story_properties.c:4315 ../gap/gap_vex_dialog.c:2633
 msgid "Deinterlace:"
 msgstr "Desentrelazado:"
 
@@ -9637,25 +9660,25 @@ msgstr "no se puede guardar el sonido en archivo: «%s» "
 msgid "ready"
 msgstr "preparado"
 
-#: ../gap/gap_story_render_processor.c:1040
+#: ../gap/gap_story_render_processor.c:1041
 #, c-format
 msgid "encoding_video_frame_%06d"
 msgstr "codificando_fotograma_vídeo_%06d"
 
-#: ../gap/gap_story_render_processor.c:3296
+#: ../gap/gap_story_render_processor.c:3297
 #, c-format
 msgid "analyze line %d (out of %d)"
 msgstr "analizada línea %d (de %d)"
 
-#: ../gap/gap_story_render_processor.c:3438
+#: ../gap/gap_story_render_processor.c:3439
 msgid "No Frames or Images found ...."
 msgstr "No se encontraron fotogramas o imágenes…"
 
-#: ../gap/gap_story_render_processor.c:7648
+#: ../gap/gap_story_render_processor.c:7632
 msgid "Seek Inputvideoframe..."
 msgstr "Buscar fotograma de entrada de vídeo…"
 
-#: ../gap/gap_story_render_processor.c:7682
+#: ../gap/gap_story_render_processor.c:7666
 msgid "Continue Encoding..."
 msgstr "Continuar la codificación…"
 
@@ -9738,41 +9761,41 @@ msgstr "Borrar sección de «storyboard»"
 msgid "Info:"
 msgstr "Información:"
 
-#: ../gap/gap_story_vthumb.c:293
+#: ../gap/gap_story_vthumb.c:295
 #, c-format
 msgid "Creating Index (decoder: %s)"
 msgstr "Creando índice (decodificador: %s)"
 
-#: ../gap/gap_vex_dialog.c:236
+#: ../gap/gap_vex_dialog.c:237
 msgid "Overwrite File"
 msgstr "Sobreescribir archivo"
 
-#: ../gap/gap_vex_dialog.c:246
+#: ../gap/gap_vex_dialog.c:247
 #, c-format
 msgid "File: %s already exists"
 msgstr "El archivo: «%s» ya existe"
 
-#: ../gap/gap_vex_dialog.c:682 ../gap/gap_vex_dialog.c:685
+#: ../gap/gap_vex_dialog.c:703 ../gap/gap_vex_dialog.c:706
 msgid "Set range to extract"
 msgstr "Establecer el rango a extraer"
 
-#: ../gap/gap_vex_dialog.c:786
+#: ../gap/gap_vex_dialog.c:807
 msgid "unknown"
 msgstr "desconocido"
 
-#: ../gap/gap_vex_dialog.c:1776
+#: ../gap/gap_vex_dialog.c:1797
 msgid "Select input videofile"
 msgstr "Seleccionar archivo devideo de entrada"
 
-#: ../gap/gap_vex_dialog.c:1814
+#: ../gap/gap_vex_dialog.c:1835
 msgid "Select basename for frame(s)"
 msgstr "Seleccionar nombre base para los fotogramas"
 
-#: ../gap/gap_vex_dialog.c:1852 ../vid_common/gap_cme_gui.c:2280
+#: ../gap/gap_vex_dialog.c:1873 ../vid_common/gap_cme_gui.c:2280
 msgid "Select Audiofilename"
 msgstr "Seleccionar archivo de sonido"
 
-#: ../gap/gap_vex_dialog.c:1996 ../gap/gap_vex_main.c:176
+#: ../gap/gap_vex_dialog.c:2017 ../gap/gap_vex_main.c:176
 #: ../gap/gap_vex_main.c:196
 msgid "Extract Videorange"
 msgstr "Extraer rango de vídeo"
@@ -9780,7 +9803,7 @@ msgstr "Extraer rango de vídeo"
 #. gtk_container_set_border_width (GTK_CONTAINER (mw__vbox1), 5);
 #. XXXXXXXXXXX Player Frame  XXXXXXXXXXXX
 #. the player_frame
-#: ../gap/gap_vex_dialog.c:2027
+#: ../gap/gap_vex_dialog.c:2048
 msgid "Select Videorange"
 msgstr "Seleccionar rango de vídeo"
 
@@ -9790,40 +9813,40 @@ msgstr "Seleccionar rango de vídeo"
 #.
 #. gtk_widget_show (mw__player_frame);
 #. not yet, show the widget later
-#: ../gap/gap_vex_dialog.c:2041
+#: ../gap/gap_vex_dialog.c:2062
 msgid "Input Video selection"
 msgstr "Selección de entrada de vídeo"
 
 #. the videofile label
-#: ../gap/gap_vex_dialog.c:2060
+#: ../gap/gap_vex_dialog.c:2081
 msgid "Videofilename:"
 msgstr "Nombre del vídeo:"
 
-#: ../gap/gap_vex_dialog.c:2078
+#: ../gap/gap_vex_dialog.c:2099
 msgid "Name of videofile (used as inputfile)"
 msgstr "Nombre del archivo vídeo (usado como archivo de entrada)"
 
-#: ../gap/gap_vex_dialog.c:2089
+#: ../gap/gap_vex_dialog.c:2110
 msgid "Select video using file browser"
 msgstr "Seleccione el vídeo usando el visor de archivos"
 
 #. MMX sometimes gives unusable results, and therefore is always OFF
 #. * checkbox is not needed any more..
 #.
-#: ../gap/gap_vex_dialog.c:2096
+#: ../gap/gap_vex_dialog.c:2117
 msgid "Disable MMX"
 msgstr "Desactivar MMX"
 
-#: ../gap/gap_vex_dialog.c:2124
+#: ../gap/gap_vex_dialog.c:2145
 msgid "Frame number of 1.st frame to extract"
 msgstr "Número del primer fotograma a extraer"
 
 #. the videorange button (that invokes the player for video range selection)
-#: ../gap/gap_vex_dialog.c:2142
+#: ../gap/gap_vex_dialog.c:2163
 msgid "Video Range"
 msgstr "Rango de vídeo"
 
-#: ../gap/gap_vex_dialog.c:2150
+#: ../gap/gap_vex_dialog.c:2171
 msgid ""
 "Visual video range selection via videoplayer\n"
 "SHIFT: Open a separate player window"
@@ -9831,7 +9854,7 @@ msgstr ""
 "Selección del rango visual de vídeo vía reproductor de vídeon «Mayús.»: Abre "
 "una ventana del reproductor independiente"
 
-#: ../gap/gap_vex_dialog.c:2181
+#: ../gap/gap_vex_dialog.c:2202
 msgid ""
 "Frame number of last frame to extract. To extract all frames use a range "
 "from 1 to 999999. (Extract stops at the last available frame)"
@@ -9841,19 +9864,19 @@ msgstr ""
 "disponible)"
 
 #. the videorange button (that invokes the player for video range selection in docked mode)
-#: ../gap/gap_vex_dialog.c:2202
+#: ../gap/gap_vex_dialog.c:2223
 msgid "VideoRange"
 msgstr "Rango de vídeo"
 
-#: ../gap/gap_vex_dialog.c:2239
+#: ../gap/gap_vex_dialog.c:2260
 msgid "Videotrack number (0 == extract no frames)"
 msgstr "Número de pista de vídeo (0 == no extraer fotogramas)"
 
-#: ../gap/gap_vex_dialog.c:2273
+#: ../gap/gap_vex_dialog.c:2294
 msgid "Audiotrack number (0 == extract no audio)"
 msgstr "Número de pista de sonido (0 == no extraer sonido)"
 
-#: ../gap/gap_vex_dialog.c:2302
+#: ../gap/gap_vex_dialog.c:2323
 msgid ""
 "leave empty or select your preferred decoder (libmpeg3, libavformat, "
 "quicktime4linux)"
@@ -9861,16 +9884,16 @@ msgstr ""
 "dejar vacío o seleccionar tu decodificador preferido (libmpeg3, libavformat, "
 "quicktime4linux)"
 
-#: ../gap/gap_vex_dialog.c:2308
+#: ../gap/gap_vex_dialog.c:2329
 msgid "(none, automatic)"
 msgstr "(ninguno, automático)"
 
 #. the (Active) Decoder Label(s)
-#: ../gap/gap_vex_dialog.c:2328
+#: ../gap/gap_vex_dialog.c:2349
 msgid "Active Decoder:"
 msgstr "Decodificador activo:"
 
-#: ../gap/gap_vex_dialog.c:2338 ../gap/gap_vex_dialog.c:2376
+#: ../gap/gap_vex_dialog.c:2359 ../gap/gap_vex_dialog.c:2397
 msgid "****"
 msgstr "****"
 
@@ -9878,11 +9901,11 @@ msgstr "****"
 #. * (the videoapi delivers exact frame positions on most videos
 #. *  but sometimes is not exact when libmepg3 is used)
 #.
-#: ../gap/gap_vex_dialog.c:2351
+#: ../gap/gap_vex_dialog.c:2372
 msgid "Exact Seek"
 msgstr "Búsqueda exacta"
 
-#: ../gap/gap_vex_dialog.c:2354
+#: ../gap/gap_vex_dialog.c:2375
 msgid ""
 "ON: emulate seek operations by sequential reads, even when videoindex is "
 "available"
@@ -9891,51 +9914,46 @@ msgstr ""
 "incluso cuando el índice de vídeo está disponible"
 
 #. the Aspect Ratio Label(s)
-#: ../gap/gap_vex_dialog.c:2366
+#: ../gap/gap_vex_dialog.c:2387
 msgid "Aspect Ratio:"
 msgstr "Proporción de aspecto:"
 
 #. the output frame
 #. the hbox
-#: ../gap/gap_vex_dialog.c:2390 ../vid_common/gap_cme_gui.c:2657
+#: ../gap/gap_vex_dialog.c:2411 ../vid_common/gap_cme_gui.c:2657
 msgid "Output"
 msgstr "Salida"
 
-#: ../gap/gap_vex_dialog.c:2417
-#| msgid ""
-#| "On: extracted frames are stored in one multilayer image\n"
-#| "Off: extracted frames are written to frame files on disc"
+#: ../gap/gap_vex_dialog.c:2438
 msgid "extracted frames are written to frame files on disc"
 msgstr ""
 "los fotogramas extraídos se escriben a archivos de fotogramas en el disco"
 
-#: ../gap/gap_vex_dialog.c:2418
-#| msgid "Generate animated preview as multilayer image"
+#: ../gap/gap_vex_dialog.c:2439
 msgid "extracted frames are stored in one multilayer image"
 msgstr "los fotogramas extraídos se almacenan en una imagen multicapa"
 
-#: ../gap/gap_vex_dialog.c:2419
-#| msgid "Delete storyboard section"
+#: ../gap/gap_vex_dialog.c:2440
 msgid "create a storyboard from selected video clip"
 msgstr "crear un «storyboard» desde el vídeo seleccionado"
 
-#: ../gap/gap_vex_dialog.c:2450
+#: ../gap/gap_vex_dialog.c:2471
 msgid "Basename for extracted frames (framenr and extension is added)"
 msgstr ""
 "Nombre base de los fotogramas extraídos (Se añade nº de fotograma y "
 "extensión)"
 
-#: ../gap/gap_vex_dialog.c:2451
+#: ../gap/gap_vex_dialog.c:2472
 msgid "frame_"
 msgstr "fotograma_"
 
-#: ../gap/gap_vex_dialog.c:2461
+#: ../gap/gap_vex_dialog.c:2482
 msgid "Use filebrowser to select basename for extracted frames"
 msgstr ""
 "Usar el visor de archivos para seleccionar el nombre base para los "
 "fotogramas extraídos"
 
-#: ../gap/gap_vex_dialog.c:2492
+#: ../gap/gap_vex_dialog.c:2513
 msgid ""
 "Digits to use for framenumber part in filenames (use 1 if you dont want "
 "leading zeroes)"
@@ -9944,11 +9962,11 @@ msgstr ""
 "archivo (use 1 si no quiere completar con ceros)"
 
 #. the graymask checkbutton
-#: ../gap/gap_vex_dialog.c:2503
+#: ../gap/gap_vex_dialog.c:2524
 msgid "graymask"
 msgstr "máscara de grises"
 
-#: ../gap/gap_vex_dialog.c:2508
+#: ../gap/gap_vex_dialog.c:2529
 msgid ""
 "On: extract grayscale mask (generated by bluebox)\n"
 "Off: extract color frames 1:1"
@@ -9957,11 +9975,11 @@ msgstr ""
 "Desactivado: extrae los fotogramas con color 1:1"
 
 #. the layermask checkbutton
-#: ../gap/gap_vex_dialog.c:2516
+#: ../gap/gap_vex_dialog.c:2537
 msgid "layermask"
 msgstr "máscara de capa"
 
-#: ../gap/gap_vex_dialog.c:2521
+#: ../gap/gap_vex_dialog.c:2542
 msgid ""
 "On: bluebox shall generate transparency as layermask\n"
 "Off: bluebox shall generate transparency as alpha channel"
@@ -9970,11 +9988,11 @@ msgstr ""
 "Desactivado: bluebox generará transparencia como canal alfa"
 
 #. the bluebox checkbutton
-#: ../gap/gap_vex_dialog.c:2529
+#: ../gap/gap_vex_dialog.c:2550
 msgid "bluebox"
 msgstr "bluebox"
 
-#: ../gap/gap_vex_dialog.c:2536
+#: ../gap/gap_vex_dialog.c:2557
 msgid ""
 "On: add trasparency for extracted frames via blubox filter (using values of "
 "last run in this session)\n"
@@ -9984,86 +10002,85 @@ msgstr ""
 "filtro bluebox (usando los valores de la última ejecución en esta sesión)\n"
 "Desactivado: extrae fotogramas 1.1"
 
-#: ../gap/gap_vex_dialog.c:2569
+#: ../gap/gap_vex_dialog.c:2590
 msgid "Extension of extracted frames (.xcf, .jpg, .ppm)"
 msgstr "Extensión de los fotogramas extraídos (.xcf, .jpg, .ppm)"
 
-#: ../gap/gap_vex_dialog.c:2570
+#: ../gap/gap_vex_dialog.c:2591
 msgid ".xcf"
 msgstr ".xcf"
 
 #. the framenumber for 1st frame label
-#: ../gap/gap_vex_dialog.c:2581
+#: ../gap/gap_vex_dialog.c:2602
 msgid "Framenr 1:"
 msgstr "Fotograma nº 1:"
 
-#: ../gap/gap_vex_dialog.c:2602
+#: ../gap/gap_vex_dialog.c:2623
 msgid ""
 "Framenumber for 1st extracted frame (use 0 for keeping original framenumbers)"
 msgstr ""
 "Número de fotograma para el primer fotograma extraido (use 0 para mantener "
 "la numeración original)"
 
-#: ../gap/gap_vex_dialog.c:2633
+#: ../gap/gap_vex_dialog.c:2654
 msgid "0.0 .. no interpolation, 1.0 smooth interpolation at deinterlacing"
 msgstr "0.0 .. sin interpolación, 1.0 interpolación lisa al desentrelazar"
 
-#: ../gap/gap_vex_dialog.c:2638
+#: ../gap/gap_vex_dialog.c:2659
 msgid "no deinterlace"
 msgstr "Sin desentrelazado"
 
-#: ../gap/gap_vex_dialog.c:2639
+#: ../gap/gap_vex_dialog.c:2660
 msgid "deinterlace (odd lines only)"
 msgstr "desentrelazar (sólo líneas impares)"
 
-#: ../gap/gap_vex_dialog.c:2640
+#: ../gap/gap_vex_dialog.c:2661
 msgid "deinterlace (even lines only)"
 msgstr "desentrelazar (sólo líneas pares)"
 
-#: ../gap/gap_vex_dialog.c:2641
+#: ../gap/gap_vex_dialog.c:2662
 msgid "deinterlace frames x 2 (odd 1st)"
 msgstr "desentrelazar fotogramas x 2 (impares primero)"
 
-#: ../gap/gap_vex_dialog.c:2642
+#: ../gap/gap_vex_dialog.c:2663
 msgid "deinterlace frames x 2 (even 1st)"
 msgstr "desentrelazar fotogramas x 2 (pares primero)"
 
-#: ../gap/gap_vex_dialog.c:2649
+#: ../gap/gap_vex_dialog.c:2670
 msgid "Deinterlace splits each extracted frame in 2 frames"
 msgstr "El desentrelazado divide cada fotograma extraido en 2 fotogramas"
 
-#: ../gap/gap_vex_dialog.c:2670
+#: ../gap/gap_vex_dialog.c:2691
 msgid "Name for extracted audio (audio is written in RIFF WAV format)"
 msgstr ""
 "Nombre para el sonido extraído (el archivo se escribe en formato RIFF WAVE)"
 
-#: ../gap/gap_vex_dialog.c:2671
+#: ../gap/gap_vex_dialog.c:2692
 msgid "frame.wav"
 msgstr "fotograma.wav"
 
-#: ../gap/gap_vex_dialog.c:2681
+#: ../gap/gap_vex_dialog.c:2702
 msgid "Use filebrowser to select audiofilename"
 msgstr "Usar el visor de archivos para seleccionar un archivo de sonido"
 
-#: ../gap/gap_vex_dialog.c:2687
+#: ../gap/gap_vex_dialog.c:2708
 msgid "Start extraction"
 msgstr "Iniciar extracción"
 
 #: ../gap/gap_vex_exec.c:278
 #, c-format
-#| msgid "Failed to write SVG file: %s"
 msgid "failed to extract frame from video: %s"
 msgstr "falló al extraer el fotograma del vídeo: %s"
 
-#: ../gap/gap_vex_exec.c:539
+#: ../gap/gap_vex_exec.c:545
 msgid "Seek Frame Position..."
 msgstr "Ir a la posición del fotograma…"
 
-#: ../gap/gap_vex_exec.c:591
+#: ../gap/gap_vex_exec.c:597
 msgid "Extracting Frames..."
 msgstr "Extrayendo fotogramas…"
 
-#: ../gap/gap_vex_exec.c:673
+#: ../gap/gap_vex_exec.c:679
 #, c-format
 msgid ""
 "failed to save file:\n"
@@ -10546,6 +10563,15 @@ msgstr "Salida baja:"
 #: ../gap/gap_wr_color_levels.c:714
 msgid "High Output:"
 msgstr "Salida alta:"
+
+#: ../gap/gap_wr_layermode.c:131
+#| msgid "Layer Modes"
+msgid "Set Layer Mode..."
+msgstr "Establecer el modo de capa…"
+
+#: ../gap/gap_wr_layermode.c:306
+msgid "LAYERMODE"
+msgstr "MODODECAPA"
 
 #: ../gap/gap_wr_opacity.c:141
 msgid "Set Layer Opacity..."
