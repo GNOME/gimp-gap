@@ -768,7 +768,7 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    
    blurDrawable = NULL;
 //    blurLayerId = gimp_layer_copy(edgeLayerId);
-//    gimp_image_add_layer (imageId, blurLayerId, 0, 0 /* stackposition */ );
+//    gimp_image_insert_layer (imageId, blurLayerId, 0, 0 /* stackposition */ );
 //    blurDrawable = gimp_drawable_get(blurLayerId);
 
    p_subtract_ref_layer(imageId, edgeDrawable, refDrawable, threshold, shift, invert);

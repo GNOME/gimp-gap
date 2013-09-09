@@ -81,7 +81,9 @@ extern      int gap_debug; /* ==0  ... dont print debug infos */
 static void p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *cur_ptr);
 static gint p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layerstack);
 static void p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals);
+static long p_mov_advance_src_frame_no_fetch(GapMovCurrent *cur_ptr, GapMovValues  *pvals);
 static void p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals);
+static void p_mov_advance_src_layer_or_frame_on_autoskip(GapMovCurrent *cur_ptr, GapMovValues  *pvals, long autoskip_size);
 
 static void     p_log_current_render_params(GapMovData *mov_ptr, GapMovCurrent *cur_ptr);
 static void     p_printf_log_parameters(GapMovData *mov_ptr);
@@ -365,10 +367,10 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
       else
       {
         l_tmp_image_id = mov_ptr->val_ptr->dst_image_id;
-	if (l_tmp_image_id < 0)
-	{
+        if (l_tmp_image_id < 0)
+        {
           l_tmp_image_id = gimp_drawable_get_image(singleFramePtr->drawable_id);
-	}
+        }
       }
 
 
@@ -389,7 +391,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
           }
         }
       }
-      else 
+      else
       {
         l_rc = -1;
       }
@@ -416,7 +418,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
          {
            return -1;
          }
-         
+
          gimp_image_undo_disable (l_tmp_image_id);
 
          if((mov_ptr->val_ptr->apv_scalex != 100.0) || (mov_ptr->val_ptr->apv_scaley != 100.0))
@@ -510,7 +512,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
 
   if(singleFramePtr == NULL)
   {
-    /* destroy the tmp image 
+    /* destroy the tmp image
      * (but not in singleframes mode. Note that in singleframe mode l_tmp_image_id
      * referes to the image from where we were invoked)
      */
@@ -544,14 +546,18 @@ p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
   }
   l_round = 0.0;
 
-  if(gap_debug) printf("p_mov_advance_src_layer: stepmode=%d last_layer=%d idx=%d (%.4f) speed_factor: %.4f\n",
+  if(gap_debug)
+  {
+    printf("p_mov_advance_src_layer: stepmode=%d last_layer=%d idx=%d (%.4f) speed_factor: %.4f\n",
                        (int)pvals->src_stepmode,
                        (int)cur_ptr->src_last_layer,
                        (int)cur_ptr->src_layer_idx,
                        (float)cur_ptr->src_layer_idx_dbl,
                        (float)l_step_speed_factor
                       );
-
+  }
+  
+  
   /* note: top layer has index 0
    *       therfore reverse loops have to count up
    *       forward loop is defined as sequence from BG to TOP layer
@@ -619,16 +625,18 @@ p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
 
 
 /* ============================================================================
- * p_mov_advance_src_frame
- *   advance chached image to next source frame according to FRAME based pvals->stepmode
+ * p_mov_advance_src_frame_no_fetch
+ *   advance settings to next source frame according to FRAME based pvals->stepmode
+ *   but do not yet fetch the resulting source frame into the chached image.
  * ============================================================================
  */
-static void
-p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
+static long
+p_mov_advance_src_frame_no_fetch(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
 {
   static gdouble l_ping = 1;
   gdouble l_step_speed_factor;
   gdouble l_round;
+  long    l_stepsize_autoskip;
 
   /* limit step factor to number of available frames -1 */
   l_step_speed_factor = MIN(pvals->step_speed_factor, (gdouble)(pvals->cache_ainfo_ptr->frame_cnt -1));
@@ -638,6 +646,7 @@ p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
     l_step_speed_factor /= (gdouble)(pvals->tween_steps +1);
   }
   l_round = 0.0;
+  l_stepsize_autoskip = 1;
 
   if(pvals->src_stepmode != GAP_STEP_FRAME_NONE)
   {
@@ -652,7 +661,9 @@ p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
     }
   }
 
-  if(gap_debug) printf("p_mov_advance_src_frame: stepmode=%d frame_cnt=%d first_frame=%d last_frame=%d idx=%d (%.4f) speed_factor: %.4f\n",
+  if(gap_debug)
+  {
+    printf("p_mov_advance_src_frame_no_fetch: stepmode=%d frame_cnt=%d first_frame=%d last_frame=%d idx=%d (%.4f) speed_factor: %.4f\n",
                        (int)pvals->src_stepmode,
                        (int)pvals->cache_ainfo_ptr->frame_cnt,
                        (int)pvals->cache_ainfo_ptr->first_frame_nr,
@@ -661,12 +672,14 @@ p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
                        (float)cur_ptr->src_frame_idx_dbl,
                        (float)l_step_speed_factor
                       );
+  }
 
   if((pvals->cache_ainfo_ptr->frame_cnt > 1 ) && (pvals->src_stepmode != GAP_STEP_FRAME_NONE))
   {
     switch(pvals->src_stepmode)
     {
       case GAP_STEP_FRAME_ONCE_REV:
+        l_stepsize_autoskip = -1;
         cur_ptr->src_frame_idx_dbl -= l_step_speed_factor;
         if(cur_ptr->src_frame_idx_dbl < (gdouble)pvals->cache_ainfo_ptr->first_frame_nr)
         {
@@ -674,6 +687,7 @@ p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
         }
         break;
       case GAP_STEP_FRAME_ONCE:
+        l_stepsize_autoskip = 1;
         cur_ptr->src_frame_idx_dbl += l_step_speed_factor;
         if(cur_ptr->src_frame_idx_dbl > (gdouble)pvals->cache_ainfo_ptr->last_frame_nr)
         {
@@ -699,8 +713,10 @@ p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
              l_ping = -1;
           }
         }
+        l_stepsize_autoskip = l_ping;
         break;
       case GAP_STEP_FRAME_LOOP_REV:
+        l_stepsize_autoskip = -1;
         cur_ptr->src_frame_idx_dbl -= l_step_speed_factor;
         if(cur_ptr->src_frame_idx_dbl < (gdouble)(pvals->cache_ainfo_ptr->first_frame_nr -0.5))
         {
@@ -710,6 +726,7 @@ p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
         break;
       case GAP_STEP_FRAME_LOOP:
       default:
+        l_stepsize_autoskip = 1;
         cur_ptr->src_frame_idx_dbl += l_step_speed_factor;
         if(cur_ptr->src_frame_idx_dbl >= (gdouble)(pvals->cache_ainfo_ptr->last_frame_nr +1))
         {
@@ -722,12 +739,93 @@ p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
                                   ,pvals->cache_ainfo_ptr->first_frame_nr
                                   ,pvals->cache_ainfo_ptr->last_frame_nr
                                   );
-    gap_mov_render_fetch_src_frame(pvals, cur_ptr->src_frame_idx);
+
   }
-}       /* end  p_advance_src_frame */
+  return (l_stepsize_autoskip);
+  
+}       /* end  p_mov_advance_src_frame_no_fetch */
 
 
+/* ============================================================================
+ * p_mov_advance_src_frame
+ *   advance chached image to next source frame according to FRAME based pvals->stepmode
+ * ============================================================================
+ */
+static void
+p_mov_advance_src_frame(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
+{
+  gint32 l_but_got_frame_nr;
+  long    l_stepsize_autoskip;
 
+  /* prepare settings for fetching the next source frame */
+  l_stepsize_autoskip = p_mov_advance_src_frame_no_fetch(cur_ptr, pvals);
+
+  if((pvals->cache_ainfo_ptr->frame_cnt > 1 )
+  && (pvals->src_stepmode != GAP_STEP_FRAME_NONE))
+  {
+    /* advance with feed back to src_frame_idx_dbl
+     * in case fetch delivers another frame than than wanted
+     * -- autoskip feature when frames are missing --
+     */
+
+    l_but_got_frame_nr = -1;
+    gap_mov_render_fetch_src_frame_autoskip(pvals, cur_ptr->src_frame_idx
+       , &l_but_got_frame_nr, l_stepsize_autoskip);
+    if ((l_but_got_frame_nr >= 0) && (l_but_got_frame_nr != cur_ptr->src_frame_idx))
+    {
+      cur_ptr->src_frame_idx_dbl += (l_but_got_frame_nr - cur_ptr->src_frame_idx);
+    }
+  }
+}       /* end  p_mov_advance_src_frame */
+
+
+/* ============================================================================
+ * p_mov_advance_src_layer_or_frame_on_autoskip
+ *   advance source layer or chached image to next frame according to FRAME based pvals->stepmode
+ *   this is done in a loop autoskip_size times.
+ * ============================================================================
+ */
+static void
+p_mov_advance_src_layer_or_frame_on_autoskip(GapMovCurrent *cur_ptr, GapMovValues  *val_ptr, long autoskip_size)
+{
+  gint32 l_cnt;
+  gint32 l_tweensteps_to_go;
+
+  if((val_ptr->src_stepmode == GAP_STEP_FRAME_NONE) 
+  || (val_ptr->src_stepmode == GAP_STEP_NONE))
+  {
+    return;
+  }
+
+
+  l_tweensteps_to_go = (val_ptr->tween_steps + 1) * autoskip_size;
+
+  for(l_cnt = l_tweensteps_to_go; l_cnt > 0; l_cnt--)
+  {
+    if(val_ptr->src_stepmode < GAP_STEP_FRAME )
+    {
+       /* advance settings for next src layer */
+       p_mov_advance_src_layer(cur_ptr, val_ptr);
+    }
+    else
+    {
+      if (l_cnt == 1)
+      {
+        /* advance settings for next source frame and
+         * read this source frame merged as layer into the cache (pvals->cache_tmp_image_id)
+         */
+        p_mov_advance_src_frame(cur_ptr, val_ptr);
+      }
+      else
+      {
+        /* advance settings for next source frame (without fetching the source frame) */
+        p_mov_advance_src_frame_no_fetch(cur_ptr, val_ptr);
+      }
+    }
+  }
+
+
+}  /* end p_mov_advance_src_layer_or_frame_on_autoskip */
 
 
 
@@ -1030,7 +1128,7 @@ p_calculate_settings_for_current_FrameTween(
 
 
   currFrameTweenInSegment =
-     tweenMultiplicator * (abs (currFrameIndex - val_ptr->point[startOfSegmentIndex].keyframe)); 
+     tweenMultiplicator * (abs (currFrameIndex - val_ptr->point[startOfSegmentIndex].keyframe));
   currFrameTweenInSegment += (val_ptr->tween_steps - val_ptr->twix);
 
   /* calculate length factor respecting position in the path segment where 0 is at begin 1 at end */
@@ -1386,12 +1484,13 @@ p_log_current_render_params(GapMovData *mov_ptr, GapMovCurrent *cur_ptr)
 
     val_ptr = mov_ptr->val_ptr;
 
-    printf("\nCurrent Render Params: dst_frame_nr:%ld tweenIndex:%d src_layer_idx:%ld\n"
+    printf("\nCurrent Render Params: dst_frame_nr:%ld tweenIndex:%d src_layer_idx:%d (dbl:%f)\n"
                 "       currX:%f currY:%f\n"
                 "       Width:%f Height:%f\n"
                 "       Opacity:%f  Rotate:%f  clip_to_img:%d force_visibility:%d\n"
                 "       src_stepmode:%d handleX:%d handleY:%d currSelFeatherRadius:%f rotate_threshold:%f\n",
-                     cur_ptr->dst_frame_nr, (int)val_ptr->twix, cur_ptr->src_layer_idx,
+                     cur_ptr->dst_frame_nr, (int)val_ptr->twix, (int)cur_ptr->src_layer_idx,
+                     (float)cur_ptr->src_layer_idx_dbl,
                      (float)cur_ptr->currX,
                      (float)cur_ptr->currY,
                      (float)cur_ptr->currWidth,
@@ -1439,7 +1538,7 @@ static void
 p_printf_log_parameters(GapMovData *mov_ptr)
 {
   gint l_idx;
-  
+
   printf("apv_mlayer_image: %ld\n", (long)mov_ptr->val_ptr->apv_mlayer_image);
   printf("apv_mode: %ld\n", (long)mov_ptr->val_ptr->apv_mode);
   printf("apv_scale x: %f y:%f\n", (float)mov_ptr->val_ptr->apv_scalex, (float)mov_ptr->val_ptr->apv_scaley);
@@ -1651,26 +1750,36 @@ p_duplicate_layer(gint32 layerId)
   gimp_image_set_active_layer(imageId, layerId);
   dupLayerId = gimp_layer_copy(layerId);
   gimp_image_insert_layer(imageId, dupLayerId, 0, -1 /* -1 place above active layer */);
-  
+
   return(dupLayerId);
-  
+
 }  /* end p_duplicate_layer */
-
-
 
 
 /* -----------------------
  * p_mov_execute_or_query
  * -----------------------
+ * This procedure operates in render mode or query mode.
+ *
+ * RENDER MODE: (mov_query == NULL)
+ * ------------
  * Copy layer(s) from Sourceimage to given destination frame range,
  * varying koordinates and opacity and perform other transformations
  * according to controlpoint settings on the copied layer.
  * To each affected destination frame one copy of a source layer is added.
  * (more than one layer is added in case of tween processing and tracelayer processing)
  * The source layer is iterated through all layers of the sourceimage
- * according to stemmode parameter.
+ * according to multilayer image based stemmode parameter v.
+ * for the frame based stepmodes, interprete the src as frame image sequence
+ * (e.g iterate through flattened copied of src frame images instead of iterating layers)
+ *
  * For the placement the layers act as if their size is equal to their
  * Sourceimages size.
+ *
+ * QUERY MODE: (mov_query != NULL)
+ * -----------
+ * deliver calculated render settings to the caller (in *mov_query)
+ * but do not render anything.
  */
 long
 p_mov_execute_or_query(GapMovData *mov_ptr, GapMovQuery *mov_query)
@@ -1995,10 +2104,14 @@ p_mov_execute_or_query(GapMovData *mov_ptr, GapMovQuery *mov_query)
   /* frameindex loop */
   for(l_fridx = 1; l_fridx < l_cnt; l_fridx++)
   {
+     gboolean l_frame_found;
      gdouble  l_tw_cnt;   /* number of tweens (including the real frame) 1 if no tweens present */
 
-     if(gap_debug) printf("\np_mov_execute: l_fridx=%ld, l_flt_timing[l_ptidx]=%f, l_rc=%d l_ptidx=%d, l_prev_keyptidx=%d\n",
+     if(gap_debug)
+     {
+      printf("\np_mov_execute: l_fridx=%ld, l_flt_timing[l_ptidx]=%f, l_rc=%d l_ptidx=%d, l_prev_keyptidx=%d\n",
                            l_fridx, (float)l_flt_timing[l_ptidx], (int)l_rc, (int)l_ptidx, (int)l_prev_keyptidx);
+     }
 
      if(l_rc != 0)
      {
@@ -2007,6 +2120,47 @@ p_mov_execute_or_query(GapMovData *mov_ptr, GapMovQuery *mov_query)
 
       /* advance frame_nr, (1st frame was done outside this loop) */
       cur_ptr->dst_frame_nr += l_frame_step;  /* +1  or -1 */
+
+      /* check for missing frames */
+      l_frame_found = gap_lib_framefile_with_framenr_exists(mov_ptr->dst_ainfo_ptr, cur_ptr->dst_frame_nr);
+      if (!l_frame_found)
+      {
+        long l_available_frame_nr;
+
+        l_available_frame_nr = gap_lib_get_next_available_frame_number(
+                 cur_ptr->dst_frame_nr, l_frame_step,
+                 mov_ptr->dst_ainfo_ptr->basename, mov_ptr->dst_ainfo_ptr->extension,
+                 &l_frame_found);
+        if (l_frame_found)
+        {
+           long l_autoskip_size;
+           /* skip processing for all missing frames and continue with next
+            * available frame. (Note that keyframe numbers will not work correct
+            * due to this autoskip of missing frames.)
+            */
+           l_autoskip_size = abs(l_available_frame_nr - cur_ptr->dst_frame_nr);
+           l_fridx += l_autoskip_size;
+
+           if(gap_debug)
+           {
+             printf("\np_mov_execute: AUTOSKIP missing_frame:%d l_available_frame_nr:%d l_autoskip_size:%d l_fridx=%ld \n"
+                           , (int)cur_ptr->dst_frame_nr
+                           , (int)l_available_frame_nr
+                           , (int)l_autoskip_size
+                           , l_fridx);
+           }
+           cur_ptr->dst_frame_nr = l_available_frame_nr;
+           if(mov_query == NULL)
+           {
+             p_mov_advance_src_layer_or_frame_on_autoskip(cur_ptr, val_ptr, l_autoskip_size);
+           }
+        }
+        else
+        {
+          break;  /* stop when no next/previous frame could be found */
+        }
+      }
+
 
       if((gdouble)l_fridx > l_flt_timing[l_ptidx])
       {
@@ -2195,7 +2349,7 @@ p_mov_execute_or_query(GapMovData *mov_ptr, GapMovQuery *mov_query)
  *
  * in case the  mov_ptr->singleFramePtr->drawable_id is NOT already part
  * of the processed frame it will be copied to the frame and
- * the transformation is done on the copy 
+ * the transformation is done on the copy
  *  -- typical secnario when called from storyboard processor --
  * Otherwise transformation is done on the original
  *  -- typical scenario when called via PDB (as filter in the modify frames feature)
@@ -2824,7 +2978,7 @@ gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint
         }
         break;
     }
-    
+
     if(useOneFrame)
     {
       if((l_filename != NULL)
@@ -2844,8 +2998,8 @@ gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint
         gimp_image_scale(l_tmp_frame_id, l_size_x, l_size_y);
       }
     }
-    
-    
+
+
     if(l_filename != NULL)
     {
       g_free(l_filename);
@@ -3864,9 +4018,9 @@ gdouble
 gap_mov_exec_get_default_rotate_threshold()
 {
   gdouble rotate_threshold;
-  
-  
-  rotate_threshold = 
+
+
+  rotate_threshold =
     gap_base_get_gimprc_gdouble_value (GAP_MOVEPATH_GIMPRC_ROTATE_THRESHOLD
                                        , GAP_MOVEPATH_DEFAULT_ROTATE_THRESHOLD
                                        , 0.0  /* gdouble min_value */
@@ -4037,7 +4191,7 @@ gap_mov_exec_move_path_singleframe(GimpRunMode run_mode, gint32 image_id
  * --------------------------------------
  * return TRUE on valid movepat xml parameterfile
  */
-gboolean 
+gboolean
 gap_mov_exec_check_valid_xml_paramfile(const char *filename)
 {
   gboolean  isXmlLoadOk;
@@ -4045,7 +4199,7 @@ gap_mov_exec_check_valid_xml_paramfile(const char *filename)
 
   isXmlLoadOk = FALSE;
   pvals = gap_mov_exec_new_GapMovValues();
-  
+
   if(filename != NULL)
   {
     if(*filename != '\0')
@@ -4092,8 +4246,8 @@ gap_mov_exec_move_path_singleframe_directcall(gint32 frame_image_id
    */
   pvals = gap_mov_exec_new_GapMovValues();
   pvals->dst_image_id = frame_image_id;
-  
-  
+
+
   singleframevals.drawable_id = drawable_id;
   singleframevals.frame_phase = frame_phase;
   singleframevals.total_frames = -1;          /* get path length (total frames) from xml paramfile */
@@ -4123,7 +4277,7 @@ gap_mov_exec_move_path_singleframe_directcall(gint32 frame_image_id
        ,(int)drawable_id
        );
   }
-  
+
   g_free(pvals);
   return (result_layer_id);
 

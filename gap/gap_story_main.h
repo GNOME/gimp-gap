@@ -57,6 +57,7 @@ typedef gpointer t_GVA_Handle;
 #endif
 
 #define GAP_GIMPRC_ENABLE_STORYBOARD_DEBUG_FEATURES "video-enable-storyboard-debug-features"
+#define GAP_VIDEO_STORYBOARD_PROCESSOR_FAIL_ON_IMAGE_LOAD_ERRORS "video-storyboard-processor-fail-on-image-load-errors"
 
 
 #define GAP_STB_ATT_GFX_ARRAY_MAX 2
@@ -70,6 +71,7 @@ typedef enum
      GAP_STB_EDMO_SEQUENCE_NUMBER
     ,GAP_STB_EDMO_FRAME_NUMBER
     ,GAP_STB_EDMO_TIMECODE
+    ,GAP_STB_EDMO_SRC_FRAME_NUMBER_AND_COUNT
   } GapStoryElemDisplayMode;
 
 typedef enum

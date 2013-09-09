@@ -55,14 +55,14 @@ gap_image_delete_immediate (gint32 image_id)
   gboolean imageDeleteWorkaroundDefault = TRUE;
   if(gap_base_get_gimprc_gboolean_value("gap-image-delete-workaround"
          , imageDeleteWorkaroundDefault))
-  {         
+  {
     if(gap_debug)
     {
       printf("gap_image_delete_immediate: SCALED down to 2x2 id = %d (workaround for gimp_image-delete problem)\n"
               , (int)image_id
               );
     }
-    
+
     gimp_image_undo_disable(image_id);
 
     gimp_image_scale_full(image_id, 2, 2, 0 /*INTERPOLATION_NONE*/);
@@ -135,7 +135,7 @@ void gap_image_prevent_empty_image(gint32 image_id)
      g_free (l_layers_list);
   }
   else l_nlayers = 0;
-  
+
   if(l_nlayers == 0)
   {
      /* the resulting image has no layer, add a transparent dummy layer */
@@ -150,7 +150,7 @@ void gap_image_prevent_empty_image(gint32 image_id)
      /* add a transparent dummy layer */
      l_layer_id = gimp_layer_new(image_id, "dummy",
                                     l_width, l_height,  l_type,
-                                    0.0,       /* Opacity full transparent */     
+                                    0.0,       /* Opacity full transparent */
                                     0);        /* NORMAL */
      gimp_image_insert_layer(image_id, l_layer_id, 0, 0);
   }
@@ -162,11 +162,11 @@ void gap_image_prevent_empty_image(gint32 image_id)
 /* ============================================================================
  * gap_image_new_with_layer_of_samesize
  * ============================================================================
- * create empty image 
+ * create empty image
  *  if layer_id is NOT NULL then create one full transparent layer at full image size
  *  and return the layer_id
  */
-gint32  
+gint32
 gap_image_new_with_layer_of_samesize(gint32 old_image_id, gint32 *layer_id)
 {
   GimpImageBaseType  l_type;
@@ -176,7 +176,7 @@ gap_image_new_with_layer_of_samesize(gint32 old_image_id, gint32 *layer_id)
   gdouble     l_xresoulution, l_yresoulution;
   gint32     l_unit;
 
-  
+
   /* create empty image  */
   l_width  = gimp_image_width(old_image_id);
   l_height = gimp_image_height(old_image_id);
@@ -187,29 +187,29 @@ gap_image_new_with_layer_of_samesize(gint32 old_image_id, gint32 *layer_id)
   new_image_id = gimp_image_new(l_width, l_height,l_type);
   gimp_image_set_resolution(new_image_id, l_xresoulution, l_yresoulution);
   gimp_image_set_unit(new_image_id, l_unit);
-  
+
   if(layer_id)
   {
     l_type   = (l_type * 2); /* convert from GimpImageBaseType to GimpImageType */
     *layer_id = gimp_layer_new(new_image_id, "dummy",
                                  l_width, l_height,  l_type,
-                                 0.0,       /* Opacity full transparent */     
+                                 0.0,       /* Opacity full transparent */
                                  0);        /* NORMAL */
     gimp_image_insert_layer(new_image_id, *layer_id, 0, 0);
   }
-  
+
   return (new_image_id);
-  
+
 }  /* end gap_image_new_with_layer_of_samesize */
 
-gint32 
+gint32
 gap_image_new_of_samesize(gint32 old_image_id)
 {
   return(gap_image_new_with_layer_of_samesize(old_image_id, NULL));
 }
 
 
- 
+
 /* ------------------------------------
  * gap_image_is_alive
  * ------------------------------------
@@ -251,15 +251,15 @@ gap_image_is_alive(gint32 image_id)
   }
 
   if(gap_debug) printf("gap_image_is_alive: image_id %d is not VALID\n", (int)image_id);
- 
+
   return FALSE ;   /* INVALID image id */
 }  /* end gap_image_is_alive */
- 
- 
+
+
 /* ------------------------------------
  * gap_image_get_any_layer
  * ------------------------------------
- * return the id of the active layer 
+ * return the id of the active layer
  *   or the id of the first layer found in the image if there is no active layer
  *   or -1 if the image has no layer at all.
  */
@@ -284,7 +284,7 @@ gap_image_get_any_layer(gint32 image_id)
 }  /* end gap_image_get_any_layer */
 
 
- 
+
 /* ------------------------------------
  * gap_image_merge_to_specified_layer
  * ------------------------------------
@@ -302,7 +302,7 @@ gap_image_merge_to_specified_layer(gint32 ref_layer_id, GimpMergeType mergemode)
     gint32  l_idx;
     gint    l_nlayers;
     gint32 *l_layers_list;
-    
+
     l_layers_list = gimp_image_get_layers(l_image_id, &l_nlayers);
     if(l_layers_list != NULL)
     {
@@ -416,7 +416,7 @@ gap_image_set_selection_from_selection_or_drawable(gint32 image_id, gint32 ref_d
   gimp_selection_all(image_id);
   //l_sel_channel_id = gimp_image_get_selection(image_id);
   l_aux_channel_id = gimp_selection_save(image_id);
-  
+
   /* copy the work drawable (layer or channel) into the selection channel
    * the work layer is a grayscale copy GRAY or GRAYA of the alt_selection layer
    *  that is already scaled and resized to fit the size of the target image
@@ -433,7 +433,7 @@ gap_image_set_selection_from_selection_or_drawable(gint32 image_id, gint32 ref_d
                               , FALSE              /* gboolean shadow */
                               );
 
-  gimp_selection_load(l_aux_channel_id);
+  gimp_image_select_item(image_id, GIMP_CHANNEL_OP_REPLACE, l_aux_channel_id);
   gimp_image_remove_channel(image_id, l_aux_channel_id);
 
   gap_image_delete_immediate(dup_image_id);
@@ -456,7 +456,7 @@ gap_image_remove_invisble_layers(gint32 image_id)
   if(l_layers_list != NULL)
   {
     int ii;
-    
+
     for(ii=0; ii < l_nlayers; ii++)
     {
       if (gimp_drawable_get_visible(l_layers_list[ii]) != TRUE)
@@ -482,7 +482,7 @@ gap_image_remove_all_guides(gint32 image_id)
   {
     guide_id = 0;  /* 0 starts find at 1st guide */
     guide_id = gimp_image_find_next_guide(image_id, guide_id);
-    
+
     if (guide_id < 1)
     {
        break;
@@ -490,7 +490,7 @@ gap_image_remove_all_guides(gint32 image_id)
     gimp_image_delete_guide(image_id, guide_id);
   }
 
-  
+
 }  /* end gap_image_remove_all_guides */
 
 
@@ -517,7 +517,7 @@ gap_image_limit_layers(gint32 image_id, gint keepTopLayers,  gint keepBgLayers)
   if(l_layers_list != NULL)
   {
     int ii;
-    
+
     for(ii=0; ii < l_nlayers; ii++)
     {
       if ((ii >= keepTopLayers)
@@ -532,3 +532,37 @@ gap_image_limit_layers(gint32 image_id, gint keepTopLayers,  gint keepBgLayers)
 }  /* end gap_image_limit_layers */
 
 
+/* ----------------------------------------------------
+ * gap_image_create_unicolor_image
+ * ----------------------------------------------------
+ * - create a new image with one black filled layer
+ *   (both have the requested size)
+ *
+ * return the new created image_id
+ *   and the layer_id of the black_layer
+ */
+gint32
+gap_image_create_unicolor_image(gint32 *layer_id, gint32 width , gint32 height
+                       , gdouble r_f, gdouble g_f, gdouble b_f, gdouble a_f)
+{
+  gint32 l_empty_layer_id;
+  gint32 l_image_id;
+
+  *layer_id = -1;
+  l_image_id = gimp_image_new(width, height, GIMP_RGB);
+  if(l_image_id >= 0)
+  {
+    l_empty_layer_id = gimp_layer_new(l_image_id, "black_background",
+                          width, height,
+                          GIMP_RGBA_IMAGE,
+                          100.0,     /* Opacity full opaque */
+                          GIMP_NORMAL_MODE);
+    gimp_image_insert_layer(l_image_id, l_empty_layer_id, 0, 0);
+
+    /* clear layer to unique color */
+    gap_layer_clear_to_color(l_empty_layer_id, r_f, g_f, b_f, a_f);
+
+    *layer_id = l_empty_layer_id;
+  }
+  return(l_image_id);
+}       /* end gap_image_create_unicolor_image */

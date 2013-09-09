@@ -463,7 +463,10 @@ p_exact_align_drawable(gint32 activeDrawableId, AlingCoords *alingCoords)
     scaleXY = len1 / len2;
   }
 
-  transformedDrawableId = gimp_drawable_transform_2d(activeDrawableId
+  gimp_context_set_defaults();
+  gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
+  gimp_context_set_transform_direction(GIMP_TRANSFORM_FORWARD);                                 
+  transformedDrawableId = gimp_item_transform_2d(activeDrawableId
                             , px3
                             , py3
                             , scaleXY 
@@ -471,11 +474,6 @@ p_exact_align_drawable(gint32 activeDrawableId, AlingCoords *alingCoords)
                             , angleRad
                             , px1
                             , py1
-                            , 0      /* FORWARD (0), TRANSFORM-BACKWARD (1) */
-                            , 2      /* INTERPOLATION-CUBIC (2) */
-                            , TRUE   /* supersample */
-                            , 1      /* Maximum recursion level used for supersampling */
-                            , 0      /* TRANSFORM-RESIZE-ADJUST (0) TRANSFORM-RESIZE-CLIP (1) */
                             );
 
   if(gap_debug)

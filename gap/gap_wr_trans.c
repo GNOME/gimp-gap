@@ -477,7 +477,6 @@ static gint32
 p_transform_layer(gint32 image_id, gint32 drawable_id, GapTransLayerMode trans_mode, TransValues *val_ptr)
 {
   gboolean auto_center;
-  gboolean clip_result;
   gdouble  axis;
   gboolean has_selection;
   gboolean non_empty;
@@ -502,75 +501,68 @@ p_transform_layer(gint32 image_id, gint32 drawable_id, GapTransLayerMode trans_m
 
   trans_drawable_id = -1;
   auto_center = TRUE;
-  clip_result = TRUE;
+  gimp_context_set_defaults();
   
   /* here the action starts, we transform the drawable */
   switch(trans_mode)
   {
     case GAP_TRANS_FLIP_HOR:
-      clip_result = TRUE;
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_CLIP);   /* enable clipping */                                 
       axis = (gdouble)(gimp_drawable_width(drawable_id)) / 2.0;
-      trans_drawable_id = gimp_drawable_transform_flip_simple(drawable_id
+      trans_drawable_id = gimp_item_transform_flip_simple(drawable_id
                                    ,GIMP_ORIENTATION_HORIZONTAL
                                    ,auto_center
                                    ,axis
-                                   ,clip_result
                                    );
       break;
     case GAP_TRANS_FLIP_VER:
-      clip_result = TRUE;
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_CLIP);   /* enable clipping */                                 
       axis = (gdouble)(gimp_drawable_height(drawable_id)) / 2.0;
-      trans_drawable_id = gimp_drawable_transform_flip_simple(drawable_id
+      trans_drawable_id = gimp_item_transform_flip_simple(drawable_id
                                    ,GIMP_ORIENTATION_VERTICAL
                                    ,auto_center
                                    ,axis
-                                   ,clip_result
                                    );
       break;
     case GAP_TRANS_ROT_90:
-      clip_result = FALSE;
-      trans_drawable_id = gimp_drawable_transform_rotate_simple(drawable_id
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
+      trans_drawable_id = gimp_item_transform_rotate_simple(drawable_id
                                   ,GIMP_ROTATE_90
                                   ,auto_center
                                   ,center_x
                                   ,center_y
-                                  ,clip_result
                                   );
       break;
     case GAP_TRANS_ROT_180:
-      clip_result = FALSE;
-      trans_drawable_id = gimp_drawable_transform_rotate_simple(drawable_id
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
+      trans_drawable_id = gimp_item_transform_rotate_simple(drawable_id
                                   ,GIMP_ROTATE_180
                                   ,auto_center
                                   ,center_x
                                   ,center_y
-                                  ,clip_result
                                   );
       break;
     case GAP_TRANS_ROT_270:
-      clip_result = FALSE;
-      trans_drawable_id = gimp_drawable_transform_rotate_simple(drawable_id
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
+      trans_drawable_id = gimp_item_transform_rotate_simple(drawable_id
                                   ,GIMP_ROTATE_270
                                   ,auto_center
                                   ,center_x
                                   ,center_y
-                                  ,clip_result
                                   );
       break;
     case GAP_TRANS_ROT_ANY:
       {
          gdouble          l_angle_rad;
 
-         clip_result = FALSE;
          l_angle_rad = (val_ptr->angle_deg * G_PI) / 180.0;
+         gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
 
-         trans_drawable_id = gimp_drawable_transform_rotate_default(drawable_id
+         trans_drawable_id = gimp_item_transform_rotate(drawable_id
                                                       , l_angle_rad
                                                       , FALSE            /* auto_center */
                                                       , center_x
                                                       , center_y
-                                                      , TRUE             /* interpolation (TRUE use default interpolation) */
-                                                      , clip_result
                                                       );
 
 
@@ -597,7 +589,8 @@ p_transform_layer(gint32 image_id, gint32 drawable_id, GapTransLayerMode trans_m
 
     gimp_floating_sel_anchor (gimp_image_get_floating_sel (image_id));
 
-    gimp_selection_load(sav_selection_id);
+    // gimp_selection_load(sav_selection_id);                                           // OLD
+    gimp_image_select_item(image_id, GIMP_CHANNEL_OP_REPLACE, sav_selection_id);         // NEW
     gimp_image_remove_channel(image_id, sav_selection_id);
     //gimp_drawable_delete(sav_selection_id);
   }

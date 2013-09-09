@@ -9955,15 +9955,16 @@ gap_story_transform_rotate_layer(gint32 image_id, gint32 layer_id, gdouble rotat
   l_center_x  = gimp_drawable_width(layer_id) / 2.0;
   l_center_y  = gimp_drawable_height(layer_id) / 2.0;
 
+  gimp_context_set_defaults();
+  gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip transformation results */                                 
+
   /* have to rotate the layer (rotation also changes size as needed) */
-  gimp_drawable_transform_rotate_default(layer_id
-                                        , l_angle_rad
-                                        , TRUE            /* auto_center */
-                                        , l_center_x
-                                        , l_center_y
-                                        , TRUE             /* interpolation */
-                                        , FALSE            /* clip_results */
-                                        );
+  gimp_item_transform_rotate(layer_id
+                            , l_angle_rad
+                            , TRUE            /* auto_center */
+                            , l_center_x
+                            , l_center_y
+                            );
 
 
 }  /* end gap_story_transform_rotate_layer */

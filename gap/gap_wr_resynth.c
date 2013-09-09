@@ -658,7 +658,7 @@ p_create_corpus_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
   gimp_context_get_background(&bck_color);
   channel_2_id = gimp_selection_save(dup_image_id);
 
-  gimp_selection_load(channel_id);
+  gimp_image_select_item(dup_image_id, GIMP_CHANNEL_OP_REPLACE, channel_id);
 
   gimp_rgba_set_uchar (&white_opaque_color, 255, 255, 255, 255);
   gimp_context_set_background(&white_opaque_color);

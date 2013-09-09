@@ -160,6 +160,7 @@ libexec_PROGRAMS = \
 	gap_wr_color_balance	\
 	gap_wr_trans		\
 	gap_wr_resynth		\
+	gap_wr_layermode	\
 	gap_wr_opacity
 
 
@@ -461,6 +462,12 @@ gap_wr_trans_SOURCES = \
 	gap_wr_trans.c	\
 	gap_libgimpgap.h	
 
+gap_wr_layermode_SOURCES = \
+	gap_lastvaldesc.c	\
+	gap_lastvaldesc.h	\
+	gap_wr_layermode.c	\
+	gap_libgimpgap.h	
+
 gap_wr_color_curve_SOURCES = \
 	gap_wr_color_curve.c	\
 	gap_libgimpgap.h	
@@ -531,6 +538,7 @@ gap_fire_pattern_LDADD =     $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_water_pattern_LDADD =    $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_wr_opacity_LDADD =       $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_wr_trans_LDADD =         $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
+gap_wr_layermode_LDADD =     $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_wr_color_curve_LDADD =   $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_wr_color_levels_LDADD =  $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_wr_color_huesat_LDADD =  $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)

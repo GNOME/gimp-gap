@@ -194,8 +194,9 @@ gap_pdb_procedure_available(char *proc_name)
 
 /* ============================================================================
  * gap_pdb_gimp_rotate_degree
- *  PDB call of 'gimp_rotate'
  * ============================================================================
+ * wrapper to call rotate transformation by degrees.
+ * (the gimp core requires radians)
  */
 
 gint32
@@ -204,14 +205,14 @@ gap_pdb_gimp_rotate_degree(gint32 drawable_id, gboolean interpolation, gdouble a
    gdouble          l_angle_rad;
 
    l_angle_rad = (angle_deg * G_PI) / 180.0;
+   gimp_context_set_defaults();
+   gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
 
-   return(gimp_drawable_transform_rotate_default(drawable_id
+   return(gimp_item_transform_rotate(drawable_id
                                                 , l_angle_rad
                                                 , FALSE            /* auto_center */
                                                 , 0                /* center_x */
                                                 , 0                /* center_y */
-                                                , interpolation
-                                                , FALSE            /* clip_results */
                                                 ));
 
    

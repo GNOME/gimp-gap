@@ -636,37 +636,40 @@ gap_layer_flip(gint32 layer_id, gint32 flip_request)
   gint32   center_y;
   gdouble  axis;
 
-
+ 
   switch(flip_request)
   {
     case GAP_STB_FLIP_HOR:
+      gimp_context_set_defaults();
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_CLIP);   /* enable clipping */                                 
       axis = (gdouble)(gimp_drawable_width(layer_id)) / 2.0;
-      layer_id = gimp_drawable_transform_flip_simple(layer_id
+      layer_id = gimp_item_transform_flip_simple(layer_id
                                    ,GIMP_ORIENTATION_HORIZONTAL
                                    ,TRUE    /* auto_center */
                                    ,axis
-                                   ,TRUE    /* clip_result */
                                    );
       break;
     case GAP_STB_FLIP_VER:
+      gimp_context_set_defaults();
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_CLIP);   /* enable clipping */                                 
       axis = (gdouble)(gimp_drawable_height(layer_id)) / 2.0;
-      layer_id = gimp_drawable_transform_flip_simple(layer_id
+      layer_id = gimp_item_transform_flip_simple(layer_id
                                    ,GIMP_ORIENTATION_VERTICAL
                                    ,TRUE    /* auto_center */
                                    ,axis
-                                   ,TRUE    /* clip_result */
                                    );
       break;
     case GAP_STB_FLIP_BOTH:
+      gimp_context_set_defaults();
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_CLIP);   /* enable clipping */                                 
       center_x = gimp_drawable_width(layer_id) / 2;
       center_y = gimp_drawable_height(layer_id) / 2;
   
-      layer_id = gimp_drawable_transform_rotate_simple(layer_id
+      layer_id = gimp_item_transform_rotate_simple(layer_id
                                   ,GIMP_ROTATE_180
                                   ,TRUE      /* auto_center */
                                   ,center_x
                                   ,center_y
-                                  ,TRUE      /* clip_result */
                                   );
       break;
     default:
@@ -831,8 +834,6 @@ gap_layer_create_layer_from_layermask(gint32 src_layer_id
   , gint32 image_id
   , const char *name_prefix, const char *name_suffix)
 {
-  gboolean       l_has_already_layermask;
-  gint32         l_layermask_id;
   gint32         l_new_layer_id;
   gint32         l_new_layermask_id;
 
