@@ -18,7 +18,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ * <http://www.gnu.org/licenses/>.
  */
 
 static char *plug_in_version_fmt =  "%d.%d.%d; 2004/01/26";
