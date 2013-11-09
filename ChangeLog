@@ -1,5 +1,9 @@
 2013-11-09 Wolfgang Hofer <hof@gimp.org>
+  - replaced more software address of Free software foundation 
+     OLD: * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+     NEW: * <http://www.gnu.org/licenses/>.
 
+2013-11-09 Wolfgang Hofer <hof@gimp.org>
   - replaced outdated Incorrect software address of Free software foundation 
     from comments (assuggested in #711402)
  
