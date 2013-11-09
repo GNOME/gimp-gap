@@ -1,4 +1,20 @@
 2013-11-09 Wolfgang Hofer <hof@gimp.org>
+  - fixed comment lines 
+    (related to #711402)
+ 
+   OLD:
+     * along with this program; if not, write to the Free Software
+
+   NEW:
+    * License along with this library.  If not, see
+
+   (due to a bug in my "replace in all sources" scripts
+    this changes were not performed at the previous attempt)
+
+
+  * This again touched nearly all *.c and *.h files
+  
+2013-11-09 Wolfgang Hofer <hof@gimp.org>
   - replaced more software address of Free software foundation 
      OLD: * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
      NEW: * <http://www.gnu.org/licenses/>.
