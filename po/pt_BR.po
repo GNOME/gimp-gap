@@ -5,21 +5,22 @@
 # Joao S. O. Bueno <gwidion@mpc.com.br> 2004,, 2006, 2007, 2009.
 # Keven do Nascimento Carneiro <kevennascimento@ovi.com>, 2012.
 # Carlos Silva <cecs@cin.ufpe.br>, 2013.
+# Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-28 20:03+0000\n"
-"PO-Revision-Date: 2013-07-09 15:43-0300\n"
-"Last-Translator: Carlos Silva <cecs@cin.ufpe.br>\n"
+"POT-Creation-Date: 2013-09-22 01:58+0000\n"
+"PO-Revision-Date: 2013-10-15 12:16-0300\n"
+"Last-Translator: Antonio Fernandes C. Neto <fernandesn@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Button  to invoke fontbrowser
@@ -1002,9 +1003,8 @@ msgstr ""
 "transparente)"
 
 #: ../gap/gap_colormask_dialog.c:266
-#, fuzzy
 msgid "_HiColordiff Threshold:"
-msgstr "Limite de _HiColordiff"
+msgstr "Limite de _HiColordiff:"
 
 #: ../gap/gap_colormask_dialog.c:269
 msgid ""
@@ -1037,7 +1037,6 @@ msgid "Filter Options"
 msgstr "Opções de filtro"
 
 #: ../gap/gap_colormask_dialog.c:375
-#, fuzzy
 msgid "Isle Radius:"
 msgstr "Raio de ilha:"
 
@@ -1098,7 +1097,6 @@ msgstr ""
 "do que o limite do Colordiff (use 1 para opacidade)"
 
 #: ../gap/gap_colormask_dialog.c:503
-#, fuzzy
 msgid "Trigger Alpha:"
 msgstr "Gatilho alfa:"
 
@@ -1151,16 +1149,14 @@ msgid "Key Color Sensitivity:"
 msgstr "Sensibilidade da cor chave:"
 
 #: ../gap/gap_colormask_dialog.c:666
-#, fuzzy
 msgid "Sig Colordiff Threshold:"
-msgstr "Limite de colordiff significante:"
+msgstr "Limite de Colordiff significante:"
 
 #: ../gap/gap_colormask_dialog.c:680
 msgid "Sig Brightness Threshold:"
 msgstr "Limite de brilho significante:"
 
 #: ../gap/gap_colormask_dialog.c:695
-#, fuzzy
 msgid "Sig Radius:"
 msgstr "Raio significante:"
 
@@ -1240,9 +1236,8 @@ msgstr "#.#####"
 
 #. the neighbor colordiff label
 #: ../gap/gap_colormask_dialog.c:954
-#, fuzzy
 msgid "NbDiff:"
-msgstr "qdiff:"
+msgstr "NbDiff:"
 
 #: ../gap/gap_colormask_dialog.c:1691
 msgid "Color Mask"
@@ -2223,7 +2218,6 @@ msgstr "Opções"
 
 #. the InnerRadius spinbutton
 #: ../gap/gap_fg_from_sel_dialog.c:297
-#, fuzzy
 msgid "Inner Radius"
 msgstr "Raio interior"
 
@@ -2528,16 +2522,12 @@ msgstr "Selecione um camada de padrão já existente (de uma execução anterior
 
 #. the frame
 #: ../gap/gap_fire_pattern.c:2006
-#, fuzzy
-#| msgid "Dither Options"
 msgid "Fireshape options"
-msgstr "Opções de mistura"
+msgstr "Opções da forma de fogo"
 
 #: ../gap/gap_fire_pattern.c:2026
-#, fuzzy
-#| msgid "Create Layer:"
 msgid "Create Fireshape:"
-msgstr "Criar camada:"
+msgstr "Criar forma de fogo:"
 
 #: ../gap/gap_fire_pattern.c:2037
 msgid ""
@@ -2560,29 +2550,21 @@ msgstr ""
 
 #. flameHeight spinbutton
 #: ../gap/gap_fire_pattern.c:2072
-#, fuzzy
-#| msgid "Scale Height:"
 msgid "Flame Height:"
-msgstr "Redimensionar altura:"
+msgstr "Altura da chama:"
 
 #: ../gap/gap_fire_pattern.c:2081
-#, fuzzy
-#| msgid "scale height of frame to fit master height"
 msgid "Height of the flame (1.0 refers to full image height)"
-msgstr "redimensiona a altura para corresponder à altura mestre"
+msgstr "Altura da chama (referência de 1.0 para altura de toda imagem)"
 
 #. flameBorder spinbutton
 #: ../gap/gap_fire_pattern.c:2092
-#, fuzzy
-#| msgid "Frames Encoded:"
 msgid "Flame Border:"
-msgstr "Quadros codificados:"
+msgstr "Borda da chama:"
 
 #: ../gap/gap_fire_pattern.c:2101
-#, fuzzy
-#| msgid "number of frames"
 msgid "border of the flame"
-msgstr "número de quadros"
+msgstr "borda da chama"
 
 #. flameWidth checkbuttons
 #: ../gap/gap_fire_pattern.c:2114
@@ -2627,7 +2609,6 @@ msgstr ""
 
 #. the frame
 #: ../gap/gap_fire_pattern.c:2200 ../gap/gap_water_pattern.c:1358
-#, fuzzy
 msgid "Render options"
 msgstr "Opções de renderização"
 
@@ -2716,10 +2697,8 @@ msgstr "Achatar quadros..."
 #. Menu names
 #: ../gap/gap_fire_pattern.c:2536 ../gap/gap_name2layer_main.c:176
 #: ../gap/gap_water_pattern.c:1665
-#, fuzzy
-#| msgid "<Image>/Video/Layer/Enhance/"
 msgid "<Image>/Video/Layer/Render/"
-msgstr "<Image>/Vídeo/Camada/Realçar/"
+msgstr "<Image>/Vídeo/Camada/Renderização/"
 
 #: ../gap/gap_fmac_base.c:205
 #, c-format
@@ -4112,10 +4091,8 @@ msgstr "Arquivo de pontos de controle:"
 
 #. Menu names
 #: ../gap/gap_morph_main.c:298
-#, fuzzy
-#| msgid "<Image>/Video/Morph/"
 msgid "<Image>/Video/Morphing/"
-msgstr "<Image>/Vídeo/Morf/"
+msgstr "<Image>/Vídeo/Morphing/"
 
 #: ../gap/gap_morph_shape.c:224
 #, c-format
@@ -4331,16 +4308,12 @@ msgstr ""
 #. the master progress bar
 #. master progress
 #: ../gap/gap_morph_tween_dialog.c:914
-#, fuzzy
-#| msgid "Create Layers"
 msgid "Create File(s):"
-msgstr "Criar camadas"
+msgstr "Criar arquivo(s):"
 
 #: ../gap/gap_morph_tween_dialog.c:946
-#, fuzzy
-#| msgid "ShapePoints:"
 msgid "Create Points:"
-msgstr "Pontos de forma:"
+msgstr "Criar pontos:"
 
 #: ../gap/gap_morph_tween_dialog.c:1106 ../gap/gap_morph_tween_dialog.c:1117
 msgid "Create Tween Frames"
@@ -4382,7 +4355,6 @@ msgid "This operation requires more than one frame."
 msgstr "Esta operação requer mais de um quadro."
 
 #: ../gap/gap_morph_tween_dialog.c:1256
-#, fuzzy
 msgid "Number of Tweens:"
 msgstr "Número de intervalos:"
 
@@ -4611,17 +4583,13 @@ msgid "Current Point: [ %3d ] of [ %3d ]"
 msgstr "Ponto atual: [ %3d ] de [ %3d ]"
 
 #: ../gap/gap_mov_dialog.c:3528
-#, fuzzy, c-format
-#| msgid ""
-#| "ERROR: Could not open controlpoints\n"
-#| "filename: '%s'\n"
-#| "%s"
+#, c-format
 msgid ""
 "ERROR: Could not open xml parameterfile\n"
 "filename: '%s'\n"
 "%s"
 msgstr ""
-"ERRO: Não foi possível abrir pontos de controle\n"
+"ERRO: Não foi possível abrir arquivo de parâmetro xml\n"
 "nome de arquivo: '%s'\n"
 "%s"
 
@@ -4636,7 +4604,7 @@ msgid ""
 "filename: '%s'\n"
 "(Is not a valid move path xml parameterfile file)"
 msgstr ""
-"ERRO: Não foi possível ler pontos de controle\n"
+"ERRO: Não foi possível ler parâmetro do arquivo\n"
 "nome de arquivo: '%s'\n"
 "(não é um arquivo válido de pontos de controle)"
 
@@ -5666,16 +5634,12 @@ msgid "Total Frames:"
 msgstr "Total de quadros:"
 
 #: ../gap/gap_mov_dialog.c:6813
-#, fuzzy
-#| msgid "number of frames"
 msgid "Total number of frames"
-msgstr "número de quadros"
+msgstr "Número total de quadros"
 
 #: ../gap/gap_mov_dialog.c:6824
-#, fuzzy
-#| msgid "Current height:"
 msgid "Current Frame:"
-msgstr "Altura atual:"
+msgstr "Quadro atual:"
 
 #: ../gap/gap_mov_dialog.c:6825
 msgid "Curent Frame number (e.g. phase to be phase Total number of frames"
@@ -7076,8 +7040,9 @@ msgstr ""
 
 #. Auto skip missing frames
 #: ../gap/gap_player_dialog.c:7562
+#, fuzzy
 msgid "Auto Skip Missing Frames"
-msgstr ""
+msgstr "Pular quadros ausentes automaticamente"
 
 #: ../gap/gap_player_dialog.c:7568
 msgid ""
@@ -7304,10 +7269,8 @@ msgstr ""
 
 #. the PLAY button
 #: ../gap/gap_player_dialog.c:8487
-#, fuzzy
-#| msgid "Playing"
 msgid "Play"
-msgstr "Reproduzindo"
+msgstr "Reproduzir"
 
 #: ../gap/gap_player_dialog.c:8490
 #, fuzzy
@@ -7319,16 +7282,14 @@ msgid ""
 "Start playback. SHIFT: snapshot frames in a multilayer image at original "
 "size CTRL: snapshot at preview size ALT: force creation of new snapshot image"
 msgstr ""
-"Inicia reprodução. SHIFT: Usa reproduções de imagens de múltiplas camadas "
+"Inicia reprodução. SHIFT: Usa reproduções de quadros de múltiplas camadas "
 "com o tamanho original. CTRL: Usa reproduções com o tamanho das miniaturas. "
 "ALT: Força a criação de novas reproduções."
 
 #. the PAUSE button
 #: ../gap/gap_player_dialog.c:8499
-#, fuzzy
-#| msgid "Value"
 msgid "Pause"
-msgstr "Valor"
+msgstr "Pausar"
 
 #: ../gap/gap_player_dialog.c:8503
 msgid ""
@@ -10485,10 +10446,8 @@ msgstr "Selecione a faixa a extrair"
 
 #. Transfer Mode the radio buttons
 #: ../gap/gap_wr_color_balance.c:615
-#, fuzzy
-#| msgid "Show"
 msgid "Shadows"
-msgstr "Exibir"
+msgstr "Sombras"
 
 #: ../gap/gap_wr_color_balance.c:620
 #, fuzzy
@@ -10510,22 +10469,16 @@ msgid "Adjust Color Levels"
 msgstr "Níveis de cor"
 
 #: ../gap/gap_wr_color_balance.c:658
-#, fuzzy
-#| msgid "Cyan"
 msgid "Cyan/Red:"
-msgstr "Ciano"
+msgstr "Ciano/Vermelho:"
 
 #: ../gap/gap_wr_color_balance.c:672
-#, fuzzy
-#| msgid "Magenta"
 msgid "Magenta/Green:"
-msgstr "Magenta"
+msgstr "Magenta/Verde:"
 
 #: ../gap/gap_wr_color_balance.c:690
-#, fuzzy
-#| msgid "Yellow"
 msgid "Yellow/Blue:"
-msgstr "Amarelo"
+msgstr "Amarelo/Azul:"
 
 #: ../gap/gap_wr_color_balance.c:708
 msgid "Preserve luminosity"
@@ -10664,7 +10617,7 @@ msgstr "Saída alta:"
 #, fuzzy
 #| msgid "Layer Modes"
 msgid "Set Layer Mode..."
-msgstr "Modos de camada"
+msgstr "Definir modo de camada..."
 
 #: ../gap/gap_wr_layermode.c:306
 msgid "LAYERMODE"
@@ -10853,12 +10806,11 @@ msgstr ""
 #. * (where samplerate matches the desired samplerate and bits == 16)
 #.
 #: ../vid_common/gap_cme_gui.c:978
-#, fuzzy, c-format
-#| msgid "List[%d] has [%d] valid tracks, Bit:%d Chan:%d Rate:%d"
+#, c-format
 msgid "List[%d] has [%d] valid track, Bit:%d Chan:%d Rate:%d"
 msgid_plural "List[%d] has [%d] valid tracks, Bit:%d Chan:%d Rate:%d"
-msgstr[0] "A lista[%d] tem [%d] trilhas válidas, Bit: %d Canais.: %d Taxa: %d"
-msgstr[1] "A lista[%d] tem [%d] trilhas válidas, Bit: %d Canais.: %d Taxa: %d"
+msgstr[0] "A lista[%d] tem [%d] trilha válida, Bit:%d Canal:%d Taxa:%d"
+msgstr[1] "A lista[%d] tem [%d] trilhas válidas, Bit:%d Canais:%d Taxa:%d"
 
 #: ../vid_common/gap_cme_gui.c:990
 #, c-format
@@ -11599,10 +11551,8 @@ msgid "Framerate of the output video (frames/sec)"
 msgstr "Taxa de quadros do vídeo de saída (quadros/s.)"
 
 #: ../vid_common/gap_cme_gui.c:3740
-#, fuzzy
-#| msgid "original audio"
 msgid "original"
-msgstr "áudio original"
+msgstr "original"
 
 #: ../vid_common/gap_cme_gui.c:3762
 msgid "Set framerate"
@@ -11694,18 +11644,6 @@ msgid "This plugin is the master dialog for video + audio encoding"
 msgstr "Este plug-in é o diálogo mestre para codificação de vídeo + áudio"
 
 #: ../vid_common/gap_cme_main.c:148
-#, fuzzy
-#| msgid ""
-#| "This plugin is a common GUI for all available video + audio encoding "
-#| "plugins it operates on a selected range of animframes or storyboard "
-#| "files. The (optional) audio inputdata (param: audfile) is transformed to "
-#| "RIFF WAVE format (16Bit PCM) and passed to the selected videoencoder plug-"
-#| "in as temporary file. (or direct if format and samplerate already matches "
-#| "the desired target samplerate). The videoformat is defined with "
-#| "vid_enc_plugin parameter. The specified plugin  is called with the "
-#| "Parameters specified in the dialog. for noninteractive calls default "
-#| "values will be used. (you may call the desired plugin directly if you "
-#| "want to specify non-interacive parameters"
 msgid ""
 "This plugin is a common GUI for all available video + audio encoding plugins "
 "it operates on a selected range of animframes or storyboard files. The "
@@ -12817,10 +12755,8 @@ msgid "H264:"
 msgstr "H264:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2557
-#, fuzzy
-#| msgid "Partitioning"
 msgid "Partition X264:"
-msgstr "Particionamento"
+msgstr "Partição X264:"
 
 #. CHECKBUTTONS
 #. the Fast checkbutton
@@ -13344,10 +13280,8 @@ msgstr "guarda informação sobre a proporção (largura/altura) no vídeo de sa
 
 #. the ASPECT combo
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3802
-#, fuzzy
-#| msgid "auto"
 msgid "Auto"
-msgstr "auto"
+msgstr "Auto"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3803
 msgid "3:2"
@@ -13367,17 +13301,13 @@ msgstr "Seleciona a proporção"
 
 #. the show expert settings label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3834
-#, fuzzy
-#| msgid "Expert Options"
 msgid "Expert settings:"
-msgstr "Opções avançadas"
+msgstr "Configurações avançadas:"
 
 #. the Set Aspectratio checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3843
-#, fuzzy
-#| msgid "Convert Settings"
 msgid "Show expert settings"
-msgstr "Configurações de conversão"
+msgstr "Mostrar configurações avançadas"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3849
 #, fuzzy
@@ -13709,7 +13639,7 @@ msgstr ""
 #| msgid "Set Parameters for GAP singleframes video encoder Plugins"
 msgid "Set parameters for GAP singleframes video encoder Plugins"
 msgstr ""
-"Configura Parâmetros para o plug-in codificador de quadros simples  do GAP"
+"Configura parâmetros para o plug-in codificador de quadros simples do GAP"
 
 #: ../vid_enc_single/gap_enc_singleframes_main.c:206
 msgid "This plugin sets singleframes specific video encoding parameters."
@@ -13718,12 +13648,10 @@ msgstr ""
 "simples"
 
 #: ../vid_enc_single/gap_enc_singleframes_main.c:219
-#, fuzzy
-#| msgid "Get GUI Parameters for GAP singleframes video encoder"
 msgid "Get GUI parameters for GAP singleframes video encoder"
 msgstr ""
-"Obtém os parâmetros de Interface  para o codificador de quadros simples do "
-"GAP"
+"Obtém os parâmetros de interface para o codificador de quadros simples de "
+"vídeo do GAP"
 
 #: ../vid_enc_single/gap_enc_singleframes_main.c:220
 msgid "This plugin returns singleframes encoder specific parameters."
@@ -13746,10 +13674,8 @@ msgstr ""
 "do quadro + extensão"
 
 #: ../vid_enc_single/gap_enc_singleframes_main.c:512
-#, fuzzy
-#| msgid "the Singleframe Encoder has no encoder specific Parameters"
 msgid "the Singleframe Encoder has no encoder specific parameters"
-msgstr "o Codificador de Quadros Simples não tem nenhum parâmetro específico"
+msgstr "o codificador de quadros simples não tem parâmetros específicos"
 
 #~ msgid "Create only one multilayer Image"
 #~ msgstr "Criar apenas uma imagem com múltiplas camadas"
