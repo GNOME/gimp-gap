@@ -6,21 +6,22 @@
 # Keven do Nascimento Carneiro <kevennascimento@ovi.com>, 2012.
 # Carlos Silva <cecs@cin.ufpe.br>, 2013.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2013.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-22 01:58+0000\n"
-"PO-Revision-Date: 2013-10-15 12:16-0300\n"
-"Last-Translator: Antonio Fernandes C. Neto <fernandesn@gnome.org>\n"
+"POT-Creation-Date: 2013-12-18 19:17+0000\n"
+"PO-Revision-Date: 2014-01-05 03:32-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Button  to invoke fontbrowser
@@ -2682,11 +2683,11 @@ msgstr "A Opacidade das chamas"
 #. reverseGradient checkbutton
 #: ../gap/gap_fire_pattern.c:2347
 msgid "Reverse Gradient:"
-msgstr "Gradiente inverso:"
+msgstr "Degradê inverso:"
 
 #: ../gap/gap_fire_pattern.c:2358
 msgid "ON: use reverse gradient colors, OFF: use gradient colors"
-msgstr "ON: usa cores gradientes invertidas, OFF: usa cores gradientes"
+msgstr "ON: usa cores degradês invertidas, OFF: usa cores degradês"
 
 #: ../gap/gap_fire_pattern.c:2524
 #, fuzzy
