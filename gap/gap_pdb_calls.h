@@ -70,4 +70,6 @@ gboolean    gap_pdb_call_solid_noise(gint32 image_id, gint32 layer_id
 
 gboolean    gap_pdb_call_normalize(gint32 image_id, gint32 layer_id);
 
+gint32      gap_pdb_call_ufraw_load_image(GimpRunMode run_mode, char* filename, char* raw_filename);
+
 #endif

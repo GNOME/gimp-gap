@@ -503,3 +503,57 @@ gap_pdb_call_normalize(gint32 image_id, gint32 layer_id)
    return(FALSE);
 } /* end gap_pdb_call_normalize */
 
+
+
+/* ------------------------------
+ * gap_pdb_call_ufraw_load_image
+ * ------------------------------
+ * explicite call of the 3rd party ufraw loading procedure.
+ * returns value >= 0 for vaild image_id on success,
+ *         -1 in case image could not be loaded
+ *         -2 in case of other errors
+ *            (typicall for the scenario when UFRAW is not installed)
+ */
+gint32
+gap_pdb_call_ufraw_load_image(GimpRunMode run_mode, char* filename, char* raw_filename)
+{
+   static char     *l_called_proc = "file_ufraw_load";
+   GimpParam       *return_vals;
+   int              nreturn_vals;
+   gint32           image_id;
+
+   return_vals = gimp_run_procedure (l_called_proc,
+                                 &nreturn_vals,
+                                 GIMP_PDB_INT32,     run_mode,
+                                 GIMP_PDB_STRING,    filename,
+                                 GIMP_PDB_STRING,    raw_filename,
+                                 GIMP_PDB_END);
+
+   if (return_vals[0].data.d_status == GIMP_PDB_SUCCESS)
+   {
+      if (nreturn_vals >= 1) 
+      {
+        image_id  = return_vals[1].data.d_image;
+      }
+      else
+      {
+        printf("GAP: Error: PDB call of %s failed, d_status:%d %s expected returnvalue is missing\n"
+          , l_called_proc
+          , (int)return_vals[0].data.d_status
+          , gap_status_to_string(return_vals[0].data.d_status)
+          );
+        image_id = -1;
+      }
+      gimp_destroy_params(return_vals, nreturn_vals);
+      return (image_id);   /* image_id >= 0 .. OK */
+   }
+   gimp_destroy_params(return_vals, nreturn_vals);
+   printf("GAP: Error: PDB call of %s failed, d_status:%d %s\n"
+        , l_called_proc
+        , (int)return_vals[0].data.d_status
+        , gap_status_to_string(return_vals[0].data.d_status)
+        );
+   return(-2);
+}       /* end gap_pdb_call_ufraw_load_image */
+
+

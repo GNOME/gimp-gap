@@ -134,6 +134,24 @@
 #include "gap_thumbnail.h"
 #include "gap_vin.h"
 
+
+#define SAVE_MODE_FOR_NON_XCF_AS_IS      0  /* loss of information that is not supported by selected fileformat */
+#define SAVE_MODE_FOR_NON_XCF_FLATTEN    1  /* loss of layers and other information on frame excange */
+#define SAVE_MODE_FOR_NON_XCF_READONLY  -2  /* never save, blocks frame excange when dirty flag set */
+#define SAVE_MODE_FOR_NON_XCF_NEVERSAVE -3  /* never save, reset dirty flag and enable frame change (with loss of unsaved changes) */
+#define SAVE_MODE_FOR_NON_XCF_ASK       -1  /* (default) ask the user (with p_decide_save_as dialog) */
+
+#define GIMPRC_MODEVAL_NON_XCF_AS_IS      "overwrite"
+#define GIMPRC_MODEVAL_NON_XCF_FLATTEN    "overwrite_flattened"
+#define GIMPRC_MODEVAL_NON_XCF_READONLY   "readonly"
+#define GIMPRC_MODEVAL_NON_XCF_NEVERSAVE  "readonly_discard"
+#define GIMPRC_MODEVAL_NON_XCF_ASK        "ask"
+
+#define SAVE_NON_XCF_FAILED_OR_CANCELLED           -1
+#define SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES   -2
+
+
+
 typedef struct
 {
   gdouble  quality;
@@ -1792,7 +1810,7 @@ gap_lib_dir_ainfo(GapAnimInfo *ainfo_ptr)
                     l_minnr = l_nr;
                  }
 
-                 if ((l_nr < ainfo_ptr->curr_frame_nr) 
+                 if ((l_nr < ainfo_ptr->curr_frame_nr)
                  && (l_nr > ainfo_ptr->frame_nr_before_curr_frame_nr))
                  {
                    ainfo_ptr->frame_nr_before_curr_frame_nr = l_nr;
@@ -2028,19 +2046,196 @@ p_gzip (char *orig_name, char *new_name, char *zip)
 
 }       /* end p_gzip */
 
+/* --------------------------------
+ * gap_lib_ascii_string_to_lower
+ * --------------------------------
+ * returns a copy of the original string
+ * where all ascii letter characters are transformed to lower case
+ */
+gchar *
+gap_lib_ascii_string_to_lower(gchar *original)
+{
+  gchar *result;
+
+  result = NULL;
+  if (original != NULL)
+  {
+    gchar *ptr;
+    result = g_strdup(original);
+    for(ptr = result; *ptr != '\0'; ptr++)
+    {
+       if (g_ascii_isalpha(*ptr))
+       {
+	     *ptr = g_ascii_tolower(*ptr);
+       }
+	}
+  }
+  return (result);
+
+}  /* end gap_lib_ascii_string_to_lower */
+
+
+/* ============================================================================
+ * gap_lib_save_non_xcf_dialog
+ *   dialog window with buttons to let the user decide how to
+ *   handle frame exchange for non xcf filetypes.
+ *
+ *   This dialog provides an option to persist the decision in gimprc
+ *   file.
+ *   return: the value assigned with the pressed button.
+ * ============================================================================
+ */
+gint
+gap_lib_save_non_xcf_dialog(char *key_gimprc, char *lower_extension)
+{
+  #define NUMBER_OF_ARGS 2
+  #define NUMBER_OF_BUTTONS 5
+  static GapArrArg  argv[NUMBER_OF_ARGS];
+  static GapArrButtonArg  b_argv[NUMBER_OF_BUTTONS];
+  gint   b_default_val;
+  gint   itb;
+  gint l_rc;
+
+  b_default_val = SAVE_MODE_FOR_NON_XCF_ASK;
+  b_argv[0].but_txt  = GTK_STOCK_CANCEL;
+  b_argv[0].but_val  = SAVE_MODE_FOR_NON_XCF_ASK;
+  b_argv[1].but_txt  = _("overwrite flattened");
+  b_argv[1].but_val  = SAVE_MODE_FOR_NON_XCF_FLATTEN;
+  b_argv[2].but_txt  = _("overwrite");
+  b_argv[2].but_val  = SAVE_MODE_FOR_NON_XCF_AS_IS;
+  b_argv[3].but_txt  = _("read only");
+  b_argv[3].but_val  = SAVE_MODE_FOR_NON_XCF_READONLY;
+  b_argv[4].but_txt  = _("discard changes");
+  b_argv[4].but_val  = SAVE_MODE_FOR_NON_XCF_NEVERSAVE;
+
+
+  gap_arr_arg_init(&argv[0], GAP_ARR_WGT_LABEL);
+  argv[0].label_txt = g_strdup_printf(_("You are using another file format than xcf.\n"
+                        "This dialog configures how to handle exchanges of\n"
+                        "the current frame image (for frames with extension %s)\n"
+                        "Note that automatical save on frame change just works with XCF\n"
+                        "but automatical overwrite (e.g export) to other formats\n"
+                        "typically results in loss of layers and other information.")
+                        , lower_extension);
+
+  itb = 1;
+  gap_arr_arg_init(&argv[itb], GAP_ARR_WGT_TOGGLE);
+  argv[itb].label_txt = _("Save my decision:");
+  argv[itb].help_txt  = g_strdup_printf(_("Save decision for this fileformat for further gimp sessions.\n"
+                          "this creates an entry in your gimprc file with the "
+                          "key:%s)")
+                          , key_gimprc );
+  argv[itb].int_ret   = 0;
+  argv[itb].has_default = TRUE;
+  argv[itb].int_default = 0;
+
+
+  l_rc = gap_arr_std_dialog(_("Fileformat Warning"),
+                     _("Select"),
+                     NUMBER_OF_ARGS, argv,
+                     NUMBER_OF_BUTTONS, b_argv,
+                     b_default_val);
+                     
+  if (l_rc != SAVE_MODE_FOR_NON_XCF_ASK)
+  {
+    /* optional persist the decision as gimmprc value */
+    if (argv[itb].int_ret == 1)
+    {
+      if(l_rc == SAVE_MODE_FOR_NON_XCF_AS_IS) 
+      {
+        gimp_gimprc_set(key_gimprc, GIMPRC_MODEVAL_NON_XCF_AS_IS);
+      }      
+      else if(l_rc == SAVE_MODE_FOR_NON_XCF_FLATTEN) 
+      {
+        gimp_gimprc_set(key_gimprc, GIMPRC_MODEVAL_NON_XCF_FLATTEN);
+      }      
+      else if(l_rc == SAVE_MODE_FOR_NON_XCF_READONLY) 
+      {
+        gimp_gimprc_set(key_gimprc, GIMPRC_MODEVAL_NON_XCF_READONLY);
+      }      
+      else if(l_rc == SAVE_MODE_FOR_NON_XCF_NEVERSAVE) 
+      {
+        gimp_gimprc_set(key_gimprc, GIMPRC_MODEVAL_NON_XCF_NEVERSAVE);
+      }      
+      else
+      {
+        gimp_gimprc_set(key_gimprc, GIMPRC_MODEVAL_NON_XCF_ASK);
+      }      
+    }
+  }
+  
+  return (l_rc);
+                       
+}       /* end gap_lib_save_non_xcf_dialog */
+
+
+
 /* ============================================================================
  * p_decide_save_as
  *   decide what to do on attempt to save a frame in any image format
- *  (other than xcf)
- *   Let the user decide if the frame is to save "as it is" or "flattened"
- *   ("as it is" will save only the backround layer in most fileformat types)
+ *   (other than xcf)
+ *   The current implemetation provides "overwrite" and "read only" options.
+ *   Note that overwrite is already handled within this procedure
+ *   and exports the image.
+ *   
+ *   If this is the 1st call (and there is no gimprc configuration from previous
+ *   sessions) a dialog window is presented where the user
+ *   shall decide how to handle frame excanges.
+ *   The options:
+ *     SAVE_MODE_FOR_NON_XCF_ASK
+ *        in case the user cancelled the dialog (e.g did not decide)
+ *        frame excange shall be blocked
+ *
+ *     SAVE_MODE_FOR_NON_XCF_AS_IS
+ *        the current frame will be exported as is (e.g without flattening)
+ *        the returncode depends on the result of the export.
+ *        ("as it is" will save only the background layer in 
+ *         fileformat types that do not support multiple layers)
+ *
+ *     SAVE_MODE_FOR_NON_XCF_FLATTEN
+ *        the current frame will be exported with flattening.
+ *        the returncode depends on the result of the export.
+ *
+ *     SAVE_MODE_FOR_NON_XCF_READONLY
+ *        return SAVE_NON_XCF_FAILED_OR_CANCELLED 
+ *               in case the image has dirty flag set
+ *        but return SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES
+ *               in case the image needs no save (dirty flag not set)
+ *
+ *     GIMPRC_MODEVAL_NON_XCF_NEVERSAVE
+ *        always return SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES
+ *               the current frame file on disc is never overwritten
+ *               and the caller may continue to load the image from
+ *               the next frame file (which discards all unsaved changes
+ *               automatically)
+ *
  *   The SAVE_AS_MODE is stored , and reused
  *   (without displaying the dialog again)
  *   on subsequent calls of the same frame-basename and extension
  *   in the same GIMP-session.
  *
- *   return -1  ... CANCEL (do not save)
- *           0  ... save the image (may be flattened)
+ *   return positive integer on successful save.    
+ *          -1 SAVE_NON_XCF_FAILED_OR_CANCELLED 
+ *                  in case save procedure failed to export/overwrite
+ *                  or user has cancelled the dialog.
+ *                  The caller shall block excange of the current image with another frame
+ *                  due to the failure.
+ *          -2  SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES
+ *                  in case a Read only image type was not exported/overwritten
+ *                  but the caller can continue to exchange the current image with another frame
+ *                  (either because configuration allows automatically discard of changes
+ *                   or the dirty flag is not set in current image)
+ *          -3  ... Never save                SAVE_MODE_FOR_NON_XCF_NEVERSAVE
+ *                    the caller shall clear the dirty flag and enable
+ *                    frame excange without a save attempt.
+ *                    
+ *           0  ... save the image as is      SAVE_MODE_FOR_NON_XCF_AS_IS
+ *                     the caller shall save the current frame image
+ *                     on success clean the dirty flag and enable frame excange.
+ *
+ *           1  ... save the image flattened  SAVE_MODE_FOR_NON_XCF_FLATTEN
+ *                     the caller shall sflatten and ave the current frame image
+ *                     on success clean the dirty flag and enable frame excange.
  * ============================================================================
  */
 int
@@ -2048,27 +2243,31 @@ p_decide_save_as(gint32 image_id, const char *sav_name, const char *final_sav_na
 {
   gchar *l_key_save_as_mode;
   gchar *l_extension;
+  gchar *l_lowerExtension;
   gchar *l_ext;
   gchar *l_basename;
   long  l_number;
   int   l_sav_rc;
 
-  static GapArrButtonArg  l_argv[3];
-  int               l_argc;
   int               l_save_as_mode;
   GimpRunMode      l_run_mode;
 
 
    /* check if there are SAVE_AS_MODE settings (from privious calls within one gimp session) */
-  l_save_as_mode = -1;
-  l_sav_rc = -1;
+  l_save_as_mode = SAVE_MODE_FOR_NON_XCF_ASK; /* -1 for ask and cancel */
 
   l_extension = gap_lib_alloc_extension(final_sav_name);
+  l_lowerExtension = gap_lib_ascii_string_to_lower(l_extension);
+  l_ext = l_lowerExtension;
+  if(*l_ext == '.')
+  {
+    l_ext++;
+  }
   l_basename = gap_lib_alloc_basename(final_sav_name, &l_number);
 
   l_key_save_as_mode = g_strdup_printf("GIMP_GAP_SAVE_MODE_%s%s"
                        ,l_basename
-                       ,l_extension
+                       ,l_lowerExtension
                        );
 
   gimp_get_data (l_key_save_as_mode, &l_save_as_mode);
@@ -2080,9 +2279,10 @@ p_decide_save_as(gint32 image_id, const char *sav_name, const char *final_sav_na
           );
   }
 
-  if(l_save_as_mode == -1)
+  if(l_save_as_mode == SAVE_MODE_FOR_NON_XCF_ASK)
   {
     gchar *l_key_gimprc;
+    gchar *l_key_gimprc_old;
     gchar *l_val_gimprc;
     gboolean l_ask;
 
@@ -2091,36 +2291,59 @@ p_decide_save_as(gint32 image_id, const char *sav_name, const char *final_sav_na
      * open a dialog (if no configuration value was found,
      * or configuration says "ask" (== other value than "yes" or "no" )
      */
-    l_ext = l_extension;
-    if(*l_ext == '.')
+    l_ask = TRUE;
+
+    l_key_gimprc = g_strdup_printf("video-save-mode-for-%s", l_ext);
+    l_key_gimprc_old = g_strdup_printf("video-save-flattened-%s", l_ext);
+    l_val_gimprc = gimp_gimprc_query(l_key_gimprc);
+    
+    if (l_val_gimprc == NULL)
     {
-      l_ext++;
+      /* fallback to OLD gimprc key when new key is not configured */
+      l_val_gimprc = gimp_gimprc_query(l_key_gimprc_old);
     }
-    l_key_gimprc = g_strdup_printf("video-save-flattened-%s", l_ext);
 
     if(gap_debug)
     {
+      printf("GIMPRC OLD KEY:%s:\n", l_key_gimprc_old);
       printf("GIMPRC KEY:%s:\n", l_key_gimprc);
     }
 
-    l_val_gimprc = gimp_gimprc_query(l_key_gimprc);
-    l_ask = TRUE;
 
-    if(l_val_gimprc)
+    if(l_val_gimprc != NULL)
     {
       if(gap_debug)
       {
         printf("GIMPRC VAL:%s:\n", l_val_gimprc);
       }
-
-      if(strcmp(l_val_gimprc, "yes") == 0)
+      if(strcmp(l_val_gimprc, GIMPRC_MODEVAL_NON_XCF_AS_IS) == 0)
       {
-        l_save_as_mode = 1;
+        l_save_as_mode = SAVE_MODE_FOR_NON_XCF_AS_IS;
         l_ask = FALSE;
       }
-      if(strcmp(l_val_gimprc, "no") == 0)
+      else if(strcmp(l_val_gimprc, GIMPRC_MODEVAL_NON_XCF_FLATTEN) == 0)
       {
-        l_save_as_mode = 0;
+        l_save_as_mode = SAVE_MODE_FOR_NON_XCF_FLATTEN;
+        l_ask = FALSE;
+      }
+      else if(strcmp(l_val_gimprc, GIMPRC_MODEVAL_NON_XCF_READONLY) == 0)
+      {
+        l_save_as_mode = SAVE_MODE_FOR_NON_XCF_READONLY;
+        l_ask = FALSE;
+      }
+      else if(strcmp(l_val_gimprc, GIMPRC_MODEVAL_NON_XCF_NEVERSAVE) == 0)
+      {
+        l_save_as_mode = SAVE_MODE_FOR_NON_XCF_NEVERSAVE;
+        l_ask = FALSE;
+      }
+      else if(strcmp(l_val_gimprc, "yes") == 0)
+      {
+        l_save_as_mode = SAVE_MODE_FOR_NON_XCF_FLATTEN;
+        l_ask = FALSE;
+      }
+      else if(strcmp(l_val_gimprc, "no") == 0)
+      {
+        l_save_as_mode = SAVE_MODE_FOR_NON_XCF_AS_IS;
         l_ask = FALSE;
       }
 
@@ -2136,32 +2359,11 @@ p_decide_save_as(gint32 image_id, const char *sav_name, const char *final_sav_na
 
     if(l_ask)
     {
-      gchar *l_msg;
-
-      l_argv[0].but_txt  = GTK_STOCK_CANCEL;
-      l_argv[0].but_val  = -1;
-      l_argv[1].but_txt  = _("Save Flattened");
-      l_argv[1].but_val  = 1;
-      l_argv[2].but_txt  = _("Save As Is");
-      l_argv[2].but_val  = 0;
-      l_argc             = 3;
-
-      l_msg = g_strdup_printf(_("You are using another file format than xcf.\n"
-                                "Save operations may result in loss of layer information.\n\n"
-                                "To configure flattening for this fileformat\n"
-                                "(permanent for all further sessions) please add the line:\n"
-                                "(%s %s)\n"
-                                "to your gimprc file.")
-                             , l_key_gimprc
-                             , "\"yes\""
-                             );
-      l_save_as_mode =  gap_arr_buttons_dialog (_("Fileformat Warning")
-                                                ,l_msg
-                                                , l_argc, l_argv, -1);
-      g_free(l_msg);
+      l_save_as_mode =  gap_lib_save_non_xcf_dialog(l_key_gimprc, l_lowerExtension);
     }
 
     g_free(l_key_gimprc);
+    g_free(l_key_gimprc_old);
 
     if(gap_debug)
     {
@@ -2179,17 +2381,37 @@ p_decide_save_as(gint32 image_id, const char *sav_name, const char *final_sav_na
 
   g_free(l_key_save_as_mode);
 
-  if(l_save_as_mode < 0)
+
+  l_sav_rc = SAVE_NON_XCF_FAILED_OR_CANCELLED;
+  if(l_save_as_mode == SAVE_MODE_FOR_NON_XCF_NEVERSAVE)
   {
-    l_sav_rc = -1;
+    /* this read only mode always fakes "save ok" 
+     * that discards all changes when the frame is excanged.
+     */
+    l_sav_rc = SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES;
   }
-  else
+  else if(l_save_as_mode <= SAVE_MODE_FOR_NON_XCF_READONLY)
   {
-    if(l_save_as_mode == 1)
+    /* this read only mode fakes "save ok" 
+     * when no save is needed.
+     */
+    if (gimp_image_is_dirty(image_id))
+    {
+      g_message(_("Frame operation blocked\n"
+                  "due to unsaved changes in readonly frame image\n%s")
+               , sav_name);
+    }
+    else
+    {
+      l_sav_rc = SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES;
+    }
+  }
+  else if (l_save_as_mode >= 0)
+  {
+    if(l_save_as_mode == SAVE_MODE_FOR_NON_XCF_FLATTEN)
     {
         gimp_image_flatten (image_id);
     }
-
 
     l_sav_rc = p_lib_save_named_image_1(image_id
                              , sav_name
@@ -2198,10 +2420,16 @@ p_decide_save_as(gint32 image_id, const char *sav_name, const char *final_sav_na
                              , l_basename
                              , l_extension
                              );
+    if (l_sav_rc < 0)
+    {
+      l_sav_rc = SAVE_NON_XCF_FAILED_OR_CANCELLED;
+    }
   }
 
+cleanup:
   g_free(l_basename);
   g_free(l_extension);
+  g_free(l_lowerExtension);
 
   return l_sav_rc;
 }       /* end p_decide_save_as */
@@ -2589,6 +2817,7 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
 {
   GimpParam *l_params;
   gchar     *l_ext;
+  gchar     *l_lowerExt;
   char      *l_tmpname;
   gint       l_retvals;
   int        l_gzip;
@@ -2598,9 +2827,9 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
   l_tmpname = NULL;
   l_rc   = -1;
   l_gzip = 0;          /* dont zip */
-  l_xcf  = 0;          /* assume no xcf format */
+  l_xcf  = 0;          /* assume no xcf format (1==xcf, 0==any other) */
 
-  /* check extension to decide if savd file will be zipped */
+  /* check extension to decide if saved file will be zipped */
   l_ext = gap_lib_alloc_extension(sav_name);
   if(l_ext == NULL)
   {
@@ -2609,19 +2838,20 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
       );
     return -1;
   }
+  l_lowerExt = gap_lib_ascii_string_to_lower(l_ext);
 
   gimp_image_set_filename(image_id, sav_name);
 
-  if(0 == strcmp(l_ext, ".xcf"))
+  if(0 == strcmp(l_lowerExt, ".xcf"))
   {
     l_xcf  = 1;
   }
-  else if(0 == strcmp(l_ext, ".xcfgz"))
+  else if(0 == strcmp(l_lowerExt, ".xcfgz"))
   {
     l_gzip = 1;          /* zip it */
     l_xcf  = 1;
   }
-  else if(0 == strcmp(l_ext, ".gz"))
+  else if(0 == strcmp(l_lowerExt, ".gz"))
   {
     l_gzip = 1;          /* zip it */
   }
@@ -2638,6 +2868,7 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
   }
 
   g_free(l_ext);
+  g_free(l_lowerExt);
 
 
   if(gap_debug)
@@ -2717,6 +2948,10 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
   {
      g_remove(l_tmpname);
      g_free(l_tmpname);  /* free temporary name */
+     if((l_xcf == 0) && (l_rc == SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES))
+     {
+       return (0); /* FAKE save OK  */
+     }
      return l_rc;
   }
 
@@ -2822,27 +3057,84 @@ p_save_old_frame(GapAnimInfo *ainfo_ptr, GapVinVideoInfo *vin_ptr)
 
 
 
-/* ============================================================================
+/* ------------------------------
+ * p_check_ufraw_load_configured
+ * ------------------------------
+ * check the gimprc configuration for the specified filetype extension
+ * typical configuration values are:
+ *  (gap-load-ufraw-dng yes)
+ *  (gap-load-ufraw-nef yes)
+ *  (gap-load-ufraw-cr2 yes)
+ *  (gap-load-ufraw-cr yes)
+ */
+gboolean
+p_check_ufraw_load_configured(char  *lowerExtension)
+{
+  gchar *l_key_gimprc;
+  gboolean l_configured_for_ufraw;
+  char  *l_ext;
+
+  l_ext = lowerExtension;
+  if(*l_ext == '.')
+  {
+    l_ext++;
+  }
+
+
+  l_key_gimprc = g_strdup_printf("gap-load-ufraw-%s", l_ext);
+  l_configured_for_ufraw = gap_base_get_gimprc_gboolean_value(l_key_gimprc, FALSE);
+  
+  g_free(l_key_gimprc);
+  
+  return (l_configured_for_ufraw);
+  
+
+}  /* end p_check_ufraw_load_configured */
+
+
+
+
+/* ---------------------
  * gap_lib_load_image
- * load image of any type by filename, and return its image id
- * (or -1 in case of errors)
- * ============================================================================
+ * ---------------------
+ * load image of any type by filename, and 
+ * return its image id
+ *        (or -1 in case of errors)
+ * 
+ * This procedure calls the gimp_file_load procedure
+ * that normally detects and handles supported image filetypes generically,
+ * except for the case where the filetype (detected by the filename extension)
+ * is explicite configured to use the 3rd party UFraw gimp-plugin.
+ * (via gimprc key  gap-load-ufraw-<extension> )
+ *
+ * Note that my tests with Canon .cr2 raw files showed, that gimp_file_load picks the 
+ * file-load-tiff procedure (that fails to load Canon raw files)
+ * rather than file-ufraw-load (that is capable to load those raw files correct)
+ * when both pdb procedures are installed.
+ * This is the reason why i added the gimprc gap-load-ufraw-<extension> support
+ * that forces explicite non-interactive calls to the correct loader
+ * to enable read access to RAW frames with GIMP/GAP.
  */
 gint32
 gap_lib_load_image (char *lod_name)
 {
   char  *l_ext;
+  char  *l_lowerExt;
   char  *l_tmpname;
   gint32 l_tmp_image_id;
   int    l_rc;
+  gboolean l_configured_for_ufraw;
 
   l_rc = 0;
   l_tmpname = NULL;
+  l_configured_for_ufraw = FALSE;
   l_ext = gap_lib_alloc_extension(lod_name);
   if(l_ext != NULL)
   {
-    if((0 == strcmp(l_ext, ".xcfgz"))
-    || (0 == strcmp(l_ext, ".gz")))
+    l_lowerExt = gap_lib_ascii_string_to_lower(l_ext);
+    l_configured_for_ufraw = p_check_ufraw_load_configured(l_lowerExt);
+    if((0 == strcmp(l_lowerExt, ".xcfgz"))
+    || (0 == strcmp(l_lowerExt, ".gz")))
     {
 
       /* find a temp name and */
@@ -2851,6 +3143,7 @@ gap_lib_load_image (char *lod_name)
     }
     else l_tmpname = lod_name;
     g_free(l_ext);
+    g_free(l_lowerExt);
   }
 
   if(l_tmpname == NULL)
@@ -2859,15 +3152,46 @@ gap_lib_load_image (char *lod_name)
   }
 
 
-  if(gap_debug) printf("DEBUG: before   gap_lib_load_image: '%s'\n", l_tmpname);
+  l_tmp_image_id = -1;
 
-  l_tmp_image_id = gimp_file_load(GIMP_RUN_NONINTERACTIVE,
-                l_tmpname,
-                l_tmpname  /* raw name ? */
-                );
+  if(l_configured_for_ufraw)
+  {
+    if(gap_debug) 
+    {
+      printf("DEBUG: before   ufraw load: '%s'\n", l_tmpname);
+    }
+    
+    l_tmp_image_id = gap_pdb_call_ufraw_load_image(GIMP_RUN_NONINTERACTIVE,
+                    l_tmpname,
+                    l_tmpname  /* raw name ? */
+                    );
+    
+    if(gap_debug)
+    {
+      printf("DEBUG: after    ufraw load: '%s' id=%d\n\n",
+                                   l_tmpname, (int)l_tmp_image_id);
+    }
+  }
+  
+  if (l_tmp_image_id < 0)
+  {
+    if(gap_debug) 
+    {
+      printf("DEBUG: before   gimp_file_load: '%s'\n", l_tmpname);
+    }
+    
+    l_tmp_image_id = gimp_file_load(GIMP_RUN_NONINTERACTIVE,
+                    l_tmpname,
+                    l_tmpname  /* raw name ? */
+                    );
+    
+    if(gap_debug)
+    {
+      printf("DEBUG: after    gimp_file_load: '%s' id=%d\n\n",
+                                   l_tmpname, (int)l_tmp_image_id);
+    }
+  }
 
-  if(gap_debug) printf("DEBUG: after    gap_lib_load_image: '%s' id=%d\n\n",
-                               l_tmpname, (int)l_tmp_image_id);
 
   if(l_tmpname != lod_name)
   {
@@ -2879,7 +3203,6 @@ gap_lib_load_image (char *lod_name)
   return l_tmp_image_id;
 
 }       /* end gap_lib_load_image */
-
 
 
 /* ============================================================================
