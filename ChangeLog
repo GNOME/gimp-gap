@@ -1,4 +1,69 @@
 2014-01-12 Wolfgang Hofer <hof@gimp.org>
+- support for RAW files as "readonly" frame sequences for processing 
+  as high bit depth video source in MovePath operations or Storyboard Clips.
+  
+  Note that the final video encoding (ffmpeg engine) still operates at 8 bit depth
+  (This will not change in the near future) but rendering in GIMP
+  can be done at higher bit depth.
+  
+  This feature was implemented to support rendering videos
+  based on RAW frame sequences 
+  (.cr2 files of a timelapse sequence shot on Canon EOS DSLR camera)
+  
+  To use RAW files you need a file load plug in that is capable to load
+  RAW files without truncating them to 8 bit depth
+  in non-interactive way (e.g. without opening a dialog
+  for each processed frame)
+  
+  For my tests i used the 3rd party plug-in UFRaw (version 0.19.2)
+  but it did not work properly out of the box.
+  workaround: I patched the source ufraw-gimp.c by commenting out the line:
+  //    if (run_mode == GIMP_RUN_NONINTERACTIVE) uf->conf->shrink = 8; 
+  
+  // because this causes loading at reduced size 1/8
+  // (i have no idea what is it good for ??)
+  
+  new gimprc parameters
+  ---------------------
+  o) (gap-load-ufraw-%s "yes")
+     force explicite call of the UFRaw file load plugin
+     whenever GIMP-GAP loads a frame image non-interactive mode.
+     
+  
+  o) (video-save-mode-for-%s "readonly")
+     # NON-XCF frame processing/export overwrite behaviour:
+        possible configuration values are:
+         "overwrite"
+           automaticaly overwrite the discfile image that corresponds 
+           to the current frame (which is opened in the gimp session)
+           on frame exchange opertions (such as go to next/previous frame)
+           where the file save plug-in is called with the backround layer as active layer.
+           
+         "overwrite_flattened"
+           automaticaly overwrite the discfile image that corresponds 
+           to the current frame (which is opened in the gimp session)
+           on frame exchange opertions (such as go to next/previous frame)
+           where the current frame is flattened before calling the file save plug-in.
+       
+         "readonly"
+           frame exchange will fail in case the current frame image has
+           unsaved changes (e.g. the dirty flag is set).
+           GIMP-GAP does not overwrite frame files on disc in this mode.
+           It is intended for fileformats where export/overwrite
+           is not available or not wanted.
+       
+         "readonly_discard"
+           GIMP-GAP does not overwrite frame files on disc in this mode,
+           but discards unsaved changes without any notice on frame exchange.
+           USE THIS ONLY WHEN YOU KONW WHAT YOUR DIONG ON YOUR OWN RISK !
+
+
+
+  * gap/gap_lib.c
+  * gap/gap_pdb_calls.c [.h]
+  * docs/reference/txt/gap_gimprc_params.txt
+
+2014-01-12 Wolfgang Hofer <hof@gimp.org>
 
 - audio resample via external tool (sox) did not work in WINDOWS environment.
   The old code was restricted to Unix only.

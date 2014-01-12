@@ -127,7 +127,21 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 (audioconvert_program "/usr/local/bin/my_private_audioconverter")
 
 
-# NON-XCF frame save behaviour:
+# Configure GIMP-GAP for explicite use of the UFRaw 3rd party plug-in
+# for non-interactive loading of frame files from raw filetypes.
+#  configuration (gap-load-ufraw-%s "yes")
+# Use this when the generical gimp-file-load fails to load Canon .cr2
+# or other raw files
+# (because it picks the file-tiff-load plug that is not capable to load those filetypes)
+(gap-load-ufraw-dng "yes")
+(gap-load-ufraw-nef "yes")
+(gap-load-ufraw-cr2 "yes")
+(gap-load-ufraw-cr "yes")
+
+
+
+
+# NON-XCF frame processing/export overwrite behaviour:
 # -----------------------------
 # if you want to use GIMP-GAP with other fileformats than XCF
 # for your frames, you will get a warning dialog at the first
@@ -137,15 +151,53 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # extension. 
 # for all configured fileformat extensions GIMP-GAP uses the configuration from the
 # gimprc file and does not show the warning dialog.
+# configuration key is video-save-mode-for-%s where %s stands for an extension
+# such as jpg, tif, cr2,....
+# possible configuration values are:
+#  "overwrite"
+#    automaticaly overwrite the discfile image that corresponds 
+#    to the current frame (which is opened in the gimp session)
+#    on frame exchange opertions (such as go to next/previous frame)
+#    where the file save plug-in is called with the backround layer as active layer.
+#    
+#  "overwrite_flattened"
+#    automaticaly overwrite the discfile image that corresponds 
+#    to the current frame (which is opened in the gimp session)
+#    on frame exchange opertions (such as go to next/previous frame)
+#    where the current frame is flattened before calling the file save plug-in.
+#
+#  "readonly"
+#    frame exchange will fail in case the current frame image has
+#    unsaved changes (e.g. the dirty flag is set).
+#    GIMP-GAP does not overwrite frame files on disc in this mode.
+#    It is intended for fileformats where export/overwrite
+#    is not available or not wanted.
+#
+#  "readonly_discard"
+#    GIMP-GAP does not overwrite frame files on disc in this mode,
+#    but discards unsaved changes without any notice on frame exchange.
+#    USE THIS ONLY WHEN YOU KONW WHAT YOUR DIONG ON YOUR OWN RISK !
+#
 # Here are recommanded gimprc configuration settings
 # for some common used fileformats:
+(video-save-mode-for-jpg "overwrite_flattened")
+(video-save-mode-for-jpeg "overwrite_flattened")
+(video-save-mode-for-bmp "overwrite_flattened")
+(video-save-mode-for-ppg "overwrite_flattened")
+(video-save-mode-for-gif "overwrite")
+(video-save-mode-for-dng "readonly")
+(video-save-mode-for-cr2 "readonly")
+(video-save-mode-for-nef "readonly")
 
+
+# old way (supported for backwards compatibility) 
+#   where "yes" is the same as video-save-mode-for-%s "overwrite_flattened"
+#   and   "no"  is the same as video-save-mode-for-%s "overwrite"
 (video-save-flattened-jpg    "yes")
 (video-save-flattened-jpeg   "yes")
 (video-save-flattened-bmp    "yes")
 (video-save-flattened-png    "yes")
 (video-save-flattened-ppm    "yes")
-(video-save-flattened-xjt    "no")
 (video-save-flattened-gif    "no")
 
 
