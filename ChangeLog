@@ -1,3 +1,23 @@
+2014-01-12 Wolfgang Hofer <hof@gimp.org>
+
+- audio resample via external tool (sox) did not work in WINDOWS environment.
+  The old code was restricted to Unix only.
+  Fixed the parameter substitution and use g_spawn_sync for the external audio converter call
+  that now shall work on other operating systems than unix.
+  
+  tests on windows with sox as external converter were successful,
+  but only in case when the external converter was configured with
+  the full absolute path.
+  sox is available on Linux, Windows, and MacOSX
+  see http://sox.sourceforge.net/
+
+  (note that this fix was already done 2013-01-16 in my local 
+   environment and already mentioned in the commit message on that date
+   .. but the file gap/gap_story_sox.c was forgotten to be added in the commit
+   .. now i recognized that mistake and can provide the fix)
+
+  * gap/gap_story_sox.c
+
 2013-11-09 Wolfgang Hofer <hof@gimp.org>
   - fixed comment lines 
     (related to #711402)
