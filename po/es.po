@@ -11,15 +11,15 @@
 # Omar Campagne <ocampagne@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 # Francisco Vila <francisco.vila@hispalinux.es>, 2011, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-11-09 19:13+0000\n"
-"PO-Revision-Date: 2013-11-20 18:14+0100\n"
+"POT-Creation-Date: 2014-01-12 08:40+0000\n"
+"PO-Revision-Date: 2014-01-15 10:15+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -47,7 +47,7 @@ msgstr "Valor:"
 msgid "Press Button"
 msgstr "Pulsar el botón"
 
-#: ../gap/gap_arr_dialog.c:1662
+#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2134
 msgid "Select"
 msgstr "Seleccionar"
 
@@ -242,7 +242,7 @@ msgstr "Error: no se puede guardar el fotograma %s"
 #: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
 #: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
 #: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
-#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3473
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3796
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Error: no se puede renombrar el fotograma %ld a %ld"
@@ -411,7 +411,7 @@ msgstr "Cambiar la densidad de los fotogramas"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:1968
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:1986
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -2882,7 +2882,7 @@ msgstr "MPEG2…"
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Vídeo/Codificar/"
 
-#: ../gap/gap_lib.c:1945
+#: ../gap/gap_lib.c:1963
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2890,36 +2890,72 @@ msgstr ""
 "Operación cancelada.\n"
 "El fotograma actual cambió mientras el diálogo estaba abierto."
 
-#: ../gap/gap_lib.c:2143
-msgid "Save Flattened"
-msgstr "Guardar aplanada"
+#: ../gap/gap_lib.c:2102
+#| msgid "Overwrite File"
+msgid "overwrite flattened"
+msgstr "sobreescribir aplanado"
 
-#: ../gap/gap_lib.c:2145
-msgid "Save As Is"
-msgstr "Guardar tal cual"
+#: ../gap/gap_lib.c:2104
+#| msgid "Overwrite"
+msgid "overwrite"
+msgstr "sobreescribir"
 
-#: ../gap/gap_lib.c:2149
+#: ../gap/gap_lib.c:2106
+#| msgid "ready"
+msgid "read only"
+msgstr "sólo lectura"
+
+#: ../gap/gap_lib.c:2108
+msgid "discard changes"
+msgstr "descartar cambios"
+
+#: ../gap/gap_lib.c:2113
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
-"Save operations may result in loss of layer information.\n"
-"\n"
-"To configure flattening for this fileformat\n"
-"(permanent for all further sessions) please add the line:\n"
-"(%s %s)\n"
-"to your gimprc file."
+"This dialog configures how to handle exchanges of\n"
+"the current frame image (for frames with extension %s)\n"
+"Note that automatical save on frame change just works with XCF\n"
+"but automatical overwrite (e.g export) to other formats\n"
+"typically results in loss of layers and other information."
 msgstr ""
-"Está usando otro formato de archivo distinto de xcf.\n"
-"Las operaciones de guardado pueden tener pérdidas de información de capas.\n"
-"\n"
-"Para configurar el aplanado para este formato de archivo\n"
-"(permanente para todas las sesiones futuras) añada la línea:\n"
-"(%s %s)\n"
-"a su archivo gimprc."
+"Está usando un formato de archivo que no es xcf.\n"
+"Este diálogo configura cómo gestionar los cambios del\n"
+"marco de la imagen actual (o marcos con extensión %s).\n"
+"Tenga en cuenta que el guardado automático al cambiar el\n"
+"marco sólo funciona con XCF, pero sobrescribe automáticamente\n"
+"otros formatos (ej. exportar), perdiendo generalmente capas\n"
+"u otra información."
 
-#: ../gap/gap_lib.c:2158
+#: ../gap/gap_lib.c:2123
+#| msgid "MB Decision:"
+msgid "Save my decision:"
+msgstr "Recordar mi decisión:"
+
+#: ../gap/gap_lib.c:2124
+#, c-format
+msgid ""
+"Save decision for this fileformat for further gimp sessions.\n"
+"this creates an entry in your gimprc file with the key:%s)"
+msgstr ""
+"Guardar la decisión para este formato de archivo para futuras sesiones de "
+"Gimp.\n"
+"Esto crea una entrada en el archivo gimprc con la clave:%s"
+
+#: ../gap/gap_lib.c:2133
 msgid "Fileformat Warning"
 msgstr "Advertencia de formato de archivo"
+
+#: ../gap/gap_lib.c:2400
+#, c-format
+msgid ""
+"Frame operation blocked\n"
+"due to unsaved changes in readonly frame image\n"
+"%s"
+msgstr ""
+"Operación sobre el marco bloqueada\n"
+"ya que hay cambios sin guardar en el marco\n"
+"de sólo lectura de la imagen %s"
 
 #: ../gap/gap_lock.c:101
 #, c-format
@@ -4954,8 +4990,8 @@ msgid ""
 msgstr ""
 "Borrar todos los puntos de control y reemplazarlos con una copia de todos "
 "los puntos de anclaje en la ruta actual, desde la imagen en la que se invocó "
-"«MovePath». Mantenga presionada la tecla «Mayús.» para crear puntos de control "
-"para cada fotograma manipulado, siguiendo la trayectoria bezier."
+"«MovePath». Mantenga presionada la tecla «Mayús.» para crear puntos de "
+"control para cada fotograma manipulado, siguiendo la trayectoria bezier."
 
 #: ../gap/gap_mov_dialog.c:4177
 msgid "Insert controlpoint. The current controlpoint is duplicated."
@@ -4969,8 +5005,8 @@ msgstr "Borrar punto de control actual"
 msgid ""
 "Show previous controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
-"Mostrar es punto de control anterior. Mantenga pulsada la tecla «Mayús.» para "
-"seguir los keyframes."
+"Mostrar es punto de control anterior. Mantenga pulsada la tecla «Mayús.» "
+"para seguir los keyframes."
 
 #: ../gap/gap_mov_dialog.c:4218
 msgid "Show next controlpoint. Hold down the shift key to follow keyframes."
@@ -5002,10 +5038,10 @@ msgid ""
 "and the last point into the other points inbetween."
 msgstr ""
 "Restablecer todos los puntos de control a los valores predefinidos sin "
-"cambiar la trayectoria (valores X/Y). Mantenga pulsada la tecla «Mayús.» para "
-"copiar los valores de punto1 al resto de puntos. Mantenga pulsada la tecla "
-"Control para propagar una mezcla de las opciones del punto1 y del punto "
-"último, entre el resto de puntos."
+"cambiar la trayectoria (valores X/Y). Mantenga pulsada la tecla «Mayús.» "
+"para copiar los valores de punto1 al resto de puntos. Mantenga pulsada la "
+"tecla Control para propagar una mezcla de las opciones del punto1 y del "
+"punto último, entre el resto de puntos."
 
 #: ../gap/gap_mov_dialog.c:4295
 msgid ""
@@ -7151,8 +7187,8 @@ msgstr ""
 #: ../gap/gap_player_dialog.c:8060
 msgid "Set current framenr as selection range start 'From Frame'"
 msgstr ""
-"Establecer el nº de fotograma actual como inicio de rango de selección «desde "
-"fotograma»"
+"Establecer el nº de fotograma actual como inicio de rango de selección "
+"«desde fotograma»"
 
 #: ../gap/gap_player_dialog.c:8076
 msgid ""
@@ -7293,9 +7329,9 @@ msgid ""
 "Start playback. SHIFT: snapshot frames in a multilayer image at original "
 "size CTRL: snapshot at preview size ALT: force creation of new snapshot image"
 msgstr ""
-"Iniciar reproducción. «Mayús»: capturar fotogramas en una imagen multicapa al "
-"tamaño original. «Control»: capturar a tamaño de vista previa. «Alt»: forzar "
-"la creación de una nueva instantánea"
+"Iniciar reproducción. «Mayús»: capturar fotogramas en una imagen multicapa "
+"al tamaño original. «Control»: capturar a tamaño de vista previa. «Alt»: "
+"forzar la creación de una nueva instantánea"
 
 #. the PAUSE button
 #: ../gap/gap_player_dialog.c:8501
@@ -8584,8 +8620,8 @@ msgid ""
 msgstr ""
 "ACTIVADO: se hace un renderizado (lento) de los fotogramas de composición "
 "destinado a vista previa, a tamaño completo. DESACTIVADO: se hace un "
-"renderizado del «storyboard» destinado a vista previa a tamaño pequeño, si es "
-"posible (normalmente es más rápido pero desactiva la extracción de un "
+"renderizado del «storyboard» destinado a vista previa a tamaño pequeño, si "
+"es posible (normalmente es más rápido pero desactiva la extracción de un "
 "fotograma de composición al tamaño original mediante una pulsación sobre la "
 "vista previa del reproductor)."
 
@@ -9005,10 +9041,10 @@ msgid ""
 "video frames)."
 msgstr ""
 "Selecciona la proporción de aspecto de los fotogramas de vídeo; introduzca "
-"una cadena tal como «4:3» o «16:9» para especificar el aspecto. No introduzca "
-"nada o déjelo vacío si no se va a usar ningún aspecto especial (en este caso "
-"los fotogramas de vídeo usan el tamaño de píxel maestro 1:1 para mostrar "
-"fotogramas de vídeo)."
+"una cadena tal como «4:3» o «16:9» para especificar el aspecto. No "
+"introduzca nada o déjelo vacío si no se va a usar ningún aspecto especial "
+"(en este caso los fotogramas de vídeo usan el tamaño de píxel maestro 1:1 "
+"para mostrar fotogramas de vídeo)."
 
 #. the (preferred) Decoder label
 #: ../gap/gap_story_dialog.c:9479 ../gap/gap_vex_dialog.c:2306
@@ -9052,8 +9088,8 @@ msgid ""
 msgstr ""
 "Cadena de formato para proporcionar transparencia externa en clips de vídeo "
 "(ej. inserción automática de un canal alfa). Esta cadena debe contener \\%s "
-"como marcador de posición para el nombre base de un clip de vídeo y un \\%"
-"06d opcional como marcador de posición para el número de fotograma."
+"como marcador de posición para el nombre base de un clip de vídeo y un \\"
+"%06d opcional como marcador de posición para el número de fotograma."
 
 #: ../gap/gap_story_dialog.c:9560
 msgid "AreaFormat:"
@@ -9130,8 +9166,8 @@ msgstr ""
 #, c-format
 msgid "illegal keyword: %s (expected keywords are: width, height, both, none)"
 msgstr ""
-"palabra clave no permitida: «%s» (las palabras permitidas son: width, height, "
-"both, none)"
+"palabra clave no permitida: «%s» (las palabras permitidas son: width, "
+"height, both, none)"
 
 #: ../gap/gap_story_file.c:3671
 #, c-format
@@ -9155,8 +9191,8 @@ msgid ""
 "the passed filename %s has irrelevant content or could not be opened by the "
 "parser"
 msgstr ""
-"el archivo suministrado «%s» contiene información irrelevante o el analizador "
-"no pudo abrirlo"
+"el archivo suministrado «%s» contiene información irrelevante o el "
+"analizador no pudo abrirlo"
 
 #: ../gap/gap_story_main.c:205
 msgid "Storyboard..."
@@ -9421,8 +9457,8 @@ msgstr "Impares primero"
 #: ../gap/gap_story_properties.c:4400
 msgid "Apply odd-lines, switch to even lines on tween position >= 0.5"
 msgstr ""
-"Aplicar filtro «líneas impares», cambiar a «líneas pares» en la posición tween "
-">=0.5"
+"Aplicar filtro «líneas impares», cambiar a «líneas pares» en la posición "
+"tween >=0.5"
 
 #. radio button delace_mode even
 #: ../gap/gap_story_properties.c:4409
@@ -9432,8 +9468,8 @@ msgstr "Incluso la primera"
 #: ../gap/gap_story_properties.c:4418
 msgid "Apply even-lines, switch to even lines on tween position >= 0.5"
 msgstr ""
-"Aplicar filtro «líneas pares», cambiar a «líneas impares» en la posición tween "
-">=0.5"
+"Aplicar filtro «líneas pares», cambiar a «líneas impares» en la posición "
+"tween >=0.5"
 
 #: ../gap/gap_story_properties.c:4443
 msgid ""
@@ -10565,7 +10601,6 @@ msgid "High Output:"
 msgstr "Salida alta:"
 
 #: ../gap/gap_wr_layermode.c:131
-#| msgid "Layer Modes"
 msgid "Set Layer Mode..."
 msgstr "Establecer el modo de capa…"
 
@@ -11063,8 +11098,8 @@ msgid ""
 "storyboard filename in the extras tab)"
 msgstr ""
 "La entrada son clips de vídeo y fotogramas, definidos vía archivo de "
-"«storyboard». (Especifique el nombre del archivo de «storyboard» en la pestaña "
-"«Extras»)"
+"«storyboard». (Especifique el nombre del archivo de «storyboard» en la "
+"pestaña «Extras»)"
 
 #: ../vid_common/gap_cme_gui.c:2562
 msgid "Master Videoencoder"
@@ -11936,8 +11971,8 @@ msgstr ""
 #, c-format
 msgid "ERROR: GAP AVI encoder CODEC %s delivered empty buffer at frame %d"
 msgstr ""
-"Error: Codificador AVI GAP. Códec %s entregó el búfer vacío en el fotograma %"
-"d"
+"Error: Codificador AVI GAP. Códec %s entregó el búfer vacío en el fotograma "
+"%d"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c:769
 msgid "Save ffmpeg-encoder parameters"
@@ -12989,8 +13024,8 @@ msgstr "qblur:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3072
 msgid ""
-"Video quantiser scale blur (VBR) amount of qscale smoothing over time (0.0-"
-"1.0)"
+"Video quantiser scale blur (VBR) amount of qscale smoothing over time "
+"(0.0-1.0)"
 msgstr ""
 "La cantidad de suavizado de qscale de la escala de blur del cuantizador de "
 "video (VBR) al lo largo del proceso (0.0-1.0)"
@@ -13611,6 +13646,30 @@ msgid "the Singleframe Encoder has no encoder specific parameters"
 msgstr ""
 "el Codificador de fotogramas individuales no tiene parámetros específicos "
 "del codificador"
+
+#~ msgid "Save Flattened"
+#~ msgstr "Guardar aplanada"
+
+#~ msgid "Save As Is"
+#~ msgstr "Guardar tal cual"
+
+#~ msgid ""
+#~ "You are using another file format than xcf.\n"
+#~ "Save operations may result in loss of layer information.\n"
+#~ "\n"
+#~ "To configure flattening for this fileformat\n"
+#~ "(permanent for all further sessions) please add the line:\n"
+#~ "(%s %s)\n"
+#~ "to your gimprc file."
+#~ msgstr ""
+#~ "Está usando otro formato de archivo distinto de xcf.\n"
+#~ "Las operaciones de guardado pueden tener pérdidas de información de "
+#~ "capas.\n"
+#~ "\n"
+#~ "Para configurar el aplanado para este formato de archivo\n"
+#~ "(permanente para todas las sesiones futuras) añada la línea:\n"
+#~ "(%s %s)\n"
+#~ "a su archivo gimprc."
 
 #~ msgid "Create only one multilayer Image"
 #~ msgstr "Crear sólo una imagen multicapa"
