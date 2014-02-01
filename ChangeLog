@@ -88,7 +88,30 @@
     (related to #711402)
  
    OLD:
-     * along with this program; if not, see <http://www.gnu.org/licenses/>.
+     * along with this program; if not, write to the Free Software
+
+   NEW:
+    * License along with this library.  If not, see
+
+   (due to a bug in my "replace in all sources" scripts
+    this changes were not performed at the previous attempt)
+
+
+  * This again touched nearly all *.c and *.h files
+  
+2013-11-09 Wolfgang Hofer <hof@gimp.org>
+  - replaced more software address of Free software foundation 
+     OLD: * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+     NEW: * <http://www.gnu.org/licenses/>.
+
+2013-11-09 Wolfgang Hofer <hof@gimp.org>
+  - replaced outdated Incorrect software address of Free software foundation 
+    from comments (assuggested in #711402)
+ 
+   OLD:
+     * You should have received a copy of the GNU General Public License
+     * along with this program; if not, write to the Free Software
+     * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
    NEW:
     * You should have received a copy of the GNU Lesser General Public
