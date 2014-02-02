@@ -151,6 +151,7 @@ p_mov_selection_handling(gint32 orig_layer_id
                                   GIMP_RGBA_IMAGE,
                                  100.0,     /* full opaque */
                                  GIMP_NORMAL_MODE);
+  
   gimp_image_insert_layer(val_ptr->tmpsel_image_id, l_tmp_layer_id, 0, 0);
   gimp_layer_set_offsets(l_tmp_layer_id, src_offset_x, src_offset_y);
   gimp_selection_none(val_ptr->tmpsel_image_id);
@@ -734,6 +735,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
   GimpLayerModeEffects l_mode;
   gdouble              scaleWidthPercent;
   gdouble              scaleHeightPercent;
+  gint32       l_parent_id;
 
   if(gap_debug)
   {
@@ -757,6 +759,8 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
 		     image_id
 		     );
   }
+  
+  l_parent_id = 0;
 
   if(cur_ptr->isSingleFrame)
   {
@@ -797,7 +801,13 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
          cur_ptr->processedLayerId = -1;
          return -1;
       }
-      gimp_image_insert_layer(image_id, l_cp_layer_id, 0, val_ptr->dst_layerstack);
+      l_parent_id = gap_image_find_or_create_group_layer(image_id
+                        , val_ptr->dst_group_name_path_string
+                        , val_ptr->dst_group_name_delimiter
+                        , val_ptr->dst_layerstack     /* stackposition for the group in case it is created at toplvel */
+                        , TRUE  /* enableCreate */
+                        );
+      gimp_image_insert_layer(image_id, l_cp_layer_id, l_parent_id, val_ptr->dst_layerstack);
 
     }
 
@@ -854,7 +864,14 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
        return -1;
     }
 
-    gimp_image_insert_layer(image_id, l_cp_layer_id, 0,
+    l_parent_id = gap_image_find_or_create_group_layer(image_id
+                        , val_ptr->dst_group_name_path_string
+                        , val_ptr->dst_group_name_delimiter
+                        , val_ptr->dst_layerstack /* stackposition for the group in case it is created at toplvel */
+                        , TRUE  /* enableCreate */
+                        );
+
+    gimp_image_insert_layer(image_id, l_cp_layer_id, l_parent_id,
                          val_ptr->dst_layerstack);
     if(gap_debug)
     {

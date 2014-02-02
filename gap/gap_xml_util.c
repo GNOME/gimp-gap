@@ -188,9 +188,32 @@ const GEnumValue *enumValuesTable)
 }  /* end gap_xml_parse_EnumValue_as_gint */
 
 
+/* --------------------------------------
+ * gap_xml_parse_value_utf8_string
+ * --------------------------------------
+ */
+gboolean
+gap_xml_parse_value_utf8_string(const gchar *attribute_value, gchar **valDestPtr)
+{
+  if(*valDestPtr != NULL)
+  {
+    g_free(*valDestPtr);
+    *valDestPtr = NULL;
+  }
+  if(attribute_value != NULL)
+  {
+    gboolean    utf8_compliant;
 
-
-
+    utf8_compliant = g_utf8_validate(attribute_value, -1, NULL);
+    if(utf8_compliant)
+    {
+       *valDestPtr = g_strdup(attribute_value);
+       return (TRUE);
+    }
+    
+  }
+  return (FALSE);
+}
 
 
 

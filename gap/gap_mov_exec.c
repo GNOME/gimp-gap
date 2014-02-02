@@ -137,6 +137,89 @@ static gint     p_calculate_settings_for_current_FrameTween(
 
 
 
+/* -----------------------------------------------
+ * gap_mov_exec_set_iteration_relevant_src_layers
+ * -----------------------------------------------
+ *    get the source layers that are in the same group or image
+ *    and therefore are relevant for iteration in the animation.
+ *    store them in the specified GapMovCurrent *cur_ptr
+ *     AS attributes:
+ *       curr_ptr->src_layers     
+ *          ## is set to array of relevant src_layer_ids (within group or image)
+ *       curr_ptr->src_layer_idx
+ *          ## is set to index of src layer within src_layer array.
+ *       curr_ptr->src_last_layer_idx  
+ *          ## is set to the last valid index in the src_layers array.
+ *        
+ *   Note that animation of a toplevel layer iterates over all toplevel layers
+ *   (where groups are treated as if they were a single layer)
+ *   
+ *   But if the src_layer_id is member of a layer group, the animation
+ *   itaration is done on the members of the same group.
+ *   (when the group contains sub groups, the sub groups act as if they were
+ *   a single layer)
+ */
+void
+gap_mov_exec_set_iteration_relevant_src_layers(GapMovCurrent *cur_ptr, gint32 src_layer_id, gint32 src_image_id)
+{
+  gint32 l_src_layer_parent_id;   /* 0 for toplevel layer that is not member of a layer group */
+  gint   l_nlayers;
+
+  cur_ptr->src_layers = NULL;
+  cur_ptr->src_layer_idx   = 0;
+  cur_ptr->src_last_layer_idx = -1; /* indicate invalid src layer */
+  
+  if (src_layer_id < 0)
+  {
+    return;
+  }
+  
+  l_src_layer_parent_id = gimp_item_get_parent (src_layer_id);
+  if(gap_debug)
+  {
+    printf("gap_mov_exec_set_iteration_relevant_src_layers: src_layer_id:%d, src_layer_parent_id:%d\n"
+      , (int)src_layer_id
+      , (int)l_src_layer_parent_id
+      );
+  }
+  if (l_src_layer_parent_id > 0)
+  {
+    /* the src layer is member of a layergroup, get all members of the group */
+    cur_ptr->src_layers      = gimp_item_get_children (l_src_layer_parent_id, &l_nlayers);
+  }
+  else
+  {
+    /* the src layer is a toplevel layer, get all toplevel layers of the image */
+    cur_ptr->src_layers      = gimp_image_get_layers (src_image_id, &l_nlayers);
+  }
+
+
+  if((cur_ptr->src_layers != NULL) && (l_nlayers > 0))
+  {
+    cur_ptr->src_last_layer_idx  = l_nlayers -1;
+    /* findout index of src_layer_id (within group or image) */
+    for(cur_ptr->src_layer_idx = 0;
+        cur_ptr->src_layer_idx  < l_nlayers;
+        cur_ptr->src_layer_idx++)
+    {
+      if(gap_debug)
+      {
+        printf("gap_mov_exec_set_iteration_relevant_src_layers: l_nlayers:%d, src_layer_id:%d, cur_ptr->src_layer_idx:%d\n"
+          , (int)l_nlayers
+          , (int)cur_ptr->src_layers[cur_ptr->src_layer_idx]
+          , (int)cur_ptr->src_layer_idx
+          );
+      }
+      if(cur_ptr->src_layers[cur_ptr->src_layer_idx] == src_layer_id)
+      {
+         cur_ptr->src_layer_idx_dbl = (gdouble)cur_ptr->src_layer_idx;
+         return;
+      }
+    }
+  }
+  cur_ptr->src_layer_idx   = 0;
+    
+}  /* end gap_mov_exec_set_iteration_relevant_src_layers */
 
 
 
@@ -538,7 +621,7 @@ p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
   gdouble l_round;
 
   /* limit step factor to number of available layers -1 */
-  l_step_speed_factor = MIN(pvals->step_speed_factor, (gdouble)cur_ptr->src_last_layer);
+  l_step_speed_factor = MIN(pvals->step_speed_factor, (gdouble)cur_ptr->src_last_layer_idx);
   if(pvals->tween_steps > 0)
   {
     /* when we have tweens, the speed_factor must be divided (the +1 is for the real frame) */
@@ -550,7 +633,7 @@ p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
   {
     printf("p_mov_advance_src_layer: stepmode=%d last_layer=%d idx=%d (%.4f) speed_factor: %.4f\n",
                        (int)pvals->src_stepmode,
-                       (int)cur_ptr->src_last_layer,
+                       (int)cur_ptr->src_last_layer_idx,
                        (int)cur_ptr->src_layer_idx,
                        (float)cur_ptr->src_layer_idx_dbl,
                        (float)l_step_speed_factor
@@ -562,15 +645,15 @@ p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
    *       therfore reverse loops have to count up
    *       forward loop is defined as sequence from BG to TOP layer
    */
-  if((cur_ptr->src_last_layer > 0 ) && (pvals->src_stepmode != GAP_STEP_NONE))
+  if((cur_ptr->src_last_layer_idx > 0 ) && (pvals->src_stepmode != GAP_STEP_NONE))
   {
     switch(pvals->src_stepmode)
     {
       case GAP_STEP_ONCE_REV:
         cur_ptr->src_layer_idx_dbl += l_step_speed_factor;
-        if(cur_ptr->src_layer_idx_dbl > cur_ptr->src_last_layer)
+        if(cur_ptr->src_layer_idx_dbl > cur_ptr->src_last_layer_idx)
         {
-           cur_ptr->src_layer_idx_dbl = (gdouble)cur_ptr->src_last_layer;
+           cur_ptr->src_layer_idx_dbl = (gdouble)cur_ptr->src_last_layer_idx;
         }
         break;
       case GAP_STEP_ONCE:
@@ -593,18 +676,18 @@ p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
         }
         else
         {
-          if(cur_ptr->src_layer_idx_dbl >= (gdouble)(cur_ptr->src_last_layer +1))
+          if(cur_ptr->src_layer_idx_dbl >= (gdouble)(cur_ptr->src_last_layer_idx +1))
           {
-             cur_ptr->src_layer_idx_dbl = (gdouble)cur_ptr->src_last_layer - 1.0;
+             cur_ptr->src_layer_idx_dbl = (gdouble)cur_ptr->src_last_layer_idx - 1.0;
              l_ping = -1;
           }
         }
         break;
       case GAP_STEP_LOOP_REV:
         cur_ptr->src_layer_idx_dbl += l_step_speed_factor;
-        if(cur_ptr->src_layer_idx_dbl >= (gdouble)(cur_ptr->src_last_layer +1))
+        if(cur_ptr->src_layer_idx_dbl >= (gdouble)(cur_ptr->src_last_layer_idx +1))
         {
-           cur_ptr->src_layer_idx_dbl -= (gdouble)(cur_ptr->src_last_layer + 1);
+           cur_ptr->src_layer_idx_dbl -= (gdouble)(cur_ptr->src_last_layer_idx + 1);
         }
         break;
       case GAP_STEP_LOOP:
@@ -612,13 +695,22 @@ p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals)
         cur_ptr->src_layer_idx_dbl -= l_step_speed_factor;
         if(cur_ptr->src_layer_idx_dbl < -0.5)
         {
-           cur_ptr->src_layer_idx_dbl += (gdouble)(cur_ptr->src_last_layer + 1);
+           cur_ptr->src_layer_idx_dbl += (gdouble)(cur_ptr->src_last_layer_idx + 1);
         }
         l_round = 0.5;
         break;
 
     }
     cur_ptr->src_layer_idx = MAX((long)(cur_ptr->src_layer_idx_dbl + l_round), 0);
+    if(gap_debug)
+    {
+         printf("p_advance_src_layer: src_layer_idx_dbl %f  l_step_speed_factor:%f layer_idx_dbl+round:%f src_layer_idx:%d\n"
+             ,(float)cur_ptr->src_layer_idx_dbl
+             ,(float)l_step_speed_factor
+             ,(float)(cur_ptr->src_layer_idx_dbl + l_round)
+             ,(int)cur_ptr->src_layer_idx
+             );
+    }
   }
 }       /* end  p_advance_src_layer */
 
@@ -1484,12 +1576,12 @@ p_log_current_render_params(GapMovData *mov_ptr, GapMovCurrent *cur_ptr)
 
     val_ptr = mov_ptr->val_ptr;
 
-    printf("\nCurrent Render Params: dst_frame_nr:%ld tweenIndex:%d src_layer_idx:%d (dbl:%f)\n"
+    printf("\nCurrent Render Params: dst_frame_nr:%d tweenIndex:%d src_layer_idx:%d (dbl:%f)\n"
                 "       currX:%f currY:%f\n"
                 "       Width:%f Height:%f\n"
                 "       Opacity:%f  Rotate:%f  clip_to_img:%d force_visibility:%d\n"
                 "       src_stepmode:%d handleX:%d handleY:%d currSelFeatherRadius:%f rotate_threshold:%f\n",
-                     cur_ptr->dst_frame_nr, (int)val_ptr->twix, (int)cur_ptr->src_layer_idx,
+                     (int)cur_ptr->dst_frame_nr, (int)val_ptr->twix, (int)cur_ptr->src_layer_idx,
                      (float)cur_ptr->src_layer_idx_dbl,
                      (float)cur_ptr->currX,
                      (float)cur_ptr->currY,
@@ -1912,32 +2004,20 @@ p_mov_execute_or_query(GapMovData *mov_ptr, GapMovQuery *mov_query)
          l_sel_channel_id = gimp_image_get_selection(val_ptr->src_image_id);
          gap_mov_render_create_or_replace_tempsel_image(l_sel_channel_id, val_ptr, l_all_empty);
        }
-
-       cur_ptr->src_layers = gimp_image_get_layers (val_ptr->src_image_id, &l_nlayers);
+       
+       
+       /* allocate and set array cur_ptr->src_layers with ids of relevant layers and findout index of src_layer_id */
+       gap_mov_exec_set_iteration_relevant_src_layers(cur_ptr, val_ptr->src_layer_id, val_ptr->src_image_id);
        if(cur_ptr->src_layers == NULL)
        {
          printf("ERROR (in p_mov_execute): Got no layers from SrcImage\n");
          return -1;
        }
-       if(l_nlayers < 1)
+       if(cur_ptr->src_last_layer_idx < 0)
        {
          printf("ERROR (in p_mov_execute): Source Image has no layers\n");
          return -1;
        }
-       cur_ptr->src_last_layer = l_nlayers -1;
-
-       /* findout index of src_layer_id */
-       for(cur_ptr->src_layer_idx = 0;
-           cur_ptr->src_layer_idx  < l_nlayers;
-           cur_ptr->src_layer_idx++)
-       {
-          if(cur_ptr->src_layers[cur_ptr->src_layer_idx] == val_ptr->src_layer_id)
-          {
-             cur_ptr->src_layer_idx_dbl = (gdouble)cur_ptr->src_layer_idx;
-             break;
-          }
-       }
-       cur_ptr->src_last_layer = l_nlayers -1;   /* index of last layer */
      }
      else
      {
@@ -2455,7 +2535,7 @@ p_mov_execute_singleframe(GapMovData *mov_ptr)
 
    cur_ptr->dst_frame_nr = 1;
    cur_ptr->src_layers = NULL;
-   cur_ptr->src_last_layer = -1;
+   cur_ptr->src_last_layer_idx = -1;
    p_init_curr_ptr_with_1st_controlpoint(cur_ptr, val_ptr, singleFramePtr);
 
    /* set offsets (in cur_ptr)  according to handle mode and src_img dimension */
@@ -2813,9 +2893,10 @@ gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint
   gint32      l_mlayer_image_id;
   GimpImageBaseType  l_type;
   guint       l_width, l_height;
-  gint32      l_stackpos;
-  gint        l_nlayers;
-  gint32     *l_src_layers;
+  gint32      l_stackpos;           /* toplevel stackpos within src image orignal */
+  GapImageStackPositionsList *l_stack_pos_list;
+  
+  
   gint        l_rc;
   gdouble    l_xresoulution, l_yresoulution;
   gint32     l_unit;
@@ -2841,6 +2922,7 @@ gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint
   /* -1 assume no tmp_image (use unscaled original source) */
   l_tmp_image_id = -1;
   l_stackpos = 0;
+  l_stack_pos_list = NULL;
 
   /* Scale (down) needed ? */
   if((l_pvals->apv_scalex != 100.0) || (l_pvals->apv_scaley != 100.0))
@@ -2866,48 +2948,48 @@ gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint
       l_size_y = MAX(1, (gimp_image_height(l_tmp_image_id) * l_pvals->apv_scaley) / 100);
       gimp_image_scale(l_tmp_image_id, l_size_x, l_size_y);
 
-       /* findout the src_layer id in the scaled copy by stackpos index */
-       l_pvals->src_layer_id = -1;
-       l_src_layers = gimp_image_get_layers (pvals_orig->src_image_id, &l_nlayers);
-       if(l_src_layers == NULL)
-       {
-         printf("ERROR: gap_mov_exec_anim_preview GOT no src_layers (original image_id %d)\n",
-                 (int)pvals_orig->src_image_id);
-       }
-       else
-       {
-         for(l_stackpos = 0;
-             l_stackpos  < l_nlayers;
-             l_stackpos++)
-         {
-            if(l_src_layers[l_stackpos] == pvals_orig->src_layer_id)
-               break;
-         }
-         g_free(l_src_layers);
+      /* findout the src_layer id in the scaled copy by its stackpositions in image and layergroups */
+      l_pvals->src_layer_id = -1;
+      l_stack_pos_list = gap_image_get_tree_position_list(pvals_orig->src_layer_id);
+      if (l_stack_pos_list == NULL)
+      {
+        printf("ERROR: gap_mov_exec_anim_preview GOT no stack position list (original image_id %d)\n",
+                (int)pvals_orig->src_image_id);
+        gimp_image_delete(l_tmp_image_id);
+        return (-1);
+      }
+      else
+      {
+        l_stackpos =  l_stack_pos_list->stack_position;
+        l_pvals->src_layer_id =
+           gap_image_get_layer_id_by_tree_position_list(l_tmp_image_id, l_stack_pos_list);
 
-         l_src_layers = gimp_image_get_layers (l_tmp_image_id, &l_nlayers);
-         if(l_src_layers == NULL)
-         {
-           printf("ERROR: gap_mov_exec_anim_preview GOT no src_layers (scaled copy image_id %d)\n",
-                  (int)l_tmp_image_id);
-         }
-         else
-         {
-            l_pvals->src_layer_id = l_src_layers[l_stackpos];
-            g_free(l_src_layers);
-         }
+        gap_image_gfree_tree_position_list(l_stack_pos_list);
+      }
+      if (l_pvals->src_layer_id < 0)
+      {
+        printf("ERROR: gap_mov_exec_anim_preview Failed to find corresponding layer orig image_id %d copy:%d)\n"
+                , (int)pvals_orig->src_image_id
+                , (int)l_tmp_image_id
+                );
+        gimp_image_delete(l_tmp_image_id);
+        return (-1);
+      }
 
-       }
 
       if(gap_debug)
       {
-        printf("gap_mov_exec_anim_preview: orig  src_image_id:%d src_layer:%d, stackpos:%d\n"
+        printf("gap_mov_exec_anim_preview: orig  src_image_id:%d src_layer:%d, stackpos:%d name:%s\n"
                ,(int)pvals_orig->src_image_id
                ,(int)pvals_orig->src_layer_id
-               ,(int)l_stackpos);
-        printf("   Scaled src_image_id:%d scaled_src_layer:%d\n"
+               ,(int)l_stackpos
+               , gimp_item_get_name(pvals_orig->src_layer_id)
+                 );
+        printf("   Scaled src_image_id:%d scaled_src_layer:%d name:%s\n"
                ,(int)l_tmp_image_id
-               ,(int)l_pvals->src_layer_id );
+               ,(int)l_pvals->src_layer_id
+               , gimp_item_get_name(l_pvals->src_layer_id)
+               );
       }
     }
   }  /* end if Scaledown needed */
@@ -3041,6 +3123,7 @@ gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint
   /* add a display for the animated preview multilayer image */
   gimp_display_new(l_mlayer_image_id);
 
+
   /* delete the scaled copy of the src image (if there is one) */
   if(l_tmp_image_id >= 0)
   {
@@ -3054,6 +3137,9 @@ gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint
 
   return(l_mlayer_image_id);
 }       /* end gap_mov_exec_anim_preview */
+
+
+
 
 
 /* ============================================================================
@@ -4010,9 +4096,9 @@ void gap_mov_exec_set_handle_offsets(GapMovValues *val_ptr, GapMovCurrent *cur_p
 }       /* end gap_mov_exec_set_handle_offsets */
 
 
-/* ------------------------------------
- * gap_mov_exec_new_GapMovValues
- * ------------------------------------
+/* ------------------------------------------
+ * gap_mov_exec_get_default_rotate_threshold
+ * ------------------------------------------
  */
 gdouble
 gap_mov_exec_get_default_rotate_threshold()
@@ -4081,6 +4167,8 @@ GapMovValues *gap_mov_exec_new_GapMovValues()
   pvals->tween_steps = 0;
   pvals->tween_opacity_initial = 80.0;
   pvals->tween_opacity_desc = 80.0;
+  
+  pvals->dst_group_name_delimiter = g_strdup("/");
 
   return(pvals);
 

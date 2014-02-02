@@ -92,13 +92,14 @@ typedef enum
 } GapMovSelMode;
 
 typedef struct {
-        long    dst_frame_nr;     /* current destination frame_nr */
-        long    src_layer_idx;    /* index of current layer (used for multilayer stepmodes) */
-        long    src_frame_idx;    /* current frame number (used for source frame stepmodes) */
+        gint32  dst_frame_nr;        /* current destination frame_nr */
+        gint32  src_layer_parent_id; /* 0 for toplevel layer that are not member of a layer group */
+        gint32  src_layer_idx;       /* index of current layer within group or image (used for multilayer stepmodes) */
+        gint32  src_frame_idx;       /* current frame number (used for source frame stepmodes) */
         gdouble src_layer_idx_dbl;
         gdouble src_frame_idx_dbl;
-        gint32 *src_layers;       /* array of source images layer id's (used for multilayer stepmodes) */
-        long    src_last_layer;   /* index of last layer 0 upto n-1 (used for multilayer stepmodes) */
+        gint32 *src_layers;          /* array of layer id's  in hte same layer group or image (used for multilayer stepmodes) */
+        gint32  src_last_layer_idx;  /* index of last layer 0 upto n-1 within group or image (used for multilayer stepmodes) */
         gdouble currX,  currY;
         gint    l_handleX;
         gint    l_handleY;
@@ -264,6 +265,8 @@ typedef struct {
 
         gdouble  rotate_threshold;
 
+        gchar  *dst_group_name_path_string;
+        gchar  *dst_group_name_delimiter;
 
 } GapMovValues;
 

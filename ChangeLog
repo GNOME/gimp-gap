@@ -1,3 +1,33 @@
+2014-02-02 Wolfgang Hofer <hof@gimp.org>
+
+- added LAYER GROUP Support in the "MovePath" dialog.
+     Tis dialog now provides a "Target Group" and Delimiter entry
+     To specifiy a Groupname where the rendered layer(s) shall be
+     inserted in all processed frame images. 
+     The groupname may also refere a subgroup when
+     it is separeted by the specified delimiter character
+     Example: 
+        Delimiter: /
+        Target Group: "animals/flying/birds"
+        
+     Note that an empty groupname refers to the image.
+     (e.g. the rendered layer(s) are inserted at image level)
+        
+     The Stepmode loop for layer specific stepmodes 
+     (loop, loop reverse, once, once reverse, ping pong)
+     now iterates over the layers that are member of the same group as the selected
+     Source Image/Layer. Selecting a toplevel Layer (or toplevel Grouplayer) iterates
+     over all toplevel layers including all toplevel Grouplayers of the Source image.
+
+ * gap/gap_image.c [.h]
+ * gap/gap_mov_dialog.c [.h]
+ * gap/gap_mov_exec.c [.h]
+ * gap/gap_mov_main.c
+ * gap/gap_mov_render.c [.h]
+ * gap/gap_mov_xml_par.c
+ * gap/gap_xml_util.c [.h]
+
+
 2014-01-12 Wolfgang Hofer <hof@gimp.org>
 - support for RAW files as "readonly" frame sequences for processing 
   as high bit depth video source in MovePath operations or Storyboard Clips.
