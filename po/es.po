@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-12 08:40+0000\n"
-"PO-Revision-Date: 2014-01-15 10:15+0100\n"
+"POT-Creation-Date: 2014-02-07 06:56+0000\n"
+"PO-Revision-Date: 2014-02-07 12:20+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -347,7 +347,7 @@ msgstr "Cambiar la densidad de los fotogramas"
 #: ../gap/gap_base_ops.c:1437 ../gap/gap_base_ops.c:1591
 #: ../gap/gap_base_ops.c:1797 ../gap/gap_base_ops.c:1856
 #: ../gap/gap_decode_xanim.c:247 ../gap/gap_mod_layer_dialog.c:1380
-#: ../gap/gap_mov_dialog.c:4440 ../gap/gap_mpege.c:302
+#: ../gap/gap_mov_dialog.c:4523 ../gap/gap_mpege.c:302
 #: ../gap/gap_onion_dialog.c:914 ../gap/gap_range_ops.c:301
 #: ../gap/gap_range_ops.c:537 ../gap/gap_range_ops.c:735
 #: ../gap/gap_vex_dialog.c:2123 ../vid_common/gap_cme_gui.c:3576
@@ -366,7 +366,7 @@ msgstr "El rango afectado comienza en este nº de fotograma"
 #: ../gap/gap_base_ops.c:1445 ../gap/gap_base_ops.c:1599
 #: ../gap/gap_base_ops.c:1805 ../gap/gap_base_ops.c:1864
 #: ../gap/gap_decode_xanim.c:257 ../gap/gap_mod_layer_dialog.c:1402
-#: ../gap/gap_mov_dialog.c:4462 ../gap/gap_mpege.c:312
+#: ../gap/gap_mov_dialog.c:4547 ../gap/gap_mpege.c:312
 #: ../gap/gap_onion_dialog.c:921 ../gap/gap_range_ops.c:311
 #: ../gap/gap_range_ops.c:545 ../gap/gap_range_ops.c:743
 #: ../gap/gap_vex_dialog.c:2179 ../vid_common/gap_cme_gui.c:3610
@@ -674,7 +674,7 @@ msgid "Select output svg vector file via browser"
 msgstr "Seleccionar el archivo de vectores SVG de salida mediante el navegador"
 
 #. toggle bluebox
-#: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:3925
+#: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:4004
 msgid "Bluebox"
 msgstr "Bluebox"
 
@@ -685,7 +685,7 @@ msgstr "Seleccionar por color"
 
 #. the keycolor label
 #. keycolor label
-#: ../gap/gap_bluebox.c:288 ../gap/gap_mov_dialog.c:3942
+#: ../gap/gap_bluebox.c:288 ../gap/gap_mov_dialog.c:4021
 msgid "Keycolor:"
 msgstr "Color de clave:"
 
@@ -755,7 +755,7 @@ msgstr "ACTIVADO: difuminar los bordes usando el radio de difuminado"
 #. accelaration characteristic for feather radius
 #. table col, row
 #: ../gap/gap_bluebox.c:394 ../gap/gap_colormask_dialog.c:407
-#: ../gap/gap_mov_dialog.c:4986
+#: ../gap/gap_mov_dialog.c:5128
 msgid "Feather Radius:"
 msgstr "Radio de difuminado:"
 
@@ -791,7 +791,7 @@ msgstr "ACTIVADO: mantener actualizada la imagen de vista previa"
 
 #. button
 #. the preview frame
-#: ../gap/gap_bluebox.c:447 ../gap/gap_mov_dialog.c:5270
+#: ../gap/gap_bluebox.c:447 ../gap/gap_mov_dialog.c:5412
 msgid "Preview"
 msgstr "Vista previa"
 
@@ -1928,7 +1928,7 @@ msgstr ""
 
 #. the Default button
 #: ../gap/gap_detail_align_exec.c:658 ../gap/gap_detail_tracking_exec.c:1471
-#: ../gap/gap_mov_dialog.c:1556 ../gap/gap_mpege.c:373
+#: ../gap/gap_mov_dialog.c:1568 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:511 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5305 ../gap/gap_story_dialog.c:5662
 #: ../gap/gap_video_index_creator.c:1006 ../gap/gap_wr_opacity.c:356
@@ -1937,7 +1937,7 @@ msgid "Default"
 msgstr "Predeterminado"
 
 #: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1472
-#: ../gap/gap_mov_dialog.c:1557 ../gap/gap_mpege.c:374
+#: ../gap/gap_mov_dialog.c:1569 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:512 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
@@ -2227,7 +2227,7 @@ msgstr "Foreground-Extract"
 #. the frame
 #. Options section
 #: ../gap/gap_fg_from_sel_dialog.c:276 ../gap/gap_fg_matting_dialog.c:408
-#: ../gap/gap_mov_dialog.c:1560 ../gap/gap_wr_layermode.c:329
+#: ../gap/gap_mov_dialog.c:1572 ../gap/gap_wr_layermode.c:329
 msgid "Options"
 msgstr "Opciones"
 
@@ -2497,7 +2497,7 @@ msgstr ""
 #. table col, row
 #. shiftPhaseY spinbutton
 #: ../gap/gap_fire_pattern.c:1915 ../gap/gap_morph_dialog.c:3225
-#: ../gap/gap_mov_dialog.c:5174 ../gap/gap_name2layer_main.c:485
+#: ../gap/gap_mov_dialog.c:5316 ../gap/gap_name2layer_main.c:485
 #: ../gap/gap_resi_dialog.c:853 ../gap/gap_water_pattern.c:1158
 #: ../gap/gap_water_pattern.c:1295
 msgid "Y:"
@@ -2655,17 +2655,17 @@ msgstr "Modo de mezclado:"
 
 #. Blend Mode the radio buttons
 #: ../gap/gap_fire_pattern.c:2266 ../gap/gap_mod_layer_dialog.c:500
-#: ../gap/gap_mov_dialog.c:3693 ../gap/gap_wr_layermode.c:355
+#: ../gap/gap_mov_dialog.c:3772 ../gap/gap_wr_layermode.c:355
 msgid "Burn"
 msgstr "Quemar"
 
 #: ../gap/gap_fire_pattern.c:2277 ../gap/gap_mod_layer_dialog.c:479
-#: ../gap/gap_mov_dialog.c:3700 ../gap/gap_wr_layermode.c:362
+#: ../gap/gap_mov_dialog.c:3779 ../gap/gap_wr_layermode.c:362
 msgid "Subtract"
 msgstr "Sustraer"
 
 #: ../gap/gap_fire_pattern.c:2288 ../gap/gap_mod_layer_dialog.c:448
-#: ../gap/gap_mov_dialog.c:3688 ../gap/gap_wr_layermode.c:350
+#: ../gap/gap_mov_dialog.c:3767 ../gap/gap_wr_layermode.c:350
 msgid "Multiply"
 msgstr "Multiplicar"
 
@@ -2689,8 +2689,8 @@ msgstr ""
 #. table col, row
 #. accelaration characteristic
 #. table col, row
-#: ../gap/gap_fire_pattern.c:2324 ../gap/gap_mov_dialog.c:4634
-#: ../gap/gap_mov_dialog.c:4909 ../gap/gap_onion_dialog.c:1130
+#: ../gap/gap_fire_pattern.c:2324 ../gap/gap_mov_dialog.c:4776
+#: ../gap/gap_mov_dialog.c:5051 ../gap/gap_onion_dialog.c:1130
 #: ../gap/gap_story_att_trans_dlg.c:3731 ../gap/gap_water_pattern.c:1404
 #: ../gap/gap_wr_opacity.c:332
 msgid "Opacity:"
@@ -2891,17 +2891,14 @@ msgstr ""
 "El fotograma actual cambió mientras el diálogo estaba abierto."
 
 #: ../gap/gap_lib.c:2102
-#| msgid "Overwrite File"
 msgid "overwrite flattened"
 msgstr "sobreescribir aplanado"
 
 #: ../gap/gap_lib.c:2104
-#| msgid "Overwrite"
 msgid "overwrite"
 msgstr "sobreescribir"
 
 #: ../gap/gap_lib.c:2106
-#| msgid "ready"
 msgid "read only"
 msgstr "sólo lectura"
 
@@ -2928,7 +2925,6 @@ msgstr ""
 "u otra información."
 
 #: ../gap/gap_lib.c:2123
-#| msgid "MB Decision:"
 msgid "Save my decision:"
 msgstr "Recordar mi decisión:"
 
@@ -3172,38 +3168,38 @@ msgstr "Establecer todas las capas seleccionadas al modo: %s"
 msgid "Layer Modes"
 msgstr "Modos de capas"
 
-#: ../gap/gap_mod_layer_dialog.c:438 ../gap/gap_mov_dialog.c:3685
+#: ../gap/gap_mod_layer_dialog.c:438 ../gap/gap_mov_dialog.c:3764
 #: ../gap/gap_wr_layermode.c:347
 msgid "Normal"
 msgstr "Normal"
 
-#: ../gap/gap_mod_layer_dialog.c:443 ../gap/gap_mov_dialog.c:3686
+#: ../gap/gap_mod_layer_dialog.c:443 ../gap/gap_mov_dialog.c:3765
 #: ../gap/gap_wr_layermode.c:348
 msgid "Dissolve"
 msgstr "Disolver"
 
-#: ../gap/gap_mod_layer_dialog.c:453 ../gap/gap_mov_dialog.c:3689
+#: ../gap/gap_mod_layer_dialog.c:453 ../gap/gap_mov_dialog.c:3768
 #: ../gap/gap_wr_layermode.c:351
 msgid "Divide"
 msgstr "Divide"
 
-#: ../gap/gap_mod_layer_dialog.c:458 ../gap/gap_mov_dialog.c:3690
+#: ../gap/gap_mod_layer_dialog.c:458 ../gap/gap_mov_dialog.c:3769
 #: ../gap/gap_water_pattern.c:1467 ../gap/gap_wr_layermode.c:352
 msgid "Screen"
 msgstr "Pantalla"
 
 #. Blend Mode the radio buttons
-#: ../gap/gap_mod_layer_dialog.c:463 ../gap/gap_mov_dialog.c:3691
+#: ../gap/gap_mod_layer_dialog.c:463 ../gap/gap_mov_dialog.c:3770
 #: ../gap/gap_water_pattern.c:1445 ../gap/gap_wr_layermode.c:353
 msgid "Overlay"
 msgstr "Solapar"
 
-#: ../gap/gap_mod_layer_dialog.c:469 ../gap/gap_mov_dialog.c:3698
+#: ../gap/gap_mod_layer_dialog.c:469 ../gap/gap_mov_dialog.c:3777
 #: ../gap/gap_wr_layermode.c:360
 msgid "Difference"
 msgstr "Diferencia"
 
-#: ../gap/gap_mod_layer_dialog.c:474 ../gap/gap_mov_dialog.c:3699
+#: ../gap/gap_mod_layer_dialog.c:474 ../gap/gap_mov_dialog.c:3778
 #: ../gap/gap_water_pattern.c:1456 ../gap/gap_wr_layermode.c:361
 msgid "Addition"
 msgstr "Suma"
@@ -3216,7 +3212,7 @@ msgstr "Oscurecer sólo"
 msgid "Lighten only"
 msgstr "Iluminar sólo"
 
-#: ../gap/gap_mod_layer_dialog.c:495 ../gap/gap_mov_dialog.c:3692
+#: ../gap/gap_mod_layer_dialog.c:495 ../gap/gap_mov_dialog.c:3771
 #: ../gap/gap_water_pattern.c:1478 ../gap/gap_wr_layermode.c:354
 msgid "Dodge"
 msgstr "Esquivar"
@@ -3241,22 +3237,22 @@ msgstr "Extracción de grano"
 msgid "Grain merge"
 msgstr "Combinación de grano"
 
-#: ../gap/gap_mod_layer_dialog.c:530 ../gap/gap_mov_dialog.c:3703
+#: ../gap/gap_mod_layer_dialog.c:530 ../gap/gap_mov_dialog.c:3782
 #: ../gap/gap_wr_layermode.c:365
 msgid "Hue"
 msgstr "Tono"
 
-#: ../gap/gap_mod_layer_dialog.c:535 ../gap/gap_mov_dialog.c:3704
+#: ../gap/gap_mod_layer_dialog.c:535 ../gap/gap_mov_dialog.c:3783
 #: ../gap/gap_wr_layermode.c:366
 msgid "Saturation"
 msgstr "Saturación"
 
-#: ../gap/gap_mod_layer_dialog.c:540 ../gap/gap_mov_dialog.c:3705
+#: ../gap/gap_mod_layer_dialog.c:540 ../gap/gap_mov_dialog.c:3784
 #: ../gap/gap_wr_layermode.c:367
 msgid "Color"
 msgstr "Color"
 
-#: ../gap/gap_mod_layer_dialog.c:545 ../gap/gap_mov_dialog.c:3707
+#: ../gap/gap_mod_layer_dialog.c:545 ../gap/gap_mov_dialog.c:3786
 #: ../gap/gap_wr_layermode.c:369
 msgid "Value"
 msgstr "Valor"
@@ -3779,7 +3775,7 @@ msgstr "Seleccione la capa de destino"
 #. table col, row
 #. gtk_container_add (GTK_CONTAINER (abox), table3);
 #. the x/y offest labels
-#: ../gap/gap_morph_dialog.c:3194 ../gap/gap_mov_dialog.c:5156
+#: ../gap/gap_morph_dialog.c:3194 ../gap/gap_mov_dialog.c:5298
 #: ../gap/gap_name2layer_main.c:474 ../gap/gap_resi_dialog.c:847
 msgid "X:"
 msgstr "X:"
@@ -4457,37 +4453,37 @@ msgstr "Crear fotograma(s) tween:"
 msgid "Local Progress:"
 msgstr "Progreso local:"
 
-#: ../gap/gap_mov_dialog.c:990
+#: ../gap/gap_mov_dialog.c:1002
 msgid "Move Path Editor"
 msgstr "Editor de rutas de movimiento"
 
-#: ../gap/gap_mov_dialog.c:994
+#: ../gap/gap_mov_dialog.c:1006
 msgid "Move Path"
 msgstr "Camino de movimiento"
 
-#: ../gap/gap_mov_dialog.c:1038
+#: ../gap/gap_mov_dialog.c:1050
 msgid "Show preview frame with selected source layer at current controlpoint"
 msgstr ""
 "Mostrar fotograma de vista previa con la capa origen seleccionada en el "
 "punto de control actual"
 
-#: ../gap/gap_mov_dialog.c:1049
+#: ../gap/gap_mov_dialog.c:1061
 msgid "Generate animated preview as multilayer image"
 msgstr "Generar vista previa animada como imagen multicapa"
 
-#: ../gap/gap_mov_dialog.c:1070
+#: ../gap/gap_mov_dialog.c:1082
 msgid "Copy moving source-layer(s) into frames"
 msgstr "Copiar y mover capa(s) origen en fotogramas"
 
-#: ../gap/gap_mov_dialog.c:1097
+#: ../gap/gap_mov_dialog.c:1109
 msgid "Source Select"
 msgstr "Selección de origen"
 
-#: ../gap/gap_mov_dialog.c:1105
+#: ../gap/gap_mov_dialog.c:1117
 msgid "Advanced Settings"
 msgstr "Configuración avanzada"
 
-#: ../gap/gap_mov_dialog.c:1177
+#: ../gap/gap_mov_dialog.c:1189
 msgid ""
 "No source image was selected.\n"
 "Please open a 2nd image of the same type before opening 'Move Path'"
@@ -4495,47 +4491,47 @@ msgstr ""
 "No se seleccionó imagen origen.\n"
 "Por favor, abra una 2ª imagen del mismo tipo antes de abrir Mover Camino."
 
-#: ../gap/gap_mov_dialog.c:1465
+#: ../gap/gap_mov_dialog.c:1477
 msgid "Object on empty frames"
 msgstr "Objeto en fotogramas vacíos"
 
-#: ../gap/gap_mov_dialog.c:1466
+#: ../gap/gap_mov_dialog.c:1478
 msgid "Object on one frame"
 msgstr "Objeto en un fotograma"
 
-#: ../gap/gap_mov_dialog.c:1467
+#: ../gap/gap_mov_dialog.c:1479
 msgid "Exact object on frames"
 msgstr "Objeto exacto en fotogramas"
 
-#: ../gap/gap_mov_dialog.c:1498
+#: ../gap/gap_mov_dialog.c:1510
 msgid "Anim Preview Mode:"
 msgstr "Modo de vista previa de animación"
 
-#: ../gap/gap_mov_dialog.c:1520
+#: ../gap/gap_mov_dialog.c:1532
 msgid "Scale Preview:"
 msgstr "Escala de vista previa:"
 
-#: ../gap/gap_mov_dialog.c:1521
+#: ../gap/gap_mov_dialog.c:1533
 msgid "Scale down size of the generated animated preview (in %)"
 msgstr "Cambia el tamaño de la vista previa animada (en %)"
 
 #. the Framerate lable
-#: ../gap/gap_mov_dialog.c:1531 ../gap/gap_mpege.c:321
+#: ../gap/gap_mov_dialog.c:1543 ../gap/gap_mpege.c:321
 #: ../gap/gap_navigator_dialog.c:4259 ../gap/gap_story_dialog.c:9378
 #: ../vid_common/gap_cme_gui.c:3715
 msgid "Framerate:"
 msgstr "Tasa de fotogramas:"
 
-#: ../gap/gap_mov_dialog.c:1532
+#: ../gap/gap_mov_dialog.c:1544
 msgid "Framerate to use in the animated preview in frames/sec"
 msgstr ""
 "Tasa de fotogramas (en fotogramas/seg.) a usar en la vista previa animada"
 
-#: ../gap/gap_mov_dialog.c:1548
+#: ../gap/gap_mov_dialog.c:1560
 msgid "Copy to Video Buffer:"
 msgstr "Copiar a búfer de vídeo:"
 
-#: ../gap/gap_mov_dialog.c:1549
+#: ../gap/gap_mov_dialog.c:1561
 msgid ""
 "Save all single frames of animated preview to video buffer.(configured in "
 "gimprc by video-paste-dir and video-paste-basename)"
@@ -4543,15 +4539,15 @@ msgstr ""
 "Guardar todos los fotogramas de la vista previa animada al búfer de vídeo "
 "(se configura en gimprc con video-paste-dir y video-paste-basename)"
 
-#: ../gap/gap_mov_dialog.c:1559
+#: ../gap/gap_mov_dialog.c:1571
 msgid "Move Path Animated Preview"
 msgstr "Vista previa animada de Camino de movimiento"
 
-#: ../gap/gap_mov_dialog.c:1612
+#: ../gap/gap_mov_dialog.c:1624
 msgid "Generation of animated preview failed"
 msgstr "Falló la generación de vista previa animada"
 
-#: ../gap/gap_mov_dialog.c:1904
+#: ../gap/gap_mov_dialog.c:1916
 #, c-format
 msgid ""
 "No stroke ids found in path:\n"
@@ -4564,7 +4560,7 @@ msgstr ""
 "en la imagen:\n"
 "«%s»"
 
-#: ../gap/gap_mov_dialog.c:1941
+#: ../gap/gap_mov_dialog.c:1953
 #, c-format
 msgid ""
 "Unsupported pathtype %d found in path:\n"
@@ -4577,7 +4573,7 @@ msgstr ""
 "en la imagen:\n"
 "«%s»"
 
-#: ../gap/gap_mov_dialog.c:1954
+#: ../gap/gap_mov_dialog.c:1966
 #, c-format
 msgid ""
 "No controlpoints found in path:\n"
@@ -4590,7 +4586,7 @@ msgstr ""
 "en la imagen:\n"
 "«%s»"
 
-#: ../gap/gap_mov_dialog.c:1991
+#: ../gap/gap_mov_dialog.c:2003
 #, c-format
 msgid ""
 "No path found in the image:\n"
@@ -4599,20 +4595,20 @@ msgstr ""
 "No se encontró ruta en la imagen:\n"
 "«%s»"
 
-#: ../gap/gap_mov_dialog.c:2401
+#: ../gap/gap_mov_dialog.c:2413
 msgid "Load Path Points from File"
 msgstr "Cargar puntos del camino desde un archivo"
 
-#: ../gap/gap_mov_dialog.c:2442
+#: ../gap/gap_mov_dialog.c:2454
 msgid "Save Path Points to File"
 msgstr "Guardar puntos del camino en un archivo"
 
-#: ../gap/gap_mov_dialog.c:3345
+#: ../gap/gap_mov_dialog.c:3424
 #, c-format
 msgid "Current Point: [ %3d ] of [ %3d ]"
 msgstr "Punto actual: [ %3d< ] de [ %3d ]"
 
-#: ../gap/gap_mov_dialog.c:3528
+#: ../gap/gap_mov_dialog.c:3607
 #, c-format
 msgid ""
 "ERROR: Could not open xml parameterfile\n"
@@ -4623,7 +4619,7 @@ msgstr ""
 "archivo: «%s»\n"
 "%s"
 
-#: ../gap/gap_mov_dialog.c:3534
+#: ../gap/gap_mov_dialog.c:3613
 #, c-format
 msgid ""
 "ERROR: Could not read parameterfile\n"
@@ -4634,7 +4630,7 @@ msgstr ""
 "archivo: '%s'\n"
 "(No es un archivo válido XML de parámetros de ruta de movimiento)"
 
-#: ../gap/gap_mov_dialog.c:3556
+#: ../gap/gap_mov_dialog.c:3635
 #, c-format
 msgid ""
 "ERROR: Could not open controlpoints\n"
@@ -4645,7 +4641,7 @@ msgstr ""
 "archivo: «%s»\n"
 "%s"
 
-#: ../gap/gap_mov_dialog.c:3562
+#: ../gap/gap_mov_dialog.c:3641
 #, c-format
 msgid ""
 "ERROR: Could not read controlpoints\n"
@@ -4656,7 +4652,7 @@ msgstr ""
 "archivo: '%s'\n"
 "(No es un archivo de puntos de control válido)"
 
-#: ../gap/gap_mov_dialog.c:3604
+#: ../gap/gap_mov_dialog.c:3683
 #, c-format
 msgid ""
 "Failed to write controlpointfile\n"
@@ -4668,11 +4664,11 @@ msgstr ""
 "%s"
 
 #. Source Layer menu
-#: ../gap/gap_mov_dialog.c:3650
+#: ../gap/gap_mov_dialog.c:3729
 msgid "Source Image/Layer:"
 msgstr "Imagen/capa origen"
 
-#: ../gap/gap_mov_dialog.c:3660
+#: ../gap/gap_mov_dialog.c:3739
 msgid "Source object to insert into destination frames of the specified range"
 msgstr ""
 "Objeto origen a insertar en los fotogramas de destino del rango especificado"
@@ -4680,60 +4676,60 @@ msgstr ""
 #. Paintmode combo (menu)
 #. the operating Mode label
 #. Paintmode combo (menu)
-#: ../gap/gap_mov_dialog.c:3680 ../gap/gap_name2layer_main.c:443
+#: ../gap/gap_mov_dialog.c:3759 ../gap/gap_name2layer_main.c:443
 #: ../gap/gap_vex_dialog.c:2427 ../gap/gap_video_index_creator.c:982
 #: ../gap/gap_wr_layermode.c:342 ../gap/gap_wr_opacity.c:344
 msgid "Mode:"
 msgstr "Modo:"
 
-#: ../gap/gap_mov_dialog.c:3687 ../gap/gap_wr_layermode.c:349
+#: ../gap/gap_mov_dialog.c:3766 ../gap/gap_wr_layermode.c:349
 msgid "Behind"
 msgstr "Detrás"
 
-#: ../gap/gap_mov_dialog.c:3694 ../gap/gap_wr_layermode.c:356
+#: ../gap/gap_mov_dialog.c:3773 ../gap/gap_wr_layermode.c:356
 msgid "Hard Light"
 msgstr "Luz fuerte"
 
-#: ../gap/gap_mov_dialog.c:3695 ../gap/gap_wr_layermode.c:357
+#: ../gap/gap_mov_dialog.c:3774 ../gap/gap_wr_layermode.c:357
 msgid "Soft Light"
 msgstr "Luz débil"
 
-#: ../gap/gap_mov_dialog.c:3696 ../gap/gap_wr_layermode.c:358
+#: ../gap/gap_mov_dialog.c:3775 ../gap/gap_wr_layermode.c:358
 msgid "Grain Extract"
 msgstr "Extracción de grano"
 
-#: ../gap/gap_mov_dialog.c:3697 ../gap/gap_wr_layermode.c:359
+#: ../gap/gap_mov_dialog.c:3776 ../gap/gap_wr_layermode.c:359
 msgid "Grain Merge"
 msgstr "Combinación de grano"
 
-#: ../gap/gap_mov_dialog.c:3701 ../gap/gap_wr_layermode.c:363
+#: ../gap/gap_mov_dialog.c:3780 ../gap/gap_wr_layermode.c:363
 msgid "Darken Only"
 msgstr "Oscurecer sólo"
 
-#: ../gap/gap_mov_dialog.c:3702 ../gap/gap_wr_layermode.c:364
+#: ../gap/gap_mov_dialog.c:3781 ../gap/gap_wr_layermode.c:364
 msgid "Lighten Only"
 msgstr "Iluminar sólo"
 
-#: ../gap/gap_mov_dialog.c:3706 ../gap/gap_wr_layermode.c:368
+#: ../gap/gap_mov_dialog.c:3785 ../gap/gap_wr_layermode.c:368
 msgid "Color Erase"
 msgstr "Borrado de color"
 
-#: ../gap/gap_mov_dialog.c:3708
+#: ../gap/gap_mov_dialog.c:3787
 msgid "Keep Paintmode"
 msgstr "Conserver modo de pintura"
 
-#: ../gap/gap_mov_dialog.c:3730 ../gap/gap_wr_layermode.c:387
+#: ../gap/gap_mov_dialog.c:3809 ../gap/gap_wr_layermode.c:387
 msgid "Paintmode"
 msgstr "Modo pintura"
 
 #. Loop Stepmode menu (Label)
-#: ../gap/gap_mov_dialog.c:3739
+#: ../gap/gap_mov_dialog.c:3818
 msgid "Stepmode:"
 msgstr "Modo de paso:"
 
 #. StepSpeedFactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:3758
+#: ../gap/gap_mov_dialog.c:3837
 msgid "SpeedFactor:"
 msgstr "Factor de velocidad:"
 
@@ -4745,7 +4741,7 @@ msgstr "Factor de velocidad:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:3766
+#: ../gap/gap_mov_dialog.c:3845
 msgid ""
 "Source and target frames step synchronized at value 1.0. A value of 0.5 will "
 "step the source half time slower. One source step is done only at every 2nd "
@@ -4758,93 +4754,93 @@ msgstr ""
 #. Loop Stepmode combo
 #. the playback mode checkbuttons
 #. Loop Toggle
-#: ../gap/gap_mov_dialog.c:3788 ../gap/gap_player_dialog.c:8318
+#: ../gap/gap_mov_dialog.c:3867 ../gap/gap_player_dialog.c:8318
 msgid "Loop"
 msgstr "Bucle"
 
-#: ../gap/gap_mov_dialog.c:3789
+#: ../gap/gap_mov_dialog.c:3868
 msgid "Loop Reverse"
 msgstr "Bucle invertido"
 
-#: ../gap/gap_mov_dialog.c:3790
+#: ../gap/gap_mov_dialog.c:3869
 msgid "Once"
 msgstr "Una vez"
 
-#: ../gap/gap_mov_dialog.c:3791
+#: ../gap/gap_mov_dialog.c:3870
 msgid "Once Reverse"
 msgstr "Invertir una vez"
 
-#: ../gap/gap_mov_dialog.c:3792
+#: ../gap/gap_mov_dialog.c:3871
 msgid "Ping Pong"
 msgstr "Ping-Pong"
 
 #. radio button delace_mode None
 #. radio button flip_request None
-#: ../gap/gap_mov_dialog.c:3793 ../gap/gap_range_ops.c:505
+#: ../gap/gap_mov_dialog.c:3872 ../gap/gap_range_ops.c:505
 #: ../gap/gap_story_properties.c:2100 ../gap/gap_story_properties.c:4333
 #: ../gap/gap_story_properties.c:4479
 msgid "None"
 msgstr "Ninguno"
 
-#: ../gap/gap_mov_dialog.c:3794
+#: ../gap/gap_mov_dialog.c:3873
 msgid "Frame Loop"
 msgstr "Bucle de fotogramas"
 
-#: ../gap/gap_mov_dialog.c:3795
+#: ../gap/gap_mov_dialog.c:3874
 msgid "Frame Loop Reverse"
 msgstr "Bucle de fotogramas invertido"
 
-#: ../gap/gap_mov_dialog.c:3796
+#: ../gap/gap_mov_dialog.c:3875
 msgid "Frame Once"
 msgstr "Fotograma una vez"
 
-#: ../gap/gap_mov_dialog.c:3797
+#: ../gap/gap_mov_dialog.c:3876
 msgid "Frame Once Reverse"
 msgstr "Fotograma una vez-invertido"
 
-#: ../gap/gap_mov_dialog.c:3798
+#: ../gap/gap_mov_dialog.c:3877
 msgid "Frame Ping Pong"
 msgstr "Fotogramas en Ping-Pong"
 
-#: ../gap/gap_mov_dialog.c:3799
+#: ../gap/gap_mov_dialog.c:3878
 msgid "Frame None"
 msgstr "Ningún fotograma"
 
-#: ../gap/gap_mov_dialog.c:3820
+#: ../gap/gap_mov_dialog.c:3899
 msgid "How to fetch the next source layer at the next handled frame"
 msgstr ""
 "Cómo obtener la siguiente capa origen en el siguiente fotograma manipulado"
 
 #. Source Image Handle menu
-#: ../gap/gap_mov_dialog.c:3836
+#: ../gap/gap_mov_dialog.c:3915
 msgid "Handle:"
 msgstr "Manipular:"
 
-#: ../gap/gap_mov_dialog.c:3841
+#: ../gap/gap_mov_dialog.c:3920
 msgid "Left  Top"
 msgstr "Superior izquierda"
 
-#: ../gap/gap_mov_dialog.c:3842
+#: ../gap/gap_mov_dialog.c:3921
 msgid "Left  Bottom"
 msgstr "Inferior izquierda"
 
-#: ../gap/gap_mov_dialog.c:3843
+#: ../gap/gap_mov_dialog.c:3922
 msgid "Right Top"
 msgstr "Superior derecha"
 
-#: ../gap/gap_mov_dialog.c:3844
+#: ../gap/gap_mov_dialog.c:3923
 msgid "Right Bottom"
 msgstr "Inferior derecha"
 
-#: ../gap/gap_mov_dialog.c:3845
+#: ../gap/gap_mov_dialog.c:3924
 msgid "Center"
 msgstr "Centro"
 
-#: ../gap/gap_mov_dialog.c:3876
+#: ../gap/gap_mov_dialog.c:3955
 msgid "How to place the Source layer at controlpoint coordinates"
 msgstr "Cómo colocar la capa origen en las coordenadas del punto de control"
 
-#: ../gap/gap_mov_dialog.c:3930
+#: ../gap/gap_mov_dialog.c:4009
 msgid ""
 "Apply the bluebox filter on the moving object(s). The bluebox filter makes "
 "the keycolor transparent."
@@ -4853,11 +4849,11 @@ msgstr ""
 "hace el color de clave transparente."
 
 #. keycolor button
-#: ../gap/gap_mov_dialog.c:3954
+#: ../gap/gap_mov_dialog.c:4033
 msgid "Move Path Bluebox Keycolor"
 msgstr "Ruta de movimiento del color de clave de la Bluebox"
 
-#: ../gap/gap_mov_dialog.c:3971
+#: ../gap/gap_mov_dialog.c:4050
 msgid ""
 "Open dialog window to set parameters and keycolor for the bluebox filter"
 msgstr ""
@@ -4865,18 +4861,18 @@ msgstr ""
 "el filtro bluebox"
 
 #. toggle Tracelayer
-#: ../gap/gap_mov_dialog.c:3989 ../gap/gap_mov_exec.c:1993
+#: ../gap/gap_mov_dialog.c:4068 ../gap/gap_mov_exec.c:2073
 msgid "Tracelayer"
 msgstr "Trazador de capas"
 
-#: ../gap/gap_mov_dialog.c:3994
+#: ../gap/gap_mov_dialog.c:4073
 msgid "Create an additional trace layer in all handled frames"
 msgstr ""
 "Crear una capa de trazado adicional en todos los fotogramas manipulados"
 
 #. TraceOpacityInitial
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4006
+#: ../gap/gap_mov_dialog.c:4085
 msgid "TraceOpacity1:"
 msgstr "TrazaOpacidad1:"
 
@@ -4888,13 +4884,13 @@ msgstr "TrazaOpacidad1:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4014
+#: ../gap/gap_mov_dialog.c:4093
 msgid "Initial opacity of the trace layer"
 msgstr "Opacidad inicial de la capa de traza"
 
 #. TraceOpacityDescending
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4024
+#: ../gap/gap_mov_dialog.c:4103
 msgid "TraceOpacity2:"
 msgstr "TrazaOpacidad2:"
 
@@ -4906,13 +4902,13 @@ msgstr "TrazaOpacidad2:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4032
+#: ../gap/gap_mov_dialog.c:4111
 msgid "Descending opacity of the trace layer"
 msgstr "Opacidad descendiente para la capa de traza"
 
 #. TweenSteps
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4044
+#: ../gap/gap_mov_dialog.c:4123
 msgid "Tweensteps:"
 msgstr "Tweensteps:"
 
@@ -4924,7 +4920,7 @@ msgstr "Tweensteps:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4052
+#: ../gap/gap_mov_dialog.c:4131
 msgid ""
 "Calculate n steps between 2 frames. The rendered tween steps are collected "
 "in a tween layer that will be added to the handled destination frames. If "
@@ -4938,7 +4934,7 @@ msgstr ""
 
 #. TweenOpacityInitial
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4067
+#: ../gap/gap_mov_dialog.c:4146
 msgid "TweenOpacity1:"
 msgstr "TweenOpacity1:"
 
@@ -4950,13 +4946,13 @@ msgstr "TweenOpacity1:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4075
+#: ../gap/gap_mov_dialog.c:4154
 msgid "Initial opacity of the tween layer"
 msgstr "Opacidad inicial de la capa tween"
 
 #. TweenOpacityDescending
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4084
+#: ../gap/gap_mov_dialog.c:4163
 msgid "TweenOpacity2:"
 msgstr "TweenOpacity2:"
 
@@ -4968,20 +4964,20 @@ msgstr "TweenOpacity2:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4092
+#: ../gap/gap_mov_dialog.c:4171
 msgid "Descending opacity of the tween layer"
 msgstr "Opacidad descendiente de la capa tween"
 
 #. the frame
-#: ../gap/gap_mov_dialog.c:4127
+#: ../gap/gap_mov_dialog.c:4206
 msgid "Edit Controlpoints"
 msgstr "Editar puntos de control"
 
-#: ../gap/gap_mov_dialog.c:4145
+#: ../gap/gap_mov_dialog.c:4224
 msgid "Add controlpoint at end. The last controlpoint is duplicated."
 msgstr "Añadir punto de control al final. El último punto es duplicado."
 
-#: ../gap/gap_mov_dialog.c:4158
+#: ../gap/gap_mov_dialog.c:4237
 msgid ""
 "Delete all controlpoints, and replace them with a copy of all anchorpoints "
 "of the current path from the image from which 'MovePath' was invoked. Hold "
@@ -4993,44 +4989,44 @@ msgstr ""
 "«MovePath». Mantenga presionada la tecla «Mayús.» para crear puntos de "
 "control para cada fotograma manipulado, siguiendo la trayectoria bezier."
 
-#: ../gap/gap_mov_dialog.c:4177
+#: ../gap/gap_mov_dialog.c:4256
 msgid "Insert controlpoint. The current controlpoint is duplicated."
 msgstr "Insertar punto de control (se duplica el punto actual)."
 
-#: ../gap/gap_mov_dialog.c:4190
+#: ../gap/gap_mov_dialog.c:4269
 msgid "Delete current controlpoint"
 msgstr "Borrar punto de control actual"
 
-#: ../gap/gap_mov_dialog.c:4205
+#: ../gap/gap_mov_dialog.c:4284
 msgid ""
 "Show previous controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
 "Mostrar es punto de control anterior. Mantenga pulsada la tecla «Mayús.» "
 "para seguir los keyframes."
 
-#: ../gap/gap_mov_dialog.c:4218
+#: ../gap/gap_mov_dialog.c:4297
 msgid "Show next controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
 "Mostrar el punto de control siguiente. Mantenga pulsada la tecla «Mayús.» "
 "para seguir los keyframes."
 
-#: ../gap/gap_mov_dialog.c:4233
+#: ../gap/gap_mov_dialog.c:4312
 msgid "Show first controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
 "Mostrar el primer punto de control. Mantenga pulsada la tecla «Mayús.» para "
 "seguir los keyframes."
 
-#: ../gap/gap_mov_dialog.c:4246
+#: ../gap/gap_mov_dialog.c:4325
 msgid "Show last controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
 "Mostrar el último punto de control. Mantenga pulsada la tecla «Mayús.» para "
 "seguir los keyframes."
 
-#: ../gap/gap_mov_dialog.c:4261
+#: ../gap/gap_mov_dialog.c:4340
 msgid "Reset the current controlpoint to default values"
 msgstr "Restaurar los puntos de control actuales a los valores predefinidos"
 
-#: ../gap/gap_mov_dialog.c:4274
+#: ../gap/gap_mov_dialog.c:4353
 msgid ""
 "Reset all controlpoints to default values but dont change the path (X/Y "
 "values). Hold down the shift key to copy settings of point1 into all other "
@@ -5043,7 +5039,7 @@ msgstr ""
 "tecla Control para propagar una mezcla de las opciones del punto1 y del "
 "punto último, entre el resto de puntos."
 
-#: ../gap/gap_mov_dialog.c:4295
+#: ../gap/gap_mov_dialog.c:4374
 msgid ""
 "Set rotation for all controlpoints to follow the shape of the path. Hold "
 "down the shift key to use rotation of contolpoint 1 as offset."
@@ -5052,15 +5048,15 @@ msgstr ""
 "siga la forma del camino. Con mayúsculas: utilizar la rotación del primer "
 "punto de control 1 como desfase."
 
-#: ../gap/gap_mov_dialog.c:4310
+#: ../gap/gap_mov_dialog.c:4389
 msgid "Delete all controlpoints"
 msgstr "Borrar todos los puntos de control"
 
-#: ../gap/gap_mov_dialog.c:4326
+#: ../gap/gap_mov_dialog.c:4405
 msgid "Load controlpoints from file"
 msgstr "Cargar puntos de control desde un archivo"
 
-#: ../gap/gap_mov_dialog.c:4339
+#: ../gap/gap_mov_dialog.c:4418
 msgid "Save controlpoints to file"
 msgstr "Guardar puntos de control en un archivo"
 
@@ -5075,7 +5071,7 @@ msgstr "Guardar puntos de control en un archivo"
 #. constrain
 #. lower, (unconstrained)
 #. upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4450
+#: ../gap/gap_mov_dialog.c:4533
 msgid "First handled destination frame"
 msgstr "Primer fotograma manipulado de destino"
 
@@ -5089,13 +5085,13 @@ msgstr "Primer fotograma manipulado de destino"
 #. constrain
 #. lower, (unconstrained)
 #. upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4472
+#: ../gap/gap_mov_dialog.c:4557
 msgid "Last handled destination frame"
 msgstr "Último fotograma manipulado de destino"
 
 #. the Layerstack scale_entry
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4484 ../gap/gap_range_ops.c:322
+#: ../gap/gap_mov_dialog.c:4571 ../gap/gap_range_ops.c:322
 msgid "Layerstack:"
 msgstr "Pila de capas:"
 
@@ -5107,7 +5103,7 @@ msgstr "Pila de capas:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4492
+#: ../gap/gap_mov_dialog.c:4579
 msgid ""
 "How to insert source layer into the layerstack of the destination frames. "
 "layerstack 0 means on top i.e. in front"
@@ -5115,29 +5111,52 @@ msgstr ""
 "Cómo insertar la capa origen en la pila de capas del fotograma destino. 0 "
 "significa en la cima, es decir, en el frente"
 
+#. destination group path
+#: ../gap/gap_mov_dialog.c:4592
+#| msgid "Target Alpha:"
+msgid "Target Group:"
+msgstr "Grupo objetivo:"
+
+#: ../gap/gap_mov_dialog.c:4604
+msgid ""
+"group/subgroup name path where to insert the rendered object. note that the "
+"specified group (and subgroups) will be created automatically in all "
+"processed target frames where they are not already present. Leave the target "
+"group empty when insert into the image outside groups is desired"
+msgstr ""
+"ruta del nombre del grupo/subgrupo que insertar para renderizar el objeto. "
+"Tenga en cuenta que el grupo especificado (y los subgrupos) se crearán "
+"automáticamente en todos los marcos objetivo procesados donde no estén "
+"presentes. Lo ideal es dejar el grupo objetivo vacío al insertar la imagen "
+"fuera de los grupos."
+
+#: ../gap/gap_mov_dialog.c:4625
+msgid "delimiter to separate group/subgroup"
+msgstr "delimitador para separar grupo/subgrupo"
+
 #. toggle force visibility
-#: ../gap/gap_mov_dialog.c:4509
+#: ../gap/gap_mov_dialog.c:4651
 msgid "Force Visibility"
 msgstr "Forzar visibilidad"
 
 # //R Esto está en chino
-#: ../gap/gap_mov_dialog.c:4513
+#: ../gap/gap_mov_dialog.c:4655
 msgid "Force visibility for all copied source layers"
 msgstr "Forzar visibilidad para todas las capas origen copiadas"
 
 #. toggle clip_to_image
-#: ../gap/gap_mov_dialog.c:4527
+#: ../gap/gap_mov_dialog.c:4669
 msgid "Clip To Frame"
 msgstr "Recortar a fotograma"
 
-#: ../gap/gap_mov_dialog.c:4531
+#: ../gap/gap_mov_dialog.c:4673
 msgid "Clip all copied source layers at destination frame boundaries"
 msgstr "Recorta todas las capas origen copiadas a los bordes del fotograma"
 
 #. Width Scale
 #. table col, row
 #. the width label
-#: ../gap/gap_mov_dialog.c:4582 ../gap/gap_story_dialog.c:9355
+#: ../gap/gap_mov_dialog.c:4724 ../gap/gap_story_dialog.c:9355
 #: ../vid_common/gap_cme_gui.c:3636
 msgid "Width:"
 msgstr "Anchura:"
@@ -5150,14 +5169,14 @@ msgstr "Anchura:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4590
+#: ../gap/gap_mov_dialog.c:4732
 msgid "Scale source layer's width in percent"
 msgstr "Escalar anchura de capa origen en porcentaje"
 
 #. Height Scale
 #. table col, row
 #. the height label
-#: ../gap/gap_mov_dialog.c:4600 ../gap/gap_story_dialog.c:9366
+#: ../gap/gap_mov_dialog.c:4742 ../gap/gap_story_dialog.c:9366
 #: ../vid_common/gap_cme_gui.c:3689
 msgid "Height:"
 msgstr "Altura:"
@@ -5170,11 +5189,11 @@ msgstr "Altura:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4608
+#: ../gap/gap_mov_dialog.c:4750
 msgid "Scale source layer's height in percent"
 msgstr "Escalar altura de capa origen en porcentaje"
 
-#: ../gap/gap_mov_dialog.c:4625 ../gap/gap_resi_dialog.c:812
+#: ../gap/gap_mov_dialog.c:4767 ../gap/gap_resi_dialog.c:812
 msgid "Constrain aspect ratio"
 msgstr "Mantener proporción de aspecto"
 
@@ -5186,13 +5205,13 @@ msgstr "Mantener proporción de aspecto"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4642
+#: ../gap/gap_mov_dialog.c:4784
 msgid "Set the source layer's opacity in percent"
 msgstr "Establecer opacidad de la capa origen en porcentaje"
 
 #. Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4652 ../gap/gap_story_att_trans_dlg.c:3705
+#: ../gap/gap_mov_dialog.c:4794 ../gap/gap_story_att_trans_dlg.c:3705
 msgid "Rotate:"
 msgstr "Rotar:"
 
@@ -5204,13 +5223,13 @@ msgstr "Rotar:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4660
+#: ../gap/gap_mov_dialog.c:4802
 msgid "Rotate source layer (in degrees)"
 msgstr "Rotar capa origen (en grados)"
 
 #. ttlx transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4706
+#: ../gap/gap_mov_dialog.c:4848
 msgid "x1:"
 msgstr "x1:"
 
@@ -5222,14 +5241,14 @@ msgstr "x1:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4714
+#: ../gap/gap_mov_dialog.c:4856
 msgid "Transformfactor for upper left corner X coordinate"
 msgstr ""
 "Factor de transformación para la esquina superior izquierda coordenada X"
 
 #. ttly transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4725
+#: ../gap/gap_mov_dialog.c:4867
 msgid "y1:"
 msgstr "y1:"
 
@@ -5241,14 +5260,14 @@ msgstr "y1:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4733
+#: ../gap/gap_mov_dialog.c:4875
 msgid "Transformfactor for upper left corner Y coordinate"
 msgstr ""
 "Factor de transformación para la esquina superior izquierda coordenada Y"
 
 #. ttrx transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4744
+#: ../gap/gap_mov_dialog.c:4886
 msgid "x2:"
 msgstr "x2:"
 
@@ -5260,13 +5279,13 @@ msgstr "x2:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4752
+#: ../gap/gap_mov_dialog.c:4894
 msgid "Transformfactor for upper right corner X coordinate"
 msgstr "Factor de transformación para la coordenada X esquina superior derecha"
 
 #. ttry transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4762
+#: ../gap/gap_mov_dialog.c:4904
 msgid "y2:"
 msgstr "y2:"
 
@@ -5278,13 +5297,13 @@ msgstr "y2:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4770
+#: ../gap/gap_mov_dialog.c:4912
 msgid "Transformfactor for upper right corner Y coordinate"
 msgstr "Factor de transformación para la esquina superior derecha coordenada Y"
 
 #. tblx transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4780
+#: ../gap/gap_mov_dialog.c:4922
 msgid "x3:"
 msgstr "x3:"
 
@@ -5296,14 +5315,14 @@ msgstr "x3:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4788
+#: ../gap/gap_mov_dialog.c:4930
 msgid "Transformfactor for lower left corner X coordinate"
 msgstr ""
 "Factor de transformación para la coordenada X esquina inferior izquierda"
 
 #. tbly transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4798
+#: ../gap/gap_mov_dialog.c:4940
 msgid "y3:"
 msgstr "y3:"
 
@@ -5315,14 +5334,14 @@ msgstr "y3:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4806
+#: ../gap/gap_mov_dialog.c:4948
 msgid "Transformfactor for lower left corner Y coordinate"
 msgstr ""
 "Factor de transformación para la coordenada Y esquina inferior izquierda"
 
 #. tbrx transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4816
+#: ../gap/gap_mov_dialog.c:4958
 msgid "x4:"
 msgstr "x4:"
 
@@ -5334,13 +5353,13 @@ msgstr "x4:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4824
+#: ../gap/gap_mov_dialog.c:4966
 msgid "Transformfactor for lower right corner X coordinate"
 msgstr "Factor de transformación para la coordenada X esquina inferior derecha"
 
 #. tbry transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4834
+#: ../gap/gap_mov_dialog.c:4976
 msgid "y4:"
 msgstr "y4:"
 
@@ -5352,14 +5371,14 @@ msgstr "y4:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4842
+#: ../gap/gap_mov_dialog.c:4984
 msgid "Transformfactor for lower right corner Y coordinate"
 msgstr ""
 "Factor de transformación para la coordenada Y de la esquina inferior derecha"
 
 #. accelaration characteristic for Position (e.g. movement)
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4889
+#: ../gap/gap_mov_dialog.c:5031
 msgid "Movement:"
 msgstr "Movimiento:"
 
@@ -5371,7 +5390,7 @@ msgstr "Movimiento:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4897
+#: ../gap/gap_mov_dialog.c:5039
 msgid ""
 "acceleration characteristic for movement (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5387,7 +5406,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4917 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_mov_dialog.c:5059 ../gap/gap_story_att_trans_dlg.c:3753
 msgid ""
 "acceleration characteristic for opacity (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5397,7 +5416,7 @@ msgstr ""
 
 #. accelaration characteristic for Size (e.g. Zoom)
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4930
+#: ../gap/gap_mov_dialog.c:5072
 msgid "Scale:"
 msgstr "Escala:"
 
@@ -5409,7 +5428,7 @@ msgstr "Escala:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4938
+#: ../gap/gap_mov_dialog.c:5080
 msgid ""
 "acceleration characteristic for zoom (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5419,7 +5438,7 @@ msgstr ""
 
 #. accelaration characteristic for Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4949
+#: ../gap/gap_mov_dialog.c:5091
 msgid "Rotation:"
 msgstr "Rotación:"
 
@@ -5431,7 +5450,7 @@ msgstr "Rotación:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4957 ../gap/gap_story_att_trans_dlg.c:3725
+#: ../gap/gap_mov_dialog.c:5099 ../gap/gap_story_att_trans_dlg.c:3725
 msgid ""
 "acceleration characteristic for rotation (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5441,7 +5460,7 @@ msgstr ""
 
 #. accelaration characteristic for Perspective
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4967
+#: ../gap/gap_mov_dialog.c:5109
 msgid "Perspective:"
 msgstr "Perspectiva:"
 
@@ -5453,7 +5472,7 @@ msgstr "Perspectiva:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4975
+#: ../gap/gap_mov_dialog.c:5117
 msgid ""
 "acceleration characteristic for perspective (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5469,7 +5488,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4994
+#: ../gap/gap_mov_dialog.c:5136
 msgid ""
 "acceleration characteristic for feather radius (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -5478,25 +5497,25 @@ msgstr ""
 "constante; positivo: aceleración; negativo: ralentización)"
 
 #. Selection combo
-#: ../gap/gap_mov_dialog.c:5034
+#: ../gap/gap_mov_dialog.c:5176
 msgid "Ignore selection (in all source images)"
 msgstr "Ignorar selección (in todas las imágenes origen)"
 
-#: ../gap/gap_mov_dialog.c:5035
+#: ../gap/gap_mov_dialog.c:5177
 msgid "Use selection (from initial source image)"
 msgstr "Usar selección (desde la imagen origen inicial)"
 
-#: ../gap/gap_mov_dialog.c:5036
+#: ../gap/gap_mov_dialog.c:5178
 msgid "Use selections (from all source images)"
 msgstr "Usar selecciones (desde todas las imágenes origen)"
 
-#: ../gap/gap_mov_dialog.c:5045
+#: ../gap/gap_mov_dialog.c:5187
 msgid "How to handle selections in the source image"
 msgstr "Cómo manipular las selecciones en la imagen origen"
 
 #. Feather Radius
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5052
+#: ../gap/gap_mov_dialog.c:5194
 msgid "Selection Feather Radius:"
 msgstr "Radio de selección de la cuña:"
 
@@ -5508,24 +5527,24 @@ msgstr "Radio de selección de la cuña:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5060
+#: ../gap/gap_mov_dialog.c:5202
 msgid "Feather radius in pixels (for smoothing selection(s))"
 msgstr "Radio de la cuña en píxeles (para suavizar selecciones)"
 
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5165
+#: ../gap/gap_mov_dialog.c:5307
 msgid "X coordinate"
 msgstr "Coordenada X"
 
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5183
+#: ../gap/gap_mov_dialog.c:5325
 msgid "Y coordinate"
 msgstr "Coordenada Y"
 
 # //R Muy literal...
 #. Keyframe
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5192
+#: ../gap/gap_mov_dialog.c:5334
 msgid "Keyframe:"
 msgstr "Fotograma clave:"
 
@@ -5537,56 +5556,56 @@ msgstr "Fotograma clave:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5200
+#: ../gap/gap_mov_dialog.c:5342
 msgid "Fix controlpoint to keyframe number where 0 == no keyframe"
 msgstr ""
 "Fijar punto de control a número de fotograma clave donde 0 == sin fotograma "
 "clave"
 
-#: ../gap/gap_mov_dialog.c:5230
+#: ../gap/gap_mov_dialog.c:5372
 msgid "Scale and Modify"
 msgstr "Escalar y modificar"
 
-#: ../gap/gap_mov_dialog.c:5236
+#: ../gap/gap_mov_dialog.c:5378
 msgid "Perspective"
 msgstr "Perspectiva"
 
-#: ../gap/gap_mov_dialog.c:5242
+#: ../gap/gap_mov_dialog.c:5384
 msgid "Selection Handling"
 msgstr "Manejo de la selección"
 
-#: ../gap/gap_mov_dialog.c:5248
+#: ../gap/gap_mov_dialog.c:5390
 msgid "Acceleration"
 msgstr "Aceleración"
 
-#: ../gap/gap_mov_dialog.c:5366
+#: ../gap/gap_mov_dialog.c:5508
 msgid "Segment:"
 msgstr "Segmento:"
 
-#: ../gap/gap_mov_dialog.c:5380
+#: ../gap/gap_mov_dialog.c:5522
 msgid "Length:"
 msgstr "Longitud:"
 
-#: ../gap/gap_mov_dialog.c:5394
+#: ../gap/gap_mov_dialog.c:5536
 msgid "Speed Min/Max:"
 msgstr "Velocidad min/máx:"
 
-#: ../gap/gap_mov_dialog.c:5429
+#: ../gap/gap_mov_dialog.c:5571
 msgid "Pathline Color Picker"
 msgstr "Seleccionador del color de la línea del camino"
 
-#: ../gap/gap_mov_dialog.c:5436
+#: ../gap/gap_mov_dialog.c:5578
 msgid "Select the color that is used to draw pathlines in the preview"
 msgstr ""
 "Seleccione el color que se usa para dibujar líneas de caminos en la vista "
 "previa"
 
 #. toggle Show path
-#: ../gap/gap_mov_dialog.c:5448
+#: ../gap/gap_mov_dialog.c:5590
 msgid "Path"
 msgstr "Camino"
 
-#: ../gap/gap_mov_dialog.c:5452
+#: ../gap/gap_mov_dialog.c:5594
 msgid ""
 "Show path lines and enable pick/drag with left button or move with right "
 "button"
@@ -5595,35 +5614,35 @@ msgstr ""
 "izquierdo, o mover con el derecho"
 
 #. toggle Show cursor
-#: ../gap/gap_mov_dialog.c:5466
+#: ../gap/gap_mov_dialog.c:5608
 msgid "Cursor"
 msgstr "Cursor"
 
-#: ../gap/gap_mov_dialog.c:5470
+#: ../gap/gap_mov_dialog.c:5612
 msgid "Show cursor crosslines"
 msgstr "Mostrar líneas de cruce del cursor"
 
 #. toggle Show Grid
-#: ../gap/gap_mov_dialog.c:5481
+#: ../gap/gap_mov_dialog.c:5623
 msgid "Grid"
 msgstr "Rejilla"
 
-#: ../gap/gap_mov_dialog.c:5485
+#: ../gap/gap_mov_dialog.c:5627
 msgid "Show source layer as gridlines"
 msgstr "Mostrar líneas de de origen como líneas de rejilla"
 
 #. toggle Instant Apply
-#: ../gap/gap_mov_dialog.c:5495
+#: ../gap/gap_mov_dialog.c:5637
 msgid "Instant Apply"
 msgstr "Aplicación instantánea"
 
-#: ../gap/gap_mov_dialog.c:5499
+#: ../gap/gap_mov_dialog.c:5641
 msgid "Update the preview automatically"
 msgstr "Actualiza la vista previa automáticamente"
 
 #. the Preview Frame Number
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5518
+#: ../gap/gap_mov_dialog.c:5660
 msgid "Frame:"
 msgstr "Fotograma:"
 
@@ -5637,11 +5656,11 @@ msgstr "Fotograma:"
 #. constrain
 #. lower (unconstrained)
 #. upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5528
+#: ../gap/gap_mov_dialog.c:5670
 msgid "Frame to show when 'Refresh' button is pressed"
 msgstr "Fotograma a mostrar cuando se pulse el botón Actualizar"
 
-#: ../gap/gap_mov_dialog.c:6299
+#: ../gap/gap_mov_dialog.c:6441
 #, c-format
 msgid ""
 "Can't operate with current controlpoint\n"
@@ -5656,11 +5675,11 @@ msgstr ""
 "Lista de errores:\n"
 "%s"
 
-#: ../gap/gap_mov_dialog.c:6802
+#: ../gap/gap_mov_dialog.c:6931
 msgid "MovePath xmlfile:"
 msgstr "Archivo XML de ruta de movimiento:"
 
-#: ../gap/gap_mov_dialog.c:6804
+#: ../gap/gap_mov_dialog.c:6933
 msgid ""
 "Name of the file containing move path paramters and controlpoints in XML "
 "format"
@@ -5668,38 +5687,38 @@ msgstr ""
 "Nombre del archivo que contiene los parámetros de ruta de movimiento y los "
 "puntos de control en formato XML"
 
-#: ../gap/gap_mov_dialog.c:6812 ../vid_common/gap_cme_gui.c:2820
+#: ../gap/gap_mov_dialog.c:6941 ../vid_common/gap_cme_gui.c:2820
 msgid "Total Frames:"
 msgstr "Fotogramas totales:"
 
-#: ../gap/gap_mov_dialog.c:6813
+#: ../gap/gap_mov_dialog.c:6942
 msgid "Total number of frames"
 msgstr "Número total de fotogramas"
 
-#: ../gap/gap_mov_dialog.c:6824
+#: ../gap/gap_mov_dialog.c:6953
 msgid "Current Frame:"
 msgstr "Fotograma en curso:"
 
 # What??
-#: ../gap/gap_mov_dialog.c:6825
+#: ../gap/gap_mov_dialog.c:6954
 msgid "Curent Frame number (e.g. phase to be phase Total number of frames"
 msgstr "Número del fotograma en curso"
 
-#: ../gap/gap_mov_dialog.c:6833 ../gap/gap_player_dialog.c:490
+#: ../gap/gap_mov_dialog.c:6962 ../gap/gap_player_dialog.c:490
 msgid "Copy Audiofile as Wavefile"
 msgstr "Copiar archivo de sonido como archivo de ondas"
 
-#: ../gap/gap_mov_dialog.c:6834 ../gap/gap_player_dialog.c:491
+#: ../gap/gap_mov_dialog.c:6963 ../gap/gap_player_dialog.c:491
 #: ../gap/gap_story_dialog.c:5309 ../gap/gap_story_dialog.c:9134
 #: ../gap/gap_story_dialog.c:9584
 msgid "Settings"
 msgstr "Configuración"
 
-#: ../gap/gap_mov_exec.c:298
+#: ../gap/gap_mov_exec.c:381
 msgid "Tweenlayer"
 msgstr "Capa tween"
 
-#: ../gap/gap_mov_exec.c:1816
+#: ../gap/gap_mov_exec.c:1908
 msgid ""
 "No source image was selected.\n"
 "Please open a 2nd image of the same type before opening 'Move Path'."
@@ -5707,20 +5726,20 @@ msgstr ""
 "No se seleccionó imagen origen.\n"
 "Por favor, abra una 2ª imagen del mismo tipo antes de abrir Mover camino."
 
-#: ../gap/gap_mov_exec.c:1830
+#: ../gap/gap_mov_exec.c:1922
 msgid "Copying layers into frames..."
 msgstr "Copiando capas en fotogramas…"
 
-#: ../gap/gap_mov_exec.c:1834
+#: ../gap/gap_mov_exec.c:1926
 msgid "Generating animated preview..."
 msgstr "Generando vista previa animada…"
 
-#: ../gap/gap_mov_exec.c:2404
+#: ../gap/gap_mov_exec.c:2484
 msgid "Transforming layer according to move path frame_phase..."
 msgstr ""
 "Capa de transformación según la fase de fotograma de la ruta de movimiento…"
 
-#: ../gap/gap_mov_exec.c:3679
+#: ../gap/gap_mov_exec.c:3765
 #, c-format
 msgid ""
 "\n"
@@ -5730,7 +5749,7 @@ msgstr ""
 "Error: El fotograma clave %d en el punto [%d] es mayor o igual que el último "
 "fotograma manipulado"
 
-#: ../gap/gap_mov_exec.c:3687
+#: ../gap/gap_mov_exec.c:3773
 #, c-format
 msgid ""
 "\n"
@@ -5741,7 +5760,7 @@ msgstr ""
 "Error: El fotograma clave %d en el punto [%d] no deja el suficiente\n"
 "espacio (fotogramas) para los puntos de control anteriores"
 
-#: ../gap/gap_mov_exec.c:3697
+#: ../gap/gap_mov_exec.c:3783
 #, c-format
 msgid ""
 "\n"
@@ -5750,7 +5769,7 @@ msgstr ""
 "\n"
 "Error: El fotograma clave %d no está en secuencia en el punto [%d]"
 
-#: ../gap/gap_mov_exec.c:3715
+#: ../gap/gap_mov_exec.c:3801
 #, c-format
 msgid ""
 "\n"
@@ -5760,7 +5779,7 @@ msgstr ""
 "Error: El punto de control [%d] está fuera del rango de fotogramas "
 "manipulados"
 
-#: ../gap/gap_mov_exec.c:3729
+#: ../gap/gap_mov_exec.c:3815
 #, c-format
 msgid ""
 "\n"
