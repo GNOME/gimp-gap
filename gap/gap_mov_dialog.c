@@ -4602,7 +4602,7 @@ mov_path_framerange_box_create(t_mov_gui_stuff *mgp
                       (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
                       (GtkAttachOptions) (0), 0, 0);
   gimp_help_set_help_data (entry, _("group/subgroup name path where to insert the rendered object. "
-                                    "note that the specified group (and subgroups) will be created "
+                                    "Note that the specified group (and subgroups) will be created "
                                     "automatically in all processed target frames where they are not already present. "
                                     "Leave the target group empty when insert into the image outside groups is desired")
                                     , NULL);
