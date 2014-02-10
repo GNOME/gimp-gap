@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gimp-gap 2.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-07-21 18:00+0000\n"
-"PO-Revision-Date: 2013-09-09 21:58+0100\n"
-"Last-Translator: filmsi <miles@filmsi.net>\n"
+"POT-Creation-Date: 2014-02-08 18:40+0000\n"
+"PO-Revision-Date: 2014-02-09 00:28+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: sl.libreoffice.org <users@sl.libreoffice.org>\n"
 "Language: Slovenian\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,7 @@ msgstr ""
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -41,7 +42,7 @@ msgstr "Vrednost:"
 msgid "Press Button"
 msgstr "Pritisnite gumb"
 
-#: ../gap/gap_arr_dialog.c:1662
+#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2134
 msgid "Select"
 msgstr "Izberi"
 
@@ -235,7 +236,7 @@ msgstr "Napaka: Ni mogoče shraniti sličice %s"
 #: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
 #: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
 #: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
-#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3473
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3796
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Napaka: Ni mogoče preimenovati sličic od %ld do %ld"
@@ -400,7 +401,7 @@ msgstr "Spremeni zgoščenost sličic"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:1968
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:1986
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -2837,7 +2838,7 @@ msgstr "MPEG2 ..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Video/Kodiraj/"
 
-#: ../gap/gap_lib.c:1945
+#: ../gap/gap_lib.c:1963
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2845,36 +2846,70 @@ msgstr ""
 "Operacija je preklicana.\n"
 "Tekoča sličica se je spremenila, medtem ko je bilo pogovorno okno odprto."
 
-#: ../gap/gap_lib.c:2143
-msgid "Save Flattened"
-msgstr "Shrani sploščeno"
+#: ../gap/gap_lib.c:2102
+#| msgid "Overwrite File"
+msgid "overwrite flattened"
+msgstr "prepiši sploščeno"
 
-#: ../gap/gap_lib.c:2145
-msgid "Save As Is"
-msgstr "Shrani, kot je"
+#: ../gap/gap_lib.c:2104
+#| msgid "Overwrite"
+msgid "overwrite"
+msgstr "prepiši"
 
-#: ../gap/gap_lib.c:2149
+#: ../gap/gap_lib.c:2106
+#| msgid "ready"
+msgid "read only"
+msgstr "samo za branje"
+
+#: ../gap/gap_lib.c:2108
+msgid "discard changes"
+msgstr "opusti spremembe"
+
+#: ../gap/gap_lib.c:2113
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
-"Save operations may result in loss of layer information.\n"
-"\n"
-"To configure flattening for this fileformat\n"
-"(permanent for all further sessions) please add the line:\n"
-"(%s %s)\n"
-"to your gimprc file."
+"This dialog configures how to handle exchanges of\n"
+"the current frame image (for frames with extension %s)\n"
+"Note that automatical save on frame change just works with XCF\n"
+"but automatical overwrite (e.g export) to other formats\n"
+"typically results in loss of layers and other information."
 msgstr ""
-"Ne uporabljate vrste datotek xcf.\n"
-"Shranjevanje lahko zaradi tega povzroči izgubo informacij o plasteh.\n"
-"\n"
-"Da nastavite sploščevanje za to vrsto datotek\n"
-"(stalno za vse prihodnje seje), dodajte naslednjo vrstico:\n"
-"(%s %s)\n"
-"v datoteko gimprc. "
+"Uporabljate drugo vrsto datotek kot xcf.\n"
+"To pogovorno okno določa obravnavanje izmenjave\n"
+"slike trenutne sličice (za sličice s končnico %s)\n"
+"Upoštevajte, da samodejno shranjevanje ob spremembi sličice deluje le z XCF\n"
+"medtem ko se samodejno prepisovanje (npr. izvoz) v druge zapise\n"
+"običajno konča z izgubo plasti in drugih informacij."
 
-#: ../gap/gap_lib.c:2158
+#: ../gap/gap_lib.c:2123
+#| msgid "MB Decision:"
+msgid "Save my decision:"
+msgstr "Shrani mojo odločitev:"
+
+#: ../gap/gap_lib.c:2124
+#, c-format
+msgid ""
+"Save decision for this fileformat for further gimp sessions.\n"
+"this creates an entry in your gimprc file with the key:%s)"
+msgstr ""
+"Shrani odločitev za to vrsto datotek za nadaljnje seje gimp.\n"
+"To ustvari vnos v datoteki gimprc s ključem: %s)"
+
+#: ../gap/gap_lib.c:2133
 msgid "Fileformat Warning"
 msgstr "Opozorilo vrste datoteke"
+
+#: ../gap/gap_lib.c:2400
+#, c-format
+msgid ""
+"Frame operation blocked\n"
+"due to unsaved changes in readonly frame image\n"
+"%s"
+msgstr ""
+"Operacija sličice blokirana\n"
+"zaradi ne shranjenih sprememb v sličici, ki je samo za branje\n"
+"%s"
 
 #: ../gap/gap_lock.c:101
 #, c-format
@@ -10420,7 +10455,6 @@ msgid "High Output:"
 msgstr "Visoka izhodna vrednost:"
 
 #: ../gap/gap_wr_layermode.c:131
-#| msgid "Layer Modes"
 msgid "Set Layer Mode..."
 msgstr "Določi način plasti ..."
 
