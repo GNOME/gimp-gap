@@ -897,7 +897,7 @@ local_smoothing (HashEntry* entry, GHashTable* unknown_hash, GappMattingState *s
                      &current_alpha);
     final_confidence *= exp(-LAMBDA * sqrt(mp));
 
-    if (!(final_confidence <= 1 || final_confidence >= 0))
+    if (!(final_confidence <= 1 && final_confidence >= 0))
       g_printf("Problem!: final_confidence: %f\n", final_confidence);
 
     entry->alpha = (final_confidence * current_alpha + (1 - final_confidence) * low_freq_alpha) * 255;
