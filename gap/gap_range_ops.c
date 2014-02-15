@@ -1045,13 +1045,13 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
     {
       /* set all selected layers visible, all others invisible */
       l_tmp_layer_id = l_layli_ptr[l_vidx].layer_id;
-      gimp_drawable_set_visible(l_tmp_layer_id,
+      gimp_item_set_visible(l_tmp_layer_id,
                                 l_layli_ptr[l_vidx].selected);
 
       if((bg_visible == 0) && (l_vidx == (l_nlayers -1)))
       {
          /* set BG_Layer invisible */
-         gimp_drawable_set_visible(l_tmp_layer_id, FALSE);
+         gimp_item_set_visible(l_tmp_layer_id, FALSE);
          if(l_layli_ptr[l_vidx].selected)
          {
            l_nvisible--;
@@ -1086,7 +1086,7 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
         l_tmp_layer_id = l_layers_list[l_vidx];
 
         /* stop at 1.st visible layer (this should be the only visible layer) */
-        if(gimp_drawable_get_visible(l_tmp_layer_id)) break;
+        if(gimp_item_get_visible(l_tmp_layer_id)) break;
 
         /* stop at 1.st layer if image was flattened */
         if((flatten_mode < GAP_RANGE_OPS_FLAM_MERG_EXPAND) || (flatten_mode > GAP_RANGE_OPS_FLAM_MERG_CLIP_BG))  break;
@@ -1136,9 +1136,9 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
 
         gap_match_substitute_framenr(&l_layername[0], sizeof(l_layername),
                               frame_basename, (long)l_cur_frame_nr);
-        gimp_drawable_set_name(l_cp_layer_id, &l_layername[0]);
+        gimp_item_set_name(l_cp_layer_id, &l_layername[0]);
 
-        gimp_drawable_set_visible(l_cp_layer_id, l_visible);
+        gimp_item_set_visible(l_cp_layer_id, l_visible);
         l_visible = FALSE;   /* all further layers are set invisible */
       }
       /* else: tmp image has no visible layers, ignore that frame */
@@ -1453,7 +1453,7 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
     {
       if( (l_nlayers == 1)
       &&  (! gimp_drawable_has_alpha(l_layers_list[0]))
-      &&  (! gimp_drawable_get_visible(l_layers_list[0])))
+      &&  (! gimp_item_get_visible(l_layers_list[0])))
       {
         l_img_already_flat = TRUE;
       }

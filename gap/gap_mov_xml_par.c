@@ -1518,7 +1518,7 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       char   *src_filename;
       gint32  src_image_id;
 
-      src_image_id = gimp_drawable_get_image(pvals->src_layer_id);
+      src_image_id = gimp_item_get_image(pvals->src_layer_id);
 
       fprintf(l_fp, "  <%s ", GAP_MOVPATH_XML_TOKEN_MOVING_OBJECT);
       gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_LAYER_ID, pvals->src_layer_id);

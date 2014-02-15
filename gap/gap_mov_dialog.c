@@ -638,7 +638,7 @@ gap_mov_dlg_edit_movepath_dialog (gint32 frame_image_id, gint32 drawable_id
                                   );
   }
 
-  pvals->src_image_id = gimp_drawable_get_image(drawable_id);
+  pvals->src_image_id = gimp_item_get_image(drawable_id);
   pvals->src_layer_id = drawable_id;
 
   if(isXmlLoadOk != TRUE)
@@ -2810,7 +2810,7 @@ mov_imglayer_menu_callback(GtkWidget *widget, t_mov_gui_stuff *mgp)
   gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
   id = value;
 
-  l_image_id = gimp_drawable_get_image(id);
+  l_image_id = gimp_item_get_image(id);
   if(!gap_image_is_alive(l_image_id))
   {
      if(gap_debug)
@@ -5784,7 +5784,7 @@ mov_path_prevw_preview_init ( t_mov_gui_stuff *mgp )
     if(gap_debug) printf ("mov_path_prevw_preview_init:"
                           " before gap_pview_render_from_image drawable_id:%d\n"
                           , (int)mgp->drawable->drawable_id);
-    image_id = gimp_drawable_get_image(mgp->drawable->drawable_id);
+    image_id = gimp_item_get_image(mgp->drawable->drawable_id);
     if(gap_debug) printf ("mov_path_prevw_preview_init:"
                           " after gap_pview_render_from_image drawable_id:%d image_id:%d\n"
                           , (int)mgp->drawable->drawable_id

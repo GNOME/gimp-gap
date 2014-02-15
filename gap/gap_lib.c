@@ -346,7 +346,7 @@ p_set_or_pick_active_layer_by_pos(gint32 image_id
     {
       char       *l_name;
 
-      l_name = gimp_drawable_get_name(l_matching_layer_id);
+      l_name = gimp_item_get_name(l_matching_layer_id);
       if(setActiveLayer == TRUE)
       {
         printf("p_set_or_pick_active_layer_by_pos SET layer_id %d '%s' as ACTIVE\n"
@@ -432,7 +432,7 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
       l_score = 0;
       l_case_bonus = 0;
       l_layer_id = l_layers_list[l_idx];
-      l_layer_name = gimp_drawable_get_name(l_layer_id);
+      l_layer_name = gimp_item_get_name(l_layer_id);
       if(l_layer_name)
       {
         gint ii;
@@ -538,7 +538,7 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
     {
       char       *l_name;
 
-      l_name = gimp_drawable_get_name(l_matching_layer_id);
+      l_name = gimp_item_get_name(l_matching_layer_id);
       if (setActiveLayer == TRUE)
       {
         printf("p_set_or_pick_active_layer_by_name SET layer_id %d '%s' as ACTIVE\n"
@@ -594,7 +594,7 @@ p_get_active_layer_name(gint32 image_id
 
   if(*active_layer >= 0)
   {
-    layer_name = gimp_drawable_get_name(*active_layer);
+    layer_name = gimp_item_get_name(*active_layer);
 
     /* findout stackposition of the active layer
      * (ignoring onionskin layer positions)

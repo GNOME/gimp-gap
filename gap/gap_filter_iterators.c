@@ -469,11 +469,11 @@ p_delta_drawable_simple(gint32 *val, gint32 val_from, gint32 val_to, gint32 tota
   {
     return;
   }
-  l_tmp_image_id = gimp_drawable_get_image(val_from);
+  l_tmp_image_id = gimp_item_get_image(val_from);
 
   /* check if from and to values are both valid drawables within the same image */
   if ((l_tmp_image_id > 0)
-  &&  (l_tmp_image_id = gimp_drawable_get_image(val_to)))
+  &&  (l_tmp_image_id = gimp_item_get_image(val_to)))
   {
      l_idx_from = -1;
      l_idx_to   = -1;
@@ -568,7 +568,7 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
   {
     GapAnimInfo *l_ainfo_ptr;
     
-    image_id = gimp_drawable_get_image(drawable_id);
+    image_id = gimp_item_get_image(drawable_id);
     filename = gimp_image_get_filename(image_id);
     ainfo_type = GAP_AINFO_ANIMIMAGE;
     stackposition = gap_layer_get_stackposition(image_id, drawable_id);

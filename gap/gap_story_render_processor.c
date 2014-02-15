@@ -5281,7 +5281,7 @@ p_transform_postprocessing(gint32 new_layer_id
      p_fetch_and_add_layermask(vidhand
                   , frn_elem
                   , local_stepcount
-                  , gimp_drawable_get_image(new_layer_id)
+                  , gimp_item_get_image(new_layer_id)
                   , new_layer_id
                   , frn_elem->mask_anchor
                   );
@@ -7147,7 +7147,7 @@ p_stb_render_image_or_animimage(GapStbFetchData *gfd
           }
 
 
-          gimp_drawable_set_visible(l_layers_list[gfd->localframe_index], TRUE);
+          gimp_item_set_visible(l_layers_list[gfd->localframe_index], TRUE);
           if (0 != gimp_layer_get_apply_mask(l_layers_list[gfd->localframe_index]))
           {
             /* the layer has an active mask, apply the mask now
@@ -8686,15 +8686,15 @@ p_paste_logo_pattern(gint32 drawable_id
   gint          l_src_offset_y;
   gint32        image_id;
 
-  image_id = gimp_drawable_get_image(drawable_id);
-  gimp_selection_all(gimp_drawable_get_image(logo_pattern_id));
+  image_id = gimp_item_get_image(drawable_id);
+  gimp_selection_all(gimp_item_get_image(logo_pattern_id));
 
   /* findout the offsets of the replacement_pattern layer within the source Image */
   gimp_drawable_offsets(logo_pattern_id, &l_src_offset_x, &l_src_offset_y );
 
   gimp_edit_copy(logo_pattern_id);
   l_fsel_layer_id = gimp_edit_paste(drawable_id, TRUE);  /* FALSE paste clear selection */
-  gimp_selection_none(gimp_drawable_get_image(logo_pattern_id));
+  gimp_selection_none(gimp_item_get_image(logo_pattern_id));
 
   if(gap_debug)
   {

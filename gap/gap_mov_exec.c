@@ -36,7 +36,7 @@
  * gimp    1.3.14a; 2003/05/24  hof: rename p_fetch_src_frame to gap_mov_render_fetch_src_frame
  * gimp    1.3.12a; 2003/05/01  hof: merge into CVS-gimp-gap project
  * gimp    1.3.11a; 2003/01/18  hof: Conditional framesave
- * gimp    1.3.5a;  2002/04/20  hof: api cleanup (dont use gimp_drawable_set_image)
+ * gimp    1.3.5a;  2002/04/20  hof: api cleanup
  * gimp    1.3.4a;  2002/03/12  hof: removed private pdb-wrappers
  * gimp    1.1.29b; 2000/11/20  hof: FRAME based Stepmodes, bugfixes for path calculation
  * gimp    1.1.23a; 2000/06/03  hof: bugfix anim_preview < 100% did not work
@@ -300,7 +300,7 @@ p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *
        * in this case the tween_layer is set invisible
        *
        */
-       gimp_drawable_set_visible(l_new_layer_id, FALSE);
+       gimp_item_set_visible(l_new_layer_id, FALSE);
     }
 
     /* remove tween layers from the tween_image after usage */
@@ -378,7 +378,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
       /* get the_rendered_object Layer */
       l_layer_id = gap_image_merge_visible_layers(l_tmp_image_id, l_mergemode);
 
-      gimp_drawable_set_name(l_layer_id, _("Tweenlayer"));
+      gimp_item_set_name(l_layer_id, _("Tweenlayer"));
       {
         gint32  l_new_layer_id;
         gint    l_src_offset_x, l_src_offset_y;
@@ -452,7 +452,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
         l_tmp_image_id = mov_ptr->val_ptr->dst_image_id;
         if (l_tmp_image_id < 0)
         {
-          l_tmp_image_id = gimp_drawable_get_image(singleFramePtr->drawable_id);
+          l_tmp_image_id = gimp_item_get_image(singleFramePtr->drawable_id);
         }
       }
 
@@ -569,7 +569,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
         l_name = g_strdup_printf("frame_%06d (%dms)"
                               , (int) cur_ptr->dst_frame_nr
                               , (int)(1000/mov_ptr->val_ptr->apv_framerate));
-        gimp_drawable_set_name(l_layer_id, l_name);
+        gimp_item_set_name(l_layer_id, l_name);
         g_free(l_name);
 
         {
@@ -1812,7 +1812,7 @@ p_init_curr_ptr_with_1st_controlpoint(GapMovCurrent *cur_ptr, GapMovValues *val_
   {
     cur_ptr->isSingleFrame = TRUE;
     cur_ptr->singleMovObjLayerId = singleFramePtr->drawable_id;
-    cur_ptr->singleMovObjImageId = gimp_drawable_get_image(cur_ptr->singleMovObjLayerId);
+    cur_ptr->singleMovObjImageId = gimp_item_get_image(cur_ptr->singleMovObjLayerId);
     cur_ptr->keep_proportions = singleFramePtr->keep_proportions;
     cur_ptr->fit_width = singleFramePtr->fit_width;
     cur_ptr->fit_height = singleFramePtr->fit_height;
@@ -1838,7 +1838,7 @@ p_duplicate_layer(gint32 layerId)
   gint32 imageId;
 
 
-  imageId = gimp_drawable_get_image(layerId);
+  imageId = gimp_item_get_image(layerId);
   gimp_image_set_active_layer(imageId, layerId);
   dupLayerId = gimp_layer_copy(layerId);
   gimp_image_insert_layer(imageId, dupLayerId, 0, -1 /* -1 place above active layer */);
@@ -2070,7 +2070,7 @@ p_mov_execute_or_query(GapMovData *mov_ptr, GapMovQuery *mov_query)
        gimp_image_undo_disable (val_ptr->trace_image_id);
        gimp_layer_add_alpha(val_ptr->trace_layer_id);
        gimp_edit_clear(val_ptr->trace_layer_id);
-       gimp_drawable_set_name(val_ptr->trace_layer_id, _("Tracelayer"));
+       gimp_item_set_name(val_ptr->trace_layer_id, _("Tracelayer"));
      }
 
      /* RENDER the 1.st frame outside the frameindex loop,
@@ -3863,7 +3863,7 @@ p_check_move_path_params(GapMovData *mov_data)
   }
   else if(gimp_drawable_is_layer(mov_data->val_ptr->src_layer_id))
   {
-     mov_data->val_ptr->src_image_id = gimp_drawable_get_image(mov_data->val_ptr->src_layer_id);
+     mov_data->val_ptr->src_image_id = gimp_item_get_image(mov_data->val_ptr->src_layer_id);
   }
   else
   {

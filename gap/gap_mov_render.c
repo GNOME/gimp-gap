@@ -226,7 +226,7 @@ p_mov_apply_bluebox(gint32 layer_id
 
   if(val_ptr->bbp)
   {
-    val_ptr->bbp->image_id = gimp_drawable_get_image(layer_id);
+    val_ptr->bbp->image_id = gimp_item_get_image(layer_id);
     val_ptr->bbp->drawable_id = layer_id;
     val_ptr->bbp->layer_id = layer_id;
     val_ptr->bbp->run_mode = GIMP_RUN_NONINTERACTIVE;
@@ -755,7 +755,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                      val_ptr->src_stepmode,
                      val_ptr->rotate_threshold,
 		     cur_ptr->singleMovObjLayerId,
-		     gimp_drawable_get_image(cur_ptr->singleMovObjLayerId),
+		     gimp_item_get_image(cur_ptr->singleMovObjLayerId),
 		     image_id
 		     );
   }
@@ -767,7 +767,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
     l_mode = p_get_paintmode(val_ptr->src_paintmode
                             ,cur_ptr->singleMovObjLayerId
                             );
-    if(gimp_drawable_get_image(cur_ptr->singleMovObjLayerId) == image_id)
+    if(gimp_item_get_image(cur_ptr->singleMovObjLayerId) == image_id)
     {
       /* the moving object layer id is already part of the processed frame image */
       l_cp_layer_id = cur_ptr->singleMovObjLayerId;
@@ -886,7 +886,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
 
   if(val_ptr->src_force_visible)
   {
-     gimp_drawable_set_visible(l_cp_layer_id, TRUE);
+     gimp_item_set_visible(l_cp_layer_id, TRUE);
   }
 
   /* check for layermask */

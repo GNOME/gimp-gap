@@ -772,7 +772,7 @@ p_process_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
     p_pdb_call_resynthesizer(image_id, drawable_id, corpus_layer_id, val_ptr->seed);
 
     /* delete the temporary working duplicate */
-    corpus_image_id = gimp_drawable_get_image(corpus_layer_id);
+    corpus_image_id = gimp_item_get_image(corpus_layer_id);
     gimp_image_delete(corpus_image_id);
   }
   else

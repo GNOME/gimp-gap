@@ -75,7 +75,7 @@ gint32 gap_layer_copy_to_dest_image (gint32 dst_image_id,
 
   opacity = CLAMP(opacity, 0.0, 100.0);
 
-  l_name = gimp_drawable_get_name(src_layer_id);
+  l_name = gimp_item_get_name(src_layer_id);
 
   /* copy the layer */
   l_new_layer_id = gimp_layer_new_from_drawable(src_layer_id, dst_image_id);
@@ -91,7 +91,7 @@ gint32 gap_layer_copy_to_dest_image (gint32 dst_image_id,
     /* findout the offsets of the original layer within the source Image */
     gimp_drawable_offsets(src_layer_id, src_offset_x, src_offset_y );
 
-    gimp_drawable_set_name(l_new_layer_id, l_name);
+    gimp_item_set_name(l_new_layer_id, l_name);
     gimp_layer_set_opacity(l_new_layer_id, opacity);
     gimp_layer_set_mode(l_new_layer_id, mode);
 
@@ -580,7 +580,7 @@ gap_layer_clear_to_color(gint32 layer_id
 {
   gint32 image_id;
   
-  image_id = gimp_drawable_get_image(layer_id);
+  image_id = gimp_item_get_image(layer_id);
 
   if(alpha==0.0)
   {
@@ -801,11 +801,11 @@ gap_layer_make_duplicate(gint32 src_layer_id, gint32 image_id
   {
     l_prefix = name_prefix;
   }
-  l_old_name = gimp_drawable_get_name(src_layer_id);
+  l_old_name = gimp_item_get_name(src_layer_id);
   
   l_new_name = g_strdup_printf("%s%s%s", l_prefix, l_old_name, l_suffix);
   
-  gimp_drawable_set_name(l_new_layer_id, l_new_name);
+  gimp_item_set_name(l_new_layer_id, l_new_name);
   g_free(l_old_name);
   g_free(l_new_name);
   
@@ -938,7 +938,7 @@ gap_layer_find_by_name(gint32 image_id, const char *name)
       char *layername;
       gboolean isEqual;
 
-      layername = gimp_drawable_get_name(l_layers_list[ii]);
+      layername = gimp_item_get_name(l_layers_list[ii]);
       isEqual = (strcmp(layername, name) == 0);
       g_free(layername);
       

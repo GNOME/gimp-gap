@@ -291,7 +291,7 @@ p_tri_map_combo_constrain(gint32 image_id, gint32 drawable_id, FgExtractDialogGu
      return(FALSE);
   }
 
-  processedImageId = gimp_drawable_get_image(guiStuffPtr->drawable_id);
+  processedImageId = gimp_item_get_image(guiStuffPtr->drawable_id);
 
   if(image_id != processedImageId)
   {

@@ -776,7 +776,7 @@ p_parse_frame_nr_from_layerId(gint32 layerId)
 
   frameNr = 0;
 
-  layername = gimp_drawable_get_name(layerId);
+  layername = gimp_item_get_name(layerId);
   if(layername)
   {
     len = strlen(layername);

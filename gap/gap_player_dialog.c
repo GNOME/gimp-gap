@@ -1412,7 +1412,7 @@ p_mtrace_image( GapPlayerMainGlobalParams *gpp
                           ,(int)gpp->play_current_framenr
                           ,(int)(1000 / gpp->speed)
                           );
-      gimp_drawable_set_name(dst_layer_id, l_name);
+      gimp_item_set_name(dst_layer_id, l_name);
       g_free(l_name);
     }
 
@@ -1484,7 +1484,7 @@ p_mtrace_tmpbuf( GapPlayerMainGlobalParams *gpp
                           ,(int)gpp->play_current_framenr
                           ,(int)(1000 / gpp->speed)
                           );
-      gimp_drawable_set_name(dst_layer_id, l_name);
+      gimp_item_set_name(dst_layer_id, l_name);
       g_free(l_name);
     }
 

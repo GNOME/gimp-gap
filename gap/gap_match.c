@@ -450,7 +450,7 @@ gap_match_layer(gint32 layer_idx, const char *layername, const char *pattern,
           l_rc = gap_match_number((nlayers -1) - layer_idx, pattern);
           break;
      case GAP_MTCH_ALL_VISIBLE:
-          l_rc = gimp_drawable_get_visible(layer_id);
+          l_rc = gimp_item_get_visible(layer_id);
           break;
      default:
           l_rc = gap_match_name(layername, pattern, mode, case_sensitive);

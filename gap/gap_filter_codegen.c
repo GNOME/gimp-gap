@@ -541,11 +541,11 @@ gint gap_codegen_gen_code_iterator(char  *proc_name)
        fprintf(l_fp, "    gint32  l_tmp_image_id;\n");
        fprintf(l_fp, "    gint    l_idx, l_idx_from, l_idx_to;\n");
        fprintf(l_fp, "\n");
-       fprintf(l_fp, "    l_tmp_image_id = gimp_drawable_get_image(val_from);\n");
+       fprintf(l_fp, "    l_tmp_image_id = gimp_item_get_image(val_from);\n");
        fprintf(l_fp, "\n");
        fprintf(l_fp, "    /* check if from and to values are both valid drawables within the same image */\n");
        fprintf(l_fp, "    if ((l_tmp_image_id > 0)\n");
-       fprintf(l_fp, "    &&  (l_tmp_image_id = gimp_drawable_get_image(val_to)))\n");
+       fprintf(l_fp, "    &&  (l_tmp_image_id = gimp_item_get_image(val_to)))\n");
        fprintf(l_fp, "    {\n");
        fprintf(l_fp, "       l_idx_from = -1;\n");
        fprintf(l_fp, "       l_idx_to   = -1;\n");

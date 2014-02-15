@@ -1,3 +1,89 @@
+2014-02-15 Wolfgang Hofer <hof@gimp.org>
+
+  - added LAYER GROUP support for the "FramesModify" feature.
+
+     - Added Groupname and delimiter entry widgets where the user can
+       specify the scope of the layer selection.
+       (e.g. the name of the group that contains the layers that are to be selected)
+       Nested groups can be selected as "MyGroup/SubGroup"
+       Where the delimiter string "/" is used to split subgroup names.
+       An empty Groupname refers to the images toplevel layers.
+     
+     - Added new Functions:
+        Layer Stackposition/Raise layers(s) to top
+        Layer Stackposition/Lower Layers(s) to bottom
+        Layer Stackposition/Reorder Layer
+        
+        Merge Layers/Merge down layer(s) expand as necessary
+        Merge Layers/Merge down layer(s) clipped to image
+        Merge Layers/Merge down layer(s) clipped to bg-layer
+        
+        Create Layergroup
+        
+        ----------
+        
+        The Reorder Layer function provides new entries
+          New Group Name
+          New Position
+        to specify the target group (empty name refers to toplevel image)
+        and stackposition where the selected Layer(s) shall be moved to.
+     
+     - Modify Functions "Merge.." 
+     
+
+     - Modify Function "duplicate layer"  now creates the layer above the source layer
+       (older versions placed the duplicate above the active layer)
+
+
+  - replaced the follwing deprecated procedure calls
+   
+    gimp_drawable_get_###   gimp_item_get_###
+    gimp_drawable_set_###   gimp_item_set_##
+    gimp_image_raise_layer  gimp_image_raise_item
+    gimp_image_lower_layer  gimp_image_lower_item
+
+
+  * gap/gap_blend_fill_main.c
+  * gap/gap_bluebox.c
+  * gap/gap_colormask_exec.c
+  * gap/gap_detail_tracking_exec.c
+  * gap/gap_edge_detection.c
+  * gap/gap_fg_matting_dialog.c
+  * gap/gap_fg_matting_exec.c
+  * gap/gap_filter_codegen.c
+  * gap/gap_filter_foreach.c
+  * gap/gap_filter_iterators.c
+  * gap/gap_fire_pattern.c
+  * gap/gap_image.c
+  * gap/gap_image.h
+  * gap/gap_layer_copy.c
+  * gap/gap_lib.c
+  * gap/gap_main.c
+  * gap/gap_match.c
+  * gap/gap_mod_layer.c
+  * gap/gap_mod_layer.h
+  * gap/gap_mod_layer_dialog.c
+  * gap/gap_mod_layer_dialog.h
+  * gap/gap_morph_dialog.c
+  * gap/gap_morph_exec.c
+  * gap/gap_morph_main.c
+  * gap/gap_morph_shape.c
+  * gap/gap_mov_dialog.c
+  * gap/gap_mov_exec.c
+  * gap/gap_mov_render.c
+  * gap/gap_mov_xml_par.c
+  * gap/gap_onion_base.c
+  * gap/gap_player_dialog.c
+  * gap/gap_range_ops.c
+  * gap/gap_split.c
+  * gap/gap_story_att_trans_dlg.c
+  * gap/gap_story_render_processor.c
+  * gap/gap_vex_exec.c
+  * gap/gap_water_pattern.c
+  * gap/gap_wr_resynth.c
+  * libgapvidapi/gap_vid_api.c
+  * libgapvidutil/gap_gve_png.c
+
 2014-02-02 Wolfgang Hofer <hof@gimp.org>
 
 - added LAYER GROUP Support in the "MovePath" dialog.

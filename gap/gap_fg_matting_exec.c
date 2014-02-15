@@ -242,7 +242,7 @@ p_tri_map_preprocessing (GimpDrawable *drawable, GapFgExtractValues *fgValPtr, g
   gint32           imageId;
 
   *dummyLayerId = -1;
-  imageId = gimp_drawable_get_image(drawable->drawable_id);
+  imageId = gimp_item_get_image(drawable->drawable_id);
 
 
   inputLayerMaskId = gimp_layer_get_mask(drawable->drawable_id);
@@ -327,7 +327,7 @@ gap_drawable_foreground_extract (GimpDrawable              *drawable,
   {
     gint32 imageId;
 
-    imageId = gimp_drawable_get_image(drawable->drawable_id);
+    imageId = gimp_item_get_image(drawable->drawable_id);
     resultLayerId = gimp_layer_new(imageId
             , "FG"
             , drawable->width

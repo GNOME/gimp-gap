@@ -1751,7 +1751,7 @@ p_render_zoomed_pview(GapMorphSubWin  *swp)
 
     if(gap_debug) printf("p_render_zoomed_pview START src_layer_id: %d\n", (int)src_layer_id);
 
-    src_image_id = gimp_drawable_get_image(src_layer_id);
+    src_image_id = gimp_item_get_image(src_layer_id);
     l_basetype   = gimp_image_base_type(src_image_id);
     l_type   = GIMP_RGBA_IMAGE;
     if(l_basetype == GIMP_GRAY)
@@ -2262,7 +2262,7 @@ p_imglayer_menu_callback(GtkWidget *widget, GapMorphSubWin *swp)
   gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
   layer_id = value;
 
-  l_image_id = gimp_drawable_get_image(layer_id);
+  l_image_id = gimp_item_get_image(layer_id);
   if(!gap_image_is_alive(l_image_id))
   {
      if(gap_debug) printf("p_imglayer_menu_callback: NOT ALIVE image_id=%d layer_id=%d\n",

@@ -753,7 +753,7 @@ gint32 gap_edgeDetection(gint32  refDrawableId
  
  
  
-   imageId = gimp_drawable_get_image(activeDrawableId);
+   imageId = gimp_item_get_image(activeDrawableId);
  
    edgeLayerId = gimp_layer_copy(activeDrawableId);
    gimp_image_insert_layer (imageId, edgeLayerId, 0, 0 /* stackposition */ );

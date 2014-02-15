@@ -79,7 +79,7 @@ p_vex_apply_bluebox(gint32 layer_id
 
   if(bbp)
   {
-    bbp->image_id = gimp_drawable_get_image(layer_id);
+    bbp->image_id = gimp_item_get_image(layer_id);
     bbp->drawable_id = layer_id;
     bbp->layer_id = layer_id;
     bbp->run_mode = GIMP_RUN_NONINTERACTIVE;

@@ -84,6 +84,12 @@ gint32   gap_image_find_or_create_group_layer(gint32 image_id
             , gboolean enableCreate
             );
 
+gint32  gap_image_reorder_layer(gint32 image_id, gint32 layer_id,
+              gint32 new_position,
+              char *new_groupname,
+              char *delimiter,
+              gboolean enableGroupCreation,
+              char *new_layername);
 
 #endif
 

@@ -772,7 +772,7 @@ p_init_context_and_cloud_and_shape_layers(gint32 drawable_id, firepattern_val_t 
   gboolean success;
   gdouble  strechedHeight;
   
-  ctxt->image_id = gimp_drawable_get_image(drawable_id);
+  ctxt->image_id = gimp_item_get_image(drawable_id);
   ctxt->blend_mode = p_convertBlendNum_to_BlendMode(cuvals->blendNum);
   ctxt->width = gimp_image_width(ctxt->image_id);
   ctxt->height = gimp_image_height(ctxt->image_id);
@@ -1013,7 +1013,7 @@ p_drawable_get_name(gint32 drawable_id)
   
   if(gimp_drawable_is_valid(drawable_id))
   {
-    return(gimp_drawable_get_name(drawable_id));
+    return(gimp_item_get_name(drawable_id));
   }
   
   return (invalidName);
@@ -1046,9 +1046,9 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
 
 
   /* save visibility status of processed layer .. */
-  isVisible = gimp_drawable_get_visible(drawable_id);
+  isVisible = gimp_item_get_visible(drawable_id);
   /* .. and force visibility (required for merge down fire pattern to the active layer) */
-  gimp_drawable_set_visible(drawable_id, TRUE);
+  gimp_item_set_visible(drawable_id, TRUE);
 
   templayer_id = drawable_id;
   nframesToProcess = 1;
@@ -1161,9 +1161,9 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
     p_cloud_size_check(newlayer1_id, ctxt);
     p_shape_size_check(newlayer2_id, ctxt);
 
-    gimp_drawable_set_visible(newlayer1_id, TRUE);
-    gimp_drawable_set_visible(newlayer2_id, TRUE);
-    gimp_drawable_set_visible(templayer_id, TRUE);
+    gimp_item_set_visible(newlayer1_id, TRUE);
+    gimp_item_set_visible(newlayer2_id, TRUE);
+    gimp_item_set_visible(templayer_id, TRUE);
     
     /* calculate offsets to shift the cloud layer according to pahse of the currently processed frame */
     {
@@ -1220,7 +1220,7 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
       gchar *layerName;
       
       layerName = g_strdup_printf("Frame_%03d", (int)count +1);
-      gimp_drawable_set_name(templayer_id, layerName);
+      gimp_item_set_name(templayer_id, layerName);
       g_free(layerName);
     }
 
@@ -1233,7 +1233,7 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
 
 
   /* restore visibility status of processed layer */
-  gimp_drawable_set_visible(templayer_id, isVisible);
+  gimp_item_set_visible(templayer_id, isVisible);
 
   if (cuvals->createImage)
   {
@@ -1626,7 +1626,7 @@ p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, FirePatternDialog
      return(FALSE);
   }
 
-  processedImageId = gimp_drawable_get_image(wcd->drawable_id);
+  processedImageId = gimp_item_get_image(wcd->drawable_id);
   
   if(image_id == processedImageId)
   {

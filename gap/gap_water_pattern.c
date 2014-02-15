@@ -295,7 +295,7 @@ p_init_context_and_cloud_layers(gint32 drawable_id, waterpattern_val_t *cuvals, 
 {
   gboolean success;
 
-  ctxt->image_id = gimp_drawable_get_image(drawable_id);
+  ctxt->image_id = gimp_item_get_image(drawable_id);
   ctxt->blend_mode = p_convertBlendNum_to_BlendMode(cuvals->blendNum);
   ctxt->width = gimp_image_width(ctxt->image_id);
   ctxt->height = gimp_image_height(ctxt->image_id);
@@ -432,9 +432,9 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
   }
 
   /* save visibility status of processed layer .. */
-  isVisible = gimp_drawable_get_visible(drawable_id);
+  isVisible = gimp_item_get_visible(drawable_id);
   /* .. and force visibility (required for merge down effects) */
-  gimp_drawable_set_visible(drawable_id, TRUE);
+  gimp_item_set_visible(drawable_id, TRUE);
 
   templayer_id = drawable_id;
   nframesToProcess = 1;
@@ -459,7 +459,7 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
 
   if(gap_debug)
   {
-     printf("p_run_renderWaterPattern: drawable_id :%d (%s)\n", (int)drawable_id, gimp_drawable_get_name(drawable_id));
+     printf("p_run_renderWaterPattern: drawable_id :%d (%s)\n", (int)drawable_id, gimp_item_get_name(drawable_id));
      printf("p_run_renderWaterPattern:  scalex:%f\n", (float)cuvals->scalex);
      printf("p_run_renderWaterPattern:  scaley:%f\n", (float)cuvals->scaley);
      printf("p_run_renderWaterPattern:  blendNum:%d\n", (int)cuvals->blendNum);
@@ -473,8 +473,8 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
      printf("p_run_renderWaterPattern:  nframes:%d\n", (int)cuvals->nframes);
      printf("p_run_renderWaterPattern:  seed1:%d\n", (int)cuvals->seed1);
      printf("p_run_renderWaterPattern:  seed2:%d\n", (int)cuvals->seed2);
-     printf("p_run_renderWaterPattern:  cloudLayer1:%d (%s)\n", (int)cuvals->cloudLayer1, gimp_drawable_get_name(cuvals->cloudLayer1));
-     printf("p_run_renderWaterPattern:  cloudLayer2:%d (%s)\n", (int)cuvals->cloudLayer2, gimp_drawable_get_name(cuvals->cloudLayer2));
+     printf("p_run_renderWaterPattern:  cloudLayer1:%d (%s)\n", (int)cuvals->cloudLayer1, gimp_item_get_name(cuvals->cloudLayer1));
+     printf("p_run_renderWaterPattern:  cloudLayer2:%d (%s)\n", (int)cuvals->cloudLayer2, gimp_item_get_name(cuvals->cloudLayer2));
 
      printf("p_run_renderWaterPattern:  ref_image_id:%d\n", (int)ctxt->ref_image_id);
      printf("p_run_renderWaterPattern:  image_id:%d\n", (int)ctxt->image_id);
@@ -587,7 +587,7 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
       gchar *layerName;
 
       layerName = g_strdup_printf("Frame_%03d", (int)count +1);
-      gimp_drawable_set_name(templayer_id, layerName);
+      gimp_item_set_name(templayer_id, layerName);
       g_free(layerName);
     }
 
@@ -620,7 +620,7 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
 
 
   /* restore visibility status of processed layer */
-  gimp_drawable_set_visible(templayer_id, isVisible);
+  gimp_item_set_visible(templayer_id, isVisible);
 
   if (cuvals->createImage)
   {
@@ -951,7 +951,7 @@ p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, WaterPatternDialo
      return(FALSE);
   }
 
-  processedImageId = gimp_drawable_get_image(wcd->drawable_id);
+  processedImageId = gimp_item_get_image(wcd->drawable_id);
 
   if(image_id == processedImageId)
   {

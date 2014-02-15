@@ -198,7 +198,7 @@ p_visibilty_restore(gint32 image_id, gint nlayers, int *visible_tab, char *plugi
       {
         for(l_idx = 0; l_idx < nlayers; l_idx++)
         {
-          gimp_drawable_set_visible(l_layers_list[l_idx], visible_tab[l_idx]);
+          gimp_item_set_visible(l_layers_list[l_idx], visible_tab[l_idx]);
           if(gap_debug) printf("visibilty restore [%d] %d\n", (int)l_idx, (int)visible_tab[l_idx]);
         }
         p_gdisplays_update_full(image_id);
@@ -337,12 +337,12 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
       for(l_idx = 0; l_idx < l_nlayers; l_idx++)
       {
         l_layer_id = p_get_indexed_layerid(image_id, &l_nlayers, l_idx,  canonical_plugin_name);
-        l_visible_tab[l_idx] = gimp_drawable_get_visible(l_layer_id);
+        l_visible_tab[l_idx] = gimp_item_get_visible(l_layer_id);
 
         /* make the backround visible, all others invisible
          * (so the user can see the effect of the 1.st applied _FROM filter)
          */
-        gimp_drawable_set_visible(l_layer_id, (l_idx == l_nlayers - 1));
+        gimp_item_set_visible(l_layer_id, (l_idx == l_nlayers - 1));
       }
       p_gdisplays_update_full(image_id);
 
@@ -421,7 +421,7 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
              else
              {
                 /* make _TO layer visible */
-                gimp_drawable_set_visible(l_layer_id, TRUE);
+                gimp_item_set_visible(l_layer_id, TRUE);
                 p_gdisplays_update_full(image_id);
 
                 if(gap_debug) printf("DEBUG: apllying %s on Layerstack 0  id=%d\n", canonical_plugin_name, (int)l_layer_id);

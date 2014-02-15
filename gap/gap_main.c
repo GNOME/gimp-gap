@@ -493,12 +493,28 @@ GimpPlugInInfo PLUG_IN_INFO =
                                     ", 56:set layer mode to value_mode"
                                     ", 57:apply filter on layermask"
                                     ", 58:set selection from alphachannel"
+                                    ", 59:resize layer to mage size"
+                                    ", 60:create layer from opacity"
+                                    ", 61:create layer from layermask"
+                                    ", 62:create layer from alphachannel"
+                                    ", 63:reorder layer (move to new group and/or position)"
+                                    ", 64:create empty layergroup"
+                                    ", 65:raise to top"
+                                    ", 66:lower to bg"
+                                    ", 67:merge down expand"
+                                    ", 68:merge down clip to image"
+                                    ", 69:merge down clip to bg"
                                     },
     {GIMP_PDB_INT32, "select_mode", "Mode how to identify a layer: 0-3 by layername 0=equal, 1=prefix, 2=suffix, 3=contains, 4=layerstack_numberslist, 5=inv_layerstack, 6=all_visible"},
     {GIMP_PDB_INT32, "select_case", "0: ignore case 1: select_string is case sensitive"},
     {GIMP_PDB_INT32, "select_invert", "0: select normal 1: invert (select all unselected layers)"},
     {GIMP_PDB_STRING, "select_string", "string to match with layername (how to match is defined by select_mode)"},
     {GIMP_PDB_STRING, "new_layername", "is only used at action rename. [####] is replaced by the framnumber"},
+
+    {GIMP_PDB_INT32,  "new_position", "new stackposition within the image or in the new group. is only used at action reorder."},
+    {GIMP_PDB_STRING, "new_groupname", "is only used at action reorder. the selected layer(s) is(are) moved to this new_groupname (group will be created automatically if it does not already exist)"},
+    {GIMP_PDB_STRING, "select_groupname", "defines the selection scope, e.g. the name of the group where its layers can be selected by name or position(s). An empty string defines the images toplevel layers as selection scope"},
+    {GIMP_PDB_STRING, "delimiter", "Delimiter characterstring used in group names to identify subgroup names."},
   };
   static int nargs_modify = G_N_ELEMENTS (args_modify);
 
@@ -559,8 +575,6 @@ MAIN ()
 static void
 query ()
 {
-  gchar *l_help_str;
-
   gimp_plugin_domain_register (GETTEXT_PACKAGE, LOCALEDIR);
 
   gimp_install_procedure(PLUGIN_NAME_GAP_NEXT,
@@ -962,6 +976,10 @@ run (const gchar *name
   const char *l_env;
 
   char        l_extension[32];
+  gint32      l_new_position;
+  char        l_delimiter[32];
+  char        l_sel_groupname[MAX_LAYERNAME];
+  char        l_new_groupname[MAX_LAYERNAME];
   char        l_sel_str[MAX_LAYERNAME];
   char        l_layername[MAX_LAYERNAME];
   char       *l_basename_ptr;
@@ -1684,6 +1702,12 @@ run (const gchar *name
   }
   else if (strcmp (name, PLUGIN_NAME_GAP_MODIFY) == 0)
   {
+      l_sel_str[0] = '\0';
+      l_delimiter[0] = '/';
+      l_delimiter[1] = '\0';
+      l_sel_groupname[0] = '\0';
+      l_new_groupname[0] = '\0';
+
       if (run_mode == GIMP_RUN_NONINTERACTIVE)
       {
         if (n_params != nargs_modify)
@@ -1694,13 +1718,24 @@ run (const gchar *name
         {
           if(param[9].data.d_string != NULL)
           {
-            strncpy(l_sel_str, param[9].data.d_string, sizeof(l_sel_str) -1);
-            l_sel_str[sizeof(l_sel_str) -1] = '\0';
+            g_snprintf(l_sel_str, sizeof(l_sel_str) -1, "%s", param[9].data.d_string);
           }
           if(param[10].data.d_string != NULL)
           {
-            strncpy(l_layername, param[10].data.d_string, sizeof(l_layername) -1);
-            l_layername[sizeof(l_layername) -1] = '\0';
+            g_snprintf(l_layername, sizeof(l_layername) -1, "%s", param[10].data.d_string);
+          }
+
+          if(param[12].data.d_string != NULL)
+          {
+            g_snprintf(l_new_groupname, sizeof(l_new_groupname) -1, "%s", param[12].data.d_string);
+          }
+          if(param[13].data.d_string != NULL)
+          {
+            g_snprintf(l_sel_groupname, sizeof(l_sel_groupname) -1, "%s", param[13].data.d_string);
+          }
+          if(param[14].data.d_string != NULL)
+          {
+            g_snprintf(l_delimiter, sizeof(l_delimiter) -1, "%s", param[14].data.d_string);
           }
         }
       }
@@ -1714,9 +1749,13 @@ run (const gchar *name
         sel_case   = param[7].data.d_int32;
         sel_invert = param[8].data.d_int32;
 
+        l_new_position = param[11].data.d_int32;
+
+
         l_rc_image = gap_mod_layer(run_mode, image_id, range_from, range_to,
                              nr, sel_mode, sel_case, sel_invert,
-                             l_sel_str, l_layername);
+                             l_sel_str, l_layername,
+                             l_new_position, l_new_groupname, l_sel_groupname, l_delimiter);
 
       }
   }

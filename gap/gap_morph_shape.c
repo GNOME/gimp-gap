@@ -767,7 +767,7 @@ gap_moprhShapeDetectionEdgeBased(GapMorphGUIParams *mgup, gboolean *cancelFlagPt
                                  ,&msctx->countEdgePixels
                                  );
 
-  msctx->edgeImageId = gimp_drawable_get_image(msctx->edgeLayerId);
+  msctx->edgeImageId = gimp_item_get_image(msctx->edgeLayerId);
 
   if(gap_debug)
   {
@@ -1287,7 +1287,7 @@ gap_morph_shape_generate_frame_tween_workpoints(GapAnimInfo *ainfo_ptr
                               );
 
       g_free(workpointFileName);
-      gap_image_delete_immediate(gimp_drawable_get_image(currLayerId));
+      gap_image_delete_immediate(gimp_item_get_image(currLayerId));
       if(!success)
       {
         break;
@@ -1302,7 +1302,7 @@ gap_morph_shape_generate_frame_tween_workpoints(GapAnimInfo *ainfo_ptr
   
   if(nextLayerId >= 0)
   {
-    gap_image_delete_immediate(gimp_drawable_get_image(nextLayerId));
+    gap_image_delete_immediate(gimp_item_get_image(nextLayerId));
   }
 
   return (frameCount);

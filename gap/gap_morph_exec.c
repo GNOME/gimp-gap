@@ -2612,7 +2612,7 @@ p_get_tween_steps_and_layerstacks(GapMorphGlobalParams *mgpp, GapMorphExeLayerst
   
   if(mgpp->osrc_layer_id >= 0)
   {
-    src_image_id = gimp_drawable_get_image(mgpp->osrc_layer_id);
+    src_image_id = gimp_item_get_image(mgpp->osrc_layer_id);
     
     mlayers->src_layers = gimp_image_get_layers (src_image_id
                                              ,&mlayers->src_nlayers
@@ -2636,7 +2636,7 @@ p_get_tween_steps_and_layerstacks(GapMorphGlobalParams *mgpp, GapMorphExeLayerst
   {
     tween_steps = mgpp->tween_steps;
     
-    dst_image_id = gimp_drawable_get_image(mgpp->fdst_layer_id);
+    dst_image_id = gimp_item_get_image(mgpp->fdst_layer_id);
     mlayers->dst_layers = gimp_image_get_layers (dst_image_id
                                              ,&mlayers->dst_nlayers
                                              );
@@ -2775,7 +2775,7 @@ gap_morph_execute(GapMorphGlobalParams *mgpp)
   }
 
   cp_layer_id = -1;
-  dst_image_id = gimp_drawable_get_image(mgpp->fdst_layer_id);
+  dst_image_id = gimp_item_get_image(mgpp->fdst_layer_id);
   dst_stack_position = 1;
 
   /* findout stackposition (where to insert new tween layer(s)
@@ -2863,7 +2863,7 @@ gap_morph_execute(GapMorphGlobalParams *mgpp)
         ii = mlayers->dst1_idx - (current_step -1);
         gap_layer_copy_content(mlayers->dst_layers[ii], new_layer_id);
       }
-      tween_image_id = gimp_drawable_get_image(new_layer_id);
+      tween_image_id = gimp_item_get_image(new_layer_id);
       gimp_image_delete(tween_image_id);
     }
 
@@ -3498,7 +3498,7 @@ p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalPara
            * (that is already saved to disk)
            * we keep only the last one opened in gimp.
            */
-          gap_image_delete_immediate(gimp_drawable_get_image(l_tween_layer_id));
+          gap_image_delete_immediate(gimp_item_get_image(l_tween_layer_id));
         }
 
         if(targetTweenFrameFilename != NULL)
@@ -3574,7 +3574,7 @@ p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalPara
                                                            , tweenFramesToBeCreated +1
                                                            , l_current_step
                                                            );
-        l_tween_tmp_image_id = gimp_drawable_get_image(l_tween_layer_id);
+        l_tween_tmp_image_id = gimp_item_get_image(l_tween_layer_id);
         if(gap_debug)
         {
           printf("p_morph_render_frame_tweens_in_subdir saving tween:%s :%d\n"
@@ -3601,7 +3601,7 @@ p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalPara
       }
 
       g_free(workpointFileName);
-      gap_image_delete_immediate(gimp_drawable_get_image(currLayerId));
+      gap_image_delete_immediate(gimp_item_get_image(currLayerId));
       if(!success)
       {
         break;
@@ -3618,7 +3618,7 @@ p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalPara
   
   if(nextLayerId >= 0)
   {
-    gap_image_delete_immediate(gimp_drawable_get_image(nextLayerId));
+    gap_image_delete_immediate(gimp_item_get_image(nextLayerId));
   }
 
   return(l_tween_layer_id);
@@ -3723,7 +3723,7 @@ gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
         /* delete the previous handled tween frame image in memory. (that is already saved to disk
          * we keep only the last one opened)
          */
-        gap_image_delete_immediate(gimp_drawable_get_image(l_tween_layer_id));
+        gap_image_delete_immediate(gimp_item_get_image(l_tween_layer_id));
       }
       
       l_current_step = l_tween_frame_nr - mgpp->range_from;
@@ -3790,7 +3790,7 @@ gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
       }
 
       l_tween_layer_id = gap_morph_render_one_of_n_tweens(mgpp, total_steps, l_current_step);
-      l_tween_tmp_image_id = gimp_drawable_get_image(l_tween_layer_id);
+      l_tween_tmp_image_id = gimp_item_get_image(l_tween_layer_id);
       if(gap_debug)
       {
         printf("gap_morph_render_frame_tweens saving tween:%s :%d\n"
@@ -3812,8 +3812,8 @@ gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
       }
 
     }
-    gap_image_delete_immediate(gimp_drawable_get_image(mgpp->osrc_layer_id));
-    gap_image_delete_immediate(gimp_drawable_get_image(mgpp->fdst_layer_id));
+    gap_image_delete_immediate(gimp_item_get_image(mgpp->osrc_layer_id));
+    gap_image_delete_immediate(gimp_item_get_image(mgpp->fdst_layer_id));
   }
 
   return(l_tween_layer_id);

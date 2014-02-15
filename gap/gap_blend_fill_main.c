@@ -1791,7 +1791,7 @@ gap_blend_fill_dialog (FilterVals *fiVals, gint32 drawable_id)
 
 
   guiStuffPtr = &guiStuffRecord;
-  guiStuffPtr->imageId = gimp_drawable_get_image(drawable_id);
+  guiStuffPtr->imageId = gimp_item_get_image(drawable_id);
   guiStuffPtr->msg_label = NULL;
   guiStuffPtr->svg_entry = NULL;
   guiStuffPtr->svg_filesel = NULL;

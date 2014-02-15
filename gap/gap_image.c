@@ -297,7 +297,7 @@ gap_image_merge_to_specified_layer(gint32 ref_layer_id, GimpMergeType mergemode)
 {
   gint32  l_image_id;
 
-  l_image_id = gimp_drawable_get_image(ref_layer_id);
+  l_image_id = gimp_item_get_image(ref_layer_id);
   if(l_image_id >= 0)
   {
     gint32  l_idx;
@@ -311,7 +311,7 @@ gap_image_merge_to_specified_layer(gint32 ref_layer_id, GimpMergeType mergemode)
       {
         if (l_layers_list[l_idx] == ref_layer_id)
         {
-          gimp_drawable_set_visible(l_layers_list[l_idx], TRUE);
+          gimp_item_set_visible(l_layers_list[l_idx], TRUE);
         }
         else
         {
@@ -356,7 +356,7 @@ gap_image_set_selection_from_selection_or_drawable(gint32 image_id, gint32 ref_d
   {
     return (FALSE);
   }
-  ref_image_id = gimp_drawable_get_image(ref_drawable_id);
+  ref_image_id = gimp_item_get_image(ref_drawable_id);
 
   if (ref_image_id < 0)
   {
@@ -460,7 +460,7 @@ gap_image_remove_invisble_layers(gint32 image_id)
 
     for(ii=0; ii < l_nlayers; ii++)
     {
-      if (gimp_drawable_get_visible(l_layers_list[ii]) != TRUE)
+      if (gimp_item_get_visible(l_layers_list[ii]) != TRUE)
       {
         gimp_image_remove_layer(image_id, l_layers_list[ii]);
       }
@@ -1057,3 +1057,74 @@ gap_image_find_or_create_group_layer(gint32 image_id
   return(l_group_layer_id);
 
 }  /* end gap_image_find_or_create_group_layer */
+
+
+/* -----------------------------
+ * gap_image_reorder_layer
+ * -----------------------------
+ * move the specified layer to another position within the same image.
+ * (done by removing and then re-inserting the layer)
+ * new_groupname
+ *   Name of a group or group/subgroup where the specified layer_id shall be moved to.
+ *   Note that the string new_groupname uses the delimiter string
+ *   to split nested group/sugrup names.
+ *   use new_groupname = NULL to move the specified layer_id to image toplevel.
+ * enableGroupCreation
+ *   TRUE:
+ *     in case the group layer with new_groupname does not exist
+ *     it will be created automatically.
+ *  FALSE:
+ *     in case the group layer with new_groupname does not exist
+ *     -1 is returned and the reorder operation is not performed.
+ * new_position
+ *     the desired new stackposition within the specified new_groupname
+ *     or toplevel image (when new_groupname is NULL or empty)
+ * returns   -1 on error
+ */
+gint32
+gap_image_reorder_layer(gint32 image_id, gint32 layer_id,
+              gint32 new_position,
+              char *new_groupname,
+              char *delimiter,
+              gboolean enableGroupCreation,
+              char *new_layername)
+{
+  gint32 l_parent_id;
+  gint32 l_dup_layer_id;
+  gchar *l_name;
+
+  l_parent_id = gap_image_find_or_create_group_layer(image_id
+                          , new_groupname
+                          , delimiter
+                          , 0      /* stackposition for the group in case it is created at toplevel */
+                          , enableGroupCreation
+                          );
+  if (l_parent_id < 0)
+  {
+    return (-1);
+  }
+
+  l_dup_layer_id = gimp_layer_copy(layer_id);
+
+  l_name = NULL;
+  if (new_layername != NULL)
+  {
+    if (*new_layername != '\0')
+    {
+      l_name = g_strdup(new_layername);
+    }
+  }
+  
+  if (l_name == NULL)
+  {
+   l_name = gimp_item_get_name(layer_id);
+  }
+  gimp_image_remove_layer(image_id, layer_id);
+
+  gimp_image_insert_layer(image_id, l_dup_layer_id, l_parent_id, new_position);
+  gimp_item_set_name(l_dup_layer_id, l_name);
+  g_free(l_name);
+
+  return (0); /* OK */
+
+}  /* end gap_image_reorder_layer */

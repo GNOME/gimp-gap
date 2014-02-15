@@ -1266,7 +1266,7 @@ p_check_and_make_opre_default_layer(GapStbAttrWidget *attw, gint img_idx)
     attw->gfx_tab[img_idx].opre_layer_id = layer_id;
     attw->gfx_tab[img_idx].opre_info.layer_is_fake = TRUE;
   }
-  gimp_drawable_set_visible(attw->gfx_tab[img_idx].opre_layer_id, FALSE);
+  gimp_item_set_visible(attw->gfx_tab[img_idx].opre_layer_id, FALSE);
 
 }  /* end p_check_and_make_opre_default_layer */
 
@@ -1307,7 +1307,7 @@ p_check_and_make_orig_default_layer(GapStbAttrWidget *attw, gint img_idx)
     attw->gfx_tab[img_idx].orig_layer_id = layer_id;
     attw->gfx_tab[img_idx].orig_info.layer_is_fake = TRUE;
   }
-  gimp_drawable_set_visible(attw->gfx_tab[img_idx].orig_layer_id, FALSE);
+  gimp_item_set_visible(attw->gfx_tab[img_idx].orig_layer_id, FALSE);
 
 }  /* end p_check_and_make_orig_default_layer */
 
@@ -1339,7 +1339,7 @@ p_create_color_layer(GapStbAttrWidget *attw, gint32 image_id
                   );
   gimp_image_insert_layer (image_id, layer_id, 0, stackposition);
   gap_layer_clear_to_color(layer_id, red, green, blue, 1.0);
-  gimp_drawable_set_visible(layer_id, TRUE);
+  gimp_item_set_visible(layer_id, TRUE);
 
   pv_master_width = (gdouble)gimp_image_width(image_id) * PVIEW_TO_MASTER_SCALE;
   pv_master_height = (gdouble)gimp_image_height(image_id) * PVIEW_TO_MASTER_SCALE;
@@ -1503,10 +1503,10 @@ p_adjust_stackposition(gint32 image_id, gint32 layer_id, gint position)
   gint   ii;
 
   /* adjust stack position */
-  gimp_image_lower_layer_to_bottom (image_id, layer_id);
+  gimp_image_lower_item_to_bottom (image_id, layer_id);
   for (ii=0; ii < position; ii++)
   {
-    gimp_image_raise_layer (image_id, layer_id);
+    gimp_image_raise_item (image_id, layer_id);
   }
 }  /* end p_adjust_stackposition */
 
@@ -1623,7 +1623,7 @@ p_create_transformed_layer_movepath(gint32 image_id
 
   if(mov_obj_layer_id >= 0)
   {
-    gimp_drawable_set_visible(mov_obj_layer_id, TRUE);
+    gimp_item_set_visible(mov_obj_layer_id, TRUE);
     if(! gimp_drawable_has_alpha(mov_obj_layer_id))
     {
        /* have to add alpha channel */
@@ -1686,7 +1686,7 @@ p_create_transformed_layer_movepath(gint32 image_id
     printf("p_create_transformed_layer_movepath: "
       "new_layer_id:%d new_layers_image_id:%d  mov_obj_image_id:%d (preview)image_id:%d\n"
       ,(int)new_layer_id
-      ,(int)gimp_drawable_get_image(new_layer_id)
+      ,(int)gimp_item_get_image(new_layer_id)
       ,(int)mov_obj_image_id
       ,(int)image_id
       );
@@ -1697,7 +1697,7 @@ p_create_transformed_layer_movepath(gint32 image_id
   }
 
 
-  gimp_drawable_set_visible(new_layer_id, TRUE);
+  gimp_item_set_visible(new_layer_id, TRUE);
 
   p_adjust_stackposition(image_id, new_layer_id, stackposition);
 
@@ -1788,13 +1788,13 @@ p_create_transformed_layer(gint32 image_id
 
     new_layer_id = gimp_layer_copy(origsize_layer_id);
     gimp_image_insert_layer (image_id, new_layer_id, 0, stackposition);
-    gimp_drawable_set_name(new_layer_id, layername);
+    gimp_item_set_name(new_layer_id, layername);
 
     gimp_layer_scale(new_layer_id, calculated->width, calculated->height, 0);
 
 
 
-    gimp_drawable_set_visible(new_layer_id, TRUE);
+    gimp_item_set_visible(new_layer_id, TRUE);
 
     *layer_id_ptr = new_layer_id;
   }
@@ -1902,12 +1902,12 @@ p_render_gfx(GapStbAttrWidget *attw, gint img_idx)
 
   prefetch_visible = p_calculate_prefetch_visibility(attw, img_idx);
 
-  gimp_drawable_set_visible(attw->gfx_tab[img_idx].opre_layer_id, FALSE);
-  gimp_drawable_set_visible(attw->gfx_tab[img_idx].orig_layer_id, FALSE);
-  gimp_drawable_set_visible(attw->gfx_tab[img_idx].deco_layer_id, TRUE);
-  gimp_drawable_set_visible(attw->gfx_tab[img_idx].curr_layer_id, TRUE);
-  gimp_drawable_set_visible(attw->gfx_tab[img_idx].pref_layer_id, prefetch_visible);
-  gimp_drawable_set_visible(attw->gfx_tab[img_idx].base_layer_id, TRUE);
+  gimp_item_set_visible(attw->gfx_tab[img_idx].opre_layer_id, FALSE);
+  gimp_item_set_visible(attw->gfx_tab[img_idx].orig_layer_id, FALSE);
+  gimp_item_set_visible(attw->gfx_tab[img_idx].deco_layer_id, TRUE);
+  gimp_item_set_visible(attw->gfx_tab[img_idx].curr_layer_id, TRUE);
+  gimp_item_set_visible(attw->gfx_tab[img_idx].pref_layer_id, prefetch_visible);
+  gimp_item_set_visible(attw->gfx_tab[img_idx].base_layer_id, TRUE);
 
   /* render the preview from image */
   gap_pview_render_from_image_duplicate (attw->gfx_tab[img_idx].pv_ptr
@@ -2686,7 +2686,7 @@ p_fetch_layer_from_animimage (const char *img_filename
        if((localframe_index < l_nlayers)
        && (localframe_index >= 0))
        {
-          gimp_drawable_set_visible(l_layers_list[localframe_index], TRUE);
+          gimp_item_set_visible(l_layers_list[localframe_index], TRUE);
           if (0 != gimp_layer_get_apply_mask(l_layers_list[localframe_index]))
           {
             /* the layer has an active mask, apply the mask now
@@ -2861,7 +2861,7 @@ p_create_movepath_edit_resources(GapStbAttrWidget *attw)
                   );
   gimp_image_insert_layer (image_id, bg_layer_id, 0, 0);
   gap_layer_clear_to_color(bg_layer_id, 0.0, 0.0, 0.0, 0.0);
-  gimp_drawable_set_visible(bg_layer_id, TRUE);
+  gimp_item_set_visible(bg_layer_id, TRUE);
 
   // TODO: in case the storyboard has more tracks
   // the frame image should be rendered by the storyboard processor at master size
@@ -2877,7 +2877,7 @@ p_create_movepath_edit_resources(GapStbAttrWidget *attw)
   gimp_image_undo_disable (attw->movepath_obj_image_id);
   attw->movepath_obj_layer_id = gimp_layer_new_from_drawable(origsize_layer_id, attw->movepath_obj_image_id);
   gimp_image_insert_layer (attw->movepath_obj_image_id, attw->movepath_obj_layer_id, 0, 0);
-  gimp_drawable_set_visible(attw->movepath_obj_layer_id, TRUE);
+  gimp_item_set_visible(attw->movepath_obj_layer_id, TRUE);
 
 
   /* create default values for movepath

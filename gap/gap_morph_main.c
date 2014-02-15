@@ -764,7 +764,7 @@ run (const gchar *name,          /* name of plugin */
            gimp_set_data (name, mgpp, sizeof (GapMorphGlobalParams));
            if(strcmp(name, PLUG_IN_NAME_WORKPOINTS) != 0)
            {
-             gimp_display_new(gimp_drawable_get_image(tween_layer_id));
+             gimp_display_new(gimp_item_get_image(tween_layer_id));
            }
          }
       }

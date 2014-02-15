@@ -4,7 +4,7 @@
  * GAP ... Gimp Animation Plugins
  *
  * This Module contains:
- * modify Layer(s) in frames dialog 
+ * modify Layer(s) in frames dialog
  * (perform actions (like raise, set visible, apply filter)
  *               - foreach selected layer
  *               - in each frame of the selected framerange)
@@ -59,24 +59,37 @@ typedef struct GapModFramesGlobalParams {  /* nick: gmop */
   char         sel_pattern[MAX_LAYERNAME];
   char         new_layername[MAX_LAYERNAME];
 
+  gint32       new_position;
+  char         new_groupname[MAX_LAYERNAME];
+  char         sel_groupname[MAX_LAYERNAME];
+  char         delimiter[32];
 
   /* GUI widget pointers */
-  GtkWidget *shell;  
+  GtkWidget *shell;
   GtkWidget *func_info_label;
   GtkWidget *new_layername_label;
   GtkWidget *new_layername_entry;
   GtkWidget *layer_pattern_entry;
-  GtkWidget *case_sensitive_check_button;  
+  GtkWidget *case_sensitive_check_button;
   GtkWidget *invert_check_button;
   GtkWidget *layer_selection_frame;
   GtkWidget *progress_bar;
-  GtkWidget *main_vbox;  
+  GtkWidget *main_vbox;
+
+  GtkWidget *new_groupname_label;
+  GtkWidget *new_groupname_entry;
+  GtkWidget *sel_groupname_label;
+  GtkWidget *sel_groupname_entry;
+  GtkWidget *delimiter_label;
+  GtkWidget *delimiter_entry;
+  GtkObject *new_position_adj;
+
 
   GtkObject *frame_from_adj;
   GtkObject *frame_to_adj;
 
   gint32       retcode;
-  
+
 } GapModFramesGlobalParams;
 
 
@@ -86,7 +99,9 @@ int gap_mod_frames_dialog(GapAnimInfo *ainfo_ptr,
                    gint32 *range_from,  gint32 *range_to,
                    gint32 *action_mode, gint32 *sel_mode,
                    gint32 *sel_case,    gint32 *sel_invert,
-                   char *sel_pattern,   char   *new_layername);
+                   char *sel_pattern,   char   *new_layername,
+                   gint32 *new_position,
+                   char *new_groupname, char *sel_groupname, char *delimiter);
 
 #endif
 

@@ -3854,7 +3854,7 @@ p_fetch_colormask_in_previous_frame(gint32 orig_layer_id)
   GapAnimInfo *ainfo_ptr;
 
   prevCmskId = -1;
-  image_id = gimp_drawable_get_image(orig_layer_id);
+  image_id = gimp_item_get_image(orig_layer_id);
   ainfo_ptr = gap_lib_alloc_ainfo(image_id, GIMP_RUN_NONINTERACTIVE);
   if(ainfo_ptr != NULL)
   {
@@ -3989,7 +3989,7 @@ p_copy_cmaskvals_to_colorMaskParams(GapColormaskValues *cmaskvals, GapColorMaskP
 
   cmaskParPtr->algorithm = cmaskvals->algorithm;
   cmaskParPtr->dst_layer_id = dst_layer_id;
-  cmaskParPtr->dst_image_id = gimp_drawable_get_image(dst_layer_id);
+  cmaskParPtr->dst_image_id = gimp_item_get_image(dst_layer_id);
   cmaskParPtr->cmask_drawable_id = cmaskvals->colormask_id;
   cmaskParPtr->colorThreshold = cmaskvals->loColorThreshold;    /* use loColorThreshold as default for  colorThreshold */
   cmaskParPtr->loColorThreshold = cmaskvals->loColorThreshold;
@@ -4609,7 +4609,7 @@ gap_create_or_replace_colormask_layer (gint32 orig_layer_id
   {
     /* delete (e.g. close) the previous frame image (form memory not from disk)
      */
-    gap_image_delete_immediate(gimp_drawable_get_image(prevCmaskId));
+    gap_image_delete_immediate(gimp_item_get_image(prevCmaskId));
   }
   return (workLayerId);
 
@@ -4633,7 +4633,7 @@ gap_colormask_apply_by_name (gint32 dst_layer_id
   gint32    colormaskId;
 
 
-  colormaskId = gap_layer_find_by_name(gimp_drawable_get_image(dst_layer_id), COLORMASK_LAYER_NAME);
+  colormaskId = gap_layer_find_by_name(gimp_item_get_image(dst_layer_id), COLORMASK_LAYER_NAME);
   if (colormaskId < 0)
   {
     return (-1);

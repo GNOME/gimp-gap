@@ -817,7 +817,7 @@ p_copyRgbBufferToPixelRegion (const GimpPixelRgn *dstPR
  *     in case aspect is required the calling programm has to perform
  *     the additional call like this:
  *       GVA_search_fcache_and_get_frame_as_gimp_layer(gvahand, ....);
- *       GVA_image_set_aspect(gvahand, gimp_drawable_get_image(fetchResult->layer_id));
+ *       GVA_image_set_aspect(gvahand, gimp_item_get_image(fetchResult->layer_id));
  */
 void
 GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
@@ -1119,7 +1119,7 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
 
           /* add new layer on top of the layerstack */
           gimp_image_insert_layer (fetchResult->image_id, fetchResult->layer_id, 0, 0);
-          gimp_drawable_set_visible(fetchResult->layer_id, TRUE);
+          gimp_item_set_visible(fetchResult->layer_id, TRUE);
 
           /* clear undo stack */
           if (gimp_image_undo_is_enabled(fetchResult->image_id))
@@ -1183,7 +1183,7 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
 //  *     in case aspect is required the calling programm has to perform
 //  *     the additional call like this:
 //  *       layer_id = GVA_search_fcache_and_get_frame_as_gimp_layer(gvahand, ....);
-//  *       GVA_image_set_aspect(gvahand, gimp_drawable_get_image(layer_id));
+//  *       GVA_image_set_aspect(gvahand, gimp_item_get_image(layer_id));
 //  */
 // gint32
 // GVA_search_fcache_and_get_frame_as_gimp_layer(t_GVA_Handle *gvahand
@@ -1451,7 +1451,7 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
 // 
 //           /* add new layer on top of the layerstack */
 //           gimp_image_insert_layer (image_id, l_new_layer_id, 0, 0);
-//           gimp_drawable_set_visible(l_new_layer_id, TRUE);
+//           gimp_item_set_visible(l_new_layer_id, TRUE);
 // 
 //           /* clear undo stack */
 //           if (gimp_image_undo_is_enabled(image_id))
@@ -3261,14 +3261,14 @@ GVA_frame_to_gimp_layer_2(t_GVA_Handle *gvahand
        * so do not delete previous added layer, but
        * only set invisible
        */
-      gimp_drawable_set_visible(old_layer_id, FALSE);
+      gimp_item_set_visible(old_layer_id, FALSE);
     }
   }
 
 
   /* add new layer on top of the layerstack */
   gimp_image_insert_layer (*image_id, l_new_layer_id, 0, 0);
-  gimp_drawable_set_visible(l_new_layer_id, TRUE);
+  gimp_item_set_visible(l_new_layer_id, TRUE);
 
   /* clear undo stack */
   if (gimp_image_undo_is_enabled(*image_id))
