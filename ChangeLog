@@ -1,3 +1,17 @@
+2014-02-22 Wolfgang Hofer <hof@gimp.org>
+
+
+- applied fix for the foreground matting feature as suggested at bug #723818
+  The warning "Problem!: final_confidence: %f\n" now shall be printed only in critical case.
+
+  TODO: Note that GAP still uses a copy of the old foreground matting implementation
+  The already available GEGL implementation will be used in future GAP versions
+  targeted for the use with GIMP 2.10.
+
+  * gap/gap_fg_matting.c
+  * gap/gap_fg_matting_main.c
+
+
 2014-01-12 Wolfgang Hofer <hof@gimp.org>
 - support for RAW files as "readonly" frame sequences for processing 
   as high bit depth video source in MovePath operations or Storyboard Clips.

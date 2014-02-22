@@ -35,7 +35,7 @@
 /* Revision history
  *  (2011/10/05)  2.7.0       hof: created
  */
-int gap_debug = 1;  /* 1 == print debug infos , 0 dont print debug infos */
+int gap_debug = 0;  /* 1 == print debug infos , 0 dont print debug infos */
 #define GAP_DEBUG_DECLARED 1
 
 
