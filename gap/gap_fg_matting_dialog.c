@@ -123,7 +123,7 @@ p_init_widget_values(FgExtractDialogGuiStuff *guiStuffPtr)
   {
       comboInitalValue = GAP_FG_USE_LAYER_MASK;
   }
-  else if(gimp_drawable_is_valid(guiStuffPtr->vals->tri_map_drawable_id))
+  else if(gimp_item_is_valid(guiStuffPtr->vals->tri_map_drawable_id))
   {
       comboInitalValue = guiStuffPtr->vals->tri_map_drawable_id;
   }
@@ -282,11 +282,11 @@ p_tri_map_combo_constrain(gint32 image_id, gint32 drawable_id, FgExtractDialogGu
      return(TRUE);
   }
 
-  if(gimp_drawable_is_valid(drawable_id) != TRUE)
+  if(gimp_item_is_valid(drawable_id) != TRUE)
   {
      if(gap_debug)
      {
-       printf("-- drawable_id:%d gimp_drawable_is_valid --\n", (int)drawable_id); 
+       printf("-- drawable_id:%d gimp_item_is_valid --\n", (int)drawable_id); 
      }
      return(FALSE);
   }
@@ -455,7 +455,7 @@ do_dialog (FgExtractDialogGuiStuff *guiStuffPtr, GapFgExtractValues *cuvals)
     gint   comboInitalValue;
 
     comboInitalValue = -1; 
-    if(gimp_drawable_is_valid(guiStuffPtr->vals->tri_map_drawable_id))
+    if(gimp_item_is_valid(guiStuffPtr->vals->tri_map_drawable_id))
     {
       comboInitalValue = guiStuffPtr->vals->tri_map_drawable_id;
     }  

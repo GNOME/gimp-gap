@@ -104,9 +104,6 @@
 
 extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 
-// local debug setting
-//static gint gap_debug = 1;  /* 1 == print debug infos , 0 dont print debug infos */
-
 
 typedef struct GapPlayerCacheElem {
   gchar                            *ckey;

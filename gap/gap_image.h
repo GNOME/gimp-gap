@@ -91,5 +91,14 @@ gint32  gap_image_reorder_layer(gint32 image_id, gint32 layer_id,
               gboolean enableGroupCreation,
               char *new_layername);
 
+gint32  gap_image_merge_group_layer(gint32 image_id,
+              gint32 group_layer_id,
+              gint merge_mode);
+
+
+char *   gap_image_get_parentpositions_as_int_stringlist(gint32 drawable_id);
+gint32 * gap_image_get_layers_at_parentpositions(gint32 image_id, gint *nlayers, const char *parentpositions);
+
+
 #endif
 

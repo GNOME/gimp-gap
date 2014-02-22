@@ -119,7 +119,7 @@ p_get_debug_coords_from_guides(gint32 image_id, gint *cx, gint *cy)
   *cx = guideCol;
   *cy = guideRow;
 
-  //if(gap_debug)
+  if(gap_debug)
   {
     printf("image_id:%d  guideCol:%d :%d\n"
        ,(int)image_id

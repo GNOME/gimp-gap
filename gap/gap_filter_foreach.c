@@ -71,9 +71,13 @@
 #include "gap_filter_pdb.h"
 #include "gap_dbbrowser_utils.h"
 #include "gap_lib.h"
+#include "gap_base.h"
+#include "gap_image.h"
 #include "gap_accel_char.h"
 
 #define GAP_DB_BROWSER_FILTERALL_HELP_ID  "gap-filterall-db-browser"
+
+#define GAP_FILTERALL_LAYERS_ENABLE_PITSTOP_DIALOG  "gap-filterall-enable-pitstop-dialog"
 
 /* ------------------------
  * global gap DEBUG switch
@@ -93,10 +97,14 @@ static gint p_pitstop(GimpRunMode run_mode, char *plugin_name, gint text_flag,
 
 static void p_visibilty_restore(gint32 image_id, gint nlayers, int *visible_tab, char *plugin_name);
 static gint32 p_get_indexed_layerid(gint32 image_id, gint *nlayers, gint32 idx, char *plugin_name);
+
+static gint   p_call_pdb_filter_plugin(char *canonical_plugin_name, gint32 image_id, gint32 layer_id, GimpRunMode run_mode
+                   , gint32 groupFilterHandlingMode);
+
 static int p_foreach_multilayer(GimpRunMode run_mode, gint32 image_id,
-                         const char *plugin_name, gint32 accelCharacteristic);
+                         const char *plugin_name, gint32 accelCharacteristic, gint32 groupFilterHandlingMode);
 static int p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
-                         char *canonical_plugin_name, gint32 accelCharacteristic);
+                         char *canonical_plugin_name, gint32 accelCharacteristic, gint32 groupFilterHandlingMode);
 
 /* ------------------------
  * p_gdisplays_update_full
@@ -118,24 +126,35 @@ p_pitstop(GimpRunMode run_mode, char *plugin_name, gint text_flag,
                       char *step_backup_file, gint len_step_backup_file,
                       gint32 layer_idx)
 {
-  const gchar      *l_env;
   gchar            *l_msg;
   static GapArrButtonArg  l_but_argv[3];
   gint              l_but_argc;
   gint              l_argc;
-  static GapArrArg  l_argv[1];
+  static GapArrArg  l_argv[2];
   int               l_continue;
   char              l_skip_txt[32];
+  int               l_ii;
+  int               l_ii_gimprc;
 
 
+  l_ii = 0;
+  l_ii_gimprc = l_ii;
+  gap_arr_arg_init(&l_argv[l_ii], GAP_ARR_WGT_TOGGLE);
+    l_argv[l_ii].label_txt = _("do not show this dialog again");
+    l_argv[l_ii].help_txt  = g_strdup_printf(_("add %s to gimprc configuration to disable this dialog in all further sessions")
+                                             ,GAP_FILTERALL_LAYERS_ENABLE_PITSTOP_DIALOG );
+    l_argv[l_ii].int_ret = FALSE;
+    l_argv[l_ii].int_default = FALSE;
+    l_argv[l_ii].has_default = TRUE;
 
-    gap_arr_arg_init(&l_argv[0], GAP_ARR_WGT_FILESEL);
-    l_argv[0].label_txt = _("Backup to file");
-    l_argv[0].entry_width = 140;        /* pixel */
-    l_argv[0].help_txt  = _("Make backup of the image after each step");
-    l_argv[0].text_buf_len = len_step_backup_file;
-    l_argv[0].text_buf_ret = step_backup_file;
-
+  l_ii = 1;
+  gap_arr_arg_init(&l_argv[l_ii], GAP_ARR_WGT_FILESEL);
+    l_argv[l_ii].label_txt = _("Backup to file");
+    l_argv[l_ii].entry_width = 140;        /* pixel */
+    l_argv[l_ii].help_txt  = _("Make backup of the image after each step");
+    l_argv[l_ii].text_buf_len = len_step_backup_file;
+    l_argv[l_ii].text_buf_ret = step_backup_file;
+  
     l_but_argv[0].but_txt  = _("Continue");
     l_but_argv[0].but_val  = 0;
     l_but_argv[1].but_txt  = GTK_STOCK_CANCEL;
@@ -145,18 +164,15 @@ p_pitstop(GimpRunMode run_mode, char *plugin_name, gint text_flag,
     l_but_argv[2].but_val  = 1;
 
    l_but_argc = 2;
-   l_argc = 0;
+   l_argc = 1;
    /* optional dialog between both calls (to see the effect of 1.call) */
    if(run_mode == GIMP_RUN_INTERACTIVE)
    {
-      l_env = g_getenv("GAP_FILTER_PITSTOP");
-      if(l_env != NULL)
+      if(!gap_base_get_gimprc_gboolean_value(GAP_FILTERALL_LAYERS_ENABLE_PITSTOP_DIALOG, TRUE))
       {
-         if((*l_env == 'N') || (*l_env == 'n'))
-         {
-           return 0;  /* continue without question */
-         }
+         return 0;  /* continue without question */
       }
+
       if(text_flag == 0)
       {
          l_msg = g_strdup_printf (_("2nd call of %s\n(define end-settings)"), plugin_name);
@@ -165,12 +181,17 @@ p_pitstop(GimpRunMode run_mode, char *plugin_name, gint text_flag,
       {
          l_msg = g_strdup_printf (_("Non-Interactive call of %s\n(for all layers in between)"), plugin_name);
          l_but_argc = 3;
-         l_argc = 1;
+         l_argc = 2;
       }
       l_continue = gap_arr_std_dialog (_("Animated Filter Apply"), l_msg,
                                        l_argc,     l_argv,
                                        l_but_argc, l_but_argv, 0);
       g_free (l_msg);
+      
+      if ((l_argv[l_ii_gimprc].int_ret != FALSE) && (l_continue ==0))
+      {
+        gimp_gimprc_set(GAP_FILTERALL_LAYERS_ENABLE_PITSTOP_DIALOG, "no");
+      }
 
       if(l_continue < 0) return -1;
       else               return l_continue;
@@ -193,23 +214,29 @@ p_visibilty_restore(gint32 image_id, gint nlayers, int *visible_tab, char *plugi
   gint       l_nlayers2;
   gint32     l_idx;
 
-      l_layers_list = gimp_image_get_layers(image_id, &l_nlayers2);
-      if(l_nlayers2 == nlayers)
+  l_layers_list = gimp_image_get_layers(image_id, &l_nlayers2);
+  if(l_nlayers2 == nlayers)
+  {
+    for(l_idx = 0; l_idx < nlayers; l_idx++)
+    {
+      gimp_item_set_visible(l_layers_list[l_idx], visible_tab[l_idx]);
+      if(gap_debug)
       {
-        for(l_idx = 0; l_idx < nlayers; l_idx++)
-        {
-          gimp_item_set_visible(l_layers_list[l_idx], visible_tab[l_idx]);
-          if(gap_debug) printf("visibilty restore [%d] %d\n", (int)l_idx, (int)visible_tab[l_idx]);
-        }
-        p_gdisplays_update_full(image_id);
+        printf("visibilty restore [%d] %d\n"
+           , (int)l_idx
+           , (int)visible_tab[l_idx]
+           );
       }
-      else
-      {
-        printf ("Error: Plugin %s has changed Nr. of layers from %d to %d\ncould not restore Layer visibilty.\n",
-                plugin_name, (int)nlayers, (int)l_nlayers2);
-      }
+    }
+    p_gdisplays_update_full(image_id);
+  }
+  else
+  {
+    g_message(_("Error: Plugin %s has changed the number of layers from %d to %d\ncould not restore Layer visibilty.\n"),
+            plugin_name, (int)nlayers, (int)l_nlayers2);
+  }
 
-      g_free (l_layers_list);
+  g_free (l_layers_list);
 }
 
 /* ------------------------
@@ -242,6 +269,76 @@ p_get_indexed_layerid(gint32 image_id, gint *nlayers, gint32 idx, char *plugin_n
   return (l_layer_id);
 }
 
+/* ---------------------------------------
+ * p_call_pdb_filter_plugin
+ * ---------------------------------------
+ * apply the given filter (canonical_plugin_name) on the specified layer_id
+ * In case the specified layer_id is a group layer
+ * the groupFilterHandlingMode
+ */
+static gint
+p_call_pdb_filter_plugin(char *canonical_plugin_name, gint32 image_id, gint32 layer_id, GimpRunMode run_mode
+   , gint32 groupFilterHandlingMode)
+{
+  gint32 l_resulting_item_id;
+
+  if(gap_debug)
+  {
+    printf("p_call_pdb_filter_plugin: %s  image_id:%d layer_id:%d (%s), run_mode:%d, groupFilterHandlingMode:%d\n"
+       , canonical_plugin_name
+       , (int)image_id
+       , (int)layer_id
+       , gimp_item_get_name(layer_id)
+       , (int)run_mode
+       , (int)groupFilterHandlingMode
+       );
+  }
+
+  l_resulting_item_id = layer_id;
+  if (gimp_item_is_group(layer_id))
+  {
+    if(groupFilterHandlingMode == GAP_GROUP_FILTER_HANDLING_SKIP)
+    {
+      if (run_mode == GIMP_RUN_INTERACTIVE)
+      {
+        /* fail because skipping of the interactive calls
+         * is not allowed (those calls are required to setup the last values buffer)
+         */
+        return (-1);
+      }
+      return (0);    /* fake OK to skip processing of this group layer */
+    }
+    
+    if(groupFilterHandlingMode == GAP_GROUP_FILTER_HANDLING_MERGE)
+    {
+      l_resulting_item_id = gap_image_merge_group_layer( image_id
+                                                       , layer_id
+                                                       , GIMP_EXPAND_AS_NECESSARY
+                                                       );
+    }
+  }
+  if (l_resulting_item_id < 0)
+  {
+    return (-1);
+  }
+  
+  if(gap_debug)
+  {
+    printf("p_call_pdb_filter_plugin: %s  image_id:%d l_resulting_item_id:%d (%s), run_mode:%d, groupFilterHandlingMode:%d\n"
+       , canonical_plugin_name
+       , (int)image_id
+       , (int)l_resulting_item_id
+       , gimp_item_get_name(l_resulting_item_id)
+       , (int)run_mode
+       , (int)groupFilterHandlingMode
+       );
+  }
+  return (gap_filt_pdb_call_plugin(canonical_plugin_name, image_id, l_resulting_item_id, run_mode));
+
+
+}  /* end p_call_pdb_filter_plugin */
+
+
 /* ----------------------
  * p_foreach_multilayer
  * ----------------------
@@ -251,31 +348,33 @@ p_get_indexed_layerid(gint32 image_id, gint *nlayers, gint32 idx, char *plugin_n
  */
 static int
 p_foreach_multilayer(GimpRunMode run_mode, gint32 image_id,
-                     const char *plugin_name, gint32 accelCharacteristic)
+                     const char *plugin_name, gint32 accelCharacteristic, gint32 groupFilterHandlingMode)
 {
   char *canonical_plugin_name;
   int rc;
-  
+
   canonical_plugin_name = gimp_canonicalize_identifier(plugin_name);
-  rc = p_foreach_multilayer2(run_mode, image_id, canonical_plugin_name, accelCharacteristic);
-  
+  gimp_image_undo_group_start (image_id);
+  rc = p_foreach_multilayer2(run_mode, image_id, canonical_plugin_name, accelCharacteristic, groupFilterHandlingMode);
+  gimp_image_undo_group_end (image_id);
+
   g_free(canonical_plugin_name);
 
   return (rc);
-  
+
 }  /* ennd p_foreach_multilayer */
 
 
 /* ----------------------
  * p_foreach_multilayer2
  * ----------------------
- *    apply the given plugin to each layer of the  image.
+ *    apply the given plugin to each toplevel layer of the  image.
  * returns   image_id of the new created multilayer image
  *           (or -1 on error)
  */
 static int
 p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
-                         char *canonical_plugin_name, gint32 accelCharacteristic)
+                         char *canonical_plugin_name, gint32 accelCharacteristic, gint32 groupFilterHandlingMode)
 {
   static char l_key_from[512];
   static char l_key_to[512];
@@ -287,8 +386,6 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
   gdouble    l_percentage, l_percentage_step;
   int         l_rc;
   gint        l_plugin_data_len;
-  long        l_child_pid;
-  /* int         l_status; */
   int         *l_visible_tab;
   char         l_step_backup_file[120];
   gint         l_pit_rc;
@@ -331,7 +428,9 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
       /* allocate a table to store the visibility attributes for each layer */
       l_visible_tab = (gint*) g_malloc((l_nlayers +1) * sizeof (gint));
       if(l_visible_tab == NULL)
+      {
          return -1;
+      }
 
       /* save the visibility of all layers */
       for(l_idx = 0; l_idx < l_nlayers; l_idx++)
@@ -350,54 +449,52 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
 
       if((l_plugin_iterator != NULL)  && (l_nlayers > 1) && (accelCharacteristic != GAP_ACCEL_CHAR_NONE ))
       {
-        l_child_pid = 0; /* fork(); */
-        if(l_child_pid < 0)
+        /* call plugin Interactive for background layer[n] */
+        if(gap_debug)
         {
-           printf("ERROR: fork failed !\n");
-           return -1;
+          printf("DEBUG start 1.st Interactive call (_FROM values)\n");
         }
 
-        /* if(l_child_pid != 0) */
+        l_idx = l_nlayers -1;
+        l_layer_id = p_get_indexed_layerid(image_id, &l_nlayers, l_idx,  canonical_plugin_name);
+        if(l_layer_id < 0)
         {
-          /* parent process: call plugin Interactive for background layer[n] */
-          /* if(gap_debug) printf("forked child process pid=%ld\n", l_child_pid); */
+          l_rc = -1;
+        }
+        else
+        {
           if(gap_debug)
           {
-            printf("DEBUG start 1.st Interactive call (_FROM values)\n");
-          }
+            printf("DEBUG: applying %s on Layerstack %d id=%d\n", canonical_plugin_name, (int)l_idx, (int)l_layer_id);
+                  }
+          l_rc = p_call_pdb_filter_plugin(canonical_plugin_name, image_id, l_layer_id
+                     , GIMP_RUN_INTERACTIVE, groupFilterHandlingMode);
 
-          l_idx = l_nlayers -1;
-          l_layer_id = p_get_indexed_layerid(image_id, &l_nlayers, l_idx,  canonical_plugin_name);
-          if(l_layer_id < 0)
+          /* get values, then store with suffix "-ITER-FROM" */
+          l_plugin_data_len = gap_filt_pdb_get_data(canonical_plugin_name);
+          if(l_plugin_data_len > 0)
           {
-            l_rc = -1;
+             g_snprintf(l_key_from, sizeof(l_key_from), "%s%s", canonical_plugin_name, GAP_ITER_FROM_SUFFIX);
+             gap_filt_pdb_set_data(l_key_from, l_plugin_data_len);
           }
           else
           {
-            if(gap_debug) printf("DEBUG: apllying %s on Layerstack %d id=%d\n", canonical_plugin_name, (int)l_idx, (int)l_layer_id);
-            l_rc = gap_filt_pdb_call_plugin(canonical_plugin_name, image_id, l_layer_id, GIMP_RUN_INTERACTIVE);
+            l_rc = -1;
+          }
 
-            /* get values, then store with suffix "-ITER-FROM" */
-            l_plugin_data_len = gap_filt_pdb_get_data(canonical_plugin_name);
-            if(l_plugin_data_len > 0)
-            {
-               g_snprintf(l_key_from, sizeof(l_key_from), "%s%s", canonical_plugin_name, GAP_ITER_FROM_SUFFIX);
-               gap_filt_pdb_set_data(l_key_from, l_plugin_data_len);
-            }
-            else l_rc = -1;
-
-            if(run_mode == GIMP_RUN_INTERACTIVE)
-            {
-              l_percentage += l_percentage_step;
-              gimp_progress_update (l_percentage);
-            }
+          if(run_mode == GIMP_RUN_INTERACTIVE)
+          {
+            l_percentage += l_percentage_step;
+            gimp_progress_update (l_percentage);
           }
         }
-        /* else */
+
         if((l_rc >= 0) && (l_nlayers > 1))
         {
-          /* child process: call plugin Interactive for top layer [0] */
-          if(gap_debug) printf("DEBUG start 2.nd Interactive call (_TO values)\n");
+          if(gap_debug)
+          {
+            printf("DEBUG start 2.nd Interactive call (_TO values)\n");
+          }
 
           /* optional dialog between both calls (to see the effect of 1.call) */
           if(p_pitstop(run_mode, canonical_plugin_name, 0,
@@ -425,7 +522,8 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
                 p_gdisplays_update_full(image_id);
 
                 if(gap_debug) printf("DEBUG: apllying %s on Layerstack 0  id=%d\n", canonical_plugin_name, (int)l_layer_id);
-                l_rc = gap_filt_pdb_call_plugin(canonical_plugin_name, image_id, l_layer_id, GIMP_RUN_INTERACTIVE);
+                l_rc = p_call_pdb_filter_plugin(canonical_plugin_name, image_id, l_layer_id
+                           , GIMP_RUN_INTERACTIVE, groupFilterHandlingMode);
 
                 /* get values, then store with suffix "-ITER-TO" */
                 l_plugin_data_len = gap_filt_pdb_get_data(canonical_plugin_name);
@@ -434,7 +532,10 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
                    g_snprintf(l_key_to, sizeof(l_key_to), "%s%s", canonical_plugin_name, GAP_ITER_TO_SUFFIX);
                    gap_filt_pdb_set_data(l_key_to, l_plugin_data_len);
                 }
-                else l_rc = -1;
+                else
+                {
+                  l_rc = -1;
+                }
 
                 if(run_mode == GIMP_RUN_INTERACTIVE)
                 {
@@ -450,9 +551,6 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
 
         }
         l_top_layer = 1;
-
-        /* wait until exit of childprocess */
-        /* waitpid(l_child_pid, &l_status, 0); */
       }
       else
       {
@@ -468,7 +566,8 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
           else
           {
             if(gap_debug) printf("DEBUG: NO Varying, applying %s on Layer id=%d\n", canonical_plugin_name, (int)l_layer_id);
-            l_rc = gap_filt_pdb_call_plugin(canonical_plugin_name, image_id, l_layer_id, GIMP_RUN_INTERACTIVE);
+            l_rc = p_call_pdb_filter_plugin(canonical_plugin_name, image_id, l_layer_id
+                        , GIMP_RUN_INTERACTIVE, groupFilterHandlingMode);
             l_top_layer = 0;
             if(run_mode == GIMP_RUN_INTERACTIVE)
             {
@@ -514,7 +613,7 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
                 , canonical_plugin_name
                 , (int)l_idx
                 , (int)l_layer_id
-                , (int)l_nlayers -1 
+                , (int)l_nlayers -1
                 , (int)l_idx
                 );
           }
@@ -523,8 +622,8 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
           if((l_plugin_iterator != NULL) && (accelCharacteristic != GAP_ACCEL_CHAR_NONE ))
           {
             gdouble accelStep;
-       
-       
+
+
             accelStep = gap_calculate_current_step_with_acceleration((gdouble)l_idx, l_nlayers -1, accelCharacteristic);
             /* call plugin-specific iterator (or the common iterator), to modify
              * the plugin's last_values
@@ -540,12 +639,16 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
             }
           }
 
-          if(l_rc < 0) break;
+          if(l_rc < 0)
+          {
+            break;
+          }
 
           if(l_pit_rc == 0)  /* 0 == continue without further dialogs */
           {
              /* call the plugin itself with runmode RUN_WITH_LAST_VALUES */
-             l_rc = gap_filt_pdb_call_plugin(canonical_plugin_name, image_id, l_layer_id, GIMP_RUN_WITH_LAST_VALS);
+             l_rc = p_call_pdb_filter_plugin(canonical_plugin_name, image_id, l_layer_id
+                       , GIMP_RUN_WITH_LAST_VALS, groupFilterHandlingMode);
              /* check if to save each step to backup file */
              if((l_step_backup_file[0] != '\0') && (l_step_backup_file[0] != ' '))
              {
@@ -589,7 +692,9 @@ gap_proc_anim_apply(GimpRunMode run_mode, gint32 image_id, char *plugin_name
   , gint32 accelCharacteristic)
 {
   GapDbBrowserResult  l_browser_result;
+  gint                l_rc;
   l_browser_result.accelCharacteristic = GAP_ACCEL_CHAR_LINEAR;
+  l_browser_result.groupFilterHandlingMode = GAP_GROUP_FILTER_HANDLING_NORMAL;
 
   if(run_mode == GIMP_RUN_INTERACTIVE)
   {
@@ -610,13 +715,13 @@ gap_proc_anim_apply(GimpRunMode run_mode, gint32 image_id, char *plugin_name
     }
 
     strcpy(plugin_name, l_browser_result.selected_proc_name);
-    
+
     /* invert acceleration to deceleration and vice versa
-     * (because processing layer indexes is done from high to low values) 
+     * (because processing layer indexes is done from high to low values)
      */
     accelCharacteristic = (-1 * l_browser_result.accelCharacteristic);
 
-    if(gap_debug) 
+    if(gap_debug)
     {
       printf("DEBUG: gap_db_browser_dialog SELECTED:%s accelCharacteristic:%d\n"
            , plugin_name
@@ -626,9 +731,10 @@ gap_proc_anim_apply(GimpRunMode run_mode, gint32 image_id, char *plugin_name
 
   }
 
-  return(p_foreach_multilayer(run_mode,
+  l_rc = p_foreach_multilayer(run_mode,
                               image_id,
                               plugin_name,
-                              accelCharacteristic ));
-
+                              accelCharacteristic,
+                              l_browser_result.groupFilterHandlingMode);
+  return(l_rc);
 }

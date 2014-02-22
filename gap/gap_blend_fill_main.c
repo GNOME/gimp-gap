@@ -1935,7 +1935,7 @@ gap_blend_fill_dialog (FilterVals *fiVals, gint32 drawable_id)
   {
     initalComboElem = SELECTION_FROM_SVG_FILE;
   }
-  else if(gimp_drawable_is_valid(fiVals->altSelection) == TRUE)
+  else if(gimp_item_is_valid(fiVals->altSelection) == TRUE)
   {
     initalComboElem = fiVals->altSelection;
   }

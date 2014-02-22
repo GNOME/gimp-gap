@@ -1114,7 +1114,7 @@ gap_image_reorder_layer(gint32 image_id, gint32 layer_id,
       l_name = g_strdup(new_layername);
     }
   }
-  
+
   if (l_name == NULL)
   {
    l_name = gimp_item_get_name(layer_id);
@@ -1128,3 +1128,268 @@ gap_image_reorder_layer(gint32 image_id, gint32 layer_id,
   return (0); /* OK */
 
 }  /* end gap_image_reorder_layer */
+
+/* ------------------------------------
+ * gap_image_merge_group_layer
+ * ------------------------------------
+ * merge the specified group layer and return the id of the resulting layer.
+ *
+ * The merge strategy
+ *  o) create a temporary image  of same size/type (l_tmp_img_id)
+ *  o) copy the specified grouplayer to the temporary image (l_tmp_img_id)
+ *  o) call gimp_image_merge_visible_layers on the temporary image (l_tmp_img_id, mode)
+ *  o) copy the merged layer back to the original image
+ *      to the same group at the position of the original layergroup
+ *  o) remove the temporary image
+ *  o) remove original layergroup
+ *  o) rename the resuling merged layer.
+ *
+ * returns   0 if all done OK
+ *           (or -1 on error)
+ */
+gint32
+gap_image_merge_group_layer(gint32 image_id,
+              gint32 group_layer_id,
+              gint merge_mode)
+{
+  gint32   l_tmp_img_id;
+  gint32   l_new_layer_id;
+  gint32   l_merged_layer_id;
+  gint32   l_parent_id;
+  gint32   l_position;
+  gint     l_src_offset_x;
+  gint     l_src_offset_y;
+  gboolean l_visible;
+  char    *l_name;
+
+  if (!gimp_item_is_group(group_layer_id))
+  {
+    /* the specified group_layer_id is not a group
+     * -- no merge is done, return its id as result --
+     */
+    return(group_layer_id);
+  }
+  l_visible = gimp_item_get_visible(group_layer_id);
+  l_name = gimp_item_get_name(group_layer_id);
+
+  /* create a temporary image */
+  l_tmp_img_id = gap_image_new_of_samesize(image_id);
+
+  /* copy the grouplayer to the temporary image  */
+  l_new_layer_id = gap_layer_copy_to_dest_image(l_tmp_img_id,
+                                         group_layer_id,
+                                         100.0,   /* full opacity */
+                                         0,       /* NORMAL paintmode */
+                                         &l_src_offset_x,
+                                         &l_src_offset_y
+                                         );
+
+  gimp_image_insert_layer (l_tmp_img_id, l_new_layer_id, 0, 0);
+  gimp_layer_set_offsets(l_new_layer_id, l_src_offset_x, l_src_offset_y);
+  gimp_item_set_visible(l_new_layer_id, TRUE);
+
+
+  /* merge visible layers in the temporary image */
+  l_merged_layer_id = gimp_image_merge_visible_layers (l_tmp_img_id, merge_mode);
+  l_new_layer_id = gap_layer_copy_to_dest_image(image_id,
+                                         l_merged_layer_id,
+                                         gimp_layer_get_opacity(group_layer_id),
+                                         gimp_layer_get_mode(group_layer_id),
+                                         &l_src_offset_x,
+                                         &l_src_offset_y
+                                         );
+  l_position = gimp_image_get_item_position (image_id, group_layer_id);
+  l_parent_id = gimp_item_get_parent(group_layer_id);
+  if (l_parent_id < 0)
+  {
+    l_parent_id = 0;
+  }
+  gimp_image_insert_layer (image_id, l_new_layer_id, l_parent_id, l_position);
+  gimp_layer_set_offsets(l_new_layer_id, l_src_offset_x, l_src_offset_y);
+
+  /* remove the original group layer from the original image */
+  gimp_image_remove_layer(image_id, group_layer_id);
+
+  /* restore the original layer name */
+  if (l_name != NULL)
+  {
+    gimp_item_set_name(l_new_layer_id, l_name);
+    g_free(l_name);
+  }
+  gimp_item_set_visible(l_new_layer_id, l_visible);
+
+  /* remove the temporary image */
+  gap_image_delete_immediate(l_tmp_img_id);
+  return(l_new_layer_id);
+
+}  /* end gap_image_merge_group_layer */
+
+
+/* -----------------------------------------------
+ * gap_image_get_parentpositions_as_int_stringlist
+ * -----------------------------------------------
+ * returns the list of parent stackpositions as list of integer numbers
+ * separated by the "/" delimiter.
+ *  example 2/3/2
+ * return NULL in case the specified drawable is invalid or has no perent item 
+ */
+char *
+gap_image_get_parentpositions_as_int_stringlist(gint32 drawable_id)
+{
+  char *parentpositions;
+  gint32 l_parent_id;
+  gint32 l_image_id;
+  
+  parentpositions = NULL;
+  l_parent_id = gimp_item_get_parent(drawable_id);
+  if (l_parent_id > 0)
+  {
+    gint l_position;
+    
+    l_image_id = gimp_item_get_image(drawable_id);
+    l_position = gimp_image_get_item_position (l_image_id, l_parent_id);
+
+
+    parentpositions = g_strdup_printf("%d", l_position);
+    while(l_parent_id > 0)
+    {
+      l_parent_id = gimp_item_get_parent(l_parent_id);
+      if (l_parent_id > 0)
+      {
+        char *new_parentpositions;
+        
+        l_position = gimp_image_get_item_position (l_image_id, l_parent_id);
+        new_parentpositions = g_strdup_printf("%d/%s"
+                                 , (int)l_position
+                                 , parentpositions
+                                 );
+        g_free(parentpositions);
+        parentpositions = new_parentpositions;
+      }
+    }
+  }
+
+  if(gap_debug)
+  {
+    printf("parentpositions_as_int_stringlist: %s\n"
+       , parentpositions == NULL ? "null" : parentpositions
+       );
+  }
+  return (parentpositions);
+  
+}  /* end gap_image_get_parentpositions_as_int_stringlist */
+
+
+/* -----------------------------------------------
+ * gap_image_get_layers_at_parentpositions
+ * -----------------------------------------------
+ * returns the list layers at toplevel image (when parentpositions == NULL)
+ *    otherwise return the list of layers of the nested group
+ *    where  parentpositions specifies a list of integer stackpositions
+ *    from toplevel to the deepest nested group delimited by "/"
+ *    note that all specified parentpositions MUST refere to group layers.
+ * return NULL in case no matching layerstack was found in the image.
+ */
+gint32 *
+gap_image_get_layers_at_parentpositions(gint32 image_id, gint *nlayers, const char *parentpositions)
+{
+  gint          l_nlayers;
+  gint32       *l_toplevel_layers_list;
+  gint32       *l_layers_list;
+  gboolean      l_has_parents;
+
+  *nlayers = 0;
+  l_toplevel_layers_list = gimp_image_get_layers(image_id, &l_nlayers);
+  if (l_toplevel_layers_list == NULL)
+  {
+    return (NULL);
+  }
+  l_layers_list = l_toplevel_layers_list;
+
+
+  l_has_parents = FALSE;
+  if(parentpositions != NULL)
+  {
+    if (*parentpositions != '\0')
+    {
+      l_has_parents = TRUE;
+    }
+  }
+  if (l_has_parents == TRUE)
+  {
+    gchar     **posValueArray;
+    gint      l_ii;
+    posValueArray = g_strsplit(parentpositions
+                         , "/"
+                         , -1   /* max_tokens  less than 1 splits the string completely. */
+                         );
+    for(l_ii = 0; posValueArray[l_ii] != NULL; l_ii++)
+    {
+      long l_pos;
+      
+      
+      l_pos = atol(posValueArray[l_ii]);
+      if ((l_pos >= 0) && (l_pos < l_nlayers))
+      {
+        gint32 l_layer_id;
+        
+        l_layer_id == l_layers_list[l_pos];
+        if (gimp_item_is_group(l_layer_id))
+        {
+          g_free(l_layers_list);
+          l_layers_list = gimp_item_get_children(l_layer_id, &l_nlayers);
+        }
+        else
+          /* error: position is not a group */
+          if(gap_debug)
+          {
+            printf("gap_image_get_layers_at_parentpositions: position %d is no GROUP"
+                   "(l_nlayers:%d) l_layer_id:%d (%s) parentpositions: %s \n"
+               , (int) l_pos
+               , (int) l_nlayers
+               , (int) l_layer_id
+               , gimp_item_get_name(l_layer_id)
+               , parentpositions
+               );
+          }
+          g_strfreev(posValueArray);
+          g_free(l_layers_list);
+          return (NULL);
+        {
+        }
+      }
+      else
+      {
+        /* error: position is invalid (not an integer within valid stackposition range */
+        if(gap_debug)
+        {
+          printf("gap_image_get_layers_at_parentpositions: position %d not in valid range"
+                 " (l_nlayers:%d) parentpositions: %s \n"
+               , (int) l_pos
+               , (int) l_nlayers
+               , parentpositions
+               );
+        }
+        g_strfreev(posValueArray);
+        g_free(l_layers_list);
+        return (NULL);
+      }
+      
+
+   }
+
+   g_strfreev(posValueArray);
+
+   *nlayers = l_nlayers;
+   return (l_layers_list);
+  
+  }
+  
+  /* has no parents: deliver toplevel layers list */
+
+  *nlayers = l_nlayers;
+  return (l_toplevel_layers_list);
+
+
+} /* end gap_image_get_layers_at_parentpositions */
+

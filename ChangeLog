@@ -1,3 +1,88 @@
+2014-02-22 Wolfgang Hofer <hof@gimp.org>
+- extended filtermacro reference sidecar filformat (.fmref)
+  .fmref files do describe persistent layer ids and 
+  allow succesful applying a filter that requires additional layers
+  (such as bumpmap that needs a layer for the map)
+  with recorded lastvlues buffer in the next gimp session.
+
+  The old format describes layer rference by imagname and stackposition.
+  In case of nested layer this is not sufficient.
+  
+  Therefore the fileformat was exteded with keyword "parentstack:",
+  followed by a list of integer stack positions of all parent group layers 
+  concatenated by the "/" delimiter character.
+  
+  Note that toplevel layers are still refered without the new parentstack
+  (== compatible to the old format) 
+
+  id:800003 frameNr:000000 stack:02 track:-1 mtime:01392968915  type:3 file:"/home/hof/testimage.xcf" parentstack:2/0
+
+
+
+- replaced deprecated gimp_drawable_is_valid calls by gimp_item_is_valid
+
+- Filter All Layers feature now has options how to handle applying a filter to a group layer.
+  The GAP filter db browser dialog provides radio buttons how to handle group layers.
+    - normal mode (enables filter calls on group layer items)
+    - merge group items before calling a filter
+    - skip filtercalls on group items
+
+  This feature is mainly a workaround for the fact, that many plug-in filters
+  of the GIMP-2.8.10 release fail on attempt to process a group layer.
+  
+  Example: the  whirl-pinch plugin fails with the message:
+  Calling error for procedure 'gimp-drawable-merge-shadow':
+                  Item 'GR-1' (20) cannot be modified because it is a group item
+
+- fixed issuses for the "FramesModify" feature
+  when function "Apply filter on layer(s)" is selected.
+  Support skip and automatical merge on selected group layers in the processed frames
+  for this modify function.
+  Notes:
+    for filter apply with constant values (acceleration characteristic value == 0)
+    the first processed frame must contain at least one layer 
+    that matches the selection criteria.
+    
+    for filter apply with varying values both 
+    the first and the last processed frame
+    must contain at least one layer 
+    that matches the selection criteria.
+    
+    This is required for the interactive filtercalls to record the
+    last values buffer(s) for the called filter pdb procedure.
+    
+
+- dropped support for GAP_FILTER_PITSTOP environment variable
+  the pitstop dialog is now configurable via gimprc parameters:
+    (gap-filterall-enable-pitstop-dialog "no")
+    (gap-modify-enable-pitstop-dialog "no")
+  
+  Both pitstop dialogs now have an option "do not show this dialog again"
+  to disable those (optional) dialogs in the future (in this and further sessions).
+  
+
+  * gap/gap_blend_fill_main.c
+  * gap/gap_dbbrowser_utils.c
+  * gap/gap_dbbrowser_utils.h
+  * gap/gap_edge_detection.c
+  * gap/gap_fg_matting_dialog.c
+  * gap/gap_filter_foreach.c
+  * gap/gap_filter_iterators.c
+  * gap/gap_fire_pattern.c
+  * gap/gap_fmac_base.c
+  * gap/gap_fmac_context.c
+  * gap/gap_fmac_context.h
+  * gap/gap_frame_fetcher.c
+  * gap/gap_frame_fetcher.h
+  * gap/gap_image.c
+  * gap/gap_image.h
+  * gap/gap_mod_layer.c
+  * gap/gap_player_cache.c
+  * gap/gap_water_pattern.c
+  * gap/iter_ALT/mod/plug_in_bump_map_iter_ALT.inc
+
+
+
 2014-02-15 Wolfgang Hofer <hof@gimp.org>
 
 - applied fix for the foreground matting feature as suggested at bug #723818

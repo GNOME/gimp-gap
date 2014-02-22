@@ -224,11 +224,11 @@ p_int_default_cuvals(waterpattern_val_t *cuvals)
 static void
 p_check_for_valid_cloud_layers(waterpattern_val_t *cuvals)
 {
-  if(gimp_drawable_is_valid(cuvals->cloudLayer1) != TRUE)
+  if(gimp_item_is_valid(cuvals->cloudLayer1) != TRUE)
   {
     cuvals->cloudLayer1 = -1;
   }
-  if(gimp_drawable_is_valid(cuvals->cloudLayer2) != TRUE)
+  if(gimp_item_is_valid(cuvals->cloudLayer2) != TRUE)
   {
     cuvals->cloudLayer2 = -1;
   }
@@ -305,7 +305,7 @@ p_init_context_and_cloud_layers(gint32 drawable_id, waterpattern_val_t *cuvals, 
 
 
   /* check if both cloud layers are already available */
-  if((!gimp_drawable_is_valid(cuvals->cloudLayer1)) || (!gimp_drawable_is_valid(cuvals->cloudLayer2)))
+  if((!gimp_item_is_valid(cuvals->cloudLayer1)) || (!gimp_item_is_valid(cuvals->cloudLayer2)))
   {
     /* create both cloud layers */
     GRand  *gr;
@@ -792,11 +792,11 @@ p_init_widget_values(WaterPatternDialog *wcd)
   }
 
   countClouds = 0;
-  if(gimp_drawable_is_valid(wcd->existingCloud1Id))
+  if(gimp_item_is_valid(wcd->existingCloud1Id))
   {
     countClouds++;
   }
-  if(gimp_drawable_is_valid(wcd->existingCloud2Id))
+  if(gimp_item_is_valid(wcd->existingCloud2Id))
   {
     countClouds++;
   }
@@ -946,7 +946,7 @@ p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, WaterPatternDialo
      return(TRUE);
   }
 
-  if(gimp_drawable_is_valid(drawable_id) != TRUE)
+  if(gimp_item_is_valid(drawable_id) != TRUE)
   {
      return(FALSE);
   }
@@ -1012,12 +1012,12 @@ do_dialog (WaterPatternDialog *wcd, waterpattern_val_t *cuvals)
   wcd->existingCloud2Id = -1;
   countClouds = 0;
   wcd->countPotentialCloudLayers = 0;
-  if(gimp_drawable_is_valid(cuvals->cloudLayer1))
+  if(gimp_item_is_valid(cuvals->cloudLayer1))
   {
     countClouds++;
     wcd->existingCloud1Id = cuvals->cloudLayer1;
   }
-  if(gimp_drawable_is_valid(cuvals->cloudLayer2))
+  if(gimp_item_is_valid(cuvals->cloudLayer2))
   {
     countClouds++;
     wcd->existingCloud2Id = cuvals->cloudLayer2;

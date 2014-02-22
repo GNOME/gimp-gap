@@ -804,7 +804,7 @@ p_fmac_execute(GimpRunMode run_mode, gint32 image_id, gint32 drawable_id
          */
         gap_frame_fetch_delete_list_of_duplicated_images(fmacContext->ffetch_user_id);
 
-        if(gimp_drawable_is_valid(l_drawable_id) != TRUE)
+        if(gimp_item_is_valid(l_drawable_id) != TRUE)
         {
           /* the filter ha made the processed drawable_id invalid
            * (probably by merging with another layer)

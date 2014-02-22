@@ -299,11 +299,11 @@ p_init_default_cuvals(firepattern_val_t *cuvals)
 static void
 p_check_for_valid_cloud_layers(firepattern_val_t *cuvals)
 {
-  if(gimp_drawable_is_valid(cuvals->cloudLayer1) != TRUE)
+  if(gimp_item_is_valid(cuvals->cloudLayer1) != TRUE)
   {
     cuvals->cloudLayer1 = -1;
   }
-  if(gimp_drawable_is_valid(cuvals->fireShapeLayer) != TRUE)
+  if(gimp_item_is_valid(cuvals->fireShapeLayer) != TRUE)
   {
     cuvals->fireShapeLayer = -1;
   }
@@ -785,7 +785,7 @@ p_init_context_and_cloud_and_shape_layers(gint32 drawable_id, firepattern_val_t 
   ctxt->ref_image_id = -1;
  
   /* check if cloud layer (the pattern) is already available */
-  if(!gimp_drawable_is_valid(cuvals->cloudLayer1))
+  if(!gimp_item_is_valid(cuvals->cloudLayer1))
   {
     /* create both cloud layers */
     GRand  *gr;
@@ -845,7 +845,7 @@ p_init_context_and_cloud_and_shape_layers(gint32 drawable_id, firepattern_val_t 
 
   }
 
-  if(!gimp_drawable_is_valid(cuvals->fireShapeLayer))
+  if(!gimp_item_is_valid(cuvals->fireShapeLayer))
   {
     if((cuvals->createImage != TRUE) || (ctxt->ref_image_id < 0))
     {
@@ -1011,7 +1011,7 @@ p_drawable_get_name(gint32 drawable_id)
 {
   const char *invalidName = "(invalid)";
   
-  if(gimp_drawable_is_valid(drawable_id))
+  if(gimp_item_is_valid(drawable_id))
   {
     return(gimp_item_get_name(drawable_id));
   }
@@ -1434,11 +1434,11 @@ p_init_widget_values(FirePatternDialog *wcd)
   }
 
   countClouds = 0;
-  if(gimp_drawable_is_valid(wcd->existingCloud1Id))
+  if(gimp_item_is_valid(wcd->existingCloud1Id))
   {
     countClouds++;
   }
-  if(gimp_drawable_is_valid(wcd->existingFireShapeLayerId))
+  if(gimp_item_is_valid(wcd->existingFireShapeLayerId))
   {
     countClouds++;
   }
@@ -1621,7 +1621,7 @@ p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, FirePatternDialog
      return(TRUE);
   }
 
-  if(gimp_drawable_is_valid(drawable_id) != TRUE)
+  if(gimp_item_is_valid(drawable_id) != TRUE)
   {
      return(FALSE);
   }
@@ -1688,12 +1688,12 @@ do_dialog (FirePatternDialog *wcd, firepattern_val_t *cuvals)
   wcd->existingFireShapeLayerId = -1;
 
   wcd->countPotentialCloudLayers = 0;
-  if(gimp_drawable_is_valid(cuvals->cloudLayer1))
+  if(gimp_item_is_valid(cuvals->cloudLayer1))
   {
     wcd->existingCloud1Id = cuvals->cloudLayer1;
     wcd->createNewPatternDefault = FALSE;
   }
-  if(gimp_drawable_is_valid(cuvals->fireShapeLayer))
+  if(gimp_item_is_valid(cuvals->fireShapeLayer))
   {
     wcd->existingFireShapeLayerId = cuvals->fireShapeLayer;
   }
