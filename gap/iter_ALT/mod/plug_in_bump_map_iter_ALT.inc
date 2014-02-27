@@ -47,6 +47,8 @@ gint p_plug_in_bump_map_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdoub
     p_delta_gint(&buf.yofs, buf_from->yofs, buf_to->yofs, total_steps, current_step);
     p_delta_gint(&buf.waterlevel, buf_from->waterlevel, buf_to->waterlevel, total_steps, current_step);
     p_delta_gint(&buf.ambient, buf_from->ambient, buf_to->ambient, total_steps, current_step);
+    p_delta_gboolean(&buf.compensate, buf_from->compensate, buf_to->compensate, total_steps, current_step);
+    p_delta_gboolean(&buf.invert, buf_from->invert, buf_to->invert, total_steps, current_step);
     p_delta_gint(&buf.type, buf_from->type, buf_to->type, total_steps, current_step);
 
     gimp_set_data("plug-in-bump-map", &buf, sizeof(buf)); 

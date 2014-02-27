@@ -21,8 +21,10 @@ gint p_plug_in_map_object_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdo
 
       gint antialiasing;
       gint create_new_image;
+      gint create_new_layer;
       gint transparent_background;
       gint tiled;
+      gint livepreview;
       gint showgrid;
       gint showcaps;
 

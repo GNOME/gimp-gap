@@ -38,6 +38,8 @@ gint p_plug_in_mblur_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdouble 
     p_delta_gdouble(&buf.center_x, buf_from->center_x, buf_to->center_x, total_steps, current_step);
     p_delta_gdouble(&buf.center_y, buf_from->center_y, buf_to->center_y, total_steps, current_step);
 
+    p_delta_gboolean(&buf.blur_outward, buf_from->blur_outward, buf_to->blur_outward, total_steps, current_step);
+ 
     gimp_set_data("plug-in-mblur", &buf, sizeof(buf)); 
 
     return 0; /* OK */

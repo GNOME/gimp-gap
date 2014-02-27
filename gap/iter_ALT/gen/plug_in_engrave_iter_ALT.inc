@@ -27,6 +27,7 @@ gint p_plug_in_engrave_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdoubl
     memcpy(&buf, buf_from, sizeof(buf));
 
     p_delta_gint(&buf.height, buf_from->height, buf_to->height, total_steps, current_step);
+    p_delta_gboolean(&buf.limit, buf_from->limit, buf_to->limit, total_steps, current_step);
 
     gimp_set_data("plug-in-engrave", &buf, sizeof(buf)); 
 

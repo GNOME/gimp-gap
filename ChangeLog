@@ -1,3 +1,61 @@
+2014-02-27 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug in the GAP video API that caused endless loop in
+  ffmpeg based video index creation.
+  (p_wrapper_ffmpeg_get_next_frame retcode was not returned to the caller !)
+
+- video index creator and player dialog:
+    video index creation now shows the current frame count in the progress bar.
+    This is done because the total number of frames to process is just a guess
+    and the percentage is kept at constant level if there are (much) more frames to process
+    (than assumed in the initial guess.)
+
+- Updated iterator procedures to fit last values buffer structures
+  for the plug-ins that are part of the GIMP-2.8.10 release.
+  (some of them have changed their structure and are not compatible
+  with GIMP-2.6.x releases)
+
+
+- added information column in the filtermacro dialog 
+  this column shows errors that occured when recording a filtercall.
+  The current implementation marks filters with Error 1
+  when the probe iteratorcall fails at recording time 
+  (triggered by the Add button in the filtermacro dialog)
+  
+  The probe iteratorcall typically fails when the last values buffer
+  (where the filter stores its parmaters) does not match the
+  corresponding iterator implementation.
+
+
+  * gap/gap_filter_iterators.c
+  * gap/gap_fmac_main.c
+  * gap/gap_name2layer_main.c
+  * gap/gap_player_dialog.c
+  * gap/gap_video_index_creator.c
+  * gap/iter_ALT/gen/plug_in_blinds_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_checkerboard_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_destripe_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_engrave_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_fractal_trace_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_mblur_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_mosaic_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_newsprint_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_ripple_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_shift_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_video_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_waves_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_applylens_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_bump_map_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_colors_channel_mixer_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_dog_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_map_object_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_polar_coords_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_sinus_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_solid_noise_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_sparkle_iter_ALT.inc
+  * libgapvidapi/gap_vid_api_ffmpeg.c
+
+
 2014-02-22 Wolfgang Hofer <hof@gimp.org>
 - extended filtermacro reference sidecar filformat (.fmref)
   .fmref files do describe persistent layer ids and 

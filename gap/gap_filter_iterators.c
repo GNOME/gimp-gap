@@ -228,6 +228,22 @@ static void p_delta_int(int *val, int val_from, int val_to, gint32 total_steps, 
      delta = ((double)(val_to - val_from) / (double)total_steps) * ((double)total_steps - current_step);
      *val  = val_from + delta;
 }
+static void p_delta_gboolean(gboolean *val, gboolean val_from, gboolean val_to, gint32 total_steps, gdouble current_step)
+{
+     double     delta;
+
+     if(total_steps < 1) return;
+
+     delta = (1.0 / (double)total_steps) * ((double)total_steps - current_step);
+     if (delta <= 0.5)
+     {
+       *val  = val_from;
+     }
+     else
+     {
+       *val  = val_to;
+     }
+}
 static void p_delta_gint(gint *val, gint val_from, gint val_to, gint32 total_steps, gdouble current_step)
 {
     double     delta;
@@ -1368,6 +1384,27 @@ gap_common_iterator(const char *c_keyname, GimpRunMode run_mode, gint32 total_st
     } t_LightSettings;
 
 
+
+static void 
+p_delta_GimpOrientationType(GimpOrientationType *val, GimpOrientationType *val_from, GimpOrientationType *val_to, gint32 total_steps, gdouble current_step)
+{
+    double     delta;
+    gboolean   orientationFrom;
+    gboolean   orientationTo;
+    gboolean   orientationCurrent;
+
+    if(total_steps < 1) return;
+
+    orientationCurrent = (*val == GIMP_ORIENTATION_HORIZONTAL);
+    orientationFrom = (*val_from == GIMP_ORIENTATION_HORIZONTAL);
+    orientationTo   = (*val_to   == GIMP_ORIENTATION_HORIZONTAL);
+
+    p_delta_gboolean(&orientationCurrent, orientationFrom, orientationTo, total_steps, current_step);
+
+
+    *val = (orientationCurrent) ? GIMP_ORIENTATION_HORIZONTAL : GIMP_ORIENTATION_VERTICAL;
+
+}
 
 
 static void 

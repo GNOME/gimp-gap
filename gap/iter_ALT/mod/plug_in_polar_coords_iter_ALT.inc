@@ -32,6 +32,9 @@ gint p_plug_in_polar_coords_iter_ALT(GimpRunMode run_mode, gint32 total_steps, g
     p_delta_gdouble(&buf.circle, buf_from->circle, buf_to->circle, total_steps, current_step);
     p_delta_gdouble(&buf.angle, buf_from->angle, buf_to->angle, total_steps, current_step);
 
+    p_delta_gboolean(&buf.backwards, buf_from->backwards, buf_to->backwards, total_steps, current_step);
+    p_delta_gboolean(&buf.inverse, buf_from->inverse, buf_to->inverse, total_steps, current_step);
+    p_delta_gboolean(&buf.polrec, buf_from->polrec, buf_to->polrec, total_steps, current_step);
 
     gimp_set_data("plug-in-polar-coords", &buf, sizeof(buf)); 
 

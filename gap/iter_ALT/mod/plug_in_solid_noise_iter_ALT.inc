@@ -31,6 +31,9 @@ gint p_plug_in_solid_noise_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gd
     buf_to   = (t_plug_in_solid_noise_Vals *)&g_plugin_data_to[0]; 
     memcpy(&buf, buf_from, sizeof(buf));
 
+    p_delta_gboolean(&buf.tilable, buf_from->tilable, buf_to->tilable, total_steps, current_step);
+    p_delta_gboolean(&buf.turbulent, buf_from->turbulent, buf_to->turbulent, total_steps, current_step);
+
     p_delta_guint(&buf.seed, buf_from->seed, buf_to->seed, total_steps, current_step);
     p_delta_gint(&buf.detail, buf_from->detail, buf_to->detail, total_steps, current_step);
     p_delta_gdouble(&buf.xsize, buf_from->xsize, buf_to->xsize, total_steps, current_step);

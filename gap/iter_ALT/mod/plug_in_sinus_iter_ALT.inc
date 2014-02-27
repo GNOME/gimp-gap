@@ -47,6 +47,7 @@ gint p_plug_in_sinus_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdouble 
     p_delta_long(&buf.colors, buf_from->colors, buf_to->colors, total_steps, current_step);
     p_delta_GimpRGB(&buf.col1, &buf_from->col1, &buf_to->col1, total_steps, current_step);
     p_delta_GimpRGB(&buf.col2, &buf_from->col2, &buf_to->col2, total_steps, current_step);
+    p_delta_gboolean(&buf.random_seed, buf_from->random_seed, buf_to->random_seed, total_steps, current_step);
 
     gimp_set_data("plug-in-sinus", &buf, sizeof(buf)); 
 

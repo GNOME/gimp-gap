@@ -1588,7 +1588,19 @@ p_vid_progress_callback(gdouble progress
                                 );
         break;
       case FULLSCAN_MODE:
-        message = g_strdup_printf(_("Creating video index %0.3f %%"), progress * 100.0);
+        if (vipp->gvahand == NULL)
+        {
+          message = g_strdup_printf(_("Creating video index %0.3f %%")
+                                     , progress * 100.0
+                                     );
+        }
+        else
+        {
+          message = g_strdup_printf(_("Creating video index %0.3f %% (%d)")
+                                   , progress * 100.0
+                                   , (int)vipp->gvahand->frame_counter
+                                   );
+        }
         break;
       default:
         message = g_strdup_printf("%0.3f %%", progress * 100.0);

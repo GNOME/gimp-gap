@@ -7,10 +7,14 @@ static gint p_plug_in_applylens_iter_ALT(GimpRunMode run_mode, gint32 total_step
     typedef struct t_plug_in_applylens_Vals 
     {
       gdouble   refraction;
-      long      keep_surroundings;
-      long      set_background;
-      long      set_transparent;
+      gboolean  keep_surr;
+      gboolean  use_bkgr;
+      gboolean  set_transparent;
     } t_plug_in_applylens_Vals; 
+
+
+  gdouble  refraction;
+
 
     t_plug_in_applylens_Vals  buf, *buf_from, *buf_to; 
 
@@ -29,9 +33,9 @@ static gint p_plug_in_applylens_iter_ALT(GimpRunMode run_mode, gint32 total_step
     memcpy(&buf, buf_from, sizeof(buf));
 
     p_delta_gdouble(&buf.refraction, buf_from->refraction, buf_to->refraction, total_steps, current_step);
-    p_delta_long(&buf.keep_surroundings, buf_from->keep_surroundings, buf_to->keep_surroundings, total_steps, current_step);
-    p_delta_long(&buf.set_background, buf_from->set_background, buf_to->set_background, total_steps, current_step);
-    p_delta_long(&buf.set_transparent, buf_from->set_transparent, buf_to->set_transparent, total_steps, current_step);
+    p_delta_gboolean(&buf.keep_surr, buf_from->keep_surr, buf_to->keep_surr, total_steps, current_step);
+    p_delta_gboolean(&buf.use_bkgr, buf_from->use_bkgr, buf_to->use_bkgr, total_steps, current_step);
+    p_delta_gboolean(&buf.set_transparent, buf_from->set_transparent, buf_to->set_transparent, total_steps, current_step);
 
     gimp_set_data("plug-in-applylens", &buf, sizeof(buf)); 
 
