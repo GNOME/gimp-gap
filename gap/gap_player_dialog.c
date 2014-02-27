@@ -2686,6 +2686,14 @@ p_vid_progress_callback(gdouble progress
   }
 
   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(gpp->progress_bar), progress);
+  if((gpp->vindex_creation_is_running)
+  && (gpp->gvahand != NULL))
+  {
+     gchar *progressMsg;
+     progressMsg = g_strdup_printf(_("Creating Index %d"), (int)gpp->gvahand->frame_counter);
+     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(gpp->progress_bar), progressMsg);
+     g_free(progressMsg);
+  }
 
   /* g_main_context_iteration makes sure that
    *  gtk does refresh widgets,  and react on events while the videoapi

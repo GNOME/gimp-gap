@@ -847,7 +847,7 @@ p_wrapper_ffmpeg_get_video_chunk(t_GVA_Handle  *gvahand
 static t_GVA_RetCode
 p_wrapper_ffmpeg_get_next_frame(t_GVA_Handle *gvahand)
 {
-  p_private_ffmpeg_get_next_frame(gvahand, FALSE);
+  return (p_private_ffmpeg_get_next_frame(gvahand, FALSE));
 }  /* end  p_wrapper_ffmpeg_get_next_frame*/
 
 
@@ -1496,8 +1496,19 @@ p_private_ffmpeg_get_next_frame(t_GVA_Handle *gvahand, gboolean do_copy_raw_chun
 
   GAP_TIMM_STOP_FUNCTION(funcId);
 
-  if(l_rc == 1)  { return(GVA_RET_EOF); }
+  if(l_rc == 1)
+  {
+    if(gap_debug)
+    {
+      printf("p_private_ffmpeg_get_next_frame: returning %d GVA_RET_EOF\n", (int)GVA_RET_EOF);
+    } 
+    return(GVA_RET_EOF);
+  }
 
+  if(gap_debug)
+  {
+    printf("p_private_ffmpeg_get_next_frame: returning %d GVA_RET_ERROR\n", (int)GVA_RET_ERROR);
+  } 
   return(GVA_RET_ERROR);
 }  /* end p_private_ffmpeg_get_next_frame */
 
@@ -3454,9 +3465,13 @@ p_wrapper_ffmpeg_count_frames(t_GVA_Handle *gvahand)
     {
        /* READ FRAME */
        l_rc = p_wrapper_ffmpeg_get_next_frame(copy_gvahand);
+       if(gap_debug)
+       {
+         printf("p_wrapper_ffmpeg_count_frames: get_next l_rc:%d\n", (int)l_rc);
+       }
        if(l_rc != GVA_RET_OK)
        {
-          break;  /* eof, or fetch error */
+         break;  /* eof, or fetch error */
        }
        gvahand->frame_counter++;
        l_total_frames = MAX(l_total_frames, gvahand->frame_counter);

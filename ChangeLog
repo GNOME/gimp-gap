@@ -1,3 +1,20 @@
+2014-02-27 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug in the GAP video API that caused endless loop in
+  ffmpeg based video index creation.
+  (p_wrapper_ffmpeg_get_next_frame retcode was not returned to the caller !)
+
+- video index creator and player dialog:
+    video index creation now shows the current frame count in the progress bar.
+    This is done because the total number of frames to process is just a guess
+    and the percentage is kept at constant level if there are (much) more frames to process
+    (than assumed in the initial guess.)
+
+  * libgapvidapi/gap_vid_api_ffmpeg.c
+  * gap/gap_player_dialog.c
+  * gap/gap_video_index_creator.c
+
+
 2014-02-22 Wolfgang Hofer <hof@gimp.org>
 
 
