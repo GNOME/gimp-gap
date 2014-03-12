@@ -2448,7 +2448,7 @@ msgid ""
 "could not restore Layer visibilty.\n"
 msgstr ""
 "Error: el complemento %s ha cambiado el número de capas de %d a %d\n"
-"no se pudo restaurar la visibilidad de las capas."
+"no se pudo restaurar la visibilidad de las capas.\n"
 
 #: ../gap/gap_filter_foreach.c:416
 msgid "Applying filter to all layers..."
