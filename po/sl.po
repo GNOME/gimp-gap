@@ -9,19 +9,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gimp-gap 2.8\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-16 18:38+0000\n"
-"PO-Revision-Date: 2014-02-16 23:21+0100\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
+"gap&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-04-04 05:53+0000\n"
+"PO-Revision-Date: 2014-04-04 11:00+0100\n"
+"Last-Translator: filmsi <miles@filmsi.net>\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language: Slovenian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Slovenian\n"
-"X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Generator: Poedit 1.5.7\n"
 
 #. Button  to invoke fontbrowser
@@ -1258,30 +1258,70 @@ msgstr "Uporabi barvno masko ..."
 msgid "<Image>/Video/Layer/Attributes/"
 msgstr "<Image>/Video/Plast/Lastnosti/"
 
-#: ../gap/gap_dbbrowser_utils.c:248
+#: ../gap/gap_dbbrowser_utils.c:261
 msgid "_Search:"
 msgstr "I_skanje:"
 
-#: ../gap/gap_dbbrowser_utils.c:352
+#. Layer Group handling mode the label
+#: ../gap/gap_dbbrowser_utils.c:362
+#| msgid "Target Group:"
+msgid "Layer Group:"
+msgstr "Skupina plasti:"
+
+#. GroupLayer handling mode the radio buttons
+#: ../gap/gap_dbbrowser_utils.c:370
+#| msgid "unprocessed"
+msgid "Process"
+msgstr "Obdelaj"
+
+#: ../gap/gap_dbbrowser_utils.c:374
+msgid ""
+"group layers are processed the same way as normal layers. (this typically "
+"keeps the group structure, but the filter call will fail  for all filters "
+"that are not capable to process a group layer)"
+msgstr ""
+"Skupina plasti se obdela na enak način kot navadne plasti (tako običajno "
+"ohranite strukturo skupine, vendar klic filtra ne uspe za tiste filtre, ki "
+"ne zmorejo obdelati skupine plasti)."
+
+#. printf("DROP (SKIP) frame\n");
+#: ../gap/gap_dbbrowser_utils.c:380 ../gap/gap_player_dialog.c:4761
+msgid "Skip"
+msgstr "Preskoči"
+
+#: ../gap/gap_dbbrowser_utils.c:384
+msgid "skip processing of the selected filter for group layers."
+msgstr "Preskoči obdelavo skupine plasti za izbrani filter."
+
+#: ../gap/gap_dbbrowser_utils.c:388
+#| msgid "Grain Merge"
+msgid "Merge"
+msgstr "Spoji"
+
+#: ../gap/gap_dbbrowser_utils.c:392
+msgid "group layers are merged before the selected filter is applied."
+msgstr "Plasti v skupine se spojijo, preden se uporabi izbrani filter."
+
+#: ../gap/gap_dbbrowser_utils.c:439
 msgid "Gen Code by name"
 msgstr "Ustvari kode glede na ime."
 
 #. Button Search by Name
-#: ../gap/gap_dbbrowser_utils.c:366
+#: ../gap/gap_dbbrowser_utils.c:459
 msgid "Search by Name"
 msgstr "Iskanje po imenu"
 
 #. Button Search by Blurb
-#: ../gap/gap_dbbrowser_utils.c:376
+#: ../gap/gap_dbbrowser_utils.c:469
 msgid "Search by Blurb"
 msgstr "Iskanje po opisu"
 
 #. Button Search by Menupath
-#: ../gap/gap_dbbrowser_utils.c:386
+#: ../gap/gap_dbbrowser_utils.c:479
 msgid "Search by Menu Path"
 msgstr "Iskanje po poti menija"
 
-#: ../gap/gap_dbbrowser_utils.c:436
+#: ../gap/gap_dbbrowser_utils.c:529
 msgid ""
 "acceleration characteristic for filter apply 0=constant, 1 varying with "
 "constant speed, positive accelerate, negative decelerate"
@@ -1289,27 +1329,27 @@ msgstr ""
 "značilnost pospeševanja za uporabo filtra (1 za konstantno hitrost, "
 "pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_dbbrowser_utils.c:553
+#: ../gap/gap_dbbrowser_utils.c:646
 msgid "** not available **"
 msgstr "** ni na voljo **"
 
-#: ../gap/gap_dbbrowser_utils.c:767
+#: ../gap/gap_dbbrowser_utils.c:898
 msgid "Searching by name - please wait"
 msgstr "Iskanje po imenu - prosimo, počakajte"
 
-#: ../gap/gap_dbbrowser_utils.c:790
+#: ../gap/gap_dbbrowser_utils.c:921
 msgid "Searching by blurb - please wait"
 msgstr "Iskanje po opisu - prosimo, počakajte"
 
-#: ../gap/gap_dbbrowser_utils.c:802
+#: ../gap/gap_dbbrowser_utils.c:933
 msgid "Searching by menupath - please wait"
 msgstr "Iskanje po poti menija - prosimo, počakajte"
 
-#: ../gap/gap_dbbrowser_utils.c:806
+#: ../gap/gap_dbbrowser_utils.c:937
 msgid "Searching - please wait"
 msgstr "Iskanje v teku - prosimo, počakajte"
 
-#: ../gap/gap_dbbrowser_utils.c:905
+#: ../gap/gap_dbbrowser_utils.c:1036
 msgid "No matches"
 msgstr "Ni zadetkov"
 
@@ -1388,7 +1428,7 @@ msgstr "Številka slikovne sledi za izločitev. (0 == prezri sliko)"
 
 #. Sample Offset
 #. the audiotrack to label
-#: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:6968
+#: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:6976
 #: ../gap/gap_vex_dialog.c:2270
 msgid "Audiotrack:"
 msgstr "Zvočna sled:"
@@ -1759,7 +1799,7 @@ msgid "Enable extraction of frames"
 msgstr "Omogoči izločanje sličic"
 
 #. create extract audio otone track button
-#: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:6995
+#: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:7003
 msgid "Extract Audio"
 msgstr "Izloči zvok"
 
@@ -1900,7 +1940,7 @@ msgstr ""
 #. the Default button
 #: ../gap/gap_detail_align_exec.c:658 ../gap/gap_detail_tracking_exec.c:1471
 #: ../gap/gap_mov_dialog.c:1568 ../gap/gap_mpege.c:373
-#: ../gap/gap_name2layer_main.c:511 ../gap/gap_split.c:505
+#: ../gap/gap_name2layer_main.c:529 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5305 ../gap/gap_story_dialog.c:5662
 #: ../gap/gap_video_index_creator.c:1006 ../gap/gap_wr_opacity.c:356
 #: ../vid_common/gap_cme_gui.c:3245
@@ -1909,7 +1949,7 @@ msgstr "Privzeto"
 
 #: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1472
 #: ../gap/gap_mov_dialog.c:1569 ../gap/gap_mpege.c:374
-#: ../gap/gap_name2layer_main.c:512 ../gap/gap_split.c:506
+#: ../gap/gap_name2layer_main.c:530 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Ponastavi vse parametre na privzete vrednosti"
@@ -1919,7 +1959,7 @@ msgid "Detail Align via XML"
 msgstr "Poravnava podrobnosti prek XML"
 
 #: ../gap/gap_detail_align_exec.c:662 ../gap/gap_detail_tracking_exec.c:1475
-#: ../gap/gap_name2layer_main.c:518 ../gap/gap_video_index_creator.c:1013
+#: ../gap/gap_name2layer_main.c:536 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Nastavitve:"
@@ -2306,26 +2346,38 @@ msgstr "Izločitev ospredja prek izbora ..."
 msgid "<Image>/Layer/Transparency/"
 msgstr "<Image>/Plast/Prosojnost/"
 
-#: ../gap/gap_filter_foreach.c:133
+#: ../gap/gap_filter_foreach.c:143 ../gap/gap_mod_layer.c:125
+msgid "do not show this dialog again"
+msgstr "Tega pogovornega okna ne kaži več"
+
+#: ../gap/gap_filter_foreach.c:144 ../gap/gap_mod_layer.c:126
+#, c-format
+msgid ""
+"add %s to gimprc configuration to disable this dialog in all further sessions"
+msgstr ""
+"Dodaj %s k prilagoditvi gimprc, da se to pogovorno okno onemogoči za vse "
+"nadaljnje seje."
+
+#: ../gap/gap_filter_foreach.c:152
 msgid "Backup to file"
 msgstr "Varnostno kopiraj v datoteko"
 
 #. pixel
-#: ../gap/gap_filter_foreach.c:135
+#: ../gap/gap_filter_foreach.c:154
 msgid "Make backup of the image after each step"
 msgstr "Varnostno kopiranje slike po vsakem koraku"
 
-#: ../gap/gap_filter_foreach.c:139 ../gap/gap_mod_layer.c:125
+#: ../gap/gap_filter_foreach.c:158 ../gap/gap_mod_layer.c:132
 #: ../gap/gap_story_dialog.c:6604
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: ../gap/gap_filter_foreach.c:143
+#: ../gap/gap_filter_foreach.c:162
 #, c-format
 msgid "Skip %d"
 msgstr "Preskoči %d"
 
-#: ../gap/gap_filter_foreach.c:162 ../gap/gap_mod_layer.c:144
+#: ../gap/gap_filter_foreach.c:178 ../gap/gap_mod_layer.c:149
 #, c-format
 msgid ""
 "2nd call of %s\n"
@@ -2334,7 +2386,7 @@ msgstr ""
 "Drugi klic %s\n"
 "(določanje končnih nastavitev)"
 
-#: ../gap/gap_filter_foreach.c:166
+#: ../gap/gap_filter_foreach.c:182
 #, c-format
 msgid ""
 "Non-Interactive call of %s\n"
@@ -2343,19 +2395,28 @@ msgstr ""
 "Neinteraktivni klic: %s\n"
 "(za vse vmesne plasti)"
 
-#: ../gap/gap_filter_foreach.c:170 ../gap/gap_mod_layer.c:150
+#: ../gap/gap_filter_foreach.c:186 ../gap/gap_mod_layer.c:155
 msgid "Animated Filter Apply"
 msgstr "Uporabi filter na animaciji"
 
-#: ../gap/gap_filter_foreach.c:319
+#: ../gap/gap_filter_foreach.c:235
+#, c-format
+msgid ""
+"Error: Plugin %s has changed the number of layers from %d to %d\n"
+"could not restore Layer visibilty.\n"
+msgstr ""
+"Napaka: vstavek %s je spremenil število plasti z %d na %d\n"
+"Vidnosti plasti ni mogoče obnoviti.\n"
+
+#: ../gap/gap_filter_foreach.c:416
 msgid "Applying filter to all layers..."
 msgstr "Uporaba filtra na vseh plasteh ..."
 
-#: ../gap/gap_filter_foreach.c:597
+#: ../gap/gap_filter_foreach.c:702
 msgid "Select Filter for Animated Apply"
 msgstr "Izberite filter za uporabo na animaciji"
 
-#: ../gap/gap_filter_foreach.c:598 ../gap/gap_mod_layer.c:1399
+#: ../gap/gap_filter_foreach.c:703 ../gap/gap_mod_layer.c:1451
 msgid "Apply"
 msgstr "Uporabi"
 
@@ -2364,7 +2425,7 @@ msgid "Filter all Layers..."
 msgstr "Filtriraj vse plasti ..."
 
 #. ------------------ ALTernative Iterators ------------------------------
-#: ../gap/gap_filter_main.c:159 ../gap/gap_fmac_main.c:217
+#: ../gap/gap_filter_main.c:159 ../gap/gap_fmac_main.c:220
 msgid "<Image>/Filters/"
 msgstr "<Image>/Filtri/"
 
@@ -2456,7 +2517,7 @@ msgstr ""
 #. table col, row
 #. shiftPhaseY spinbutton
 #: ../gap/gap_fire_pattern.c:1915 ../gap/gap_morph_dialog.c:3225
-#: ../gap/gap_mov_dialog.c:5316 ../gap/gap_name2layer_main.c:485
+#: ../gap/gap_mov_dialog.c:5316 ../gap/gap_name2layer_main.c:503
 #: ../gap/gap_resi_dialog.c:853 ../gap/gap_water_pattern.c:1158
 #: ../gap/gap_water_pattern.c:1295
 msgid "Y:"
@@ -2698,90 +2759,100 @@ msgstr ""
 "dejanska velikost: %d\n"
 "velikost posnetega: %d"
 
-#: ../gap/gap_fmac_main.c:211
+#: ../gap/gap_fmac_main.c:214
 msgid "Filtermacro..."
 msgstr "Filtrski makro ..."
 
-#: ../gap/gap_fmac_main.c:632
+#: ../gap/gap_fmac_main.c:650
 msgid "Select Filtercalls of Current GIMP Session"
 msgstr "Izbor filtrskega klica v tekoči seji GIMP-a"
 
-#: ../gap/gap_fmac_main.c:633
+#: ../gap/gap_fmac_main.c:651
 msgid "Add Filter"
 msgstr "Dodaj filter"
 
-#: ../gap/gap_fmac_main.c:689
+#: ../gap/gap_fmac_main.c:707
 msgid "Filter Macro Script"
 msgstr "Skript filtrskega makra"
 
 #. label
-#: ../gap/gap_fmac_main.c:713
+#: ../gap/gap_fmac_main.c:731
 msgid "Filename:"
 msgstr "Ime datoteke:"
 
-#: ../gap/gap_fmac_main.c:725
+#: ../gap/gap_fmac_main.c:743
 msgid "Name of the filtermacro scriptfile"
 msgstr "Ime skripta filtrskega makra"
 
-#: ../gap/gap_fmac_main.c:735
+#: ../gap/gap_fmac_main.c:753
 msgid "Open filebrowser window to select a filename"
 msgstr "Odprite okno raziskovalca za izbor datoteke"
 
-#: ../gap/gap_fmac_main.c:762 ../gap/gap_video_index_creator.c:1328
+#: ../gap/gap_fmac_main.c:780 ../gap/gap_video_index_creator.c:1328
 msgid "Nr"
 msgstr "Št."
 
-#: ../gap/gap_fmac_main.c:768
+#: ../gap/gap_fmac_main.c:786
 msgid "PDB Name"
 msgstr "Ime PDB"
 
-#: ../gap/gap_fmac_main.c:774
+#: ../gap/gap_fmac_main.c:792
 msgid "Menu Path"
 msgstr "Meni poti"
 
-#: ../gap/gap_fmac_main.c:937
+#: ../gap/gap_fmac_main.c:797
+#| msgid "Information:"
+msgid "Information"
+msgstr "Podatki"
+
+#: ../gap/gap_fmac_main.c:910
+#, c-format
+msgid "Error: %d"
+msgstr "Napaka: %d"
+
+#: ../gap/gap_fmac_main.c:1035
 msgid "** No menu path available **"
 msgstr "** Pot menija ni na voljo **"
 
-#: ../gap/gap_fmac_main.c:973 ../gap/gap_video_index_creator.c:1279
+#: ../gap/gap_fmac_main.c:1073 ../gap/gap_video_index_creator.c:1279
 msgid "** Empty **"
 msgstr "** Prazno **"
 
-#: ../gap/gap_fmac_main.c:982
+#: ../gap/gap_fmac_main.c:1082
 msgid "** File is not a filtermacro **"
 msgstr "** Datoteka ni filtrski makro **"
 
-#: ../gap/gap_fmac_main.c:1020 ../gap/gap_onion_dialog.c:1366
-#: ../gap/gap_player_dialog.c:8481
+#: ../gap/gap_fmac_main.c:1120 ../gap/gap_onion_dialog.c:1366
+#: ../gap/gap_player_dialog.c:8489
 msgid "Show help page"
 msgstr "Pokaži stran pomoči"
 
 #. Button Delete All
-#: ../gap/gap_fmac_main.c:1030
+#: ../gap/gap_fmac_main.c:1130
 msgid "Delete All"
 msgstr "Izbriši vse"
 
-#: ../gap/gap_fmac_main.c:1034
+#: ../gap/gap_fmac_main.c:1134
 msgid "Delete the filtermacro scriptfile"
 msgstr "Brisanje skripte filtrskega makra"
 
 #. Button Delete
 #. radio button DELETE
-#: ../gap/gap_fmac_main.c:1043 ../gap/gap_morph_dialog.c:2977
+#: ../gap/gap_fmac_main.c:1143 ../gap/gap_morph_dialog.c:2977
 #: ../gap/gap_onion_main.c:185
 msgid "Delete"
 msgstr "Izbriši"
 
-#: ../gap/gap_fmac_main.c:1047
+#: ../gap/gap_fmac_main.c:1147
 msgid "Delete the selected filtercall"
 msgstr "Izbriši izbrani klic filtra"
 
 #. Button Add
-#: ../gap/gap_fmac_main.c:1056
+#: ../gap/gap_fmac_main.c:1156
 msgid "Add"
 msgstr "Dodaj"
 
-#: ../gap/gap_fmac_main.c:1060
+#: ../gap/gap_fmac_main.c:1160
 msgid ""
 "Open PDB-browser window to add a new filter to the filtermacro scriptfile.\n"
 "Important:\n"
@@ -2796,17 +2867,17 @@ msgstr ""
 "seji in imajo nastavljen notranji medpomnilnik z nastavljenimi parametri "
 "zadnjega klica"
 
-#: ../gap/gap_fmac_main.c:1080 ../gap/gap_player_dialog.c:8529
+#: ../gap/gap_fmac_main.c:1180 ../gap/gap_player_dialog.c:8537
 msgid "Close window"
 msgstr "Zapri okno"
 
-#: ../gap/gap_fmac_main.c:1094
+#: ../gap/gap_fmac_main.c:1194
 msgid "Apply filtermacro script on current drawable and close window"
 msgstr ""
 "Uporabi skripto filtrskega makra na trenutni sličici, na kateri je možno "
 "risati, in zapri okno."
 
-#: ../gap/gap_fmac_main.c:1297
+#: ../gap/gap_fmac_main.c:1397
 #, c-format
 msgid ""
 "ERROR: Could not write filtermacro script\n"
@@ -2817,7 +2888,7 @@ msgstr ""
 "Ime datoteke: '%s'\n"
 "%s."
 
-#: ../gap/gap_fmac_main.c:1321
+#: ../gap/gap_fmac_main.c:1421
 msgid "Select Filtermacro Scriptfile"
 msgstr "Izberite skriptno datoteko filtrskega makra"
 
@@ -3006,7 +3077,7 @@ msgstr "Spremeni sličice ..."
 msgid "<Image>/Video/Go To/"
 msgstr "<Image>/Video/Pojdi na/"
 
-#: ../gap/gap_mod_layer.c:148
+#: ../gap/gap_mod_layer.c:153
 #, c-format
 msgid ""
 "Non-Interactive call of %s\n"
@@ -3016,24 +3087,44 @@ msgstr ""
 "(za vse izbrane plasti)"
 
 #. name_prefix
-#: ../gap/gap_mod_layer.c:1190 ../gap/gap_mod_layer.c:1202
-#: ../gap/gap_mod_layer.c:1214
+#: ../gap/gap_mod_layer.c:1238 ../gap/gap_mod_layer.c:1250
+#: ../gap/gap_mod_layer.c:1262
 msgid "_msk"
 msgstr "_msk"
 
 #. GAP-PDB-Browser Dialog
 #. ----------------------
-#: ../gap/gap_mod_layer.c:1398
+#: ../gap/gap_mod_layer.c:1450
 msgid "Select Filter for Animated Apply on Frames"
 msgstr "Izberite filter za izvedbo animacije na sličicah"
 
-#: ../gap/gap_mod_layer.c:1553
+#: ../gap/gap_mod_layer.c:1497
+#| msgid "Modify Layers cancelled: No layer selected in last handled frame"
+msgid "Modify Layers cancelled: No normal layer selected in 1.st handled frame"
+msgstr ""
+"Operacija Spremeni plasti preklicana: V prvi obravnavani sličici ni bila "
+"izbrana nobena navadna plast"
+
+#: ../gap/gap_mod_layer.c:1637
+#, c-format
+#| msgid "No selected layer in start frame"
+msgid "No selected layer for group:%s in last handled frame"
+msgstr "V začetni sličici ni izbrana nobena plast za skupino:%s"
+
+#: ../gap/gap_mod_layer.c:1653
 msgid "Modify Layers cancelled: No layer selected in last handled frame"
 msgstr ""
 "Operacija Spremeni plasti preklicana: V zadnji obravnavani sličici ni bila "
 "izbrana nobena plast"
 
-#: ../gap/gap_mod_layer.c:1562
+#: ../gap/gap_mod_layer.c:1669
+#| msgid "Modify Layers cancelled: No layer selected in last handled frame"
+msgid "Modify Layers cancelled: No normal layer selected in last handled frame"
+msgstr ""
+"Operacija Spremeni plasti preklicana: V zadnji obravnavani sličici ni bila "
+"izbrana nobena navadna plast"
+
+#: ../gap/gap_mod_layer.c:1685
 #, c-format
 msgid ""
 "Modify Layers cancelled: first selected layer \"%s\"\n"
@@ -3042,15 +3133,21 @@ msgstr ""
 "Operacija Spremeni plasti preklicana: prvoizbrana plast \"%s\"\n"
 "v zadnji sličici nima maske plasti"
 
-#: ../gap/gap_mod_layer.c:1678
+#: ../gap/gap_mod_layer.c:1803
 msgid "Modifying frames/layer(s)..."
 msgstr "Spreminjanje sličic/plasti ..."
 
-#: ../gap/gap_mod_layer.c:1784
+#: ../gap/gap_mod_layer.c:1920
+#, c-format
+#| msgid "No selected layer in start frame"
+msgid "No selected layer for group:%s in start frame"
+msgstr "V začetni sličici ni izbrana nobena plast za skupino:%s"
+
+#: ../gap/gap_mod_layer.c:1926
 msgid "No selected layer in start frame"
 msgstr "V začetni sličici ni izbrana nobena plast"
 
-#: ../gap/gap_mod_layer.c:1796
+#: ../gap/gap_mod_layer.c:1938
 #, c-format
 msgid ""
 "first selected layer \"%s\"\n"
@@ -3218,12 +3315,10 @@ msgid "Layer Stackposition"
 msgstr "Položaj v skladu plasti"
 
 #: ../gap/gap_mod_layer_dialog.c:757
-#| msgid "Raise layer(s)"
 msgid "Raise layer(s) to top"
 msgstr "Dvigni plast(i) na vrh"
 
 #: ../gap/gap_mod_layer_dialog.c:758
-#| msgid "raise all selected layers"
 msgid "raise selected layer(s) to top"
 msgstr "Dvigne izbrane plasti na vrh"
 
@@ -3244,17 +3339,14 @@ msgid "lower all selected layers"
 msgstr "Spusti vse izbrane plasti"
 
 #: ../gap/gap_mod_layer_dialog.c:775
-#| msgid "Lower layer(s)"
 msgid "Lower layer(s) to bottom"
 msgstr "Spusti plast(i) na dno"
 
 #: ../gap/gap_mod_layer_dialog.c:776
-#| msgid "lower all selected layers"
 msgid "lower selected layer(s) to bottom"
 msgstr "Spusti izbrane plasti na dno"
 
 #: ../gap/gap_mod_layer_dialog.c:781
-#| msgid "Lower layer(s)"
 msgid "Reorder layer(s)"
 msgstr "Prerazvrsti plasti"
 
@@ -3292,32 +3384,26 @@ msgid "merge selected layers and clip to bg-layer"
 msgstr "spoji izbrane plasti in jih obreže v plast ospredja"
 
 #: ../gap/gap_mod_layer_dialog.c:827
-#| msgid "Merge layer(s); expand as necessary"
 msgid "Merge down layer(s); expand as necessary"
 msgstr "Spoji plasti navzdol in jih po potrebi raztegni"
 
 #: ../gap/gap_mod_layer_dialog.c:828
-#| msgid "merge selected layers and expand as necessary"
 msgid "merge selected layers with the layer below and expand as necessary"
 msgstr "spoji izbrane plasti s spodnjo plastjo in jih po potrebi razširi"
 
 #: ../gap/gap_mod_layer_dialog.c:833
-#| msgid "Merge layer(s) clipped to image"
 msgid "Merge down layer(s); clipped to image"
 msgstr "Spoji plasti navzdol in jih prireži glede na velikost slike"
 
 #: ../gap/gap_mod_layer_dialog.c:834
-#| msgid "merge selected layers and clip to image"
 msgid "merge selected layers with the layer below and clip to image size"
 msgstr "spoji izbrane plasti s spodnjo plastjo in jih obreže na sliko"
 
 #: ../gap/gap_mod_layer_dialog.c:839
-#| msgid "Merge layer(s) clipped to bg-layer"
 msgid "Merge down layer(s) clipped to bg-layer"
 msgstr "Spoji plasti navzdol, obrezano glede na plast ozadja"
 
 #: ../gap/gap_mod_layer_dialog.c:840
-#| msgid "merge selected layers and clip to bg-layer"
 msgid "merge selected layers with the layer below and clip to bg-layer"
 msgstr "spoji izbrane plasti s spodnjo plastjo in jih obreže v plast ospredja"
 
@@ -3475,7 +3561,6 @@ msgid "Add alpha channel"
 msgstr "Dodaj kanal alfa"
 
 #: ../gap/gap_mod_layer_dialog.c:1095
-#| msgid "Create Layers"
 msgid "Create Layergroup"
 msgstr "Ustvari skupino plasti"
 
@@ -3484,7 +3569,6 @@ msgid "Frames Modify"
 msgstr "Sprememba sličic"
 
 #: ../gap/gap_mod_layer_dialog.c:1295
-#| msgid "Create Layers"
 msgid "Get Active Layer"
 msgstr "Pridobi aktivno plast"
 
@@ -3516,7 +3600,6 @@ msgstr ""
 
 #. the newGroupName label
 #: ../gap/gap_mod_layer_dialog.c:1412
-#| msgid "New Layer Name"
 msgid "New Group Name:"
 msgstr "Novo ime skupine:"
 
@@ -3529,7 +3612,6 @@ msgstr ""
 "(pomembno za funkcijo prerazporeditve plasti in ustvarjanja skupine)"
 
 #: ../gap/gap_mod_layer_dialog.c:1437
-#| msgid "Show Position Scale"
 msgid "New Position:"
 msgstr "Nov položaj:"
 
@@ -3660,7 +3742,6 @@ msgstr ""
 
 #. the sel_groupname label
 #: ../gap/gap_mod_layer_dialog.c:1690
-#| msgid "Fontname:"
 msgid "Groupname:"
 msgstr "Ime skupine:"
 
@@ -3673,7 +3754,6 @@ msgstr ""
 "izbor plasti. Prazen niz se nanaša na vrhnjo raven."
 
 #: ../gap/gap_mod_layer_dialog.c:1720
-#| msgid "delimiter to separate group/subgroup"
 msgid "Delimiter string to split layer group/subgroup names."
 msgstr "Ločilo za delitev imen skupin/podskupin."
 
@@ -3853,7 +3933,7 @@ msgstr "Izberite ciljno plast"
 #. gtk_container_add (GTK_CONTAINER (abox), table3);
 #. the x/y offest labels
 #: ../gap/gap_morph_dialog.c:3194 ../gap/gap_mov_dialog.c:5298
-#: ../gap/gap_name2layer_main.c:474 ../gap/gap_resi_dialog.c:847
+#: ../gap/gap_name2layer_main.c:492 ../gap/gap_resi_dialog.c:847
 msgid "X:"
 msgstr "X:"
 
@@ -4741,7 +4821,7 @@ msgstr ""
 #. Paintmode combo (menu)
 #. the operating Mode label
 #. Paintmode combo (menu)
-#: ../gap/gap_mov_dialog.c:3759 ../gap/gap_name2layer_main.c:443
+#: ../gap/gap_mov_dialog.c:3759 ../gap/gap_name2layer_main.c:461
 #: ../gap/gap_vex_dialog.c:2427 ../gap/gap_video_index_creator.c:982
 #: ../gap/gap_wr_layermode.c:342 ../gap/gap_wr_opacity.c:344
 msgid "Mode:"
@@ -4819,7 +4899,7 @@ msgstr ""
 #. Loop Stepmode combo
 #. the playback mode checkbuttons
 #. Loop Toggle
-#: ../gap/gap_mov_dialog.c:3867 ../gap/gap_player_dialog.c:8318
+#: ../gap/gap_mov_dialog.c:3867 ../gap/gap_player_dialog.c:8326
 msgid "Loop"
 msgstr "Zankaj"
 
@@ -6146,48 +6226,48 @@ msgstr ""
 msgid "Filename to Layer..."
 msgstr "Ime datoteke v plast ..."
 
-#: ../gap/gap_name2layer_main.c:444
+#: ../gap/gap_name2layer_main.c:462
 msgid "Modes to choose entire filename or just parts of the filename"
 msgstr "Načini za izbor imena ali le dela imena datoteke."
 
-#: ../gap/gap_name2layer_main.c:453
+#: ../gap/gap_name2layer_main.c:471
 msgid "Fontname:"
 msgstr "Ime pisave:"
 
 #. pixel
-#: ../gap/gap_name2layer_main.c:455
+#: ../gap/gap_name2layer_main.c:473
 msgid "Select Fontname"
 msgstr "Izberite ime pisave"
 
-#: ../gap/gap_name2layer_main.c:463
+#: ../gap/gap_name2layer_main.c:481
 msgid "Fontsize:"
 msgstr "Velikost pisave:"
 
-#: ../gap/gap_name2layer_main.c:464
+#: ../gap/gap_name2layer_main.c:482
 msgid "Fontsize in pixels"
 msgstr "Velikost pisave v slikovnih točkah"
 
-#: ../gap/gap_name2layer_main.c:475
+#: ../gap/gap_name2layer_main.c:493
 msgid "Position X-offset in pixels"
 msgstr "Zamik položaja X v slikovnih točkah"
 
-#: ../gap/gap_name2layer_main.c:486
+#: ../gap/gap_name2layer_main.c:504
 msgid "Position Y-offset in pixels"
 msgstr "Zamik položaja Y v slikovnih točkah"
 
-#: ../gap/gap_name2layer_main.c:495
+#: ../gap/gap_name2layer_main.c:513
 msgid "Antialias:"
 msgstr "Glajenje robov:"
 
-#: ../gap/gap_name2layer_main.c:496
+#: ../gap/gap_name2layer_main.c:514
 msgid "Use antialias"
 msgstr "Uporabi glajenje robov"
 
-#: ../gap/gap_name2layer_main.c:502
+#: ../gap/gap_name2layer_main.c:520
 msgid "Create Layer:"
 msgstr "Ustvari plast:"
 
-#: ../gap/gap_name2layer_main.c:503
+#: ../gap/gap_name2layer_main.c:521
 msgid ""
 "ON: Create a new layer.\n"
 "OFF: Render on active drawable."
@@ -6195,7 +6275,7 @@ msgstr ""
 "VKLJUČENO: Ustvari novo plast.\n"
 "IZKLJUČENO: Upodobi na aktivni plasti, po kateri je možno risati."
 
-#: ../gap/gap_name2layer_main.c:517
+#: ../gap/gap_name2layer_main.c:535
 msgid "Render Filename to Layer"
 msgstr "Upodobi ime datoteke v plast"
 
@@ -6368,7 +6448,7 @@ msgid "Select None"
 msgstr "Nič ne izberi"
 
 #. Video Length (frames)
-#: ../gap/gap_navigator_dialog.c:4244 ../gap/gap_player_dialog.c:7175
+#: ../gap/gap_navigator_dialog.c:4244 ../gap/gap_player_dialog.c:7183
 msgid "Videoframes:"
 msgstr "Video sličice:"
 
@@ -6697,7 +6777,7 @@ msgstr ""
 
 #. Audio Samplerate
 #. the Samplerate label
-#: ../gap/gap_player_dialog.c:468 ../gap/gap_player_dialog.c:7117
+#: ../gap/gap_player_dialog.c:468 ../gap/gap_player_dialog.c:7125
 #: ../gap/gap_story_dialog.c:9497 ../vid_common/gap_cme_gui.c:3349
 msgid "Samplerate:"
 msgstr "Hitrost vzorčenja:"
@@ -6804,12 +6884,12 @@ msgid "FRAMES:"
 msgstr "SLIČICE:"
 
 #. pending timer_go_job gets useless, since we start playback now
-#: ../gap/gap_player_dialog.c:2326 ../gap/gap_player_dialog.c:4770
+#: ../gap/gap_player_dialog.c:2326 ../gap/gap_player_dialog.c:4778
 msgid "Playing"
 msgstr "Predvajanje"
 
 #. the status value label
-#: ../gap/gap_player_dialog.c:2365 ../gap/gap_player_dialog.c:8417
+#: ../gap/gap_player_dialog.c:2365 ../gap/gap_player_dialog.c:8425
 msgid "Ready"
 msgstr "Pripravljen"
 
@@ -6838,16 +6918,22 @@ msgstr "Izločitev zvoka NI USPELA"
 msgid "Extract of audiotrack failed on videofile: %s"
 msgstr "Izločanje zvočne sledi datoteke ni uspelo: %s"
 
-#: ../gap/gap_player_dialog.c:2896
+#: ../gap/gap_player_dialog.c:2695
+#, c-format
+#| msgid "Creating Index"
+msgid "Creating Index %d"
+msgstr "Ustvarjanje kazala %d"
+
+#: ../gap/gap_player_dialog.c:2904
 msgid "seek-selftest"
 msgstr "Samodejni preizkus iskanja"
 
-#: ../gap/gap_player_dialog.c:2918 ../gap/gap_story_vthumb.c:303
+#: ../gap/gap_player_dialog.c:2926 ../gap/gap_story_vthumb.c:303
 #, c-format
 msgid "Creating Index"
 msgstr "Ustvarjanje kazala"
 
-#: ../gap/gap_player_dialog.c:2948
+#: ../gap/gap_player_dialog.c:2956
 #, c-format
 msgid ""
 "No videoindex available. Access is limited to (slow) sequential read on "
@@ -6856,27 +6942,22 @@ msgstr ""
 "Slikovno kazalo ni na voljo. Dostop je omejen s (počasnim) zaporednim "
 "branjem datoteke: %s"
 
-#: ../gap/gap_player_dialog.c:3038 ../gap/gap_story_dialog.c:6877
+#: ../gap/gap_player_dialog.c:3046 ../gap/gap_story_dialog.c:6877
 #, c-format
 msgid "Videoseek"
 msgstr "Iskanje slike"
 
-#: ../gap/gap_player_dialog.c:3677 ../gap/gap_player_dialog.c:4157
+#: ../gap/gap_player_dialog.c:3685 ../gap/gap_player_dialog.c:4165
 #: ../gap/gap_story_vthumb.c:361
 msgid "Canceled"
 msgstr "Preklicano"
 
-#. printf("DROP (SKIP) frame\n");
-#: ../gap/gap_player_dialog.c:4753
-msgid "Skip"
-msgstr "Preskoči"
-
-#: ../gap/gap_player_dialog.c:4782
+#: ../gap/gap_player_dialog.c:4790
 #, c-format
 msgid "Delay %.2f"
 msgstr "Zakasnitev %.2f"
 
-#: ../gap/gap_player_dialog.c:6509
+#: ../gap/gap_player_dialog.c:6517
 #, c-format
 msgid ""
 "WARNING: Your gimprc file configuration for the audioconverter script\n"
@@ -6887,7 +6968,7 @@ msgstr ""
 "ne kaže na izvršljiv program,\n"
 "trenutno nastavljena vrednost za %s je: %s\n"
 
-#: ../gap/gap_player_dialog.c:6531
+#: ../gap/gap_player_dialog.c:6539
 #, c-format
 msgid ""
 "WARNING: The environment variable %s\n"
@@ -6898,7 +6979,7 @@ msgstr ""
 "ne kaže na izvršljivi program,\n"
 "njena trenutna vrednost je: %s\n"
 
-#: ../gap/gap_player_dialog.c:6550
+#: ../gap/gap_player_dialog.c:6558
 #, c-format
 msgid ""
 "ERROR: The external program for audioconversion is not executable.\n"
@@ -6907,57 +6988,57 @@ msgstr ""
 "NAPAKA: Zunanji program za pretvorbo zvoka ni izvršljiv.\n"
 "Ime datoteke: '%s'\n"
 
-#: ../gap/gap_player_dialog.c:6570
+#: ../gap/gap_player_dialog.c:6578
 msgid "Creating audiofile - please wait"
 msgstr "Ustvarjanje zvočne datoteke - prosimo, počakajte!"
 
-#: ../gap/gap_player_dialog.c:6606
+#: ../gap/gap_player_dialog.c:6614
 msgid "external audioconverter FAILED."
 msgstr "Zunanja zvočna pretvorba NI USPELA."
 
-#: ../gap/gap_player_dialog.c:6607
+#: ../gap/gap_player_dialog.c:6615
 msgid "extern audioconverter FAILED"
 msgstr "Zunanja zvočna pretvorba NI USPELA"
 
-#: ../gap/gap_player_dialog.c:6753
+#: ../gap/gap_player_dialog.c:6761
 msgid "Select Audiofile"
 msgstr "Izberite zvočno datoteko"
 
-#: ../gap/gap_player_dialog.c:6801
+#: ../gap/gap_player_dialog.c:6809
 msgid "Audio Playback Settings"
 msgstr "Nastavitve predvajanja zvoka"
 
 #. audiofile label
 #. the output audiofile label
 #. the Audiofile label
-#: ../gap/gap_player_dialog.c:6826 ../gap/gap_vex_dialog.c:2675
+#: ../gap/gap_player_dialog.c:6834 ../gap/gap_vex_dialog.c:2675
 #: ../vid_common/gap_cme_gui.c:3288
 msgid "Audiofile:"
 msgstr "Zvočna datoteka:"
 
-#: ../gap/gap_player_dialog.c:6838
+#: ../gap/gap_player_dialog.c:6846
 msgid "Enter an audiofile. The file must be in RIFF WAVE fileformat."
 msgstr "Vpišite zvočno datoteko. Ta mora biti v zapisu RIFF WAVE."
 
-#: ../gap/gap_player_dialog.c:6859
+#: ../gap/gap_player_dialog.c:6867
 msgid "Open audiofile selection browser dialog window"
 msgstr "Odpri pogovorno okno za izbiro zvočne datoteke"
 
 #. Volume
-#: ../gap/gap_player_dialog.c:6871 ../gap/gap_story_dialog.c:9513
+#: ../gap/gap_player_dialog.c:6879 ../gap/gap_story_dialog.c:9513
 msgid "Volume:"
 msgstr "Glasnost:"
 
-#: ../gap/gap_player_dialog.c:6891
+#: ../gap/gap_player_dialog.c:6899
 msgid "Audio Volume"
 msgstr "Glasnost zvoka"
 
 #. check button
-#: ../gap/gap_player_dialog.c:6897
+#: ../gap/gap_player_dialog.c:6905
 msgid "Enable"
 msgstr "Omogoči"
 
-#: ../gap/gap_player_dialog.c:6902
+#: ../gap/gap_player_dialog.c:6910
 msgid ""
 "ON: Play button plays video + audio.\n"
 "OFF: Play video silently"
@@ -6966,11 +7047,11 @@ msgstr ""
 "IZKLJUČENO: Nemo predvajanje slike."
 
 #. Sample Offset
-#: ../gap/gap_player_dialog.c:6912
+#: ../gap/gap_player_dialog.c:6920
 msgid "Offset:"
 msgstr "Zamik:"
 
-#: ../gap/gap_player_dialog.c:6932
+#: ../gap/gap_player_dialog.c:6940
 msgid ""
 "Audio offset in frames at original video playback speed. A value of 0 starts "
 "audio and video at synchron time. A value of -10 will play frame 1 up to "
@@ -6986,11 +7067,11 @@ msgstr ""
 "predvajanja."
 
 #. check button
-#: ../gap/gap_player_dialog.c:6947
+#: ../gap/gap_player_dialog.c:6955
 msgid "original audio"
 msgstr "Izvorni zvok"
 
-#: ../gap/gap_player_dialog.c:6952
+#: ../gap/gap_player_dialog.c:6960
 msgid ""
 "ON: for video clip playback sync audio startposition according to original "
 "position in the referenced video. Use this option if the audiofile is an "
@@ -7004,11 +7085,11 @@ msgstr ""
 "IZKLJUČENO: Ne sinhroniziraj zvoka z izvornim položajem v sklicanih videih. "
 "To uporabite za neodvisno predvajanje zvočnih datotek."
 
-#: ../gap/gap_player_dialog.c:6988
+#: ../gap/gap_player_dialog.c:6996
 msgid "Audio Track"
 msgstr "Zvočna sled"
 
-#: ../gap/gap_player_dialog.c:6998
+#: ../gap/gap_player_dialog.c:7006
 msgid ""
 "Extract Audio Track from videofile for the current videofile and use it for "
 "origial audiotrack playback"
@@ -7017,11 +7098,11 @@ msgstr ""
 "zvočne sledi."
 
 #. create wavfile button
-#: ../gap/gap_player_dialog.c:7012
+#: ../gap/gap_player_dialog.c:7020
 msgid "Copy As Wavfile"
 msgstr "Kopiraj kot datoteko WAV"
 
-#: ../gap/gap_player_dialog.c:7014
+#: ../gap/gap_player_dialog.c:7022
 msgid ""
 "Create a copy from audiofile as RIFF WAVE audiofile and use the copy for "
 "audio playback"
@@ -7029,93 +7110,93 @@ msgstr ""
 "Ustvari kopijo zvočne datoteke kot datoteko RIFF WAVE ter jo uporabi za "
 "zvočno predvajanje. "
 
-#: ../gap/gap_player_dialog.c:7026
+#: ../gap/gap_player_dialog.c:7034
 msgid "Reset offset and volume"
 msgstr "Ponastavi zamik in jakost zvoka"
 
 #. Audio Offset Length (mm:ss:msec)
-#: ../gap/gap_player_dialog.c:7058
+#: ../gap/gap_player_dialog.c:7066
 msgid "Offsettime:"
 msgstr "Časovni zamik:"
 
 #. Total Audio Length (mm:ss:msec)
 #. the audio timing information labels
-#: ../gap/gap_player_dialog.c:7072 ../vid_common/gap_cme_gui.c:3521
+#: ../gap/gap_player_dialog.c:7080 ../vid_common/gap_cme_gui.c:3521
 msgid "Audiotime:"
 msgstr "Časovna dolžina zvoka:"
 
 #. Length (frames)
-#: ../gap/gap_player_dialog.c:7087
+#: ../gap/gap_player_dialog.c:7095
 msgid "Audioframes:"
 msgstr "Dolžina zvočnih sličic:"
 
 #. Audiolength (Samples)
-#: ../gap/gap_player_dialog.c:7102
+#: ../gap/gap_player_dialog.c:7110
 msgid "Samples:"
 msgstr "Vzorci:"
 
 #. Audio Channels
-#: ../gap/gap_player_dialog.c:7131
+#: ../gap/gap_player_dialog.c:7139
 msgid "Channels:"
 msgstr "Kanali:"
 
 #. Bits per Audio Sample
-#: ../gap/gap_player_dialog.c:7145
+#: ../gap/gap_player_dialog.c:7153
 msgid "Bits/Sample:"
 msgstr "Bitov/vzorec:"
 
 #. Total Video Length (mm:ss:msec)
 #. the video timing information labels
-#: ../gap/gap_player_dialog.c:7160 ../vid_common/gap_cme_gui.c:3494
+#: ../gap/gap_player_dialog.c:7168 ../vid_common/gap_cme_gui.c:3494
 msgid "Videotime:"
 msgstr "Dolžina videa:"
 
-#: ../gap/gap_player_dialog.c:7397
+#: ../gap/gap_player_dialog.c:7405
 msgid "Playback Preferences"
 msgstr "Nastavitve predvajanja"
 
 #. Cache size label
-#: ../gap/gap_player_dialog.c:7415
+#: ../gap/gap_player_dialog.c:7423
 msgid "Cache Size (MB):"
 msgstr "Velikost predpomnilnika (MB):"
 
-#: ../gap/gap_player_dialog.c:7441
+#: ../gap/gap_player_dialog.c:7449
 msgid "Player frame cache maximum size in MB. Value 0 turns the cache off."
 msgstr ""
 "Največja velikost predpomnilnika sličic predvajalnika, v MB. Vrednost 0 "
 "izključi predpomnilnik."
 
-#: ../gap/gap_player_dialog.c:7450
+#: ../gap/gap_player_dialog.c:7458
 msgid "Clear the frame cache"
 msgstr "Počisti predpomnilnik sličic"
 
 #. Chache Status (number of frames currently in the cache)
-#: ../gap/gap_player_dialog.c:7461
+#: ../gap/gap_player_dialog.c:7469
 msgid "Cached Frames:"
 msgstr "Predpomnjene sličice:"
 
 #. tile Chache
-#: ../gap/gap_player_dialog.c:7487
+#: ../gap/gap_player_dialog.c:7495
 msgid "Tile Cache:"
 msgstr "Predpomnilnik tlakovanja:"
 
-#: ../gap/gap_player_dialog.c:7507
+#: ../gap/gap_player_dialog.c:7515
 msgid "gimp tile cache for the player process. (in tiles 64x64 pixel)"
 msgstr ""
 "Gimpov predpomnilnik tlakovanja za proces predvajalnika (v tlakovcih 64x64 "
 "slik. točk)."
 
 #. Layout Options label
-#: ../gap/gap_player_dialog.c:7516
+#: ../gap/gap_player_dialog.c:7524
 msgid "Layout Options:"
 msgstr "Možnosti postavitve"
 
 #. Show Go button array (configure to show/hide this optional positioning tool)
-#: ../gap/gap_player_dialog.c:7526
+#: ../gap/gap_player_dialog.c:7534
 msgid "Show Button Array"
 msgstr "Pokaži vrstico gumbov"
 
-#: ../gap/gap_player_dialog.c:7532
+#: ../gap/gap_player_dialog.c:7540
 msgid ""
 "ON: Show the go button array positioning tool.\n"
 "OFF: Hide the go button array."
@@ -7124,11 +7205,11 @@ msgstr ""
 "IZKLJUČENO: Skrij vrstico gumbov."
 
 #. Show Position Scale (configure to show/hide this optional positioning tool)
-#: ../gap/gap_player_dialog.c:7545
+#: ../gap/gap_player_dialog.c:7553
 msgid "Show Position Scale"
 msgstr "Pokaži merilo položaja"
 
-#: ../gap/gap_player_dialog.c:7551
+#: ../gap/gap_player_dialog.c:7559
 msgid ""
 "ON: Show the position scale.\n"
 "OFF: Hide the position scale."
@@ -7137,11 +7218,11 @@ msgstr ""
 "IZKLJUČENO: Skrij merilo položaja."
 
 #. Auto skip missing frames
-#: ../gap/gap_player_dialog.c:7564
+#: ../gap/gap_player_dialog.c:7572
 msgid "Auto Skip Missing Frames"
 msgstr "Samodejno preskoči manjkajoče sličice"
 
-#: ../gap/gap_player_dialog.c:7570
+#: ../gap/gap_player_dialog.c:7578
 msgid ""
 "ON: Automatically skip missing frames on playback.\n"
 "OFF: Show missing frames as empty (transparent) image."
@@ -7150,19 +7231,19 @@ msgstr ""
 "IZKLJUČENO: pokaži manjkajoče sličice kot prazne (prosojne) sličice."
 
 #. configure Detail Tracking button
-#: ../gap/gap_player_dialog.c:7585
+#: ../gap/gap_player_dialog.c:7593
 msgid "Configure Tracking:"
 msgstr "Prilagoditev sledenja:"
 
-#: ../gap/gap_player_dialog.c:7588
+#: ../gap/gap_player_dialog.c:7596
 msgid "Configure detail tracking options"
 msgstr "Prilagodi možnosti sledenja podrobnosti"
 
-#: ../gap/gap_player_dialog.c:7596
+#: ../gap/gap_player_dialog.c:7604
 msgid "Enable Detail Tracking"
 msgstr "Omogoči sledenje podrobnosti"
 
-#: ../gap/gap_player_dialog.c:7602
+#: ../gap/gap_player_dialog.c:7610
 msgid ""
 "ON: Enable detail tracking in snapshot image. Mark coordinates of one (or 2) "
 "significant details in the snapshot image using the current path with one or "
@@ -7181,49 +7262,49 @@ msgstr ""
 "IZKLJUČENO: Onemogoči sledenje podrobnosti."
 
 #. Save Player Preferences label
-#: ../gap/gap_player_dialog.c:7621
+#: ../gap/gap_player_dialog.c:7629
 msgid "Save Preferences:"
 msgstr "Shrani nastavitve:"
 
-#: ../gap/gap_player_dialog.c:7633
+#: ../gap/gap_player_dialog.c:7641
 msgid "Save player cache and layout settings (as gimprc parameters)"
 msgstr ""
 "Shrani predpomnilnik predvajalnika in nastavitve postavitve (kot parametre "
 "gimprc)"
 
-#: ../gap/gap_player_dialog.c:7748
+#: ../gap/gap_player_dialog.c:7756
 msgid "Videoframe Playback"
 msgstr "Predvajanje video sličic"
 
 #. vid options TAB frame
 #. the video options notebook tab
-#: ../gap/gap_player_dialog.c:7763 ../vid_common/gap_cme_gui.c:2594
+#: ../gap/gap_player_dialog.c:7771 ../vid_common/gap_cme_gui.c:2594
 msgid "Video Options"
 msgstr "Možnosti videa"
 
 #. configure options TAB frame
-#: ../gap/gap_player_dialog.c:7787
+#: ../gap/gap_player_dialog.c:7795
 msgid "Preferences"
 msgstr "Nastavitve"
 
 #. audio options TAB frame
 #. the Audio Options notebook tab
-#: ../gap/gap_player_dialog.c:7803 ../vid_common/gap_cme_gui.c:2606
+#: ../gap/gap_player_dialog.c:7811 ../vid_common/gap_cme_gui.c:2606
 msgid "Audio Options"
 msgstr "Možnosti zvoka"
 
-#: ../gap/gap_player_dialog.c:7896
+#: ../gap/gap_player_dialog.c:7904
 msgid ""
 "Click: go to frame, Ctrl-Click: set 'From Frame', Alt-Click: set 'To Frame'"
 msgstr ""
 "Klik: Pojdi na okvir, Ctrl-klik: nastavi 'Od sličice', Alt-klik: nastavi 'Do "
 "sličice'"
 
-#: ../gap/gap_player_dialog.c:7969 ../gap/gap_player_dialog.c:8102
+#: ../gap/gap_player_dialog.c:7977 ../gap/gap_player_dialog.c:8110
 msgid "The currently displayed frame number"
 msgstr "Trenutno prikazana številka sličice"
 
-#: ../gap/gap_player_dialog.c:8049
+#: ../gap/gap_player_dialog.c:8057
 msgid ""
 "Click: Set current framenr as selection range start 'From Frame',\n"
 "SHIFT-Click: load this frame into the calling image"
@@ -7232,12 +7313,12 @@ msgstr ""
 "sličice',\n"
 "SHIFT-klik: naloži to sličico v sklicujočo sliko"
 
-#: ../gap/gap_player_dialog.c:8060
+#: ../gap/gap_player_dialog.c:8068
 msgid "Set current framenr as selection range start 'From Frame'"
 msgstr ""
 "Nastavi trenutno številko sličice kot začetek obsega izbora 'Od sličice'"
 
-#: ../gap/gap_player_dialog.c:8076
+#: ../gap/gap_player_dialog.c:8084
 msgid ""
 "Click: Set current framenr as selection range end 'To Frame',\n"
 "SHIFT-Click: load this frame into the calling image"
@@ -7246,53 +7327,53 @@ msgstr ""
 "sličice',\n"
 "SHIFT-klik: naloži to sličico v sklicujočo sliko"
 
-#: ../gap/gap_player_dialog.c:8087
+#: ../gap/gap_player_dialog.c:8095
 msgid "Set current framenr as selection range end 'To Frame'"
 msgstr "Nastavi trenutno številko sličice kot konec obsega izbora 'Do sličice'"
 
-#: ../gap/gap_player_dialog.c:8130
+#: ../gap/gap_player_dialog.c:8138
 msgid "Add range to cliplist"
 msgstr "Dodaj obseg v seznam posnetkov"
 
-#: ../gap/gap_player_dialog.c:8134
+#: ../gap/gap_player_dialog.c:8142
 msgid "Print range to stdout"
 msgstr "Natisni obseg na st. izhod"
 
-#: ../gap/gap_player_dialog.c:8156
+#: ../gap/gap_player_dialog.c:8164
 msgid "Start framenumber of selection range"
 msgstr "Številka začetne sličice izbranega obsega"
 
-#: ../gap/gap_player_dialog.c:8179
+#: ../gap/gap_player_dialog.c:8187
 msgid "Add inverse range to cliplist"
 msgstr "Dodaj obraten obseg seznamu posnetkov"
 
-#: ../gap/gap_player_dialog.c:8183
+#: ../gap/gap_player_dialog.c:8191
 msgid "Print inverse range to stdout"
 msgstr "Natisni obraten obseg na stdout"
 
-#: ../gap/gap_player_dialog.c:8207
+#: ../gap/gap_player_dialog.c:8215
 msgid "End framenumber of selection range"
 msgstr "Številka končne sličice izbranega obsega"
 
-#: ../gap/gap_player_dialog.c:8223
+#: ../gap/gap_player_dialog.c:8231
 msgid "Reset playback speed to original (or previous) value"
 msgstr "Ponastavi hitrost predvajanja nazaj na izvorno (ali prejšnjo) vrednost"
 
-#: ../gap/gap_player_dialog.c:8246
+#: ../gap/gap_player_dialog.c:8254
 msgid "Current playback speed (frames/sec)"
 msgstr "Trenutna hitrost predvajanja (sličic/s)"
 
-#: ../gap/gap_player_dialog.c:8272
+#: ../gap/gap_player_dialog.c:8280
 msgid "Toggle size 128/256. <Shift> Set 1:1 full image size"
 msgstr ""
 "Preklapljaj med velikostma 128 in 256. <Shift> Nastavi razmerje 1:1 za "
 "velikost celotne slike"
 
-#: ../gap/gap_player_dialog.c:8294
+#: ../gap/gap_player_dialog.c:8302
 msgid "Video preview size (pixels)"
 msgstr "Velikost predogleda slike (v slikovnih točkah)"
 
-#: ../gap/gap_player_dialog.c:8324
+#: ../gap/gap_player_dialog.c:8332
 msgid ""
 "ON: Play in endless loop.\n"
 "OFF: Play only once"
@@ -7301,11 +7382,11 @@ msgstr ""
 "IZKLJUČENO: Predvajaj le enkrat."
 
 #. SelOnly Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8338
+#: ../gap/gap_player_dialog.c:8346
 msgid "Selection only"
 msgstr "Le izbor "
 
-#: ../gap/gap_player_dialog.c:8344
+#: ../gap/gap_player_dialog.c:8352
 msgid ""
 "ON: Play only frames within the selected range.\n"
 "OFF: Play all frames"
@@ -7314,20 +7395,20 @@ msgstr ""
 "IZKLJUČENO: Predvajaj vse sličice."
 
 #. PingPong Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8357
+#: ../gap/gap_player_dialog.c:8365
 msgid "Ping pong"
 msgstr "Ping pong (sem ter tja)"
 
-#: ../gap/gap_player_dialog.c:8363
+#: ../gap/gap_player_dialog.c:8371
 msgid "ON: Play alternating forward/backward"
 msgstr "VKLJUČENO: Predvajaj izmenično naprej/nazaj."
 
 #. UseThumbnails Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8376
+#: ../gap/gap_player_dialog.c:8384
 msgid "Thumbnails"
 msgstr "Sličice za predogled"
 
-#: ../gap/gap_player_dialog.c:8382
+#: ../gap/gap_player_dialog.c:8390
 msgid ""
 "ON: Use thumbnails when available.\n"
 "OFF: Read full sized frames"
@@ -7336,11 +7417,11 @@ msgstr ""
 "IZKLJUČENO: Preberi sličice v polni velikosti."
 
 #. ExactTiming Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8397
+#: ../gap/gap_player_dialog.c:8405
 msgid "Exact timing"
 msgstr "Natančna časovna usklajenost"
 
-#: ../gap/gap_player_dialog.c:8403
+#: ../gap/gap_player_dialog.c:8411
 msgid ""
 "ON: Skip frames to hold exact timing.\n"
 "OFF: Disable frame skipping"
@@ -7349,11 +7430,11 @@ msgstr ""
 "IZKLJUČENO: Onemogoči preskakovanje sličic."
 
 #. the Cancel Videoindex Creation button (only visible while creating vindex)
-#: ../gap/gap_player_dialog.c:8461
+#: ../gap/gap_player_dialog.c:8469
 msgid "Cancel Videoindex creation"
 msgstr "Prekliči ustvarjanje kazala slik"
 
-#: ../gap/gap_player_dialog.c:8465
+#: ../gap/gap_player_dialog.c:8473
 msgid ""
 "Cancel videoindex creation. Videoindex creation requires full scanning of "
 "the video but allows fast random access to frames afterwards. Without a "
@@ -7365,11 +7446,11 @@ msgstr ""
 "zaporednim branjem."
 
 #. the PLAY button
-#: ../gap/gap_player_dialog.c:8489
+#: ../gap/gap_player_dialog.c:8497
 msgid "Play"
 msgstr "Predvajaj"
 
-#: ../gap/gap_player_dialog.c:8492
+#: ../gap/gap_player_dialog.c:8500
 msgid ""
 "Start playback. SHIFT: snapshot frames in a multilayer image at original "
 "size CTRL: snapshot at preview size ALT: force creation of new snapshot image"
@@ -7379,11 +7460,11 @@ msgstr ""
 "slike zajema."
 
 #. the PAUSE button
-#: ../gap/gap_player_dialog.c:8501
+#: ../gap/gap_player_dialog.c:8509
 msgid "Pause"
 msgstr "Prekini"
 
-#: ../gap/gap_player_dialog.c:8505
+#: ../gap/gap_player_dialog.c:8513
 msgid ""
 "Pause if playing (any mousebutton). Go to selection start/active/end (left/"
 "middle/right mousebutton) if not playing"
@@ -7393,11 +7474,11 @@ msgstr ""
 "ni v teku. "
 
 #. the PLAY_REVERSE button
-#: ../gap/gap_player_dialog.c:8512
+#: ../gap/gap_player_dialog.c:8520
 msgid "Reverse"
 msgstr "V nasprotni smeri"
 
-#: ../gap/gap_player_dialog.c:8515
+#: ../gap/gap_player_dialog.c:8523
 msgid ""
 "Start reverse playback. SHIFT: snapshot frames in a multilayer image at "
 "original size CTRL: snapshot at preview size ALT: force creation of new "
@@ -10318,10 +10399,16 @@ msgstr "Hitro preverjanje %0.3f %%"
 msgid "Smart check %0.3f %% (of %0.3f %%)"
 msgstr "Pametno preverjanje %0.3f %% (od %0.3f %%)"
 
-#: ../gap/gap_video_index_creator.c:1591
+#: ../gap/gap_video_index_creator.c:1593
 #, c-format
 msgid "Creating video index %0.3f %%"
 msgstr "Ustvarjanje slikovnega kazala %0.3f %%"
+
+#: ../gap/gap_video_index_creator.c:1599
+#, c-format
+#| msgid "Creating video index %0.3f %%"
+msgid "Creating video index %0.3f %% (%d)"
+msgstr "Ustvarjanje slikovnega kazala %0.3f %% (%d)"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_water_pattern.c:1036
