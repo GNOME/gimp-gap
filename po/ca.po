@@ -7906,7 +7906,7 @@ msgstr "Estableix el nom de fitxer de la Filtermacro"
 
 #: ../gap/gap_story_properties.c:2561
 msgid "EMPTY"
-msgstr "EMPTY"
+msgstr "BUIT"
 
 #: ../gap/gap_story_properties.c:2564
 msgid "COLOR"
@@ -7914,35 +7914,35 @@ msgstr "COLOR"
 
 #: ../gap/gap_story_properties.c:2567
 msgid "SINGLE-IMAGE"
-msgstr "SINGLE-IMAGE"
+msgstr "IMATGE SIMPLE"
 
 #: ../gap/gap_story_properties.c:2571
 msgid "ANIM-IMAGE"
-msgstr "ANIM-IMAGE"
+msgstr "IMATGE ANIMADA"
 
 #: ../gap/gap_story_properties.c:2575
 msgid "FRAME-IMAGES"
-msgstr "FRAME-IMAGES"
+msgstr "FOTOGRAMES-IMATGES"
 
 #: ../gap/gap_story_properties.c:2580
 msgid "MOVIE"
-msgstr "MOVIE"
+msgstr "PEL·LÍCULA"
 
 #: ../gap/gap_story_properties.c:2584
 msgid "SECTION"
-msgstr "SECTION"
+msgstr "SECCIÓ"
 
 #: ../gap/gap_story_properties.c:2588
 msgid "BLACKSECTION"
-msgstr "BLACKSECTION"
+msgstr "SECCIÓ NEGRA"
 
 #: ../gap/gap_story_properties.c:2591
 msgid "COMMENT"
-msgstr "COMMENT"
+msgstr "COMENTARI"
 
 #: ../gap/gap_story_properties.c:2594
 msgid "** UNKNOWN **"
-msgstr "** UNKNOWN **"
+msgstr "** DESCONEGUT **"
 
 #: ../gap/gap_story_properties.c:2623
 #: ../gap/gap_story_section_properties.c:591
