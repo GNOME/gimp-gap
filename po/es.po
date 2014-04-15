@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-12 06:38+0000\n"
+"POT-Creation-Date: 2014-04-15 06:12+0000\n"
 "PO-Revision-Date: 2014-03-12 13:53+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -66,7 +66,7 @@ msgstr "El archivo «%s» ya existe"
 #: ../gap/gap_morph_tween_dialog.c:1316 ../gap/gap_vex_dialog.c:248
 #: ../vid_common/gap_cme_gui.c:2373
 msgid "Overwrite"
-msgstr "Sobreescribir"
+msgstr "Sobrescribir"
 
 #: ../gap/gap_arr_dialog.c:1829 ../gap/gap_decode_mplayer.c:702
 #: ../gap/gap_decode_xanim.c:375 ../gap/gap_range_ops.c:1549
@@ -1284,13 +1284,11 @@ msgstr "_Buscar:"
 
 #. Layer Group handling mode the label
 #: ../gap/gap_dbbrowser_utils.c:362
-#| msgid "Target Group:"
 msgid "Layer Group:"
 msgstr "Grupo de capas:"
 
 #. GroupLayer handling mode the radio buttons
 #: ../gap/gap_dbbrowser_utils.c:370
-#| msgid "unprocessed"
 msgid "Process"
 msgstr "Procesar"
 
@@ -1315,7 +1313,6 @@ msgid "skip processing of the selected filter for group layers."
 msgstr "omitir el proceso del filtro seleccionado para el grupo de capas."
 
 #: ../gap/gap_dbbrowser_utils.c:388
-#| msgid "Grain Merge"
 msgid "Merge"
 msgstr "Combinar"
 
@@ -1626,13 +1623,13 @@ msgstr "Hora de comienzo no válida «%s»"
 #: ../gap/gap_decode_mplayer.c:692 ../gap/gap_decode_xanim.c:365
 #: ../gap/gap_range_ops.c:1542 ../gap/gap_split.c:102
 msgid "Overwrite Frame"
-msgstr "Sobreescribir fotograma"
+msgstr "Sobrescribir fotograma"
 
 #: ../gap/gap_decode_mplayer.c:694 ../gap/gap_decode_xanim.c:367
 #: ../gap/gap_range_ops.c:1544 ../gap/gap_split.c:104
 #: ../gap/gap_vex_dialog.c:239
 msgid "Overwrite All"
-msgstr "Sobreescribir todo"
+msgstr "Sobrescribir todo"
 
 #: ../gap/gap_decode_mplayer.c:703 ../gap/gap_decode_xanim.c:376
 #: ../gap/gap_split.c:113
@@ -1659,7 +1656,7 @@ msgstr "no se extrajeron fotogramas, porque se canceló la sobreescritura de %s"
 #: ../gap/gap_split.c:348
 #, c-format
 msgid "failed to overwrite %s (check permissions ?)"
-msgstr "fallo al sobreescribir %s (compruebe los permisos)"
+msgstr "fallo al sobrescribir %s (compruebe los permisos)"
 
 #: ../gap/gap_decode_mplayer.c:1029 ../gap/gap_decode_xanim.c:634
 #, c-format
@@ -2848,7 +2845,6 @@ msgid "Menu Path"
 msgstr "Ruta del menú"
 
 #: ../gap/gap_fmac_main.c:797
-#| msgid "Information:"
 msgid "Information"
 msgstr "Información"
 
@@ -2965,11 +2961,11 @@ msgstr ""
 
 #: ../gap/gap_lib.c:2102
 msgid "overwrite flattened"
-msgstr "sobreescribir aplanado"
+msgstr "sobrescribir aplanado"
 
 #: ../gap/gap_lib.c:2104
 msgid "overwrite"
-msgstr "sobreescribir"
+msgstr "sobrescribir"
 
 #: ../gap/gap_lib.c:2106
 msgid "read only"
@@ -3147,7 +3143,6 @@ msgid "Select Filter for Animated Apply on Frames"
 msgstr "Seleccione filtro para aplicar animación en fotogramas"
 
 #: ../gap/gap_mod_layer.c:1497
-#| msgid "Modify Layers cancelled: No layer selected in last handled frame"
 msgid "Modify Layers cancelled: No normal layer selected in 1.st handled frame"
 msgstr ""
 "Modificador de capas cancelada: no hay capa ninguna seleccionada en el "
@@ -3155,7 +3150,6 @@ msgstr ""
 
 #: ../gap/gap_mod_layer.c:1637
 #, c-format
-#| msgid "No selected layer in start frame"
 msgid "No selected layer for group:%s in last handled frame"
 msgstr ""
 "No hay capa seleccionada para el grupo%s en el último fotograma manejado"
@@ -3166,7 +3160,6 @@ msgstr ""
 "Modificador GAP: No hay capa seleccionada en el último fotograma manipulado"
 
 #: ../gap/gap_mod_layer.c:1669
-#| msgid "Modify Layers cancelled: No layer selected in last handled frame"
 msgid "Modify Layers cancelled: No normal layer selected in last handled frame"
 msgstr ""
 "Modificador de capas cancelada: no hay capa ninguna seleccionada en el "
@@ -3187,7 +3180,6 @@ msgstr "Modificando fotogramas/capa(s)…"
 
 #: ../gap/gap_mod_layer.c:1920
 #, c-format
-#| msgid "No selected layer in start frame"
 msgid "No selected layer for group:%s in start frame"
 msgstr "No hay capa seleccionada para el grupo:%s en el fotograma inicial"
 
@@ -3363,12 +3355,10 @@ msgid "Layer Stackposition"
 msgstr "Posición en la pila de la capa"
 
 #: ../gap/gap_mod_layer_dialog.c:757
-#| msgid "Raise layer(s)"
 msgid "Raise layer(s) to top"
 msgstr "Elevar capa(s) hacia arriba"
 
 #: ../gap/gap_mod_layer_dialog.c:758
-#| msgid "raise all selected layers"
 msgid "raise selected layer(s) to top"
 msgstr "Elevar las capas hacia arriba"
 
@@ -3389,17 +3379,14 @@ msgid "lower all selected layers"
 msgstr "Hundir todas las capas seleccionadas"
 
 #: ../gap/gap_mod_layer_dialog.c:775
-#| msgid "Lower layer(s)"
 msgid "Lower layer(s) to bottom"
 msgstr "Hundir capas hacia abajo"
 
 #: ../gap/gap_mod_layer_dialog.c:776
-#| msgid "lower all selected layers"
 msgid "lower selected layer(s) to bottom"
 msgstr "hundir todas las capas hacia abajo"
 
 #: ../gap/gap_mod_layer_dialog.c:781
-#| msgid "Lower layer(s)"
 msgid "Reorder layer(s)"
 msgstr "Reordenar capas"
 
@@ -3438,36 +3425,30 @@ msgid "merge selected layers and clip to bg-layer"
 msgstr "Mezclar las capas seleccionadas y recortar según capa de fondo"
 
 #: ../gap/gap_mod_layer_dialog.c:827
-#| msgid "Merge layer(s); expand as necessary"
 msgid "Merge down layer(s); expand as necessary"
 msgstr "Mezclar capas hacia abajo; expandir si es necesario"
 
 #: ../gap/gap_mod_layer_dialog.c:828
-#| msgid "merge selected layers and expand as necessary"
 msgid "merge selected layers with the layer below and expand as necessary"
 msgstr ""
 "mezclar las capas seleccionadas con la capa inferior y expandir si es "
 "necesario"
 
 #: ../gap/gap_mod_layer_dialog.c:833
-#| msgid "Merge layer(s) clipped to image"
 msgid "Merge down layer(s); clipped to image"
 msgstr "Mezclar capas hacia abajo; recortar a la imagen"
 
 #: ../gap/gap_mod_layer_dialog.c:834
-#| msgid "merge selected layers and clip to image"
 msgid "merge selected layers with the layer below and clip to image size"
 msgstr ""
 "mezclar las capas seleccionadas con la capa inferior y recortar al tamaño de "
 "la imagen"
 
 #: ../gap/gap_mod_layer_dialog.c:839
-#| msgid "Merge layer(s) clipped to bg-layer"
 msgid "Merge down layer(s) clipped to bg-layer"
 msgstr "Mezclar capas hacia abajo y recortar según capa de fondo"
 
 #: ../gap/gap_mod_layer_dialog.c:840
-#| msgid "merge selected layers and clip to bg-layer"
 msgid "merge selected layers with the layer below and clip to bg-layer"
 msgstr ""
 "mezclar las capas seleccionadas con la capa inferior y recortar a la capa de "
@@ -3628,7 +3609,6 @@ msgid "Add alpha channel"
 msgstr "Añadir canal alfa"
 
 #: ../gap/gap_mod_layer_dialog.c:1095
-#| msgid "Create Layers"
 msgid "Create Layergroup"
 msgstr "Crear grupo de capas"
 
@@ -3637,7 +3617,6 @@ msgid "Frames Modify"
 msgstr "Modificar fotogramas"
 
 #: ../gap/gap_mod_layer_dialog.c:1295
-#| msgid "Create Layers"
 msgid "Get Active Layer"
 msgstr "Obtener la capa activa"
 
@@ -3669,7 +3648,6 @@ msgstr ""
 
 #. the newGroupName label
 #: ../gap/gap_mod_layer_dialog.c:1412
-#| msgid "New Layer Name"
 msgid "New Group Name:"
 msgstr "Nombre del grupo nuevo:"
 
@@ -3682,7 +3660,6 @@ msgstr ""
 "(importante para reordenar las capas y crear funciones de grupo)"
 
 #: ../gap/gap_mod_layer_dialog.c:1437
-#| msgid "Show Position Scale"
 msgid "New Position:"
 msgstr "Nueva posición:"
 
@@ -3816,7 +3793,6 @@ msgstr ""
 
 #. the sel_groupname label
 #: ../gap/gap_mod_layer_dialog.c:1690
-#| msgid "Fontname:"
 msgid "Groupname:"
 msgstr "Nombre del grupo:"
 
@@ -3830,7 +3806,6 @@ msgstr ""
 "imagen de nivel superior."
 
 #: ../gap/gap_mod_layer_dialog.c:1720
-#| msgid "delimiter to separate group/subgroup"
 msgid "Delimiter string to split layer group/subgroup names."
 msgstr "Delimitador para separar los nombres de grupo/subgrupo."
 
@@ -4558,7 +4533,7 @@ msgid ""
 "ON: overwrite existing workpointfiles.OFF: Skip workpoint generation or add "
 "new generated workpoints (see append checkbutton)."
 msgstr ""
-"ACTIVADO: sobreescribir los archivos de puntos de trabajo existentes. "
+"ACTIVADO: sobrescribir los archivos de puntos de trabajo existentes. "
 "DESACTIVADO: saltar la generación de puntos de trabajo o añadir los nuevos "
 "puntos de trabajo generados (véase la casilla de selección de añadir al "
 "final)."
@@ -4676,7 +4651,7 @@ msgid ""
 "ON: overwrite existing frames.OFF: skip processing when target frame/tween "
 "already exists."
 msgstr ""
-"ACTIVADO: sobreescribir los fotogramas existentes. DESACTIVADO: omitir el "
+"ACTIVADO: sobrescribir los fotogramas existentes. DESACTIVADO: omitir el "
 "procesamiento cuando ya existen el fotograma o el tween de destino."
 
 #. the master progress bar
@@ -7041,7 +7016,6 @@ msgstr "La extracción de pista de sonido falló en el archivo de vídeo: %s"
 
 #: ../gap/gap_player_dialog.c:2695
 #, c-format
-#| msgid "Creating Index"
 msgid "Creating Index %d"
 msgstr "Creando índice %d"
 
@@ -10063,7 +10037,7 @@ msgstr "Creando índice (decodificador: %s)"
 
 #: ../gap/gap_vex_dialog.c:237
 msgid "Overwrite File"
-msgstr "Sobreescribir archivo"
+msgstr "Sobrescribir archivo"
 
 #: ../gap/gap_vex_dialog.c:247
 #, c-format
@@ -10582,7 +10556,6 @@ msgstr "Creando archivo de índice de vídeo %0.3f %%"
 
 #: ../gap/gap_video_index_creator.c:1599
 #, c-format
-#| msgid "Creating video index %0.3f %%"
 msgid "Creating video index %0.3f %% (%d)"
 msgstr "Creando archivo de índice de vídeo %0.3f %% (%d)"
 
@@ -11003,7 +10976,7 @@ msgid ""
 "ERROR: Can't overwrite temporary workfile\n"
 "file: %s"
 msgstr ""
-"Error: No se puede sobreescribir el archivo de trabajo temporal\n"
+"Error: No se puede sobrescribir el archivo de trabajo temporal\n"
 "archivo: «%s»"
 
 #: ../libgapvidutil/gap_gve_sox.c:170
