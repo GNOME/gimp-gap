@@ -1,7 +1,8 @@
  --disable-ffmpeg  --disable-ffplay  --disable-ffprobe  --disable-ffserver --disable-shared --enable-static --enable-gpl --enable-mmx --enable-mmx2 --disable-vaapi  --disable-devices --disable-pthreads  --disable-altivec  --disable-sse --disable-neon
 #
 # This file provides configuration options for ffmpeg
-# and is included while GIMP-GAP configure scriptruns the ffmpeg configuration on Windows environment.
+# and is included while GIMP-GAP configure script runs the ffmpeg configuration on Mingw Windows environment.
+# (or on crosscompilation with windows OS as target both for win32 and win64 target architecture)
 #
 # Notes:
 #  there is another variant of this file for Linux and Unix-like Os named: configure_options_ffmpeg.txt
@@ -43,4 +44,7 @@
 #  --enable-swscale
 #  --enable-nonfree
 # options for the ffmpeg configure
+#
+# cross compilation for windows 64 bit target (on openSUSE 13.1 64 bit build machine)
+#  --enable-cross-compile  --target-os=mingw32  --arch=x86_64
 

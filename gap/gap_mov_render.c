@@ -739,7 +739,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
 
   if(gap_debug)
   {
-    printf("gap_mov_render_render: frame/layer: %ld/%ld  X=%f, Y=%f\n"
+    printf("gap_mov_render_render: frame/layer: %d/%d  X=%f, Y=%f\n"
                 "       Width=%f Height=%f\n"
                 "       Opacity=%f  Rotate=%f  clip_to_img = %d force_visibility = %d\n"
                 "       src_stepmode = %d rotate_threshold=%.7f\n"
@@ -755,7 +755,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                      val_ptr->src_stepmode,
                      val_ptr->rotate_threshold,
 		     cur_ptr->singleMovObjLayerId,
-		     gimp_item_get_image(cur_ptr->singleMovObjLayerId),
+		     (cur_ptr->singleMovObjLayerId >= 0) ? gimp_item_get_image(cur_ptr->singleMovObjLayerId) :-44,
 		     image_id
 		     );
   }
@@ -1402,3 +1402,4 @@ gap_mov_render_create_or_replace_tempsel_image(gint32 channel_id
                           );
   }
 }  /* end gap_mov_render_create_or_replace_tempsel_image */
+

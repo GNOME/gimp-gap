@@ -1,3 +1,104 @@
+2014-05-09 Wolfgang Hofer <hof@gimp.org>
+
+- provide additional video encoder preset file: ff_x264_aac_hq.preset
+  that uses the AAC audio codec.
+  The other ff_x264_hq.preset uses the AC3 codec that is not supported
+  by some players (as the Media player on my Windows7 64bit machine)
+
+- Movepath now supports unlimted number of controlpoints
+  (old implementation was restricted to maximal 1024 controlpoints)
+
+- various fixes (found at tests on linux64 bit and windows 64 bit crosscomiple environment)
+    - g_stat shall use GStatBuf
+    - timestamps shall use time_t  (gap_file_get_mtime, gap_base_get_current_time)
+    - fixed crash in query of some plug-ins @ gimp_lastval_desc_register call.
+       (use fopen mode "wb" and "rb" -- do not mix "w" & "rb")
+    - fixed crash in storyboard rendering when move path transition is used.
+       (procedure gap_mov_exec_new_GapMovValues   
+         must initialize:  pvals->dst_group_name_path_string = NULL;
+       )
+    - fixed crash in storyboard dialog
+      - at attempt to copy a clip when storyboard was not yet saved 
+        (and internal filename is still NULL)
+        both via copy/paste or with drag&drop
+      - sporadic crash at open clip property dialog window
+         (memory overwrite @ gap_story_pw_properties_dialog
+          in the loop that should reset the 3 elements of the array 
+          pw->pw_mask_anchor_radio_button_arr)
+
+    - added gap_dialog_new  with same interface as gimp_dialog_new
+        - shall fix crash on attempt to move the dialog window 
+          with the mouse on Windows7 64 bit system
+          (-- this issue is not yet fixed ---)
+        - open the dialog as "Normal Toplevel Window"
+           (e.g. in foreground and with minimize/maximize/close widget decorations)
+
+
+    Windows64 bit cross compilation was done on SuSE 13.1 Virtual machine
+
+    Setup Linux For GIMP-GAP cross compilation
+    o) installed most dependency libs from openSuSE 13.1 windows 64 bit
+    o) have a script to setup environment varbles 
+       (PREFIX, LD_LIBRARY_PATH and other stuff see the gimp wiki crsosscompile page)
+    o) crosscompiled some dependency libs that were not provided as binary by openSUSE 13.1
+    o) crosscompiled gimp-2.8.10 (see gimp wiki crsosscompile page)
+    o) configured GAP:
+    
+       -) Add the options:
+              --enable-cross-compile  --target-os=mingw32  --arch=x86_64
+          to the file:  extern_libs/configure_options_ffmpeg_win32.txt
+       -) run autogen.sh (or configure) with the following configure options:
+           ./configure  --prefix=$PREFIX --host=x86_64-w64-mingw32 --disable-libmpeg3 --disable-ff-libxvid
+   
+
+   * ChangeLog
+   * configure.in
+   * extern_libs/configure_options_ffmpeg_win32.txt
+   * gap/gap_arr_dialog.c
+   * gap/gap_arr_dialog.h
+   * gap/gap_audio_wav.c
+   * gap/gap_detail_tracking_main.c
+   * gap/gap_drawable_vref_parasite.c
+   * gap/gap_fmac_context.h
+   * gap/gap_frame_fetcher.c
+   * gap/gap_lib.c
+   * gap/gap_lib.h
+   * gap/gap_mov_dialog.c
+   * gap/gap_mov_dialog.h
+   * gap/gap_mov_exec.c
+   * gap/gap_mov_exec.h
+   * gap/gap_mov_main.c
+   * gap/gap_mov_render.c
+   * gap/gap_mov_xml_par.c
+   * gap/gap_navigator_dialog.c
+   * gap/gap_onion_base.h
+   * gap/gap_player_dialog.c
+   * gap/gap_story_att_trans_dlg.c
+   * gap/gap_story_dialog.c
+   * gap/gap_story_file.c
+   * gap/gap_story_file.h
+   * gap/gap_story_main.h
+   * gap/gap_story_properties.c
+   * gap/gap_story_undo_types.h
+   * gap/gimplastvaldesc.c
+   * libgapbase/gap_base.c
+   * libgapbase/gap_base.h
+   * libgapbase/gap_file_util.c
+   * libgapbase/gap_file_util.h
+   * libgapvidapi/gap_vid_api.h
+   * libgapvidapi/gap_vid_api_util.c
+   * libgapvidapi/gap_vid_api_vidindex.c
+   * libgapvidutil/gap_gve_misc_util.c
+   * libgapvidutil/gap_gve_xvid.c
+   * vid_common/gap_cme_callbacks.c
+   * vid_common/gap_cme_gui.c
+   * vid_common/gap_cme_main.c
+   * vid_enc_ffmpeg/Makefile.am
+
+
+   * vid_enc_ffmpeg/ff_x264_aac_hq.preset    # new file
+
+
 2014-02-27 Wolfgang Hofer <hof@gimp.org>
 
 - fixed bug in the GAP video API that caused endless loop in

@@ -307,7 +307,6 @@ query ()
                          " - keyframe_abs numbers must be 0 (== not fixed) or a frame_number within the affected frame range\n"
                          " - keyframes_abs must be in sequence (ascending or descending)\n"
                          " - the first and last controlpoint are always implicit keyframes, and should be passed with keyframe_abs = 0\n"
-                         " - the number of controlpoints is limited to a maximum of %d.\n"
                          "   the number of controlpoints must be passed in all argc_* parameters\n"
                          "If the TraceLayer feature is turned on, an additional layer\n"
                          "  is inserted below the moving object. This Tracelayer shows all steps\n"
@@ -315,8 +314,8 @@ query ()
                          "With TweenSteps you can calculate virtual Frames between 2 destination frames\n"
                          "  all these Steps are collected in another additional Layer.\n"
                          "  this Tweenlayer is added below the moving Object in all handled destination Frames\n"
-                         "See also (plug_in_gap_move_path, plug_in_gap_move)",
-                         (int)GAP_MOV_MAX_POINT);
+                         "See also (plug_in_gap_move_path, plug_in_gap_move)"
+                         );
 
   gimp_install_procedure(PLUGIN_NAME_GAP_MOVE_PATH_EXT,
                          "This plugin copies layer(s) from one sourceimage or source animation to multiple frames on disk,\n"
@@ -487,7 +486,7 @@ run (const gchar *name
       {
         l_rc_image = gap_mov_exec_move_path(run_mode, image_id, pvals, NULL, 0, 0);
       }
-      g_free(pvals);
+      gap_mov_exec_free_GapMovValues(pvals);
   }
   else if (strcmp (name, PLUGIN_NAME_GAP_MOVE_SINGLEFRAME) == 0)
   {
@@ -553,7 +552,7 @@ run (const gchar *name
           gimp_set_data(PLUGIN_NAME_GAP_MOVE_SINGLEFRAME, &singleframevals, sizeof(singleframevals));
         }
       }
-      g_free(pvals);
+      gap_mov_exec_free_GapMovValues(pvals);
 
   }
   else if ((strcmp (name, PLUGIN_NAME_GAP_MOVE_PATH_EXT) == 0)
@@ -670,7 +669,7 @@ run (const gchar *name
       {
         l_rc_image = gap_mov_exec_move_path(run_mode, image_id, pvals, pointfile, l_rotation_follow, (gdouble)l_startangle);
       }
-      g_free(pvals);
+      gap_mov_exec_free_GapMovValues(pvals);
       if(pointfile != NULL)
       {
         g_free(pointfile);

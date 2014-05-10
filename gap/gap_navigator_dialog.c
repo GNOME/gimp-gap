@@ -2512,7 +2512,7 @@ navi_render_preview (FrameWidget *fw)
    }
    else
    {
-     struct stat  l_stat;
+     GStatBuf     l_stat;
      gchar       *l_frame_filename;
      gboolean     l_can_use_cached_thumbnail;
      gboolean     l_referenced_frame_exists;

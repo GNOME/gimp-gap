@@ -30,6 +30,10 @@
 #define GAP_FILE_UTIL_H
 
 #include "libgimp/gimp.h"
+#include <time.h>
+#ifdef HAVE_SYS_TIMES_H
+#include <sys/times.h>
+#endif
 
 /* G_DIR_SEPARATOR (is defined in glib.h if you have glib-1.2.0 or later) */
 #ifdef G_OS_WIN32
@@ -82,7 +86,10 @@ char *      gap_file_make_abspath_filename(const char *filename
                   , const char *container_file);
 
 char *      gap_file_build_absolute_filename(const char * filename);
-gint32      gap_file_get_mtime(const char *filename);
+time_t      gap_file_get_mtime(const char *filename);
+
+void        gap_file_printf(const char *fmt, ...);
+
 
 
 #endif        /* GAP_FILE_UTIL_H */

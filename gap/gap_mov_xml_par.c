@@ -1,5 +1,5 @@
 /* gap_mov_xml_par.c
- * 2011.03.09 hof (Wolfgang Hofer)
+ * 2014.05.07 hof (Wolfgang Hofer)
  *
  * GAP ... Gimp Animation Plugins
  *
@@ -842,8 +842,12 @@ p_xml_parse_element_controlpoints(const gchar         *element_name,
 
       if(userDataPtr->isParseOk)
       {
-        if((numberOfPoints < GAP_MOV_MAX_POINT) && (numberOfPoints > 0))
+        if(numberOfPoints > 0)
         {
+          if (numberOfPoints > userDataPtr->pvals->point_table_size)
+          {
+            gap_mov_exec_dim_point_table(userDataPtr->pvals, numberOfPoints + 2);
+          }
           userDataPtr->pvals->point_idx_max = numberOfPoints -1;
         }
         else
@@ -868,7 +872,7 @@ p_xml_parse_element_controlpoints(const gchar         *element_name,
 static void
 p_set_load_defaults_for_one_controlpoint(GapMovValues *pvals, gint idx)
 {
-  if((idx >= 0) && (idx < GAP_MOV_MAX_POINT))
+  if((idx >= 0) && (idx < pvals->point_table_size))
   {
     pvals->point[idx].p_x  = 0;
     pvals->point[idx].p_y  = 0;
@@ -916,9 +920,9 @@ p_xml_parse_element_controlpoint(const gchar         *element_name,
   const gchar **name_cursor = attribute_names;
   const gchar **value_cursor = attribute_values;
 
-  if(count >= GAP_MOV_MAX_POINT)
+  if(count >= userDataPtr->pvals->point_table_size)
   {
-    userDataPtr->isParseOk = FALSE;
+    gap_mov_exec_dim_point_table(userDataPtr->pvals, count + GAP_MOV_POINT_EXPAND_SIZE);
   }
 
   p_set_load_defaults_for_one_controlpoint(userDataPtr->pvals, count);
@@ -1046,10 +1050,13 @@ p_start_xml_element (GMarkupParseContext *context,
     const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
-    GapMovXmlUserData   *userDataPtr,
+    gpointer           user_data,
     GError             **error)
 {
   gint jj;
+  GapMovXmlUserData   *userDataPtr;
+  
+  userDataPtr = (GapMovXmlUserData *)user_data;
 
   if(gap_debug)
   {
@@ -1105,9 +1112,13 @@ p_start_xml_element (GMarkupParseContext *context,
 static void
 p_end_xml_element (GMarkupParseContext *context,
     const gchar         *element_name,
-    GapMovXmlUserData   *userDataPtr,
+    gpointer             user_data,
     GError             **error)
 {
+  GapMovXmlUserData   *userDataPtr;
+
+  userDataPtr = (GapMovXmlUserData *)user_data;
+
   if(gap_debug)
   {
     printf("p_end_xml_element: %s\n", element_name);
@@ -1179,80 +1190,20 @@ p_copy_transformed_values(GapMovValues *dstValues, GapMovValues *srcValues
 {
   gint ii;
 
-  dstValues->version = srcValues->version;
-  dstValues->rotate_threshold = srcValues->rotate_threshold;
-  dstValues->recordedFrameWidth = srcValues->recordedFrameWidth;
-  dstValues->recordedFrameHeight = srcValues->recordedFrameHeight;
-  dstValues->recordedObjWidth = srcValues->recordedObjWidth;
-  dstValues->recordedObjHeight = srcValues->recordedObjHeight;
-  dstValues->dst_range_start = srcValues->dst_range_start;
-  dstValues->dst_range_end = srcValues->dst_range_end;
-  dstValues->total_frames = srcValues->total_frames;
-  dstValues->tween_steps = srcValues->tween_steps;
-  dstValues->tween_opacity_initial = srcValues->tween_opacity_initial;
-  dstValues->tween_opacity_desc = srcValues->tween_opacity_desc;
-  dstValues->tracelayer_enable = srcValues->tracelayer_enable;
-  dstValues->trace_opacity_initial = srcValues->trace_opacity_initial;
-  dstValues->trace_opacity_desc = srcValues->trace_opacity_desc;
-  dstValues->src_stepmode = srcValues->src_stepmode;
-  dstValues->src_handle = srcValues->src_handle;
-  dstValues->src_selmode = srcValues->src_selmode;
-  dstValues->src_paintmode = srcValues->src_paintmode;
-  dstValues->dst_layerstack = srcValues->dst_layerstack;
-  if(dstValues->dst_group_name_path_string != NULL)
+  if(gap_debug)
   {
-    g_free(dstValues->dst_group_name_path_string);
-    dstValues->dst_group_name_path_string = NULL;
-  }
-  if(srcValues->dst_group_name_path_string != NULL)
-  {
-    dstValues->dst_group_name_path_string = g_strdup(srcValues->dst_group_name_path_string);
+    printf("p_copy_transformed_values START\n");
   }
 
-  if(dstValues->dst_group_name_delimiter != NULL)
-  {
-    g_free(dstValues->dst_group_name_delimiter);
-    dstValues->dst_group_name_delimiter = NULL;
-  }
-  if(srcValues->dst_group_name_delimiter != NULL)
-  {
-    dstValues->dst_group_name_delimiter = g_strdup(srcValues->dst_group_name_delimiter);
-  }
-  dstValues->step_speed_factor = srcValues->step_speed_factor;
-  dstValues->src_force_visible = srcValues->src_force_visible;
-  dstValues->clip_to_img = srcValues->clip_to_img;
-  dstValues->src_apply_bluebox = srcValues->src_apply_bluebox;
-  dstValues->src_layerstack = srcValues->src_layerstack;
-
-  if(dstValues->src_filename != NULL)
-  {
-    g_free(dstValues->src_filename);
-    dstValues->src_filename = NULL;
-  }
-  if(srcValues->src_filename != NULL)
-  {
-    dstValues->src_filename = g_strdup(srcValues->src_filename);
-  }
-
-  if(dstValues->bbp != NULL)
-  {
-    g_free(dstValues->bbp);
-    dstValues->bbp = NULL;
-  }
-  if(srcValues->bbp != NULL)
-  {
-    dstValues->bbp = g_new(GapBlueboxGlobalParams, 1);
-    memcpy(dstValues->bbp, srcValues->bbp, sizeof(GapBlueboxGlobalParams));
-  }
+  /* copy all settings, points (this also includes 
+   * reallocate the point table in dstValues to same size as the srcValues 
+   */
+  gap_mov_exec_copy_GapMovValues(dstValues, srcValues);
 
 
-  dstValues->point_idx = srcValues->point_idx;
-  dstValues->point_idx_max = srcValues->point_idx_max;
-
-  /* copy controlpoint data for all points and transform coordinates */
+  /* transform coordinates */
   for(ii=0; ii <= srcValues->point_idx_max; ii++)
   {
-    memcpy(&dstValues->point[ii], &srcValues->point[ii], sizeof(GapMovPoint));
 
     dstValues->point[ii].p_x = p_transform_path_coordinate(srcValues->point[ii].p_x
                                     , srcValues->recordedFrameWidth
@@ -1424,12 +1375,14 @@ gap_mov_xml_par_load(const char *filename, GapMovValues *productiveValues
   if(tmpValues->bbp != NULL)
   {
     g_free(tmpValues->bbp);
+    tmpValues->bbp = NULL;
   }
   if(tmpValues->src_filename != NULL)
   {
     g_free(tmpValues->src_filename);
+    tmpValues->src_filename = NULL;
   }
-  g_free(tmpValues);
+  gap_mov_exec_free_GapMovValues(tmpValues);
 
   g_free(userDataPtr);
 
@@ -1768,3 +1721,4 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
   }
   return -1;
 }  /* end gap_mov_xml_par_save */
+

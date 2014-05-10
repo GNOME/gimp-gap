@@ -41,6 +41,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <time.h>
 
 /* #include <locale.h> */
 #include <gap-intl.h>
@@ -65,7 +66,7 @@
 #define GAP_ONION_REFMODE_BIDRIECTIONAL_DOUBLE   2
 
 typedef struct GapOnionBaseParasite_data {
-   long         timestamp;      /* UTC timecode of creation time */
+   time_t       timestamp;      /* UTC timecode of creation time */
    gint32       tattoo;         /* unique tattoo */
 } GapOnionBaseParasite_data;
 

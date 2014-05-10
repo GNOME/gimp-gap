@@ -45,7 +45,7 @@ typedef struct GapFmacRefEntry {
   gint32      frame_nr;
   gint32      stackposition;
   gint32      track;
-  gint32      mtime;
+  time_t      mtime;
   char        filename[1024];
   char        parentpositions[300];
   struct GapFmacRefEntry *next;

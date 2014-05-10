@@ -389,8 +389,8 @@ static gboolean p_tabw_scroll_event_cb ( GtkWidget *widget
 static void     story_dlg_response (GtkWidget *widget,
                     gint       response_id,
                     GapStbMainGlobalParams *sgpp);
-static void     story_dlg_destroy (GtkWidget *widget,
-                    GapStbMainGlobalParams *sgpp);
+// static void     story_dlg_destroy (GtkWidget *widget,
+//                     GapStbMainGlobalParams *sgpp);
 
 
 static void     p_recreate_tab_widgets(GapStoryBoard *stb
@@ -2697,7 +2697,10 @@ static void
 p_tabw_add_elem (GapStbTabWidgets *tabw, GapStbMainGlobalParams *sgpp, GapStoryBoard *stb_dst)
 {
   GapStoryElem *stb_elem;
-  if(gap_debug) printf("p_tabw_add_elem\n");
+  if(gap_debug)
+  {
+    printf("p_tabw_add_elem\n");
+  }
 
   if(sgpp == NULL)    { return; }
   if(tabw == NULL)    { return; }
@@ -3481,7 +3484,9 @@ gap_story_pw_single_clip_playback(GapStbPropWidget *pw)
 
     p_get_begin_and_end_for_single_clip_playback(&l_begin_frame, &l_end_frame, pw->stb_elem_refptr);
     imagename = gap_story_get_filename_from_elem(pw->stb_elem_refptr);
-    p_story_call_player(pw->sgpp
+    if (imagename != NULL)
+    {
+      p_story_call_player(pw->sgpp
                      ,NULL             /* No storyboard pointer */
                      ,imagename
                      ,imagewidth
@@ -3499,7 +3504,8 @@ gap_story_pw_single_clip_playback(GapStbPropWidget *pw)
                      ,tabw->vtrack             /* stb_in_track (not relevant here) */
                      ,FALSE                    /* stb_composite (not relevant here) */
                      );
-    g_free(imagename);
+      g_free(imagename);
+    }
   }
 }  /* end gap_story_pw_single_clip_playback */
 
@@ -5145,13 +5151,7 @@ p_menu_win_quit_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp)
 {
   if(gap_debug) printf("p_menu_win_quit_cb\n");
 
-  if(p_close_one_or_both_lists(sgpp
-                              , TRUE  /* check_cliplist */
-                              , TRUE  /* check_storyboard */
-                              ))
-  {
-    story_dlg_response(widget, GTK_RESPONSE_CANCEL, sgpp);
-  }
+  story_dlg_response(widget, GTK_RESPONSE_CANCEL, sgpp);
 
 }  /* end p_menu_win_quit_cb */
 
@@ -7413,14 +7413,23 @@ story_dlg_response (GtkWidget *widget,
 {
   GtkWidget *dialog;
 
+  if(gap_debug)
+  {
+    printf("story_dlg_response response_id:%d sgpp:%d\n"
+       , (int)response_id
+       , (int)sgpp
+       );
+  }
+
   switch (response_id)
   {
     case GTK_RESPONSE_OK:
       if(sgpp)
       {
         if (GTK_WIDGET_VISIBLE (sgpp->shell_window))
+        {
           gtk_widget_hide (sgpp->shell_window);
-
+        }
         sgpp->run = TRUE;
       }
 
@@ -7428,12 +7437,25 @@ story_dlg_response (GtkWidget *widget,
       dialog = NULL;
       if(sgpp)
       {
-        gap_story_vthumb_close_videofile(sgpp);
-        dialog = sgpp->shell_window;
-        if(dialog)
+        if(p_close_one_or_both_lists(sgpp
+                              , TRUE  /* check_cliplist */
+                              , TRUE  /* check_storyboard */
+                              ))
         {
-          sgpp->shell_window = NULL;
-          gtk_widget_destroy (dialog);
+          if(gap_debug) printf("story_dlg_response got CLOSE permisson\n");
+
+          gap_story_vthumb_close_videofile(sgpp);
+          dialog = sgpp->shell_window;
+          if(dialog)
+          {
+            sgpp->shell_window = NULL;
+            gtk_widget_destroy (dialog);
+          }
+        }
+        else
+        {
+          if(gap_debug) printf("story_dlg_response CLOSE permisson denied\n");
+          return;
         }
       }
       gtk_main_quit ();
@@ -7445,39 +7467,39 @@ story_dlg_response (GtkWidget *widget,
  * story_dlg_destroy
  * ---------------------------------
  */
-static void
-story_dlg_destroy (GtkWidget *widget,
-                 GapStbMainGlobalParams *sgpp_1)
-{
-  GtkWidget *dialog;
-  GapStbMainGlobalParams *sgpp;
-
-  dialog = NULL;
-
-  if(sgpp_1 != NULL)
-  {
-    sgpp = sgpp_1;
-  }
-  else
-  {
-    sgpp = (GapStbMainGlobalParams *)g_object_get_data(G_OBJECT(widget), "sgpp");
-  }
-
-
-  if(sgpp)
-  {
-    gap_story_vthumb_close_videofile(sgpp);
-    dialog = sgpp->shell_window;
-    if(dialog)
-    {
-      sgpp->shell_window = NULL;
-      gtk_widget_destroy (dialog);
-    }
-  }
-
-  gtk_main_quit ();
-
-}  /* end story_dlg_destroy */
+// static void
+// story_dlg_destroy (GtkWidget *widget,
+//                  GapStbMainGlobalParams *sgpp_1)
+// {
+//   GtkWidget *dialog;
+//   GapStbMainGlobalParams *sgpp;
+// 
+//   dialog = NULL;
+// 
+//   if(sgpp_1 != NULL)
+//   {
+//     sgpp = sgpp_1;
+//   }
+//   else
+//   {
+//     sgpp = (GapStbMainGlobalParams *)g_object_get_data(G_OBJECT(widget), "sgpp");
+//   }
+// 
+// 
+//   if(sgpp)
+//   {
+//     gap_story_vthumb_close_videofile(sgpp);
+//     dialog = sgpp->shell_window;
+//     if(dialog)
+//     {
+//       sgpp->shell_window = NULL;
+//       gtk_widget_destroy (dialog);
+//     }
+//   }
+// 
+//   gtk_main_quit ();
+// 
+// }  /* end story_dlg_destroy */
 
 
 
@@ -8770,42 +8792,42 @@ gap_storyboard_dialog(GapStbMainGlobalParams *sgpp, GapStbCreationParams  *scrp)
    *  Help via Menu-Item
    */
 // // NO longer use gimp_dialog_new because the window gets no minimize widget when created this way !
-// //
-//   dialog = gimp_dialog_new (_("Storyboard"), "storyboard",
-//                                NULL, 0,
-//                                gimp_standard_help_func, NULL, /* GAP_STORYBOARD_EDIT_HELP_ID */
-//                                NULL);
-//   g_signal_connect (G_OBJECT (dialog), "response",
-//                     G_CALLBACK (story_dlg_response),
-//                     sgpp);
-//   /* the vbox */
-//   vbox = gtk_vbox_new (FALSE, 0);
-//   // gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
-//   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
-//                       TRUE, TRUE, 0);
-//   gtk_widget_show (vbox);
+// // Note that gap_dialog_new creates the dialog as Normal toplevel window...
+  dialog = gap_dialog_new (_("Storyboard"), "storyboard",
+                               NULL, 0,
+                               gimp_standard_help_func, NULL, /* GAP_STORYBOARD_EDIT_HELP_ID */
+                               NULL);
+  g_signal_connect (G_OBJECT (dialog), "response",
+                    G_CALLBACK (story_dlg_response),
+                    sgpp);
+  /* the vbox */
+  vbox = gtk_vbox_new (FALSE, 0);
+  // gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+                      TRUE, TRUE, 0);
+  gtk_widget_show (vbox);
 
- {
-   gimp_ui_init ("storyboard", TRUE);
-
-   dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-   gtk_window_set_title (GTK_WINDOW (dialog), _("Storyboard"));
-   gtk_window_set_role (GTK_WINDOW (dialog), "storybord-editor");
-
-   g_object_set_data (G_OBJECT (dialog), "sgpp"
-                          , (gpointer)sgpp);
-
-   g_signal_connect (dialog, "destroy",
-                     G_CALLBACK (story_dlg_destroy),
-                     sgpp);
-
-   gimp_help_connect (dialog, gimp_standard_help_func, GAP_STORY_PLUG_IN_PROC, NULL);
-
-   /* the vbox */
-   vbox = gtk_vbox_new (FALSE, 0);
-   gtk_container_add (GTK_CONTAINER (dialog), vbox);
-   gtk_widget_show (vbox);
- }
+//  {
+//    gimp_ui_init ("storyboard", TRUE);
+// 
+//    dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+//    gtk_window_set_title (GTK_WINDOW (dialog), _("Storyboard"));
+//    gtk_window_set_role (GTK_WINDOW (dialog), "storybord-editor");
+// 
+//    g_object_set_data (G_OBJECT (dialog), "sgpp"
+//                           , (gpointer)sgpp);
+// 
+//    g_signal_connect (dialog, "destroy",
+//                      G_CALLBACK (story_dlg_destroy),
+//                      sgpp);
+// 
+//    gimp_help_connect (dialog, gimp_standard_help_func, GAP_STORY_PLUG_IN_PROC, NULL);
+// 
+//    /* the vbox */
+//    vbox = gtk_vbox_new (FALSE, 0);
+//    gtk_container_add (GTK_CONTAINER (dialog), vbox);
+//    gtk_widget_show (vbox);
+//  }
 
 
   sgpp->shell_window = dialog;
@@ -9591,7 +9613,34 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   {
      GapStoryBoard *stb_dup;
 
-     gap_stb_undo_push(tabw, GAP_STB_FEATURE_PROPERTIES_MASTER);
+
+     if(new_flag)
+     {
+       if(tabw == sgpp->stb_widgets)
+       {
+         /* replace the internal copy of the name in the GapStoryBoard struct */
+         if(sgpp->stb->storyboardfile)
+         {
+           g_free(sgpp->stb->storyboardfile);
+         }
+         sgpp->stb->storyboardfile = g_strdup(sgpp->storyboard_filename);
+       }
+       else
+       {
+         /* replace the internal copy of the name in the GapStoryBoard struct */
+         if(sgpp->cll->storyboardfile)
+         {
+           g_free(sgpp->cll->storyboardfile);
+         }
+         sgpp->cll->storyboardfile = g_strdup(sgpp->cliplist_filename);
+
+       }
+     }
+     else
+     {
+       gap_stb_undo_push(tabw, GAP_STB_FEATURE_PROPERTIES_MASTER);
+     }
+
 
      stb_dup = gap_story_duplicate_active_and_mask_section(stb_dst);
 

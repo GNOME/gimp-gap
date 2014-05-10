@@ -583,10 +583,10 @@ gap_base_is_pid_alive(gint32 pid)
  * --------------------------------
  * get curent system time in utc timecode
  */
-gint32
+time_t
 gap_base_get_current_time(void)
 {
-  return ((gint32)time(0));
+  return (time(NULL));
 }
 
 

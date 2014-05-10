@@ -256,8 +256,8 @@ gimp_lastval_desc_update(void)
   gchar   *next_line_ptr;
   gint32 l_idx;
   gint32 l_filesize;
-  long   l_timestamp;
-  struct stat stat_buf;
+  time_t   l_timestamp;
+  GStatBuf stat_buf;
   
   arg_cnt = 0;
 
@@ -511,7 +511,7 @@ p_load_lastval_desc_file(const gchar *fname)
 {
   FILE  *fp;
   gint32 file_size;
-  struct stat stat_buf;
+  GStatBuf stat_buf;
   gchar *file_buff;
 
   file_size = 0;
@@ -547,10 +547,10 @@ p_fwrite_lastvals_desc(FILE *fp, const gchar *keyname, GimpLastvalDescType *last
     gint   l_indent;
     gint   l_col;
     struct      tm *l_t;
-    long        l_ti;
+    time_t      l_ti;
 
     l_indent = 0;
-    l_ti = time(0L);          /* Get UNIX time */
+    l_ti = time(NULL);          /* Get UNIX time */
     l_t  = localtime(&l_ti);  /* konvert time to tm struct */
     
     fprintf(fp, "\"%s\" ", keyname);
@@ -627,7 +627,10 @@ p_fwrite_lines_until_keyname(FILE *fp, const char *keyname, gchar *ptr)
         }
         
       }
-      fwrite(ptr, l_idx, 1, fp);
+      if (l_idx > 0)
+      {
+        fwrite(ptr, l_idx, 1, fp);
+      }
    }
    return l_idx;
 }       /* end p_fwrite_lines_until_keyname */
@@ -704,7 +707,7 @@ p_lastvals_register_persistent(const gchar *keyname, GimpLastvalDescType *lastva
   ptr = file_buff;
 
   /* rewrite file (replacing or adding  the structure description block for keyname) */
-  fp = g_fopen(fname, "w");
+  fp = g_fopen(fname, "wb");
   if(fp)
   {
     /* write all lines until 1.st description line matching keyname */

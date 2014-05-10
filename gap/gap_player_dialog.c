@@ -3895,6 +3895,14 @@ p_render_display_free_image_id(GapPlayerMainGlobalParams *gpp
    , gint32  flip_status
   )
 {
+  if (image_id < 0)
+  {
+    if(gap_debug)
+    {
+      printf("p_render_display_free_image_id: WARNING invalid image_id:%d\n", (int)image_id);
+    }
+    return;
+  }
   /* there is no need for undo on this scratch image
    * so we turn undo off for performance reasons
    */

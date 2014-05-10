@@ -15,6 +15,7 @@
 #include "unistd.h"
 #include <errno.h>
 #include "stdlib.h"
+#include <time.h>
 
 #include <glib/gstdio.h>
 
@@ -208,7 +209,7 @@ static FILE *
 p_wav_open_seek_data_private(const char *filename, unsigned char *audata)
 {
   FILE        *fp;
-  struct stat  l_stat_buf;
+  GStatBuf     l_stat_buf;
   size_t       l_len_to_read;
   size_t       l_len_read;
 

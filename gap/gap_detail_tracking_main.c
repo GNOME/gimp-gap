@@ -84,7 +84,6 @@ int gap_debug = 0;  /* 1 == print debug infos , 0 dont print debug infos */
 #define PLUG_IN_COPYRIGHT   "Wolfgang Hofer"
 #define PLUG_IN_HELP_ID     "gap-plug-detail-tracking"
 
-
 static void  query (void);
 static void  run (const gchar *name,          /* name of plugin */
      gint nparams,               /* number of in-paramters */

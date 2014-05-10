@@ -306,8 +306,20 @@ X264_REQUIRED_INC='#ifdef HAVE_STDINT_H
 #include <stdint.h>
 #endif'
 
+FF_POTENTIAL_LIBX264=""
 FF_LIBX264=""
 x264_warn=""
+AC_ARG_ENABLE(ff_shared_libx264,
+              [  --disable-ff-shared-libx264         use static linking for H264 video codec library])
+  if test "x$enable_ff_shared_libx264" != "xno"; then
+      FF_POTENTIAL_LIBX264=`$PKG_CONFIG --libs x264`
+  else
+      FF_LIBX264_DIR=`$PKG_CONFIG --libs-only-L x264 | sed 's/ *$//'`
+      LEN_LIBX264_DIR=`expr length "$FF_LIBX264_DIR"`
+      STATIC_FF_LIBX264_DIR=`expr substr "$FF_LIBX264_DIR" 3 $LEN_LIBX264_DIR`
+      FF_POTENTIAL_LIBX264="$STATIC_FF_LIBX264_DIR/libx264.a"
+  fi
+
 AC_ARG_ENABLE(ff_libx264,
               [  --disable-ff-libx264         configure libavformat without optional open source variant of H264 video codec])
 dnl  if test "x$enable_ff_libx264" != "xno"; then
@@ -325,7 +337,7 @@ dnl  fi
     else
       AC_CHECK_LIB(x264, x264_encoder_close,
         [AC_CHECK_HEADER(x264.h,
-          FF_LIBX264=`$PKG_CONFIG --libs x264`,
+          FF_LIBX264="$FF_POTENTIAL_LIBX264",
           x264_warn="$NEW_LINE x264 header file (x264.h) not found (not critical, but no open H264 video codec support)",
           $X264_REQUIRED_INC)],
         x264_warn="$NEW_LINE x264 library (libx264) not found (not critical, but no open H264 video codec support)")

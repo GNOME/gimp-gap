@@ -219,8 +219,8 @@ static gint32 ffetch_gva_frames_to_keep_cached();
 static void
 p_init_GapImageCacheParasitePointers(GapImageCacheParasitePointers *paraPtr, guchar *parasite_data)
 {
-  paraPtr->mtime_ptr =       (gint32 *)parasite_data;
-  paraPtr->ffetch_id_ptr =   (gint32 *)&parasite_data[sizeof(gint32)];
+  paraPtr->mtime_ptr =       (time_t *)parasite_data;
+  paraPtr->ffetch_id_ptr =   (gint32 *)&parasite_data[sizeof(time_t)];
   paraPtr->type_ptr =        (gint32 *)&parasite_data[2 * sizeof(gint32)];
   paraPtr->orig_width_ptr =  (gint32 *)&parasite_data[3 * sizeof(gint32)];
   paraPtr->orig_height_ptr = (gint32 *)&parasite_data[4 * sizeof(gint32)];
@@ -402,7 +402,7 @@ p_find_cache_image(const char* filename, gint32 ffetch_user_id
       if ((*(paraPtr->type_ptr) == cachedImageType)
       && (strcmp(filename, paraPtr->filename_ptr) == 0))
       {
-        gint32 mtimefile;
+        time_t mtimefile;
 
         mtimefile = gap_file_get_mtime(filename);
         if(mtimefile == *(paraPtr->mtime_ptr))

@@ -88,7 +88,7 @@
 
 extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 
-static gdouble  p_getConvertFactor(gint att_type_idx);
+static gdouble  p_getConvertFactor(glong att_type_idx);
 static void     p_attw_prop_response(GtkWidget *widget
                   , gint       response_id
                   , GapStbAttrWidget *attw
@@ -103,15 +103,15 @@ static void     p_attw_update_properties(GapStbAttrWidget *attw);
 static void     p_attw_update_sensitivity(GapStbAttrWidget *attw);
 static gdouble  p_get_default_attribute(GapStbAttrWidget *attw
                      , GdkEventButton  *bevent
-                     , gint att_type_idx
+                     , glong att_type_idx
                      , gboolean form_value);
 
 static void     p_attw_start_button_clicked_callback(GtkWidget *widget
                   , GdkEventButton  *bevent
-                  , gint att_type_idx);
+                  , glong att_type_idx);
 static void     p_attw_end_button_clicked_callback(GtkWidget *widget
                   , GdkEventButton  *bevent
-                  , gint att_type_idx);
+                  , glong att_type_idx);
 
 static void     p_copy_duration_to_all(gint32 duration, GapStbAttrWidget *attw);
 static void     p_attw_overlap_dur_button_clicked_callback(GtkWidget *widget
@@ -119,7 +119,7 @@ static void     p_attw_overlap_dur_button_clicked_callback(GtkWidget *widget
                   , GapStbAttrWidget *attw);
 static void     p_attw_dur_button_clicked_callback(GtkWidget *widget
                   , GdkEventButton  *bevent
-                  , gint att_type_idx);
+                  , glong att_type_idx);
 static void     p_attw_gdouble_adjustment_callback(GtkObject *obj, gdouble *val);
 static void     p_duration_dependent_refresh(GapStbAttrWidget *attw);
 static void     p_attw_duration_adjustment_callback(GtkObject *obj, gint32 *val);
@@ -132,21 +132,21 @@ static gboolean p_attw_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbAttrWidget *attw);
 static void     p_calculate_prefetch_render_attributes(GapStbAttrWidget *attw
-                       , gint img_idx
+                       , glong img_idx
                        , GapStoryCalcAttr  *calc_attr_ptr
                        );
 static void     p_calculate_render_attributes(GapStbAttrWidget *attw
-                       , gint img_idx
+                       , glong img_idx
                        , GapStoryCalcAttr  *calc_attr
                        );
-static void     p_check_and_make_opre_default_layer(GapStbAttrWidget *attw, gint img_idx);
-static void     p_check_and_make_orig_default_layer(GapStbAttrWidget *attw, gint img_idx);
+static void     p_check_and_make_opre_default_layer(GapStbAttrWidget *attw, glong img_idx);
+static void     p_check_and_make_orig_default_layer(GapStbAttrWidget *attw, glong img_idx);
 static gint32   p_create_color_layer(GapStbAttrWidget *attw, gint32 image_id
                     , const char *name, gint stackposition, gdouble opacity
                     , gdouble red, gdouble green, gdouble blue);
 static gint32   p_create_base_layer(GapStbAttrWidget *attw, gint32 image_id);
 static gint32   p_create_deco_layer(GapStbAttrWidget *attw, gint32 image_id);
-static void     p_create_gfx_image(GapStbAttrWidget *attw, gint img_idx);
+static void     p_create_gfx_image(GapStbAttrWidget *attw, glong img_idx);
 static void     p_delete_gfx_images(GapStbAttrWidget *attw);
 static void     p_adjust_stackposition(gint32 image_id, gint32 layer_id, gint position);
 
@@ -157,7 +157,7 @@ static gboolean p_create_transformed_layer_movepath(gint32 image_id
                                                   , GapStoryCalcAttr  *calculated
                                                   , gint32 stackposition, const char *layername
                                                   , GapStbAttrWidget *attw
-                                                  , gint img_idx
+                                                  , glong img_idx
                                                   );
 
 static void     p_create_transformed_layer(gint32 image_id
@@ -167,15 +167,15 @@ static void     p_create_transformed_layer(gint32 image_id
                     , gint32 stackposition
                     , const char *layername
                     , GapStbAttrWidget *attw
-                    , gint img_idx
+                    , glong img_idx
                     , gboolean enableMovepath
                     );
-static gboolean p_calculate_prefetch_visibility(GapStbAttrWidget *attw, gint img_idx);
+static gboolean p_calculate_prefetch_visibility(GapStbAttrWidget *attw, glong img_idx);
 
-static void     p_render_gfx(GapStbAttrWidget *attw, gint img_idx);
+static void     p_render_gfx(GapStbAttrWidget *attw, glong img_idx);
 
-static void     p_update_framenr_labels(GapStbAttrWidget *attw, gint img_idx, gint32 framenr);
-static gint32   p_get_relevant_duration(GapStbAttrWidget *attw, gint img_idx);
+static void     p_update_framenr_labels(GapStbAttrWidget *attw, glong img_idx, gint32 framenr);
+static gint32   p_get_relevant_duration(GapStbAttrWidget *attw, glong img_idx);
 static void     p_update_full_preview_gfx(GapStbAttrWidget *attw);
 
 static gboolean p_stb_req_equals_layer_info(GapStbAttrLayerInfo *linfo
@@ -199,11 +199,11 @@ static void     p_orig_layer_frame_fetcher(GapStbAttrWidget *attw
                     , GapStbAttrLayerInfo *linfo);
 
 static gint32   p_calc_and_set_display_framenr(GapStbAttrWidget *attw
-                    , gint   img_idx
+                    , long   img_idx
                     , gint32 duration);
 
 static void     p_create_or_replace_orig_and_opre_layer (GapStbAttrWidget *attw
-                         , gint   img_idx
+                         , long   img_idx
                          , gint32 duration);
 static gint32   p_fetch_video_frame_as_layer(GapStbMainGlobalParams *sgpp
                    , const char *video_filename
@@ -242,14 +242,14 @@ static void     p_create_and_attach_pv_widgets(GapStbAttrWidget *attw
                  , gint row
                  , gint col_start
                  , gint col_end
-                 , gint img_idx
+                 , glong img_idx
                  );
 static void     p_create_and_attach_att_arr_widgets(const char *row_title
                  , GapStbAttrWidget *attw
                  , GtkWidget *table
                  , gint row
                  , gint column
-                 , gint att_type_idx
+                 , glong att_type_idx
                  , gdouble lower_constraint
                  , gdouble upper_constraint
                  , gdouble step_increment
@@ -270,7 +270,7 @@ static void     p_create_and_attach_att_arr_widgets(const char *row_title
 
 
 static gdouble
-p_getConvertFactor(gint att_type_idx)
+p_getConvertFactor(glong att_type_idx)
 {
   if ((att_type_idx == GAP_STB_ATT_TYPE_ROTATE)
   ||  (att_type_idx == GAP_STB_ATT_TYPE_MOVEPATH))
@@ -307,9 +307,9 @@ p_attw_prop_response(GtkWidget *widget
                   )
 {
   GtkWidget *dlg;
-  GapStbMainGlobalParams  *sgpp;
+  /* GapStbMainGlobalParams  *sgpp; */
 
-  sgpp = attw->sgpp;
+  /* sgpp = attw->sgpp; */
   switch (response_id)
   {
     case GAP_STORY_ATT_RESPONSE_RESET:
@@ -635,7 +635,7 @@ p_attw_update_sensitivity(GapStbAttrWidget *attw)
 static gdouble
 p_get_default_attribute(GapStbAttrWidget *attw
                      , GdkEventButton  *bevent
-                     , gint att_type_idx
+                     , glong att_type_idx
                      , gboolean form_value)
 {
   if(bevent)
@@ -702,7 +702,7 @@ p_get_default_attribute(GapStbAttrWidget *attw
 static void
 p_attw_start_button_clicked_callback(GtkWidget *widget
                , GdkEventButton  *bevent
-               , gint att_type_idx)
+               , glong att_type_idx)
 {
   GapStbAttrWidget *attw;
   attw = g_object_get_data( G_OBJECT(widget), OBJ_DATA_KEY_ATTW );
@@ -733,7 +733,7 @@ p_attw_start_button_clicked_callback(GtkWidget *widget
 static void
 p_attw_end_button_clicked_callback(GtkWidget *widget
                , GdkEventButton  *bevent
-               , gint att_type_idx)
+               , glong att_type_idx)
 {
   GapStbAttrWidget *attw;
   attw = g_object_get_data( G_OBJECT(widget), OBJ_DATA_KEY_ATTW );
@@ -815,7 +815,7 @@ p_attw_overlap_dur_button_clicked_callback(GtkWidget *widget
 static void
 p_attw_dur_button_clicked_callback(GtkWidget *widget
                , GdkEventButton  *bevent
-               , gint att_type_idx)
+               , glong att_type_idx)
 {
   GapStbAttrWidget *attw;
   attw = g_object_get_data( G_OBJECT(widget), OBJ_DATA_KEY_ATTW );
@@ -848,9 +848,9 @@ p_attw_gdouble_adjustment_callback(GtkObject *obj, gdouble *val)
 {
   GapStbAttrWidget *attw;
   gdouble l_val;
-  gint    att_type_idx;
+  glong   att_type_idx;
 
-  att_type_idx = (gint) g_object_get_data( G_OBJECT(obj), "att_type_idx" );
+  att_type_idx = (glong) g_object_get_data( G_OBJECT(obj), "att_type_idx" );
   attw = g_object_get_data( G_OBJECT(obj), OBJ_DATA_KEY_ATTW );
   if(attw)
   {
@@ -910,8 +910,8 @@ p_attw_duration_adjustment_callback(GtkObject *obj, gint32 *val)
       l_val = RINT (GTK_ADJUSTMENT(obj)->value);
       if(gap_debug)
       {
-        printf("gint32_adjustment_callback: obj:%d old_val:%d val:%d\n"
-             ,(int)obj
+        printf("gint32_adjustment_callback: obj:%ld old_val:%d val:%d\n"
+             ,(long)obj
              ,(int)*val
              ,(int)l_val
              );
@@ -947,8 +947,8 @@ p_attw_accel_adjustment_callback(GtkObject *obj, gint32 *val)
       l_val = RINT (GTK_ADJUSTMENT(obj)->value);
       if(gap_debug)
       {
-        printf("accel gint32_adjustment_callback: obj:%d old_val:%d val:%d\n"
-             ,(int)obj
+        printf("accel gint32_adjustment_callback: obj:%ld old_val:%d val:%d\n"
+             ,(long)obj
              ,(int)*val
              ,(int)l_val
              );
@@ -1036,10 +1036,10 @@ p_attw_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbAttrWidget *attw)
 {
-  GdkEventExpose *eevent;
-  GdkEventButton *bevent;
-  GapStbMainGlobalParams  *sgpp;
-  gint                     img_idx;
+  /* GapStbMainGlobalParams  *sgpp; */
+  /* GdkEventButton *bevent; */
+  /* GdkEventExpose *eevent; */
+  glong                    img_idx;
   gboolean                 enableStoryboardDebugFeatures;
 
 
@@ -1049,9 +1049,9 @@ p_attw_preview_events_cb (GtkWidget *widget
     /* the attribute widget is not initialized no action allowed */
     return FALSE;
   }
-  sgpp = attw->sgpp;
+  /* sgpp = attw->sgpp; */
 
-  img_idx = (gint)g_object_get_data( G_OBJECT(widget), OBJ_DATA_KEY_IMG_IDX );
+  img_idx = (glong)g_object_get_data( G_OBJECT(widget), OBJ_DATA_KEY_IMG_IDX );
   if(img_idx != 0)
   {
     img_idx = 1;
@@ -1061,7 +1061,7 @@ p_attw_preview_events_cb (GtkWidget *widget
   switch (event->type)
   {
     case GDK_BUTTON_PRESS:
-      bevent = (GdkEventButton *) event;
+      /* bevent = (GdkEventButton *) event; */
 
       // TODO: define actions when button pressed.
 
@@ -1079,13 +1079,13 @@ p_attw_preview_events_cb (GtkWidget *widget
     case GDK_EXPOSE:
       if(gap_debug)
       {
-        printf("p_attw_preview_events_cb GDK_EXPOSE widget:%d  img_idx:%d\n"
-                              , (int)widget
-                              , (int)img_idx
+        printf("p_attw_preview_events_cb GDK_EXPOSE widget:%ld  img_idx:%ld\n"
+                              , (long)widget
+                              , (long)img_idx
                               );
       }
 
-      eevent = (GdkEventExpose *) event;
+      /* eevent = (GdkEventExpose *) event; */
 
       gap_pview_repaint(attw->gfx_tab[img_idx].pv_ptr);
       gdk_flush ();
@@ -1116,7 +1116,7 @@ p_attw_preview_events_cb (GtkWidget *widget
  */
 static void
 p_calculate_prefetch_render_attributes(GapStbAttrWidget *attw
-    , gint img_idx
+    , glong img_idx
     , GapStoryCalcAttr  *calc_attr_ptr
     )
 {
@@ -1174,7 +1174,7 @@ p_calculate_prefetch_render_attributes(GapStbAttrWidget *attw
  */
 static void
 p_calculate_render_attributes(GapStbAttrWidget *attw
-    , gint img_idx
+    , glong img_idx
     , GapStoryCalcAttr  *calc_attr_ptr
     )
 {
@@ -1238,7 +1238,7 @@ p_calculate_render_attributes(GapStbAttrWidget *attw
  * if NOT create a faked opre layer at master size.
  */
 static void
-p_check_and_make_opre_default_layer(GapStbAttrWidget *attw, gint img_idx)
+p_check_and_make_opre_default_layer(GapStbAttrWidget *attw, glong img_idx)
 {
   if(attw->gfx_tab[img_idx].opre_layer_id < 0)
   {
@@ -1279,7 +1279,7 @@ p_check_and_make_opre_default_layer(GapStbAttrWidget *attw, gint img_idx)
  * if NOT create a faked orig layers at master size.
  */
 static void
-p_check_and_make_orig_default_layer(GapStbAttrWidget *attw, gint img_idx)
+p_check_and_make_orig_default_layer(GapStbAttrWidget *attw, glong img_idx)
 {
   if(attw->gfx_tab[img_idx].orig_layer_id < 0)
   {
@@ -1408,13 +1408,13 @@ p_create_base_layer(GapStbAttrWidget *attw, gint32 image_id)
   red   = 0.86;
   green = 0.85;
   blue  = 0.84;
-  alpha = 1.0;
+  alpha = 100.0;      /* full opaque */
 
   layer_id = p_create_color_layer(attw
     , image_id
     , LAYERNAME_BASE
     , LAYERSTACK_BASE
-    , 100.0            /* full opaque */
+    , alpha
     , red
     , green
     , blue
@@ -1436,13 +1436,13 @@ p_create_deco_layer(GapStbAttrWidget *attw, gint32 image_id)
   red   = 0.86;
   green = 0.85;
   blue  = 0.84;
-  alpha = 1.0;
+  alpha = 60.0;      /* 60% opaque */
 
   layer_id = p_create_color_layer(attw
     , image_id
     , LAYERNAME_DECO
     , LAYERSTACK_TOP
-    , 60.0            /* 70% opaque */
+    , alpha
     , red
     , green
     , blue
@@ -1456,7 +1456,7 @@ p_create_deco_layer(GapStbAttrWidget *attw, gint32 image_id)
  * -----------------------------------------
  */
 static void
-p_create_gfx_image(GapStbAttrWidget *attw, gint img_idx)
+p_create_gfx_image(GapStbAttrWidget *attw, glong img_idx)
 {
   gint32 image_id;
 
@@ -1549,7 +1549,7 @@ p_create_transformed_layer_movepath(gint32 image_id
   , GapStoryCalcAttr  *calculated
   , gint32 stackposition, const char *layername
   , GapStbAttrWidget *attw
-  , gint img_idx
+  , glong img_idx
   )
 {
   char    *movepath_file_xml;
@@ -1726,7 +1726,7 @@ p_create_transformed_layer(gint32 image_id
   , gint32 stackposition
   , const char *layername
   , GapStbAttrWidget *attw
-  , gint img_idx
+  , glong img_idx
   , gboolean enableMovepath
   )
 {
@@ -1821,7 +1821,7 @@ p_create_transformed_layer(gint32 image_id
  * -----------------------------------------
  */
 static gboolean
-p_calculate_prefetch_visibility(GapStbAttrWidget *attw, gint img_idx)
+p_calculate_prefetch_visibility(GapStbAttrWidget *attw, glong img_idx)
 {
   gboolean prefetch_visible;
 
@@ -1854,7 +1854,7 @@ p_calculate_prefetch_visibility(GapStbAttrWidget *attw, gint img_idx)
  * it creates empty default representations, where master size is assumed.
  */
 static void
-p_render_gfx(GapStbAttrWidget *attw, gint img_idx)
+p_render_gfx(GapStbAttrWidget *attw, glong img_idx)
 {
   GapStoryCalcAttr  calculate_curr_attributes;
   GapStoryCalcAttr  calculate_pref_attributes;
@@ -1925,7 +1925,7 @@ p_render_gfx(GapStbAttrWidget *attw, gint img_idx)
  * for the specified start or end gfx_preview (via img_idx)
  */
 static void
-p_update_framenr_labels(GapStbAttrWidget *attw, gint img_idx, gint32 framenr)
+p_update_framenr_labels(GapStbAttrWidget *attw, glong img_idx, gint32 framenr)
 {
   char    txt_buf[100];
   gdouble l_speed_fps;
@@ -1963,7 +1963,7 @@ p_update_framenr_labels(GapStbAttrWidget *attw, gint img_idx, gint32 framenr)
  * -----------------------------------------
  */
 static gint32
-p_get_relevant_duration(GapStbAttrWidget *attw, gint img_idx)
+p_get_relevant_duration(GapStbAttrWidget *attw, glong img_idx)
 {
   gint32 duration;
 
@@ -1999,7 +1999,7 @@ p_get_relevant_duration(GapStbAttrWidget *attw, gint img_idx)
 static void
 p_update_full_preview_gfx(GapStbAttrWidget *attw)
 {
-   gint img_idx;
+   glong img_idx;
 
    for(img_idx = 0; img_idx < GAP_STB_ATT_GFX_ARRAY_MAX; img_idx++)
    {
@@ -2349,7 +2349,7 @@ p_orig_layer_frame_fetcher(GapStbAttrWidget *attw
  */
 static gint32
 p_calc_and_set_display_framenr(GapStbAttrWidget *attw
-                         , gint   img_idx
+                         , long   img_idx
                          , gint32 duration)
 {
    gint32     l_framenr_start;
@@ -2409,7 +2409,7 @@ p_calc_and_set_display_framenr(GapStbAttrWidget *attw
  */
 static void
 p_create_or_replace_orig_and_opre_layer (GapStbAttrWidget *attw
-                         , gint   img_idx
+                         , long   img_idx
                          , gint32 duration)
 {
    gint32     l_framenr_start;
@@ -2916,7 +2916,7 @@ p_edit_movepath_closed_callback(gpointer ptr)
 
     if(attw->pvals != NULL)
     {
-      g_free(attw->pvals);
+      gap_mov_exec_free_GapMovValues(attw->pvals);
       attw->pvals = NULL;
     }
 
@@ -2997,11 +2997,11 @@ p_attw_movepath_edit_button_cb ( GtkWidget *w
 
   if(gap_debug)
   {
-      printf("p_attw_movepath_edit_button_cb frame_image_id:%d obj_image_id:%d obj_layer_id:%d attw:%d\n"
+      printf("p_attw_movepath_edit_button_cb frame_image_id:%d obj_image_id:%d obj_layer_id:%d attw:%ld\n"
         ,(int)attw->movepath_frame_image_id
         ,(int)attw->movepath_obj_image_id
         ,(int)attw->movepath_obj_layer_id
-        ,(int)attw
+        ,(long)attw
         );
   }
 
@@ -3123,7 +3123,7 @@ p_create_and_attach_pv_widgets(GapStbAttrWidget *attw
    , gint row
    , gint col_start
    , gint col_end
-   , gint img_idx
+   , glong img_idx
   )
 {
   GtkWidget *vbox2;
@@ -3259,7 +3259,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
    , GtkWidget *table
    , gint row
    , gint column
-   , gint att_type_idx
+   , glong att_type_idx
    , gdouble lower_constraint
    , gdouble upper_constraint
    , gdouble step_increment
@@ -3420,7 +3420,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   /* the Duration value spinbutton */
   adj = gtk_adjustment_new ( *att_arr_value_dur_ptr
                            , 0
-                           , 999999
+                           , GAP_STB_ATT_MAX_DUR
                            , 1
                            , 10
                            , 0
@@ -3550,7 +3550,7 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
                          ,GTK_STOCK_CLOSE,  GTK_RESPONSE_CLOSE
                          ,NULL);
   }
-  gtk_window_set_type_hint (dlg, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(dlg), GDK_WINDOW_TYPE_HINT_NORMAL);
 
   attw->attw_prop_dialog = dlg;
 
@@ -3697,7 +3697,7 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
   row++;
 
   {
-    gint att_type_idx;
+    glong att_type_idx;
     gint col = 0;
 
 
@@ -3877,7 +3877,7 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
       , col
       , att_type_idx
       ,  1.0       /* lower constraint for the from/to values */
-      ,  10000.0   /* upper constraint for the from/to values */
+      ,  GAP_STB_ATT_MAX_MOVPATH_DBL   /* upper constraint for the from/to values */
       , 1.0        /* step increment   for the from/to values  */
       , 10.0       /* page increment   for the from/to values */
       , 0.0        /* page size        for the from/to values */
@@ -4136,3 +4136,4 @@ gap_story_att_fw_properties_dialog (GapStbFrameWidget *fw)
     gap_story_att_stb_elem_properties_dialog(tabw, fw->stb_elem_refptr, fw->stb_refptr);
   }
 }  /* end gap_story_att_fw_properties_dialog */
+

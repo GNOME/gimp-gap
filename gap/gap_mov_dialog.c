@@ -26,6 +26,7 @@
  */
 
 /* revision history:
+ * gimp    2.8.10;  2014/05/07  hof: support unlimited number of controlpoints.
  * gimp    2.1.0b;  2004/11/04  hof: replaced deprecated option_menu by combo box
  * gimp    2.1.0b;  2004/08/14  hof: feature: point navigation + SHIFT ==> mov_follow_keyframe
  * gimp    2.1.0b;  2004/08/10  hof: bugfix save/load Pathpoints work again.
@@ -546,7 +547,7 @@ gap_mov_dlg_move_dialog    (GapMovData *mov_ptr)
   gboolean isStandaloneGui;
 
 
-  mgp = g_new( t_mov_gui_stuff, 1 );
+  mgp = g_new0( t_mov_gui_stuff, 1 );
   mgp->shell = NULL;
   mgp->pointfile_name = NULL;
 
@@ -593,17 +594,16 @@ gap_mov_dlg_edit_movepath_dialog (gint32 frame_image_id, gint32 drawable_id
   gboolean isStandaloneGui;
   GapMovData  l_mov_data;
   gboolean isXmlLoadOk;
-  gboolean l_rc;
 
   if(gap_debug)
   {
      printf("gap_mov_dlg_edit_movepath_dialog START frame_image_id:%d drawable_id:%d xml:%s\n"
-           " fptr:%d data:%d\n"
+           " fptr:%ld data:%ld\n"
       ,(int)frame_image_id
       ,(int)drawable_id
       ,xml_paramfile
-      ,(int)close_fptr
-      ,(int)callback_data
+      ,(long)close_fptr
+      ,(long)callback_data
       );
   }
 
@@ -664,7 +664,6 @@ gap_mov_dlg_edit_movepath_dialog (gint32 frame_image_id, gint32 drawable_id
   }
 
 
-  l_rc = FALSE;
   if(ainfo_ptr != NULL)
   {
     l_mov_data.val_ptr = pvals_edit;
@@ -717,8 +716,8 @@ p_gap_mov_dlg_move_dialog(t_mov_gui_stuff *mgp
 
   if(gap_debug)
   {
-    printf("gap_mov_dlg_move_dialog START mgp:%d isRecordOnlyMode:%d isStandaloneGui:%d\n"
-      , (int)mgp
+    printf("gap_mov_dlg_move_dialog START mgp:%ld isRecordOnlyMode:%d isStandaloneGui:%d\n"
+      , (long)mgp
       , (int)isRecordOnlyMode
       , (int)isStandaloneGui
       );
@@ -726,7 +725,7 @@ p_gap_mov_dlg_move_dialog(t_mov_gui_stuff *mgp
   if(mgp == NULL)
   {
     printf("error can't alloc path_preview structure\n");
-    return -1;
+    return;
   }
   mgp->close_fptr = close_fptr;
   mgp->callback_data = callback_data;
@@ -1550,7 +1549,10 @@ mov_apv_callback (GtkWidget *widget,
   vin_ptr = gap_vin_get_all(mgp->ainfo_ptr->basename);
   if(vin_ptr)
   {
-     if(vin_ptr->framerate > 0) argv[2].flt_ret = vin_ptr->framerate;
+     if(vin_ptr->framerate > 0)
+     {
+       argv[2].flt_ret = vin_ptr->framerate;
+     }
      g_free(vin_ptr);
    }
   argv[2].has_default = TRUE;
@@ -1684,12 +1686,11 @@ p_copy_point(gint to_idx, gint from_idx)
  * straight lines and assign them to N-controlpoints.
  * this procedure uses the number of frames to be handled
  * as the wanted number of contolpoints.
- * (but constrain to the maximum allowed number of contolpoints)
+ * (and reallocates the point table when needed)
  */
 static void
 mov_grab_bezier_path(t_mov_gui_stuff *mgp, gint32 vectors_id, gint32 stroke_id, const char *vectorname)
 {
-  gint32 image_id;
   gint             num_lines;
   gint             num_points;
   gdouble          max_distance;
@@ -1698,11 +1699,10 @@ mov_grab_bezier_path(t_mov_gui_stuff *mgp, gint32 vectors_id, gint32 stroke_id, 
   gdouble          precision;
   gint             l_ii;
 
-  image_id = mgp->ainfo_ptr->image_id;
   step_length = 1.0;
 
   num_points = 1 + abs(pvals->dst_range_end - pvals->dst_range_start);
-  num_points = MIN((GAP_MOV_MAX_POINT-2), num_points);
+  gap_mov_exec_dim_point_table(pvals, num_points + 2);
   num_lines = num_points -1;
 
   distance   = 0.0;
@@ -1774,7 +1774,7 @@ mov_grab_bezier_path(t_mov_gui_stuff *mgp, gint32 vectors_id, gint32 stroke_id, 
  * straight lines and assign them to N-controlpoints.
  * this procedure uses the number of frames to be handled
  * as the wanted number of contolpoints.
- * (but constrain to the maximum allowed number of contolpoints)
+ * (reallocates the point table when needed)
  */
 static void
 mov_grab_anchorpoints_path(t_mov_gui_stuff *mgp,
@@ -1800,7 +1800,7 @@ mov_grab_anchorpoints_path(t_mov_gui_stuff *mgp,
     l_idx = 0;
     l_ii = 0;
 
-    while(l_idx < GAP_MOV_MAX_POINT -2)
+    while(TRUE)
     {
       if(gap_debug)
       {
@@ -1842,6 +1842,11 @@ mov_grab_anchorpoints_path(t_mov_gui_stuff *mgp,
                                ,(int)point_x
                                ,(int)point_y
                                );
+        }
+
+        if(l_idx >= pvals->point_table_size)
+        {
+          gap_mov_exec_dim_point_table(pvals, l_idx + GAP_MOV_POINT_EXPAND_SIZE);
         }
 
         pvals->point_idx_max = l_idx;
@@ -2020,7 +2025,7 @@ mov_upd_seg_labels(GtkWidget *widget, t_mov_gui_stuff *mgp)
 {
   if(gap_debug)
   {
-    printf("mov_upd_seg_labels START mgp:%d widget:%d\n", (int)mgp, (int)widget);
+    printf("mov_upd_seg_labels START mgp:%ld widget:%ld\n", (long)mgp, (long)widget);
   }
 
   if(mgp != NULL)
@@ -2078,8 +2083,15 @@ mov_padd_callback (GtkWidget *widget,
   gint l_idx;
 
   if(gap_debug) printf("mov_padd_callback\n");
+  
+  if (pvals->point_idx_max +2 >= pvals->point_table_size)
+  {
+    gap_mov_exec_dim_point_table(pvals, pvals->point_table_size + GAP_MOV_POINT_EXPAND_SIZE);
+  }
+  
+  
   l_idx = pvals->point_idx_max;
-  if (l_idx < GAP_MOV_MAX_POINT -2)
+  if (l_idx < pvals->point_table_size -2)
   {
     /* advance to next point */
     p_points_to_tab(mgp);
@@ -2100,8 +2112,15 @@ mov_pins_callback (GtkWidget *widget,
   gint l_idx;
 
   if(gap_debug) printf("mov_pins_callback\n");
+
+  if (pvals->point_idx_max +2 >= pvals->point_table_size)
+  {
+    gap_mov_exec_dim_point_table(pvals, pvals->point_table_size + GAP_MOV_POINT_EXPAND_SIZE);
+  }
+
+
   l_idx = pvals->point_idx_max;
-  if (l_idx < GAP_MOV_MAX_POINT -2)
+  if (l_idx < pvals->point_table_size -2)
   {
     /* advance to next point */
     p_points_to_tab(mgp);
@@ -4519,7 +4538,8 @@ mov_path_framerange_box_create(t_mov_gui_stuff *mgp
   row = 0;
 
   /* the start frame scale_entry */
-  adj = gimp_scale_entry_new( GTK_TABLE (table), 0, row,        /* table col, row */
+  adj = (GtkAdjustment *)
+        gimp_scale_entry_new( GTK_TABLE (table), 0, row,        /* table col, row */
                           _("From Frame:"),                     /* label text */
                           SCALE_WIDTH, ENTRY_WIDTH,             /* scalesize spinsize */
                           (gdouble)pvals->dst_range_start,      /* value */
@@ -4543,7 +4563,8 @@ mov_path_framerange_box_create(t_mov_gui_stuff *mgp
   row++;
 
   /* the end frame scale_entry */
-  adj = gimp_scale_entry_new( GTK_TABLE (table), 0, row,          /* table col, row */
+  adj = (GtkAdjustment *)
+        gimp_scale_entry_new( GTK_TABLE (table), 0, row,          /* table col, row */
                           _("To Frame:"),                       /* label text */
                           SCALE_WIDTH, ENTRY_WIDTH,             /* scalesize spinsize */
                           (gdouble)pvals->dst_range_end,        /* value */
@@ -4567,7 +4588,8 @@ mov_path_framerange_box_create(t_mov_gui_stuff *mgp
   row++;
 
   /* the Layerstack scale_entry */
-  adj = gimp_scale_entry_new( GTK_TABLE (table), 0, row,          /* table col, row */
+  adj = (GtkAdjustment *)
+        gimp_scale_entry_new( GTK_TABLE (table), 0, row,          /* table col, row */
                           _("Layerstack:"),                     /* label text */
                           SCALE_WIDTH, ENTRY_WIDTH,             /* scalesize spinsize */
                           (gdouble)pvals->dst_layerstack,       /* value */
@@ -6156,13 +6178,14 @@ static void
 mov_path_acceleration_adjustment_update(GtkWidget *widget,
                             gint *val )
 {
-  gint old_val;
   t_mov_gui_stuff *mgp;
 
   mgp = g_object_get_data( G_OBJECT(widget), "mgp" );
 
-  if(mgp == NULL) return;
-  old_val = *val;
+  if(mgp == NULL)
+  {
+    return;
+  }
   gimp_int_adjustment_update(GTK_ADJUSTMENT(widget), (gpointer)val);
   p_points_to_tab(mgp);
   mov_upd_seg_labels(NULL, mgp);
@@ -6480,7 +6503,6 @@ GimpDrawable *
 p_get_prevw_drawable (t_mov_gui_stuff *mgp)
 {
   GapMovCurrent l_curr;
-  gint      l_nlayers;
 
   l_curr.isSingleFrame = FALSE;
   l_curr.singleMovObjLayerId = pvals->src_layer_id;
@@ -6545,6 +6567,13 @@ p_get_prevw_drawable (t_mov_gui_stuff *mgp)
      }
     }
 
+    if(gap_debug)
+    {
+      printf("p_get_prevw_drawable before gap_mov_exec_set_handle_offsets pvals:%ld pvals->src_image_id:%d\n"
+          ,(long)pvals
+          ,(int)pvals->src_image_id
+          );
+    }
     /* set offsets (in cur_ptr)
      *  according to handle_mode and src_img dimension (pvals)
      */
@@ -6553,7 +6582,10 @@ p_get_prevw_drawable (t_mov_gui_stuff *mgp)
     /* render: add source layer to (temporary) preview image */
     gap_mov_render_render(pvals->tmp_image_id, pvals, &l_curr);
 
-    if(l_curr.src_layers != NULL) g_free(l_curr.src_layers);
+    if(l_curr.src_layers != NULL)
+    {
+      g_free(l_curr.src_layers);
+    }
     l_curr.src_layers = NULL;
   }
 
@@ -6959,7 +6991,7 @@ gap_mov_dlg_move_dialog_singleframe(GapMovSingleFrame *singleFramePtr)
   argv[l_ii].int_default = argv[l_ii].int_ret;
 
 
-  if(TRUE == gap_arr_ok_cancel_dialog( _("Copy Audiofile as Wavefile"),
+  if(TRUE == gap_arr_ok_cancel_dialog( _("Movepath rendering for a single frame"),
                                  _("Settings"),
                                   G_N_ELEMENTS(argv), argv))
   {
@@ -6972,3 +7004,4 @@ gap_mov_dlg_move_dialog_singleframe(GapMovSingleFrame *singleFramePtr)
   return (-1);  /*  dialog cancelled */
 
 }  /* end gap_mov_dlg_move_dialog_singleframe */
+

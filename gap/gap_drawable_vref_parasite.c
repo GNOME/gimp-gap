@@ -49,10 +49,9 @@ gap_dvref_debug_print_GapDrawableVideoRef(GapDrawableVideoRef *dvref)
     }
     if(dvref->videofile == NULL)
     {
-      printf("GapDrawableVideoRef: videofile:(null)  frame:%d seltrack:%d (%s)\n"
+      printf("GapDrawableVideoRef: videofile:(null)  frame:%d seltrack:%d\n"
         ,dvref->para.framenr
         ,dvref->para.seltrack
-        ,&dvref->para.preferred_decoder[0]
         );
       return;
     }

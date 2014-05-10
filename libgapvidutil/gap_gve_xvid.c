@@ -78,7 +78,7 @@ p_xvid_debug_write_mp4u_file(guchar *buff, gint32 len)
 
   FILE *fp;
   gchar *fname;
-  struct stat  l_stat_buf;
+  GStatBuf  l_stat_buf;
   int bigendian;
   long totalsize;
 

@@ -59,9 +59,19 @@ void    gap_mov_exec_query(GapMovValues *val_ptr, GapAnimInfo *ainfo_ptr, GapMov
 gdouble gap_mov_exec_get_default_rotate_threshold();
 
 GapMovValues *gap_mov_exec_new_GapMovValues();
+void gap_mov_exec_free_GapMovValues(GapMovValues *pvals);
+void gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues);
 
 gboolean  gap_mov_exec_check_valid_xml_paramfile(const char *filename);
 
+/* ------------------------------
+ * gap_mov_exec_dim_point_table
+ * ------------------------------
+ * (re) allocate point table when actual size is smaller than specified num_points
+ * e.g. this procedure does never shrink an already allocated point table,
+ * but just makes sure it can hold up to num_points.
+ */
+void gap_mov_exec_dim_point_table(GapMovValues *pvals, gint num_points);
 
 /* ---------------------------------------------
  * gap_mov_exec_move_path_singleframe_directcall
