@@ -220,15 +220,6 @@ static void     p_init_stb_error(GapStoryRenderErrors *sterr);
 static void     p_free_stb_error(GapStoryRenderErrors *sterr);
 static void     p_set_stb_error(GapStoryRenderErrors *sterr, char *errtext);
 static void     p_refresh_min_max_vid_tracknumbers(GapStoryRenderVidHandle *vidhand);
-
-static gdouble  p_attribute__at_step(gint32 frame_step /* current frame (since start of current processed clip */
-                 ,gdouble from_val
-                 ,gdouble to_val
-                 ,gint32  frames_dur        /* duration of the complete transition in frames */
-                 ,gint32  frames_done       /* already handled steps in previous clips */
-                 ,gint    accel             /* acceleration characteristic for the transition */
-                 );
-
 static void     p_select_section_by_name(GapStoryRenderVidHandle *vidhand
                   , const char *section_name);
 
@@ -575,7 +566,6 @@ static gint32    p_story_render_fetch_composite_image_private(GapStoryRenderVidH
 static GMutex *
 p_pooled_g_mutex_new()
 {
-  GMutex       *mutex;
   StbMutexPool *mutexp;
 
   for(mutexp = mutexPool; mutexp != NULL; mutexp=mutexp->next)
@@ -585,8 +575,8 @@ p_pooled_g_mutex_new()
       mutexp->isFree = FALSE;
       if(gap_debug)
       {
-        printf("p_pooled_g_mutex_new: recycle mutex:%d\n"
-          ,(int)mutexp->mutex
+        printf("p_pooled_g_mutex_new: recycle mutex:%ld\n"
+          ,(long)mutexp->mutex
           );
       }
       return(mutexp->mutex);
@@ -601,8 +591,8 @@ p_pooled_g_mutex_new()
 
   if(gap_debug)
   {
-    printf("p_pooled_g_mutex_new: allocated new mutex:%d\n"
-       ,(int)mutexp->mutex
+    printf("p_pooled_g_mutex_new: allocated new mutex:%ld\n"
+       ,(long)mutexp->mutex
        );
   }
 
@@ -626,16 +616,16 @@ p_pooled_g_mutex_free(GMutex       *mutex)
       mutexp->isFree = TRUE;
       if(gap_debug)
       {
-        printf("p_pooled_g_mutex_free: disposed mutex:%d for later reuse\n"
-           ,(int)mutexp->mutex
+        printf("p_pooled_g_mutex_free: disposed mutex:%ld for later reuse\n"
+           ,(long)mutexp->mutex
            );
       }
       return;
     }
   }
 
-  printf("p_pooled_g_mutex_free: ** ERROR mutex:%d not found in pool\n"
-           ,(int)mutex
+  printf("p_pooled_g_mutex_free: ** ERROR mutex:%ld not found in pool\n"
+           ,(long)mutex
            );
 
 } /* end p_pooled_g_mutex_free */
@@ -655,7 +645,7 @@ gap_story_render_debug_print_maskdef_elem(GapStoryRenderMaskDefElem *maskdef_ele
 
       printf("  [%d] record_type       : %d\n", (int)l_idx, (int)maskdef_elem->record_type );
       printf("  [%d] mask_name         : ", (int)l_idx); if(maskdef_elem->mask_name) { printf("%s\n", maskdef_elem->mask_name );} else { printf ("(null)\n"); }
-      printf("  [%d] mask_vidhand      : %d\n", (int)l_idx, (int)maskdef_elem->mask_vidhand );
+      printf("  [%d] mask_vidhand      : %ld\n", (int)l_idx, (long)maskdef_elem->mask_vidhand );
       printf("  [%d] frame_count       : %d\n", (int)l_idx, (int)maskdef_elem->frame_count );
       printf("  [%d] flip_request      : %d\n", (int)l_idx, (int)maskdef_elem->flip_request );
 
@@ -718,7 +708,7 @@ gap_story_render_debug_print_frame_elem(GapStoryRenderFrameRangeElem *frn_elem, 
       printf("  [%d] track (file)      : %d\n", (int)l_idx, (int)(1+(frn_elem->track / 2)) );
       printf("  [%d] basename          : ", (int)l_idx); if(frn_elem->basename) { printf("%s\n", frn_elem->basename );} else { printf ("(null)\n"); }
       printf("  [%d] ext               : ", (int)l_idx); if(frn_elem->ext) { printf("%s\n", frn_elem->ext );} else { printf ("(null)\n"); }
-      printf("  [%d] gvahand           : %d\n", (int)l_idx, (int)frn_elem->gvahand );
+      printf("  [%d] gvahand           : %ld\n", (int)l_idx, (long)frn_elem->gvahand );
       printf("  [%d] seltrack          : %d\n", (int)l_idx, (int)frn_elem->seltrack );
       printf("  [%d] exact_seek        : %d\n", (int)l_idx, (int)frn_elem->exact_seek );
       printf("  [%d] delace            : %.2f\n", (int)l_idx, (float)frn_elem->delace );
@@ -826,14 +816,14 @@ p_debug_print_render_section_names(GapStoryRenderVidHandle *vidhand)
   printf("\nDEBUG p_debug_print_render_section_names START\n");
   for(section = vidhand->section_list; section != NULL; section = section->next)
   {
-      printf("DEBUG render_section: adr vidhand:%d section:%d section->frn_list:%d)"
-           , (int)vidhand
-           , (int)section
-           , (int)section->frn_list
+      printf("DEBUG render_section: adr vidhand:%ld section:%ld section->frn_list:%ld)"
+           , (long)vidhand
+           , (long)section
+           , (long)section->frn_list
            );
       if (section->section_name == NULL)
       {
-        printf("section_name: (null) e.g. MAIN\n");
+        printf("section_name: (null) is the MAIN section\n");
       }
       else
       {
@@ -902,7 +892,7 @@ gap_story_render_debug_print_audiorange_list(GapStoryRenderAudioRangeElem *aud_l
       printf("  [%d] track             : %d\n", (int)l_idx, (int)aud_elem->track );
       printf("  [%d] audiofile         : ", (int)l_idx); if(aud_elem->audiofile) { printf("%s\n", aud_elem->audiofile );} else { printf ("(null)\n"); }
       printf("  [%d] tmp_audiofile     : ", (int)l_idx); if(aud_elem->tmp_audiofile) { printf("%s\n", aud_elem->tmp_audiofile );} else { printf ("(null)\n"); }
-      printf("  [%d] gvahand           : %d\n", (int)l_idx, (int)aud_elem->gvahand );
+      printf("  [%d] gvahand           : %ld\n", (int)l_idx, (long)aud_elem->gvahand );
       printf("  [%d] seltrack          : %d\n", (int)l_idx, (int)aud_elem->seltrack );
 
       printf("  [%d] samplerate        : %d\n", (int)l_idx, (int)aud_elem->samplerate );
@@ -912,7 +902,7 @@ gap_story_render_debug_print_audiorange_list(GapStoryRenderAudioRangeElem *aud_l
 
 
       printf("  [%d] audio_id          : %d\n", (int)l_idx, (int)aud_elem->audio_id);
-      printf("  [%d] aud_data          : %d\n", (int)l_idx, (int)aud_elem->aud_data);
+      printf("  [%d] aud_data          : %ld\n", (int)l_idx, (long)aud_elem->aud_data);
       printf("  [%d] aud_bytelength    : %d\n", (int)l_idx, (int)aud_elem->aud_bytelength);
 
       printf("  [%d] range_samples     : %d\n", (int)l_idx, (int)aud_elem->range_samples );
@@ -1181,7 +1171,7 @@ gap_story_render_set_stb_warning(GapStoryRenderErrors *sterr, char *warntext)
  * findout the lowest and highest track number used
  * in the current framerange list in the specified storyboard videohandle.
  *
- * (and constraint the values to limits e.g. array boundaries)
+ * (and constraint the values to limits such as array boundaries)
  *
  * This procedure is typicall called each time the frn_list
  * of a storyboard videohandle (GapStoryRenderVidHandle *vidhand)
@@ -1347,9 +1337,9 @@ p_select_section_by_name(GapStoryRenderVidHandle *vidhand, const char *section_n
 
   if(gap_debug)
   {
-    printf("p_select_section_by_name: addr of section: %d Resulting addr of frn_list: %d)\n"
-       , (int)section
-       , (int)vidhand->frn_list
+    printf("p_select_section_by_name: addr of section: %ld Resulting addr of frn_list: %ld)\n"
+       , (long)section
+       , (long)vidhand->frn_list
        );
     fflush(stdout);
   }
@@ -2766,7 +2756,7 @@ p_storyboard_analyze(GapStoryBoard *stb
   {
     if (stb_section == stb->mask_section)
     {
-        /* ignore mask definitions (e.g. all elements in mask_section) here,
+        /* ignore mask definitions (this are all elements in mask_section) here,
          * because mask definitions are handled separately.
          * (for the rendering mask_definitions are not handled like sub sections,
          * mask_definitions have global scope in the whole storyboard
@@ -2820,7 +2810,7 @@ p_storyboard_analyze(GapStoryBoard *stb
        * that are generated only for internal usage if a videotrack uses overlapping
        * frames.
        * the lowest internal tracknumber always appears in foreground
-       * (e.g. is placed on top of layerstack at rendering of the composite frame)
+       * (it is placed on top of layerstack at rendering of the composite frame)
        */
       if (stb->master_vtrack1_is_toplayer)
       {
@@ -3355,9 +3345,9 @@ p_framerange_list_from_storyboard(const char *storyboard_file
 
   if(gap_debug)
   {
-    printf("p_framerange_list_from_storyboard: START vidhand:%d stb_mem_ptr;%d"
-      , (int)vidhand
-      , (int)stb_mem_ptr
+    printf("p_framerange_list_from_storyboard: START vidhand:%ld stb_mem_ptr;%ld"
+      , (long)vidhand
+      , (long)stb_mem_ptr
       );
     if (storyboard_file == NULL)
     {
@@ -3445,8 +3435,8 @@ p_framerange_list_from_storyboard(const char *storyboard_file
 
   if(gap_debug)
   {
-    printf("p_framerange_list_from_storyboard: END vidhand:%d\n"
-      , (int)vidhand
+    printf("p_framerange_list_from_storyboard: END vidhand:%ld\n"
+      , (long)vidhand
       );
   }
 
@@ -3743,7 +3733,7 @@ gap_story_render_close_vid_handle(GapStoryRenderVidHandle *vidhand)
    p_free_stb_error(vidhand->sterr);
    p_free_mask_definitions(vidhand);
 
-   /* unregister frame fetcher resource usage (e.g. the image cache) */
+   /* unregister frame fetcher resource usage (i.e. the image cache) */
    gap_frame_fetch_unregister_user(vidhand->ffetch_user_id);
    vidhand->section_list = NULL;
    vidhand->frn_list = NULL;
@@ -4104,7 +4094,7 @@ p_open_video_handle_private(    gboolean ignore_audio
 
   if(gap_debug)
   {
-    printf("p_open_video_handle_private: new vidhand:%d\n", (int)vidhand);
+    printf("p_open_video_handle_private: new vidhand:%ld\n", (long)vidhand);
   }
 
   if(progress_ptr) { vidhand->progress = progress_ptr; }
@@ -4121,7 +4111,7 @@ p_open_video_handle_private(    gboolean ignore_audio
     vidhand->status_msg_len = 0;
   }
 
-  /* registrate as user of the frame fetcher resources (e.g. the image cache) */
+  /* registrate as user of the frame fetcher resources (i.e. the image cache) */
   vidhand->ffetch_user_id = gap_frame_fetch_register_user("gap_story_render_processor.p_open_video_handle_private");
 
   vidhand->isLogResourceUsage = FALSE;
@@ -4201,8 +4191,8 @@ p_open_video_handle_private(    gboolean ignore_audio
 
   if(gap_debug)
   {
-    printf("p_open_video_handle_private: OPENING vidhand:%d\n"
-      , (int)vidhand
+    printf("p_open_video_handle_private: OPENING vidhand:%ld\n"
+      , (long)vidhand
       );
     p_debug_print_render_section_names(vidhand);
   }
@@ -4484,7 +4474,7 @@ p_open_video_handle_private(    gboolean ignore_audio
 
   if(gap_debug)
   {
-    printf("\n\np_open_video_handle_private: END vidhand:%d\n\n", (int)vidhand);
+    printf("\n\np_open_video_handle_private: END vidhand:%ld\n\n", (long)vidhand);
     gap_story_render_debug_print_framerange_list(vidhand->frn_list, -1);
   }
   return(vidhand);
@@ -5017,11 +5007,6 @@ p_transform_with_movepath_processing( gint32 comp_image_id
   gint   result_width;
   gint   result_height;
 
-  GapStoryCalcAttr  calculate_attributes;
-  GapStoryCalcAttr  *calculated;
-
-
-
   if(gap_debug)
   {
     printf("\n--\np_transform_with_movepath_processing: called at layer_id: %d, tmp_image_id:%d comp_image_id:%d\n"
@@ -5044,7 +5029,7 @@ p_transform_with_movepath_processing( gint32 comp_image_id
   if(frn_elem != NULL)
   {
     /* process mask before the movepath transitions
-     * (but only in case when not achored to master, e.g anchored to clip)
+     * (but only in case when not achored to master, but is anchored to clip)
      */
     if((frn_elem->mask_name != NULL)
     && (frn_elem->mask_anchor != GAP_MSK_ANCHOR_MASTER))
@@ -5103,7 +5088,7 @@ p_transform_with_movepath_processing( gint32 comp_image_id
    * further processing continues with the result of movepath processing
    * (the image l_tmp_movpath_image_id)
    * note that the resulting layer (l_movepath_layer_id) may be oversized,
-   * e.g may overlap image boudaries due to the movepath transformations
+   * i.e. may overlap image boudaries due to the movepath transformations
    * (when the clip to image flag was not active in movepath processing)
    */
   if(gap_debug)
@@ -5345,7 +5330,6 @@ p_transform_and_add_layer( gint32 comp_image_id
   gint32 l_new_layer_id;
   gint32 l_fsel_layer_id;
   gint32 l_fmac_layer_id;
-  gint32 l_movepath_layer_id;
   gint32 l_tmp_image_id;
   gint32 l_layermode;
 
@@ -5932,9 +5916,6 @@ p_calculateGvahandHolderRank(GapStoryRenderFrameRangeElem *frn_elem
 {
   t_GVA_Handle      *gvahand;
   t_GVA_RetCode      l_fcr;
-  gint32             rank;
-
-  rank = GVAHAND_HOLDER_RANK_MIN_LEVEL;
 
   gvahand = frn_elem->gvahand;
   l_fcr = GVA_search_fcache(gvahand, videoFrameNrToBeReadNext);
@@ -6049,7 +6030,7 @@ p_try_to_steal_gvahand(GapStoryRenderVidHandle *vidhand
   }
 
   /* check for open videos in case there are mask definitions
-   * this is not done in case we are already rendering a mask (e.g vidhand is the mask handle)
+   * this is not done in case we are already rendering a mask (where vidhand is the mask handle)
    * In case the rank is above the GVAHAND_HOLDER_RANK_NO_BENEFIT_LEVEL
    * we can skip this check, because an already opened handled will be reused.
    */
@@ -6083,9 +6064,9 @@ p_try_to_steal_gvahand(GapStoryRenderVidHandle *vidhand
       t_GVA_Handle *gvahand;
       if(gap_debug)
       {
-        printf("(RE)using GVA handle for %s gvahand:%d Rank:%d holder(track:%d from:%d to:%d) requestor(track:%d from:%d to:%d) open videofile: %d (max:%d)\n"
+        printf("(RE)using GVA handle for %s gvahand:%ld Rank:%d holder(track:%d from:%d to:%d) requestor(track:%d from:%d to:%d) open videofile: %d (max:%d)\n"
               , frn_elem_gvahandHolder->basename
-              , (int)gvahand
+              , (long)gvahand
               , (int)gvahandHolderRank
               , (int)frn_elem_gvahandHolder->track
               , (int)frn_elem_gvahandHolder->frame_from
@@ -7371,16 +7352,16 @@ p_call_GVA_close(t_GVA_Handle *gvahand)
 {
   if(gap_debug)
   {
-    printf("p_call_GVA_close gvahand:%d\n"
-          ,(int)gvahand
+    printf("p_call_GVA_close gvahand:%ld\n"
+          ,(long)gvahand
           );
   }
   if(gvahand)
   {
     if(gap_debug)
     {
-      printf("p_call_GVA_close  gvahand:%d (close is pending for %s)\n"
-           ,(int)gvahand
+      printf("p_call_GVA_close  gvahand:%ld (close is pending for %s)\n"
+           ,(long)gvahand
             ,gvahand->filename
             );
     }
@@ -7404,20 +7385,20 @@ RETRY:
         {
           if(gap_debug)
           {
-            printf("call_GVA_closeWAIT until prefetch worker thread finished (close is pending for %s) retry:%d mutex:%d fcache_mutex:%d\n"
+            printf("call_GVA_closeWAIT until prefetch worker thread finished (close is pending for %s) retry:%d mutex:%ld fcache_mutex:%ld\n"
                   ,gvahand->filename
                   ,(int)retryCount
-                  ,(int)mutex
-                  ,(int)gvahand->fcache_mutex
+                  ,(long)mutex
+                  ,(long)gvahand->fcache_mutex
                   );
           }
           g_cond_wait (vpre->prefetchDoneCond, vpre->mutex);
 
           if(gap_debug)
           {
-            printf("call_GVA_close WAKE-UP prefetch worker thread finished (closing video %s) mutex:%d\n"
+            printf("call_GVA_close WAKE-UP prefetch worker thread finished (closing video %s) mutex:%ld\n"
                   ,gvahand->filename
-                  ,(int)mutex
+                  ,(long)mutex
                   );
           }
           GVA_fcache_mutex_unlock (vpre->gvahand);
@@ -7432,11 +7413,11 @@ RETRY:
         {
           if(gap_debug)
           {
-            printf("call_GVA_close PrefetchThread NOT RUNNING, (closing video %s) retry:%d mutex:%d fcache_mutex:%d\n"
+            printf("call_GVA_close PrefetchThread NOT RUNNING, (closing video %s) retry:%d mutex:%ld fcache_mutex:%ld\n"
                   ,gvahand->filename
                   ,retryCount
-                  ,(int)mutex
-                  ,(int)gvahand->fcache_mutex
+                  ,(long)mutex
+                  ,(long)gvahand->fcache_mutex
                   );
           }
         }
@@ -7479,8 +7460,8 @@ p_call_GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gva
 {
   if(gap_debug)
   {
-    printf("before call GVA_search_fcache: gvahand:%d framenumber:%d deinterlace:%d numProcessors:%d caller:%s\n"
-      ,(int)gvahand
+    printf("before call GVA_search_fcache: gvahand:%ld framenumber:%d deinterlace:%d numProcessors:%d caller:%s\n"
+      ,(long)gvahand
       ,(int)framenumber
       ,(int)deinterlace
       ,(int)numProcessors
@@ -7499,11 +7480,11 @@ p_call_GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gva
   if(gap_debug)
   {
     printf("after call GVA_search_fcache: "
-      "gvahand:%d framenumber:%d isRgb888Result:%d data:%d image_id:%d layer_id:%d isFrameAvailable:%d\n"
-      ,(int)gvahand
+      "gvahand:%ld framenumber:%d isRgb888Result:%d data:%ld image_id:%d layer_id:%d isFrameAvailable:%d\n"
+      ,(long)gvahand
       ,(int)framenumber
       ,(int)fcacheFetchResult->isRgb888Result
-      ,(int)fcacheFetchResult->rgbBuffer.data
+      ,(long)fcacheFetchResult->rgbBuffer.data
       ,(int)fcacheFetchResult->image_id
       ,(int)fcacheFetchResult->layer_id
       ,(int)fcacheFetchResult->isFrameAvailable
@@ -7578,7 +7559,6 @@ p_stb_render_movie_single_processor(GapStbFetchData *gfd
   {
      gint32 l_deinterlace;
      gdouble l_threshold;
-     t_GVA_RetCode  l_fcr;
 
      /* split delace value: integer part is deinterlace mode, rest is threshold */
      p_split_delace_value(gfd->frn_elem->delace
@@ -7713,9 +7693,9 @@ p_call_GVA_get_next_frame_andSendReadySignal(VideoPrefetchData *vpre, gint32 tar
 {
   if(gap_debug)
   {
-    printf("p_call_GVA_get_next_frame TID:%lld gvahand:%d targetFrameNumber:%d seek_nr:%d\n"
-      , gap_base_get_thread_id()
-      , (int)vpre->gvahand
+    printf("p_call_GVA_get_next_frame TID:%lld gvahand:%ld targetFrameNumber:%d seek_nr:%d\n"
+      , (long long int)gap_base_get_thread_id()
+      , (long)vpre->gvahand
       , (int)targetFrameNumber
       , (int)vpre->gvahand->current_seek_nr
       );
@@ -7727,9 +7707,9 @@ p_call_GVA_get_next_frame_andSendReadySignal(VideoPrefetchData *vpre, gint32 tar
   {
     if(gap_debug)
     {
-      printf("p_call_GVA_get_next_frame TID:%lld gvahand:%d targetFrameNumber:%d SEND targetFrameReadyCond\n"
-        , gap_base_get_thread_id()
-        , (int)vpre->gvahand
+      printf("p_call_GVA_get_next_frame TID:%lld gvahand:%ld targetFrameNumber:%d SEND targetFrameReadyCond\n"
+        , (long long int)gap_base_get_thread_id()
+        , (long)vpre->gvahand
         , (int)targetFrameNumber
         );
     }
@@ -7751,7 +7731,7 @@ p_call_GVA_get_next_frame_andSendReadySignal(VideoPrefetchData *vpre, gint32 tar
  *
  * In case there is more than one videotrack to be processed,
  * there may be more than one prefetch worker thread running parallel at the same time
- * where each of those threads has its own VideoPrefetchData (e.g has its own gva video handle)
+ * where each of those threads has its own VideoPrefetchData (and therfore has its own gva video handle)
  *
  * Note: prefetch of backwards read fill up the fcache too, but in this case
  * the target framenumber is the last one to be read from the videofile
@@ -7768,9 +7748,9 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
 
   if(gap_debug)
   {
-    printf("p_videoPrefetchWorkerThreadFunction START (before mutex lock) TID:%lld gvahand:%d  targetFrameNumber:%d\n"
-         , gap_base_get_thread_id()
-         ,(int)vpre->gvahand
+    printf("p_videoPrefetchWorkerThreadFunction START (before mutex lock) TID:%lld gvahand:%ld  targetFrameNumber:%d\n"
+         ,(long long int)gap_base_get_thread_id()
+         ,(long)vpre->gvahand
          ,(int)vpre->targetFrameNumber
          );
   }
@@ -7798,9 +7778,9 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
     {
       if(gap_debug)
       {
-        printf("p_videoPrefetchWorkerThreadFunction TID:%lld NEAR FORWARD READ gvahand:%d targetFrameNumber:%d\n"
-        , gap_base_get_thread_id()
-         ,(int)vpre->gvahand
+        printf("p_videoPrefetchWorkerThreadFunction TID:%lld NEAR FORWARD READ gvahand:%ld targetFrameNumber:%d\n"
+        , (long long int)gap_base_get_thread_id()
+         ,(long)vpre->gvahand
          ,(int)targetFrameNumber
          );
       }
@@ -7828,9 +7808,9 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
 
         if(gap_debug)
         {
-          printf("p_videoPrefetchWorkerThreadFunction TID:%lld gvahand:%d BACKWARD READ targetFrameNumber:%d\n"
-             , gap_base_get_thread_id()
-             ,(int)vpre->gvahand
+          printf("p_videoPrefetchWorkerThreadFunction TID:%lld gvahand:%ld BACKWARD READ targetFrameNumber:%d\n"
+             , (long long int)gap_base_get_thread_id()
+             ,(long)vpre->gvahand
              ,(int)targetFrameNumber
              );
         }
@@ -7842,9 +7822,9 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
         {
             if(gap_debug)
             {
-              printf("BACKWARD TID:%lld prefetch fcache filling read gvahand:%d current_seek_nr:%d target_frame_nr:%d\n"
-                , gap_base_get_thread_id()
-                ,(int)vpre->gvahand
+              printf("BACKWARD TID:%lld prefetch fcache filling read gvahand:%ld current_seek_nr:%d target_frame_nr:%d\n"
+                , (long long int)gap_base_get_thread_id()
+                ,(long)vpre->gvahand
                 ,(int)vpre->gvahand->current_seek_nr
                 ,(int)prefetchFrameNumber
                 );
@@ -7856,9 +7836,9 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
       {
         if(gap_debug)
         {
-          printf("p_videoPrefetchWorkerThreadFunction TID:%lld SEEK / READ gvahand:%d targetFrameNumber:%d\n"
-                , gap_base_get_thread_id()
-                ,(int)vpre->gvahand
+          printf("p_videoPrefetchWorkerThreadFunction TID:%lld SEEK / READ gvahand:%ld targetFrameNumber:%d\n"
+                , (long long int)gap_base_get_thread_id()
+                ,(long)vpre->gvahand
                 ,(int)targetFrameNumber
                 );
         }
@@ -7880,9 +7860,9 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
 
   if(gap_debug)
   {
-    printf("p_videoPrefetchWorkerThreadFunction DONE TID:%lld gvahand:%d\n"
-       ,gap_base_get_thread_id()
-       ,(int)vpre->gvahand
+    printf("p_videoPrefetchWorkerThreadFunction DONE TID:%lld gvahand:%ld\n"
+       ,(long long int)gap_base_get_thread_id()
+       ,(long)vpre->gvahand
        );
   }
 
@@ -8074,8 +8054,8 @@ p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
 
       if(gap_debug)
       {
-        printf("FCACHE-HIT gvahand:%d framenr:%d predictedFrameNr:%d retryCount:%d\n"
-          , (int)vpre->gvahand
+        printf("FCACHE-HIT gvahand:%ld framenr:%d predictedFrameNr:%d retryCount:%d\n"
+          , (long)vpre->gvahand
           , (int)targetFrameNumber
           , (int)predictedNextFrameNr
           , (int)retryCount
@@ -8104,8 +8084,8 @@ p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
           vpre->targetFrameNumber = fnr;
           if(gap_debug)
           {
-            printf("MORE-PREFETCH PUSH-1 gvahand:%d framenr:%d predictedFrameNr:%d retryCount:%d\n"
-              , (int)vpre->gvahand
+            printf("MORE-PREFETCH PUSH-1 gvahand:%ld framenr:%d predictedFrameNr:%d retryCount:%d\n"
+              , (long)vpre->gvahand
               , (int)fnr
               , (int)predictedNextFrameNr
               , (int)retryCount
@@ -8135,8 +8115,8 @@ p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
 
         if(gap_debug)
         {
-            printf("TRIGGER PREFETCH PUSH-2 gvahand:%d targetFrameNumber:%d predictedFrameNr:%d retryCount:%d\n"
-              , (int)vpre->gvahand
+            printf("TRIGGER PREFETCH PUSH-2 gvahand:%ld targetFrameNumber:%d predictedFrameNr:%d retryCount:%d\n"
+              , (long)vpre->gvahand
               , (int)targetFrameNumber
               , (int)predictedNextFrameNr
               , (int)retryCount
@@ -8154,8 +8134,8 @@ p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
 
       if(gap_debug)
       {
-        printf("WAIT  gvahand:%d until prefetch worker thread has fetched target framenr:%d predictedFrameNr:%d retryCount:%d\n"
-          , (int)vpre->gvahand
+        printf("WAIT  gvahand:%ld until prefetch worker thread has fetched target framenr:%d predictedFrameNr:%d retryCount:%d\n"
+          , (long)vpre->gvahand
           , (int)targetFrameNumber
           , (int)predictedNextFrameNr
           , (int)retryCount
@@ -8175,8 +8155,8 @@ p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
 
       if(gap_debug)
       {
-        printf("WAKE-UP gvahand:%d target framenr:%d predictedFrameNr:%d retryCount:%d\n"
-          , (int)vpre->gvahand
+        printf("WAKE-UP gvahand:%ld target framenr:%d predictedFrameNr:%d retryCount:%d\n"
+          , (long)vpre->gvahand
           , (int)targetFrameNumber
           , (int)predictedNextFrameNr
           , (int)retryCount
@@ -8190,8 +8170,8 @@ p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
 
   if(gap_debug)
   {
-    printf("RETRY LOOP gvahand:%d done target framenr:%d predictedFrameNr:%d layerId:%d isRgb888Result:%d retryCount:%d\n"
-      , (int)vpre->gvahand
+    printf("RETRY LOOP gvahand:%ld done target framenr:%d predictedFrameNr:%d layerId:%d isRgb888Result:%d retryCount:%d\n"
+      , (long)vpre->gvahand
       , (int)targetFrameNumber
       , (int)predictedNextFrameNr
       , (int)fcacheFetchResult.layer_id
@@ -8210,9 +8190,9 @@ p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
     {
       gfd->gapStoryFetchResult->resultEnum = GAP_STORY_FETCH_RESULT_IS_ERROR;
     }
-    printf("** ERROR Failed to fetch from video:%s gvahand:%d frame:%d predictedFrameNr:%d retryCount:%d\n"
+    printf("** ERROR Failed to fetch from video:%s gvahand:%ld frame:%d predictedFrameNr:%d retryCount:%d\n"
           , gfd->frn_elem->gvahand->filename
-          , (int)gfd->frn_elem->gvahand
+          , (long)gfd->frn_elem->gvahand
           , (int)gfd->localframe_index
           , (int)predictedNextFrameNr
           , (int)retryCount
@@ -8684,9 +8664,7 @@ p_paste_logo_pattern(gint32 drawable_id
   gint32        l_fsel_layer_id;
   gint          l_src_offset_x;
   gint          l_src_offset_y;
-  gint32        image_id;
 
-  image_id = gimp_item_get_image(drawable_id);
   gimp_selection_all(gimp_item_get_image(logo_pattern_id));
 
   /* findout the offsets of the replacement_pattern layer within the source Image */
@@ -9128,7 +9106,8 @@ p_story_render_bypass_where_possible(GapStoryRenderVidHandle *vidhand
   /* check clip rerferences in all tracks.
    * (bypass is possible in case the track on top the layerstack refers to a fully opaque movie clip
    * at full image same size without any transitions.
-   * the loop starts at minVidTrack (typically 0) that refers to top of the layerstack position (e.g. foreground)
+   * the loop starts at minVidTrack (typically 0) that refers to top of the layerstack position 
+   * (i.e. foreground)
    */
   for(l_track = vidhand->minVidTrack; l_track <= vidhand->maxVidTrack; l_track++)
   {
@@ -9141,14 +9120,14 @@ p_story_render_bypass_where_possible(GapStoryRenderVidHandle *vidhand
     if(gap_debug)
     {
       printf("BYPASSCHECK: track:%d master_frame_nr:%d framename:%s "
-             " trak_filtermacroAdr:%d maskNameAdr:%d insert_alpha:%d insert_area:%d\n"
+             " trak_filtermacroAdr:%ld maskNameAdr:%ld insert_alpha:%ld insert_area:%ld\n"
         ,(int)l_track
         ,(int)master_frame_nr
         ,gfd->framename
-        ,(int)gfd->trak_filtermacro_file
-        ,(int)gfd->frn_elem->mask_name
-        ,(int)vidhand->master_insert_alpha_format
-        ,(int)vidhand->master_insert_area_format
+        ,(long)gfd->trak_filtermacro_file
+        ,(long)gfd->frn_elem->mask_name
+        ,(long)vidhand->master_insert_alpha_format
+        ,(long)vidhand->master_insert_area_format
         );
     }
 
@@ -9229,7 +9208,7 @@ p_story_render_bypass_where_possible(GapStoryRenderVidHandle *vidhand
     }
 
     /* at this point we detected that current layer is fully transparent
-     * therefore we can continue checking the next track (e.g. lower layerstack position)
+     * therefore we can continue checking the next track (i.e. lower layerstack position)
      */
 
   }       /* end for loop over all video tracks */
@@ -9264,7 +9243,7 @@ p_story_render_bypass_where_possible(GapStoryRenderVidHandle *vidhand
        if((gfdMovie->frn_elem->gvahand->width == vid_width)
        && (gfdMovie->frn_elem->gvahand->height == vid_height))
        {
-         /* because there are no transformations and the movie clip is the only active track (e.g. layer)
+         /* because there are no transformations and the movie clip is the only active track (i.e. layer)
           * we can bypass the render processing and deliver the frame data as rgb888 buffer
           */
          gfdMovie->gapStoryFetchResult = gapStoryFetchResult;
@@ -9354,15 +9333,15 @@ p_story_render_fetch_composite_image_private(GapStoryRenderVidHandle *vidhand
 
   if(gap_debug)
   {
-    printf("p_story_render_fetch_composite_image_private START  master_frame_nr:%d  %dx%d vidhand:%d"
-           " enable_rgb888_flag:%d gapStoryFetchResultAdr:%d filtermacroAdr:%d\n"
+    printf("p_story_render_fetch_composite_image_private START  master_frame_nr:%d  %dx%d vidhand:%ld"
+           " enable_rgb888_flag:%d gapStoryFetchResultAdr:%ld filtermacroAdr:%ld\n"
         , (int)master_frame_nr
         , (int)vid_width
         , (int)vid_height
-        , (int)vidhand
+        , (long)vidhand
         , (int)enable_rgb888_flag
-        , (int)gapStoryFetchResult
-        , (int)filtermacro_file
+        , (long)gapStoryFetchResult
+        , (long)filtermacro_file
         );
     if (section_name == NULL)
     {
@@ -9421,7 +9400,7 @@ p_story_render_fetch_composite_image_private(GapStoryRenderVidHandle *vidhand
   }
 
   /* reverse order, has the effect, that track 0 is processed as last track
-   * and will be put on top of the layerstack (e.g. in the foreground)
+   * and will be put on top of the layerstack (i.e. in the foreground)
    */
   for(l_track = vidhand->maxVidTrack; l_track >= vidhand->minVidTrack; l_track--)
   {

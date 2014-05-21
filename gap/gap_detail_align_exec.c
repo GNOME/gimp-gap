@@ -919,9 +919,9 @@ p_refresh_and_update_infoLabel(GtkWidget *widgetDummy, AlignDialogVals *advPtr)
 
   if(gap_debug)
   {
-    printf("p_refresh_and_update_infoLabel widgetDummy:%d advPtr:%d\n"
-          , (int) widgetDummy
-          , (int) advPtr
+    printf("p_refresh_and_update_infoLabel widgetDummy:%ld advPtr:%ld\n"
+          , (long) widgetDummy
+          , (long) advPtr
           );
   }
 
@@ -1304,5 +1304,3 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
   
   
 }  /* end  gap_detail_exact_align_via_4point_path */
-
-

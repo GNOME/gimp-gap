@@ -117,7 +117,7 @@
 #define GAP_IMAGE_CACHE_TYPE_PRESCALE_ENABLED 1
 
 typedef struct GapImageCacheParasitePointers {
-  gint32 *mtime_ptr;
+  time_t *mtime_ptr;
   gint32 *ffetch_id_ptr;
   gint32 *type_ptr;
   gint32 *orig_width_ptr;
@@ -206,7 +206,7 @@ static void           p_add_image_to_list_of_duplicated_images(gint32 image_id, 
 
 static gint32 p_get_ffetch_max_img_cache_elements();
 static gint32 p_get_ffetch_max_gvc_cache_elements();
-static gint32 ffetch_gva_frames_to_keep_cached();
+static gint32 p_get_ffetch_gva_frames_to_keep_cached();
 
 /* ----------------------------------------------------
  * p_init_GapImageCacheParasitePointers
@@ -597,7 +597,7 @@ p_load_image_and_add_to_cache(const char* filename, gint32 ffetch_user_id
  * in case the flag addToCache is TRUE the image will be automatically added
  * to the cache after read from file operation.
  * Note: this procedure handles only images at original size (GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE)
- * a prescaled cached variant of the image will be ignored (e.g NOT be found by this procedure)
+ * a prescaled cached variant of the image will be ignored (i.e. NOT be found by this procedure)
  */
 static gint32
 p_load_cache_image(const char* filename, gint32 ffetch_user_id, gboolean addToCache)
@@ -721,8 +721,8 @@ p_drop_gvahand_cache_elem1(GapFFetchGvahandCache *gvcache)
     {
       if(gap_debug)
       {
-        printf("p_drop_gvahand_cache_elem1 delete:%s (gvahand:%d seltrack:%d mtime:%ld)\n"
-               , gvc_ptr->filename, (int)gvc_ptr->gvahand
+        printf("p_drop_gvahand_cache_elem1 delete:%s (gvahand:%ld seltrack:%d mtime:%ld)\n"
+               , gvc_ptr->filename, (long)gvc_ptr->gvahand
                , (int)gvc_ptr->seltrack, (long)gvc_ptr->mtime);
       }
       GVA_close(gvc_ptr->gvahand);
@@ -1482,10 +1482,10 @@ gap_frame_fetch_register_user(const char *caller_name)
 
   if(gap_debug)
   {
-    printf("gap_frame_fetch_register_user: REGISTRATED ffetch_user_id:%d  caller_name:%s  new_usr_ptr:%d pid:%d\n"
+    printf("gap_frame_fetch_register_user: REGISTRATED ffetch_user_id:%d  caller_name:%s  new_usr_ptr:%ld pid:%d\n"
           , new_usr_ptr->ffetch_user_id
           , caller_name
-          , (int)&new_usr_ptr
+          , (long)&new_usr_ptr
           , (int) gap_base_getpid()
           );
   }
@@ -1558,7 +1558,7 @@ gap_frame_fetch_unregister_user(gint32 ffetch_user_id)
  * ---------------------------------
  * checks the image for presence of the parasite that marks the image as member
  * of the gap frame fetcher cache.
- * return TRUE if the parasite was found (e.g. image is cache member)
+ * return TRUE if the parasite was found (i.e. image is cache member)
  */
 gboolean
 gap_frame_fetch_is_image_in_cache(gint32 image_id)
@@ -1617,7 +1617,6 @@ p_dump_resources_gvahand()
 {
 #ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
   GapFFetchGvahandCacheElem  *gvc_ptr;
-  GapFFetchGvahandCacheElem  *gvc_last;
   GapFFetchGvahandCache      *gvcache;
   gint32                      count;
 
@@ -1625,7 +1624,6 @@ p_dump_resources_gvahand()
   if(global_gvcache != NULL)
   {
     gvcache = global_gvcache;
-    gvc_last = gvcache->gvc_list;
 
     for(gvc_ptr = gvcache->gvc_list; gvc_ptr != NULL; gvc_ptr = (GapFFetchGvahandCacheElem *)gvc_ptr->next)
     {
@@ -1641,12 +1639,11 @@ p_dump_resources_gvahand()
         , (int)GVA_get_fcache_size_in_bytes(gvahand)
         );
 
-      gvc_last = gvc_ptr;
     }
     printf("FrameFetcher holds %d open GVA_handles limit gap_ffetch_max_gvc_cache_elements:%d (fcache_size:%d)\n"
        ,(int)count
        ,(int)p_get_ffetch_max_gvc_cache_elements()
-       ,(int)p_get_ffetch_gva_frames_to_keep_cached
+       ,(int)p_get_ffetch_gva_frames_to_keep_cached()
        );
 
   }
@@ -1770,8 +1767,8 @@ gap_frame_fetch_dump_resources()
 
       l_number_of_cached_images++;
 
-      l_cacheInfoString = g_strdup_printf("Cache member: mtime:%d ffetchId:%d %s"
-                                         ,*(paraPtr->mtime_ptr)
+      l_cacheInfoString = g_strdup_printf("Cache member: mtime:%ld ffetchId:%d %s"
+                                         ,(long)*(paraPtr->mtime_ptr)
                                          ,*(paraPtr->ffetch_id_ptr)
                                          ,paraPtr->filename_ptr
                                          );
@@ -1833,4 +1830,3 @@ gap_frame_fetch_dump_resources()
   p_dump_process_resource_usage();
 
 }  /* end gap_frame_fetch_dump_resources */
-

@@ -3468,7 +3468,7 @@ gap_morph_create_dialog(GapMorphGUIParams *mgup)
                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                          GTK_STOCK_OK,     GTK_RESPONSE_OK,
                          NULL);
-  gtk_window_set_type_hint (dlg, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(dlg), GDK_WINDOW_TYPE_HINT_NORMAL);
 
   mgup->shell = dlg;
   mgup->src_win.startup_flag = TRUE;
@@ -4076,7 +4076,11 @@ gap_morph_dialog(GapMorphGlobalParams *mgpp)
   mgup->workpointGenerationBusy = FALSE;
   mgup->cancelWorkpointGeneration = FALSE;
 
-  if(gap_debug) printf("gap_morph_dialog: START mgpp->master_wp_list: %d\n", (int)mgpp->master_wp_list);
+  if(gap_debug)
+  {
+    printf("gap_morph_dialog: START mgpp->master_wp_list: %ld\n"
+      , (long)mgpp->master_wp_list);
+  }
 
   /* startup with empty workpoint list
    * (the pointer may be initalized with illegal adress

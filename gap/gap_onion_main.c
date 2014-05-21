@@ -202,12 +202,8 @@ query ()
                          args_onion_visi, return_vals);
   {
      /* Menu names */
-     const char *menupath_image_video = N_("<Image>/Video/");
      const char *menupath_image_video_onionskin = N_("<Image>/Video/Onionskin/");
  
-     //gimp_plugin_menu_branch_register("<Image>", "Video");
-     //gimp_plugin_menu_branch_register("<Image>/Video", "Onionskin");
-
      gimp_plugin_menu_register (GAP_PLUGIN_NAME_ONION_CFG, menupath_image_video_onionskin);
      gimp_plugin_menu_register (GAP_PLUGIN_NAME_ONION_APPLY, menupath_image_video_onionskin);
      gimp_plugin_menu_register (GAP_PLUGIN_NAME_ONION_DEL, menupath_image_video_onionskin);

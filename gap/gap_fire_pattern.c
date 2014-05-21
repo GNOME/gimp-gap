@@ -331,12 +331,12 @@ p_init_cuvals(firepattern_val_t *cuvals)
  * p_caclulate_trapezoid_blend
  * --------------------------------------
  * calculate opacity blend factor (in the range 0.0 for fully black
- * upto 1.0 for keep full original colorchannel e.g. white) for the specified coordinate px/py
+ * upto 1.0 for keep full original colorchannel i.e. white) for the specified coordinate px/py
  * Coordinates within the trapezoid shape return value 1.0
- * Coorinates left or right outside the shape will result 1.0 > value > 0 (e.g. a shade of gray value)
+ * Coorinates left or right outside the shape will result 1.0 > value > 0 (i.e. a shade of gray value)
  * depending on their distance to the tapezoid core shape.
  * Coordinates where distance is greater than the flameBorder will return 0.0.
- * Note that Coordinates above flameHeight immediate switch to full black (e.g. 0.0)
+ * Note that Coordinates above flameHeight immediate switch to full black (i.e. 0.0)
  * because the processed fire shape layer is already initally filled with a soft vertical blend
  * from white at the base line to black at flame height.
  */                          
@@ -380,7 +380,7 @@ p_caclulate_trapezoid_blend(gint32 px, gint32 py, firepattern_val_t *cuvals, fir
   
   if(borderDistance > borderWidth)
   {
-    /* keep full original colorchannel e.g. white for pixel within the trapezoid core area */
+    /* keep full original colorchannel i.e. white for pixel within the trapezoid core area */
     return (1.0);
   }
   
@@ -1301,22 +1301,23 @@ on_blend_radio_callback(GtkWidget *wgt, gpointer user_data)
 static void
 p_update_widget_sensitivity (FirePatternDialog *wcd)
 {
-  gboolean inverseCreateImage;
+  //gboolean inverseCreateImage;
   gboolean inversecreateNewPattern;
   gboolean inverseForceShape;
   
   
   /* createImage dependent widgets */  
-  if(wcd->vals->createImage)
-  {
-    inverseCreateImage = FALSE;
-  }
-  else
-  {
-    inverseCreateImage = TRUE;
-  }
-  gtk_widget_set_sensitive(wcd->nframes_spinbutton ,          wcd->vals->createImage);
+  //if(wcd->vals->createImage)
+  //{
+  //  inverseCreateImage = FALSE;
+  //}
+  //else
+  //{
+  //  inverseCreateImage = TRUE;
+  //}
   //gtk_widget_set_sensitive(wcd->shiftPhaseY_spinbutton ,      inverseCreateImage);
+
+  gtk_widget_set_sensitive(wcd->nframes_spinbutton ,          wcd->vals->createImage);
 
   /* createNewPattern dependent widgets */  
   if(wcd->createNewPattern)
@@ -1579,8 +1580,8 @@ p_cloud_layer_menu_callback(GtkWidget *widget, gint32 *cloudLayerId)
 
   if(gap_debug)
   {
-    printf("p_cloud_layer_menu_callback: cloudLayerAddr:%d value:%d\n"
-      ,(int)cloudLayerId
+    printf("p_cloud_layer_menu_callback: cloudLayerAddr:%ld value:%d\n"
+      ,(long)cloudLayerId
       ,(int)value
       );
   }
@@ -1600,16 +1601,19 @@ p_cloud_layer_menu_callback(GtkWidget *widget, gint32 *cloudLayerId)
  * 
  */
 static gint
-p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, FirePatternDialog *wcd)
+p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, gpointer data)
 {
   gint32 processedImageId;
+  FirePatternDialog *wcd;
+  
+  wcd = (FirePatternDialog *)data;
 
   if(gap_debug)
   {
-    printf("p_pattern_layer_constrain PROCEDURE image_id:%d drawable_id:%d wcd:%d\n"
+    printf("p_pattern_layer_constrain PROCEDURE image_id:%d drawable_id:%d wcd:%ld\n"
                           ,(int)image_id
                           ,(int)drawable_id
-                          ,(int)wcd
+                          ,(long)wcd
                           );
   }
 
@@ -1671,7 +1675,6 @@ do_dialog (FirePatternDialog *wcd, firepattern_val_t *cuvals)
   GtkWidget *dialog_action_area1;
   GtkWidget *checkbutton;
   GtkWidget *combo;
-  gint       countClouds;
   gint       row;
 
 
@@ -2559,8 +2562,6 @@ run(const gchar *name
 
   gint32    l_image_id = -1;
   gint32    l_drawable_id = -1;
-  gint32    l_handled_drawable_id = -1;
-
 
 
   /* Get the runmode from the in-parameters */
@@ -2696,7 +2697,6 @@ run(const gchar *name
         
         gimp_image_undo_group_start (l_image_id);
         success = p_run_renderFirePattern(l_drawable_id, &l_cuvals, ctxt);
-        l_handled_drawable_id = l_drawable_id;
         gimp_image_undo_group_end (l_image_id);
         
         if(success)

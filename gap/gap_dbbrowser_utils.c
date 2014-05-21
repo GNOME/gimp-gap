@@ -1110,11 +1110,11 @@ gap_db_get_plugin_menupath (const gchar *search_text)
   static gboolean initialized = FALSE;
   gint nreturn_vals;
   gchar **menu_strs;
-  gchar **accel_strs;
-  gchar **prog_strs;
-  gchar **types_strs;
+  /* gchar **accel_strs; */
+  /* gchar **prog_strs;  */
+  /* gchar **types_strs; */
   gchar **realname_strs;
-  gint  *time_ints;
+  /* gint  *time_ints; */
 
   gchar *menu_path;
 
@@ -1142,14 +1142,14 @@ gap_db_get_plugin_menupath (const gchar *search_text)
   if (initialized)
     {
       int loop;
-      int num_plugins;
+      /* int num_plugins; */
 
-      num_plugins        = return_vals[1].data.d_int32;
+      /* num_plugins        = return_vals[1].data.d_int32; */
       menu_strs          = return_vals[2].data.d_stringarray;
-      accel_strs         = return_vals[4].data.d_stringarray;
-      prog_strs          = return_vals[6].data.d_stringarray;
-      types_strs         = return_vals[8].data.d_stringarray;
-      time_ints          = return_vals[10].data.d_int32array;
+      /* accel_strs       = return_vals[4].data.d_stringarray; */
+      /* prog_strs          = return_vals[6].data.d_stringarray; */
+      /* types_strs         = return_vals[8].data.d_stringarray; */
+      /* time_ints          = return_vals[10].data.d_int32array; */
       realname_strs      = return_vals[12].data.d_stringarray;
 
 

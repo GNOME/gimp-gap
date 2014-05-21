@@ -141,7 +141,7 @@ on_ff_gint32_spinbutton_changed  (GtkWidget *widget,
 
   if(gap_debug)
   {
-    printf("CB: on_ff_gint32_spinbutton_changed widget: %d\n", (int)widget);
+    printf("CB: on_ff_gint32_spinbutton_changed widget: %ld\n", (long)widget);
   }
   if((dest_value_ptr == NULL) || (widget == NULL))
   { 
@@ -179,7 +179,7 @@ on_ff_gdouble_spinbutton_changed  (GtkWidget *widget,
 
   if(gap_debug)
   {
-    printf("CB: on_ff_gdouble_spinbutton_changed widget: %d\n", (int)widget);
+    printf("CB: on_ff_gdouble_spinbutton_changed widget: %ld\n", (long)widget);
   }
 
   if((dest_value_ptr == NULL) || (widget == NULL))
@@ -264,7 +264,7 @@ gap_ffcb_set_widget_sensitivity  (GapGveFFMpegGlobalParams *gpp)
       
   if(gpp->main_notebook != NULL) 
   {
-    gtk_notebook_set_show_tabs(gpp->main_notebook, l_sensitive);
+    gtk_notebook_set_show_tabs(GTK_NOTEBOOK(gpp->main_notebook), l_sensitive);
   }
  
 
@@ -281,9 +281,11 @@ on_ff_gint32_checkbutton_toggled  (GtkToggleButton *checkbutton,
                                    gint32          *dest_value_ptr)
 {
   GapGveFFMpegGlobalParams *gpp;
-  gboolean l_sensitive;
 
-  if(gap_debug) printf("CB: on_ff_gdouble_spinbutton_changed widget: %d\n", (int)checkbutton);
+  if(gap_debug) 
+  {
+    printf("CB: on_ff_gdouble_spinbutton_changed widget: %ld\n", (long)checkbutton);
+  }
 
 
   if((dest_value_ptr == NULL) || (checkbutton == NULL))
@@ -365,7 +367,14 @@ on_ff_fileformat_combo  (GtkWidget     *widget,
     /* get the internal string assotiated with the index value */
     name = gap_get_combo_string_by_idx(string_combo_elem_list, value);
 
-    if(gap_debug) printf("FMT listroot: %d  name: %s  index:%d\n", (int)string_combo_elem_list, name, (int)value);
+    if(gap_debug)
+    {
+       printf("FMT listroot: %ld  name: %s  index:%d\n"
+           , (long)string_combo_elem_list
+           , name
+           , (int)value
+           );
+    }
 
   }
 
@@ -406,7 +415,14 @@ on_ff_vid_codec_combo  (GtkWidget     *widget,
     /* get the internal string assotiated with the index value */
     name = gap_get_combo_string_by_idx(string_combo_elem_list, value);
 
-    if(gap_debug) printf("VCO listroot: %d  name: %s  index:%d\n", (int)string_combo_elem_list, name, (int)value);
+    if(gap_debug)
+    {
+      printf("VCO listroot: %ld  name: %s  index:%d\n"
+          , (long)string_combo_elem_list
+          , name
+          , (int)value
+          );
+    }
   }
   
   if(name)
@@ -442,7 +458,14 @@ on_ff_aud_codec_combo  (GtkWidget     *widget,
     /* get the internal string assotiated with the index value */
     name = gap_get_combo_string_by_idx(string_combo_elem_list, value);
 
-    if(gap_debug) printf("ACO listroot: %d  name: %s  index:%d\n", (int)string_combo_elem_list, name, (int)value);
+    if(gap_debug)
+    {
+      printf("ACO listroot: %ld  name: %s  index:%d\n"
+          , (long)string_combo_elem_list
+          , name
+          , (int)value
+          );
+    }
   }
 
   if(name)
@@ -512,8 +535,8 @@ on_ff_gint32_combo  (GtkWidget     *widget,
 
   if(gap_debug)
   { 
-    printf("CB: on_ff_gint32_combo index: val_ptr: %d %d\n"
-           , (int)val_ptr
+    printf("CB: on_ff_gint32_combo index: val_ptr: %ld %d\n"
+           , (long)val_ptr
            , (int)value
            );
   }
@@ -551,8 +574,6 @@ on_ff_presets_combo  (GtkWidget     *widget,
   {
     /* index 0 is used for OOPS do not use preset menu entry and is not a PRESET
      */
-    l_idx;
-
     if(gap_debug)
     {
       printf ("** encoder PRESET: %d\n", (int)l_idx);

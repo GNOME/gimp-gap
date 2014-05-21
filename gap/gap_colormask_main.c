@@ -214,7 +214,7 @@ static void query (void)
                           "Note that the colormask drawable may have an alpha channel."
                           "in this case the transparent parts of the colormask are protected areas, "
                           "that are not affected by this filter. "
-                          "(e.g the corresponding pixels in processed layer keep their original opacity) "
+                          "(i.e. the corresponding pixels in processed layer keep their original opacity) "
                           " ",
                           PLUG_IN_AUTHOR,
                           PLUG_IN_COPYRIGHT,
@@ -461,7 +461,4 @@ p_colormask_apply_run (gint32 image_id, gint32 drawable_id, gboolean doProgress,
 
   return (retLayerId);
 }       /* end p_colormask_apply_run */
-
-
-
 

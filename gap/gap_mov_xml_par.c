@@ -893,12 +893,12 @@ p_set_load_defaults_for_one_controlpoint(GapMovValues *pvals, gint idx)
     pvals->point[idx].keyframe = 0;   /* 0: controlpoint is not fixed to keyframe */
     pvals->point[idx].keyframe_abs = 0;   /* 0: controlpoint is not fixed to keyframe */
 
-    pvals->point[idx].accPosition = 0;           /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accOpacity = 0;            /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accSize = 0;               /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accRotation = 0;           /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accPerspective = 0;        /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accSelFeatherRadius = 0;   /* 0: linear (e.g NO acceleration) is default */
+    pvals->point[idx].accPosition = 0;           /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accOpacity = 0;            /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accSize = 0;               /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accRotation = 0;           /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accPerspective = 0;        /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accSelFeatherRadius = 0;   /* 0: linear (NO acceleration) is default */
 
   }
 
@@ -1195,10 +1195,10 @@ p_copy_transformed_values(GapMovValues *dstValues, GapMovValues *srcValues
     printf("p_copy_transformed_values START\n");
   }
 
-  /* copy all settings, points (this also includes 
+  /* copy all settings, points that come from the xml file (this also includes 
    * reallocate the point table in dstValues to same size as the srcValues 
    */
-  gap_mov_exec_copy_GapMovValues(dstValues, srcValues);
+  gap_mov_exec_copy_xml_GapMovValues(dstValues, srcValues);
 
 
   /* transform coordinates */
@@ -1305,8 +1305,6 @@ gap_mov_xml_par_load(const char *filename, GapMovValues *productiveValues
   tmpValues->rotate_threshold = productiveValues->rotate_threshold;
   userDataPtr = g_new(GapMovXmlUserData, 1);
   userDataPtr->pvals = tmpValues;
-
-  ///p_init_default_values(tmpValues);   /// (?) TODO
 
   userDataPtr->isScopeValid = FALSE;
   userDataPtr->isParseOk = TRUE;

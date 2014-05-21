@@ -81,8 +81,11 @@ typedef struct GapTimmRecord
 
 /* macros to enable runtime recording function calls at compiletime.
  * in case GAP_RUNTIME_RECORDING_LOCK is not defined at compiletime
- * the macros expand to nothing, e.g the runtime recording function calls
+ * the macros expand to nothing, so that the runtime recording function calls
  * are not compiled at all.
+ * 2014.03.19  GAP_TIMM_GET_FUNCTION_ID now expands to dummy code
+ *             in case GAP_RUNTIME_RECORDING_LOCK is not defined
+ *             (this eliminates compiler warnings)
  * Note that the xx_FUNCTION macros call g_mutex_lock
  */
 
@@ -95,7 +98,7 @@ typedef struct GapTimmRecord
 
 #else
 
-#define GAP_TIMM_GET_FUNCTION_ID(funcId, functionName)
+#define GAP_TIMM_GET_FUNCTION_ID(funcId, functionName)  if(funcId < 0) { funcId = 0; }
 #define GAP_TIMM_START_FUNCTION(funcId)
 #define GAP_TIMM_STOP_FUNCTION(funcId)
 #define GAP_TIMM_PRINT_FUNCTION_STATISTICS()

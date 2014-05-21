@@ -212,7 +212,7 @@ gap_morph_shape_new_workpont(gdouble srcx, gdouble srcy, gdouble dstx, gdouble d
 static void
 p_doProgress(GapMorphShapeContext *msctx)
 {
-  guchar *progressText;
+  gchar *progressText;
   gdouble percentage;
 
   if(msctx->doProgress != TRUE)
@@ -1307,6 +1307,3 @@ gap_morph_shape_generate_frame_tween_workpoints(GapAnimInfo *ainfo_ptr
 
   return (frameCount);
 }  /* end gap_morph_shape_generate_frame_tween_workpoints */
-
-
-

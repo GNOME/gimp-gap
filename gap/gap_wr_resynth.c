@@ -542,7 +542,6 @@ p_pdb_call_resynthesizer(gint32 image_id, gint32 layer_id, gint32 corpus_layer_i
    char            *l_called_proc;
    GimpParam       *return_vals;
    int              nreturn_vals;
-   gint             nparams_resynth_s;
    gboolean         foundResynthS;
 
    l_called_proc = PLUG_IN_RESYNTHESIZER_WITH_SEED;
@@ -640,7 +639,7 @@ p_create_corpus_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
   gint32 channel_2_id;
   GimpRGB  bck_color;
   GimpRGB  white_opaque_color;
-  gboolean has_selection;
+  /* gboolean has_selection; */
   gboolean non_empty;
   gint     x1, y1, x2, y2;
   gint32   active_layer_stackposition;
@@ -671,7 +670,7 @@ p_create_corpus_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
 
   gimp_selection_invert(dup_image_id);
 
-  has_selection  = gimp_selection_bounds(dup_image_id, &non_empty, &x1, &y1, &x2, &y2);
+  /* has_selection  = */ gimp_selection_bounds(dup_image_id, &non_empty, &x1, &y1, &x2, &y2);
   gimp_image_crop(dup_image_id, (x2 - x1), (y2 - y1), x1, y1);
 
   gimp_selection_invert(dup_image_id);
@@ -747,18 +746,22 @@ p_process_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
   {
     if(gap_debug)
     {
-      printf("creating alt_selection: %d\n", (int)val_ptr->alt_selection);
+      printf("p_process_layer creating alt_selection: %d\n", (int)val_ptr->alt_selection);
     }
     alt_selection_success = p_set_alt_selection(image_id, drawable_id, val_ptr);
   }
 
   has_selection  = gimp_selection_bounds(image_id, &non_empty, &x1, &y1, &x2, &y2);
+  if(gap_debug)
+  {
+    printf("p_process_layer has_selection: %d\n", (int)has_selection);
+  }
 
   /* here the action starts, we create the corpus_layer_id that builds the reference pattern
    * (the corpus is created in a spearate image and has an expanded selection
    * that excludes the unwanted parts)
-   * then start the resynthesizer plug-in to replace selcted (e.g. unwanted parts) of the
-   * processed layer (e.g. drawable_id)
+   * then start the resynthesizer plug-in to replace selected (i.e. unwanted parts) of the
+   * processed layer (i.e. drawable_id)
    */
   if (non_empty)
   {
@@ -790,4 +793,3 @@ p_process_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
   return (trans_drawable_id);
 
 }  /* end p_process_layer */
-

@@ -61,6 +61,7 @@ gdouble gap_mov_exec_get_default_rotate_threshold();
 GapMovValues *gap_mov_exec_new_GapMovValues();
 void gap_mov_exec_free_GapMovValues(GapMovValues *pvals);
 void gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues);
+void gap_mov_exec_copy_xml_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues);
 
 gboolean  gap_mov_exec_check_valid_xml_paramfile(const char *filename);
 

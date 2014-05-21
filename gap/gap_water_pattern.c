@@ -904,8 +904,8 @@ p_cloud_layer_menu_callback(GtkWidget *widget, gint32 *cloudLayerId)
 
   if(gap_debug)
   {
-    printf("p_cloud_layer_menu_callback: cloudLayerAddr:%d value:%d\n"
-      ,(int)cloudLayerId
+    printf("p_cloud_layer_menu_callback: cloudLayerAddr:%ld value:%d\n"
+      ,(long)cloudLayerId
       ,(int)value
       );
   }
@@ -925,16 +925,19 @@ p_cloud_layer_menu_callback(GtkWidget *widget, gint32 *cloudLayerId)
  *
  */
 static gint
-p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, WaterPatternDialog *wcd)
+p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, gpointer data)
 {
   gint32 processedImageId;
+  WaterPatternDialog *wcd;
+  
+  wcd = (WaterPatternDialog *)data;
 
   if(gap_debug)
   {
-    printf("p_pattern_layer_constrain PROCEDURE image_id:%d drawable_id:%d wcd:%d\n"
+    printf("p_pattern_layer_constrain PROCEDURE image_id:%d drawable_id:%d wcd:%ld\n"
                           ,(int)image_id
                           ,(int)drawable_id
-                          ,(int)wcd
+                          ,(long)wcd
                           );
   }
 
@@ -1412,7 +1415,7 @@ do_dialog (WaterPatternDialog *wcd, waterpattern_val_t *cuvals)
   /* highlightOpacity spinbutton  */
   spinbutton_adj = gtk_adjustment_new (cuvals->highlightOpacity, 0.0, 100, 1.0, 10, 0);
   spinbutton = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_adj), 1, 3);
-  gimp_help_set_help_data (spinbutton, _("The highlight strength (e.g. opacity)"), NULL);
+  gimp_help_set_help_data (spinbutton, _("The highlight strength (i.e. opacity)"), NULL);
   gtk_widget_show (spinbutton);
   gtk_table_attach (GTK_TABLE (table1), spinbutton, 3, 4, row, row+1,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
@@ -1688,7 +1691,6 @@ run(const gchar *name
 
   gint32    l_image_id = -1;
   gint32    l_drawable_id = -1;
-  gint32    l_handled_drawable_id = -1;
 
 
 
@@ -1800,7 +1802,6 @@ run(const gchar *name
 
         gimp_image_undo_group_start (l_image_id);
         success = p_run_renderWaterPattern(l_drawable_id, &l_cuvals, ctxt);
-        l_handled_drawable_id = l_drawable_id;
         gimp_image_undo_group_end (l_image_id);
 
         if(success)

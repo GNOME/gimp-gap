@@ -1,3 +1,124 @@
+2014-05-21 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug at loading movepath settings from xml file
+  (load must not overwrite current and cached image_is's)
+
+- movepath disabled checks for too many controlpoints.
+    the old implementation refused rendering 
+    when the number of handled frames is less than the number of controlpoints.
+       Error: More controlpoints (%d) than handled frames (%d).
+       Error: Keyframe %d at point [%d] higher or equal than last handled frame
+    
+    now rendering is possible and the rest of controlpoints is ignored.
+
+- detailtracking 
+    fixed bug that captures invalid coordinates in case the path has only one point
+    (p_capture_2_vector_points)
+
+
+- fixed some typo's (according to patch by Anders Jonsson see #730034 and #730239 )
+
+- fixed a lot of compiler warnings. (most of them in debug logging printf calls..)
+
+ 
+   * gap/gap_accel_da.c
+   * gap/gap_arr_dialog.c
+   * gap/gap_audio_wav.c
+   * gap/gap_blend_fill_main.c
+   * gap/gap_colordiff.c 
+   * gap/gap_colormask_dialog.c
+   * gap/gap_colormask_exec.c
+   * gap/gap_colormask_file.c
+   * gap/gap_colormask_main.c
+   * gap/gap_dbbrowser_utils.c
+   * gap/gap_decode_mplayer_main.c
+   * gap/gap_detail_align_exec.c
+   * gap/gap_detail_tracking_exec.c
+   * gap/gap_detail_tracking_main.c
+   * gap/gap_edge_detection.c
+   * gap/gap_filter_iterators.c
+   * gap/gap_fire_pattern.c
+   * gap/gap_fmac_base.c
+   * gap/gap_fmac_context.c
+   * gap/gap_fmac_main.c
+   * gap/gap_fmac_varying_main.c
+   * gap/gap_frame_fetcher.c
+   * gap/gap_image.c
+   * gap/gap_layer_copy.c
+   * gap/gap_lib.c
+   * gap/gap_locate.c
+   * gap/gap_main.c
+   * gap/gap_mod_layer.c
+   * gap/gap_mod_layer_dialog.c
+   * gap/gap_morph_dialog.c
+   * gap/gap_morph_exec.c
+   * gap/gap_morph_shape.c   
+   * gap/gap_morph_tween_dialog.c  
+
+   * gap/gap_mov_dialog.c
+   * gap/gap_mov_exec.c [.h]
+   * gap/gap_mov_main.c
+   * gap/gap_mov_render.c
+   * gap/gap_mov_xml_par.c
+
+   * gap/gap_navigator_dialog.c
+   * gap/gap_onion_base.c
+   * gap/gap_onion_dialog.c
+   * gap/gap_onion_main.c   
+   * gap/gap_pdb_calls.c   
+   * gap/gap_pixelrgn.c
+   * gap/gap_player_cache.c
+   * gap/gap_player_dialog.c
+   * gap/gap_pview_da.c
+   * gap/gap_range_ops.c
+   * gap/gap_stock.c
+   * gap/gap_story_dialog.c
+   * gap/gap_story_file.c
+   * gap/gap_story_properties.c
+   * gap/gap_story_render_lossless.c
+   * gap/gap_story_render_processor.c  [.h]
+   * gap/gap_story_section_properties.c
+   * gap/gap_story_sox.c
+   * gap/gap_story_undo.c   
+   * gap/gap_thumbnail.c
+   * gap/gap_vex_dialog.c
+   * gap/gap_video_index_creator.c
+   * gap/gap_water_pattern.c
+   * gap/gap_wr_color_balance.c
+   * gap/gap_wr_color_curve.c
+   * gap/gap_wr_resynth.c
+   * gap/gap_wr_trans.c
+
+ 
+   * libgapbase/gap_base.c
+   * libgapbase/gap_timm.c [.h]
+   * libgapbase/gap_val_file.c
+ 
+   * libgapvidapi/gap_vid_api.c
+   * libgapvidapi/gap_vid_api_ffmpeg.c
+   * libgapvidapi/gap_vid_api_gimp.c 
+   * libgapvidapi/gap_vid_api_mp_util.c 
+   * libgapvidapi/gap_vid_api_mpeg3.c
+   * libgapvidapi/gap_vid_api_mpeg3toc.c
+   * libgapvidapi/vid_api_vidindex.c 
+ 
+   * libgapvidutil/gap_gve_raw.c [.h]
+
+   * vid_common/gap_cme_callbacks.c
+   * vid_common/gap_cme_gui.c
+
+   * vid_enc_avi/gap_enc_avi_gui.c
+   * vid_enc_avi/gap_enc_avi_main.c
+
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_par.c
+
+   * vid_enc_rawframes/gap_enc_rawframes_main.c
+   * vid_enc_single/gap_enc_singleframes_main.c
+   
+   
 2014-05-09 Wolfgang Hofer <hof@gimp.org>
 
 - provide additional video encoder preset file: ff_x264_aac_hq.preset

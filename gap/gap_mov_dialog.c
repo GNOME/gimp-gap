@@ -365,7 +365,7 @@ static void        p_reset_points            ();
 static void        p_clear_one_point         (gint idx);
 static void        p_mix_one_point(gint idx, gint ref1, gint ref2, gdouble mix_factor);
 static void        p_refresh_widgets_after_load(t_mov_gui_stuff *mgp);
-static void        p_load_points             (char *filename);
+static void        p_load_points             (char *filename, t_mov_gui_stuff *mgp);
 static void        p_save_points             (char *filename, t_mov_gui_stuff *mgp);
 
 static GimpDrawable * p_get_flattened_drawable (gint32 image_id);
@@ -2659,7 +2659,7 @@ p_points_load_from_file (GtkWidget *widget,
   gtk_widget_destroy(GTK_WIDGET(mgp->filesel));
   mgp->filesel = NULL;
 
-  p_load_points(mgp->pointfile_name);
+  p_load_points(mgp->pointfile_name, mgp);
   p_refresh_widgets_after_load(mgp);
   mov_set_instant_apply_request(mgp);
 }  /* end p_points_load_from_file */
@@ -3478,12 +3478,12 @@ p_clear_one_point(gint idx)
     pvals->point[idx].keyframe = 0;   /* 0: controlpoint is not fixed to keyframe */
     pvals->point[idx].keyframe_abs = 0;   /* 0: controlpoint is not fixed to keyframe */
 
-    pvals->point[idx].accPosition = 0;           /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accOpacity = 0;            /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accSize = 0;               /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accRotation = 0;           /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accPerspective = 0;        /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accSelFeatherRadius = 0;   /* 0: linear (e.g NO acceleration) is default */
+    pvals->point[idx].accPosition = 0;           /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accOpacity = 0;            /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accSize = 0;               /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accRotation = 0;           /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accPerspective = 0;        /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accSelFeatherRadius = 0;   /* 0: linear (NO acceleration) is default */
 
   }
 }       /* end p_clear_one_point */
@@ -3605,7 +3605,7 @@ p_filename_ends_with_etension_xml(const char *filename)
  * ============================================================================
  */
 void
-p_load_points(char *filename)
+p_load_points(char *filename, t_mov_gui_stuff *mgp)
 {
   gint l_rc;
   gint l_errno;
@@ -3618,9 +3618,30 @@ p_load_points(char *filename)
                                   ,gimp_image_width(pvals->dst_image_id)
                                   ,gimp_image_height(pvals->dst_image_id)
                                   );
-    if (!l_xmlOk)
+    if (l_xmlOk)
     {
-
+      if (mgp->ainfo_ptr != NULL)
+      {
+        if (mgp->ainfo_ptr->last_frame_nr >= 0)
+        {
+          /* constraint destination range to current destination frames valid range
+           * that is setup in the ainfo_ptr->first/last_frame_nr
+           * (the xml file imports the range as recorded
+           * in other conditions)
+           */
+          pvals->dst_range_end = CLAMP(pvals->dst_range_end
+                                    , mgp->ainfo_ptr->first_frame_nr
+                                    , mgp->ainfo_ptr->last_frame_nr
+                                    );
+          pvals->dst_range_start = CLAMP(pvals->dst_range_end
+                                    , mgp->ainfo_ptr->first_frame_nr
+                                    , mgp->ainfo_ptr->last_frame_nr
+                                    );
+        }
+      }
+    }
+    else
+    {
       if(l_errno != 0)
       {
         g_message(_("ERROR: Could not open xml parameterfile\n"
@@ -3633,7 +3654,6 @@ p_load_points(char *filename)
                 "filename: '%s'\n(Is not a valid move path xml parameterfile file)")
                ,filename);
       }
-
 
     }
 
@@ -5048,7 +5068,7 @@ mov_acc_tab_create (t_mov_gui_stuff *mgp)
   gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
 
 
-  /*  accelaration characteristic for Position (e.g. movement) */
+  /*  accelaration characteristic for Position (i.e. movement) */
   adj = p_mov_acc_spinbutton_new( GTK_TABLE (table), 0, 0,        /* table col, row */
                           _("Movement:"),                     /* label text */
                           SCALE_WIDTH, ENTRY_WIDTH,           /* scalesize spinsize */
@@ -5089,7 +5109,7 @@ mov_acc_tab_create (t_mov_gui_stuff *mgp)
 
 
 
-  /*  accelaration characteristic for Size (e.g. Zoom) */
+  /*  accelaration characteristic for Size (i.e. Zoom) */
   adj = p_mov_acc_spinbutton_new( GTK_TABLE (table), 3, 0,        /* table col, row */
                           _("Scale:"),                        /* label text */
                           SCALE_WIDTH, ENTRY_WIDTH,           /* scalesize spinsize */
@@ -6983,7 +7003,7 @@ gap_mov_dlg_move_dialog_singleframe(GapMovSingleFrame *singleFramePtr)
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_INT_PAIR);
   argv[l_ii].constraint = TRUE;
   argv[l_ii].label_txt = _("Current Frame:");
-  argv[l_ii].help_txt  = _("Curent Frame number (e.g. phase to be phase Total number of frames");
+  argv[l_ii].help_txt  = _("Curent Frame number (i.e. current phase) of Total number of frames");
   argv[l_ii].int_min   = (gint)1;
   argv[l_ii].int_max   = (gint)MAX(10000, singleFramePtr->total_frames);
   argv[l_ii].int_ret   = (gint)CLAMP(singleFramePtr->frame_phase, 1, argv[l_ii].int_max);

@@ -76,7 +76,7 @@ static TransValues glob_vals =
   0.0           /* rotation angle in degree */
 };
 
-static void  iter_query ();
+
 static void  query (void);
 static void  run (const gchar *name,          /* name of plugin */
      gint nparams,               /* number of in-paramters */
@@ -375,11 +375,8 @@ run (const gchar *name,          /* name of plugin */
   {
     if(gimp_drawable_is_layer(drawable_id))
     {
-      gboolean run_flag;
-      
       /* Initial values */
       glob_vals.angle_deg = 0;
-      run_flag = TRUE;
 
       /* Possibly retrieve data from a previous run */
       gimp_get_data (name, &glob_vals);
@@ -389,7 +386,7 @@ run (const gchar *name,          /* name of plugin */
         case GIMP_RUN_INTERACTIVE:
  
           /* Get information from the dialog */
-          run_flag = p_dialog(trans_mode, &glob_vals);
+          p_dialog(trans_mode, &glob_vals);
           break;
 
         case GIMP_RUN_NONINTERACTIVE:
@@ -478,7 +475,7 @@ p_transform_layer(gint32 image_id, gint32 drawable_id, GapTransLayerMode trans_m
 {
   gboolean auto_center;
   gdouble  axis;
-  gboolean has_selection;
+  /*gboolean has_selection; */
   gboolean non_empty;
   gint     x1, y1, x2, y2;
   gint32   sav_selection_id;
@@ -489,7 +486,7 @@ p_transform_layer(gint32 image_id, gint32 drawable_id, GapTransLayerMode trans_m
   gimp_image_undo_group_start(image_id);
   
   sav_selection_id = -1;
-  has_selection  = gimp_selection_bounds(image_id, &non_empty, &x1, &y1, &x2, &y2);
+  /*has_selection  = */ gimp_selection_bounds(image_id, &non_empty, &x1, &y1, &x2, &y2);
     
   center_x = gimp_drawable_width(drawable_id) / 2;
   center_y = gimp_drawable_height(drawable_id) / 2;
@@ -612,7 +609,6 @@ p_dialog (GapTransLayerMode trans_mode, TransValues *val_ptr)
 {
   GtkWidget *dialog;
   GtkWidget *main_vbox;
-  GtkWidget *preview;
   GtkWidget *table;
   GtkObject *adj;
   gboolean   run;

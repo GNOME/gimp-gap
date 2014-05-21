@@ -426,10 +426,10 @@ gap_timm_print_statistics()
       , (int) ii
       , &timmData.tab[ii].funcName[0]
       , (int) timmData.tab[ii].numberOfCallsFinished
-      , timmData.tab[ii].summaryDuration
-      , timmData.tab[ii].minDuration
-      , timmData.tab[ii].maxDuration
-      , avgDuration
+      , (long long unsigned int)timmData.tab[ii].summaryDuration
+      , (long long unsigned int)timmData.tab[ii].minDuration
+      , (long long unsigned int)timmData.tab[ii].maxDuration
+      , (long long unsigned int)avgDuration
       );
     if(timmData.tab[ii].errorFlag)
     {
@@ -556,14 +556,11 @@ gap_timm_print_record(GapTimmRecord *timmp, const char *functionName)
     
   printf("tim: %-65.65s calls:%06u sum:%llu min:%llu max:%llu avg:%llu usecs\n"
       , functionName
-      , (int) timmp->numberOfCalls
-      , timmp->summaryDuration
-      , timmp->minDuration
-      , timmp->maxDuration
-      , avgDuration
+      , timmp->numberOfCalls
+      , (long long unsigned int) timmp->summaryDuration
+      , (long long unsigned int) timmp->minDuration
+      , (long long unsigned int) timmp->maxDuration
+      , (long long unsigned int)avgDuration
       );
 
 }  /* end gap_timm_print_record */
-
-
-

@@ -688,7 +688,6 @@ gap_onion_base_image_duplicate(gint32 image_id)
     gint        l_idx;
     gint        l_is_onion;
     gint32      l_layer_id;
-    gboolean    l_has_onion;
 
     l_layers_list = gimp_image_get_layers(image_id, &l_nlayers);
     l_dup_layers_list = gimp_image_get_layers(dup_image_id, &l_dup_nlayers);

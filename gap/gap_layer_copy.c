@@ -687,7 +687,7 @@ gap_layer_flip(gint32 layer_id, gint32 flip_request)
  * copy specified dst_drawable into src_drawable using
  * gimp copy paste procedures.
  * The selection in the specified image will be removed
- * (e.g. is ignored for copying)
+ * (and therefore is ignored for copying)
  * the caller shall specify image_id == -1 in case where selection
  * shall be respected.
  */
@@ -886,7 +886,7 @@ gap_layer_create_layer_from_alpha(gint32 src_layer_id, gint32 image_id
 
   if (l_old_layermask_id >= 0)
   {
-    /* handle already exiting layermask: apply or remove (e.g. ignore) */
+    /* handle already exiting layermask: apply or remove (i.e. ignore) */
     if (applyExistingLayermask)
     {
        /* merge the already existing layermask into the alpha channel */

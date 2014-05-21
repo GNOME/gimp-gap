@@ -462,7 +462,7 @@ p_progress_init(FilterContext *context)
     areaPixels = context->workLayerWidth * context->workLayerHeight;
     context->progressStepsDone = 0.0;
 
-    /* progress steps e.g. pixels to be handled for creating the work layer */
+    /* progress steps i.e. pixels to be handled for creating the work layer */
     context->progressStepsTotal = areaPixels;
 
     if (context->valPtr->horizontalBlendFlag)
@@ -1006,13 +1006,13 @@ p_set_selection_from_vectors_string(FilterContext *context)
 
   if ((vectorsOk) && (vectors_ids != NULL) && (num_vectors > 0))
   {
-    gboolean       selOk;
+    /* gboolean       selOk; */
     gint32         vectorId;
     GimpChannelOps operation;
 
     vectorId = vectors_ids[0];
     operation = GIMP_CHANNEL_OP_REPLACE;
-    selOk = gimp_vectors_to_selection(vectorId
+    /* selOk = */ gimp_vectors_to_selection(vectorId
                                      , operation
                                      , FALSE      /*  antialias */
                                      , FALSE      /*  feather   */
@@ -1059,13 +1059,13 @@ p_set_selection_from_vectors_file(FilterContext *context)
 
   if ((vectorsOk) && (vectors_ids != NULL) && (num_vectors > 0))
   {
-    gboolean       selOk;
+    /* gboolean       selOk; */
     gint32         vectorId;
     GimpChannelOps operation;
 
     vectorId = vectors_ids[0];
     operation = GIMP_CHANNEL_OP_REPLACE;
-    selOk = gimp_vectors_to_selection(vectorId
+    /* selOk =  */ gimp_vectors_to_selection(vectorId
                                      , operation
                                      , FALSE      /*  antialias */
                                      , FALSE      /*  feather   */
@@ -1179,6 +1179,10 @@ p_create_workLayer(FilterContext *context)
       printf("creating altSelection: %d\n", (int)context->valPtr->altSelection);
     }
     altSelection_success = p_set_altSelection(context);
+    if(gap_debug)
+    {
+      printf("after creating altSelection_success: %d\n", (int)altSelection_success);
+    }
   }
 
   if(context->valPtr->altSelection == SELECTION_FROM_VECTORS)
@@ -1227,7 +1231,7 @@ p_create_workLayer(FilterContext *context)
 
   if(gap_debug)
   {
-    printf("intersect ix:%d iy:%d iWidth:%d iHeight:%d  ix1:%d iy1:%d ix2:%d iy2:%d\n"
+    printf("intersect ix:%d iy:%d iWidth:%d iHeight:%d  ix1:%d iy1:%d ix2:%d iy2:%d has_sel:%d\n"
        ,(int)ix
        ,(int)iy
        ,(int)iWidth
@@ -1236,6 +1240,7 @@ p_create_workLayer(FilterContext *context)
        ,(int)iy1
        ,(int)ix2
        ,(int)iy2
+       ,(int)has_selection
        );
     printf("workLayerOffsX:%d workLayerOffsY:%d workLayerWidth:%d workLayerHeight:%d\n"
        ,(int)context->workLayerOffsX
@@ -1452,8 +1457,8 @@ p_check_exec_condition_and_set_ok_sesitivity(GuiStuff *guiStuffPtr)
       {
         gchar *msg;
 
-        msg = g_strdup_printf(_("Path Vectors too large to fit into buffersize:%d.")
-                              , sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
+        msg = g_strdup_printf(_("Path Vectors too large to fit into buffersize:%ld.")
+                              , (long)sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
         gtk_label_set_text(GTK_LABEL(guiStuffPtr->msg_label), msg);
         g_free(msg);
         okButtonSensitive = FALSE;
@@ -1512,8 +1517,8 @@ p_selectionComboCallback (GtkWidget *widget, gint32 *layerId)
 
   if(gap_debug)
   {
-    printf("p_selectionComboCallback: LayerAddr:%d value:%d\n"
-      ,(int)layerId
+    printf("p_selectionComboCallback: LayerAddr:%ld value:%d\n"
+      ,(long)layerId
       ,(int)value
       );
   }
@@ -1754,8 +1759,8 @@ p_save_vectors_to_string(GuiStuff *guiStuffPtr)
     }
     else
     {
-        g_message(_("Path Vectors too large to fit into buffersize:%d.")
-                 , sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
+        g_message(_("Path Vectors too large to fit into buffersize:%ld.")
+                 , (long)sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
     }
     g_free(svgString);
   }

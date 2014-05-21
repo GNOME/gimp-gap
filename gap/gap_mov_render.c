@@ -565,8 +565,8 @@ p_mov_calculate_scale_factors(gint32 image_id, GapMovValues *val_ptr, GapMovCurr
     gdouble preScaleWidthFactor;
     gdouble preScaleHeightFactor;
 
-    gdouble result_width;         /* resulting width at unscaled size (e.g. 100%) */
-    gdouble result_height;        /* resulting height at unscaled size (e.g. 100%) */
+    gdouble result_width;         /* resulting width at unscaled size (that is 100%) */
+    gdouble result_height;        /* resulting height at unscaled size (that is 100%) */
     gdouble origWidth;
     gdouble origHeight;
 

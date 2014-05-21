@@ -161,7 +161,7 @@ gap_audio_wav_write_header(FILE *fp
 
   if(gap_debug)
   {
-    printf("gap_audio_wav_write_header: START fp:%d\n", (int)fp);
+    printf("gap_audio_wav_write_header: START fp:%ld\n", (long)fp);
   }
 
   l_data_len  = nsamples * bytes_per_sample;
@@ -189,7 +189,7 @@ gap_audio_wav_write_header(FILE *fp
   p_check_errno();
   if(gap_debug)
   {
-    printf("gap_audio_wav_write_header: DONE fp:%d\n", (int)fp);
+    printf("gap_audio_wav_write_header: DONE fp:%ld\n", (long)fp);
   }
 }  /* end gap_audio_wav_write_header */
 

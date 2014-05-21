@@ -67,19 +67,19 @@ gap_stb_undo_debug_fprint_stack(FILE *fp, GapStbTabWidgets *tabw)
     return;
   }
   fprintf(fp, "\n-------------------------------- Top of STACK ---\n\n");
-  fprintf(fp, "gap_stb_undo_debug_fprint_stack: tabw:%d stack_list:%d stack_ptr:%d group_counter:%.2f\n"
-    , (int)tabw
-    , (int)tabw->undo_stack_list
-    , (int)tabw->undo_stack_ptr
+  fprintf(fp, "gap_stb_undo_debug_fprint_stack: tabw:%ld stack_list:%ld stack_ptr:%ld group_counter:%.2f\n"
+    , (long)tabw
+    , (long)tabw->undo_stack_list
+    , (long)tabw->undo_stack_ptr
     , (float)tabw->undo_stack_group_counter
     );
   fflush(fp);
 
   for(undo_elem = tabw->undo_stack_list; undo_elem != NULL; undo_elem = undo_elem->next)
   {
-    fprintf(fp, "  addr:%d fPtr:%d %s"
-          , (int)undo_elem
-          , (int)undo_elem->filenamePtr
+    fprintf(fp, "  addr:%ld fPtr:%ld %s"
+          , (long)undo_elem
+          , (long)undo_elem->filenamePtr
           , gap_stb_undo_feature_to_string(undo_elem->feature_id)
           );
     if(undo_elem == tabw->undo_stack_ptr)
@@ -176,7 +176,7 @@ static GapStoryUndoFileSnapshot*
 p_create_file_snapshot(char *filename)
 {
   GapStoryUndoFileSnapshot *fileSnapshot;
-  const char               *filecontent;
+  char               *filecontent;
 
   fileSnapshot = NULL;
   
@@ -281,7 +281,7 @@ p_replace_file_from_snapshot(GapStoryUndoFileSnapshot* fileSnapshot)
  *                AAAA                               AAAA <--- stack_ptr after pop returns (BBBB)
  * --------------------------------------------------------------------------------
  *
- * if the stack_ptr is on top (e.g. == stack_list root)
+ * if the stack_ptr is on top (i.e. == stack_list root)
  * a duplicate of the current storyboard is pushed as feature_id "latest" onto the stack.
  * this backup reprents the version AFTER feature BBBB of example1 to be re-done
  *
@@ -332,11 +332,11 @@ gap_stb_undo_pop(GapStbTabWidgets *tabw)
   
   if(gap_debug)
   {
-    printf("gap_stb_undo_pop returning feature_id:%d %s grp_count:%.2f next:%d\n"
+    printf("gap_stb_undo_pop returning feature_id:%d %s grp_count:%.2f next:%ld\n"
       ,(int)tabw->undo_stack_ptr->feature_id
       ,gap_stb_undo_feature_to_string(tabw->undo_stack_ptr->feature_id)
       ,(float)tabw->undo_stack_group_counter
-      ,(int)tabw->undo_stack_ptr->next
+      ,(long)tabw->undo_stack_ptr->next
       );
     fflush(stdout);
   }
@@ -353,7 +353,7 @@ gap_stb_undo_pop(GapStbTabWidgets *tabw)
 /* ---------------------------------------
  * gap_stb_undo_redo
  * ---------------------------------------
- * redo the feature that is above (e.g before) the undo stackpointer
+ * redo the feature that is above (i.e. before) the undo stackpointer
  * returns a duplicate of the storyboard backup that is attached to the
  * element 2 above the undo stackpointer.
  * this refers to the backup version at the time BEFORE the
@@ -418,11 +418,11 @@ gap_stb_undo_redo(GapStbTabWidgets *tabw)
 
     if(gap_debug)
     {
-      printf("gap_stb_undo_redo returning feature_id:%d %s grp_count:%.2f resulting stack_ptr:%d\n"
+      printf("gap_stb_undo_redo returning feature_id:%d %s grp_count:%.2f resulting stack_ptr:%ld\n"
         ,(int)redo_elem->feature_id
         ,gap_stb_undo_feature_to_string(redo_elem->feature_id)
         ,(float)tabw->undo_stack_group_counter
-        ,(int)tabw->undo_stack_ptr
+        ,(long)tabw->undo_stack_ptr
         );
       fflush(stdout);
     }
@@ -447,8 +447,8 @@ p_free_undo_elem(GapStoryUndoElem    *undo_elem)
 
   if(gap_debug)
   {
-    printf("p_free_undo_elem: %d %s"
-          , (int)undo_elem
+    printf("p_free_undo_elem: %ld %s"
+          , (long)undo_elem
           , gap_stb_undo_feature_to_string(undo_elem->feature_id)
           );
     if(undo_elem->fileSnapshotBefore != NULL)
@@ -637,7 +637,7 @@ gap_stb_undo_destroy_undo_stack(GapStbTabWidgets *tabw)
  *  EEEE.fileSnapshotBefore holds filename and content of a.xml
  *          (before processing of step EEEE, that is relevant for undo EEEE purpose)
  *  EEEE.fileSnapshotAfter holds filename and content at time of push FFFF 
- *          (e.g. after processing EEEE is finished, that is relevant for redo EEEE purpose)
+ *          (i.e. after processing EEEE is finished, that is relevant for redo EEEE purpose)
  *  EEEE.filenamePtr is rest to NULL
  *
  */

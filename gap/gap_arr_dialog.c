@@ -332,7 +332,7 @@ label_create_value(char *title, GtkTable *table, int row,
     else
     {
       /* the caller provided just the Label
-       * in this case we show the label (spread accross all columns)
+       * in this case we show the label (spread across all columns)
        */
      from_col = 0;
      label = gtk_label_new(title);
@@ -1280,7 +1280,7 @@ gint gap_arr_std_dialog(const char *title_txt,
   g_object_set_data (G_OBJECT (arrint_ptr->dlg), GAP_ARR_INTERFACE_PTR, (gpointer)arrint_ptr);
   gtk_window_set_title (GTK_WINDOW (arrint_ptr->dlg), title_txt);
 
-  // hof: on my Gnome windowmanger (openSUSE 11.11) pop ups created with gtk_dialog_new
+  // hof: on my Gnome windowmanager (openSUSE 11.11) pop ups created with gtk_dialog_new
   // often open BEHIND other windows.
   //
   // As workaround i commented out placing the pop up on mouse position
@@ -1906,7 +1906,7 @@ void gap_arr_msg_popup(GimpRunMode run_mode, const char *msg)
 /* --------------------------------------
  * p_mkdir_from_file_if_not_exists
  * --------------------------------------
- * return TRUE if directory part of the specifed filename already exists
+ * return TRUE if directory part of the specified filename already exists
  *             or did not exist, but could be created successfully.
  * return FALSE if directory part does not exist and could not be created.
  */
@@ -2103,7 +2103,7 @@ gap_arr_create_vindex_permission(const char *videofile, const char *vindex_file
   l_info_msg = g_strdup_printf(_("Do you want to create a videoindex file ?\n"
                               "\n"
                               "If you want GIMP-GAP to create videoindex files automatically\n"
-                              "when recommanded, whithout showing up this dialog again\n"
+                              "when recommended, without showing up this dialog again\n"
                               "then you should add the following line to\n"
                               "your gimprc file:\n"
                               "%s")
@@ -2127,13 +2127,13 @@ gap_arr_create_vindex_permission(const char *videofile, const char *vindex_file
   {
     case SEEK_STATUS_SEEKSUPP_NONE:
       l_status_info = g_strdup_printf(_("WARNING:\nrandom positioning is not possible for this video.\n"
-                                      "creating a video index is NOT recommanded\n"
+                                      "creating a video index is NOT recommended\n"
                                       "(would not work)\n"));
       break;
     case SEEK_STATUS_SEEKSUPP_VINDEX:
-      l_status_info = g_strdup_printf(_("TIP:\ncreating a video index on this video is recommanded.\n"
+      l_status_info = g_strdup_printf(_("TIP:\ncreating a video index on this video is recommended.\n"
                                       "This will enable fast and random frame access.\n"
-                                      "but requires one initial full scann.\n"
+                                      "but requires one initial full scan.\n"
                                       "(this will take a while).\n"));
       break;
     case SEEK_STATUS_SEEKSUPP_NATIVE:
@@ -2311,7 +2311,7 @@ gap_dialog_new_valist (const gchar    *title,
 
   if(help_id != NULL)
   {
-      GtkWidget *action_area = gtk_dialog_get_action_area (dlg);
+      GtkWidget *action_area = gtk_dialog_get_action_area (GTK_DIALOG(dlg));
       GtkWidget *help_button = gtk_button_new_from_stock (GTK_STOCK_HELP);
 
       g_object_set_data (G_OBJECT (help_button), "HelpFunc", (gpointer)help_func);
@@ -2344,7 +2344,7 @@ gap_dialog_new_valist (const gchar    *title,
  * has same signature as gimp_dialog_new
  * but forces creation with hint GDK_WINDOW_TYPE_HINT_NORMAL
  * to behave like normal toplevel window
- * (e.g. has default decoreations of the Window manager
+ * (that has default decoreations of the Window manager
  * typical close, maximize, minimize widgets
  * and shall open in front of other windows..)
  */
@@ -2371,10 +2371,10 @@ gap_dialog_new (const gchar    *title,
 
   if(gap_debug)
   {
-    printf("gap_dialog_new title:%s role:%s parent:%d flags:%d\n"
+    printf("gap_dialog_new title:%s role:%s parent:%ld flags:%d\n"
        ,title
        ,role
-       ,(int)parent
+       ,(long)parent
        ,(int)flags
        );
   }
@@ -2390,7 +2390,7 @@ gap_dialog_new (const gchar    *title,
 
   if(gap_debug)
   {
-    printf("gap_dialog_new DONE, dialog:%d\n", (int)dialog);
+    printf("gap_dialog_new DONE, dialog:%ld\n", (long)dialog);
   }
 
   return dialog;

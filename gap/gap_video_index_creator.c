@@ -1022,6 +1022,7 @@ p_vindex_dialog(VindexValues *val_ptr)
         printf("p_vindex_dialog: PRAMETERS entered via dialog:\n");
         printf("  videofile: %s\n", &val_ptr->videofile[0]);
         printf("  decoder: %s\n", &val_ptr->preferred_decoder[0]);
+        printf("  ii_preferred_decoder:%d\n", (int)ii_preferred_decoder);
         printf("  seltrack: %d\n", (int)val_ptr->seltrack);
         printf("  mode: %d\n", (int)val_ptr->mode);
         printf("  percentage_smart_mode: %f\n", (float)val_ptr->percentage_smart_mode);
@@ -1287,7 +1288,7 @@ p_tree_fill (GapVideoIndexCreatorProgressParams *vipp, GapStoryVideoFileRef  *vr
   gtk_tree_selection_unselect_all(vipp->sel);
   if(treePathCurrent != NULL)
   {
-     gtk_tree_view_set_cursor(vipp->tv
+     gtk_tree_view_set_cursor(GTK_TREE_VIEW(vipp->tv)
                              ,treePathCurrent
                              ,NULL    /* focus_column */
                              ,FALSE   /* start_editing */
@@ -1642,3 +1643,4 @@ p_vid_progress_callback(gdouble progress
   /* return (TRUE); */ /* cancel video api if playback was stopped */
 
 }  /* end p_vid_progress_callback */
+

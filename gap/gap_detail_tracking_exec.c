@@ -240,9 +240,12 @@ p_capture_2_vector_points(gint32 imageId, PixelCoords *coordPtr, PixelCoords *co
 
     if((gx2 != gx1) || (gy2 != gy1))
     {
-      coordPtr2->px = gx2;
-      coordPtr2->py = gy2;
-      coordPtr2->valid = TRUE;
+      if ((gx2 >= 0) && (gy2 >= 0))
+      {
+        coordPtr2->px = gx2;
+        coordPtr2->py = gy2;
+        coordPtr2->valid = TRUE;
+      }
     }
 
   }
@@ -893,7 +896,7 @@ static void
 p_set_2_vector_points(gint32 imageId, PixelCoords *targetCoords, PixelCoords *targetCoords2)
 {
   gint32  activeVectorsId;
-  gint    newStrokeId;
+  /* gint    newStrokeId; */
 
   gdouble  *points;
   gint      num_points;
@@ -952,7 +955,7 @@ p_set_2_vector_points(gint32 imageId, PixelCoords *targetCoords, PixelCoords *ta
       }
 
       type = GIMP_VECTORS_STROKE_TYPE_BEZIER;
-      newStrokeId = gimp_vectors_stroke_new_from_points (activeVectorsId
+      /* newStrokeId = */ gimp_vectors_stroke_new_from_points (activeVectorsId
                                      , type
                                      , num_points
                                      , points
@@ -1099,7 +1102,7 @@ gap_track_detail_on_top_layers(gint32 imageId, gboolean doProgress, FilterValues
         /* locate shall start investigations at matching coordinates of the previous processed frame
          * because the chance to find the detail near this postion is much greater than near
          * the start coords in the initial frame.
-         * (note that locate does use the initial frame e.g. the BG layer in this mode,
+         * (note that locate does use the initial frame i.e. the BG layer in this mode,
          * but without the locateOffsets we might loose track of the detail when it moves outside the targetRadius
          * and increasing the targetRadius would also result in siginificant longer processing time)
          */
@@ -1527,4 +1530,3 @@ gap_detail_tracking_dialog_cfg_set_vals(gint32 image_id)
   return(rc);
 
 }  /* end gap_detail_tracking_dialog_cfg_set_vals */
-

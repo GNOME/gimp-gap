@@ -113,7 +113,7 @@ gap_pdb_procedure_name_available (const gchar *search_name)
       {
         for (loop = 0; loop < num_procs; loop++)
         {
-          printf("PDBname:%s\t\search_name:%s\n", proc_list[loop], search_name);
+          printf("PDBname:%s\t search_name:%s\n", proc_list[loop], search_name);
         }
       }
 
@@ -158,9 +158,6 @@ gap_pdb_procedure_available(char *proc_name)
   gchar            *l_proc_date;
   GimpParamDef    *l_params;
   GimpParamDef    *l_return_vals;
-  gint             l_rc;
-
-  l_rc = 0;
   
   /* Query the gimp application's procedural database
    *  regarding a particular procedure.
@@ -348,8 +345,8 @@ workaround:
       {
          if(gap_debug)
          {
-           printf("(PDB_WRAPPER workaround for gimp_image_thumbnail GIMP_PDB_SUCCESS, th_data:%d  (%d x %d) \n"
-            , (int)return_vals[5].data.d_int8array
+           printf("(PDB_WRAPPER workaround for gimp_image_thumbnail GIMP_PDB_SUCCESS, th_data:%ld  (%d x %d) \n"
+            , (long)return_vals[5].data.d_int8array
             , (int)return_vals[1].data.d_int32
             , (int)return_vals[2].data.d_int32
             );

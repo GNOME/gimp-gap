@@ -458,9 +458,15 @@ p_func_optionmenu_callback  (GtkWidget     *wgt_item,
   const char *title;
   const char *tiptext;
 
- if(gap_debug) printf("CB: p_func_optionmenu_callback\n");
+ if(gap_debug)
+ {
+   printf("CB: p_func_optionmenu_callback\n");
+ }
 
- if(gmop == NULL) return;
+ if(gmop == NULL)
+ {
+   return;
+ }
 
  l_idx = GPOINTER_TO_INT(g_object_get_data (G_OBJECT (wgt_item),
                                             MENU_ITEM_INDEX_KEY));
@@ -469,8 +475,10 @@ p_func_optionmenu_callback  (GtkWidget     *wgt_item,
 
  if(gap_debug)
  {
-    printf("CB: p_func_optionmenu_callback index: %d\n"
-          , (int)l_idx);
+    printf("CB: p_func_optionmenu_callback index: %d %s\n"
+          , (int)l_idx
+          , (tiptext == NULL) ? "<null>" : tiptext
+          );
  }
 
  gmop->action_mode = l_idx;
@@ -1263,12 +1271,10 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
 {
   GtkWidget *dlg;
   GtkWidget *main_vbox;
-  GtkWidget *active_vbox;
   GtkWidget *hbox;
   GtkWidget *frame;
   GtkWidget *entry;
   GtkWidget *table;
-  GtkWidget *func_table;
   GtkWidget *sel_table;
   GtkWidget *sel_sub_table;
   GtkWidget *range_table;
@@ -1318,7 +1324,6 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
   gtk_widget_show (frame);
 
   table = gtk_table_new (3, 2, FALSE);
-  func_table = table;
   gtk_table_set_col_spacings (GTK_TABLE (table), 4);
   gtk_table_set_row_spacings (GTK_TABLE (table), 4);
   gtk_container_add (GTK_CONTAINER (frame), table);
@@ -1532,7 +1537,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
                     ,(GtkAttachOptions) (GTK_FILL)
                     ,(GtkAttachOptions) (0), 0, 0);
   gimp_help_set_help_data (check_button
-                          , _("Perform actions on all unselected layers at same level in the layers tree (e.g. in the same group)")
+                          , _("Perform actions on all unselected layers at same level in the layers tree (i.e. in the same group)")
                           , NULL);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button)
                                 , gmop->sel_invert);
@@ -1640,7 +1645,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button),
                                    l_radio_pressed);
   gimp_help_set_help_data(radio_button
-                         , _("Select all visible layers at same level in the layers tree (e.g. in the same group)")
+                         , _("Select all visible layers at same level in the layers tree (i.e. in the same group)")
                          , NULL);
 
   gtk_widget_show (radio_button);

@@ -1165,7 +1165,7 @@ p_calculate_posFactor_from_FrameTweens(gdouble frameTweensInSegment
  * Mode with acceleration characteristic:
  * ========================================
  *   a Path segment includes all controlpoints between two keyframes
- *   (e.g controlpoints where keyframe > 0) Note that first and last contolpoint
+ *   (i.e. controlpoints where keyframe > 0) Note that first and last contolpoint
  *   are implicite keyframes.
  *   In case none of the contolpoints has keyframe > 0, all controlpoints
  *   are in just one segment that starts at first and ends at last controlpoint.
@@ -1425,7 +1425,7 @@ p_calculate_settings_for_current_FrameTween(
   }
 
 
-  /* calculate Zoom (e.g. Size) settings for the currently processed Frame (or tween) */
+  /* calculate Zoom (i.e. Size) settings for the currently processed Frame (or tween) */
   if ((val_ptr->point[startOfSegmentIndex].accSize != 0)
   && (frameTweensInSegment > 0))
   {
@@ -1643,6 +1643,22 @@ p_log_current_render_params(GapMovData *mov_ptr, GapMovCurrent *cur_ptr)
 
 }  /* end p_log_current_render_params */
 
+glong
+p_get_gap_controlpoint_loglimit()
+{
+  const gchar *l_env;
+  glong  l_log_limit;
+
+  l_log_limit = 999999;
+  l_env = g_getenv("GAP_CONTROLPOINT_LOGLIMIT");
+  if(l_env != NULL)
+  {
+    l_log_limit = atol(l_env);
+  }
+
+  return (l_log_limit);
+}
+
 
 /* --------------------------------
  * p_printf_log_parameters
@@ -1652,7 +1668,14 @@ p_log_current_render_params(GapMovData *mov_ptr, GapMovCurrent *cur_ptr)
 static void
 p_printf_log_parameters(GapMovData *mov_ptr)
 {
-  gint l_idx;
+  gint  l_idx;
+  glong l_log_limit;
+  
+  
+
+  printf("p_printf_log_parameters ------------------ START\n");
+
+  l_log_limit = p_get_gap_controlpoint_loglimit();
 
   printf("apv_mlayer_image: %ld\n", (long)mov_ptr->val_ptr->apv_mlayer_image);
   printf("apv_mode: %ld\n", (long)mov_ptr->val_ptr->apv_mode);
@@ -1700,8 +1723,17 @@ p_printf_log_parameters(GapMovData *mov_ptr)
 
     printf("keyframe[%d] :%d\n", l_idx, mov_ptr->val_ptr->point[l_idx].keyframe);
     printf("keyframe_abs[%d] :%d\n", l_idx, mov_ptr->val_ptr->point[l_idx].keyframe_abs);
+    
+    if (l_idx > l_log_limit)
+    {
+      printf(" .. points up to %d are not logged due to environment variable  GAP_CONTROLPOINT_LOGLIMIT\n"
+         ,(int) mov_ptr->val_ptr->point_idx_max
+         );
+      break;
+    }
   }
   printf("\n");
+  printf("p_printf_log_parameters ------------------ DONE\n");
 
 }  /* end p_printf_log_parameters */
 
@@ -1894,7 +1926,7 @@ p_duplicate_layer(gint32 layerId)
  * The source layer is iterated through all layers of the sourceimage
  * according to multilayer image based stemmode parameter v.
  * for the frame based stepmodes, interprete the src as frame image sequence
- * (e.g iterate through flattened copied of src frame images instead of iterating layers)
+ * (i.e. iterate through flattened copied of src frame images instead of iterating layers)
  *
  * For the placement the layers act as if their size is equal to their
  * Sourceimages size.
@@ -1953,11 +1985,13 @@ p_mov_execute_or_query_2(GapMovData *mov_ptr, GapMovQuery *mov_query, gdouble  *
    gint startOfSegmentIndex;
    gint endOfSegmentIndex;
    gint frameNrAtEndOfSegment;
+   glong l_log_limit;
 
    if(gap_debug)
    {
      printf("p_mov_execute_or_query_2 START\n");
    }
+   l_log_limit = p_get_gap_controlpoint_loglimit();
 
 
    if(mov_ptr->val_ptr->src_image_id < 0)
@@ -2148,7 +2182,10 @@ p_mov_execute_or_query_2(GapMovData *mov_ptr, GapMovQuery *mov_query, gdouble  *
 
    /* how many frames are affected from one line of the moving path */
    l_fpl = ((gdouble)l_frames - 1.0) / ((gdouble)(l_points -1));
-   if(gap_debug) printf("p_mov_execute: initial l_fpl=%f\n", l_fpl);
+   if(gap_debug)
+   {
+     printf("p_mov_execute: initial l_fpl=%f\n", l_fpl);
+   }
 
    /* calculate flt_timing_tab controlpoint timing table considering keyframes */
    l_prev_keyptidx = 0;
@@ -2170,7 +2207,10 @@ p_mov_execute_or_query_2(GapMovData *mov_ptr, GapMovQuery *mov_query, gdouble  *
             l_prev_keyframe = l_frames -1;
 
             l_prev_keyptidx = l_idk;
-            if(gap_debug) printf("p_mov_execute: last point is implicite keyframe l_fpl=%f\n", l_fpl);
+            if(gap_debug) 
+            {
+              printf("p_mov_execute: last point is implicite keyframe l_fpl=%f\n", l_fpl);
+            }
             break;
           }
           else
@@ -2182,7 +2222,13 @@ p_mov_execute_or_query_2(GapMovData *mov_ptr, GapMovQuery *mov_query, gdouble  *
               l_prev_keyframe = val_ptr->point[l_idk].keyframe;
 
               l_prev_keyptidx = l_idk;
-              if(gap_debug) printf("p_mov_execute: keyframe l_fpl=%f\n", l_fpl);
+              if(gap_debug)
+              {
+                if(l_idk <= l_log_limit)
+                {
+                  printf("p_mov_execute: keyframe l_fpl=%f\n", l_fpl);
+                }
+              }
               break;
             }
           }
@@ -2227,10 +2273,20 @@ p_mov_execute_or_query_2(GapMovData *mov_ptr, GapMovQuery *mov_query, gdouble  *
 
    if(gap_debug)
    {
+     glong l_log_limit;
+     l_log_limit = p_get_gap_controlpoint_loglimit();
+   
      printf("p_mov_execute: --- CONTROLPOINT relative frametiming TABLE -----\n");
      for(l_ptidx=0;  l_ptidx < l_points; l_ptidx++)
      {
        printf("p_mov_execute: flt_timing_tab[%02d] = %f\n", (int)l_ptidx, (float)flt_timing_tab[l_ptidx]);
+       if (l_ptidx > l_log_limit)
+       {
+         printf(" .. points up to %d are not logged due to environment variable  GAP_CONTROLPOINT_LOGLIMIT\n"
+           ,(int) l_points
+           );
+         break;
+       }
      }
    }
 
@@ -2486,7 +2542,7 @@ p_mov_execute_or_query_2(GapMovData *mov_ptr, GapMovQuery *mov_query, gdouble  *
  * ---------------------------
  * transform and move layer (specified by mov_ptr->singleFramePtr->drawable_id)
  * according to move path controlpoints in one destination frame
- * at the specified pahse (e.g. frame number within a frame range)
+ * at the specified pahse (i.e. frame number within a frame range)
  *
  * in case the  mov_ptr->singleFramePtr->drawable_id is NOT already part
  * of the processed frame it will be copied to the frame and
@@ -2626,7 +2682,7 @@ p_mov_execute_singleframe_2(GapMovData *mov_ptr, gdouble *flt_timing_tab)
    gap_mov_exec_set_handle_offsets_singleframe(val_ptr, cur_ptr);
 
    /* mov_ptr->val_ptr->src_stepmode is ignored in singleframes mode
-    * (e.g. behaves like GAP_STEP_FRAME_NONE)
+    * (it behaves like GAP_STEP_FRAME_NONE)
     */
    {
      gint32        l_sel_channel_id;
@@ -3870,18 +3926,18 @@ gchar *gap_mov_exec_chk_keyframes(GapMovValues *pvals)
 
   for(l_idx = 0; l_idx < pvals->point_idx_max; l_idx++ )
   {
-     if(pvals->point[l_idx].keyframe_abs != 0)
+     if((pvals->point[l_idx].keyframe_abs != 0) && (l_idx > 0))
      {
          pvals->point[l_idx].keyframe = gap_mov_exec_conv_keyframe_to_rel(pvals->point[l_idx].keyframe_abs, pvals);
 
-         if(pvals->point[l_idx].keyframe > l_affected_frames - 2)
-         {
-            l_err = g_strdup_printf(_("\nError: Keyframe %d at point [%d] higher or equal than last handled frame")
-                                      , pvals->point[l_idx].keyframe_abs,  l_idx+1);
-            l_err_lbltext = g_strdup_printf("%s%s", l_err_lbltext, l_err);
-            g_free(l_err);
-            l_errcount++;
-         }
+//          if(pvals->point[l_idx].keyframe > l_affected_frames - 2)
+//          {
+//             l_err = g_strdup_printf(_("\nError: Keyframe %d at point [%d] higher or equal than last handled frame")
+//                                       , pvals->point[l_idx].keyframe_abs,  l_idx+1);
+//             l_err_lbltext = g_strdup_printf("%s%s", l_err_lbltext, l_err);
+//             g_free(l_err);
+//             l_errcount++;
+//          }
          if(pvals->point[l_idx].keyframe < l_prev_frame)
          {
             l_err = g_strdup_printf(_("\nError: Keyframe %d at point [%d] leaves not enough space (frames)"
@@ -3924,14 +3980,14 @@ gchar *gap_mov_exec_chk_keyframes(GapMovValues *pvals)
      }
   }
 
-  if(pvals->point_idx_max + 1 > l_affected_frames)
-  {
-        l_err = g_strdup_printf(_("\nError: More controlpoints (%d) than handled frames (%d)."
-                                  "\nPlease reduce controlpoints or select more frames"),
-                                  (int)pvals->point_idx_max+1, (int)l_affected_frames);
-        l_err_lbltext = g_strdup_printf("%s%s", l_err_lbltext, l_err);
-        g_free(l_err);
-  }
+//   if(pvals->point_idx_max + 1 > l_affected_frames)
+//   {
+//         l_err = g_strdup_printf(_("\nError: More controlpoints (%d) than handled frames (%d)."
+//                                   "\nPlease reduce controlpoints or select more frames"),
+//                                   (int)pvals->point_idx_max+1, (int)l_affected_frames);
+//         l_err_lbltext = g_strdup_printf("%s%s", l_err_lbltext, l_err);
+//         g_free(l_err);
+//   }
 
   return(l_err_lbltext);
 }       /* end gap_mov_exec_chk_keyframes */
@@ -4390,20 +4446,18 @@ gap_mov_exec_free_GapMovValues(GapMovValues *pvals)
 
 
 /* ------------------------------------------
- * gap_mov_exec_copy_GapMovValues
+ * gap_mov_exec_copy_xml_GapMovValues
  * ------------------------------------------
- * copies all settings inclusive the controlpoint table,
+ * copies settings from xml file inclusive the controlpoint table,
  */
-void
-gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues)
+void gap_mov_exec_copy_xml_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues)
 {
   gint ii;
 
   if(gap_debug)
   {
-    printf("gap_mov_exec_copy_GapMovValues START\n");
+    printf("gap_mov_exec_copy_xml_GapMovValues START\n");
   }
-
   /* redim the point table in dstValues to same size as the srcValues */
   gap_mov_exec_dim_point_table(dstValues, srcValues->point_table_size);
 
@@ -4414,8 +4468,6 @@ gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues)
   dstValues->recordedObjHeight = srcValues->recordedObjHeight;
   dstValues->total_frames = srcValues->total_frames;
   dstValues->src_layerstack = srcValues->src_layerstack;
-  dstValues->src_image_id = srcValues->src_image_id;
-  dstValues->src_layer_id = srcValues->src_layer_id;
   dstValues->src_handle = srcValues->src_handle;
   dstValues->src_stepmode = srcValues->src_stepmode;
   dstValues->src_selmode = srcValues->src_selmode;
@@ -4423,8 +4475,6 @@ gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues)
   dstValues->src_force_visible = srcValues->src_force_visible;
   dstValues->src_apply_bluebox = srcValues->src_apply_bluebox;
   dstValues->clip_to_img = srcValues->clip_to_img;
-  dstValues->tmpsel_image_id = srcValues->tmpsel_image_id;
-  dstValues->tmpsel_channel_id = srcValues->tmpsel_channel_id;
 
   
   dstValues->step_speed_factor = srcValues->step_speed_factor;
@@ -4449,31 +4499,6 @@ gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues)
   dstValues->dst_range_start = srcValues->dst_range_start;
   dstValues->dst_range_end = srcValues->dst_range_end;
   dstValues->dst_layerstack = srcValues->dst_layerstack;
-
-
-
-
-  dstValues->dst_image_id = srcValues->dst_image_id;
-  dstValues->tmp_image_id = srcValues->tmp_image_id;
-  dstValues->tmp_alt_image_id = srcValues->tmp_alt_image_id;
-  dstValues->tmp_alt_framenr = srcValues->tmp_alt_framenr;
-  
-  /*
-   *  NOT copied are apv values for animated preview 
-   *    apv_gap_paste_buff
-   */ 
-  dstValues->apv_mode = srcValues->apv_mode;
-  dstValues->apv_mlayer_image = srcValues->apv_mlayer_image;
-  dstValues->apv_framerate = srcValues->apv_framerate;
-  dstValues->apv_scalex = srcValues->apv_scalex;
-  dstValues->apv_scaley = srcValues->apv_scaley;
-
-  dstValues->tween_image_id = srcValues->tween_image_id;
-  dstValues->tween_layer_id = srcValues->tween_layer_id;
-  dstValues->trace_image_id = srcValues->trace_image_id;
-  dstValues->trace_layer_id = srcValues->trace_layer_id;
-  dstValues->twix = srcValues->twix;
-
 
   dstValues->rotate_threshold = srcValues->rotate_threshold;
 
@@ -4548,6 +4573,53 @@ gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues)
     dstValues->bbp_pv = g_new(GapBlueboxGlobalParams, 1);
     memcpy(dstValues->bbp_pv, srcValues->bbp_pv, sizeof(GapBlueboxGlobalParams));
   }
+
+}  /* end gap_mov_exec_copy_xml_GapMovValues */
+
+
+/* ------------------------------------------
+ * gap_mov_exec_copy_GapMovValues
+ * ------------------------------------------
+ * copies all settings inclusive the controlpoint table,
+ */
+void
+gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues)
+{
+  if(gap_debug)
+  {
+    printf("gap_mov_exec_copy_GapMovValues START\n");
+  }
+  
+  gap_mov_exec_copy_xml_GapMovValues(dstValues, srcValues);
+
+  dstValues->src_image_id = srcValues->src_image_id;
+  dstValues->src_layer_id = srcValues->src_layer_id;
+
+  dstValues->tmpsel_image_id = srcValues->tmpsel_image_id;
+  dstValues->tmpsel_channel_id = srcValues->tmpsel_channel_id;
+
+  dstValues->dst_image_id = srcValues->dst_image_id;
+  dstValues->tmp_image_id = srcValues->tmp_image_id;
+  dstValues->tmp_alt_image_id = srcValues->tmp_alt_image_id;
+  dstValues->tmp_alt_framenr = srcValues->tmp_alt_framenr;
+
+  /*
+   *  NOT copied are apv values for animated preview 
+   *    apv_gap_paste_buff
+   */ 
+  dstValues->apv_mode = srcValues->apv_mode;
+  dstValues->apv_mlayer_image = srcValues->apv_mlayer_image;
+  dstValues->apv_framerate = srcValues->apv_framerate;
+  dstValues->apv_scalex = srcValues->apv_scalex;
+  dstValues->apv_scaley = srcValues->apv_scaley;
+
+  
+
+  dstValues->tween_image_id = srcValues->tween_image_id;
+  dstValues->tween_layer_id = srcValues->tween_layer_id;
+  dstValues->trace_image_id = srcValues->trace_image_id;
+  dstValues->trace_layer_id = srcValues->trace_layer_id;
+  dstValues->twix = srcValues->twix;
 
 
   /* copy cached rferences */
@@ -4761,6 +4833,11 @@ void
 gap_mov_exec_dim_point_table(GapMovValues *pvals, gint num_points)
 {
    GapMovPoint *new_points;
+ 
+   if(gap_debug)
+   {
+     printf("gap_mov_exec_dim_point_table START\n");
+   }
    
    if(pvals->point != NULL)
    {
@@ -4808,5 +4885,3 @@ gap_mov_exec_dim_point_table(GapMovValues *pvals, gint num_points)
        );
    }
 }  /* end gap_mov_exec_dim_point_table */
-
-

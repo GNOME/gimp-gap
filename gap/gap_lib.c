@@ -1962,7 +1962,7 @@ gap_lib_get_frame_nr_from_name(char *fname)
  * gap_lib_get_frame_nr
  * -------------------------------
  * return -1 if the specified image is
- *           NOT a gimp-gap typical frame image (e.g. has no number part in its filename)
+ *           NOT a gimp-gap typical frame image (i.e. has no number part in its filename)
  * return the number part in case of valid frame image.
  */
 long
@@ -2167,7 +2167,7 @@ gap_lib_save_non_xcf_dialog(char *key_gimprc, char *lower_extension)
                         "This dialog configures how to handle exchanges of\n"
                         "the current frame image (for frames with extension %s)\n"
                         "Note that automatical save on frame change just works with XCF\n"
-                        "but automatical overwrite (e.g export) to other formats\n"
+                        "but automatical overwrite (via export) to other formats\n"
                         "typically results in loss of layers and other information.")
                         , lower_extension);
 
@@ -2236,11 +2236,11 @@ gap_lib_save_non_xcf_dialog(char *key_gimprc, char *lower_extension)
  *   shall decide how to handle frame excanges.
  *   The options:
  *     SAVE_MODE_FOR_NON_XCF_ASK
- *        in case the user cancelled the dialog (e.g did not decide)
+ *        in case the user cancelled the dialog (i.e. did not decide)
  *        frame excange shall be blocked
  *
  *     SAVE_MODE_FOR_NON_XCF_AS_IS
- *        the current frame will be exported as is (e.g without flattening)
+ *        the current frame will be exported as is (i.e. without flattening)
  *        the returncode depends on the result of the export.
  *        ("as it is" will save only the background layer in 
  *         fileformat types that do not support multiple layers)

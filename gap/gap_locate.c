@@ -751,7 +751,7 @@ static void p_locateDetailLoop(GapLocateContext *lctx)
  * in the corresponding target Drawable in a loop while
  * varying offsets within targetMoveRadius.
  * the targetX/Y koords are picked at those offsets where the compared areas
- * are best matching (e.g with minimun color difference)
+ * are best matching (that is with minimun color difference)
  * the return value is the minimum colordifference value
  * (in range 0.0 to 1.0 where 0.0 indicates that the compared area is exactly equal)
  *

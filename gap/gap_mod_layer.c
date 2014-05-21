@@ -2177,7 +2177,7 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
 
       if(progress_bar != NULL)
       {
-        guchar *progressText;
+        gchar *progressText;
         progressText = g_strdup_printf("frame:%d (%d)", (int)l_cur_frame_nr, (int)l_end);
 
         gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progress_bar), progressText);
@@ -2301,7 +2301,6 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
   gint32    l_sel_case;
   gint32    l_sel_invert;
   GtkWidget *progress_bar;
-  GtkWidget *dlg;
 
   char      l_sel_pattern[MAX_LAYERNAME];
   char      l_new_layername[MAX_LAYERNAME];
@@ -2312,7 +2311,6 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
 
   l_rc = 0;
   progress_bar = NULL;
-  dlg = NULL;
 
   l_delimiter[0] = '/';
   l_delimiter[1] = '\0';
@@ -2331,9 +2329,11 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
          /* note: for interactive call the processing is already done
           * as callback of the dialog
           */
+         l_sel_case = sel_case;
+         l_sel_invert = sel_invert;
          l_rc = gap_mod_frames_dialog (ainfo_ptr, &l_from, &l_to,
                                        &l_action_mode,
-                                       &l_sel_mode, &sel_case, &sel_invert,
+                                       &l_sel_mode, &l_sel_case, &l_sel_invert,
                                        &l_sel_pattern[0], &l_new_layername[0],
                                        &l_new_position,
                                        &l_new_groupname[0], &l_sel_groupname[0], &l_delimiter[0]
@@ -2374,7 +2374,7 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
          */
            l_rc = gap_mod_frames_modify(ainfo_ptr, l_from, l_to,
                                   l_action_mode,
-                                  l_sel_mode, sel_case, sel_invert,
+                                  l_sel_mode, l_sel_case, l_sel_invert,
                                   &l_sel_pattern[0], &l_new_layername[0],
                                   l_new_position,
                                   &l_new_groupname[0], &l_sel_groupname[0], &l_delimiter[0],

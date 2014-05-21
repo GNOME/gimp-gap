@@ -633,7 +633,7 @@ gboolean
 p_save_chunk_as_frame(const char *filename,  unsigned char *video_chunk, gint32 video_frame_chunk_size, gint32 header_length)
 {
   FILE   *fp;
-  char   *dataPtr;
+  unsigned char   *dataPtr;
   gint32  dataSize;
 
   dataSize = video_frame_chunk_size - header_length;
@@ -863,9 +863,9 @@ p_rawframe_encode(GapGveRawGlobalParams *gpp)
         l_cnt_reused_frames++;
         if (gap_debug)
         {
-          printf("DEBUG: 1:1 copy of frame %d (fetch as chunk OK) chunk_ptr:%d  chunk_size:%d chunk_hdr_size:%d\n"
+          printf("DEBUG: 1:1 copy of frame %d (fetch as chunk OK) chunk_ptr:%ld  chunk_size:%d chunk_hdr_size:%d\n"
               , (int)l_cur_frame_nr
-              , (int)l_video_chunk_ptr
+              , (long)l_video_chunk_ptr
               , (int)l_video_frame_chunk_size
               , (int)l_video_frame_chunk_hdr_size
               );

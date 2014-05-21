@@ -237,7 +237,7 @@ GimpPlugInInfo PLUG_IN_INFO =
     {GIMP_PDB_INT32,        "run_mode",      "non-interactive"},
     {GIMP_PDB_IMAGE,        "dst_image",     "Destination image (one of the video frames), where to insert the animated source layers"},
     {GIMP_PDB_DRAWABLE,     "drawable",      "drawable to be transfromed and moved according to current phase"},
-    {GIMP_PDB_INT32,        "frame_phase",   "current frame nr starting at 1 (e.g. phase of movent and transformation along path)"},
+    {GIMP_PDB_INT32,        "frame_phase",   "current frame nr starting at 1 (i.e. phase of movent and transformation along path)"},
     {GIMP_PDB_INT32,        "total_frames",  "number of frames for the full movement/transformation. (value 0 uses the recorded number of frames from the xml file)"},
     {GIMP_PDB_STRING,       "xml_paramfile", "a file with move path parameter settings in XML format "},
   };
@@ -710,3 +710,4 @@ run (const gchar *name
  /* remove LOCK on this image for all gap_plugins */
  gap_lock_remove_lock(lock_image_id);
 }
+

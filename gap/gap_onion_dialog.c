@@ -554,7 +554,10 @@ static void
 on_oni__button_default_clicked         (GtkButton       *button,
                                         GapOnionMainGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_oni__button_default_clicked gpp: %d\n", (int)gpp);
+ if(gap_debug)
+ {
+   printf("CB: on_oni__button_default_clicked gpp: %ld\n", (long)gpp);
+ }
 
  if(gpp)
  {
@@ -567,7 +570,10 @@ static void
 on_oni__button_help_clicked         (GtkButton       *button,
                                      GapOnionMainGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_oni__button_help_clicked gpp: %d\n", (int)gpp);
+ if(gap_debug)
+ {
+   printf("CB: on_oni__button_help_clicked gpp: %ld\n", (long)gpp);
+ }
 
  if(gpp)
  {

@@ -56,9 +56,9 @@ p_get_total_frames_from_toc(char *toc_filename, int vid_track)
 
   if(gap_debug)
   {
-      printf("GVA: p_get_total_frames_from_toc libmpeg3 OPEN %s handle->toc_handle:%d l_error_return:%d total_frames:%d\n"
+      printf("GVA: p_get_total_frames_from_toc libmpeg3 OPEN %s handle->toc_handle:%ld l_error_return:%d total_frames:%d\n"
             , toc_filename
-            , (int)toc_handle
+            , (long)toc_handle
             , (int)l_error_return
             , (int)total_frames
             );
@@ -79,7 +79,7 @@ GVA_create_libmpeg3_toc(int argc, char *argv[]
                 , t_GVA_Handle *gvahand
     , int *ret_total_frames)
 {
-        int i, j, l;
+        int i;
         char *src = 0, *dst = 0;
         int verbose = 0;
         gdouble progress_stepsize;
@@ -177,9 +177,9 @@ GVA_create_libmpeg3_toc(int argc, char *argv[]
                       gvahand->cancel_operation = (*gvahand->fptr_progress_callback)(gvahand->percentage_done, gvahand->progress_cb_user_data);
                       if(gap_debug)
                       {
-                        printf("MPEG3TOC: CANCEL(v):%d FPTR:%d\n"
+                        printf("MPEG3TOC: CANCEL(v):%d FPTR:%ld\n"
                               , (int)gvahand->cancel_operation
-                              , (int)gvahand->fptr_progress_callback
+                              , (long)gvahand->fptr_progress_callback
                               );
                       }
                       if(gvahand->cancel_operation)
@@ -200,4 +200,3 @@ GVA_create_libmpeg3_toc(int argc, char *argv[]
 
         return 0;
 }
-

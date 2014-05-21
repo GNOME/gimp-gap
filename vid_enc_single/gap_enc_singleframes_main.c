@@ -798,12 +798,3 @@ p_singleframe_encode(GapGveSingleGlobalParams *gpp)
 }  /* end p_singleframe_encode */
 
 
-
-
-
-
-
-
-
-//////////////////////
-

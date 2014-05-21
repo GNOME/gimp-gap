@@ -84,7 +84,7 @@ typedef gpointer t_GVA_Handle;
 /* codec name list element
  */
 typedef struct GapCodecNameElem {
-  guchar *codec_name;
+  gchar *codec_name;
   gint32 video_id;
   
   void  *next;

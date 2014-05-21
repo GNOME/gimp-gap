@@ -1226,13 +1226,15 @@ gint32 gap_range_to_multilayer(GimpRunMode run_mode, gint32 image_id,
          }
          g_snprintf(frame_basename, frame_basename_len, "frame_[######] (%dms)", (int)(1000/l_framerate));
          framerate = 0;
+         l_layersel_case    = layersel_case;
+         l_sel_invert       = sel_invert;
          l_rc = p_range_to_multilayer_dialog (ainfo_ptr, &l_from, &l_to,
                                 &flatten_mode, &bg_visible,
                                 &framerate, frame_basename, frame_basename_len,
                                 _("Frames to Image"),
                                 _("Create Multilayer-Image from Frames"),
-                                &l_layersel_mode, &layersel_case,
-                                &sel_invert, &l_sel_pattern[0],
+                                &l_layersel_mode, &l_layersel_case,
+                                &l_sel_invert, &l_sel_pattern[0],
                                 &l_selection_mode
                                 );
       }
@@ -1255,8 +1257,8 @@ gint32 gap_range_to_multilayer(GimpRunMode run_mode, gint32 image_id,
          new_image_id = p_frames_to_multilayer(ainfo_ptr, l_from, l_to,
                                                flatten_mode, bg_visible,
                                                framerate, frame_basename,
-                                               l_layersel_mode, layersel_case,
-                                               sel_invert, &l_sel_pattern[0],
+                                               l_layersel_mode, l_layersel_case,
+                                               l_sel_invert, &l_sel_pattern[0],
                                                l_selection_mode);
          gimp_display_new(new_image_id);
          l_rc = new_image_id;
@@ -1683,19 +1685,14 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
                long offs_x, long offs_y
 )
 {
-  guint   l_width, l_height;
   long    l_cur_frame_nr;
   long    l_step, l_begin, l_end;
   gint32  l_tmp_image_id;
   gdouble    l_percentage, l_percentage_step;
-  GimpParam     *l_params;
   int         l_rc;
   gboolean    l_frame_found;
 
   l_rc = 0;
-  l_params = NULL;
-
-
   l_percentage = 0.0;
   if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
   {
@@ -1715,10 +1712,6 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
 
 
   /* get info about the image (size and type is common to all frames) */
-  l_width  = gimp_image_width(ainfo_ptr->image_id);
-  l_height = gimp_image_height(ainfo_ptr->image_id);
-
-
   l_begin = ainfo_ptr->first_frame_nr;
   l_end   = ainfo_ptr->last_frame_nr;
 

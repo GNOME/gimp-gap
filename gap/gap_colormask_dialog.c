@@ -94,7 +94,7 @@ typedef struct {
   GimpPixelRgn       src_rgn;
   GimpPixelRgn       colormask_rgn;
 
-  GimpPreview       *preview;
+  GtkWidget         *preview;
   gboolean           applyImmediate;
   GapColormaskValues *cmaskvalsPtr;
 
@@ -157,18 +157,18 @@ static void     dialog_update_preview      (GimpPreview   *preview);
 static gint     dialog_preview_events      (GtkWidget     *area,
                                             GdkEvent      *event,
                                             GimpPreview   *preview);
-static void     dialog_get_rows            (GimpPixelRgn  *pr,
-                                            guchar       **rows,
-                                            gint           x,
-                                            gint           y,
-                                            gint           width,
-                                            gint           height);
-static void     dialog_fill_src_rows       (gint           start,
-                                            gint           how_many,
-                                            gint           yofs);
-static void     dialog_fill_bumpmap_rows   (gint           start,
-                                            gint           how_many,
-                                            gint           yofs);
+// static void     dialog_get_rows            (GimpPixelRgn  *pr,
+//                                             guchar       **rows,
+//                                             gint           x,
+//                                             gint           y,
+//                                             gint           width,
+//                                             gint           height);
+//static void     dialog_fill_src_rows       (gint           start,
+//                                            gint           how_many,
+//                                            gint           yofs);
+// static void     dialog_fill_bumpmap_rows   (gint           start,
+//                                             gint           how_many,
+//                                             gint           yofs);
 static gint     dialog_constrain           (gint32         image_id,
                                             gint32         drawable_id,
                                             gpointer       data);
@@ -391,7 +391,7 @@ p_create_filter_options(GapColormaskValues *cmaskvals, GtkWidget *preview)
                               TRUE, 0, 0,
                               _("Isle Area size in pixels. "
                                 "small isolated opaque or transparent pixel areas below that size "
-                                "are removed (e.g toggled from opaque to transparent and vice versa)"),
+                                "are removed (i.e. toggled from opaque to transparent and vice versa)"),
                               NULL);
   g_signal_connect (adj, "value-changed",
                     G_CALLBACK (gimp_double_adjustment_update),
@@ -436,8 +436,6 @@ p_create_opacity_options(GapColormaskValues *cmaskvals, GtkWidget *preview)
   GtkWidget *frame;
   GtkWidget *vbox;
   GtkWidget *table;
-  GtkWidget *button;
-  GtkWidget *label;
   GtkObject *adj;
   gint       row = 0;
 
@@ -506,7 +504,7 @@ p_create_opacity_options(GapColormaskValues *cmaskvals, GtkWidget *preview)
                               _("Trigger alpha is only relevant in case the color mask has an alpha channel. "
                                 "All pixels where the alpha channel of the corresponding pixel "
                                 "in the color mask is below this trigger value "
-                                "are not changed (e.g. keep their original opacity)"),
+                                "are not changed (i.e. keep their original opacity)"),
                               NULL);
   g_signal_connect (adj, "value-changed",
                     G_CALLBACK (gimp_double_adjustment_update),
@@ -1378,11 +1376,11 @@ p_dialog_new_colormask (gboolean init_offsets)
 static void
 dialog_update_preview (GimpPreview *preview)
 {
-   guchar *dest_row;
-   gint    y;
+//   guchar *dest_row;
+//   gint    y;
    gint    x1, y1;
-   gint    width, height;
-   gint    bytes;
+//   gint    width, height;
+//   gint    bytes;
  
    gimp_preview_get_position (preview, &x1, &y1);
 
@@ -1684,7 +1682,6 @@ gap_colormask_create_dialog (GapColormaskValues *cmaskvals)
   GtkWidget *vbox;
   GtkWidget *preview;
   GtkWidget *frame;
-  GtkObject *adj;
 
   gimp_ui_init (PLUG_IN_BINARY, TRUE);
 

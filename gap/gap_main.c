@@ -513,7 +513,7 @@ GimpPlugInInfo PLUG_IN_INFO =
 
     {GIMP_PDB_INT32,  "new_position", "new stackposition within the image or in the new group. is only used at action reorder."},
     {GIMP_PDB_STRING, "new_groupname", "is only used at action reorder. the selected layer(s) is(are) moved to this new_groupname (group will be created automatically if it does not already exist)"},
-    {GIMP_PDB_STRING, "select_groupname", "defines the selection scope, e.g. the name of the group where its layers can be selected by name or position(s). An empty string defines the images toplevel layers as selection scope"},
+    {GIMP_PDB_STRING, "select_groupname", "defines the selection scope, that is the name of the group where its layers can be selected by name or position(s). An empty string defines the images toplevel layers as selection scope"},
     {GIMP_PDB_STRING, "delimiter", "Delimiter characterstring used in group names to identify subgroup names."},
   };
   static int nargs_modify = G_N_ELEMENTS (args_modify);
@@ -1792,3 +1792,4 @@ run (const gchar *name
   /* remove LOCK on this image for all gap_plugins */
   gap_lock_remove_lock(lock_image_id);
 }
+

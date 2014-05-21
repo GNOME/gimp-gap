@@ -2369,7 +2369,7 @@ gap_story_lists_merge(GapStoryBoard *stb_dst
     }
 
     /* insert regular clips (non-mask clips) to the active section in the
-     * destination storyboard. (e.g. paste explicte selected clips)
+     * destination storyboard. (i.e. paste explicte selected clips)
      */
     p_list_insert_at_story_id(stb_dst->active_section
                          , stb_vtrack_main_section
@@ -3004,7 +3004,7 @@ p_assign_parsed_video_values(GapStoryElem *stb_elem
  * p_assign_accel_attr
  * ------------------------------
  * assign acceleration characteristic for the transition attribute [ii]
- * if information is present (e.g accel_ptr is not null and points to a value)
+ * if information is present (where accel_ptr is not null and points to a value)
  */
 static void
 p_assign_accel_attr(GapStoryElem *stb_elem
@@ -6126,7 +6126,7 @@ gap_story_save(GapStoryBoard *stb, const char *filename)
       print_section_record = TRUE;
       if (section == stb->mask_section)
       {
-        /* mask definitions (e.g. all elements in the mask_section)
+        /* mask definitions (that are all elements in the mask_section)
          * were already handled separate, because they have other file syntax
          * than regular clip elements.
          */
@@ -8234,7 +8234,7 @@ gap_story_remove_sel_elems(GapStoryBoard *stb)
  * gap_story_is_active_element
  * -------------------------------
  * returns true on elements that are active video elements
- * (e.g. relevant to be visualized as thumbnail in the storyboard dialog)
+ * (that are relevant to be visualized as thumbnail in the storyboard dialog)
  */
 gboolean
 gap_story_is_active_element(GapStoryElem *stb_elem)
@@ -9061,7 +9061,7 @@ gap_story_get_default_attribute(gint att_typ_idx)
  * gap_story_file_calculate_render_attributes
  * ------------------------------------------
  * perform calculations for rendering a layer or image (specified by frame_width, frame_height)
- * onto a destination image (specified by vid_width, vid_height e.g. composite image size)
+ * onto a destination image (specified by vid_width, vid_height i.e. composite image size)
  *
  * according to storyboard attribute settings
  * (specified by

@@ -376,7 +376,7 @@ static void p_delta_gint_color(t_gint_color *val, t_gint_color *val_from, t_gint
  * via loading an image, or fetching a video frame.
  * In this case, the drawables (gint32 val_from and val_to) are expected to refere
  * to persistent Ids
- * e.g. are >= GAP_FMCT_MIN_PERSISTENT_DRAWABLE_ID
+ * i.e. are >= GAP_FMCT_MIN_PERSISTENT_DRAWABLE_ID
  * The image_ids of all fetched images are added to a list of last recent temp images
  * this list has to be deleted at end of filtermacro processing. if the list contains
  * more than NNNNN entries, the oldest entries are deleted at begin of a new fetch
@@ -653,7 +653,7 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
                                  , track
                                  , drawable_id
                                  , filename
-                                 , FALSE           /* force_id NO (e.g generate unique id) */
+                                 , FALSE           /* force_id NO (i.e. generate unique id) */
                                  , fmacContext
                                  );
     g_free(filename);

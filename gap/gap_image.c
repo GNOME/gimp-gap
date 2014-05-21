@@ -504,7 +504,7 @@ gap_image_remove_all_guides(gint32 image_id)
  * Note that gimp-2.7 or later versions supports layer groups.
  * this procedure does only check for toplevel layers
  * and ignores layers that are nested in groups.
- * e.g. a top level group counts as one single layer
+ * A top level group counts as one single layer
  * no matter how many layers und subgroups are in the toplevel group.
  *
  */
@@ -889,12 +889,10 @@ gap_image_find_or_create_group_layer(gint32 image_id
   gchar     **nameArray;
   gchar      *namePtr;
   gint        l_nlayers;
-  gint        l_treelevel;
   gint        l_ii;
   gint        l_idx;
   gint        l_position;
   gint32     *l_src_layers;
-  gint32      l_layer_id;
 
   gint32      l_parent_layer_id;
   gint32      l_group_layer_id;
@@ -1025,7 +1023,7 @@ gap_image_find_or_create_group_layer(gint32 image_id
       }
       else
       {
-        /* check next treelevel e.g. members of the current group */
+        /* check next treelevel i.e. members of the current group */
         l_src_layers = gimp_item_get_children (l_parent_layer_id, &l_nlayers);
       }
     }
@@ -1333,7 +1331,7 @@ gap_image_get_layers_at_parentpositions(gint32 image_id, gint *nlayers, const ch
       {
         gint32 l_layer_id;
         
-        l_layer_id == l_layers_list[l_pos];
+        l_layer_id = l_layers_list[l_pos];
         if (gimp_item_is_group(l_layer_id))
         {
           g_free(l_layers_list);
@@ -1392,4 +1390,3 @@ gap_image_get_layers_at_parentpositions(gint32 image_id, gint *nlayers, const ch
 
 
 } /* end gap_image_get_layers_at_parentpositions */
-

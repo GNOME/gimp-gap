@@ -1511,7 +1511,7 @@ p_mtrace_pixbuf( GapPlayerMainGlobalParams *gpp
     if(pixbuf)
     {
       gint32 nchannels;
-      gint32 rowstride;
+      //gint32 rowstride;
       gint32 width;
       gint32 height;
       guchar *pix_data;
@@ -1520,7 +1520,7 @@ p_mtrace_pixbuf( GapPlayerMainGlobalParams *gpp
       height = gdk_pixbuf_get_height(pixbuf);
       nchannels = gdk_pixbuf_get_n_channels(pixbuf);
       pix_data = gdk_pixbuf_get_pixels(pixbuf);
-      rowstride = gdk_pixbuf_get_rowstride(pixbuf);
+      //rowstride = gdk_pixbuf_get_rowstride(pixbuf);
 
       p_mtrace_tmpbuf(gpp
                    , pix_data
@@ -1643,9 +1643,9 @@ p_update_ainfo_for_videofile(GapPlayerMainGlobalParams *gpp)
 #ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
   if(gap_debug)
   {
-    printf("p_update_ainfo_for_videofile  gpp->ainfo_ptr:%d gpp->gvahand:%d\n"
-      , (int)gpp->ainfo_ptr
-      , (int)gpp->gvahand
+    printf("p_update_ainfo_for_videofile  gpp->ainfo_ptr:%ld gpp->gvahand:%ld\n"
+      , (long)gpp->ainfo_ptr
+      , (long)gpp->gvahand
       );
   }
 
@@ -2454,7 +2454,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
   gboolean    l_otone_is_up_to_date;
   gint32      l_extract_audiotrack;
   gint32      l_begin_frame_nr;
-  gint32      l_end_frame_nr;
+  //gint32      l_end_frame_nr;
   char       *l_audiofilename;
   char       *l_audiofilename_cancel;
 
@@ -2522,7 +2522,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
   {
     gdouble l_dbl_total_frames;
     l_begin_frame_nr = 1;
-    l_end_frame_nr = gpp->gvahand->total_frames;
+    //l_end_frame_nr = gpp->gvahand->total_frames;
     l_dbl_total_frames = (gdouble)gpp->gvahand->total_frames;
 
     p_msg_progress_bar_audio(gpp, _("extracting audio"));
@@ -3494,9 +3494,9 @@ p_open_composite_storyboard(GapPlayerMainGlobalParams *gpp)
 
   if(gap_debug)
   {
-    printf("p_open_composite_storyboard: %s comp_vidhand:%d type:%d(%d) id:%d(%d)\n"
+    printf("p_open_composite_storyboard: %s comp_vidhand:%ld type:%d(%d) id:%d(%d)\n"
         ,gpp->stb_ptr->storyboardfile
-        ,(int)gpp->stb_comp_vidhand
+        ,(long)gpp->stb_comp_vidhand
         ,(int)gpp->stb_ptr->stb_parttype
         ,(int)gpp->stb_parttype
         ,(int)gpp->stb_ptr->stb_unique_id
@@ -3569,8 +3569,8 @@ p_fetch_composite_image(GapPlayerMainGlobalParams *gpp
                                );
        if(gap_debug)
        {
-         printf("p_fetch_composite_image: comp_vidhand:%d  composite_image_id:%d\n"
-             ,(int)gpp->stb_comp_vidhand
+         printf("p_fetch_composite_image: comp_vidhand:%ld  composite_image_id:%d\n"
+             ,(long)gpp->stb_comp_vidhand
              ,(int)composite_image_id
              );
        }
@@ -3769,8 +3769,8 @@ p_fetch_display_composite_image_from_storyboard(GapPlayerMainGlobalParams *gpp
               );
     if(gap_debug)
     {
-      printf("COMPOSITE thdata:%d ckey: %s\n"
-             ,(int)l_th_data
+      printf("COMPOSITE thdata:%ld ckey: %s\n"
+             ,(long)l_th_data
              ,*ckey_pptr
              );
     }
@@ -4383,10 +4383,15 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 
   gdk_flush();
 
-  if(l_th_data)  g_free(l_th_data);
+  if(l_th_data)
+  {
+    g_free(l_th_data);
+  }
 
-  if(l_filename) g_free(l_filename);
-
+  if(l_filename)
+  {
+    g_free(l_filename);
+  }
   GAP_TIMM_STOP_FUNCTION(funcId);
 
 }  /* end p_display_frame */
@@ -5426,7 +5431,7 @@ on_framenr_button_clicked             (GtkButton       *button,
 {
    GimpParam       *return_vals;
    int              nreturn_vals;
-   gint             button_type;
+   glong             button_type;
    gint32           dummy_layer_id;
 
   /*if(gap_debug) printf("on_framenr_button_clicked: START\n"); */
@@ -5440,7 +5445,7 @@ on_framenr_button_clicked             (GtkButton       *button,
 
   if(button)
   {
-    button_type = (gint) g_object_get_data (G_OBJECT (button), KEY_FRAMENR_BUTTON_TYPE);
+    button_type = (glong) g_object_get_data (G_OBJECT (button), KEY_FRAMENR_BUTTON_TYPE);
   }
   else
   {
@@ -9196,7 +9201,4 @@ gap_player_dlg_playback_dialog(GapPlayerMainGlobalParams *gpp)
 
 
 }  /* end gap_player_dlg_playback_dialog */
-
-
-
 

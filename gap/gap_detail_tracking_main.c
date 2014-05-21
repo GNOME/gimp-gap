@@ -117,7 +117,7 @@ static const GimpParamDef in_args[] =
     { GIMP_PDB_FLOAT,    "loacteColodiffThreshold",     "0.0 upto 1.0 threshold that defines tolerated average colordiff for successful detail tracking."
                                                         " ." },
     { GIMP_PDB_INT32,    "coordsRelToFrame1",    "1 .. substract coords of initial position from all recorded positions."
-                                                 "     (e.g. recording starts with px=0 py=0) "
+                                                 "     (i.e. recording starts with px=0 py=0) "
                                                  "0 .. record absolute positions" },
     { GIMP_PDB_INT32,    "offsX",                "fix X offset (is added to all recorded positions)" },
     { GIMP_PDB_INT32,    "offsY",                "fix Y offset (is added to all recorded positions)" },
@@ -138,7 +138,7 @@ static const GimpParamDef in_xml_args[] =
     { GIMP_PDB_INT32,    "run-mode",      "Interactive, non-interactive" },
     { GIMP_PDB_IMAGE,    "image",         "Input image"                  },
     { GIMP_PDB_DRAWABLE, "drawable",      "layer to be aligned"               },
-    { GIMP_PDB_INT32,    "framePhase",    "frame number e.g. phase to render (1 upto n recorded points in the xml file)." },
+    { GIMP_PDB_INT32,    "framePhase",    "frame number i.e. phase to render (1 upto n recorded points in the xml file)." },
     { GIMP_PDB_STRING,   "moveLogFile",          "optional name of a move path controlpoint xml file. (use - to write to stdout) " }
 };
 
@@ -489,9 +489,10 @@ runXmlAlign (const gchar *name,  /* name of plugin */
         if(gap_debug)
         {
           // TODO never saw this in tests ...
-          printf("animCallInfo.total_steps: %d current_step:%f\n"
+          printf("animCallInfo.total_steps: %d current_step:%f doProgress:%d\n"
             ,(int)animCallInfo.total_steps
             ,(float)animCallInfo.current_step
+            ,(int)doProgress
             );
         }
         if(xaVals.framePhase == 1)
@@ -551,7 +552,6 @@ run (const gchar *name,          /* name of plugin */
 {
   const gchar *l_env;
   gint32       image_id = -1;
-  gint32       activeDrawableId = -1;
   gboolean doProgress;
   gboolean doFlush;
   GapLastvalAnimatedCallInfo  animCallInfo;
@@ -611,7 +611,6 @@ run (const gchar *name,          /* name of plugin */
 
   /* get image and drawable */
   image_id = param[1].data.d_int32;
-  activeDrawableId = param[2].data.d_drawable;
 
 
   /* how are we running today? */
@@ -735,4 +734,3 @@ run (const gchar *name,          /* name of plugin */
   values[0].data.d_status = status;
 
 }       /* end run */
-

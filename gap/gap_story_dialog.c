@@ -490,7 +490,8 @@ p_is_debug_menu_enabled(void)
  * p_is_debug_feature_item_enabled
  * ---------------------------------------
  * return TRUE if the specified debug_item name
- * is enabled (e.g. is present as text line in the debug configuration file)
+ * is enabled 
+ * (a debug_item name is enabled when it is present as text line in the debug configuration file)
  */
 static gboolean
 p_is_debug_feature_item_enabled(const char *debug_item)
@@ -962,8 +963,8 @@ p_render_all_frame_widgets (GapStbTabWidgets *tabw)
 
     if(gap_debug)
     {
-      printf("(3) p_render_all_frame_widgets fw: %d\n", (int)fw );
-      printf("(4) p_render_all_frame_widgets fw->frame_filename: %d\n", (int)&fw->frame_filename );
+      printf("(3) p_render_all_frame_widgets fw: %ld\n", (long)fw );
+      printf("(4) p_render_all_frame_widgets fw->frame_filename: %ld\n", (long)&fw->frame_filename );
     }
 
     if(fw->frame_filename)
@@ -1927,7 +1928,7 @@ p_story_call_player(GapStbMainGlobalParams *sgpp
         }
         else
         {
-          /* in case player was not yet called (e.g this ist the very 1st player call)
+          /* in case player was not yet called (i.e. this ist the very 1st player call)
            * the preview size is not yet known.
            * Assume a preview width of 320 pixel in that case
            */
@@ -2077,7 +2078,6 @@ p_call_master_encoder(GapStbMainGlobalParams *sgpp
 #define GAP_PLUG_IN_MASTER_ENCODER  "plug_in_gap_vid_encode_master"
   GimpParam* l_params;
   gint       l_retvals;
-  gint       l_rc;
   gint32     dummy_layer_id;
 
   gint32 vid_width;
@@ -2094,10 +2094,9 @@ p_call_master_encoder(GapStbMainGlobalParams *sgpp
     return;
   }
 
-  l_rc = -1;
   gap_story_get_master_size_respecting_aspect(stb, &vid_width, &vid_height);
 
-  gtk_window_iconify(sgpp->shell_window);
+  gtk_window_iconify(GTK_WINDOW(sgpp->shell_window));
   while (gtk_events_pending ())
   {
     gtk_main_iteration ();
@@ -2127,7 +2126,6 @@ p_call_master_encoder(GapStbMainGlobalParams *sgpp
   switch(l_params[0].data.d_status)
   {
     case GIMP_PDB_SUCCESS:
-      l_rc = 0;
       break;
     case GIMP_PDB_CANCEL:
       break;
@@ -2141,7 +2139,7 @@ p_call_master_encoder(GapStbMainGlobalParams *sgpp
       break;
   }
   g_free(l_params);
-  gtk_window_deiconify(sgpp->shell_window);
+  gtk_window_deiconify(GTK_WINDOW(sgpp->shell_window));
 
 }  /* end p_call_master_encoder */
 
@@ -3420,7 +3418,7 @@ p_cliptarget_togglebutton_toggled_cb (GtkToggleButton *togglebutton
 
  if(gap_debug)
  {
-   printf("CB: p_cliptarget_togglebutton_toggled_cb: %d\n", (int)togglebutton);
+   printf("CB: p_cliptarget_togglebutton_toggled_cb: %ld\n", (long)togglebutton);
  }
 
  if(clip_target_ptr)
@@ -3780,7 +3778,7 @@ p_frame_widget_preview_events_cb (GtkWidget *widget,
                              GdkEvent  *event,
                              GapStbFrameWidget *fw)
 {
-  GdkEventExpose *eevent;
+  //GdkEventExpose *eevent;
   GdkEventButton *bevent;
 
   if(fw == NULL)
@@ -3813,11 +3811,11 @@ p_frame_widget_preview_events_cb (GtkWidget *widget,
       bevent = (GdkEventButton *) event;
 
       gtk_widget_grab_focus (fw->vbox);
-      if(gap_debug) printf("p_frame_widget_preview_events_cb GDK_BUTTON_PRESS button:%d seq_nr:%d widget:%d  da_wgt:%d\n"
+      if(gap_debug) printf("p_frame_widget_preview_events_cb GDK_BUTTON_PRESS button:%d seq_nr:%d widget:%ld  da_wgt:%ld\n"
                               , (int)bevent->button
                               , (int)fw->seq_nr
-                              , (int)widget
-                              , (int)fw->pv_ptr->da_widget
+                              , (long)widget
+                              , (long)fw->pv_ptr->da_widget
                               );
       if(fw->stb_elem_refptr == NULL)
       {
@@ -3856,13 +3854,13 @@ p_frame_widget_preview_events_cb (GtkWidget *widget,
       break;
 
     case GDK_EXPOSE:
-      if(gap_debug) printf("p_frame_widget_preview_events_cb GDK_EXPOSE seq_nr:%d widget:%d  da_wgt:%d\n"
+      if(gap_debug) printf("p_frame_widget_preview_events_cb GDK_EXPOSE seq_nr:%d widget:%ld  da_wgt:%ld\n"
                               , (int)fw->seq_nr
-                              , (int)widget
-                              , (int)fw->pv_ptr->da_widget
+                              , (long)widget
+                              , (long)fw->pv_ptr->da_widget
                               );
 
-      eevent = (GdkEventExpose *) event;
+      //eevent = (GdkEventExpose *) event;
 
       if(widget == fw->pv_ptr->da_widget)
       {
@@ -3964,8 +3962,8 @@ gap_story_dlg_spw_section_refresh(GapStbSecpropWidget *spw, GapStorySection *tar
   {
     if(target_section)
     {
-      printf("\ngap_story_dlg_spw_section_refresh\n  target_section: %d (id:%d)\n"
-         , (int)target_section
+      printf("\ngap_story_dlg_spw_section_refresh\n  target_section: %ld (id:%d)\n"
+         , (long)target_section
          , (int)target_section->section_id
          );
       if(target_section->section_name)
@@ -4451,7 +4449,11 @@ p_tabw_update_selection(GapStbTabWidgets  *tabw)
       }
     }
 
-    if(gap_debug) printf("p_tabw_update_selection: GTK_STYLE_SET_BACKGROUND bg_color: %d\n", (int)bg_color);
+    if(gap_debug)
+    {
+      printf("p_tabw_update_selection: GTK_STYLE_SET_BACKGROUND bg_color: %ld\n"
+         , (long)bg_color);
+    }
 
     /* Note: Gtk does not know about selcted items, since selections are handled
      * external by gap_navigator_dialog code.
@@ -4754,7 +4756,7 @@ p_tabw_sensibility (GapStbMainGlobalParams *sgpp
   if(tabw->new_clip_button) gtk_widget_set_sensitive(tabw->new_clip_button, l_sensitive_new);
 
 
-  /* handle video track sensitivity (not sensitive if stb is not present e.g. is NULL)  */
+  /* handle video track sensitivity (not sensitive if stb is not present i.e. is NULL)  */
   l_sensitive = FALSE;
   l_lower_limit = 0;
   l_upper_limit = GAP_STB_MAX_VID_TRACKS -1;
@@ -6963,7 +6965,7 @@ p_prefetch_vthumbs (GapStbMainGlobalParams *sgpp, GapStoryBoard *stb)
 {
   GapStorySection  *section;
   GapStoryElem     *stb_elem;
-  GapVThumbElem    *vthumb;
+  //GapVThumbElem    *vthumb;
   gint32         l_total;
   gint32         l_count;
 
@@ -6975,8 +6977,8 @@ p_prefetch_vthumbs (GapStbMainGlobalParams *sgpp, GapStoryBoard *stb)
 
   if(gap_debug)
   {
-    printf("p_prefetch_vthumbs : stb: %d\n"
-       ,(int)stb
+    printf("p_prefetch_vthumbs : stb: %ld\n"
+       ,(long)stb
        );
   }
 
@@ -7022,13 +7024,15 @@ p_prefetch_vthumbs (GapStbMainGlobalParams *sgpp, GapStoryBoard *stb)
 
         l_count++;
 
-        vthumb = gap_story_vthumb_elem_fetch(sgpp
+        /* vthumb = */ 
+        gap_story_vthumb_elem_fetch(sgpp
                     ,stb
                     ,stb_elem
                     ,stb_elem->from_frame
                     ,stb_elem->seltrack
                     ,gap_story_get_preferred_decoder(stb, stb_elem)
                     );
+        
         if(sgpp->progress_bar_master)
         {
 
@@ -7140,7 +7144,7 @@ p_optimized_prefetch_vthumbs (GapStbMainGlobalParams *sgpp)
     sgpp->cancel_video_api = FALSE;
     if(sgpp->auto_vthumb)
     {
-        gboolean option_restart;
+        //gboolean option_restart;
 
         refreshRequired = TRUE;
         recreateRequired = FALSE;
@@ -7159,7 +7163,7 @@ p_optimized_prefetch_vthumbs (GapStbMainGlobalParams *sgpp)
            *    (currently this attempt leads to crashes that i could not locate yet)
            * - the other (currently implemented) option is to cancel prefetch and implicitly turn off auto_vthumb mode
            */
-          option_restart = TRUE;
+          //option_restart = TRUE;
 
 
           if(gap_debug)
@@ -7272,7 +7276,10 @@ p_tabw_key_press_event_cb ( GtkWidget *widget
   GapStoryBoard *stb;
   GdkEventKey   *kevent;
 
-  if(gap_debug) printf("p_tabw_key_press_event_cb : tabw:%d\n", (int)tabw);
+  if(gap_debug)
+  {
+    printf("p_tabw_key_press_event_cb : tabw:%ld\n", (long)tabw);
+  }
 
   if(tabw == NULL)
   {
@@ -7415,9 +7422,9 @@ story_dlg_response (GtkWidget *widget,
 
   if(gap_debug)
   {
-    printf("story_dlg_response response_id:%d sgpp:%d\n"
+    printf("story_dlg_response response_id:%d sgpp:%ld\n"
        , (int)response_id
-       , (int)sgpp
+       , (long)sgpp
        );
   }
 
@@ -7518,7 +7525,13 @@ p_recreate_tab_widgets(GapStoryBoard *stb
                        ,GapStbMainGlobalParams *sgpp
                       )
 {
-  if(gap_debug) printf("p_recreate_tab_widgets:START stb:%d tabw:%d\n", (int)stb ,(int)tabw);
+  if(gap_debug)
+  {
+    printf("p_recreate_tab_widgets:START stb:%ld tabw:%ld\n"
+       , (long)stb 
+       , (long)tabw
+       );
+  }
 
   if(tabw)
   {
@@ -7811,14 +7824,14 @@ p_activate_section_by_combo_index(gint target_index
        }
        else
        {
-         printf("p_activate_section_by_combo_index: %d active_section: %d section:%d "
-            ,(int)target_index
-            , (int)section
-            , (int)stb_dst->active_section
+         printf("p_activate_section_by_combo_index: %d active_section: %ld section:%ld "
+            , (int)target_index
+            , (long)section
+            , (long)stb_dst->active_section
             );
          if (section->section_name == NULL)
          {
-           printf("section_name: NULL (e.g. MAIN)\n");
+           printf("section_name: NULL (refers to the MAIN section)\n");
          }
          else
          {
@@ -9560,8 +9573,8 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_FILESEL);
   argv[l_ii].label_txt = _("Ext. Transparency Format:");
   argv[l_ii].entry_width = 250;       /* pixel */
-  argv[l_ii].help_txt  = _("Format string to provide external tranparency in movie clips. "
-                           "(e.g automatic alpha channel insertation)"
+  argv[l_ii].help_txt  = _("Format string to provide external transparency in movie clips. "
+                           "(i.e. automatic alpha channel insertation via external frames)"
                            "this string shall contain \%s as placeholder for the basename of a videoclip and "
                            "optional \%06d as placeholder for the framenumber.");
   argv[l_ii].text_buf_len = sizeof(l_master_insert_alpha_format);
@@ -9581,7 +9594,7 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_FILESEL);
   argv[l_ii].label_txt = _("AreaFormat:");
   argv[l_ii].entry_width = 250;       /* pixel */
-  argv[l_ii].help_txt  = _("Format string for area replacement in movie clips. (e.g automatic logo insert)"
+  argv[l_ii].help_txt  = _("Format string for area replacement in movie clips. (for example automatic logo insert)"
                            "this string shall contain \%s as placeholder for the basename of a videoclip and "
                            "optional \%06d as placeholder for the framenumber.");
   argv[l_ii].text_buf_len = sizeof(l_master_insert_area_format);
@@ -9612,6 +9625,15 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   if((l_rc) && (sgpp->shell_window))
   {
      GapStoryBoard *stb_dup;
+     
+     if(gap_debug)
+     {
+       printf("Master Properties l_rc:%d, l_ii_aspect:%d l_ii_preferred_decoder:%d\n"
+          , (int)l_rc
+          , (int)l_ii_aspect
+          , (int)l_ii_preferred_decoder
+          );
+     }
 
 
      if(new_flag)
@@ -9806,7 +9828,7 @@ on_stb_elem_drag_begin (GtkWidget        *widget,
 
   if(gap_debug)
   {
-    printf("on_stb_elem_drag_begin FW:%d\n", (int)fw);
+    printf("on_stb_elem_drag_begin FW:%ld\n", (long)fw);
   }
   if (fw == NULL)                  { return; }
   if(fw->stb_elem_refptr == NULL)  { return; }
@@ -9854,7 +9876,7 @@ on_stb_elem_drag_get (GtkWidget        *widget,
 {
   if(gap_debug)
   {
-    printf("on_stb_elem_drag_get FW:%d, info:%d\n", (int)fw, (int)info);
+    printf("on_stb_elem_drag_get FW:%ld, info:%d\n", (long)fw, (int)info);
   }
   if (fw)
   {
@@ -9995,7 +10017,7 @@ on_clip_elements_dropped (GtkWidget        *widget,
         fw_drop = *fw_drop_ptr;
         if(gap_debug)
         {
-          printf("on_clip_elements_dropped FW_DROP:%d\n", (int)fw_drop);
+          printf("on_clip_elements_dropped FW_DROP:%ld\n", (long)fw_drop);
         }
         if (fw_drop == NULL)
         {
@@ -10110,15 +10132,15 @@ p_get_or_auto_create_storyboard (GapStbMainGlobalParams *sgpp
   l_stb = p_tabw_get_stb_ptr(tabw);
   if(gap_debug)
   {
-    printf("(STB_tabw:%d CLL_tabw:%d) TABW: %d\n"
-      , (int)sgpp->stb_widgets
-      , (int)sgpp->cll_widgets
-      , (int)tabw
+    printf("(STB_tabw:%ld CLL_tabw:%ld) TABW: %ld\n"
+      , (long)sgpp->stb_widgets
+      , (long)sgpp->cll_widgets
+      , (long)tabw
       );
-    printf("(stb:%d cll:%d)stb_dst: %d\n"
-      , (int)sgpp->stb
-      , (int)sgpp->cll
-      , (int)l_stb
+    printf("(stb:%ld cll:%ld)stb_dst: %ld\n"
+      , (long)sgpp->stb
+      , (long)sgpp->cll
+      , (long)l_stb
       );
   }
 
@@ -10471,7 +10493,13 @@ p_frame_widget_init_dnd(GapStbFrameWidget *fw)
   //g_signal_connect (widget, "drag_data_delete",
   //                 G_CALLBACK (on_stb_elem_drag_delete), fw);
 
-  if(gap_debug) printf("INIT FW:%d    fw->tabw:%d\n", (int)fw, (int)fw->tabw);
+  if(gap_debug)
+  {
+    printf("INIT FW:%ld    fw->tabw:%ld\n"
+       , (long)fw
+       , (long)fw->tabw
+       );
+  }
 
 }  /* end p_frame_widget_init_dnd */
 
@@ -10561,11 +10589,12 @@ p_call_external_image_viewer(GapStbFrameWidget *fw)
           imagename = gap_story_get_filename_from_elem(fw->stb_elem_refptr);
           externalImageViewer = p_get_external_image_viewer();
           externalImageViewerCall = g_strdup_printf("%s %s &"
-             ,p_get_external_image_viewer()
+             ,externalImageViewer
              ,imagename
              );
           system(externalImageViewerCall);
 
+          g_free(externalImageViewer);
           g_free(externalImageViewerCall);
           g_free(imagename);
         }

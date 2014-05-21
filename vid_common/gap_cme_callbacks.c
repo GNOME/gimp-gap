@@ -176,7 +176,6 @@ p_drop_chache_and_start_video_encoder(GapCmeGlobalParams *gpp)
 static void
 p_switch_gui_to_running_encoder_state(GapCmeGlobalParams *gpp)
 {
-  GtkWidget *label;
   GtkWidget *frame;
   GtkWidget *notebook;
   gint idx;

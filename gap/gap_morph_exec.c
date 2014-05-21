@@ -1752,13 +1752,13 @@ p_calculate_work_point_movement(gdouble total_steps
     {
       countPoints++;
     }
-    printf ("p_calculate_work_point_movement: START total_steps:%.2f current_step:%.2f forward_move:%d scalex:%.3f scaley:%.3f master_list:%d countPoints:%d\n"
+    printf ("p_calculate_work_point_movement: START total_steps:%.2f current_step:%.2f forward_move:%d scalex:%.3f scaley:%.3f master_list:%ld countPoints:%d\n"
       ,(float)total_steps
       ,(float)current_step
       ,(int)forward_move
       ,(float)scalex
       ,(float)scaley
-      ,(int)master_list
+      ,(long)master_list
       ,(int)countPoints
       );
   }
@@ -3289,7 +3289,6 @@ p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalPara
   gint32 l_tween_layer_id;
   gint32 l_rc;
   gint   l_errno;
-  gint32 frameCount;
   gint32 currFrameNr;
   gint32 nextFrameNr;
   gint32 nextTargetFrameNr;
@@ -3299,7 +3298,6 @@ p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalPara
   gint32 nextLayerId;
   gint32 firstFrameNr;
   gint32 lastFrameNr;
-  gdouble framesToProcess;
   gdouble nTweenFramesTotal;   /* for outer progress (frames that are just copied are not included in progress) */
   gdouble nTweenFramesDone;    /* rendered tween frames so far (frames that are just copied are not included) */
 
@@ -3355,7 +3353,6 @@ p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalPara
   }
 
 
-  frameCount = 0;
   nextLayerId = -1;
  
   if(gap_lib_chk_framerange(ainfo_ptr) != 0)
@@ -3392,7 +3389,6 @@ p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalPara
 
     /* recalculate (in case range_to is changed on GUI while processing is already running) */
     lastFrameNr = MIN(mgpp->range_to, ainfo_ptr->last_frame_nr);
-    framesToProcess = MAX(1, (lastFrameNr - currFrameNr) -1);
     nTweenFramesTotal = MAX(1.0, (lastFrameNr - firstFrameNr) * mgpp->master_tween_steps);
    
     if (nextFrameNr > lastFrameNr)
@@ -3819,4 +3815,3 @@ gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
   return(l_tween_layer_id);
 
 }  /* end gap_morph_render_frame_tweens */
-

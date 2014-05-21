@@ -30,6 +30,7 @@
 #include <libgimp/gimpui.h>
 
 #include "gap_morph_main.h"
+#include "gap_morph_exec.h"
 #include "gap_morph_tween_dialog.h"
 #include "gap_morph_shape.h"
 #include "gap_base.h"
@@ -674,7 +675,7 @@ gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr, GapMorp
                                            -1);
 
   gimp_window_set_transient (GTK_WINDOW (dialog));
-  gtk_window_set_type_hint (dialog, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_NORMAL);
 
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (on_workpoint_generator_response),
@@ -838,7 +839,7 @@ gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr, GapMorp
                                   "Workpoints are generated on detected edges. "
                                   "Edges are detected on pixels where color or opacity differs significant "
                                   "from the neighbor pixel."
-                                  "(e.g. more than the specified edge detection threshold)."),
+                                  "(i.e. more than the specified edge detection threshold)."),
                                 NULL);
   g_signal_connect (adj, "value-changed",
                       G_CALLBACK (gimp_double_adjustment_update),
@@ -1132,7 +1133,7 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
                                            -1);
 
   gimp_window_set_transient (GTK_WINDOW (dialog));
-  gtk_window_set_type_hint (dialog, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_NORMAL);
 
   g_signal_connect (G_OBJECT (dialog), "response",
                     G_CALLBACK (on_morph_frame_tweens_response),
@@ -1375,3 +1376,4 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
   return (mtg->ret);
 
 } /* end gap_morph_frame_tweens_dialog */
+

@@ -650,13 +650,13 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    gpointer  pr;
    gdouble   threshold01f;
    gdouble   threshold255f;
-   gint      threshold255;
+   //gint      threshold255;
    gint      cx;
    gint      cy;
    
    threshold01f = CLAMP((threshold / 100.0), 0, 1);
    threshold255f = 255.0 * threshold01f;
-   threshold255 = threshold255f;
+   //threshold255 = threshold255f;
 
    p_get_debug_coords_from_guides(image_id, &cx, &cy);
    
@@ -743,7 +743,7 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    , gdouble threshold, gint32 shift, gboolean doLevelsAutostretch
    , gboolean invert)
  {
-   gint32 blurLayerId;
+   //gint32 blurLayerId;
    gint32 edgeLayerId;
    gint32 imageId;
    GimpDrawable *edgeDrawable;
@@ -800,5 +800,4 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    return (edgeLayerId);
    
  }  /* end gap_edgeDetectionByBlurDiff */
- 
  

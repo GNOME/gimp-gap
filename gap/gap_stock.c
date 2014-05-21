@@ -86,11 +86,11 @@ add_stock_icon (const gchar  *stock_id,
 
   if(gap_debug)
   {
-    printf("add_stock_icon stock_id:%s size:%d inline_data:%d pixbuf:%d\n"
+    printf("add_stock_icon stock_id:%s size:%d inline_data:%ld pixbuf:%ld\n"
        ,stock_id
        ,(int)size
-       ,(int)inline_data
-       ,(int)pixbuf
+       ,(long)inline_data
+       ,(long)pixbuf
        );
   }
 

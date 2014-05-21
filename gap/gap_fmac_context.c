@@ -6,7 +6,7 @@
  *  for animated (or constant) filter apply.
  *  If gap controlled filterapply is done via a filtermacro
  *  the iteration is done within a filtermacro context.
- *  (e.g. while filtermacro is beeing recorded or is applied)
+ *  (i.e. while filtermacro is beeing recorded or is applied)
  *  the handled drawable ids are mapped with the help of a filtermacro reference file
  *  In this case the "persitent_drawable_id" is used to open the referenced
  *  image, frame or videoframe at apply time (this may happen in another gimp
@@ -74,7 +74,7 @@ gap_fmct_set_derived_lookup_filename(GapFmacContext *fmacContext, const char *fi
  * setup a filtermacro context for recording or playback mode.
  * the context affects the behaviour of drawable_iteration in the whole gimp_session
  * until the procedure gap_fmct_disable_GapFmacContext is called.
- * This procedure registers a new frame fetcher resource user_id if playback (e.g NOT recording_mode)
+ * This procedure registers a new frame fetcher resource user_id if playback (i.e. NOT recording_mode)
  * is used. The drawable_iteration will refere to this ffetch_user_id when fetching
  * frames via mapped persistent drawable ids.
  *
@@ -454,15 +454,12 @@ gap_fmct_load_GapFmacContext(GapFmacContext *fmacContext)
 
   for(txf_ptr = txf_ptr_root; txf_ptr != NULL; txf_ptr = (GapValTextFileLines *) txf_ptr->next)
   {
-    gint l_len;
-
     line_nr++;
     if(gap_debug)
     {
       printf("line_nr: %d\n", (int)line_nr);
     }
     gap_file_chop_trailingspace_and_nl(&txf_ptr->line[0]);
-    l_len = strlen(txf_ptr->line);
 
     if(gap_debug)
     {
@@ -533,12 +530,12 @@ gap_fmct_save_GapFmacContext(GapFmacContext *fmacContext)
    */
   for(fmref_entry = fmacContext->fmref_list; fmref_entry != NULL; fmref_entry = fmref_entry->next)
   {
-    fprintf(fp, "%s%06d %s%06d %s%02d %s%d %s%011d  %s%d %s\"%s\""
+    fprintf(fp, "%s%06d %s%06d %s%02d %s%d %s%011ld  %s%d %s\"%s\""
            , GAP_FMREF_ID         , fmref_entry->persistent_drawable_id
            , GAP_FMREF_FRAME_NR   , fmref_entry->frame_nr
            , GAP_FMREF_STACK      , fmref_entry->stackposition
            , GAP_FMREF_TRACK      , fmref_entry->track
-           , GAP_FMREF_MTIME      , fmref_entry->mtime
+           , GAP_FMREF_MTIME      , (long)fmref_entry->mtime
            , GAP_FMREF_TYPE       , fmref_entry->ainfo_type
            , GAP_FMREF_FILE       , fmref_entry->filename
            );
@@ -577,12 +574,12 @@ gap_fmct_debug_print_GapFmacContext(GapFmacContext *fmacContext)
 
   for(fmref_entry = fmacContext->fmref_list; fmref_entry != NULL; fmref_entry = fmref_entry->next)
   {
-    printf("%s%06d %s%06d %s%02d %s%d %s%011d  %s%d %s\"%s\" %s%s\n"
+    printf("%s%06d %s%06d %s%02d %s%d %s%011ld  %s%d %s\"%s\" %s%s\n"
            , GAP_FMREF_ID         , fmref_entry->persistent_drawable_id
            , GAP_FMREF_FRAME_NR   , fmref_entry->frame_nr
            , GAP_FMREF_STACK      , fmref_entry->stackposition
            , GAP_FMREF_TRACK      , fmref_entry->track
-           , GAP_FMREF_MTIME      , fmref_entry->mtime
+           , GAP_FMREF_MTIME      , (long)fmref_entry->mtime
            , GAP_FMREF_TYPE       , fmref_entry->ainfo_type
            , GAP_FMREF_FILE       , fmref_entry->filename
            , GAP_FMREF_PARENTSTACK , fmref_entry->parentpositions
@@ -713,4 +710,3 @@ gap_fmct_add_GapFmacRefEntry(GapLibAinfoType ainfo_type
   return(new_fmref_entry->persistent_drawable_id);
 
 }  /* end gap_fmct_add_GapFmacRefEntry */
-

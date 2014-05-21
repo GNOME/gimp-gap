@@ -251,7 +251,10 @@ p_copy_png_thumb(char *filename_src, char *filename_dst)
               gint  l_width, l_height, l_num_layers;
               gchar *l_type_str;
 
-              if(gap_debug) printf("p_copy_png_thumb: pixbuf: %d\n", (int)pixbuf);
+              if(gap_debug)
+              {
+                printf("p_copy_png_thumb: pixbuf: %ld\n", (long)pixbuf);
+              }
 
               l_width = 1;
               l_height = 1;
@@ -591,7 +594,7 @@ gap_thumb_file_load_pixbuf_thumbnail(char* filename
         printf(" width: %d\n", (int)width );
         printf(" height: %d\n", (int)height );
         printf(" nchannels: %d\n", (int)nchannels );
-        printf(" pix_data: %d\n", (int)pix_data );
+        printf(" pix_data: %ld\n", (long)pix_data );
         printf(" has_alpha: %d\n", (int)has_alpha );
         printf(" rowstride: %d\n", (int)rowstride );
       }
@@ -685,4 +688,3 @@ gap_thumb_file_load_thumbnail(char* filename, gint32 *th_width, gint32 *th_heigh
   return (rc);
 
 }       /* end gap_thumb_file_load_thumbnail */
-

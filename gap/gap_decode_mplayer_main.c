@@ -154,19 +154,14 @@ static void run(const gchar *name
 {
   const char *l_env;
   
-  char        l_extension[32];
   static GimpParam values[2];
   GimpRunMode run_mode;
   GimpPDBStatusType status = GIMP_PDB_SUCCESS;
-  gint32     image_id;
-  gint32     lock_image_id;
-  gint32     nr;
    
   gint32     l_rc;
 
   *nreturn_vals = 1;
   *return_vals = values;
-  nr = 0;
   l_rc = 0;
 
   INIT_I18N ();
@@ -178,8 +173,6 @@ static void run(const gchar *name
   }
 
   run_mode = param[0].data.d_int32;
-  image_id = -1;
-  lock_image_id = image_id;
 
   if(gap_debug) fprintf(stderr, "\n\ngap_main: debug name = %s\n", name);
 

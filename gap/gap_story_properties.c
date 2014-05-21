@@ -1357,8 +1357,8 @@ p_pw_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbPropWidget *pw)
 {
-  GdkEventExpose *eevent;
-  GdkEventButton *bevent;
+  /*GdkEventExpose *eevent;*/
+  /*GdkEventButton *bevent;*/
   GapStbMainGlobalParams  *sgpp;
 
   if ((pw->stb_elem_refptr == NULL)
@@ -1372,7 +1372,7 @@ p_pw_preview_events_cb (GtkWidget *widget
   switch (event->type)
   {
     case GDK_BUTTON_PRESS:
-      bevent = (GdkEventButton *) event;
+      /*bevent = (GdkEventButton *) event;*/
 
       if((!pw->scene_detection_busy)
       && (!sgpp->gva_lock)
@@ -1392,12 +1392,12 @@ p_pw_preview_events_cb (GtkWidget *widget
       break;
 
     case GDK_EXPOSE:
-      if(gap_debug) printf("p_pw_preview_events_cb GDK_EXPOSE widget:%d  da_wgt:%d\n"
-                              , (int)widget
-                              , (int)pw->pv_ptr->da_widget
+      if(gap_debug) printf("p_pw_preview_events_cb GDK_EXPOSE widget:%ld  da_wgt:%ld\n"
+                              , (long)widget
+                              , (long)pw->pv_ptr->da_widget
                               );
 
-      eevent = (GdkEventExpose *) event;
+      /*eevent = (GdkEventExpose *) event;*/
 
       if(widget == pw->pv_ptr->da_widget)
       {
@@ -1424,8 +1424,8 @@ p_pw_mask_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbPropWidget *pw)
 {
-  GdkEventExpose *eevent;
-  GdkEventButton *bevent;
+  /*GdkEventExpose *eevent;*/
+  /*GdkEventButton *bevent;*/
   GapStbMainGlobalParams  *sgpp;
 
   if ((pw->stb_elem_refptr == NULL)
@@ -1439,7 +1439,7 @@ p_pw_mask_preview_events_cb (GtkWidget *widget
   switch (event->type)
   {
     case GDK_BUTTON_PRESS:
-      bevent = (GdkEventButton *) event;
+      /*bevent = (GdkEventButton *) event;*/
 
       if((!pw->scene_detection_busy)
       && (!sgpp->gva_lock)
@@ -1451,12 +1451,14 @@ p_pw_mask_preview_events_cb (GtkWidget *widget
       break;
 
     case GDK_EXPOSE:
-      if(gap_debug) printf("p_pw_mask_preview_events_cb GDK_EXPOSE widget:%d  da_wgt:%d\n"
-                              , (int)widget
-                              , (int)pw->mask_pv_ptr->da_widget
+      if(gap_debug)
+      {
+        printf("p_pw_mask_preview_events_cb GDK_EXPOSE widget:%ld  da_wgt:%ld\n"
+                              , (long)widget
+                              , (long)pw->mask_pv_ptr->da_widget
                               );
-
-      eevent = (GdkEventExpose *) event;
+      }
+      /*eevent = (GdkEventExpose *) event;*/
 
       if(widget == pw->mask_pv_ptr->da_widget)
       {
@@ -1559,8 +1561,8 @@ p_pw_icontype_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbPropWidget *pw)
 {
-  GdkEventExpose *eevent;
-  GdkEventButton *bevent;
+  /*GdkEventExpose *eevent;*/
+  /*GdkEventButton *bevent;*/
   GapStbMainGlobalParams  *sgpp;
 
   if ((pw->stb_elem_refptr == NULL)
@@ -1574,7 +1576,7 @@ p_pw_icontype_preview_events_cb (GtkWidget *widget
   switch (event->type)
   {
     case GDK_BUTTON_PRESS:
-      bevent = (GdkEventButton *) event;
+      /*bevent = (GdkEventButton *) event;*/
 
       if((!pw->scene_detection_busy)
       && (!sgpp->gva_lock)
@@ -1596,12 +1598,12 @@ p_pw_icontype_preview_events_cb (GtkWidget *widget
     case GDK_EXPOSE:
       if(gap_debug)
       {
-        printf("p_pw_icontype_preview_events_cb GDK_EXPOSE widget:%d  da_wgt:%d\n"
-                              , (int)widget
-                              , (int)pw->typ_icon_pv_ptr->da_widget
+        printf("p_pw_icontype_preview_events_cb GDK_EXPOSE widget:%ld  da_wgt:%ld\n"
+                              , (long)widget
+                              , (long)pw->typ_icon_pv_ptr->da_widget
                               );
       }
-      eevent = (GdkEventExpose *) event;
+      /*eevent = (GdkEventExpose *) event;*/
 
       if(widget == pw->typ_icon_pv_ptr->da_widget)
       {
@@ -2042,7 +2044,7 @@ p_pw_set_mask_name_dependent_widget_sensitivity(GapStbPropWidget *pw, gint activ
   l_sensitive = TRUE;
   if(active_index <= 0)
   {
-    /* active index 0 always refers to NONE (e.g clip has no mask) */
+    /* active index 0 always refers to NONE (i.e. clip has no mask) */
     l_sensitive = FALSE;
   }
   l_show = l_sensitive;
@@ -2841,7 +2843,7 @@ p_pw_update_framenr_labels(GapStbPropWidget *pw, gint32 framenr)
   l_framenr_zero = framenr -1;
   if(pw->stb_elem_refptr->record_type == GAP_STBREC_VID_ANIMIMAGE)
   {
-    /* animimage framenr (e.g. layerstack position) starts at 0
+    /* animimage framenr (i.e. layerstack position) starts at 0
      * (other clips typically start with framenr 1)
      */
     l_framenr_zero = framenr;
@@ -3411,7 +3413,7 @@ on_clip_elements_dropped_as_mask_ref (GtkWidget        *widget,
         fw_drop = *fw_drop_ptr;
         if(gap_debug)
         {
-          printf("on_clip_elements_dropped_as_mask_ref FW_DROP:%d\n", (int)fw_drop);
+          printf("on_clip_elements_dropped_as_mask_ref FW_DROP:%ld\n", (long)fw_drop);
         }
         if (fw_drop == NULL)
         {
@@ -4022,7 +4024,7 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
 
   if(gap_debug)
   {
-    printf("gap_story_pw_properties_dialog before g_signal_connect dlg:%d\n", (int)dlg);
+    printf("gap_story_pw_properties_dialog before g_signal_connect dlg:%ld\n", (long)dlg);
   }
 
   g_signal_connect (G_OBJECT (dlg), "response",
@@ -5102,7 +5104,7 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
 
   if(gap_debug)
   {
-    printf("gap_story_pw_properties_dialog DONE return dlg:%d\n", (int)dlg);
+    printf("gap_story_pw_properties_dialog DONE return dlg:%ld\n", (long)dlg);
   }
 
   return(dlg);
@@ -5224,8 +5226,8 @@ gap_story_stb_elem_properties_dialog ( GapStbTabWidgets *tabw
   pw->pw_prop_dialog = gap_story_pw_properties_dialog(pw);
   if(gap_debug)
   {
-    printf("gap_story_stb_elem_properties_dialog pw->pw_prop_dialog:%d\n"
-          ,(int)pw->pw_prop_dialog
+    printf("gap_story_stb_elem_properties_dialog pw->pw_prop_dialog:%ld\n"
+          ,(long)pw->pw_prop_dialog
           );
   }
   if(pw->pw_prop_dialog)
@@ -5265,4 +5267,3 @@ gap_story_fw_properties_dialog (GapStbFrameWidget *fw)
     gap_story_stb_elem_properties_dialog(tabw, fw->stb_elem_refptr, fw->stb_refptr);
   }
 }  /* end gap_story_fw_properties_dialog */
-

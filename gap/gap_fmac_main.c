@@ -132,7 +132,6 @@ static void  p_create_action_area_buttons(fmac_globalparams_t *gpp);
 static void  p_setbutton_sensitivity(fmac_globalparams_t *gpp);
 
 static gboolean  p_chk_filtermacro_file(const char *filtermacro_file);
-static void      p_print_and_free_msg(char *msg, GimpRunMode run_mode);
 static gchar *   p_get_gap_filter_data_string(const char *plugin_name, gint errorcode);
 static gchar *   p_get_mapped_gap_filter_data_string(const char *plugin_name, const char *filtermacro_file);
 static gint      p_fmac_add_filter_to_file(const char *filtermacro_file, const char *plugin_name);
@@ -358,22 +357,6 @@ p_chk_filtermacro_file(const char *filtermacro_file)
   return l_rc;
 }  /* end p_chk_filtermacro_file */
 
-
-
-/* --------------------
- * p_print_and_free_msg
- * --------------------
- */
-static void
-p_print_and_free_msg(char *msg, GimpRunMode run_mode)
-{
-  if(run_mode == GIMP_RUN_INTERACTIVE)
-  {
-    g_message("%s", msg);
-  }
-  printf("%s\n", msg);
-  g_free(msg);
-}  /* end p_print_and_free_msg */
 
 
 /* ----------------------------
@@ -1572,4 +1555,3 @@ p_fmac_pdb_constraint_proc_sel2(gchar *proc_name, gint32 image_id)
 {
   return (p_fmac_pdb_constraint_proc_sel1 (proc_name, image_id));
 }
-

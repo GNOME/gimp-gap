@@ -107,12 +107,12 @@ query ()
     {GIMP_PDB_DRAWABLE, "drawable", "Input drawable to be affected by the filtermacro"},
     {GIMP_PDB_STRING, "filtermacro_1", "Name of the 1st filtermacro_file to execute on the input drawable)"},
     {GIMP_PDB_STRING, "filtermacro_2", "Name of the 2nd filtermacro_file to execute on the input drawable)"},
-    {GIMP_PDB_FLOAT, "current_step", "current_step. (e.g curently processed frame) "
+    {GIMP_PDB_FLOAT, "current_step", "current_step. (i.e. curently processed frame) "
                                       " valid range is 0.0 upto total_steps, "
                                       " where 0.0 uses the parameter definitions from filtermacro_1. "
                                       " current_step divided by total_steps defines the value mix ratio"
                                       " A value mix ratio of 1.0 will use the parameter values of filtermacro_2."},
-    {GIMP_PDB_INT32, "total_steps",  "total number of steps of varying iterations (e.g. number of frames to process)"},
+    {GIMP_PDB_INT32, "total_steps",  "total number of steps of varying iterations (i.e. number of frames to process)"},
     
   };
 
@@ -258,7 +258,3 @@ run(const gchar *name
   values[0].data.d_status = status;
 
 }  /* end run */
-
-
-
-

@@ -179,5 +179,12 @@ gap_gve_drawable_to_RgbBuffer(GimpDrawable *drawable, GapRgbPixelBuffer *rgbBuff
 void
 gap_gve_drawable_to_RgbBuffer_multithread(GimpDrawable *drawable, GapRgbPixelBuffer *rgbBuffer);
 
+
+
+guchar *
+gap_gve_raw_RGB_or_BGR_drawable_encode(GimpDrawable *drawable, gint32 *RAW_size, gboolean vflip
+                        ,guchar *app0_buffer, gint32 app0_length, gboolean convertToBGR);
+
+
 #endif
 

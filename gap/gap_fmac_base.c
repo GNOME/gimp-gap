@@ -217,16 +217,16 @@ p_scan_fmac_line(GapValTextFileLines *txf_ptr, GimpRunMode run_mode, const char 
   {
      if(fmac_line)
      {
-       printf("p_scan_fmac_line: END fmac_line:%d filtername:%s paramlength:%d\n"
-              , (int)fmac_line
+       printf("p_scan_fmac_line: END fmac_line:%ld filtername:%s paramlength:%d\n"
+              , (long)fmac_line
               , fmac_line->filtername
               , (int)fmac_line->paramlength
               );
      }
      else
      {
-       printf("p_scan_fmac_line: END fmac_line:%d\n"
-              , (int)fmac_line
+       printf("p_scan_fmac_line: END fmac_line:%ld\n"
+              , (long)fmac_line
               );
      }
   }
@@ -334,8 +334,8 @@ p_build_fmac_list(const char *filtermacro_file, GimpRunMode run_mode)
 
   if(gap_debug)
   {
-    printf("p_build_fmac_list: END  fmac_root:%d filtermacro_file:%s\n"
-           ,(int)fmac_root
+    printf("p_build_fmac_list: END  fmac_root:%ld filtermacro_file:%s\n"
+           ,(long)fmac_root
            ,filtermacro_file
            );
   }
@@ -365,8 +365,8 @@ p_merge_fmac_list(FMacElem *fmac_root, const char *filtermacro_file, GimpRunMode
 
   if(gap_debug)
   {
-    printf("p_merge_fmac_list:  fmac_root:%d filtermacro_file:%s\n"
-           ,(int)fmac_root
+    printf("p_merge_fmac_list:  fmac_root:%ld filtermacro_file:%s\n"
+           ,(long)fmac_root
            ,filtermacro_file
            );
   }
@@ -585,6 +585,13 @@ p_fmac_execute_single_filter(GimpRunMode run_mode, gint32 image_id, gint32 drawa
             , GIMP_RUN_WITH_LAST_VALS
             );
 
+  if(gap_debug)
+  {
+    printf("p_fmac_execute_single_filter after pdb call of filtername:%s l_rc:%d\n"
+       ,fmac_elem->filtername
+       ,(int)l_rc
+       );
+  }
   /* restore lastvalues buffer (if we have a valid backup) */
   if(l_lastvalues_bck_buffer)
   {
@@ -599,7 +606,7 @@ p_fmac_execute_single_filter(GimpRunMode run_mode, gint32 image_id, gint32 drawa
 /* ---------------------------------
  * p_find_layer_for_next_processing
  * ---------------------------------
- * find a layer in the image that was newly created (e.g is not
+ * find a layer in the image that was newly created (i.e. is not
  * found in the old_layers_list snaphaot taken of the layerstack
  * before the processing step)
  * If there are more such new layers present, then pick the one
@@ -769,7 +776,7 @@ p_fmac_execute(GimpRunMode run_mode, gint32 image_id, gint32 drawable_id
     fmacContext = &theFmacContext;
 
     gap_fmct_setup_GapFmacContext(fmacContext
-                                 , FALSE  /* no recording_mode  (e.g. apply mode) */
+                                 , FALSE  /* no recording_mode  (i.e. apply mode) */
                                  , filtermacro_file1
                                  );
 
