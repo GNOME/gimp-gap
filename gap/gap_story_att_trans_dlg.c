@@ -3321,7 +3321,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   attw->att_rows[att_type_idx].button_from = button;
   gtk_table_attach(GTK_TABLE (table), button, col, col+1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
   gimp_help_set_help_data(button, _("Reset to: defaults, "
-                                    "use modifyer keys CTRL, ALT for alternative defaults. "
+                                    "use modifier keys CTRL, ALT for alternative defaults. "
                                     "SHIFT resets to initial value"), NULL);
   gtk_widget_show(button);
 
@@ -3364,7 +3364,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   attw->att_rows[att_type_idx].button_to = button;
   gtk_table_attach(GTK_TABLE (table), button, col, col+1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
   gimp_help_set_help_data(button, _("Reset to: defaults, "
-                                    "use modifyer keys CTRL, ALT for alternative defaults. "
+                                    "use modifier keys CTRL, ALT for alternative defaults. "
                                     "SHIFT resets to initial value"), NULL);
   gtk_widget_show(button);
 

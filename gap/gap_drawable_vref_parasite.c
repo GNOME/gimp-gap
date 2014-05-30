@@ -92,7 +92,7 @@ gap_dvref_free(GapDrawableVideoRef **dvref_ptr)
 /* ---------------------------------------------------
  * gap_dvref_get_drawable_video_reference_via_parasite
  * ---------------------------------------------------
- * return Gap drawable video reference parasite if such a parasite is atached to the specified drawable_id
+ * return Gap drawable video reference parasite if such a parasite is attached to the specified drawable_id
  *        oterwise return NULL;
  */
 GapDrawableVideoRef *

@@ -1652,15 +1652,15 @@ gap_lib_dir_ainfo_duplicate(GapAnimInfo *ainfo_ptr)
     }
     if(ainfo_ptr->extension != NULL)
     {
-      l_ainfo_ptr->extension = ainfo_ptr->extension;
+      l_ainfo_ptr->extension = g_strdup(ainfo_ptr->extension);
     }
     if(ainfo_ptr->new_filename != NULL)
     {
-      l_ainfo_ptr->new_filename = ainfo_ptr->new_filename;
+      l_ainfo_ptr->new_filename = g_strdup(ainfo_ptr->new_filename);
     }
     if(ainfo_ptr->old_filename != NULL)
     {
-      l_ainfo_ptr->old_filename = ainfo_ptr->old_filename;
+      l_ainfo_ptr->old_filename = g_strdup(ainfo_ptr->old_filename);
     }
 
     l_ainfo_ptr->frame_nr = ainfo_ptr->frame_nr;

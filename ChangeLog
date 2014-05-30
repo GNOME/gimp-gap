@@ -1,3 +1,53 @@
+2014-05-30 Wolfgang Hofer <hof@gimp.org>
+
+- fixed typos (applied path by Anders Jonsson see #730549)
+
+- fixed endless loop in storyboard processor at attempt to read frames frome a video clip after EOF.
+
+- fixed crash after loading movepath settings from xml file.
+   (in case current point index is higher than number of available destination frames
+   the next refresh crashed on windows7 environment)
+
+- fixed movepath freeze caused by unbalanced mallog/free error
+  in gap_lib_dir_ainfo_duplicate (must duplicate all referenced strings of the ainfo structure)
+
+   * gap/gap_story_render_processor.c
+   * gap/gap_player_dialog.c
+   * gap/gap_mov_dialog.c
+   * gap/gap_mov_exec.c
+   * gap/gap_lib.c
+
+   typos:
+
+   * gap/gap_accel_char.c [.h]
+   * gap/gap_accel_da.c
+   * gap/gap_apcl_lib.h
+   * gap/gap_audio_extract.c [.h]
+   * gap/gap_audio_wav.c
+   * gap/gap_blend_fill_main.c
+   * gap/gap_colormask_dialog.c
+   * gap/gap_detail_align_exec.c
+   * gap/gap_detail_tracking_exec.c [.h]
+   * gap/gap_drawable_vref_parasite.c
+   * gap/gap_fg_matting_dialog.c
+   * gap/gap_morph_tween_dialog.c
+   * gap/gap_mov_dialog.c
+   * gap/gap_mov_exec.c
+   * gap/gap_navigator_dialog.c
+   * gap/gap_onion_dialog.c
+   * gap/gap_player_dialog.c
+   * gap/gap_range_ops.c
+   * gap/gap_split.c
+   * gap/gap_story_att_trans_dlg.c
+   * gap/gap_story_dialog.c
+   * gap/gap_story_render_audio.c
+   * gap/gap_story_render_processor.c
+   * gap/gap_vex_dialog.c
+   * gap/gap_wr_opacity.c
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+
+
+
 2014-05-21 Wolfgang Hofer <hof@gimp.org>
 
 - fixed bug at loading movepath settings from xml file

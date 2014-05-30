@@ -146,7 +146,7 @@ p_audio_extract_rewrite_wav_header(FILE *fp_wav
  * position of the specified (already opened) videohandle.
  * and optional save extracted audiodata as RIFF WAVE file 
  * (set wav_save to FALSE to skip writing to wav file,
- *  this is typical used to perform dummy read for 
+ *  this is typically used to perform dummy read for 
  *  advancing current position in the videohandle)
  */
 void

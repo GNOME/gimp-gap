@@ -1820,7 +1820,7 @@ gap_colormask_dialog (GapColormaskValues *cmaskvals, GimpDrawable *layer_drawabl
   if (gimp_dialog_run (GIMP_DIALOG (dialog)) == GTK_RESPONSE_OK)
   {
     // TODO param file save shall be done in the procedure that
-    // creates the dialog as pop-up for Storybord clip properties.
+    // creates the dialog as pop-up for Storyboard clip properties.
     // for testpurpose saving is done here until the rest is implemented...
     gap_colormask_file_save (cmaskint.paramFilename, cmaskvals);
     run = TRUE;

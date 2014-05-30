@@ -1842,7 +1842,7 @@ gap_blend_fill_dialog (FilterVals *fiVals, gint32 drawable_id)
 
   /* horizontalBlendFlag checkbutton  */
   label = gtk_label_new (_("fills the selection by blending opposite border colors "
-                           "outside the selction to cover the selected area.\n"
+                           "outside the selection to cover the selected area.\n"
                            "Intended to fix small pixel errors"));
   gtk_widget_show (label);
   gtk_table_attach (GTK_TABLE (table), label, 0, 3, row, row+1,
@@ -1962,8 +1962,8 @@ gap_blend_fill_dialog (FilterVals *fiVals, gint32 drawable_id)
   gtk_table_attach (GTK_TABLE (table), button, 0, 1, row, row + 1,
                     GTK_FILL, GTK_FILL, 4, 0);
 
-  gimp_help_set_help_data (button, _("Save all pathes as svg vector file."
-                          "(use svg file when large or many pathes shall be used)"), NULL);
+  gimp_help_set_help_data (button, _("Save all paths as svg vector file."
+                          "(use svg file when large or many paths shall be used)"), NULL);
   g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_save_svg_clicked),
                       guiStuffPtr);

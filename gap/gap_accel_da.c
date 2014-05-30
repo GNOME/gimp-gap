@@ -334,7 +334,7 @@ gap_accel_repaint(GtkWidget *wgt, GdkEvent *evt,
   }
 
  
-  /*  Draw the the acceleration curve according to accelerationCharacteristic
+  /*  Draw the acceleration curve according to accelerationCharacteristic
    *  when acceleration is active 
    */
   if(accelerationCharacteristic != 0)

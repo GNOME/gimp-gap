@@ -342,7 +342,7 @@ p_opa_dialog(void)
 
   ii++; gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_OPTIONMENU); ii_mode = ii;
   argv[ii].label_txt = _("Mode:");
-  argv[ii].help_txt  = _("Modes set opacity or change the old opacity value by adding, subtracting or multiply by the supplied new value");
+  argv[ii].help_txt  = _("Modes set opacity or change the old opacity value by adding, subtracting or multiplying by the supplied new value");
   argv[ii].radio_argc  = VR_MODELIST_SIZE;
   argv[ii].radio_argv = radio_modes;
   argv[ii].radio_ret  = 0;

@@ -1390,7 +1390,7 @@ gap_detail_tracking_dialog(FilterValues *fiVals)
   ii++; gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_TOGGLE); ii_enableScaling = ii;
   argv[ii].label_txt = _("Log Scaling:");
   argv[ii].help_txt  = _("ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
-                         "OFF: Calculate only rotation and keep orignal size.");
+                         "OFF: Calculate only rotation and keep original size.");
   argv[ii].int_ret   = fiVals->enableScaling;
   argv[ii].has_default = TRUE;
   argv[ii].int_default = DEFAULT_enableScaling;

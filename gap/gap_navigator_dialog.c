@@ -823,7 +823,7 @@ p_edit_paste_call(gint32 paste_mode)
   }
   else
   {
-    gap_arr_msg_win(GIMP_RUN_INTERACTIVE, _("Video paste operaton failed"));
+    gap_arr_msg_win(GIMP_RUN_INTERACTIVE, _("Video paste operation failed"));
   }
 
   gimp_destroy_params(return_vals, nreturn_vals);

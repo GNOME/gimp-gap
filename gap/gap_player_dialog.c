@@ -583,7 +583,7 @@ p_audio_init(GapPlayerMainGlobalParams *gpp)
       {
          g_message(_("Failure to start the wavplay server is fatal.\n"
                 "Please check the executability of the 'wavplay' command.\n"
-                "If you have installed the wavplay executeable somewhere\n"
+                "If you have installed the wavplay executable somewhere\n"
                 "you can set the Environmentvariable WAVPLAYPATH before gimp startup\n"));
       }
       else
@@ -2496,7 +2496,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
   }
 
   p_reset_progress_bar_audio(gpp);
-  p_msg_progress_bar_audio(gpp, _("cheking audiotrack"));
+  p_msg_progress_bar_audio(gpp, _("checking audiotrack"));
 
   l_extract_audiotrack = CLAMP(GTK_ADJUSTMENT(gpp->audio_otone_atrack_spinbutton_adj)->value
                               , 1
@@ -3542,6 +3542,10 @@ p_fetch_composite_image(GapPlayerMainGlobalParams *gpp
   ||  (gpp->stb_parttype != gpp->stb_ptr->stb_parttype)
   ||  (gpp->stb_unique_id != gpp->stb_ptr->stb_unique_id))
   {
+    if(gap_debug)
+    {
+      printf("p_fetch_composite_image before (re)open composite video handle\n");
+    }
     p_open_composite_storyboard(gpp);
   }
 
@@ -3558,6 +3562,12 @@ p_fetch_composite_image(GapPlayerMainGlobalParams *gpp
        * therefore no changes to propagate to the players
        * pview widget
        */
+       if(gap_debug)
+       {
+         printf("p_fetch_composite_image: before call gap_story_render_fetch_composite_image comp_vidhand:%ld \n"
+             ,(long)gpp->stb_comp_vidhand
+             );
+       }
 
       composite_image_id = gap_story_render_fetch_composite_image(
                                gpp->stb_comp_vidhand
@@ -4041,7 +4051,8 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 
   GAP_TIMM_GET_FUNCTION_ID(funcId, "playerDialog.p_display_frame");
 
-  /*if(gap_debug) printf("p_display_frame START: framenr:%d\n", (int)framenr);*/
+  /* if(gap_debug) printf("p_display_frame START: framenr:%d\n", (int)framenr); */
+  
   if(gpp->gva_lock)
   {
     /* do not attempt displaying frames while we are inside
@@ -4111,6 +4122,16 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
                 , &l_flip_request
                 , &l_flip_status
                 );
+                
+      if((l_th_data == NULL) && (l_composite_image_id < 0))
+      {
+        if(gap_debug)
+        {
+          printf("STOP playback on error after call to p_fetch_display_composite_image_from_storyboard\n");
+        }
+        p_stop_playback(gpp);
+      }
+             
     }
   }
   else
@@ -7017,7 +7038,7 @@ p_new_audioframe(GapPlayerMainGlobalParams *gpp)
   gpp->audio_otone_extract_button = button;
   gtk_widget_show (button);
   gimp_help_set_help_data(button, _("Extract Audio Track from videofile "
-                                    "for the current videofile and use it for origial audiotrack playback")
+                                    "for the current videofile and use it for original audiotrack playback")
                                     ,NULL);
   gtk_table_attach(GTK_TABLE(table1), button, 2, 3, row, row + 1,
                     (GtkAttachOptions) GTK_FILL,

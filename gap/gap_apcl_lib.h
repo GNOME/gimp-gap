@@ -40,7 +40,7 @@
 /* ------- START SDL based stuff ----------------------------------------------------------- */
 
 /* use audio playback based on the SDL media library
- * (SDL works on multiple Operating systems including Linux and Windows and McOS)
+ * (SDL works on multiple Operating systems including Linux and Windows and MacOS)
  *
  * AudioPlayerCLient Wrapper Procedures
  * Implementation for SDL based audio player

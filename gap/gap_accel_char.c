@@ -38,7 +38,7 @@
 /* ---------------------------------------
  * gap_accelMixFactor
  * ---------------------------------------
- * this proecdure implements hardcoded acceleration characteristics.
+ * this procedure implements hardcoded acceleration characteristics.
  *     
  * accelCharacteristic: 
  *  0 is used to turn off acceleration
@@ -85,7 +85,7 @@ gap_accelMixFactor(gdouble orig_factor, gint accelCharacteristic)
 /* ---------------------------------------
  * gap_accel_calculate_current_step
  * ---------------------------------------
- * calculate current step respecting the specified accelration characteristic
+ * calculate current step respecting the specified acceleration characteristic
  */
 gdouble
 gap_calculate_current_step_with_acceleration(gdouble current_step, gint32 total_steps, gint accelCharacteristic)

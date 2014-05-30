@@ -440,7 +440,7 @@ gap_audio_wav_16bit_save(const char *wavfile
     /* write the header */
     gap_audio_wav_write_header(fp
                             , (gint32)total_samples
-                            , channels                           /* cannels 1 or 2 */
+                            , channels                           /* channels 1 or 2 */
                             , samplerate
                             , l_bytes_per_sample
                             , 16                          /* 16 bit sample resolution */
@@ -612,7 +612,7 @@ p_check_for_valid_playlist(const char *audfile, long *sample_rate, long *channel
           if(ii > 0)
           {
             g_message(_("The file: %s\n"
-                    "has unexpect content that will be ignored.\n"
+                    "has unexpected content that will be ignored.\n"
                     "You should specify an audio file in RIFF WAVE fileformat,\n"
                     "or a textfile containing filenames of such audio files")
                    , audfile

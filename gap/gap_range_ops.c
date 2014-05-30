@@ -513,7 +513,7 @@ p_convert_dialog(GapAnimInfo *ainfo_ptr,
        "and need flattened frames (flattening does melt down all layers to one composite layer)."
        "Example: JPEG can not handle multiple layers and requires flattened frames."),
     N_("Merge resulting frame down to one layer. This keeps transparency information "
-       "Example: use this for PNG fileformat that can handle transpararency (alpha channel) "
+       "Example: use this for PNG fileformat that can handle transparency (alpha channel) "
        "but is limited to one layer)") 
   };
     
@@ -826,7 +826,7 @@ p_range_to_multilayer_dialog(GapAnimInfo *ainfo_ptr,
   if (gimp_image_base_type(ainfo_ptr->image_id) == GIMP_INDEXED)
   {
     gap_arr_arg_init(&argv[12], GAP_ARR_WGT_LABEL);
-    argv[12].label_txt = _("You are using INDEXED frames. please note that the result will be an RGB image");
+    argv[12].label_txt = _("You are using INDEXED frames. Please note that the result will be an RGB image");
     argc = 13;
   }
 

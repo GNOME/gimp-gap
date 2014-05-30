@@ -363,7 +363,7 @@ p_split_image(GapAnimInfo *ainfo_ptr, split_vals_t *valPtr)
             if(l_rc < 0)
             {
               gap_arr_msg_win(ainfo_ptr->run_mode, _("Split Frames: Save operation failed.\n"
-                                               "desired save plugin can't handle type\n"
+                                               "Desired save plugin can't handle type\n"
                                                "or desired save plugin not available."));
             }
           }

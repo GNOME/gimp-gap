@@ -2562,7 +2562,7 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gimp_help_set_help_data (checkbutton
-                          , _("On: add trasparency for extracted frames via blubox filter"
+                          , _("On: add transparency for extracted frames via bluebox filter"
                               " (using values of last run in this session)\n"
                               "Off: extract frames 1.1")
                           , NULL);

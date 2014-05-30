@@ -5596,7 +5596,7 @@ p_menu_win_render_properties_cb (GtkWidget *widget, GapStbMainGlobalParams *sgpp
   argv[l_ii].constraint = TRUE;
   argv[l_ii].label_txt = _("Resource Loginterval:");
   argv[l_ii].help_txt  = _("Value 0 turns off resource logging to stdout. "
-                           "Value n logs current resource usage afte each n processed frames to stdout "
+                           "Value n logs current resource usage after each n processed frames to stdout "
                            "(this includes the list of cached images and opened videofiles)");
   argv[l_ii].int_min   = (gint)MIN_RESOURCE_LOG_INTERVAL;
   argv[l_ii].int_max   = (gint)MAX_RESOURCE_LOG_INTERVAL;
@@ -9430,7 +9430,7 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_TOGGLE);
   argv[l_ii].constraint = TRUE;
   argv[l_ii].label_txt = _("Track 1 on top:");
-  argv[l_ii].help_txt  = _("ON: video track1 is Foregrond (on top). "
+  argv[l_ii].help_txt  = _("ON: video track1 is Foreground (on top). "
                            "OFF: video track 1 is on Background.");
   argv[l_ii].int_ret   = (gint)stb_dst->master_vtrack1_is_toplayer;
   argv[l_ii].has_default = TRUE;
@@ -9574,7 +9574,7 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   argv[l_ii].label_txt = _("Ext. Transparency Format:");
   argv[l_ii].entry_width = 250;       /* pixel */
   argv[l_ii].help_txt  = _("Format string to provide external transparency in movie clips. "
-                           "(i.e. automatic alpha channel insertation via external frames)"
+                           "(i.e. automatic alpha channel insertion via external frames)"
                            "this string shall contain \%s as placeholder for the basename of a videoclip and "
                            "optional \%06d as placeholder for the framenumber.");
   argv[l_ii].text_buf_len = sizeof(l_master_insert_alpha_format);
@@ -9604,7 +9604,7 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   l_ii++;
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_DEFAULT_BUTTON);
   argv[l_ii].label_txt =  _("Reset");                /* should use GIMP_STOCK_RESET if possible */
-  argv[l_ii].help_txt  = _("Reset parameters to inital values");
+  argv[l_ii].help_txt  = _("Reset parameters to initial values");
 
 
   l_ii++;

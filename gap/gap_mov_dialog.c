@@ -3638,6 +3638,10 @@ p_load_points(char *filename, t_mov_gui_stuff *mgp)
                                     , mgp->ainfo_ptr->last_frame_nr
                                     );
         }
+        if (pvals->point_idx > abs(mgp->ainfo_ptr->last_frame_nr - mgp->ainfo_ptr->first_frame_nr))
+        {
+          pvals->point_idx = 0;
+        }
       }
     }
     else
@@ -4412,7 +4416,7 @@ mov_edit_button_box_create (t_mov_gui_stuff *mgp)
   gimp_help_set_help_data(button,
                        _("Set rotation for all controlpoints "
                          "to follow the shape of the path. "
-                         "Hold down the shift key to use rotation of contolpoint 1 as offset.")
+                         "Hold down the shift key to use rotation of controlpoint 1 as offset.")
                        , NULL);
   gtk_widget_show (button);
   g_signal_connect (G_OBJECT (button), "button_press_event",
@@ -7003,7 +7007,7 @@ gap_mov_dlg_move_dialog_singleframe(GapMovSingleFrame *singleFramePtr)
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_INT_PAIR);
   argv[l_ii].constraint = TRUE;
   argv[l_ii].label_txt = _("Current Frame:");
-  argv[l_ii].help_txt  = _("Curent Frame number (i.e. current phase) of Total number of frames");
+  argv[l_ii].help_txt  = _("Current Frame number (i.e. current phase) of total number of frames");
   argv[l_ii].int_min   = (gint)1;
   argv[l_ii].int_max   = (gint)MAX(10000, singleFramePtr->total_frames);
   argv[l_ii].int_ret   = (gint)CLAMP(singleFramePtr->frame_phase, 1, argv[l_ii].int_max);

@@ -1937,7 +1937,7 @@ p_open_audio_input_files(t_awk_array *awp, GapGveFFMpegGlobalParams *gpp)
           else
           {
             g_message(_("The file: %s\n"
-                      "has unexpect content that will be ignored.\n"
+                      "has unexpected content that will be ignored.\n"
                       "You should specify an audio file in RIFF WAVE fileformat,\n"
                       "or a textfile containing filenames of such audio files")
                      , gpp->val.audioname1

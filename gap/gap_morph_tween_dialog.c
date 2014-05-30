@@ -837,7 +837,7 @@ gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr, GapMorp
                                 TRUE, 0, 0,
                                 _("Edge detection threshold. "
                                   "Workpoints are generated on detected edges. "
-                                  "Edges are detected on pixels where color or opacity differs significant "
+                                  "Edges are detected on pixels where color or opacity differs significantly "
                                   "from the neighbor pixel."
                                   "(i.e. more than the specified edge detection threshold)."),
                                 NULL);
@@ -1180,7 +1180,7 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
     else
     {
       label = gtk_label_new (_("This operation creates copies of all frames in the specified range\n"
-                               "and the specifed number of tweens as additional tween frames\n"
+                               "and the specified number of tweens as additional tween frames\n"
                                "between all the processed frames in the specified subdirectory.\n"
                                "Provide workpointfiles (one per frame) for morphing based tween rendering\n"
                                "(this can be done with the Morph Workpoint Generator)"));
@@ -1258,7 +1258,7 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
                                 mgpp->master_tween_steps, 0, 100, 1.0, 10.0, 0,
                                 TRUE, 0, 0,
                                 _("Number of tweens to be inserted between 2 frames. "
-                                  "Value 0 renderes missing frames (via morphing or fade) "
+                                  "Value 0 renders missing frames (via morphing or fade) "
                                   "but does not create tweens where the "
                                   "next frame number is equal to the current processed frame number +1"),
                                 NULL);
@@ -1303,7 +1303,7 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
                                      "and generated tweens. "
                                      "Note that tweens are created via simple fade operations "
                                      "when no workpointfile for the processed frame is available. "
-                                     "(individual workpointfiles per frame are refered by extension .morphpoints)")
+                                     "(individual workpointfiles per frame are referred by extension .morphpoints)")
                            , NULL);
     gtk_widget_show(entry);
 

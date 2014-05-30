@@ -486,7 +486,7 @@ static void    p_stb_render_movie_single_processor(GapStbFetchData *gfd
                       , gint32 master_frame_nr
                       , gint32  vid_width
                       , gint32  vid_height);
-static void    p_call_GVA_get_next_frame_andSendReadySignal(VideoPrefetchData *vpre, gint32 targetFrameNumber);
+static gboolean p_call_GVA_get_next_frame_andSendReadySignal(VideoPrefetchData *vpre, gint32 targetFrameNumber);
 static void    p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre);
 static gint32  p_getPredictedNextFramenr(gint32 targetFrameNr, GapStoryRenderFrameRangeElem *frn_elem);
 static void    p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
@@ -7546,6 +7546,8 @@ p_stb_render_movie_single_processor(GapStbFetchData *gfd
   GAP_TIMM_GET_FUNCTION_ID(funcId, "p_stb_render_movie_single_processor");
   GAP_TIMM_START_FUNCTION(funcId);
 
+  /* if(gap_debug) { printf("p_stb_render_movie_single_processor START\n"); } */
+
   fcacheFetchResult.isRgb888Result = FALSE;  /* configure fcache for standard fetch as gimp layer */
   fcacheFetchResult.rgbBuffer.data = NULL;
 
@@ -7592,7 +7594,10 @@ p_stb_render_movie_single_processor(GapStbFetchData *gfd
             */
            while(gfd->frn_elem->gvahand->current_seek_nr < gfd->localframe_index)
            {
-             GVA_get_next_frame(gfd->frn_elem->gvahand);
+             if (GVA_get_next_frame(gfd->frn_elem->gvahand) != GVA_RET_OK)
+             {
+               break;
+             }
            }
          }
          else
@@ -7688,7 +7693,7 @@ p_stb_render_movie_single_processor(GapStbFetchData *gfd
  * was read (and is now available in the fcache)
  */
 #ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
-static void
+static gboolean
 p_call_GVA_get_next_frame_andSendReadySignal(VideoPrefetchData *vpre, gint32 targetFrameNumber)
 {
   if(gap_debug)
@@ -7701,7 +7706,19 @@ p_call_GVA_get_next_frame_andSendReadySignal(VideoPrefetchData *vpre, gint32 tar
       );
   }
 
-  GVA_get_next_frame(vpre->gvahand);
+  if(GVA_get_next_frame(vpre->gvahand) != GVA_RET_OK)
+  {
+    if(gap_debug)
+    {
+      printf("p_call_GVA_get_next_frame FAILED on TID:%lld gvahand:%ld targetFrameNumber:%d seek_nr:%d\n"
+      , (long long int)gap_base_get_thread_id()
+      , (long)vpre->gvahand
+      , (int)targetFrameNumber
+      , (int)vpre->gvahand->current_seek_nr
+      );
+    }
+    return (FALSE);
+  }
   GVA_fcache_mutex_lock (vpre->gvahand);
   if (vpre->gvahand->current_frame_nr == targetFrameNumber)
   {
@@ -7717,6 +7734,8 @@ p_call_GVA_get_next_frame_andSendReadySignal(VideoPrefetchData *vpre, gint32 tar
   }
 
   GVA_fcache_mutex_unlock (vpre->gvahand);
+  
+  return (TRUE);
 
 }  /* end p_call_GVA_get_next_frame_andSendReadySignal */
 #endif
@@ -7790,7 +7809,10 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
        */
       while(vpre->gvahand->current_seek_nr <= prefetchFrameNumber)
       {
-        p_call_GVA_get_next_frame_andSendReadySignal(vpre, targetFrameNumber);
+        if (TRUE != p_call_GVA_get_next_frame_andSendReadySignal(vpre, targetFrameNumber))
+        {
+          break;  /* stop on errors or EOF */
+        }
       }
     }
     else
@@ -7829,7 +7851,10 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
                 ,(int)prefetchFrameNumber
                 );
             }
-            p_call_GVA_get_next_frame_andSendReadySignal(vpre, targetFrameNumber);
+            if (TRUE != p_call_GVA_get_next_frame_andSendReadySignal(vpre, targetFrameNumber))
+            {
+              break;  /* stop on errors or EOF */
+            }
         }
       }
       else
@@ -7845,7 +7870,12 @@ p_videoPrefetchWorkerThreadFunction (VideoPrefetchData *vpre)
         GVA_seek_frame(vpre->gvahand, (gdouble)targetFrameNumber, GVA_UPOS_FRAMES);
         while(vpre->gvahand->current_seek_nr <= prefetchFrameNumber)
         {
-          p_call_GVA_get_next_frame_andSendReadySignal(vpre, targetFrameNumber);
+          if (TRUE != p_call_GVA_get_next_frame_andSendReadySignal(vpre, targetFrameNumber))
+          {
+            break;  /* stop on errors or EOF */
+          }
+
+
         }
       }
     }
@@ -7983,6 +8013,8 @@ p_stb_render_movie_multiprocessor(GapStbFetchData *gfd
   GAP_TIMM_GET_FUNCTION_ID(funcIdWait, "p_stb_render_movie_multiprocessor.Wait");
 
   GAP_TIMM_START_FUNCTION(funcId);
+
+  /* if(gap_debug) { printf("p_stb_render_movie_multiprocessor START\n"); } */
 
   error = NULL;
   targetFrameNumber = gfd->localframe_index; /* this framenumber is required now for processing */

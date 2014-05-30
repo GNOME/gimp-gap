@@ -1655,7 +1655,6 @@ p_get_gap_controlpoint_loglimit()
   {
     l_log_limit = atol(l_env);
   }
-
   return (l_log_limit);
 }
 
