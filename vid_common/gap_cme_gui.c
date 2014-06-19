@@ -38,12 +38,10 @@
  */
 
 
-/* the gui can run even if we dont have gthread library
+/* if not defined GAP_GUI_USE_GTHREAD (from config.h) the gui can run without the gthread library
  * (but the main window refresh will not be done while the encoder
  * parameter dialog -- that is called via pdb -- is open)
  */
-#define GAP_USE_GTHREAD
-
 
 #include <config.h>
 
@@ -217,7 +215,7 @@ gap_cme_gui_pdb_call_encoder_gui_plugin(GapCmeGlobalParams *gpp)
     return -1;
   }
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   if(gap_cme_gui_check_gui_thread_is_active(gpp)) return -1;
 
   /* start a thread for asynchron PDB call of the gui_ procedure
@@ -282,7 +280,7 @@ gap_cme_gui_thread_async_pdb_call(gpointer data)
 
   gpp = gap_cme_main_get_global_params();
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   if(gap_debug) 
   {
     gap_file_printf("THREAD: gap_cme_gui_thread_async_pdb_call &gpp: %ld\n", (long)gpp);
@@ -1493,7 +1491,7 @@ p_storybord_job_finished(GapCmeGlobalParams *gpp, t_global_stb *gstb)
   g_snprintf(gstb->status_msg, sizeof(gstb->status_msg), _("ready"));
   p_status_progress(gpp, gstb);
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
    /* is the encoder specific gui_thread still open ? */
    if(gpp->val.gui_proc_thread)
    {
@@ -1964,7 +1962,7 @@ gap_cme_gui_check_storyboard_file(GapCmeGlobalParams *gpp)
 
 
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   if(gap_cme_gui_check_gui_thread_is_active(gpp))  { return; }
   if(gstb->poll_timertag >= 0)           { return; }
 
@@ -4358,7 +4356,7 @@ gap_cme_gui_start_video_encoder_as_thread(GapCmeGlobalParams *gpp)
     return -1;
   }
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   if(gpp->productive_encoder_thread != NULL)
   {
     return -1;
@@ -4418,7 +4416,7 @@ gap_cme_gui_master_encoder_dialog(GapCmeGlobalParams *gpp)
     gap_file_printf("gap_cme_gui_master_encoder_dialog: Start\n");
   }
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   /* check and init thread system */
   gap_base_thread_init();
   gdk_threads_init ();
@@ -4486,7 +4484,7 @@ gap_cme_gui_master_encoder_dialog(GapCmeGlobalParams *gpp)
 
   gpp->val.run = 0;
   gtk_main ();
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   gdk_threads_leave ();
 #endif
 

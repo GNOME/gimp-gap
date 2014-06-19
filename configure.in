@@ -1073,7 +1073,7 @@ AC_SUBST(LMPEG3_A)
 
 dnl 
 dnl TODO: check for required gthread version, 
-dnl and disable GAP_USE_GTHREAD if not available
+dnl and disable GAP_GUI_USE_GTHREAD if not available
 dnl
 GTHREAD_LIBS=`$PKG_CONFIG --libs gthread-2.0`
 AC_SUBST(GTHREAD_LIBS)
@@ -1086,6 +1086,26 @@ else
   pkg_cfg_warning="Error: pkg-config program $PKG_CONFIG could not be executed."
   GAP_VLIBS_PNG="-lpng14"
 fi
+
+
+dnl The GAP dialog window (of the master video encoder) typically uses threads
+dnl to keep refresh alive while calling various vdieo encoder partameter dialogs
+dnl via the PDB.
+dnl A bug that occurs in Windows 64 bit environment leads to crash on attempts to
+dnl move the video encoder window when threads are used.
+dnl (Note that threads and refresh work fine on win 64 systems as long as you
+dnl do not move the window)
+dnl With the option --disable-gui-thread-support GAP can be configured to
+dnl compile an alternative implementation without threads that is recommended
+dnl for windows. When used you lose the refresh while encoder parameter window is open
+dnl but do not run into the crash.
+dnl  
+AC_ARG_ENABLE(gui_thread_support,
+              [  --disable-gui-thread-support      build GUI without g_thread_init ])
+  if test "x$enable_gui_thread_support" != "xno"; then
+        AC_DEFINE(GAP_GUI_USE_GTHREAD, 1,
+              [Define to 1 to enable gthread usage in GAP dialogs])
+  fi
 
 
 GAPVIDEOAPI_EXTLIBS="\$(GAP_VLIBS_FFMPEG) \$(GAP_VLIBS_MPEG3) \$(GAP_VLIBS_PNG) -lz \$(GTHREAD_LIBS) \$(GAP_PTHREAD_LIB) -lm"

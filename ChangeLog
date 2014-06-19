@@ -1,3 +1,21 @@
+2014-06-19 Wolfgang Hofer <hof@gimp.org>
+
+- workaround for windows specific crash of the master video encoder window
+  on attempt to move the window.
+  
+  (gtk seems to have a bug in WINDOWS 64 bit environment when the GUI uses threads
+   see also http://stackoverflow.com/questions/15675751/gtk-window-moved-then-crash)
+   
+  fortunately the master video encoder GUI already provides a fallback 
+  implementation without using threads that now can be compiled optionally
+  via configure option:
+  
+  (this option shall be used for WINDOWS 64 bit builds 
+  
+  * configure.in
+  * README
+  * gap/gap_cme_gui.c
+
 2014-05-30 Wolfgang Hofer <hof@gimp.org>
 
 - fixed typos (applied path by Anders Jonsson see #730549)
