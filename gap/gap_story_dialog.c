@@ -9539,7 +9539,7 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   argv[l_ii].label_txt = _("Ext. Transparency Format:");
   argv[l_ii].entry_width = 250;       /* pixel */
   argv[l_ii].help_txt  = _("Format string to provide external tranparency in movie clips. "
-                           "(e.g automatic alpha channel insertation)"
+                           "(e.g automatic alpha channel insertation) "
                            "this string shall contain \%s as placeholder for the basename of a videoclip and "
                            "optional \%06d as placeholder for the framenumber.");
   argv[l_ii].text_buf_len = sizeof(l_master_insert_alpha_format);
@@ -9559,7 +9559,7 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_FILESEL);
   argv[l_ii].label_txt = _("AreaFormat:");
   argv[l_ii].entry_width = 250;       /* pixel */
-  argv[l_ii].help_txt  = _("Format string for area replacement in movie clips. (e.g automatic logo insert)"
+  argv[l_ii].help_txt  = _("Format string for area replacement in movie clips. (e.g automatic logo insert) "
                            "this string shall contain \%s as placeholder for the basename of a videoclip and "
                            "optional \%06d as placeholder for the framenumber.");
   argv[l_ii].text_buf_len = sizeof(l_master_insert_area_format);
