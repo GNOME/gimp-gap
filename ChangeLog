@@ -1,4 +1,32 @@
-2014-06-19 Wolfgang Hofer <hof@gimp.org>
+2014-07-05 Wolfgang Hofer <hof@gimp.org>
+
+- additional workaround for windows 64bit specific crash of the master video encoder window
+  on attempt to move the window.
+  
+   The GAP_GUI_USE_GTHREAD (configure option -disable-gui-thread-support )
+   now just disables threads in the master video encoder
+   (i.e. calls encoder specific plug ins for the encoder parameters dialog synchron)
+   
+   .. but still uses a worker thread for the non interactive call of the productive video encoder plugin.
+   This way the encoder progress updates are still working in the master encoder GUI while the
+   video encoder is running.
+  
+   the new configure option 
+    --disable-enc-thread-support
+  
+   may be used to separtely force synchron calls of the video encoder.
+   (but this shall not be necessary even for windows 64 bit environment)
+
+- more fixes for #730239 - e.g. used in strings where it should be i.e. 
+  
+
+  * configure.in
+  * gap/gap_cme_gui.c
+  * gap/gap_fg_matting_dialog.c
+
+
+
+2014-06-18 Wolfgang Hofer <hof@gimp.org>
 
 - workaround for windows specific crash of the master video encoder window
   on attempt to move the window.

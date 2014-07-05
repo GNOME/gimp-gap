@@ -1107,6 +1107,12 @@ AC_ARG_ENABLE(gui_thread_support,
               [Define to 1 to enable gthread usage in GAP dialogs])
   fi
 
+AC_ARG_ENABLE(enc_thread_support,
+              [  --disable-enc-thread-support      do not run video encoder as thread (disables progress feedback at master video encoder GUI) ])
+  if test "x$enable_enc_thread_support" != "xno"; then
+        AC_DEFINE(GAP_ENC_USE_GTHREAD, 1,
+              [Define to 1 to enable gthread usage to call video encoders (enables progress update in master video encoder dialog])
+  fi
 
 GAPVIDEOAPI_EXTLIBS="\$(GAP_VLIBS_FFMPEG) \$(GAP_VLIBS_MPEG3) \$(GAP_VLIBS_PNG) -lz \$(GTHREAD_LIBS) \$(GAP_PTHREAD_LIB) -lm"
 GAPVIDEOAPI_EXTINCS="\$(GAP_VINCS_FFMPEG) \$(GAP_VINCS_MPEG3)"

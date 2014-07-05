@@ -41,6 +41,15 @@
 /* if not defined GAP_GUI_USE_GTHREAD (from config.h) the gui can run without the gthread library
  * (but the main window refresh will not be done while the encoder
  * parameter dialog -- that is called via pdb -- is open)
+ *
+ * if not defined GAP_ENC_USE_GTHREAD (from config.h) the encoder call is NOT doen as thread
+ * (tyou will not have progress feedback in the GUI in this case)
+ *
+ * Typically both GAP_GUI_USE_GTHREAD and GAP_ENC_USE_GTHREAD shall be enabled in Linux environment.
+ * In Windows 64 bit environment
+ *    you may  --disable-gui-thread-support (undef GAP_GUI_USE_GTHREAD )
+ *    but      --enable-enc-thread-support  (define GAP_ENC_USE_GTHREAD )
+ * as workaround for a (probably GTK related) bug that leads to crash on atttempt to move the dialog window.
  */
 
 #include <config.h>
@@ -4356,7 +4365,7 @@ gap_cme_gui_start_video_encoder_as_thread(GapCmeGlobalParams *gpp)
     return -1;
   }
 
-#ifdef GAP_GUI_USE_GTHREAD
+#ifdef GAP_ENC_USE_GTHREAD
   if(gpp->productive_encoder_thread != NULL)
   {
     return -1;

@@ -443,10 +443,10 @@ do_dialog (FgExtractDialogGuiStuff *guiStuffPtr, GapFgExtractValues *cuvals)
                        _("Select the tri_map layer (or layermask). "
                          " the tri-map shall be of same size as the input layer and "
                          " provides a rough user selection "
-                         " where WHITE pixels in the tri map defines FOREGROUND (eg. opaque result) "
-                         " BLACK pixels define BACKGROUND (eg. transparent result)"
+                         " where WHITE pixels in the tri map defines FOREGROUND (i.e. opaque result) "
+                         " BLACK pixels define BACKGROUND (i.e. transparent result)"
                          " GRAY pixels (value 1 upto 240) are marked as Undefined "
-                         " (eg. opacity to be processed by this filter.) )")
+                         " (i.e. opacity to be processed by this filter.) )")
                        , NULL);
 
   /* "Layermask" combo entry (is added in case the input drawable has a layermask that can be used as tri-mask) */
