@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-10-04 05:39+0000\n"
-"PO-Revision-Date: 2014-10-05 07:51+0700\n"
+"PO-Revision-Date: 2014-10-05 12:44+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -600,25 +600,21 @@ msgstr ""
 #. layer combo_box (altSelection)
 #. layer combo_box (alt_selection)
 #: ../gap/gap_blend_fill_main.c:1914 ../gap/gap_wr_resynth.c:503
-#, fuzzy
 msgid "Set Selection:"
-msgstr "Seksi"
+msgstr "Atur Pilihan:"
 
 #: ../gap/gap_blend_fill_main.c:1925
-#, fuzzy
 msgid "Selection From All Paths"
-msgstr "Merge Semua dari Kiri"
+msgstr "Seleksi Dari Semua Path"
 
 #: ../gap/gap_blend_fill_main.c:1930
-#, fuzzy
 msgid "Selection From Vectors File"
-msgstr "Muat Dari _Berkas"
+msgstr "Seleksi Dari Berkas Vektor"
 
 #. grab vectors button
 #: ../gap/gap_blend_fill_main.c:1960
-#, fuzzy
 msgid "Save Paths"
-msgstr "Sembunyikan pat_h"
+msgstr "Simpan Path"
 
 #: ../gap/gap_blend_fill_main.c:1965
 msgid ""
@@ -627,9 +623,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_blend_fill_main.c:1977
-#, fuzzy
 msgid "Name of SVG vector file"
-msgstr "Namespace SVG yang diharapkan tidak ditemukan dalam berkas"
+msgstr "Nama berkas vektor SVG"
 
 #. the videofile button (that invokes fileselection dialog)
 #. the basename button (that invokes the fileselection dialog)
@@ -649,7 +644,7 @@ msgstr "…"
 
 #: ../gap/gap_blend_fill_main.c:1997
 msgid "Select output svg vector file via browser"
-msgstr ""
+msgstr "Pilih berkas vektor svg keluaran melalui peramban"
 
 #. toggle bluebox
 #: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:4047
@@ -658,9 +653,8 @@ msgstr ""
 
 #. the frame
 #: ../gap/gap_bluebox.c:273
-#, fuzzy
 msgid "Select By Color"
-msgstr "Pilih warna"
+msgstr "Pilih Menurut Warna"
 
 #. the keycolor label
 #. keycolor label
@@ -675,9 +669,8 @@ msgid "Bluebox Color Picker"
 msgstr "_Warna"
 
 #: ../gap/gap_bluebox.c:318
-#, fuzzy
 msgid "Alpha Tolerance:"
-msgstr "Toleransi"
+msgstr "Toleransi Alfa:"
 
 #. lower/upper
 #. step, page
@@ -692,9 +685,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_bluebox.c:337
-#, fuzzy
 msgid "Source Alpha:"
-msgstr "[:alpha:]"
+msgstr "Alfa Sumber:"
 
 #. lower/upper
 #. step, page
@@ -704,11 +696,12 @@ msgstr "[:alpha:]"
 #: ../gap/gap_bluebox.c:344
 msgid "Affect only pixels with alpha >= source alpha where 1.0 is full opaque"
 msgstr ""
+"Mempengaruhi hanya piksel dengan alfa >= alfa sumber dimana 1.0 adalah "
+"sepenuhnya legap"
 
 #: ../gap/gap_bluebox.c:355
-#, fuzzy
 msgid "Target Alpha:"
-msgstr "[:alpha:]"
+msgstr "Alfa Target"
 
 #. lower/upper
 #. step, page
@@ -759,9 +752,8 @@ msgid "Grow selection in pixels (use negative values for shrink)"
 msgstr ""
 
 #: ../gap/gap_bluebox.c:427
-#, fuzzy
 msgid "Automatic Preview:"
-msgstr "Pratilik"
+msgstr "Pratinjau Otomatis:"
 
 #: ../gap/gap_bluebox.c:438
 msgid "ON: Keep preview image up to date"
@@ -770,14 +762,12 @@ msgstr ""
 #. button
 #. the preview frame
 #: ../gap/gap_bluebox.c:447 ../gap/gap_mov_dialog.c:5458
-#, fuzzy
 msgid "Preview"
-msgstr "Pratilik"
+msgstr "Pratinjau"
 
 #: ../gap/gap_bluebox.c:450
-#, fuzzy
 msgid "Show preview as separate image"
-msgstr "Tampilkan panel pratampil"
+msgstr "Tampilkan pratinjau sebagai citra terpisah"
 
 #: ../gap/gap_bluebox.c:458
 msgid "Previewsize:"
@@ -790,12 +780,11 @@ msgstr ""
 #. lowr/upper unconstrained
 #: ../gap/gap_bluebox.c:465
 msgid "Size of the preview image in percent of the original"
-msgstr ""
+msgstr "Ukuran citra pratinjau dalam persen dari aslinya"
 
 #: ../gap/gap_bluebox.c:860
-#, fuzzy
 msgid "Threshold Mode:"
-msgstr "Mode:"
+msgstr "Mode Ambang:"
 
 #. radio button thres_mode RGB
 #: ../gap/gap_bluebox.c:870
@@ -884,7 +873,7 @@ msgstr "Ambang H:"
 #. lowr/upper unconstrained
 #: ../gap/gap_bluebox.c:1035
 msgid "Threshold for hue"
-msgstr ""
+msgstr "Ambang bagi hue"
 
 #: ../gap/gap_bluebox.c:1045
 msgid "Threshold S:"
@@ -940,22 +929,22 @@ msgstr ""
 
 #: ../gap/gap_bluebox.c:1612
 msgid "BlueboxPreview.xcf"
-msgstr ""
+msgstr "BlueboxPreview.xcf"
 
 #: ../gap/gap_bluebox.c:1613
 msgid "Previewlayer"
-msgstr ""
+msgstr "Previewlayer"
 
 #. at 1.st call create a mastercopy of the original layer
 #. * and scale to preview size
 #.
 #: ../gap/gap_bluebox.c:1642
 msgid "Masterlayer"
-msgstr ""
+msgstr "Masterlayer"
 
 #: ../gap/gap_bluebox_main.c:180
 msgid "Bluebox ..."
-msgstr ""
+msgstr "Bluebox …"
 
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
 #. Menu names
@@ -1007,21 +996,18 @@ msgstr "Lapis"
 
 #. apply immediate checkbutton
 #: ../gap/gap_colormask_dialog.c:301
-#, fuzzy
 msgid "Apply Immediately"
-msgstr "Terapkan"
+msgstr "Terapkan Seketika"
 
 #. show expert options checkbutton
 #: ../gap/gap_colormask_dialog.c:316
-#, fuzzy
 msgid "Show All Options"
-msgstr "Tampilkan Opsi oVirt"
+msgstr "Tampilkan Semua Opsi"
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:349
-#, fuzzy
 msgid "Filter Options"
-msgstr "Opsi:"
+msgstr "Opsi Penyaring"
 
 #: ../gap/gap_colormask_dialog.c:375
 #, fuzzy
@@ -1052,14 +1038,12 @@ msgstr ""
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:443
-#, fuzzy
 msgid "Opacity Options"
-msgstr "Opsi:"
+msgstr "Opsi Kelegapan"
 
 #: ../gap/gap_colormask_dialog.c:466
-#, fuzzy
 msgid "Lower Opacity:"
-msgstr "[:lower:]"
+msgstr ""
 
 #: ../gap/gap_colormask_dialog.c:469
 msgid ""
@@ -1068,9 +1052,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_colormask_dialog.c:483
-#, fuzzy
 msgid "Upper Opacity:"
-msgstr "[:upper:]"
+msgstr ""
 
 #: ../gap/gap_colormask_dialog.c:486
 msgid ""
@@ -1079,9 +1062,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_colormask_dialog.c:501
-#, fuzzy
 msgid "Trigger Alpha:"
-msgstr "Trigger"
+msgstr "Alfa Picu:"
 
 #: ../gap/gap_colormask_dialog.c:504
 msgid ""
@@ -1100,9 +1082,8 @@ msgid "Expert Options"
 msgstr "Opsi:"
 
 #: ../gap/gap_colormask_dialog.c:565
-#, fuzzy
 msgid "_Algorithm:"
-msgstr "_Algoritma"
+msgstr "_Algoritma:"
 
 #. --------------- start of keycolor widgets  -------------
 #. enableKeyColorThreshold checkbutton
@@ -1112,15 +1093,13 @@ msgstr ""
 
 #. the keycolor label
 #: ../gap/gap_colormask_dialog.c:602
-#, fuzzy
 msgid "Key color:"
-msgstr "Kunci"
+msgstr "Warna kunci:"
 
 #. the keycolor button
 #: ../gap/gap_colormask_dialog.c:608
-#, fuzzy
 msgid "Key color"
-msgstr "Kunci"
+msgstr "Warna kunci"
 
 #: ../gap/gap_colormask_dialog.c:629
 #, fuzzy
@@ -1189,9 +1168,8 @@ msgstr "Awakutu"
 
 #. the layercolor label
 #: ../gap/gap_colormask_dialog.c:871
-#, fuzzy
 msgid "Layer color:"
-msgstr "Lapis"
+msgstr "Warna lapis:"
 
 #. the layercolor button
 #: ../gap/gap_colormask_dialog.c:877
@@ -1201,9 +1179,8 @@ msgstr "Lapis"
 
 #. the maskcolor label
 #: ../gap/gap_colormask_dialog.c:893
-#, fuzzy
 msgid "Mask color:"
-msgstr "_Warna"
+msgstr "Warna masker:"
 
 #. the maskcolor button
 #: ../gap/gap_colormask_dialog.c:899
@@ -1262,14 +1239,12 @@ msgstr "Terapkan"
 #. Menu names
 #: ../gap/gap_colormask_main.c:266 ../gap/gap_wr_layermode.c:140
 #: ../gap/gap_wr_opacity.c:150
-#, fuzzy
 msgid "<Image>/Video/Layer/Attributes/"
-msgstr "Flickr;Citra;Gambar;Foto;Video;Pengunggah;"
+msgstr "<Image>/Video/Layer/Attributes/"
 
 #: ../gap/gap_dbbrowser_utils.c:261
-#, fuzzy
 msgid "_Search:"
-msgstr "_Cari"
+msgstr "_Cari:"
 
 #. Layer Group handling mode the label
 #: ../gap/gap_dbbrowser_utils.c:362
@@ -1279,9 +1254,8 @@ msgstr "Lapis"
 
 #. GroupLayer handling mode the radio buttons
 #: ../gap/gap_dbbrowser_utils.c:370
-#, fuzzy
 msgid "Process"
-msgstr "dalam proses"
+msgstr "Proses"
 
 #: ../gap/gap_dbbrowser_utils.c:374
 msgid ""
@@ -1337,14 +1311,12 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_dbbrowser_utils.c:646
-#, fuzzy
 msgid "** not available **"
-msgstr "Tidak tersedia"
+msgstr "** tak tersedia **"
 
 #: ../gap/gap_dbbrowser_utils.c:898
-#, fuzzy
 msgid "Searching by name - please wait"
-msgstr "Memindai %s. Harap tunggu..."
+msgstr "Mencari menurut nama - harap tunggu"
 
 #: ../gap/gap_dbbrowser_utils.c:921
 #, fuzzy
@@ -1352,19 +1324,16 @@ msgid "Searching by blurb - please wait"
 msgstr "Memindai %s. Harap tunggu..."
 
 #: ../gap/gap_dbbrowser_utils.c:933
-#, fuzzy
 msgid "Searching by menupath - please wait"
-msgstr "Memindai %s. Harap tunggu..."
+msgstr "Memindai %s. Harap tunggu…"
 
 #: ../gap/gap_dbbrowser_utils.c:937
-#, fuzzy
 msgid "Searching - please wait"
-msgstr "Memindai %s. Harap tunggu..."
+msgstr "Mencari - harap tunggu"
 
 #: ../gap/gap_dbbrowser_utils.c:1036
-#, fuzzy
 msgid "No matches"
-msgstr "Cocok"
+msgstr "Tak ada yang cocok"
 
 #: ../gap/gap_decode_mplayer.c:224
 msgid "Requirements to run the mplayer based video split"
@@ -1388,14 +1357,12 @@ msgid "An error occurred while trying to call mplayer:"
 msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:286
-#, fuzzy
 msgid "mplayer Information"
-msgstr "_Informasi"
+msgstr "Informasi mplayer"
 
 #: ../gap/gap_decode_mplayer.c:427
-#, fuzzy
 msgid "Input Video:"
-msgstr "_Masukan"
+msgstr "Masukan Masukan:"
 
 #: ../gap/gap_decode_mplayer.c:428
 msgid ""
@@ -1404,9 +1371,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:445
-#, fuzzy
 msgid "Start Time:"
-msgstr "Mulai waktu"
+msgstr "Waktu Mulai:"
 
 #: ../gap/gap_decode_mplayer.c:446
 msgid "Extracting starts at the specified time offset HH:MM:SS in the video"
@@ -1416,12 +1382,8 @@ msgstr ""
 #. Frames Overlap duration button
 #: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3407
 #: ../gap/gap_story_att_trans_dlg.c:3661
-#, fuzzy
 msgid "Frames:"
-msgstr ""
-"Templat adalah suatu berkas yang memuat elemen disain bagi suatu dokumen, "
-"termasuk gaya pemformatan, gambar latar, bingkai, grafik, ruas, tata letak "
-"halaman, dan teks."
+msgstr "Bingkai:"
 
 #: ../gap/gap_decode_mplayer.c:456
 #, fuzzy
@@ -1450,9 +1412,8 @@ msgid "Number of audiotrack to extract. (0 == ignore audio)"
 msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:492
-#, fuzzy
 msgid "Output Audio:"
-msgstr "Piranti Keluaran Audio Berubah"
+msgstr "Audio Keluaran:"
 
 #: ../gap/gap_decode_mplayer.c:493
 msgid ""
@@ -1471,9 +1432,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:512
-#, fuzzy
 msgid "Format:"
-msgstr "_Format"
+msgstr "Format:"
 
 #: ../gap/gap_decode_mplayer.c:513
 msgid ""
@@ -1493,9 +1453,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:532 ../gap/gap_decode_xanim.c:294
-#, fuzzy
 msgid "Jpeg Quality:"
-msgstr "_Kualitas"
+msgstr "Kualitas Jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:533
 msgid ""
@@ -1551,9 +1510,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:591 ../gap/gap_decode_xanim.c:306
-#, fuzzy
 msgid "Open"
-msgstr "Buka dengan:"
+msgstr "Buka"
 
 #: ../gap/gap_decode_mplayer.c:592 ../gap/gap_decode_xanim.c:307
 msgid "Open the 1st one of the extracted frames"
@@ -1569,7 +1527,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:604
 msgid "MPlayer 1.0pre5:"
-msgstr ""
+msgstr "MPlayer 1.0pre5:"
 
 #: ../gap/gap_decode_mplayer.c:605
 msgid ""
@@ -1602,22 +1560,19 @@ msgstr "Target seek ilegal"
 
 #: ../gap/gap_decode_mplayer.c:692 ../gap/gap_decode_xanim.c:365
 #: ../gap/gap_range_ops.c:1544 ../gap/gap_split.c:102
-#, fuzzy
 msgid "Overwrite Frame"
-msgstr "_Timpa"
+msgstr "Timpa Bingkai"
 
 #: ../gap/gap_decode_mplayer.c:694 ../gap/gap_decode_xanim.c:367
 #: ../gap/gap_range_ops.c:1546 ../gap/gap_split.c:104
 #: ../gap/gap_vex_dialog.c:239
-#, fuzzy
 msgid "Overwrite All"
-msgstr "_Timpa"
+msgstr "Timpa Semua"
 
 #: ../gap/gap_decode_mplayer.c:703 ../gap/gap_decode_xanim.c:376
 #: ../gap/gap_split.c:113
-#, fuzzy
 msgid "File already exists"
-msgstr "File sudah ada. Timpa?"
+msgstr "Berkas sudah ada"
 
 #: ../gap/gap_decode_mplayer.c:972
 #, c-format
@@ -1770,9 +1725,8 @@ msgid "Framenumber of last frame to extract"
 msgstr ""
 
 #: ../gap/gap_decode_xanim.c:275
-#, fuzzy
 msgid "Format"
-msgstr "_Format"
+msgstr "Format"
 
 #: ../gap/gap_decode_xanim.c:276
 msgid ""
@@ -1781,9 +1735,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_decode_xanim.c:283
-#, fuzzy
 msgid "Extract Frames"
-msgstr "Ekstrak"
+msgstr "Ekstrak Bingkai"
 
 #: ../gap/gap_decode_xanim.c:284
 #, fuzzy
@@ -1792,9 +1745,8 @@ msgstr "_Aktifkan"
 
 #. create extract audio otone track button
 #: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:7037
-#, fuzzy
 msgid "Extract Audio"
-msgstr "Ekstrak"
+msgstr "Ekstrak Audio"
 
 #: ../gap/gap_decode_xanim.c:289
 msgid ""
@@ -1898,9 +1850,8 @@ msgid "Frame number (phase) to be rendered."
 msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:648
-#, fuzzy
 msgid "XML file:"
-msgstr "Format Berkas XML Visio"
+msgstr "Berkas XML:"
 
 #: ../gap/gap_detail_align_exec.c:649
 msgid ""
@@ -1915,9 +1866,8 @@ msgstr ""
 #: ../gap/gap_story_dialog.c:5307 ../gap/gap_story_dialog.c:5664
 #: ../gap/gap_video_index_creator.c:1006 ../gap/gap_wr_opacity.c:356
 #: ../vid_common/gap_cme_gui.c:3320
-#, fuzzy
 msgid "Default"
-msgstr "Standar"
+msgstr "Baku"
 
 #: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1475
 #: ../gap/gap_mov_dialog.c:1571 ../gap/gap_mpege.c:374
@@ -2058,9 +2008,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1391
-#, fuzzy
 msgid "Log Scaling:"
-msgstr "Menskalakan"
+msgstr "Penskalaan Log"
 
 #: ../gap/gap_detail_tracking_exec.c:1392
 msgid ""
@@ -2069,9 +2018,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1402
-#, fuzzy
 msgid "BG is Reference:"
-msgstr "Referensi"
+msgstr "BG adalah Acuan:"
 
 #: ../gap/gap_detail_tracking_exec.c:1403
 msgid ""
@@ -2082,9 +2030,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1411
-#, fuzzy
 msgid "Remove Middle Layers:"
-msgstr "Tengah"
+msgstr "Hapus Lapisan Tengah:"
 
 #: ../gap/gap_detail_tracking_exec.c:1412
 msgid ""
@@ -2094,36 +2041,32 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1423
-#, fuzzy
 msgid "Const X Offset:"
-msgstr "Ofset X"
+msgstr "Ofset X Konst:"
 
 #: ../gap/gap_detail_tracking_exec.c:1424
 msgid "This value is added when logging captured X coordinates."
 msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1437
-#, fuzzy
 msgid "Const Y Offset:"
-msgstr "Ofset Y"
+msgstr "Ofset Y Konst:"
 
 #: ../gap/gap_detail_tracking_exec.c:1438
 msgid "This value is added when logging captured Y coordinates."
 msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1451
-#, fuzzy
 msgid "Const Rotate Offset:"
-msgstr "Rotasi"
+msgstr "Ofset Rotasi Konst:"
 
 #: ../gap/gap_detail_tracking_exec.c:1452
 msgid "This value is added when logging rotation values."
 msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:1464
-#, fuzzy
 msgid "MovePath XML file:"
-msgstr "Berkas untuk menyelaraskan XML profil"
+msgstr "Berkas XML MovePath:"
 
 #: ../gap/gap_detail_tracking_exec.c:1465
 msgid ""
@@ -2153,9 +2096,8 @@ msgid "Exact Align via 4-Point Path."
 msgstr ""
 
 #: ../gap/gap_detail_tracking_main.c:313
-#, fuzzy
 msgid "<Image>/Layer/Transform/"
-msgstr "_Ubah"
+msgstr "<Image>/Layer/Transform/"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
@@ -2167,9 +2109,8 @@ msgstr "Ke Latar Depan"
 #. Options section
 #: ../gap/gap_fg_from_sel_dialog.c:276 ../gap/gap_fg_matting_dialog.c:408
 #: ../gap/gap_mov_dialog.c:1574 ../gap/gap_wr_layermode.c:329
-#, fuzzy
 msgid "Options"
-msgstr "Opsi:"
+msgstr "Opsi"
 
 #. the InnerRadius spinbutton
 #: ../gap/gap_fg_from_sel_dialog.c:297
@@ -2258,14 +2199,12 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_fg_matting_exec.c:130
-#, fuzzy
 msgid "Foreground Extract"
-msgstr "Ke Latar Depan"
+msgstr "Ekstrak Latar Depan"
 
 #: ../gap/gap_fg_matting_main.c:177
-#, fuzzy
 msgid "Foreground Extract..."
-msgstr "Ke Latar Depan"
+msgstr "Ekstrak Latar Depan…"
 
 #: ../gap/gap_fg_matting_main.c:203
 #, fuzzy
@@ -2274,9 +2213,8 @@ msgstr "Latar depan pilihan:"
 
 #. Menu names
 #: ../gap/gap_fg_matting_main.c:213
-#, fuzzy
 msgid "<Image>/Layer/Transparency/"
-msgstr "Tanpa transparansi"
+msgstr "<Image>/Layer/Transparency/"
 
 #: ../gap/gap_filter_foreach.c:143 ../gap/gap_mod_layer.c:125
 #, fuzzy
@@ -2301,9 +2239,8 @@ msgstr ""
 
 #: ../gap/gap_filter_foreach.c:158 ../gap/gap_mod_layer.c:132
 #: ../gap/gap_story_dialog.c:6606
-#, fuzzy
 msgid "Continue"
-msgstr "_Lanjutkan"
+msgstr "Lanjutkan"
 
 #: ../gap/gap_filter_foreach.c:162
 #, fuzzy, c-format
@@ -2347,7 +2284,6 @@ msgid "Select Filter for Animated Apply"
 msgstr "Berusaha menerapkan filter yang invalid"
 
 #: ../gap/gap_filter_foreach.c:703 ../gap/gap_mod_layer.c:1451
-#, fuzzy
 msgid "Apply"
 msgstr "Terapkan"
 
@@ -2358,9 +2294,8 @@ msgstr "Lapisan:"
 
 #. ------------------ ALTernative Iterators ------------------------------
 #: ../gap/gap_filter_main.c:159 ../gap/gap_fmac_main.c:219
-#, fuzzy
 msgid "<Image>/Filters/"
-msgstr "_Filter"
+msgstr "<Image>/Filters/"
 
 #: ../gap/gap_fire_pattern.c:1043 ../gap/gap_water_pattern.c:430
 #, c-format
@@ -2471,9 +2406,8 @@ msgid "Seed for creating random pattern (cloud1 layer) use 0 for random value."
 msgstr ""
 
 #: ../gap/gap_fire_pattern.c:1961
-#, fuzzy
 msgid "Detail:"
-msgstr "Tampilkan Detil"
+msgstr "Rincian:"
 
 #: ../gap/gap_fire_pattern.c:1971
 msgid "Detail level for creating random pattern (cloud layer)"
@@ -2483,9 +2417,8 @@ msgstr ""
 #. the layer_pattern label
 #: ../gap/gap_fire_pattern.c:1983 ../gap/gap_mod_layer_dialog.c:1669
 #: ../gap/gap_range_ops.c:793
-#, fuzzy
 msgid "Layer Pattern:"
-msgstr "_Pola:"
+msgstr "Pola Lapisan:"
 
 #: ../gap/gap_fire_pattern.c:1998 ../gap/gap_water_pattern.c:1242
 #: ../gap/gap_water_pattern.c:1267
@@ -2669,9 +2602,8 @@ msgstr "_Pola:"
 #. Menu names
 #: ../gap/gap_fire_pattern.c:2539 ../gap/gap_name2layer_main.c:176
 #: ../gap/gap_water_pattern.c:1668
-#, fuzzy
 msgid "<Image>/Video/Layer/Render/"
-msgstr "Flickr;Citra;Gambar;Foto;Video;Pengunggah;"
+msgstr "<Image>/Video/Layer/Render/"
 
 #: ../gap/gap_fmac_base.c:205
 #, c-format
@@ -2740,23 +2672,21 @@ msgid "Menu Path"
 msgstr "Menu"
 
 #: ../gap/gap_fmac_main.c:780
-#, fuzzy
 msgid "Information"
-msgstr "_Informasi"
+msgstr "Informasi"
 
 #: ../gap/gap_fmac_main.c:893
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %d"
-msgstr "Debugger berakhir dengan galat %d: %s\n"
+msgstr "Galat: %d"
 
 #: ../gap/gap_fmac_main.c:1018
 msgid "** No menu path available **"
 msgstr ""
 
 #: ../gap/gap_fmac_main.c:1056 ../gap/gap_video_index_creator.c:1280
-#, fuzzy
 msgid "** Empty **"
-msgstr "(kosong)"
+msgstr "** Kosong **"
 
 #: ../gap/gap_fmac_main.c:1065
 #, fuzzy
@@ -2771,22 +2701,19 @@ msgstr "Tak bisa menampilkan bantuan bagi \"%s\""
 
 #. Button Delete All
 #: ../gap/gap_fmac_main.c:1113
-#, fuzzy
 msgid "Delete All"
 msgstr "Hapus Semua"
 
 #: ../gap/gap_fmac_main.c:1117
-#, fuzzy
 msgid "Delete the filtermacro scriptfile"
-msgstr "Hapus..."
+msgstr "Hapus…"
 
 #. Button Delete
 #. radio button DELETE
 #: ../gap/gap_fmac_main.c:1126 ../gap/gap_morph_dialog.c:2977
 #: ../gap/gap_onion_main.c:185
-#, fuzzy
 msgid "Delete"
-msgstr "Hapus..."
+msgstr "Hapus"
 
 #: ../gap/gap_fmac_main.c:1130
 #, fuzzy
@@ -2795,9 +2722,8 @@ msgstr "Hapus yang dipilih"
 
 #. Button Add
 #: ../gap/gap_fmac_main.c:1139
-#, fuzzy
 msgid "Add"
-msgstr "T_ambah..."
+msgstr "Tambah"
 
 #: ../gap/gap_fmac_main.c:1143
 msgid ""
@@ -2809,9 +2735,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_fmac_main.c:1163 ../gap/gap_player_dialog.c:8571
-#, fuzzy
 msgid "Close window"
-msgstr "Tutup jendela ini"
+msgstr "Tutup jendela"
 
 #: ../gap/gap_fmac_main.c:1177
 msgid "Apply filtermacro script on current drawable and close window"
@@ -2837,16 +2762,16 @@ msgstr "Nyatakan preferensi Anda bagi ekstraksi arsip."
 
 #: ../gap/gap_frontends_main.c:166
 msgid "MPEG1..."
-msgstr ""
+msgstr "MPEG1…"
 
 #: ../gap/gap_frontends_main.c:179
 msgid "MPEG2..."
-msgstr ""
+msgstr "MPEG2…"
 
 #. Menu names
 #: ../gap/gap_frontends_main.c:187
 msgid "<Image>/Video/Encode/"
-msgstr ""
+msgstr "<Image>/Video/Encode/"
 
 #: ../gap/gap_lib.c:2016
 msgid ""
@@ -3842,9 +3767,8 @@ msgstr "Hapus Titik Sambungan"
 
 #. radio button ZOOM
 #: ../gap/gap_morph_dialog.c:2999
-#, fuzzy
 msgid "Zoom"
-msgstr "Perbesar"
+msgstr "Zum"
 
 #: ../gap/gap_morph_dialog.c:3008
 msgid ""
@@ -3902,9 +3826,8 @@ msgstr "Pilih Tujuan"
 #. the x/y offest labels
 #: ../gap/gap_morph_dialog.c:3194 ../gap/gap_mov_dialog.c:5344
 #: ../gap/gap_name2layer_main.c:492 ../gap/gap_resi_dialog.c:847
-#, fuzzy
 msgid "X:"
-msgstr "X"
+msgstr "X:"
 
 #: ../gap/gap_morph_dialog.c:3216
 #, fuzzy
@@ -3959,14 +3882,12 @@ msgid "Swap"
 msgstr "Ruang Swap"
 
 #: ../gap/gap_morph_dialog.c:3549
-#, fuzzy
 msgid "Source"
 msgstr "Sumber"
 
 #: ../gap/gap_morph_dialog.c:3564
-#, fuzzy
 msgid "Destination"
-msgstr "Tujuan:"
+msgstr "Tujuan"
 
 #. the nubner of ShapePoints label
 #: ../gap/gap_morph_dialog.c:3583
@@ -4005,9 +3926,8 @@ msgstr ""
 
 #. the deform intensity label
 #: ../gap/gap_morph_dialog.c:3679 ../gap/gap_morph_tween_dialog.c:787
-#, fuzzy
 msgid "Intensity:"
-msgstr "Intensitas warna."
+msgstr "Intensitas:"
 
 #: ../gap/gap_morph_dialog.c:3702
 #, fuzzy
@@ -4083,9 +4003,8 @@ msgstr ""
 
 #. the upper workpoint label
 #: ../gap/gap_morph_dialog.c:3889
-#, fuzzy
 msgid "Pointset B:"
-msgstr "\\b"
+msgstr ""
 
 #. the LOCATE label
 #: ../gap/gap_morph_dialog.c:3907
@@ -4126,9 +4045,8 @@ msgstr ""
 
 #. the use_quality_wp_selection checkbutton
 #: ../gap/gap_morph_dialog.c:4006 ../gap/gap_morph_tween_dialog.c:866
-#, fuzzy
 msgid "Quality"
-msgstr "_Kualitas"
+msgstr "Kualitas"
 
 #: ../gap/gap_morph_dialog.c:4016 ../gap/gap_morph_tween_dialog.c:875
 msgid ""
@@ -4244,7 +4162,7 @@ msgstr "Penjangkit Kelas"
 #. Menu names
 #: ../gap/gap_morph_main.c:298
 msgid "<Image>/Video/Morphing/"
-msgstr ""
+msgstr "<Image>/Video/Morphing/"
 
 #: ../gap/gap_morph_shape.c:224
 #, c-format
@@ -4312,9 +4230,8 @@ msgstr "Jangkitkan patch relatif terhadap:"
 
 #: ../gap/gap_morph_tween_dialog.c:700 ../gap/gap_morph_tween_dialog.c:1204
 #: ../gap/gap_story_properties.c:4185
-#, fuzzy
 msgid "From:"
-msgstr "_Dari:"
+msgstr "Dari:"
 
 #: ../gap/gap_morph_tween_dialog.c:703 ../gap/gap_morph_tween_dialog.c:1207
 #, fuzzy
@@ -4324,7 +4241,7 @@ msgstr "Bingkai:"
 #: ../gap/gap_morph_tween_dialog.c:716 ../gap/gap_morph_tween_dialog.c:1225
 #: ../gap/gap_story_properties.c:4214
 msgid "To:"
-msgstr ""
+msgstr "Ke:"
 
 #: ../gap/gap_morph_tween_dialog.c:719 ../gap/gap_morph_tween_dialog.c:1228
 #, fuzzy
@@ -4447,9 +4364,8 @@ msgstr "_Buat"
 
 #. label
 #: ../gap/gap_morph_tween_dialog.c:1158
-#, fuzzy
 msgid "Information:"
-msgstr "_Informasi"
+msgstr "Informasi:"
 
 #: ../gap/gap_morph_tween_dialog.c:1169
 #, c-format
@@ -4500,7 +4416,7 @@ msgstr ""
 #. label
 #: ../gap/gap_morph_tween_dialog.c:1287
 msgid "Subdirectory:"
-msgstr ""
+msgstr "Subdirektori:"
 
 #: ../gap/gap_morph_tween_dialog.c:1302
 msgid ""
@@ -4732,7 +4648,6 @@ msgstr ""
 #: ../gap/gap_mov_dialog.c:3802 ../gap/gap_name2layer_main.c:461
 #: ../gap/gap_vex_dialog.c:2435 ../gap/gap_video_index_creator.c:982
 #: ../gap/gap_wr_layermode.c:342 ../gap/gap_wr_opacity.c:344
-#, fuzzy
 msgid "Mode:"
 msgstr "Mode:"
 
@@ -4825,9 +4740,8 @@ msgid "Loop Reverse"
 msgstr "Te_rbalik"
 
 #: ../gap/gap_mov_dialog.c:3912
-#, fuzzy
 msgid "Once"
-msgstr "Terim_a Sekali"
+msgstr "Sekali"
 
 #: ../gap/gap_mov_dialog.c:3913
 #, fuzzy
@@ -5201,9 +5115,8 @@ msgstr ""
 #. the width label
 #: ../gap/gap_mov_dialog.c:4770 ../gap/gap_story_dialog.c:9390
 #: ../vid_common/gap_cme_gui.c:3711
-#, fuzzy
 msgid "Width:"
-msgstr "_Lebar..."
+msgstr "Lebar:"
 
 #. label text
 #. scalesize spinsize
@@ -5222,9 +5135,8 @@ msgstr ""
 #. the height label
 #: ../gap/gap_mov_dialog.c:4788 ../gap/gap_story_dialog.c:9401
 #: ../vid_common/gap_cme_gui.c:3764
-#, fuzzy
 msgid "Height:"
-msgstr "Tinggi"
+msgstr "Tinggi:"
 
 #. label text
 #. scalesize spinsize
@@ -5258,9 +5170,8 @@ msgstr ""
 #. Rotation
 #. table col, row
 #: ../gap/gap_mov_dialog.c:4840 ../gap/gap_story_att_trans_dlg.c:3705
-#, fuzzy
 msgid "Rotate:"
-msgstr "Rotasi"
+msgstr "Putar:"
 
 #. label text
 #. scalesize spinsize
@@ -5455,9 +5366,8 @@ msgstr ""
 #. accelaration characteristic for Size (i.e. Zoom)
 #. table col, row
 #: ../gap/gap_mov_dialog.c:5118
-#, fuzzy
 msgid "Scale:"
-msgstr "Skala"
+msgstr "Skala:"
 
 #. label text
 #. scalesize spinsize
@@ -5476,9 +5386,8 @@ msgstr ""
 #. accelaration characteristic for Rotation
 #. table col, row
 #: ../gap/gap_mov_dialog.c:5137
-#, fuzzy
 msgid "Rotation:"
-msgstr "Lokasi:"
+msgstr "Rotasi:"
 
 #. label text
 #. scalesize spinsize
@@ -5497,9 +5406,8 @@ msgstr ""
 #. accelaration characteristic for Perspective
 #. table col, row
 #: ../gap/gap_mov_dialog.c:5155
-#, fuzzy
 msgid "Perspective:"
-msgstr "Perspektif manajer data"
+msgstr "Perspektif:"
 
 #. label text
 #. scalesize spinsize
@@ -5599,9 +5507,8 @@ msgid "Scale and Modify"
 msgstr "_Ubah"
 
 #: ../gap/gap_mov_dialog.c:5424
-#, fuzzy
 msgid "Perspective"
-msgstr "Perspektif manajer data"
+msgstr "Perspektif"
 
 #: ../gap/gap_mov_dialog.c:5430
 #, fuzzy
@@ -5610,7 +5517,7 @@ msgstr "Seksi"
 
 #: ../gap/gap_mov_dialog.c:5436
 msgid "Acceleration"
-msgstr ""
+msgstr "Akselerasi"
 
 #: ../gap/gap_mov_dialog.c:5554
 msgid "Segment:"
@@ -5636,9 +5543,8 @@ msgstr ""
 
 #. toggle Show path
 #: ../gap/gap_mov_dialog.c:5636
-#, fuzzy
 msgid "Path"
-msgstr "Path:"
+msgstr "Path"
 
 #: ../gap/gap_mov_dialog.c:5640
 msgid ""
@@ -5648,9 +5554,8 @@ msgstr ""
 
 #. toggle Show cursor
 #: ../gap/gap_mov_dialog.c:5654
-#, fuzzy
 msgid "Cursor"
-msgstr "Jalankan sampai Ku_rsor"
+msgstr "Kursor"
 
 #: ../gap/gap_mov_dialog.c:5658
 #, fuzzy
@@ -5659,9 +5564,8 @@ msgstr "Jalankan sampai Ku_rsor"
 
 #. toggle Show Grid
 #: ../gap/gap_mov_dialog.c:5669
-#, fuzzy
 msgid "Grid"
-msgstr "Jejaring"
+msgstr "Kisi"
 
 #: ../gap/gap_mov_dialog.c:5673
 #, fuzzy
@@ -5682,7 +5586,6 @@ msgstr "Pemb_aharuan otomatis setiap:"
 #. the Preview Frame Number
 #. table col, row
 #: ../gap/gap_mov_dialog.c:5706
-#, fuzzy
 msgid "Frame:"
 msgstr "Bingkai:"
 
@@ -5746,7 +5649,6 @@ msgstr ""
 #: ../gap/gap_mov_dialog.c:7019 ../gap/gap_player_dialog.c:491
 #: ../gap/gap_story_dialog.c:5311 ../gap/gap_story_dialog.c:9169
 #: ../gap/gap_story_dialog.c:9619
-#, fuzzy
 msgid "Settings"
 msgstr "Pengaturan"
 
@@ -5894,7 +5796,6 @@ msgid "Framerate in frames/second"
 msgstr "second:detik"
 
 #: ../gap/gap_mpege.c:331
-#, fuzzy
 msgid "Bitrate:"
 msgstr "Laju bit:"
 
@@ -5947,9 +5848,8 @@ msgid "Ignore I/P/QSCALE values and use constant bit-rate"
 msgstr ""
 
 #: ../gap/gap_mpege.c:394
-#, fuzzy
 msgid "Pattern:"
-msgstr "_Pola:"
+msgstr "Pola:"
 
 #. pixel
 #: ../gap/gap_mpege.c:396
@@ -6105,7 +6005,6 @@ msgid "Position Y-offset in pixels"
 msgstr "Ofset Y"
 
 #: ../gap/gap_name2layer_main.c:513
-#, fuzzy
 msgid "Antialias:"
 msgstr "Antialias:"
 
@@ -6251,27 +6150,23 @@ msgstr ""
 
 #. menu_item copy
 #: ../gap/gap_navigator_dialog.c:4161
-#, fuzzy
 msgid "Copy"
-msgstr "Salin..."
+msgstr "Salin"
 
 #. menu_item cut
 #: ../gap/gap_navigator_dialog.c:4171
-#, fuzzy
 msgid "Cut"
 msgstr "Potong"
 
 #. menu_item paste before
 #: ../gap/gap_navigator_dialog.c:4180
-#, fuzzy
 msgid "Paste Before"
-msgstr "_Tempel"
+msgstr "Tempel Sebelum"
 
 #. menu_item copy
 #: ../gap/gap_navigator_dialog.c:4189
-#, fuzzy
 msgid "Paste After"
-msgstr "Sesudah"
+msgstr "Tempel Sesudah"
 
 #. menu_item copy
 #: ../gap/gap_navigator_dialog.c:4198
@@ -6287,9 +6182,8 @@ msgstr "_Kosongkan"
 
 #. menu_item Select All
 #: ../gap/gap_navigator_dialog.c:4217
-#, fuzzy
 msgid "Select All"
-msgstr "_Pilih Semua"
+msgstr "Pilih Semua"
 
 #. menu_item Select None
 #: ../gap/gap_navigator_dialog.c:4226
@@ -6395,7 +6289,7 @@ msgstr ""
 
 #: ../gap/gap_onion_dialog.c:1089
 msgid "Cyclic"
-msgstr ""
+msgstr "Siklik"
 
 #: ../gap/gap_onion_dialog.c:1095
 msgid "ON: Next frame of last is first and vice versa."
@@ -6482,9 +6376,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_onion_dialog.c:1275
-#, fuzzy
 msgid "Invert Selection"
-msgstr "Balik"
+msgstr "Balik Pilihan"
 
 #: ../gap/gap_onion_dialog.c:1279
 msgid ""
@@ -6493,18 +6386,17 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_onion_dialog.c:1283
-#, fuzzy
 msgid "Select Pattern:"
-msgstr "_Pola:"
+msgstr "Pilih Pola:"
 
 #: ../gap/gap_onion_dialog.c:1296
 msgid "Select layernames by pattern (depends on mode and options)"
 msgstr ""
 
 #: ../gap/gap_onion_dialog.c:1305
-#, fuzzy, c-format
+#, c-format
 msgid "Set for: %s"
-msgstr "tidak dapat menata protokol '%s'"
+msgstr "tidak dapat menata protokol ‘%s’"
 
 #: ../gap/gap_onion_dialog.c:1315
 msgid "Set onionskin parameters for the current video"
@@ -6578,7 +6470,7 @@ msgstr "Toggle Visibilitas statusbar"
 #. Menu names
 #: ../gap/gap_onion_main.c:205
 msgid "<Image>/Video/Onionskin/"
-msgstr ""
+msgstr "<Image>/Video/Onionskin/"
 
 #: ../gap/gap_onion_worker.c:368
 #, fuzzy
@@ -6645,9 +6537,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_player_dialog.c:647
-#, fuzzy
 msgid "Audio Delay"
-msgstr "Tunda"
+msgstr "Tundaan Audio"
 
 #: ../gap/gap_player_dialog.c:659
 msgid "Syncron"
@@ -6660,7 +6551,7 @@ msgstr ""
 #: ../gap/gap_player_dialog.c:675
 #, c-format
 msgid "%d (at %.4f frames/sec)"
-msgstr ""
+msgstr "%d (pada %.4f bingkai/dtk)"
 
 #: ../gap/gap_player_dialog.c:758
 #, c-format
@@ -6795,9 +6686,9 @@ msgid "Canceled"
 msgstr "Otentikasi dibatalkan"
 
 #: ../gap/gap_player_dialog.c:4824
-#, fuzzy, c-format
+#, c-format
 msgid "Delay %.2f"
-msgstr "Tunda"
+msgstr "Tundaan %.2f"
 
 #: ../gap/gap_player_dialog.c:6551
 #, c-format
@@ -6869,9 +6760,8 @@ msgid "Volume:"
 msgstr "Volume:"
 
 #: ../gap/gap_player_dialog.c:6933
-#, fuzzy
 msgid "Audio Volume"
-msgstr "Volume"
+msgstr "Volume Audio"
 
 #. check button
 #: ../gap/gap_player_dialog.c:6939
@@ -6887,9 +6777,8 @@ msgstr ""
 
 #. Sample Offset
 #: ../gap/gap_player_dialog.c:6954
-#, fuzzy
 msgid "Offset:"
-msgstr "Offset"
+msgstr "Ofset:"
 
 #: ../gap/gap_player_dialog.c:6974
 msgid ""
@@ -6916,9 +6805,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_player_dialog.c:7030
-#, fuzzy
 msgid "Audio Track"
-msgstr "Tidak berhasil membangun daftar trek audio"
+msgstr "Trek Audio"
 
 #: ../gap/gap_player_dialog.c:7040
 msgid ""
@@ -6990,9 +6878,8 @@ msgstr "Putar"
 
 #. Cache size label
 #: ../gap/gap_player_dialog.c:7457
-#, fuzzy
 msgid "Cache Size (MB):"
-msgstr "mb"
+msgstr "Ukuran Singgahan (MB):"
 
 #: ../gap/gap_player_dialog.c:7483
 msgid "Player frame cache maximum size in MB. Value 0 turns the cache off."
@@ -7021,9 +6908,8 @@ msgstr ""
 
 #. Layout Options label
 #: ../gap/gap_player_dialog.c:7558
-#, fuzzy
 msgid "Layout Options:"
-msgstr "Tata _Letak"
+msgstr "Opsi Tata Letak:"
 
 #. Show Go button array (configure to show/hide this optional positioning tool)
 #: ../gap/gap_player_dialog.c:7568
@@ -7089,9 +6975,8 @@ msgstr ""
 
 #. Save Player Preferences label
 #: ../gap/gap_player_dialog.c:7663
-#, fuzzy
 msgid "Save Preferences:"
-msgstr "_Preferensi…"
+msgstr "Simpan Preferensi:"
 
 #: ../gap/gap_player_dialog.c:7675
 msgid "Save player cache and layout settings (as gimprc parameters)"
@@ -7105,15 +6990,13 @@ msgstr "Putar"
 #. vid options TAB frame
 #. the video options notebook tab
 #: ../gap/gap_player_dialog.c:7805 ../vid_common/gap_cme_gui.c:2674
-#, fuzzy
 msgid "Video Options"
-msgstr "Opsi:"
+msgstr "Opsi Video"
 
 #. configure options TAB frame
 #: ../gap/gap_player_dialog.c:7829
-#, fuzzy
 msgid "Preferences"
-msgstr "_Preferensi…"
+msgstr "Preferensi"
 
 #. audio options TAB frame
 #. the Audio Options notebook tab
@@ -7217,7 +7100,7 @@ msgstr ""
 #. PingPong Toggle (keep text short)
 #: ../gap/gap_player_dialog.c:8399
 msgid "Ping pong"
-msgstr ""
+msgstr "Ping pong"
 
 #: ../gap/gap_player_dialog.c:8405
 msgid "ON: Play alternating forward/backward"
@@ -7260,9 +7143,8 @@ msgstr ""
 
 #. the PLAY button
 #: ../gap/gap_player_dialog.c:8531
-#, fuzzy
 msgid "Play"
-msgstr "_Putar"
+msgstr "Putar"
 
 #: ../gap/gap_player_dialog.c:8534
 msgid ""
@@ -7272,9 +7154,8 @@ msgstr ""
 
 #. the PAUSE button
 #: ../gap/gap_player_dialog.c:8543
-#, fuzzy
 msgid "Pause"
-msgstr "_Istirahat"
+msgstr "Jeda"
 
 #: ../gap/gap_player_dialog.c:8547
 msgid ""
@@ -7284,9 +7165,8 @@ msgstr ""
 
 #. the PLAY_REVERSE button
 #: ../gap/gap_player_dialog.c:8554
-#, fuzzy
 msgid "Reverse"
-msgstr "Te_rbalik"
+msgstr "Balik"
 
 #: ../gap/gap_player_dialog.c:8557
 msgid ""
@@ -7301,14 +7181,12 @@ msgid "Playback..."
 msgstr "Putar"
 
 #: ../gap/gap_range_ops.c:148
-#, fuzzy
 msgid "New Width:"
-msgstr "Lebar standar kertas catatan"
+msgstr "Lebar Baru:"
 
 #: ../gap/gap_range_ops.c:159
-#, fuzzy
 msgid "New Height:"
-msgstr "Tinggi standar catatan"
+msgstr "Tinggi Baru:"
 
 #: ../gap/gap_range_ops.c:170
 msgid "Offset X:"
@@ -7398,14 +7276,12 @@ msgid "No Color Dithering"
 msgstr "_Warna"
 
 #: ../gap/gap_range_ops.c:395
-#, fuzzy
 msgid "Palette Type"
-msgstr "Palet"
+msgstr "Tipe Palet"
 
 #: ../gap/gap_range_ops.c:402
-#, fuzzy
 msgid "Custom Palette"
-msgstr "Palet"
+msgstr "Palet Tersuai"
 
 #: ../gap/gap_range_ops.c:403
 msgid "Name of a custom palette (ignored if palette type is not custom)"
@@ -7623,9 +7499,8 @@ msgstr "Pilih jika catatan terlihat pada seluruh area kerja"
 
 #. Selection modes
 #: ../gap/gap_range_ops.c:704
-#, fuzzy
 msgid "Ignore"
-msgstr "Aba_ikan"
+msgstr "Abaikan"
 
 #: ../gap/gap_range_ops.c:705
 #, fuzzy
@@ -7790,48 +7665,40 @@ msgstr ""
 
 #. the original width & height labels
 #: ../gap/gap_resi_dialog.c:668
-#, fuzzy
 msgid "Current width:"
-msgstr "_Lebar..."
+msgstr "Lebar kini:"
 
 #: ../gap/gap_resi_dialog.c:674
-#, fuzzy
 msgid "Current height:"
-msgstr "Tinggi"
+msgstr "Tinggi kini:"
 
 #. the new size labels
 #: ../gap/gap_resi_dialog.c:696
-#, fuzzy
 msgid "New width:"
-msgstr "Lebar standar kertas catatan"
+msgstr "Lebar baru:"
 
 #: ../gap/gap_resi_dialog.c:702
-#, fuzzy
 msgid "New height:"
-msgstr "Tinggi standar catatan"
+msgstr "Tinggi baru:"
 
 #. the scale ratio labels
 #: ../gap/gap_resi_dialog.c:750
-#, fuzzy
 msgid "X ratio:"
-msgstr "Jaga rasio"
+msgstr "Rasio X:"
 
 #: ../gap/gap_resi_dialog.c:756
-#, fuzzy
 msgid "Y ratio:"
-msgstr "Jaga rasio"
+msgstr "Rasio Y:"
 
 #. the offset frame
 #: ../gap/gap_resi_dialog.c:828
-#, fuzzy
 msgid "Offset"
-msgstr "Offset"
+msgstr "Ofset"
 
 #. the center offsetX button
 #: ../gap/gap_resi_dialog.c:894
-#, fuzzy
 msgid "Center Horizontal"
-msgstr "<link href=\"text/shared/01/05020100.xhp\" name=\"Huruf\">Huruf</link>"
+msgstr ""
 
 #. the center offsetY button
 #: ../gap/gap_resi_dialog.c:905
@@ -7903,9 +7770,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_split.c:486
-#, fuzzy
 msgid "Copy properties:"
-msgstr "_Properti..."
+msgstr "Salin properti:"
 
 #: ../gap/gap_split.c:487
 msgid ""
@@ -7929,9 +7795,8 @@ msgid "Split Settings"
 msgstr "Pengaturan"
 
 #: ../gap/gap_stock.c:44
-#, fuzzy
 msgid "Add Point"
-msgstr "Tambahkan Titik Sinkronisasi"
+msgstr "Tambah Titik"
 
 #: ../gap/gap_stock.c:45
 #, fuzzy
@@ -7939,19 +7804,16 @@ msgid "Anim Preview"
 msgstr "Pratilik"
 
 #: ../gap/gap_stock.c:46
-#, fuzzy
 msgid "Delete All Points"
-msgstr "Hapus Titik"
+msgstr "Hapus Semua Titik"
 
 #: ../gap/gap_stock.c:47
-#, fuzzy
 msgid "Delete Point"
-msgstr "Hapus Titik Sambungan"
+msgstr "Hapus Titik"
 
 #: ../gap/gap_stock.c:48
-#, fuzzy
 msgid "First Point"
-msgstr "Titik"
+msgstr "Titik Pertama"
 
 #: ../gap/gap_stock.c:49
 #, fuzzy
@@ -7959,34 +7821,28 @@ msgid "Grab Path"
 msgstr "Path:"
 
 #: ../gap/gap_stock.c:50
-#, fuzzy
 msgid "Insert Point"
-msgstr "Titik"
+msgstr "Sisip Titik"
 
 #: ../gap/gap_stock.c:51
-#, fuzzy
 msgid "Last Point"
-msgstr "Titik"
+msgstr "Titik Terakhir"
 
 #: ../gap/gap_stock.c:52
-#, fuzzy
 msgid "Next Point"
-msgstr "Titik"
+msgstr "Titik Selanjutnya"
 
 #: ../gap/gap_stock.c:56
-#, fuzzy
 msgid "Prev Point"
-msgstr "Sim. Sblm."
+msgstr "Titik Sebelumnya"
 
 #: ../gap/gap_stock.c:57
-#, fuzzy
 msgid "Reset All Points"
-msgstr "_Reset"
+msgstr "Reset Semua Titik"
 
 #: ../gap/gap_stock.c:58
-#, fuzzy
 msgid "Reset Point"
-msgstr "_Reset"
+msgstr "Reset Titik"
 
 #: ../gap/gap_stock.c:59
 #, fuzzy
@@ -8009,9 +7865,8 @@ msgstr ""
 
 #. from start label
 #: ../gap/gap_story_att_trans_dlg.c:3320
-#, fuzzy
 msgid "Start:"
-msgstr "Mulai"
+msgstr "Awal:"
 
 #: ../gap/gap_story_att_trans_dlg.c:3323 ../gap/gap_story_att_trans_dlg.c:3366
 msgid ""
@@ -8021,9 +7876,8 @@ msgstr ""
 
 #. to (end value of transition) button
 #: ../gap/gap_story_att_trans_dlg.c:3363
-#, fuzzy
 msgid "End:"
-msgstr "Akhir"
+msgstr "Akhir:"
 
 #: ../gap/gap_story_att_trans_dlg.c:3410 ../gap/gap_story_att_trans_dlg.c:3664
 msgid "Copy this number of frames to all enabled rows"
@@ -8034,18 +7888,16 @@ msgid "Number of frames (duration of transition from start to end value)"
 msgstr ""
 
 #: ../gap/gap_story_att_trans_dlg.c:3534 ../gap/gap_story_att_trans_dlg.c:3545
-#, fuzzy
 msgid "Transition Attributes"
-msgstr "Transisi"
+msgstr "Atribut Transisi"
 
 #. the frame
 #: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
 #: ../gap/gap_story_properties.c:4040
 #: ../gap/gap_story_section_properties.c:784
-#, fuzzy
 msgid "Properties"
-msgstr "_Properti..."
+msgstr "Properti"
 
 #. the fit size label
 #: ../gap/gap_story_att_trans_dlg.c:3583
@@ -8054,9 +7906,8 @@ msgstr ""
 
 #. the fit width check button
 #: ../gap/gap_story_att_trans_dlg.c:3589
-#, fuzzy
 msgid "Width"
-msgstr "_Lebar..."
+msgstr "Lebar"
 
 #: ../gap/gap_story_att_trans_dlg.c:3597
 msgid "scale width of frame to fit master width"
@@ -8064,7 +7915,6 @@ msgstr ""
 
 #. the fit height check button
 #: ../gap/gap_story_att_trans_dlg.c:3608
-#, fuzzy
 msgid "Height"
 msgstr "Tinggi"
 
@@ -8074,9 +7924,8 @@ msgstr ""
 
 #. the keep proportions check button
 #: ../gap/gap_story_att_trans_dlg.c:3627
-#, fuzzy
 msgid "Keep Proportion"
-msgstr "Jaga rasio"
+msgstr "Jaga Proporsi"
 
 #: ../gap/gap_story_att_trans_dlg.c:3635
 msgid ""
@@ -8376,7 +8225,7 @@ msgstr "Redo"
 
 #: ../gap/gap_story_dialog.c:5204
 msgid "Global Layout Properties dialog already open"
-msgstr ""
+msgstr "Dialog Properti Tata Letak Global telah dibuka"
 
 #: ../gap/gap_story_dialog.c:5211
 #, fuzzy
@@ -8409,7 +8258,6 @@ msgid "Thumbnail size in the cliplist"
 msgstr "Penanganan Miniatur"
 
 #: ../gap/gap_story_dialog.c:5234 ../gap/gap_story_dialog.c:5274
-#, fuzzy
 msgid "Columns:"
 msgstr "Kolom:"
 
@@ -8419,7 +8267,6 @@ msgid "columns in the cliplist"
 msgstr "Kolom:"
 
 #: ../gap/gap_story_dialog.c:5245 ../gap/gap_story_dialog.c:5285
-#, fuzzy
 msgid "Rows:"
 msgstr "Baris:"
 
@@ -8476,7 +8323,7 @@ msgstr ""
 
 #: ../gap/gap_story_dialog.c:5549
 msgid "Global Render Properties dialog already open"
-msgstr ""
+msgstr "Dialog Properti Render Global telah dibuka"
 
 #: ../gap/gap_story_dialog.c:5559
 #, fuzzy
@@ -8604,9 +8451,8 @@ msgid "DEBUG: log to stdout"
 msgstr "Awakutu"
 
 #: ../gap/gap_story_dialog.c:6344
-#, fuzzy
 msgid "Help"
-msgstr "Ba_ntuan"
+msgstr "Bantuan"
 
 #. the clp_frame
 #: ../gap/gap_story_dialog.c:6359 ../gap/gap_story_dialog.c:8878
@@ -8632,9 +8478,8 @@ msgid "Create Section Clip"
 msgstr "Seksi"
 
 #: ../gap/gap_story_dialog.c:6407 ../gap/gap_story_dialog.c:6507
-#, fuzzy
 msgid "Create Transition"
-msgstr "Transisi"
+msgstr "Buat Transisi"
 
 #: ../gap/gap_story_dialog.c:6412 ../gap/gap_story_dialog.c:6512
 #, fuzzy
@@ -8683,9 +8528,8 @@ msgid "Storyboard:"
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:6683 ../gap/gap_story_dialog.c:6712
-#, fuzzy
 msgid "(modified)"
-msgstr "Diubah:"
+msgstr "(berubah)"
 
 #: ../gap/gap_story_dialog.c:6689
 msgid "Cliplist:"
@@ -8713,12 +8557,11 @@ msgstr "Utama"
 
 #: ../gap/gap_story_dialog.c:7918
 msgid "Masks"
-msgstr ""
+msgstr "Masker"
 
 #: ../gap/gap_story_dialog.c:8033
-#, fuzzy
 msgid "Load storyboard file"
-msgstr "Tidak dapat memuat berkas '%s'."
+msgstr "Tidak dapat memuat berkas ‘%s’."
 
 #: ../gap/gap_story_dialog.c:8039
 #, fuzzy
@@ -8742,9 +8585,8 @@ msgstr "Selalu tampilkan _jendela ini"
 
 #. Track label
 #: ../gap/gap_story_dialog.c:8099 ../gap/gap_video_index_creator.c:970
-#, fuzzy
 msgid "Track:"
-msgstr "Trek"
+msgstr "Trek:"
 
 #: ../gap/gap_story_dialog.c:8114
 msgid "Video Track Number (0 refers to mask definition track)"
@@ -8781,9 +8623,8 @@ msgstr ""
 #. gtk_widget_show (entry);
 #. Row label
 #: ../gap/gap_story_dialog.c:8231
-#, fuzzy
 msgid "Row:"
-msgstr "Baris"
+msgstr "Baris:"
 
 #: ../gap/gap_story_dialog.c:8245
 #, fuzzy
@@ -8816,9 +8657,8 @@ msgid "ON: clip target is storyboard (for clips created from playback range)."
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:9048 ../vid_common/gap_cme_gui.c:2459
-#, fuzzy
 msgid "Cancel"
-msgstr "Ba_tal"
+msgstr "Batal"
 
 #: ../gap/gap_story_dialog.c:9052 ../gap/gap_video_index_creator.c:1448
 msgid ""
@@ -8891,20 +8731,17 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:9313
-#, fuzzy
 msgid "automatic"
-msgstr "Otomatis"
+msgstr "otomatis"
 
 #: ../gap/gap_story_dialog.c:9314
-#, fuzzy
 msgid "none"
-msgstr "(tidak ada)"
+msgstr "nihil"
 
 #. the section_name label
 #: ../gap/gap_story_dialog.c:9358 ../gap/gap_story_section_properties.c:854
-#, fuzzy
 msgid "Name:"
-msgstr "Tanpa-Nama"
+msgstr "Nama:"
 
 #: ../gap/gap_story_dialog.c:9362
 #, fuzzy
@@ -8917,11 +8754,9 @@ msgid "Name of the Cliplistfile"
 msgstr "Tanpa-Nama"
 
 #: ../gap/gap_story_dialog.c:9378 ../gap/gap_story_dialog.c:9382
-#, fuzzy, c-format
+#, c-format
 msgid "Name: %s"
-msgstr ""
-"\n"
-"Nama penerbit: %s"
+msgstr "Nama: %s"
 
 #: ../gap/gap_story_dialog.c:9391
 msgid "Master width of the resulting video in pixels"
@@ -8948,9 +8783,8 @@ msgstr ""
 
 #. the aspect label
 #: ../gap/gap_story_dialog.c:9471 ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3779
-#, fuzzy
 msgid "Aspect:"
-msgstr "Aspek"
+msgstr "Aspek:"
 
 #: ../gap/gap_story_dialog.c:9472
 msgid ""
@@ -8998,7 +8832,7 @@ msgstr ""
 
 #: ../gap/gap_story_dialog.c:9595
 msgid "AreaFormat:"
-msgstr ""
+msgstr "AreaFormat:"
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
@@ -9016,13 +8850,12 @@ msgid "Reset parameters to initial values"
 msgstr "Nilai awal tak memenuhi kendala."
 
 #: ../gap/gap_story_dialog.c:9618
-#, fuzzy
 msgid "Master Properties"
-msgstr "Dokumen Induk"
+msgstr "Properti Induk"
 
 #: ../gap/gap_story_dialog.c:10151
 msgid "STORY_new.txt"
-msgstr ""
+msgstr "STORY_new.txt"
 
 #: ../gap/gap_story_file.c:576 ../gap/gap_story_file.c:621
 #, fuzzy
@@ -9032,7 +8865,7 @@ msgstr "Kesalahan internal %d saat menulis berkas %s\n"
 #: ../gap/gap_story_file.c:1151
 #, c-format
 msgid "section_%02d"
-msgstr ""
+msgstr "section_%02d"
 
 #: ../gap/gap_story_file.c:2716
 #, c-format
@@ -9206,17 +9039,15 @@ msgstr "MATI"
 
 #: ../gap/gap_story_properties.c:3617
 msgid "Filtermacro2: "
-msgstr ""
+msgstr "Filtermacro2: "
 
 #: ../gap/gap_story_properties.c:3978 ../gap/gap_story_properties.c:3988
-#, fuzzy
 msgid "Mask Properties"
-msgstr "_Properti..."
+msgstr "Properti Masker"
 
 #: ../gap/gap_story_properties.c:4000 ../gap/gap_story_properties.c:4012
-#, fuzzy
 msgid "Clip Properties"
-msgstr "_Properti..."
+msgstr "_Properti…"
 
 #: ../gap/gap_story_properties.c:4005 ../gap/gap_story_properties.c:4016
 #, fuzzy
@@ -9230,9 +9061,8 @@ msgstr "Otomatis"
 
 #. the masktype label
 #: ../gap/gap_story_properties.c:4063
-#, fuzzy
 msgid "Mask Type:"
-msgstr "Jenis:"
+msgstr "Tipe Masker:"
 
 #. the cliptype label
 #: ../gap/gap_story_properties.c:4068
@@ -9243,15 +9073,13 @@ msgstr "Jenis:"
 #. the duration label
 #: ../gap/gap_story_properties.c:4100
 #: ../gap/gap_story_section_properties.c:830
-#, fuzzy
 msgid "Duration:"
 msgstr "Durasi:"
 
 #. the filename label
 #: ../gap/gap_story_properties.c:4124
-#, fuzzy
 msgid "File:"
-msgstr "_Berlas"
+msgstr "Berkas:"
 
 #. lower/upper
 #. step, page
@@ -9331,9 +9159,8 @@ msgstr ""
 
 #. radio button delace_mode odd
 #: ../gap/gap_story_properties.c:4381
-#, fuzzy
 msgid "Odd"
-msgstr "Lembar ganjil"
+msgstr "Ganjil"
 
 #: ../gap/gap_story_properties.c:4390
 msgid "Apply odd-lines filter when reading videoframes"
@@ -9341,9 +9168,8 @@ msgstr ""
 
 #. radio button delace_mode even
 #: ../gap/gap_story_properties.c:4399
-#, fuzzy
 msgid "Even"
-msgstr "Lembar genap"
+msgstr "Genap"
 
 #: ../gap/gap_story_properties.c:4408
 msgid "Apply even-lines filter when reading videoframes"
@@ -9475,7 +9301,7 @@ msgstr ""
 #. radio button mask_anchor ColormaskClip
 #: ../gap/gap_story_properties.c:4765
 msgid "ClipColormask"
-msgstr ""
+msgstr "ClipColormask"
 
 #: ../gap/gap_story_properties.c:4774
 msgid "Apply as colormask to clip at clip position in clip size"
@@ -9493,7 +9319,7 @@ msgstr "Kesalahan sintaks dalam file konfigurasi filter"
 
 #: ../gap/gap_story_properties.c:4850
 msgid "Maskstepsize:"
-msgstr ""
+msgstr "Maskstepsize:"
 
 #. lower/upper
 #. step, page
@@ -9510,7 +9336,7 @@ msgstr ""
 #. the filtermacro label
 #: ../gap/gap_story_properties.c:4887
 msgid "Filtermacro:"
-msgstr ""
+msgstr "Filtermacro:"
 
 #: ../gap/gap_story_properties.c:4919
 msgid ""
@@ -9589,7 +9415,7 @@ msgstr "Siap"
 #: ../gap/gap_story_render_processor.c:1031
 #, c-format
 msgid "encoding_video_frame_%06d"
-msgstr ""
+msgstr "encoding_video_frame_%06d"
 
 #: ../gap/gap_story_render_processor.c:3287
 #, fuzzy, c-format
@@ -9760,7 +9586,7 @@ msgstr "_Masukan"
 #. the videofile label
 #: ../gap/gap_vex_dialog.c:2089
 msgid "Videofilename:"
-msgstr ""
+msgstr "Videofilename:"
 
 #: ../gap/gap_vex_dialog.c:2107
 #, fuzzy
@@ -9804,7 +9630,7 @@ msgstr ""
 #. the videorange button (that invokes the player for video range selection in docked mode)
 #: ../gap/gap_vex_dialog.c:2231
 msgid "VideoRange"
-msgstr ""
+msgstr "VideoRange"
 
 #: ../gap/gap_vex_dialog.c:2268
 msgid "Videotrack number (0 == extract no frames)"
@@ -9833,7 +9659,7 @@ msgstr "Aktif"
 
 #: ../gap/gap_vex_dialog.c:2367 ../gap/gap_vex_dialog.c:2405
 msgid "****"
-msgstr ""
+msgstr "****"
 
 #. exact_seek option to disable fast videoindex based positioning.
 #. * (the videoapi delivers exact frame positions on most videos
@@ -9897,7 +9723,7 @@ msgstr ""
 #. the graymask checkbutton
 #: ../gap/gap_vex_dialog.c:2532
 msgid "graymask"
-msgstr ""
+msgstr "graymask"
 
 #: ../gap/gap_vex_dialog.c:2537
 msgid ""
@@ -9908,7 +9734,7 @@ msgstr ""
 #. the layermask checkbutton
 #: ../gap/gap_vex_dialog.c:2545
 msgid "layermask"
-msgstr ""
+msgstr "layermask"
 
 #: ../gap/gap_vex_dialog.c:2550
 msgid ""
@@ -9919,7 +9745,7 @@ msgstr ""
 #. the bluebox checkbutton
 #: ../gap/gap_vex_dialog.c:2558
 msgid "bluebox"
-msgstr ""
+msgstr "bluebox"
 
 #: ../gap/gap_vex_dialog.c:2565
 msgid ""
@@ -9934,7 +9760,7 @@ msgstr ""
 
 #: ../gap/gap_vex_dialog.c:2599
 msgid ".xcf"
-msgstr ""
+msgstr ".xcf"
 
 #. the framenumber for 1st frame label
 #: ../gap/gap_vex_dialog.c:2610
@@ -9981,7 +9807,7 @@ msgstr ""
 
 #: ../gap/gap_vex_dialog.c:2700
 msgid "frame.wav"
-msgstr ""
+msgstr "frame.wav"
 
 #: ../gap/gap_vex_dialog.c:2710
 #, fuzzy
