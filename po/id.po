@@ -44,12 +44,12 @@ msgstr "Pilih"
 #: ../gap/gap_arr_dialog.c:1812
 #, c-format
 msgid "Directory '%s' already exists"
-msgstr "Direktori TICK%sTICK sudah ada"
+msgstr "Direktori '%s' sudah ada"
 
 #: ../gap/gap_arr_dialog.c:1817
 #, c-format
 msgid "File '%s' already exists"
-msgstr "Berkas TICK%sTICK sudah ada"
+msgstr "Berkas '%s' sudah ada"
 
 #. the overwrite checkbutton
 #: ../gap/gap_arr_dialog.c:1818 ../gap/gap_morph_tween_dialog.c:882
@@ -75,7 +75,7 @@ msgstr "Pesan GAP"
 #: ../gap/gap_arr_dialog.c:1945
 #, c-format
 msgid "ERROR: could not create directory:'%s'%s"
-msgstr "GALAT: tak bisa membuat direktori:TICK%sTICK%s "
+msgstr "GALAT: tak bisa membuat direktori:'%s'%s "
 
 #: ../gap/gap_arr_dialog.c:1998
 #, c-format
@@ -85,7 +85,7 @@ msgid ""
 "%s"
 msgstr ""
 "GALAT: Gagalt menulis videoindex\n"
-"berkas: TICK%sTICK\n"
+"berkas: '%s'\n"
 "%s"
 
 #: ../gap/gap_arr_dialog.c:2103
