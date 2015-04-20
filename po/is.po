@@ -1,21 +1,22 @@
+# translation of gimp-gap.gap-2-8.is.po to Icelandic
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Sveinn í Felli <sv1@fellsnet.is>, 2015.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
-"gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-08 06:26+0000\n"
-"PO-Revision-Date: 2015-01-15 13:52+0000\n"
+"Project-Id-Version: gimp-gap.gap-2-8.is\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap"
+"&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-03-25 06:36+0000\n"
+"PO-Revision-Date: 2015-04-20 13:39+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n%10!=1 || n%100==11);\n"
 "X-Generator: Lokalize 1.5\n"
 
 #. Button  to invoke fontbrowser
@@ -141,7 +142,7 @@ msgstr ""
 
 #: ../gap/gap_audio_extract.c:439
 msgid "Extracting Audio..."
-msgstr ""
+msgstr "Tek út hljóð..."
 
 #: ../gap/gap_audio_wav.c:102
 #, c-format
@@ -186,7 +187,7 @@ msgstr ""
 
 #: ../gap/gap_base_ops.c:213
 msgid "Density duplicating frames..."
-msgstr ""
+msgstr "Tvöfalda þéttleika ramma..."
 
 #: ../gap/gap_base_ops.c:368 ../gap/gap_base_ops.c:553
 #, c-format
@@ -204,16 +205,16 @@ msgstr ""
 
 #: ../gap/gap_base_ops.c:603
 msgid "Duplicating frames..."
-msgstr ""
+msgstr "Tvöfalda ramma..."
 
 #: ../gap/gap_base_ops.c:810 ../gap/gap_base_ops.c:949
 msgid "Renumber frame sequence..."
-msgstr ""
+msgstr "Endurnúmera rammarunu..."
 
 #: ../gap/gap_base_ops.c:1180
 #, c-format
 msgid "Go To Frame (%ld/%ld)"
-msgstr ""
+msgstr "Fara á ramma (%ld/%ld)"
 
 #: ../gap/gap_base_ops.c:1183
 #, c-format
@@ -221,14 +222,13 @@ msgid "Destination Frame Number (%ld - %ld)"
 msgstr ""
 
 #: ../gap/gap_base_ops.c:1188 ../gap/gap_base_ops.c:1303
-#, fuzzy
 #: ../gap/gap_base_ops.c:1747
 msgid "Number:"
 msgstr "Númer:"
 
 #: ../gap/gap_base_ops.c:1189
 msgid "Go to this frame number"
-msgstr ""
+msgstr "Fara á þetta rammanúmer"
 
 #: ../gap/gap_base_ops.c:1239
 #, c-format
@@ -240,12 +240,12 @@ msgstr ""
 #: ../gap/gap_base_ops.c:1245 ../gap/gap_base_ops.c:1246
 #: ../gap/gap_navigator_dialog.c:665 ../gap/gap_navigator_dialog.c:666
 msgid "Confirm Frame Delete"
-msgstr ""
+msgstr "Staðfesta eyðingu ramma"
 
 #: ../gap/gap_base_ops.c:1283
 #, c-format
 msgid "Delete Frames (%ld/%ld)"
-msgstr ""
+msgstr "Eyða römmum (%ld/%ld)"
 
 #: ../gap/gap_base_ops.c:1286
 #, c-format
@@ -322,7 +322,6 @@ msgid "Affected range ends at this framenumber"
 msgstr ""
 
 #: ../gap/gap_base_ops.c:1453
-#, fuzzy
 msgid "Density:"
 msgstr "Þéttleiki:"
 
@@ -334,7 +333,7 @@ msgstr ""
 
 #: ../gap/gap_base_ops.c:1466
 msgid "Increase Density"
-msgstr ""
+msgstr "Auka þéttleika"
 
 #: ../gap/gap_base_ops.c:1467
 msgid ""
@@ -373,7 +372,7 @@ msgstr ""
 
 #: ../gap/gap_base_ops.c:1607
 msgid "N times:"
-msgstr ""
+msgstr "N sinnum:"
 
 #: ../gap/gap_base_ops.c:1614
 msgid "Copy selected range n-times (you may type in values > 99)"
@@ -441,7 +440,6 @@ msgstr ""
 
 #. the framenumber digits label
 #: ../gap/gap_base_ops.c:2025 ../gap/gap_split.c:495
-#, fuzzy
 #: ../gap/gap_vex_dialog.c:2496
 msgid "Digits:"
 msgstr "Tölustafir:"
@@ -585,7 +583,7 @@ msgstr ""
 #: ../vid_common/gap_cme_gui.c:3073 ../vid_common/gap_cme_gui.c:3389
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3505
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: ../gap/gap_blend_fill_main.c:1997
 msgid "Select output svg vector file via browser"
@@ -693,9 +691,8 @@ msgid "Grow selection in pixels (use negative values for shrink)"
 msgstr ""
 
 #: ../gap/gap_bluebox.c:427
-#, fuzzy
 msgid "Automatic Preview:"
-msgstr "Sjálfvirk forskoðun"
+msgstr "Sjálfvirk forskoðun:"
 
 #: ../gap/gap_bluebox.c:438
 msgid "ON: Keep preview image up to date"
@@ -704,16 +701,14 @@ msgstr ""
 #. button
 #. the preview frame
 #: ../gap/gap_bluebox.c:447 ../gap/gap_mov_dialog.c:5458
-#, fuzzy
 msgid "Preview"
-msgstr "Forsýn"
+msgstr "Forskoðun"
 
 #: ../gap/gap_bluebox.c:450
 msgid "Show preview as separate image"
 msgstr ""
 
 #: ../gap/gap_bluebox.c:458
-#, fuzzy
 msgid "Previewsize:"
 msgstr "Stærð forskoðunar:"
 
@@ -728,7 +723,7 @@ msgstr ""
 
 #: ../gap/gap_bluebox.c:860
 msgid "Threshold Mode:"
-msgstr ""
+msgstr "Litmarkahamur:"
 
 #. radio button thres_mode RGB
 #: ../gap/gap_bluebox.c:870
@@ -750,9 +745,8 @@ msgstr ""
 
 #. radio button thres_mode VAL
 #: ../gap/gap_bluebox.c:911
-#, fuzzy
 msgid "VALUE"
-msgstr "Gildi"
+msgstr "GILDI"
 
 #: ../gap/gap_bluebox.c:920
 msgid "Use single threshold value"
@@ -760,9 +754,8 @@ msgstr ""
 
 #. radio button thres_mode ALL
 #: ../gap/gap_bluebox.c:931
-#, fuzzy
 msgid "ALL"
-msgstr "_Allt"
+msgstr "ALLT"
 
 #: ../gap/gap_bluebox.c:940
 msgid "Use both HSV and RGB threshold values"
@@ -847,9 +840,8 @@ msgid "Threshold for value"
 msgstr ""
 
 #: ../gap/gap_bluebox.c:1092
-#, fuzzy
 msgid "Threshold:"
-msgstr "Þröskuldur:"
+msgstr "Litmörk:"
 
 #. lower/upper
 #. step, page
@@ -896,16 +888,14 @@ msgstr ""
 #. Menu names
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
 #: ../gap/gap_bluebox_main.c:187 ../gap/gap_main.c:936
-#, fuzzy
 #: ../gap/gap_mov_main.c:380 ../gap/gap_navigator_dialog.c:552
 #: ../gap/gap_player_main.c:299 ../gap/gap_story_main.c:215
 #: ../vid_common/gap_cme_main.c:168
 msgid "<Image>/Video/"
-msgstr "Vídeó"
+msgstr "<Image>/Myndskeið/"
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:212
-#, fuzzy
 msgid "Base Options"
 msgstr "Grunnstillingar"
 
@@ -953,7 +943,7 @@ msgstr ""
 #. the frame
 #: ../gap/gap_colormask_dialog.c:349
 msgid "Filter Options"
-msgstr ""
+msgstr "Valmöguleikar síu"
 
 #: ../gap/gap_colormask_dialog.c:375
 msgid "Isle Radius:"
@@ -1022,7 +1012,7 @@ msgstr ""
 #: ../gap/gap_colormask_dialog.c:539
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4209
 msgid "Expert Options"
-msgstr ""
+msgstr "Ítarlegri valkostir"
 
 #: ../gap/gap_colormask_dialog.c:565
 msgid "_Algorithm:"
@@ -1181,7 +1171,7 @@ msgstr "Lagahópur:"
 #. GroupLayer handling mode the radio buttons
 #: ../gap/gap_dbbrowser_utils.c:370
 msgid "Process"
-msgstr ""
+msgstr "Vinnsla"
 
 #: ../gap/gap_dbbrowser_utils.c:374
 msgid ""
@@ -1342,7 +1332,6 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:502 ../gap/gap_decode_xanim.c:267
-#, fuzzy
 msgid "Framenames:"
 msgstr "Rammaheiti:"
 
@@ -1364,7 +1353,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:522
 msgid "Png Compression:"
-msgstr "Png þjöppun:"
+msgstr "PNG þjöppun:"
 
 #: ../gap/gap_decode_mplayer.c:523
 msgid ""
@@ -1374,7 +1363,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:532 ../gap/gap_decode_xanim.c:294
 msgid "Jpeg Quality:"
-msgstr "Jpeg gæði:"
+msgstr "JPEG gæði:"
 
 #: ../gap/gap_decode_mplayer.c:533
 msgid ""
@@ -1384,7 +1373,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:543
 msgid "Jpeg Optimize:"
-msgstr ""
+msgstr "Bestun JPEG:"
 
 #: ../gap/gap_decode_mplayer.c:544
 msgid "optimization factor(is ignored when other formats are used)"
@@ -1392,7 +1381,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:554
 msgid "Jpeg Smooth:"
-msgstr ""
+msgstr "Mýking JPEG:"
 
 #: ../gap/gap_decode_mplayer.c:555
 msgid "Smooth factor(is ignored when other formats are used)"
@@ -1400,7 +1389,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:565
 msgid "Jpeg Progressive:"
-msgstr ""
+msgstr "Vaxandi JPEG (progressive):"
 
 #: ../gap/gap_decode_mplayer.c:566
 msgid ""
@@ -1416,7 +1405,6 @@ msgid "Enable baseline jpeg encoding(is ignored when other formats are used)"
 msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:584
-#, fuzzy
 msgid "Silent"
 msgstr "Þögult"
 
@@ -1436,7 +1424,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:597
 msgid "Asynchronous"
-msgstr ""
+msgstr "Ósamstillt (async)"
 
 #: ../gap/gap_decode_mplayer.c:598
 msgid "Run the mplayer as asynchronous process"
@@ -1444,7 +1432,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:604
 msgid "MPlayer 1.0pre5:"
-msgstr ""
+msgstr "MPlayer 1.0pre5:"
 
 #: ../gap/gap_decode_mplayer.c:605
 msgid ""
@@ -1461,7 +1449,7 @@ msgstr ""
 #: ../gap/gap_decode_mplayer.c:617 ../gap/gap_decode_xanim.c:326
 #: ../gap/gap_range_ops.c:1818
 msgid "Select Frame Range"
-msgstr ""
+msgstr "Veldu svið ramma"
 
 #: ../gap/gap_decode_mplayer.c:650 ../gap/gap_decode_mplayer.c:1492
 #, c-format
@@ -1476,18 +1464,18 @@ msgstr ""
 #: ../gap/gap_decode_mplayer.c:692 ../gap/gap_decode_xanim.c:365
 #: ../gap/gap_range_ops.c:1544 ../gap/gap_split.c:102
 msgid "Overwrite Frame"
-msgstr ""
+msgstr "Yfirskrifa ramma"
 
 #: ../gap/gap_decode_mplayer.c:694 ../gap/gap_decode_xanim.c:367
 #: ../gap/gap_range_ops.c:1546 ../gap/gap_split.c:104
 #: ../gap/gap_vex_dialog.c:239
 msgid "Overwrite All"
-msgstr ""
+msgstr "Skrifa yfir allt"
 
 #: ../gap/gap_decode_mplayer.c:703 ../gap/gap_decode_xanim.c:376
 #: ../gap/gap_split.c:113
 msgid "File already exists"
-msgstr ""
+msgstr "Skráin er þegar til"
 
 #: ../gap/gap_decode_mplayer.c:972
 #, c-format
@@ -2179,9 +2167,8 @@ msgstr ""
 
 #. ------------------ ALTernative Iterators ------------------------------
 #: ../gap/gap_filter_main.c:159 ../gap/gap_fmac_main.c:219
-#, fuzzy
 msgid "<Image>/Filters/"
-msgstr "Síu_r"
+msgstr "<Image>/Síur/"
 
 #: ../gap/gap_fire_pattern.c:1043 ../gap/gap_water_pattern.c:430
 #, c-format
@@ -2212,7 +2199,7 @@ msgstr ""
 
 #: ../gap/gap_fire_pattern.c:1795 ../gap/gap_water_pattern.c:1118
 msgid "N-Frames:"
-msgstr ""
+msgstr "N-rammar:"
 
 #: ../gap/gap_fire_pattern.c:1805 ../gap/gap_water_pattern.c:1128
 msgid "Number of frames to be rendered as layer in the newly created image."
@@ -2285,7 +2272,7 @@ msgstr ""
 
 #: ../gap/gap_fire_pattern.c:1961
 msgid "Detail:"
-msgstr ""
+msgstr "Nánar:"
 
 #: ../gap/gap_fire_pattern.c:1971
 msgid "Detail level for creating random pattern (cloud layer)"
@@ -2355,9 +2342,8 @@ msgid "width of the flame at base line (1.0 for full image width)"
 msgstr ""
 
 #: ../gap/gap_fire_pattern.c:2135
-#, fuzzy
 msgid "Top:"
-msgstr "toppur"
+msgstr "Hæð:"
 
 #: ../gap/gap_fire_pattern.c:2145
 msgid "width of the flame at flame height (1.0 for full image width)"
@@ -2515,17 +2501,17 @@ msgid "Open filebrowser window to select a filename"
 msgstr ""
 
 #: ../gap/gap_fmac_main.c:763 ../gap/gap_video_index_creator.c:1329
+#, fuzzy
 msgid "Nr"
-msgstr ""
+msgstr "Nr"
 
 #: ../gap/gap_fmac_main.c:769
 msgid "PDB Name"
 msgstr ""
 
 #: ../gap/gap_fmac_main.c:775
-#, fuzzy
 msgid "Menu Path"
-msgstr "Slóð í valmynd"
+msgstr "Slóð á valmynd"
 
 #: ../gap/gap_fmac_main.c:780
 msgid "Information"
@@ -2538,7 +2524,7 @@ msgstr "Villa: %d"
 
 #: ../gap/gap_fmac_main.c:1018
 msgid "** No menu path available **"
-msgstr ""
+msgstr "** Engin slóð á valmynd tiltæk **"
 
 #: ../gap/gap_fmac_main.c:1056 ../gap/gap_video_index_creator.c:1280
 msgid "** Empty **"
@@ -2551,7 +2537,7 @@ msgstr ""
 #: ../gap/gap_fmac_main.c:1103 ../gap/gap_onion_dialog.c:1372
 #: ../gap/gap_player_dialog.c:8523
 msgid "Show help page"
-msgstr ""
+msgstr "Sýna hjálparsíðu"
 
 #. Button Delete All
 #: ../gap/gap_fmac_main.c:1113
@@ -2848,13 +2834,11 @@ msgid "Merged Layer Name"
 msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:401
-#, fuzzy
 msgid "Channel Name"
-msgstr "_Nafn litrásar:"
+msgstr "Nafn litrásar"
 
 #. the Layer Attributes sub menu
 #: ../gap/gap_mod_layer_dialog.c:552
-#, fuzzy
 msgid "Layer Attributes"
 msgstr "Eiginleikar lags"
 
@@ -2967,12 +2951,10 @@ msgid "Color erase"
 msgstr "Liteyðing"
 
 #: ../gap/gap_mod_layer_dialog.c:713
-#, fuzzy
 msgid "Grain extract"
 msgstr "Kornasíun"
 
 #: ../gap/gap_mod_layer_dialog.c:718
-#, fuzzy
 msgid "Grain merge"
 msgstr "Kornablöndun"
 
@@ -3003,7 +2985,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:765
 msgid "Raise layer(s) to top"
-msgstr ""
+msgstr "Hækka lag/lög efst"
 
 #: ../gap/gap_mod_layer_dialog.c:766
 msgid "raise selected layer(s) to top"
@@ -3011,7 +2993,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:771
 msgid "Raise layer(s)"
-msgstr ""
+msgstr "Lyfta lagi/lögum"
 
 #: ../gap/gap_mod_layer_dialog.c:772
 msgid "raise all selected layers"
@@ -3019,7 +3001,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:777
 msgid "Lower layer(s)"
-msgstr ""
+msgstr "Lækka lag/lög"
 
 #: ../gap/gap_mod_layer_dialog.c:778
 msgid "lower all selected layers"
@@ -3027,7 +3009,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:783
 msgid "Lower layer(s) to bottom"
-msgstr ""
+msgstr "Lækka lag/lög neðst"
 
 #: ../gap/gap_mod_layer_dialog.c:784
 msgid "lower selected layer(s) to bottom"
@@ -3035,7 +3017,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:789
 msgid "Reorder layer(s)"
-msgstr ""
+msgstr "Endurraða lagi/lögum"
 
 #: ../gap/gap_mod_layer_dialog.c:790
 msgid "move the selected layer(s) to specified group and/or stack position"
@@ -3043,9 +3025,8 @@ msgstr ""
 
 #. the Merge Layers sub menu
 #: ../gap/gap_mod_layer_dialog.c:809
-#, fuzzy
 msgid "Merge Layers"
-msgstr "Tvinna lög"
+msgstr "Sameina lög"
 
 #: ../gap/gap_mod_layer_dialog.c:816
 msgid "Merge layer(s); expand as necessary"
@@ -3097,7 +3078,6 @@ msgstr ""
 
 #. the Selection sub menu
 #: ../gap/gap_mod_layer_dialog.c:868
-#, fuzzy
 msgid "Selection"
 msgstr "Myndval"
 
@@ -3257,26 +3237,25 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:1301
 msgid "Get Active Layer"
-msgstr ""
+msgstr "Ná í virkt lag"
 
 #. +++++++++++++++++++++++++
 #. the function        frame
 #. +++++++++++++++++++++++++
 #: ../gap/gap_mod_layer_dialog.c:1322
 msgid "Function"
-msgstr ""
+msgstr "Fall"
 
 #. the Fuction label
 #. the toplevel menu_item (will be replaced on any selection)
 #: ../gap/gap_mod_layer_dialog.c:1335 ../gap/gap_mod_layer_dialog.c:1373
 msgid "Function:"
-msgstr ""
+msgstr "Fall:"
 
 #. the LayerName (or channel Name) label
 #: ../gap/gap_mod_layer_dialog.c:1393
-#, fuzzy
 msgid "Layer Name:"
-msgstr "Nafn _lags"
+msgstr "Heiti lags:"
 
 #: ../gap/gap_mod_layer_dialog.c:1411
 msgid ""
@@ -3287,7 +3266,7 @@ msgstr ""
 #. the newGroupName label
 #: ../gap/gap_mod_layer_dialog.c:1417
 msgid "New Group Name:"
-msgstr ""
+msgstr "Heiti á nýjum hópi:"
 
 #: ../gap/gap_mod_layer_dialog.c:1435
 msgid ""
@@ -3297,7 +3276,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:1442
 msgid "New Position:"
-msgstr ""
+msgstr "Ný staðsetning:"
 
 #. lower
 #. upper
@@ -3330,7 +3309,7 @@ msgstr ""
 #. the case sensitive  check_button
 #: ../gap/gap_mod_layer_dialog.c:1495 ../gap/gap_onion_dialog.c:1267
 msgid "Case sensitive"
-msgstr ""
+msgstr "Háð há/lágstöfum"
 
 #: ../gap/gap_mod_layer_dialog.c:1502 ../gap/gap_range_ops.c:803
 msgid "Lowercase and uppercase letters are considered as different"
@@ -3496,15 +3475,13 @@ msgid "Load Morph Workpointfile"
 msgstr ""
 
 #: ../gap/gap_morph_dialog.c:2911
-#, fuzzy
 msgid "Edit Mode:"
-msgstr "Breyta ham"
+msgstr "Breytingahamur:"
 
 #. radio button SET
 #: ../gap/gap_morph_dialog.c:2925
-#, fuzzy
 msgid "Set"
-msgstr "<small>Stilla...</small>"
+msgstr "Setja"
 
 #: ../gap/gap_morph_dialog.c:2934
 msgid ""
@@ -3516,7 +3493,6 @@ msgstr ""
 
 #. radio button MOVE
 #: ../gap/gap_morph_dialog.c:2951
-#, fuzzy
 msgid "Move"
 msgstr "Færa"
 
@@ -3534,7 +3510,6 @@ msgstr ""
 
 #. radio button ZOOM
 #: ../gap/gap_morph_dialog.c:2999
-#, fuzzy
 msgid "Zoom"
 msgstr "Aðdráttur"
 
@@ -3543,12 +3518,13 @@ msgid ""
 "Click: zoom in,\n"
 "CTRL-click: zoom out"
 msgstr ""
+"Smella: renna að,\n"
+"CTRL-smella: renna frá"
 
 #. radio button SHOW
 #: ../gap/gap_morph_dialog.c:3022
-#, fuzzy
 msgid "Show"
-msgstr "Sýna"
+msgstr "Birta"
 
 #: ../gap/gap_morph_dialog.c:3031
 msgid "Click: show warp pick coordinates in the source window"
@@ -3556,12 +3532,12 @@ msgstr ""
 
 #: ../gap/gap_morph_dialog.c:3062
 msgid "Render Mode:"
-msgstr ""
+msgstr "Myndgerðarhamur"
 
 #. radio button MORPH
 #: ../gap/gap_morph_dialog.c:3075
 msgid "Morph"
-msgstr ""
+msgstr "Sambræðingur"
 
 #: ../gap/gap_morph_dialog.c:3084
 msgid "Render morph transition (warp forward, warp backward and cross fade)"
@@ -3570,7 +3546,7 @@ msgstr ""
 #. radio button WARP
 #: ../gap/gap_morph_dialog.c:3097
 msgid "Warp"
-msgstr ""
+msgstr "Völsun"
 
 #: ../gap/gap_morph_dialog.c:3106
 msgid "Render forward warp transitions only"
@@ -3605,7 +3581,7 @@ msgstr ""
 #. Fit Zoom Button
 #: ../gap/gap_morph_dialog.c:3256
 msgid "Fit Zoom"
-msgstr ""
+msgstr "Aðdráttur passar"
 
 #: ../gap/gap_morph_dialog.c:3260
 msgid "Show the whole layer. (by adjusting zoom to fit into preview)."
@@ -3614,9 +3590,8 @@ msgstr ""
 #. there is just one total_points display (always in the dst frame)
 #. the current Point label
 #: ../gap/gap_morph_dialog.c:3273
-#, fuzzy
 msgid "Point:"
-msgstr "punktur"
+msgstr "Punktur:"
 
 #: ../gap/gap_morph_dialog.c:3296
 msgid "Number of the current point"
@@ -3625,7 +3600,7 @@ msgstr ""
 #. the number_of_points label
 #: ../gap/gap_morph_dialog.c:3302
 msgid "of total:"
-msgstr ""
+msgstr "af alls:"
 
 #. the number_of_points label
 #: ../gap/gap_morph_dialog.c:3310
@@ -3637,19 +3612,16 @@ msgid "Morph / Warp"
 msgstr ""
 
 #: ../gap/gap_morph_dialog.c:3465
-#, fuzzy
 msgid "Swap"
-msgstr "_Víxla"
+msgstr "Víxla"
 
 #: ../gap/gap_morph_dialog.c:3549
-#, fuzzy
 msgid "Source"
 msgstr "Uppruni"
 
 #: ../gap/gap_morph_dialog.c:3564
-#, fuzzy
 msgid "Destination"
-msgstr "Áfangastaður:"
+msgstr "Áfangastaður"
 
 #. the nubner of ShapePoints label
 #: ../gap/gap_morph_dialog.c:3583
@@ -3662,9 +3634,8 @@ msgstr ""
 
 #. Shape Button
 #: ../gap/gap_morph_dialog.c:3611
-#, fuzzy
 msgid "Shape"
-msgstr "Form"
+msgstr "Lögun"
 
 #: ../gap/gap_morph_dialog.c:3615
 msgid ""
@@ -3676,7 +3647,6 @@ msgstr ""
 
 #. the deform affect radius label
 #: ../gap/gap_morph_dialog.c:3648
-#, fuzzy
 msgid "Radius:"
 msgstr "Radíus:"
 
@@ -3688,9 +3658,8 @@ msgstr ""
 
 #. the deform intensity label
 #: ../gap/gap_morph_dialog.c:3679 ../gap/gap_morph_tween_dialog.c:787
-#, fuzzy
 msgid "Intensity:"
-msgstr "St_yrkur:"
+msgstr "Styrkur:"
 
 #: ../gap/gap_morph_dialog.c:3702
 msgid "Deform intensity."
@@ -3710,7 +3679,7 @@ msgstr ""
 #. the tween_steps label
 #: ../gap/gap_morph_dialog.c:3754
 msgid "Steps:"
-msgstr ""
+msgstr "Þrep:"
 
 #: ../gap/gap_morph_dialog.c:3776
 msgid ""
@@ -3798,7 +3767,6 @@ msgstr ""
 
 #. the use_quality_wp_selection checkbutton
 #: ../gap/gap_morph_dialog.c:4006 ../gap/gap_morph_tween_dialog.c:866
-#, fuzzy
 msgid "Quality"
 msgstr "Gæði"
 
@@ -3810,9 +3778,8 @@ msgstr ""
 
 #. the show lines checkbutton
 #: ../gap/gap_morph_dialog.c:4021
-#, fuzzy
 msgid "Lines"
-msgstr "Línur:"
+msgstr "Línur"
 
 #: ../gap/gap_morph_dialog.c:4030
 msgid "Show movement vector lines in the destination preview"
@@ -3883,7 +3850,7 @@ msgstr ""
 #: ../gap/gap_morph_exec.c:3590 ../gap/gap_morph_exec.c:3806
 #, c-format
 msgid "file: %s save failed"
-msgstr ""
+msgstr "skrá: vistun %s mistókst"
 
 #: ../gap/gap_morph_exec.c:3678
 #, c-format
@@ -3891,9 +3858,9 @@ msgid "target frame does not exist, name: %s"
 msgstr ""
 
 #: ../gap/gap_morph_exec.c:3783
-#, fuzzy, c-format
+#, c-format
 msgid "file: %s already exists"
-msgstr "Skráin '%s' er þegar til."
+msgstr "skrá: %s er þegar til"
 
 #: ../gap/gap_morph_main.c:220
 msgid "Morph..."
@@ -3975,7 +3942,6 @@ msgid "Generate Workpointfiles"
 msgstr ""
 
 #: ../gap/gap_morph_tween_dialog.c:700 ../gap/gap_morph_tween_dialog.c:1204
-#, fuzzy
 #: ../gap/gap_story_properties.c:4185
 msgid "From:"
 msgstr "Frá:"
@@ -3985,10 +3951,9 @@ msgid "First processed frame"
 msgstr ""
 
 #: ../gap/gap_morph_tween_dialog.c:716 ../gap/gap_morph_tween_dialog.c:1225
-#, fuzzy
 #: ../gap/gap_story_properties.c:4214
 msgid "To:"
-msgstr "til"
+msgstr "Til:"
 
 #: ../gap/gap_morph_tween_dialog.c:719 ../gap/gap_morph_tween_dialog.c:1228
 msgid "Last processed frame"
@@ -4075,9 +4040,8 @@ msgstr ""
 
 #. the overwrite checkbutton
 #: ../gap/gap_morph_tween_dialog.c:897
-#, fuzzy
 msgid "Append"
-msgstr "_Bæta við"
+msgstr "Bæta aftan við"
 
 #: ../gap/gap_morph_tween_dialog.c:906
 msgid ""
@@ -4101,9 +4065,8 @@ msgstr ""
 
 #. label
 #: ../gap/gap_morph_tween_dialog.c:1158
-#, fuzzy
 msgid "Information:"
-msgstr "Upplýsingar"
+msgstr "Upplýsingar:"
 
 #: ../gap/gap_morph_tween_dialog.c:1169
 #, c-format
@@ -4184,9 +4147,8 @@ msgid "Move Path Editor"
 msgstr ""
 
 #: ../gap/gap_mov_dialog.c:1005
-#, fuzzy
 msgid "Move Path"
-msgstr "Flytja slóð"
+msgstr "Færa feril"
 
 #: ../gap/gap_mov_dialog.c:1049
 msgid "Show preview frame with selected source layer at current controlpoint"
@@ -4205,9 +4167,8 @@ msgid "Source Select"
 msgstr ""
 
 #: ../gap/gap_mov_dialog.c:1116
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Ítarlegar stillingar:"
+msgstr "Ítarlegar stillingar"
 
 #: ../gap/gap_mov_dialog.c:1188
 msgid ""
@@ -4241,7 +4202,6 @@ msgstr ""
 
 #. the Framerate lable
 #: ../gap/gap_mov_dialog.c:1542 ../gap/gap_mpege.c:321
-#, fuzzy
 #: ../gap/gap_navigator_dialog.c:4261 ../gap/gap_story_dialog.c:9413
 #: ../vid_common/gap_cme_gui.c:3790
 msgid "Framerate:"
@@ -4369,51 +4329,42 @@ msgstr ""
 #. the operating Mode label
 #. Paintmode combo (menu)
 #: ../gap/gap_mov_dialog.c:3802 ../gap/gap_name2layer_main.c:461
-#, fuzzy
 #: ../gap/gap_vex_dialog.c:2435 ../gap/gap_video_index_creator.c:982
 #: ../gap/gap_wr_layermode.c:342 ../gap/gap_wr_opacity.c:344
 msgid "Mode:"
 msgstr "Hamur:"
 
 #: ../gap/gap_mov_dialog.c:3809 ../gap/gap_wr_layermode.c:349
-#, fuzzy
 msgid "Behind"
 msgstr "Aftan við"
 
 #: ../gap/gap_mov_dialog.c:3816 ../gap/gap_wr_layermode.c:356
-#, fuzzy
 msgid "Hard Light"
 msgstr "Hart ljós"
 
 #: ../gap/gap_mov_dialog.c:3817 ../gap/gap_wr_layermode.c:357
-#, fuzzy
 msgid "Soft Light"
 msgstr "Mjúkt ljós"
 
 #: ../gap/gap_mov_dialog.c:3818 ../gap/gap_wr_layermode.c:358
-#, fuzzy
 msgid "Grain Extract"
-msgstr "Kornaeimun"
+msgstr "Kornasíun"
 
 #: ../gap/gap_mov_dialog.c:3819 ../gap/gap_wr_layermode.c:359
-#, fuzzy
 msgid "Grain Merge"
 msgstr "Kornablöndun"
 
 #: ../gap/gap_mov_dialog.c:3823 ../gap/gap_wr_layermode.c:363
-#, fuzzy
 msgid "Darken Only"
-msgstr "Dekkja"
+msgstr "Einungis dekkja"
 
 #: ../gap/gap_mov_dialog.c:3824 ../gap/gap_wr_layermode.c:364
-#, fuzzy
 msgid "Lighten Only"
-msgstr "Lýsa"
+msgstr "Einungis lýsa"
 
 #: ../gap/gap_mov_dialog.c:3828 ../gap/gap_wr_layermode.c:368
-#, fuzzy
 msgid "Color Erase"
-msgstr "Stroka út með lit"
+msgstr "Liteyðing"
 
 #: ../gap/gap_mov_dialog.c:3830
 msgid "Keep Paintmode"
@@ -4453,7 +4404,6 @@ msgstr ""
 #. the playback mode checkbuttons
 #. Loop Toggle
 #: ../gap/gap_mov_dialog.c:3910 ../gap/gap_player_dialog.c:8360
-#, fuzzy
 msgid "Loop"
 msgstr "Endurtaka"
 
@@ -4463,7 +4413,7 @@ msgstr ""
 
 #: ../gap/gap_mov_dialog.c:3912
 msgid "Once"
-msgstr ""
+msgstr "Einu sinni"
 
 #: ../gap/gap_mov_dialog.c:3913
 msgid "Once Reverse"
@@ -4471,12 +4421,11 @@ msgstr ""
 
 #: ../gap/gap_mov_dialog.c:3914
 msgid "Ping Pong"
-msgstr ""
+msgstr "Fram og til baka"
 
 #. radio button delace_mode None
 #. radio button flip_request None
 #: ../gap/gap_mov_dialog.c:3915 ../gap/gap_range_ops.c:505
-#, fuzzy
 #: ../gap/gap_story_properties.c:2110 ../gap/gap_story_properties.c:4363
 #: ../gap/gap_story_properties.c:4509
 msgid "None"
@@ -4513,28 +4462,27 @@ msgstr ""
 #. Source Image Handle menu
 #: ../gap/gap_mov_dialog.c:3958
 msgid "Handle:"
-msgstr ""
+msgstr "Haldfang:"
 
 #: ../gap/gap_mov_dialog.c:3963
 msgid "Left  Top"
-msgstr ""
+msgstr "Vinstri, efst"
 
 #: ../gap/gap_mov_dialog.c:3964
 msgid "Left  Bottom"
-msgstr ""
+msgstr "Vinstri, neðst"
 
 #: ../gap/gap_mov_dialog.c:3965
 msgid "Right Top"
-msgstr ""
+msgstr "Hægri, efst"
 
 #: ../gap/gap_mov_dialog.c:3966
 msgid "Right Bottom"
-msgstr ""
+msgstr "Hægri, neðst"
 
 #: ../gap/gap_mov_dialog.c:3967
-#, fuzzy
 msgid "Center"
-msgstr "Miðjað"
+msgstr "Miðja"
 
 #: ../gap/gap_mov_dialog.c:3998
 msgid "How to place the Source layer at controlpoint coordinates"
@@ -4817,7 +4765,6 @@ msgstr ""
 #. table col, row
 #. the width label
 #: ../gap/gap_mov_dialog.c:4770 ../gap/gap_story_dialog.c:9390
-#, fuzzy
 #: ../vid_common/gap_cme_gui.c:3711
 msgid "Width:"
 msgstr "Breidd:"
@@ -4838,7 +4785,6 @@ msgstr ""
 #. table col, row
 #. the height label
 #: ../gap/gap_mov_dialog.c:4788 ../gap/gap_story_dialog.c:9401
-#, fuzzy
 #: ../vid_common/gap_cme_gui.c:3764
 msgid "Height:"
 msgstr "Hæð:"
@@ -4856,9 +4802,8 @@ msgid "Scale source layer's height in percent"
 msgstr ""
 
 #: ../gap/gap_mov_dialog.c:4813 ../gap/gap_resi_dialog.c:812
-#, fuzzy
 msgid "Constrain aspect ratio"
-msgstr "Takmarka hlutföll"
+msgstr "Takmarka stærðarhlutföll"
 
 #. label text
 #. scalesize spinsize
@@ -4875,9 +4820,8 @@ msgstr ""
 #. Rotation
 #. table col, row
 #: ../gap/gap_mov_dialog.c:4840 ../gap/gap_story_att_trans_dlg.c:3705
-#, fuzzy
 msgid "Rotate:"
-msgstr "Snúa"
+msgstr "Snúa:"
 
 #. label text
 #. scalesize spinsize
@@ -5072,7 +5016,6 @@ msgstr ""
 #. accelaration characteristic for Size (i.e. Zoom)
 #. table col, row
 #: ../gap/gap_mov_dialog.c:5118
-#, fuzzy
 msgid "Scale:"
 msgstr "Kvarði:"
 
@@ -5093,7 +5036,6 @@ msgstr ""
 #. accelaration characteristic for Rotation
 #. table col, row
 #: ../gap/gap_mov_dialog.c:5137
-#, fuzzy
 msgid "Rotation:"
 msgstr "Snúningur:"
 
@@ -5114,9 +5056,8 @@ msgstr ""
 #. accelaration characteristic for Perspective
 #. table col, row
 #: ../gap/gap_mov_dialog.c:5155
-#, fuzzy
 msgid "Perspective:"
-msgstr "Fjarvídd"
+msgstr "Fjarvídd:"
 
 #. label text
 #. scalesize spinsize
@@ -5184,12 +5125,12 @@ msgstr ""
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:5353
 msgid "X coordinate"
-msgstr ""
+msgstr "X hnit"
 
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:5371
 msgid "Y coordinate"
-msgstr ""
+msgstr "Y hnit"
 
 #. Keyframe
 #. table col, row
@@ -5214,7 +5155,6 @@ msgid "Scale and Modify"
 msgstr ""
 
 #: ../gap/gap_mov_dialog.c:5424
-#, fuzzy
 msgid "Perspective"
 msgstr "Fjarvídd"
 
@@ -5223,16 +5163,14 @@ msgid "Selection Handling"
 msgstr ""
 
 #: ../gap/gap_mov_dialog.c:5436
-#, fuzzy
 msgid "Acceleration"
-msgstr "_Hröðun:"
+msgstr "Hröðun"
 
 #: ../gap/gap_mov_dialog.c:5554
 msgid "Segment:"
 msgstr ""
 
 #: ../gap/gap_mov_dialog.c:5568
-#, fuzzy
 msgid "Length:"
 msgstr "Lengd:"
 
@@ -5250,9 +5188,8 @@ msgstr ""
 
 #. toggle Show path
 #: ../gap/gap_mov_dialog.c:5636
-#, fuzzy
 msgid "Path"
-msgstr "Slóð"
+msgstr "Ferill"
 
 #: ../gap/gap_mov_dialog.c:5640
 msgid ""
@@ -5263,7 +5200,7 @@ msgstr ""
 #. toggle Show cursor
 #: ../gap/gap_mov_dialog.c:5654
 msgid "Cursor"
-msgstr ""
+msgstr "Bendill"
 
 #: ../gap/gap_mov_dialog.c:5658
 msgid "Show cursor crosslines"
@@ -5271,9 +5208,8 @@ msgstr ""
 
 #. toggle Show Grid
 #: ../gap/gap_mov_dialog.c:5669
-#, fuzzy
 msgid "Grid"
-msgstr "Rúður"
+msgstr "Hnitanet"
 
 #: ../gap/gap_mov_dialog.c:5673
 msgid "Show source layer as gridlines"
@@ -5291,9 +5227,8 @@ msgstr ""
 #. the Preview Frame Number
 #. table col, row
 #: ../gap/gap_mov_dialog.c:5706
-#, fuzzy
 msgid "Frame:"
-msgstr "rammi"
+msgstr "Rammi:"
 
 #. label text
 #. scalesize spinsize
@@ -5350,11 +5285,10 @@ msgid "Movepath rendering for a single frame"
 msgstr ""
 
 #: ../gap/gap_mov_dialog.c:7019 ../gap/gap_player_dialog.c:491
-#, fuzzy
 #: ../gap/gap_story_dialog.c:5311 ../gap/gap_story_dialog.c:9169
 #: ../gap/gap_story_dialog.c:9619
 msgid "Settings"
-msgstr "S_tillingar"
+msgstr "Stillingar"
 
 #: ../gap/gap_mov_exec.c:386
 msgid "Tweenlayer"
@@ -5401,9 +5335,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_mov_main.c:283
-#, fuzzy
 msgid "Move Path..."
-msgstr "Flytja slóð"
+msgstr "Færa feril..."
 
 #: ../gap/gap_mov_main.c:369
 msgid "Move Path Singleframe..."
@@ -5495,9 +5428,8 @@ msgid "Framerate in frames/second"
 msgstr ""
 
 #: ../gap/gap_mpege.c:331
-#, fuzzy
 msgid "Bitrate:"
-msgstr "Bitatíðni:"
+msgstr "Bitahraði:"
 
 #: ../gap/gap_mpege.c:332
 msgid ""
@@ -5506,9 +5438,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_mpege.c:348
-#, fuzzy
 msgid "Outputfile:"
-msgstr "ÚTTAKSSKRÁ"
+msgstr "Úttaksskrá:"
 
 #. pixel
 #: ../gap/gap_mpege.c:350
@@ -5548,7 +5479,6 @@ msgid "Ignore I/P/QSCALE values and use constant bit-rate"
 msgstr ""
 
 #: ../gap/gap_mpege.c:394
-#, fuzzy
 msgid "Pattern:"
 msgstr "Mynstur:"
 
@@ -5698,17 +5628,16 @@ msgid "Position Y-offset in pixels"
 msgstr ""
 
 #: ../gap/gap_name2layer_main.c:513
-#, fuzzy
 msgid "Antialias:"
-msgstr "_Afstöllun"
+msgstr "Afstöllun:"
 
 #: ../gap/gap_name2layer_main.c:514
 msgid "Use antialias"
-msgstr ""
+msgstr "Nota afstöllun"
 
 #: ../gap/gap_name2layer_main.c:520
 msgid "Create Layer:"
-msgstr ""
+msgstr "Búa til lag:"
 
 #: ../gap/gap_name2layer_main.c:521
 msgid ""
@@ -5806,9 +5735,8 @@ msgstr ""
 
 #. radio button active layer tracking OFF
 #: ../gap/gap_navigator_dialog.c:3994
-#, fuzzy
 msgid "OFF"
-msgstr "slökkt"
+msgstr "AF"
 
 #: ../gap/gap_navigator_dialog.c:4007
 msgid "Disable active layer tracking"
@@ -5816,9 +5744,8 @@ msgstr ""
 
 #. radio button thres_mode HSV
 #: ../gap/gap_navigator_dialog.c:4017
-#, fuzzy
 msgid "Name"
-msgstr "Nafn"
+msgstr "Heiti"
 
 #: ../gap/gap_navigator_dialog.c:4030
 msgid "Enable tracking of the active layer by name at framechanges"
@@ -5827,7 +5754,7 @@ msgstr ""
 #. radio button thres_mode VAL
 #: ../gap/gap_navigator_dialog.c:4041
 msgid "Pos"
-msgstr ""
+msgstr "Staða"
 
 #: ../gap/gap_navigator_dialog.c:4054
 msgid "Enable tracking of the active layer by stack position at framechanges"
@@ -5835,30 +5762,28 @@ msgstr ""
 
 #. menu_item copy
 #: ../gap/gap_navigator_dialog.c:4161
-#, fuzzy
 msgid "Copy"
 msgstr "Afrita"
 
 #. menu_item cut
 #: ../gap/gap_navigator_dialog.c:4171
-#, fuzzy
 msgid "Cut"
 msgstr "Klippa"
 
 #. menu_item paste before
 #: ../gap/gap_navigator_dialog.c:4180
 msgid "Paste Before"
-msgstr ""
+msgstr "Líma á undan"
 
 #. menu_item copy
 #: ../gap/gap_navigator_dialog.c:4189
 msgid "Paste After"
-msgstr ""
+msgstr "Líma á eftir"
 
 #. menu_item copy
 #: ../gap/gap_navigator_dialog.c:4198
 msgid "Paste Replace"
-msgstr ""
+msgstr "Líma í staðinn"
 
 #. menu_item copy
 #: ../gap/gap_navigator_dialog.c:4207
@@ -5867,13 +5792,11 @@ msgstr ""
 
 #. menu_item Select All
 #: ../gap/gap_navigator_dialog.c:4217
-#, fuzzy
 msgid "Select All"
 msgstr "Velja allt"
 
 #. menu_item Select None
 #: ../gap/gap_navigator_dialog.c:4226
-#, fuzzy
 msgid "Select None"
 msgstr "Velja ekkert"
 
@@ -5918,17 +5841,16 @@ msgid "Reference Mode:"
 msgstr ""
 
 #: ../gap/gap_onion_dialog.c:998
-#, fuzzy
 msgid "Normal +1,+2,+3,+4,+5,+6"
-msgstr "Venjulegt"
+msgstr "Venjulegt +1,+2,+3,+4,+5,+6"
 
 #: ../gap/gap_onion_dialog.c:999
 msgid "Bidirectional (single) +1,-2,+3,-4,+5,-6"
-msgstr ""
+msgstr "Tvíátta (einfalt) +1,-2,+3,-4,+5,-6"
 
 #: ../gap/gap_onion_dialog.c:1000
 msgid "Bidirectional (double) +1,-1,+2,-2,+3,-3"
-msgstr ""
+msgstr "Tvíátta (tvöfalt) +1,-1,+2,-2,+3,-3"
 
 #: ../gap/gap_onion_dialog.c:1012
 msgid ""
@@ -6046,7 +5968,6 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_onion_dialog.c:1275
-#, fuzzy
 msgid "Invert Selection"
 msgstr "Umhverfa vali"
 
@@ -6122,16 +6043,14 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_onion_main.c:152
-#, fuzzy
 msgid "Configuration..."
-msgstr "Uppsetning"
+msgstr "Stillingar..."
 
 #: ../gap/gap_onion_main.c:170
 msgid "Create or Replace"
 msgstr ""
 
 #: ../gap/gap_onion_main.c:198
-#, fuzzy
 msgid "Toggle Visibility"
 msgstr "Víxla sýnileika"
 
@@ -6183,7 +6102,7 @@ msgstr ""
 #: ../gap/gap_player_dialog.c:468 ../gap/gap_player_dialog.c:7159
 #: ../gap/gap_story_dialog.c:9532 ../vid_common/gap_cme_gui.c:3424
 msgid "Samplerate:"
-msgstr ""
+msgstr "Safntíðni:"
 
 #: ../gap/gap_player_dialog.c:469
 msgid "Target audio samplerate in samples/sec. Ignored if resample is off"
@@ -6203,7 +6122,7 @@ msgstr ""
 
 #: ../gap/gap_player_dialog.c:647
 msgid "Audio Delay"
-msgstr ""
+msgstr "Töf hljóðs"
 
 #: ../gap/gap_player_dialog.c:659
 msgid "Syncron"
@@ -6263,27 +6182,23 @@ msgstr ""
 
 #. shortname prefix to indicate that displayed filename is a single videofile
 #: ../gap/gap_player_dialog.c:2215
-#, fuzzy
 msgid "VIDEO:"
-msgstr "Vídeó"
+msgstr "MYNDSKEIÐ:"
 
 #. shortname prefix to indicate that displayed filename is basename of the frames
 #: ../gap/gap_player_dialog.c:2227
-#, fuzzy
 msgid "FRAMES:"
-msgstr "rammar"
+msgstr "RAMMAR:"
 
 #. pending timer_go_job gets useless, since we start playback now
 #: ../gap/gap_player_dialog.c:2326 ../gap/gap_player_dialog.c:4812
-#, fuzzy
 msgid "Playing"
-msgstr "Spila"
+msgstr "Afspilun"
 
 #. the status value label
 #: ../gap/gap_player_dialog.c:2365 ../gap/gap_player_dialog.c:8459
-#, fuzzy
 msgid "Ready"
-msgstr "Tilbúinn"
+msgstr "Tilbúið"
 
 #: ../gap/gap_player_dialog.c:2499
 msgid "checking audiotrack"
@@ -6337,7 +6252,6 @@ msgid "Videoseek"
 msgstr ""
 
 #: ../gap/gap_player_dialog.c:3695 ../gap/gap_player_dialog.c:4194
-#, fuzzy
 #: ../gap/gap_story_vthumb.c:361
 msgid "Canceled"
 msgstr "Hætt við"
@@ -6345,7 +6259,7 @@ msgstr "Hætt við"
 #: ../gap/gap_player_dialog.c:4824
 #, c-format
 msgid "Delay %.2f"
-msgstr ""
+msgstr "Seinkun %.2f"
 
 #: ../gap/gap_player_dialog.c:6551
 #, c-format
@@ -6408,18 +6322,17 @@ msgstr ""
 
 #. Volume
 #: ../gap/gap_player_dialog.c:6913 ../gap/gap_story_dialog.c:9548
-#, fuzzy
 msgid "Volume:"
-msgstr "Gagnahirsla:"
+msgstr "Hljóðstyrkur:"
 
 #: ../gap/gap_player_dialog.c:6933
 msgid "Audio Volume"
-msgstr ""
+msgstr "Hljóðstyrkur"
 
 #. check button
 #: ../gap/gap_player_dialog.c:6939
 msgid "Enable"
-msgstr ""
+msgstr "Virkja"
 
 #: ../gap/gap_player_dialog.c:6944
 msgid ""
@@ -6429,7 +6342,6 @@ msgstr ""
 
 #. Sample Offset
 #: ../gap/gap_player_dialog.c:6954
-#, fuzzy
 msgid "Offset:"
 msgstr "Hliðrun:"
 
@@ -6458,7 +6370,7 @@ msgstr ""
 
 #: ../gap/gap_player_dialog.c:7030
 msgid "Audio Track"
-msgstr ""
+msgstr "Hljóðrás"
 
 #: ../gap/gap_player_dialog.c:7040
 msgid ""
@@ -6499,20 +6411,18 @@ msgstr ""
 
 #. Audiolength (Samples)
 #: ../gap/gap_player_dialog.c:7144
-#, fuzzy
 msgid "Samples:"
-msgstr "Sýnishorn"
+msgstr "Hljóðsýni:"
 
 #. Audio Channels
 #: ../gap/gap_player_dialog.c:7173
-#, fuzzy
 msgid "Channels:"
-msgstr "Litrásir"
+msgstr "Hljóðrásir:"
 
 #. Bits per Audio Sample
 #: ../gap/gap_player_dialog.c:7187
 msgid "Bits/Sample:"
-msgstr ""
+msgstr "Bitar/sýni:"
 
 #. Total Video Length (mm:ss:msec)
 #. the video timing information labels
@@ -6527,7 +6437,7 @@ msgstr ""
 #. Cache size label
 #: ../gap/gap_player_dialog.c:7457
 msgid "Cache Size (MB):"
-msgstr ""
+msgstr "Stærð skyndiminnis (MB):"
 
 #: ../gap/gap_player_dialog.c:7483
 msgid "Player frame cache maximum size in MB. Value 0 turns the cache off."
@@ -6634,9 +6544,8 @@ msgstr ""
 
 #. configure options TAB frame
 #: ../gap/gap_player_dialog.c:7829
-#, fuzzy
 msgid "Preferences"
-msgstr "Stillingar"
+msgstr "Kjörstillingar"
 
 #. audio options TAB frame
 #. the Audio Options notebook tab
@@ -6721,9 +6630,8 @@ msgstr ""
 
 #. SelOnly Toggle (keep text short)
 #: ../gap/gap_player_dialog.c:8380
-#, fuzzy
 msgid "Selection only"
-msgstr "Eingöngu va_l"
+msgstr "Eingöngu val"
 
 #: ../gap/gap_player_dialog.c:8386
 msgid ""
@@ -6734,7 +6642,7 @@ msgstr ""
 #. PingPong Toggle (keep text short)
 #: ../gap/gap_player_dialog.c:8399
 msgid "Ping pong"
-msgstr ""
+msgstr "Fram og til baka"
 
 #: ../gap/gap_player_dialog.c:8405
 msgid "ON: Play alternating forward/backward"
@@ -6743,7 +6651,7 @@ msgstr ""
 #. UseThumbnails Toggle (keep text short)
 #: ../gap/gap_player_dialog.c:8418
 msgid "Thumbnails"
-msgstr ""
+msgstr "Smámyndir"
 
 #: ../gap/gap_player_dialog.c:8424
 msgid ""
@@ -6776,9 +6684,8 @@ msgstr ""
 
 #. the PLAY button
 #: ../gap/gap_player_dialog.c:8531
-#, fuzzy
 msgid "Play"
-msgstr "Spila"
+msgstr "Afspilun"
 
 #: ../gap/gap_player_dialog.c:8534
 msgid ""
@@ -6788,7 +6695,6 @@ msgstr ""
 
 #. the PAUSE button
 #: ../gap/gap_player_dialog.c:8543
-#, fuzzy
 msgid "Pause"
 msgstr "Hlé"
 
@@ -6800,7 +6706,6 @@ msgstr ""
 
 #. the PLAY_REVERSE button
 #: ../gap/gap_player_dialog.c:8554
-#, fuzzy
 msgid "Reverse"
 msgstr "Snúa við"
 
@@ -6812,28 +6717,24 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_player_main.c:289
-#, fuzzy
 msgid "Playback..."
-msgstr "Afs_pilun..."
+msgstr "Afspilun..."
 
 #: ../gap/gap_range_ops.c:148
-#, fuzzy
 msgid "New Width:"
 msgstr "Ný breidd:"
 
 #: ../gap/gap_range_ops.c:159
 msgid "New Height:"
-msgstr ""
+msgstr "Ný hæð:"
 
 #: ../gap/gap_range_ops.c:170
-#, fuzzy
 msgid "Offset X:"
-msgstr "Hliðrun X"
+msgstr "Hliðrun X:"
 
 #: ../gap/gap_range_ops.c:181
-#, fuzzy
 msgid "Offset Y:"
-msgstr "Hliðrun Y"
+msgstr "Hliðrun Y:"
 
 #: ../gap/gap_range_ops.c:195
 msgid "Crop Video Frames (all)"
@@ -6863,7 +6764,6 @@ msgid "Scale (original %dx%d)"
 msgstr ""
 
 #: ../gap/gap_range_ops.c:220 ../gap/gap_story_dialog.c:9159
-#, fuzzy
 #: ../gap/gap_story_dialog.c:9606
 msgid "Reset"
 msgstr "Frumstilla"
@@ -6879,11 +6779,11 @@ msgstr ""
 
 #: ../gap/gap_range_ops.c:375
 msgid "Generate Optimal Palette"
-msgstr ""
+msgstr "Búa til bestað litaspjald"
 
 #: ../gap/gap_range_ops.c:376
 msgid "WEB Palette"
-msgstr ""
+msgstr "Vef-litaspjald"
 
 #: ../gap/gap_range_ops.c:377
 msgid "Use Custom Palette"
@@ -6898,28 +6798,24 @@ msgid "Floyd-Steinberg Color Dithering (Normal)"
 msgstr "Floyd-Steinberg litapunktadreifing (venjulegt)"
 
 #: ../gap/gap_range_ops.c:381
-#, fuzzy
 msgid "Floyd-Steinberg Color Dithering (Reduced Color Bleeding)"
-msgstr "Floyd-Steinberg litahvarfl (minnkuð smitun)"
+msgstr "Floyd-Steinberg litapunktadreifing(minnkuð litblæðing)"
 
 #: ../gap/gap_range_ops.c:382
-#, fuzzy
 msgid "Positioned Color Dithering"
-msgstr "Staðsett litahvarfl"
+msgstr "Staðsett litpunktadreifing"
 
 #: ../gap/gap_range_ops.c:383
-#, fuzzy
 msgid "No Color Dithering"
-msgstr "Ekkert litahvarfl"
+msgstr "Engin litpunktadreifing"
 
 #: ../gap/gap_range_ops.c:395
-#, fuzzy
 msgid "Palette Type"
-msgstr "Tegund _litaspjalds:"
+msgstr "Tegund litaspjalds:"
 
 #: ../gap/gap_range_ops.c:402
 msgid "Custom Palette"
-msgstr ""
+msgstr "Sérsniðið litaspjald"
 
 #: ../gap/gap_range_ops.c:403
 msgid "Name of a custom palette (ignored if palette type is not custom)"
@@ -6927,14 +6823,13 @@ msgstr ""
 
 #: ../gap/gap_range_ops.c:408
 msgid "Remove Unused"
-msgstr ""
+msgstr "Fjarlægja ónotað"
 
 #: ../gap/gap_range_ops.c:409
 msgid "Remove unused or double colors (ignored if palette type is not custom)"
 msgstr ""
 
 #: ../gap/gap_range_ops.c:414
-#, fuzzy
 msgid "Number of Colors"
 msgstr "Fjöldi lita"
 
@@ -6953,43 +6848,40 @@ msgid "Enable Transparency"
 msgstr ""
 
 #: ../gap/gap_range_ops.c:430
-#, fuzzy
 msgid "Enable dithering of transparency"
-msgstr "Virkja punktdreifingu í _gegnsæi"
+msgstr "Virkja punktadreifingu í gegnsæi"
 
 #: ../gap/gap_range_ops.c:433
 msgid "Convert Frames to Indexed"
-msgstr ""
+msgstr "Umbreyta römmum í litnúmerað"
 
 #: ../gap/gap_range_ops.c:434
 msgid "Palette and Dither Settings"
-msgstr ""
+msgstr "Stillingar litaspjalda og litpunktadreifingar"
 
 #: ../gap/gap_range_ops.c:499
 msgid "Keep Type"
 msgstr ""
 
 #: ../gap/gap_range_ops.c:500
-#, fuzzy
 msgid "Convert to RGB"
 msgstr "Umbreyta í RGB"
 
 #: ../gap/gap_range_ops.c:501
 msgid "Convert to Gray"
-msgstr ""
+msgstr "Umbreyta í grátóna"
 
 #: ../gap/gap_range_ops.c:502
 msgid "Convert to Indexed"
-msgstr ""
+msgstr "Umbreyta í númeraða liti"
 
 #: ../gap/gap_range_ops.c:506
 msgid "Flatten"
-msgstr ""
+msgstr "Fletja"
 
 #: ../gap/gap_range_ops.c:507
-#, fuzzy
 msgid "Merge Visible Layers"
-msgstr "Tvinna sýnileg lög"
+msgstr "Sameina sýnileg lög"
 
 #: ../gap/gap_range_ops.c:510
 msgid ""
@@ -7027,7 +6919,7 @@ msgstr ""
 #: ../gap/gap_range_ops.c:562 ../gap/gap_split.c:454
 #: ../gap/gap_vex_dialog.c:2577
 msgid "Extension:"
-msgstr ""
+msgstr "Skráarending:"
 
 #: ../gap/gap_range_ops.c:563
 msgid ""
@@ -7049,9 +6941,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_range_ops.c:582
-#, fuzzy
 msgid "Merge Layers:"
-msgstr "Tvinna lög"
+msgstr "Sameina lög:"
 
 #: ../gap/gap_range_ops.c:596
 msgid "Convert Frames to other Formats"
@@ -7066,18 +6957,16 @@ msgid "Expand as necessary"
 msgstr ""
 
 #: ../gap/gap_range_ops.c:677
-#, fuzzy
 msgid "Clipped to image"
 msgstr "Klippt að mynd"
 
 #: ../gap/gap_range_ops.c:678
-#, fuzzy
 msgid "Clipped to bottom layer"
 msgstr "Klippt að botnlagi"
 
 #: ../gap/gap_range_ops.c:679
 msgid "Flattened image"
-msgstr ""
+msgstr "Flött mynd"
 
 #: ../gap/gap_range_ops.c:680
 msgid ""
@@ -7123,9 +7012,8 @@ msgstr ""
 
 #. Selection modes
 #: ../gap/gap_range_ops.c:704
-#, fuzzy
 msgid "Ignore"
-msgstr "_Hunsa"
+msgstr "Hunsa"
 
 #: ../gap/gap_range_ops.c:705
 msgid "Initial frame"
@@ -7188,7 +7076,7 @@ msgstr ""
 
 #: ../gap/gap_range_ops.c:802
 msgid "Case sensitive:"
-msgstr ""
+msgstr "Næmt fyrir há- og lágstöfum:"
 
 #: ../gap/gap_range_ops.c:808
 msgid "Invert Layer Selection:"
@@ -7274,50 +7162,45 @@ msgstr ""
 
 #. the original width & height labels
 #: ../gap/gap_resi_dialog.c:668
-#, fuzzy
 msgid "Current width:"
 msgstr "Núverandi breidd:"
 
 #: ../gap/gap_resi_dialog.c:674
 msgid "Current height:"
-msgstr ""
+msgstr "Núverandi hæð:"
 
 #. the new size labels
 #: ../gap/gap_resi_dialog.c:696
-#, fuzzy
 msgid "New width:"
 msgstr "Ný breidd:"
 
 #: ../gap/gap_resi_dialog.c:702
 msgid "New height:"
-msgstr ""
+msgstr "Ný hæð:"
 
 #. the scale ratio labels
 #: ../gap/gap_resi_dialog.c:750
-#, fuzzy
 msgid "X ratio:"
-msgstr "_X hlutfall:"
+msgstr "X hlutfall:"
 
 #: ../gap/gap_resi_dialog.c:756
-#, fuzzy
 msgid "Y ratio:"
-msgstr "_Y hlutfall:"
+msgstr "Y hlutfall:"
 
 #. the offset frame
 #: ../gap/gap_resi_dialog.c:828
-#, fuzzy
 msgid "Offset"
 msgstr "Hliðrun"
 
 #. the center offsetX button
 #: ../gap/gap_resi_dialog.c:894
 msgid "Center Horizontal"
-msgstr ""
+msgstr "Miðja lárétt"
 
 #. the center offsetY button
 #: ../gap/gap_resi_dialog.c:905
 msgid "Center Vertical"
-msgstr ""
+msgstr "Miðja lóðrétt"
 
 #: ../gap/gap_split.c:172
 msgid "Splitting image into frames..."
@@ -7403,7 +7286,7 @@ msgstr ""
 
 #: ../gap/gap_stock.c:44
 msgid "Add Point"
-msgstr ""
+msgstr "Bæta við punkti"
 
 #: ../gap/gap_stock.c:45
 msgid "Anim Preview"
@@ -7415,7 +7298,7 @@ msgstr ""
 
 #: ../gap/gap_stock.c:47
 msgid "Delete Point"
-msgstr ""
+msgstr "Eyða punkti"
 
 #: ../gap/gap_stock.c:48
 msgid "First Point"
@@ -7427,7 +7310,7 @@ msgstr ""
 
 #: ../gap/gap_stock.c:50
 msgid "Insert Point"
-msgstr ""
+msgstr "Setja inn punkt"
 
 #: ../gap/gap_stock.c:51
 msgid "Last Point"
@@ -7459,7 +7342,6 @@ msgstr ""
 
 #. auto update toggle  check button
 #: ../gap/gap_story_att_trans_dlg.c:3210
-#, fuzzy
 msgid "Update"
 msgstr "Uppfæra"
 
@@ -7469,9 +7351,8 @@ msgstr ""
 
 #. from start label
 #: ../gap/gap_story_att_trans_dlg.c:3320
-#, fuzzy
 msgid "Start:"
-msgstr "_Ræsa"
+msgstr "Upphaf:"
 
 #: ../gap/gap_story_att_trans_dlg.c:3323 ../gap/gap_story_att_trans_dlg.c:3366
 msgid ""
@@ -7481,9 +7362,8 @@ msgstr ""
 
 #. to (end value of transition) button
 #: ../gap/gap_story_att_trans_dlg.c:3363
-#, fuzzy
 msgid "End:"
-msgstr "endir: %1"
+msgstr "Endir:"
 
 #: ../gap/gap_story_att_trans_dlg.c:3410 ../gap/gap_story_att_trans_dlg.c:3664
 msgid "Copy this number of frames to all enabled rows"
@@ -7499,7 +7379,6 @@ msgstr ""
 
 #. the frame
 #: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
-#, fuzzy
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
 #: ../gap/gap_story_properties.c:4040
 #: ../gap/gap_story_section_properties.c:784
@@ -7513,7 +7392,6 @@ msgstr ""
 
 #. the fit width check button
 #: ../gap/gap_story_att_trans_dlg.c:3589
-#, fuzzy
 msgid "Width"
 msgstr "Breidd"
 
@@ -7523,7 +7401,6 @@ msgstr ""
 
 #. the fit height check button
 #: ../gap/gap_story_att_trans_dlg.c:3608
-#, fuzzy
 msgid "Height"
 msgstr "Hæð"
 
@@ -7544,9 +7421,8 @@ msgstr ""
 
 #. the overlap label (same row as FitSize)
 #: ../gap/gap_story_att_trans_dlg.c:3654
-#, fuzzy
 msgid "Overlap:"
-msgstr "S_körun:"
+msgstr "Skörun:"
 
 #: ../gap/gap_story_att_trans_dlg.c:3689
 msgid "Number of overlapping frames within this track"
@@ -7601,7 +7477,7 @@ msgstr ""
 
 #: ../gap/gap_story_att_trans_dlg.c:3760
 msgid "Move X:"
-msgstr ""
+msgstr "Færsla X:"
 
 #. lower constraint for the from/to values
 #. upper constraint for the from/to values
@@ -7633,7 +7509,7 @@ msgstr ""
 
 #: ../gap/gap_story_att_trans_dlg.c:3789
 msgid "Move Y:"
-msgstr ""
+msgstr "Færsla Y:"
 
 #. lower constraint for the from/to values
 #. upper constraint for the from/to values
@@ -7728,9 +7604,8 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_story_att_trans_dlg.c:3873
-#, fuzzy
 msgid "Move Path:"
-msgstr "Flytja slóð"
+msgstr "Færa feril:"
 
 #. lower constraint for the from/to values
 #. upper constraint for the from/to values
@@ -7771,7 +7646,6 @@ msgstr ""
 #. the comment label
 #. the Comment lable
 #: ../gap/gap_story_att_trans_dlg.c:3990 ../gap/gap_story_properties.c:5048
-#, fuzzy
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3745
 msgid "Comment:"
 msgstr "Athugasemd:"
@@ -7802,43 +7676,38 @@ msgid "Save Storyboard file"
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:4797
-#, fuzzy, c-format
+#, c-format
 msgid "UNDO %s"
-msgstr "_Afturkalla %s"
+msgstr "AFTURKALLA %s"
 
 #: ../gap/gap_story_dialog.c:4802 ../gap/gap_story_dialog.c:8128
-#, fuzzy
 msgid "UNDO"
-msgstr "_Afturkalla"
+msgstr "AFTURKALLA"
 
 #: ../gap/gap_story_dialog.c:4836
-#, fuzzy, c-format
+#, c-format
 msgid "REDO %s"
-msgstr "_Endurgera %s"
+msgstr "ENDURTAKA %s"
 
 #: ../gap/gap_story_dialog.c:4841 ../gap/gap_story_dialog.c:8138
-#, fuzzy
 msgid "REDO"
-msgstr "_Endurgera"
+msgstr "ENDURTAKA"
 
 #: ../gap/gap_story_dialog.c:5204
 msgid "Global Layout Properties dialog already open"
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:5211
-#, fuzzy
 msgid "large"
-msgstr "Stór"
+msgstr "stór"
 
 #: ../gap/gap_story_dialog.c:5212
-#, fuzzy
 msgid "medium"
-msgstr "Miðlungs"
+msgstr "miðlungs"
 
 #: ../gap/gap_story_dialog.c:5213
-#, fuzzy
 msgid "small"
-msgstr "Lítil"
+msgstr "lítið"
 
 #: ../gap/gap_story_dialog.c:5218
 msgid "Cliplist Layout:"
@@ -7853,7 +7722,6 @@ msgid "Thumbnail size in the cliplist"
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:5234 ../gap/gap_story_dialog.c:5274
-#, fuzzy
 msgid "Columns:"
 msgstr "Dálkar:"
 
@@ -7862,9 +7730,8 @@ msgid "columns in the cliplist"
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:5245 ../gap/gap_story_dialog.c:5285
-#, fuzzy
 msgid "Rows:"
-msgstr "Raðir"
+msgstr "Raðir:"
 
 #: ../gap/gap_story_dialog.c:5246
 msgid "rows in the cliplist"
@@ -8019,7 +7886,7 @@ msgstr ""
 
 #: ../gap/gap_story_dialog.c:6302
 msgid "Global"
-msgstr ""
+msgstr "Víðvært"
 
 #: ../gap/gap_story_dialog.c:6316
 msgid "Video thumbnails"
@@ -8030,7 +7897,6 @@ msgid "DEBUG: log to stdout"
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:6344
-#, fuzzy
 msgid "Help"
 msgstr "Hjálp"
 
@@ -8042,10 +7908,9 @@ msgstr ""
 #. XXXXXXXXXXX Player Frame  XXXXXXXXXXXX
 #. the player_frame
 #: ../gap/gap_story_dialog.c:6383 ../gap/gap_story_dialog.c:6483
-#, fuzzy
 #: ../gap/gap_story_dialog.c:8929
 msgid "Playback"
-msgstr "Afs_pilun..."
+msgstr "Afspilun"
 
 #: ../gap/gap_story_dialog.c:6395 ../gap/gap_story_dialog.c:6495
 msgid "Create Clip"
@@ -8069,7 +7934,7 @@ msgstr ""
 
 #: ../gap/gap_story_dialog.c:6424 ../gap/gap_story_dialog.c:6524
 msgid "Encode"
-msgstr ""
+msgstr "Kóða"
 
 #: ../gap/gap_story_dialog.c:6459
 msgid "_Storyboard"
@@ -8098,7 +7963,6 @@ msgid "Storyboard:"
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:6683 ../gap/gap_story_dialog.c:6712
-#, fuzzy
 msgid "(modified)"
 msgstr "(breytt)"
 
@@ -8121,9 +7985,8 @@ msgid "Fetching video thumbnail for clip: %d (out of %d)"
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:7915 ../gap/gap_story_section_properties.c:645
-#, fuzzy
 msgid "MAIN"
-msgstr "Aðal:"
+msgstr "AÐAL"
 
 #: ../gap/gap_story_dialog.c:7918
 msgid "Masks"
@@ -8152,7 +8015,7 @@ msgstr ""
 #. Track label
 #: ../gap/gap_story_dialog.c:8099 ../gap/gap_video_index_creator.c:970
 msgid "Track:"
-msgstr ""
+msgstr "Spor:"
 
 #: ../gap/gap_story_dialog.c:8114
 msgid "Video Track Number (0 refers to mask definition track)"
@@ -8187,9 +8050,8 @@ msgstr ""
 #. gtk_widget_show (entry);
 #. Row label
 #: ../gap/gap_story_dialog.c:8231
-#, fuzzy
 msgid "Row:"
-msgstr "_Röð:"
+msgstr "Röð:"
 
 #: ../gap/gap_story_dialog.c:8245
 msgid "Top rownumber"
@@ -8197,9 +8059,8 @@ msgstr ""
 
 #. of label
 #: ../gap/gap_story_dialog.c:8251
-#, fuzzy
 msgid "of:"
-msgstr "af"
+msgstr "af:"
 
 #. The dialog and main vbox
 #. the help_id is passed as NULL to avoid creation of the HELP button
@@ -8222,7 +8083,6 @@ msgid "ON: clip target is storyboard (for clips created from playback range)."
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:9048 ../vid_common/gap_cme_gui.c:2459
-#, fuzzy
 msgid "Cancel"
 msgstr "Hætta við"
 
@@ -8293,12 +8153,10 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_story_dialog.c:9313
-#, fuzzy
 msgid "automatic"
-msgstr "Sjálfvirkt"
+msgstr "sjálfvirkt"
 
 #: ../gap/gap_story_dialog.c:9314
-#, fuzzy
 msgid "none"
 msgstr "ekkert"
 
@@ -8318,7 +8176,7 @@ msgstr ""
 #: ../gap/gap_story_dialog.c:9378 ../gap/gap_story_dialog.c:9382
 #, c-format
 msgid "Name: %s"
-msgstr ""
+msgstr "Heiti: %s"
 
 #: ../gap/gap_story_dialog.c:9391
 msgid "Master width of the resulting video in pixels"
@@ -8529,18 +8387,16 @@ msgid "Set Filtermacro Filename"
 msgstr ""
 
 #: ../gap/gap_story_properties.c:2738
-#, fuzzy
 msgid "EMPTY"
-msgstr "(Tóm)"
+msgstr "TÓMT"
 
 #: ../gap/gap_story_properties.c:2741
-#, fuzzy
 msgid "COLOR"
-msgstr "Litur"
+msgstr "LITUR"
 
 #: ../gap/gap_story_properties.c:2744
 msgid "SINGLE-IMAGE"
-msgstr ""
+msgstr "STÖK_MYND"
 
 #: ../gap/gap_story_properties.c:2748
 msgid "ANIM-IMAGE"
@@ -8551,27 +8407,24 @@ msgid "FRAME-IMAGES"
 msgstr ""
 
 #: ../gap/gap_story_properties.c:2757
-#, fuzzy
 msgid "MOVIE"
-msgstr "Kvik_mynd"
+msgstr "MYNDSKEIÐ"
 
 #: ../gap/gap_story_properties.c:2761
 msgid "SECTION"
-msgstr ""
+msgstr "HLUTI"
 
 #: ../gap/gap_story_properties.c:2765
 msgid "BLACKSECTION"
 msgstr ""
 
 #: ../gap/gap_story_properties.c:2768
-#, fuzzy
 msgid "COMMENT"
-msgstr "Athugasemd"
+msgstr "ATHUGASEMD"
 
 #: ../gap/gap_story_properties.c:2771
-#, fuzzy
 msgid "** UNKNOWN **"
-msgstr "Óþekkt"
+msgstr "** ÓÞEKKT **"
 
 #: ../gap/gap_story_properties.c:2800
 #: ../gap/gap_story_section_properties.c:599
@@ -8580,14 +8433,12 @@ msgid "%d (frames)"
 msgstr "%d (rammar)"
 
 #: ../gap/gap_story_properties.c:3584
-#, fuzzy
 msgid "ON:"
-msgstr "kveikt"
+msgstr "Á:"
 
 #: ../gap/gap_story_properties.c:3593
-#, fuzzy
 msgid "OFF:"
-msgstr "slökkt"
+msgstr "AF:"
 
 #: ../gap/gap_story_properties.c:3617
 msgid "Filtermacro2: "
@@ -8599,7 +8450,7 @@ msgstr ""
 
 #: ../gap/gap_story_properties.c:4000 ../gap/gap_story_properties.c:4012
 msgid "Clip Properties"
-msgstr ""
+msgstr "Eiginleikar myndskeiðs"
 
 #: ../gap/gap_story_properties.c:4005 ../gap/gap_story_properties.c:4016
 msgid "Find Scene End"
@@ -8698,9 +8549,8 @@ msgstr ""
 #. the Deinterlace Mode label
 #. the deinterlace Mode label
 #: ../gap/gap_story_properties.c:4345 ../gap/gap_vex_dialog.c:2641
-#, fuzzy
 msgid "Deinterlace:"
-msgstr "_Aftvinna"
+msgstr "Afflétta:"
 
 #: ../gap/gap_story_properties.c:4372
 msgid "Read videoframes 1:1 without de-interlace filter"
@@ -8708,7 +8558,6 @@ msgstr ""
 
 #. radio button delace_mode odd
 #: ../gap/gap_story_properties.c:4381
-#, fuzzy
 msgid "Odd"
 msgstr "Odda"
 
@@ -8718,7 +8567,6 @@ msgstr ""
 
 #. radio button delace_mode even
 #: ../gap/gap_story_properties.c:4399
-#, fuzzy
 msgid "Even"
 msgstr "Jafnar"
 
@@ -8751,7 +8599,6 @@ msgstr ""
 
 #. the Transform (flip_request) label
 #: ../gap/gap_story_properties.c:4490
-#, fuzzy
 msgid "Transform:"
 msgstr "Umbreyta:"
 
@@ -8761,9 +8608,8 @@ msgstr ""
 
 #. radio button flip_request rotate 180 degree
 #: ../gap/gap_story_properties.c:4528
-#, fuzzy
 msgid "Rotate 180"
-msgstr "Snúa"
+msgstr "Snúa 180"
 
 #: ../gap/gap_story_properties.c:4537
 msgid "Rotate all frames of this clip by 180 degree"
@@ -8771,9 +8617,8 @@ msgstr ""
 
 #. radio button flip_request hor
 #: ../gap/gap_story_properties.c:4546
-#, fuzzy
 msgid "Flip Horizontally"
-msgstr "Spegla lárétt"
+msgstr "Fletta lárétt"
 
 #: ../gap/gap_story_properties.c:4555
 msgid "Flip all frames of this clip horizontally"
@@ -8781,9 +8626,8 @@ msgstr ""
 
 #. radio button flip_request ver
 #: ../gap/gap_story_properties.c:4564
-#, fuzzy
 msgid "Flip Vertically"
-msgstr "Snúa _Lóðrétt"
+msgstr "Fletta lóðrétt"
 
 #: ../gap/gap_story_properties.c:4573
 msgid "Flip all frames of this clip vertically"
@@ -8811,7 +8655,7 @@ msgstr ""
 #. the mask enable check button
 #: ../gap/gap_story_properties.c:4664
 msgid "enable"
-msgstr ""
+msgstr "virkja"
 
 #: ../gap/gap_story_properties.c:4673
 msgid "ON: Enable layer mask"
@@ -8824,9 +8668,8 @@ msgstr ""
 
 #. radio button mask_anchor Clip
 #: ../gap/gap_story_properties.c:4729
-#, fuzzy
 msgid "Clip"
-msgstr "Klemma"
+msgstr "Afmarka"
 
 #: ../gap/gap_story_properties.c:4738
 msgid "Attach mask to clip at clip position in clip size"
@@ -8836,10 +8679,9 @@ msgstr ""
 #. Hue Mode the radio buttons
 #. Channel the radio buttons
 #: ../gap/gap_story_properties.c:4747 ../gap/gap_wr_color_huesat.c:645
-#, fuzzy
 #: ../gap/gap_wr_color_levels.c:654
 msgid "Master"
-msgstr "_Aðal"
+msgstr "Yfir"
 
 #: ../gap/gap_story_properties.c:4756
 msgid "Attach mask in resulting master video size at fixed position"
@@ -8954,9 +8796,9 @@ msgstr ""
 
 #: ../gap/gap_story_render_audio.c:1710 ../vid_common/gap_cme_gui.c:1500
 #: ../vid_common/gap_cme_gui.c:1666
-#, fuzzy, c-format
+#, c-format
 msgid "ready"
-msgstr "Tilbúinn"
+msgstr "tilbúið"
 
 #: ../gap/gap_story_render_processor.c:1031
 #, c-format
@@ -9011,9 +8853,8 @@ msgid "Clips of the MAIN section are rendered in the output video"
 msgstr ""
 
 #: ../gap/gap_story_section_properties.c:651
-#, fuzzy
 msgid "Mask"
-msgstr "Maski"
+msgstr "Hula"
 
 #: ../gap/gap_story_section_properties.c:654
 msgid ""
@@ -9037,7 +8878,6 @@ msgstr ""
 
 #. the Section Type: label
 #: ../gap/gap_story_section_properties.c:799
-#, fuzzy
 msgid "Type:"
 msgstr "Tegund:"
 
@@ -9221,7 +9061,6 @@ msgid "Basename for extracted frames (framenr and extension is added)"
 msgstr ""
 
 #: ../gap/gap_vex_dialog.c:2480
-#, fuzzy
 msgid "frame_"
 msgstr "rammi"
 
@@ -9457,9 +9296,8 @@ msgid "operation mode"
 msgstr ""
 
 #: ../gap/gap_video_index_creator.c:993
-#, fuzzy
 msgid "Percentage:"
-msgstr "Hlutfall:"
+msgstr "Prósentuhlutfall:"
 
 #: ../gap/gap_video_index_creator.c:994
 msgid ""
@@ -9489,7 +9327,6 @@ msgstr ""
 
 #. the Status frame
 #: ../gap/gap_video_index_creator.c:1341 ../vid_common/gap_cme_gui.c:2776
-#, fuzzy
 msgid "Status"
 msgstr "Staða"
 
@@ -9791,18 +9628,16 @@ msgid "High Output:"
 msgstr ""
 
 #: ../gap/gap_wr_layermode.c:131
-#, fuzzy
 msgid "Set Layer Mode..."
-msgstr "Stilla ham lagsins"
+msgstr "Stilla ham lagsins..."
 
 #: ../gap/gap_wr_layermode.c:306
 msgid "LAYERMODE"
 msgstr ""
 
 #: ../gap/gap_wr_opacity.c:141
-#, fuzzy
 msgid "Set Layer Opacity..."
-msgstr "Stilla ógegnsæi lagsins"
+msgstr "Stilla ógegnsæi lagsins..."
 
 #: ../gap/gap_wr_opacity.c:333
 msgid "New opacity value where 0 is transparent and 100.0 is opaque"
@@ -9815,7 +9650,6 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_wr_opacity.c:359
-#, fuzzy
 msgid "Set Layer Opacity"
 msgstr "Stilla gagnsæi lags"
 
@@ -9847,7 +9681,6 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_wr_resynth.c:491
-#, fuzzy
 msgid "Seed:"
 msgstr "Sáðtala:"
 
@@ -9861,39 +9694,37 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_wr_trans.c:185
-#, fuzzy
 msgid "Flip Horizontal"
-msgstr "Velta Lá_rétt"
+msgstr "Velta lárétt"
 
 #: ../gap/gap_wr_trans.c:202
-#, fuzzy
 msgid "Flip Vertical"
-msgstr "Velta _Lóðrétt"
+msgstr "Velta lóðrétt"
 
 #: ../gap/gap_wr_trans.c:219
 msgid "Rotate 90 degrees CW"
-msgstr ""
+msgstr "Snúa 90 gráður réttsælis"
 
 #: ../gap/gap_wr_trans.c:237
 msgid "Rotate 180 degrees"
-msgstr ""
+msgstr "Snúa 180 gráður"
 
 #: ../gap/gap_wr_trans.c:254
 msgid "Rotate 90 degrees CCW"
-msgstr ""
+msgstr "Snúa 90 gráður rangsælis"
 
 #: ../gap/gap_wr_trans.c:271 ../gap/gap_wr_trans.c:624
 msgid "Rotate any angle"
-msgstr ""
+msgstr "Snúa um frjálst horn"
 
 #. Menu names
 #: ../gap/gap_wr_trans.c:280
 msgid "<Image>/Video/Layer/Transform/"
-msgstr ""
+msgstr "<Image>/Myndskeið/Lag/Ummyndun/"
 
 #: ../gap/gap_wr_trans.c:654
 msgid "Rotate angle:"
-msgstr ""
+msgstr "Snúningshorn:"
 
 #: ../libgapvidapi/gap_vid_api_mpeg3.c:843
 #, c-format
@@ -9935,7 +9766,7 @@ msgstr ""
 
 #: ../vid_common/gap_cme_gui.c:519
 msgid "no description available"
-msgstr ""
+msgstr "engin lýsing tiltæk"
 
 #: ../vid_common/gap_cme_gui.c:868
 msgid ""
@@ -9975,24 +9806,22 @@ msgid "Storyframe"
 msgstr ""
 
 #: ../vid_common/gap_cme_gui.c:1344
-#, fuzzy
 msgid "Layer"
 msgstr "Lag"
 
 #: ../vid_common/gap_cme_gui.c:1348
-#, fuzzy
 msgid "Frame"
-msgstr "rammi"
+msgstr "Rammi"
 
 #: ../vid_common/gap_cme_gui.c:1356
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "Frá %s:"
 
 #: ../vid_common/gap_cme_gui.c:1363
 #, c-format
 msgid "To %s:"
-msgstr ""
+msgstr "Til %s:"
 
 #: ../vid_common/gap_cme_gui.c:1528
 #, c-format
@@ -10167,30 +9996,28 @@ msgstr ""
 
 #: ../vid_common/gap_cme_gui.c:2408
 msgid "Overwrite warning"
-msgstr ""
+msgstr "aðvörun um yfirskrifun"
 
 #: ../vid_common/gap_cme_gui.c:2427
 msgid "File already exists:"
-msgstr ""
+msgstr "Skráin er þegar til:"
 
 #: ../vid_common/gap_cme_gui.c:2436
-#, fuzzy
 msgid "filename"
-msgstr "Skráarheiti"
+msgstr "skráarheiti"
 
 #: ../vid_common/gap_cme_gui.c:2449
 msgid "  "
-msgstr ""
+msgstr "  "
 
 #: ../vid_common/gap_cme_gui.c:2529
 msgid "Input Mode:"
-msgstr ""
+msgstr "Inntakshamur:"
 
 #. radio button Frames input_mode
 #: ../vid_common/gap_cme_gui.c:2539
-#, fuzzy
 msgid "Frames"
-msgstr "rammar"
+msgstr "Rammar"
 
 #: ../vid_common/gap_cme_gui.c:2549
 msgid "Input is a sequence of frame images"
@@ -10198,7 +10025,6 @@ msgstr ""
 
 #. radio button Layers input_mode
 #: ../vid_common/gap_cme_gui.c:2563
-#, fuzzy
 msgid "Layers"
 msgstr "Lög"
 
@@ -10224,12 +10050,12 @@ msgstr ""
 #. the Extras notebook tab
 #: ../vid_common/gap_cme_gui.c:2711
 msgid "Extras"
-msgstr ""
+msgstr "Auka"
 
 #. add the Encoding notebook tab
 #: ../vid_common/gap_cme_gui.c:2722
 msgid "Encoding"
-msgstr ""
+msgstr "Kóðun"
 
 #. the (output) video label
 #: ../vid_common/gap_cme_gui.c:2748
@@ -10246,9 +10072,8 @@ msgstr ""
 
 #. the Status label
 #: ../vid_common/gap_cme_gui.c:2787
-#, fuzzy
 msgid "READY"
-msgstr "Tilbúinn"
+msgstr "TILBÚIÐ"
 
 #: ../vid_common/gap_cme_gui.c:2857
 msgid "Video Encoder Status"
@@ -10331,7 +10156,6 @@ msgstr ""
 
 #. the Monitor label
 #: ../vid_common/gap_cme_gui.c:3127
-#, fuzzy
 msgid "Monitor"
 msgstr "Skjár"
 
@@ -10612,7 +10436,7 @@ msgstr "Stilla rammatíðni"
 #. the Videonorm label
 #: ../vid_common/gap_cme_gui.c:3848
 msgid "Videonorm:"
-msgstr ""
+msgstr "Staðall myndmerkis"
 
 #. the Videonorm combo
 #: ../vid_common/gap_cme_gui.c:3856
@@ -10641,7 +10465,7 @@ msgstr "óskilgreint"
 
 #: ../vid_common/gap_cme_gui.c:3870
 msgid "Select videonorm"
-msgstr ""
+msgstr "Veldur myndmerkisstaðal"
 
 #. the videoencoder label
 #: ../vid_common/gap_cme_gui.c:3880
@@ -10650,7 +10474,6 @@ msgstr "Kóðari:"
 
 #. the parameters button (invokes videoencoder specific GUI dialog)
 #: ../vid_common/gap_cme_gui.c:3888
-#, fuzzy
 msgid "Parameters"
 msgstr "Viðföng"
 
@@ -10758,12 +10581,12 @@ msgstr ""
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:590
 msgid "JPEG Options"
-msgstr ""
+msgstr "JPEG stillingar"
 
 #. the dont recode label
 #: ../vid_enc_avi/gap_enc_avi_gui.c:607 ../vid_enc_avi/gap_enc_avi_gui.c:745
 msgid "Dont Recode:"
-msgstr ""
+msgstr "Ekki endurkóða:"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:627
 msgid ""
@@ -10773,9 +10596,8 @@ msgstr ""
 
 #. the interlace label
 #: ../vid_enc_avi/gap_enc_avi_gui.c:636 ../vid_enc_avi/gap_enc_avi_gui.c:773
-#, fuzzy
 msgid "Interlace:"
-msgstr "_Flétta"
+msgstr "Flétta:"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:657
 msgid "Generate interlaced JPEGs (two frames for odd/even lines)"
@@ -10795,7 +10617,6 @@ msgstr ""
 #. the jpeg quality label
 #. the xvid quality label
 #: ../vid_enc_avi/gap_enc_avi_gui.c:692 ../vid_enc_avi/gap_enc_avi_gui.c:1168
-#, fuzzy
 msgid "Quality:"
 msgstr "Gæði:"
 
@@ -10809,7 +10630,7 @@ msgstr ""
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:728
 msgid "PNG Options"
-msgstr ""
+msgstr "PNG stillingar"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:765
 msgid ""
@@ -10838,7 +10659,7 @@ msgstr ""
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:841
 msgid "RAW Options"
-msgstr ""
+msgstr "Valkostir RAW"
 
 #. the raw codec info label
 #: ../vid_enc_avi/gap_enc_avi_gui.c:857
@@ -11511,7 +11332,7 @@ msgstr ""
 #. LABELS
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2136
 msgid "General flags:"
-msgstr ""
+msgstr "Almenn flögg:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2143
 msgid "H263:"
@@ -11525,7 +11346,7 @@ msgstr "MPEG2/4:"
 #. the Bitexact checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2163
 msgid "Bitexact"
-msgstr ""
+msgstr "Bitexact"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2169
 msgid "Only use bit exact algorithms (for codec testing)"
@@ -11570,7 +11391,7 @@ msgstr ""
 #. the Partitioning checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2234
 msgid "Partitioning"
-msgstr ""
+msgstr "Partasneiðing"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2240
 msgid "Use data partitioning (only MPEG-4 CODEC)"
@@ -11692,7 +11513,6 @@ msgstr ""
 
 #. the Use Normalize checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2431
-#, fuzzy
 msgid "Normalize"
 msgstr "Samræma"
 
@@ -12250,12 +12070,12 @@ msgstr "16:9"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3814
 msgid "Select aspect ratio"
-msgstr ""
+msgstr "Veldu stærðarhlutföll"
 
 #. the show expert settings label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3834
 msgid "Expert settings:"
-msgstr ""
+msgstr "Ítarlegar stillingar:"
 
 #. the Set Aspectratio checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3843
@@ -12276,7 +12096,7 @@ msgstr ""
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4043
 msgid "** keep current parameters  **"
-msgstr ""
+msgstr "** halda núverandi viðföngum  **"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4088
 msgid "Predefined encoder parameter settings"
@@ -12284,16 +12104,15 @@ msgstr ""
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4111
 msgid "Parameter Values"
-msgstr ""
+msgstr "Gildi viðfangs"
 
 #. the notebook page label for file comment settings
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4135
 msgid "File Comment"
-msgstr ""
+msgstr "Athugasemd í skrá"
 
 #. the notebook page label for basic options
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4149
-#, fuzzy
 msgid "Basic Options"
 msgstr "Grunnstillingar"
 
