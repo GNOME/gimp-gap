@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap"
 "&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-03-25 06:36+0000\n"
-"PO-Revision-Date: 2015-04-20 13:39+0000\n"
+"PO-Revision-Date: 2015-04-29 14:19+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
@@ -2208,7 +2208,7 @@ msgstr ""
 #. shiftPhaseY spinbutton
 #: ../gap/gap_fire_pattern.c:1819
 msgid "Phase shift"
-msgstr ""
+msgstr "Fasaskipti"
 
 #: ../gap/gap_fire_pattern.c:1827 ../gap/gap_water_pattern.c:1169
 msgid "Vertical shift phase where 1.0 refers to image height"
@@ -2217,12 +2217,12 @@ msgstr ""
 #. the frame
 #: ../gap/gap_fire_pattern.c:1840 ../gap/gap_water_pattern.c:1182
 msgid "Pattern options"
-msgstr ""
+msgstr "Valkostir mynsturs"
 
 #. use existing Patterns checkbutton
 #: ../gap/gap_fire_pattern.c:1863 ../gap/gap_water_pattern.c:1205
 msgid "Create Pattern:"
-msgstr ""
+msgstr "Búa til mynstur:"
 
 #: ../gap/gap_fire_pattern.c:1874
 msgid ""
@@ -2501,7 +2501,6 @@ msgid "Open filebrowser window to select a filename"
 msgstr ""
 
 #: ../gap/gap_fmac_main.c:763 ../gap/gap_video_index_creator.c:1329
-#, fuzzy
 msgid "Nr"
 msgstr "Nr"
 
@@ -2676,87 +2675,87 @@ msgstr ""
 
 #: ../gap/gap_main.c:586
 msgid "Next Frame"
-msgstr ""
+msgstr "Næsti rammi"
 
 #: ../gap/gap_main.c:598
 msgid "Previous Frame"
-msgstr ""
+msgstr "Fyrri rammi"
 
 #: ../gap/gap_main.c:610
 msgid "First Frame"
-msgstr ""
+msgstr "Fyrsti rammi"
 
 #: ../gap/gap_main.c:622
 msgid "Last Frame"
-msgstr ""
+msgstr "Síðasti rammi"
 
 #: ../gap/gap_main.c:634
 msgid "Any Frame..."
-msgstr ""
+msgstr "Hvaða rammi sem er..."
 
 #: ../gap/gap_main.c:646
 msgid "Delete Frames..."
-msgstr ""
+msgstr "Eyða römmum..."
 
 #: ../gap/gap_main.c:658
 msgid "Duplicate Frames..."
-msgstr ""
+msgstr "Tvítaka ramma..."
 
 #: ../gap/gap_main.c:675
 msgid "Frames Density..."
-msgstr ""
+msgstr "Þéttleiki ramma..."
 
 #: ../gap/gap_main.c:687
 msgid "Exchange Frame..."
-msgstr ""
+msgstr "Skipta út ramma..."
 
 #: ../gap/gap_main.c:700
 msgid "Frames to Image..."
-msgstr ""
+msgstr "Rammar í mynd..."
 
 #: ../gap/gap_main.c:712
 msgid "Frames Flatten..."
-msgstr ""
+msgstr "Fletja ramma..."
 
 #: ../gap/gap_main.c:724
 msgid "Frames Layer Delete..."
-msgstr ""
+msgstr "Eyða lögum ramma..."
 
 #: ../gap/gap_main.c:748
 msgid "Frames Convert..."
-msgstr ""
+msgstr "Umbreyta römmum..."
 
 #: ../gap/gap_main.c:760
 msgid "Frames Resize..."
-msgstr ""
+msgstr "Breyta stærð ramma..."
 
 #: ../gap/gap_main.c:772
 msgid "Frames Crop..."
-msgstr ""
+msgstr "Sníða utan af römmum..."
 
 #: ../gap/gap_main.c:784
 msgid "Frames Scale..."
-msgstr ""
+msgstr "Kvarða ramma..."
 
 #: ../gap/gap_main.c:796
 msgid "Split Image to Frames..."
-msgstr ""
+msgstr "Kljúfa myndir á ramma..."
 
 #: ../gap/gap_main.c:808
 msgid "Frame Sequence Shift..."
-msgstr ""
+msgstr "Hliðra rammarunu..."
 
 #: ../gap/gap_main.c:820
 msgid "Frame Sequence Reverse..."
-msgstr ""
+msgstr "Snúa við rammarunu..."
 
 #: ../gap/gap_main.c:832
 msgid "Frames Renumber..."
-msgstr ""
+msgstr "Endurnúmera ramma..."
 
 #: ../gap/gap_main.c:844
 msgid "Frames Modify..."
-msgstr ""
+msgstr "Breyta römmum..."
 
 #: ../gap/gap_main.c:937
 msgid "<Image>/Video/Go To/"
@@ -2807,7 +2806,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer.c:1803
 msgid "Modifying frames/layer(s)..."
-msgstr ""
+msgstr "Breyta römmum/lögum..."
 
 #: ../gap/gap_mod_layer.c:1920
 #, c-format
@@ -2827,11 +2826,11 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:382 ../gap/gap_mod_layer_dialog.c:388
 msgid "New Layer Name"
-msgstr ""
+msgstr "Heiti á nýju lagi"
 
 #: ../gap/gap_mod_layer_dialog.c:394
 msgid "Merged Layer Name"
-msgstr ""
+msgstr "Heiti á sameinuðu lagi"
 
 #: ../gap/gap_mod_layer_dialog.c:401
 msgid "Channel Name"
@@ -2844,7 +2843,7 @@ msgstr "Eiginleikar lags"
 
 #: ../gap/gap_mod_layer_dialog.c:559
 msgid "Set layer(s) visible"
-msgstr ""
+msgstr "Gera lagið sýnilegt"
 
 #: ../gap/gap_mod_layer_dialog.c:560
 msgid "set all selected layers visible"
@@ -2852,7 +2851,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:565
 msgid "Set layer(s) invisible"
-msgstr ""
+msgstr "Gera lagið ósýnilegt"
 
 #: ../gap/gap_mod_layer_dialog.c:566
 msgid "set all selected layers invisible"
