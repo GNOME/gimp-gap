@@ -267,7 +267,7 @@ msgstr "Número:"
 
 #: ../gap/gap_base_ops.c:1189
 msgid "Go to this frame number"
-msgstr "Ves a aquest número de fotograma"
+msgstr "Vés a aquest número de fotograma"
 
 #: ../gap/gap_base_ops.c:1239
 #, c-format
@@ -8353,7 +8353,7 @@ msgid ""
 "handle RGB and requires convert to indexed imagetype."
 msgstr ""
 "Converteix a un altre tipus d'imatge, o manté el tipus d'imatge tal com és. "
-"La majoria del formats de fitxer no poden gestionar tots els tipus i "
+"La majoria dels formats de fitxer no poden gestionar tots els tipus i "
 "requereixen una conversió. Exemple: GIF no pot gestionar RGB i requereix "
 "convertir-se a tipus d'imatge indexada"
 
@@ -11895,7 +11895,7 @@ msgstr "S'està analitzant el fitxer del guió il·lustrat"
 
 #: ../vid_common/gap_cme_gui.c:1955
 msgid "Go for checking storyboard file"
-msgstr "Ves a verificar el fitxer guió il·lustrat"
+msgstr "Vés a verificar el fitxer guió il·lustrat"
 
 #: ../vid_common/gap_cme_gui.c:1957 ../vid_common/gap_cme_gui.c:1958
 msgid "Storyboardfile Check"
