@@ -1,5 +1,11 @@
 2015-05-14 Wolfgang Hofer <hof@gimp.org>
 
+added options for ffmpeg windows crosscompiliation 
+
+ * extern_libs/configure_options_ffmpeg_win32.txt
+
+2015-05-14 Wolfgang Hofer <hof@gimp.org>
+
 - fixed bug when loading Movepath from XML file
   (the FromFrames value was set incorrect with the toFrames value)
   
