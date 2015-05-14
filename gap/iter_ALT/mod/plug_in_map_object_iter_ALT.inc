@@ -95,9 +95,11 @@ gint p_plug_in_map_object_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdo
     }
     
     buf.create_new_image           = FALSE;
+    buf.create_new_layer           = FALSE;
     buf.antialiasing               =    buf_from.antialiasing;
     buf.transparent_background     =    buf_from.transparent_background;
     buf.tiled                      =    buf_from.tiled;
+    buf.livepreview                = FALSE;
 
     gimp_set_data("plug-in-map-object", &buf, sizeof(buf)); 
 

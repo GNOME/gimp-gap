@@ -1,3 +1,9 @@
+2015-05-14 Wolfgang Hofer <hof@gimp.org>
+ - applied (just the missing parts) provided by patch attached to bugreport #749290
+   to fix the map object iterator for use with GIMP-2.8.x releases
+
+ * gap/iter_ALT/mod/plug_in_map_object_iter_ALT.inc
+
 2014-07-05 Wolfgang Hofer <hof@gimp.org>
 
 - additional workaround for windows 64bit specific crash of the master video encoder window
