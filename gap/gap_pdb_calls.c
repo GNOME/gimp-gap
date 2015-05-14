@@ -113,7 +113,7 @@ gap_pdb_procedure_name_available (const gchar *search_name)
       {
         for (loop = 0; loop < num_procs; loop++)
         {
-          printf("PDBname:%s\t\search_name:%s\n", proc_list[loop], search_name);
+          printf("PDBname:%s\t search_name:%s\n", proc_list[loop], search_name);
         }
       }
 
@@ -158,9 +158,6 @@ gap_pdb_procedure_available(char *proc_name)
   gchar            *l_proc_date;
   GimpParamDef    *l_params;
   GimpParamDef    *l_return_vals;
-  gint             l_rc;
-
-  l_rc = 0;
   
   /* Query the gimp application's procedural database
    *  regarding a particular procedure.
@@ -194,8 +191,9 @@ gap_pdb_procedure_available(char *proc_name)
 
 /* ============================================================================
  * gap_pdb_gimp_rotate_degree
- *  PDB call of 'gimp_rotate'
  * ============================================================================
+ * wrapper to call rotate transformation by degrees.
+ * (the gimp core requires radians)
  */
 
 gint32
@@ -204,14 +202,14 @@ gap_pdb_gimp_rotate_degree(gint32 drawable_id, gboolean interpolation, gdouble a
    gdouble          l_angle_rad;
 
    l_angle_rad = (angle_deg * G_PI) / 180.0;
+   gimp_context_set_defaults();
+   gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
 
-   return(gimp_drawable_transform_rotate_default(drawable_id
+   return(gimp_item_transform_rotate(drawable_id
                                                 , l_angle_rad
                                                 , FALSE            /* auto_center */
                                                 , 0                /* center_x */
                                                 , 0                /* center_y */
-                                                , interpolation
-                                                , FALSE            /* clip_results */
                                                 ));
 
    
@@ -347,8 +345,8 @@ workaround:
       {
          if(gap_debug)
          {
-           printf("(PDB_WRAPPER workaround for gimp_image_thumbnail GIMP_PDB_SUCCESS, th_data:%d  (%d x %d) \n"
-            , (int)return_vals[5].data.d_int8array
+           printf("(PDB_WRAPPER workaround for gimp_image_thumbnail GIMP_PDB_SUCCESS, th_data:%ld  (%d x %d) \n"
+            , (long)return_vals[5].data.d_int8array
             , (int)return_vals[1].data.d_int32
             , (int)return_vals[2].data.d_int32
             );
@@ -555,5 +553,4 @@ gap_pdb_call_ufraw_load_image(GimpRunMode run_mode, char* filename, char* raw_fi
         );
    return(-2);
 }       /* end gap_pdb_call_ufraw_load_image */
-
 

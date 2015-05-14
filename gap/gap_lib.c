@@ -123,6 +123,7 @@
 #endif
 
 /* GAP includes */
+#include "gap_base.h"
 #include "gap_arr_dialog.h"
 #include "gap_image.h"
 #include "gap_layer_copy.h"
@@ -346,7 +347,7 @@ p_set_or_pick_active_layer_by_pos(gint32 image_id
     {
       char       *l_name;
 
-      l_name = gimp_drawable_get_name(l_matching_layer_id);
+      l_name = gimp_item_get_name(l_matching_layer_id);
       if(setActiveLayer == TRUE)
       {
         printf("p_set_or_pick_active_layer_by_pos SET layer_id %d '%s' as ACTIVE\n"
@@ -432,7 +433,7 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
       l_score = 0;
       l_case_bonus = 0;
       l_layer_id = l_layers_list[l_idx];
-      l_layer_name = gimp_drawable_get_name(l_layer_id);
+      l_layer_name = gimp_item_get_name(l_layer_id);
       if(l_layer_name)
       {
         gint ii;
@@ -538,7 +539,7 @@ p_set_or_pick_active_layer_by_name(gint32 image_id
     {
       char       *l_name;
 
-      l_name = gimp_drawable_get_name(l_matching_layer_id);
+      l_name = gimp_item_get_name(l_matching_layer_id);
       if (setActiveLayer == TRUE)
       {
         printf("p_set_or_pick_active_layer_by_name SET layer_id %d '%s' as ACTIVE\n"
@@ -594,7 +595,7 @@ p_get_active_layer_name(gint32 image_id
 
   if(*active_layer >= 0)
   {
-    layer_name = gimp_drawable_get_name(*active_layer);
+    layer_name = gimp_item_get_name(*active_layer);
 
     /* findout stackposition of the active layer
      * (ignoring onionskin layer positions)
@@ -676,7 +677,7 @@ p_do_active_layer_tracking(gint32 image_id
 int
 gap_lib_file_exists(const char *fname)
 {
-  struct stat  l_stat_buf;
+  GStatBuf     l_stat_buf;
   long         l_len;
 
   /* File Laenge ermitteln */
@@ -803,8 +804,8 @@ int
 gap_lib_file_copy(char *fname, char *fname_copy)
 {
   FILE        *l_fp;
-  char                     *l_buffer;
-  struct stat               l_stat_buf;
+  char        *l_buffer;
+  GStatBuf     l_stat_buf;
   long         l_len;
 
   if(gap_debug) printf("gap_lib_file_copy src:%s dst:%s\n", fname, fname_copy);
@@ -1553,8 +1554,7 @@ gap_lib_alloc_ainfo_from_name(const char *imagename, GimpRunMode run_mode)
      return (NULL);
    }
 
-   l_ainfo_ptr = (GapAnimInfo*)g_malloc(sizeof(GapAnimInfo));
-   if(l_ainfo_ptr == NULL) return(NULL);
+   l_ainfo_ptr = g_new0(GapAnimInfo, 1);
 
    l_ainfo_ptr->basename = NULL;
    l_ainfo_ptr->new_filename = NULL;
@@ -1602,9 +1602,8 @@ gap_lib_alloc_ainfo_unsaved_image(gint32 image_id)
 {
    GapAnimInfo   *l_ainfo_ptr;
 
-   l_ainfo_ptr = (GapAnimInfo*)g_malloc(sizeof(GapAnimInfo));
-   if(l_ainfo_ptr == NULL) return(NULL);
-
+   l_ainfo_ptr = g_new0(GapAnimInfo, 1);
+ 
    l_ainfo_ptr->basename = NULL;
    l_ainfo_ptr->new_filename = NULL;
    l_ainfo_ptr->extension = NULL;
@@ -1629,6 +1628,60 @@ gap_lib_alloc_ainfo_unsaved_image(gint32 image_id)
 
 }    /* end gap_lib_alloc_ainfo_unsaved_image */
 
+/* ============================================================================
+ * gap_lib_dir_ainfo_duplicate
+ *
+ * duplicate the specified ainfo structure from unsaved image.
+ * ============================================================================
+ */
+GapAnimInfo *
+gap_lib_dir_ainfo_duplicate(GapAnimInfo *ainfo_ptr)
+{
+  GapAnimInfo   *l_ainfo_ptr;
+
+  l_ainfo_ptr = NULL;
+  if(ainfo_ptr != NULL)
+  {
+    l_ainfo_ptr = g_new0(GapAnimInfo, 1);
+
+    l_ainfo_ptr->image_id = ainfo_ptr->image_id;
+    
+    if(ainfo_ptr->basename != NULL)
+    {
+      l_ainfo_ptr->basename = g_strdup(ainfo_ptr->basename);
+    }
+    if(ainfo_ptr->extension != NULL)
+    {
+      l_ainfo_ptr->extension = g_strdup(ainfo_ptr->extension);
+    }
+    if(ainfo_ptr->new_filename != NULL)
+    {
+      l_ainfo_ptr->new_filename = g_strdup(ainfo_ptr->new_filename);
+    }
+    if(ainfo_ptr->old_filename != NULL)
+    {
+      l_ainfo_ptr->old_filename = g_strdup(ainfo_ptr->old_filename);
+    }
+
+    l_ainfo_ptr->frame_nr = ainfo_ptr->frame_nr;
+    l_ainfo_ptr->run_mode = ainfo_ptr->run_mode;
+    l_ainfo_ptr->width = ainfo_ptr->width;
+    l_ainfo_ptr->height = ainfo_ptr->height;
+    l_ainfo_ptr->frame_cnt = ainfo_ptr->frame_cnt;
+ 
+    l_ainfo_ptr->curr_frame_nr = ainfo_ptr->curr_frame_nr;
+    l_ainfo_ptr->first_frame_nr = ainfo_ptr->first_frame_nr;
+    l_ainfo_ptr->last_frame_nr = ainfo_ptr->last_frame_nr;
+    l_ainfo_ptr->frame_nr_before_curr_frame_nr = ainfo_ptr->frame_nr_before_curr_frame_nr;
+    l_ainfo_ptr->frame_nr_after_curr_frame_nr = ainfo_ptr->frame_nr_after_curr_frame_nr;
+
+    l_ainfo_ptr->ainfo_type = ainfo_ptr->ainfo_type;
+    l_ainfo_ptr->seltrack = ainfo_ptr->seltrack;
+    l_ainfo_ptr->delace = ainfo_ptr->delace;
+    l_ainfo_ptr->density = ainfo_ptr->density;
+  }
+  return(l_ainfo_ptr);
+}
 
 
 /* ============================================================================
@@ -1909,7 +1962,7 @@ gap_lib_get_frame_nr_from_name(char *fname)
  * gap_lib_get_frame_nr
  * -------------------------------
  * return -1 if the specified image is
- *           NOT a gimp-gap typical frame image (e.g. has no number part in its filename)
+ *           NOT a gimp-gap typical frame image (i.e. has no number part in its filename)
  * return the number part in case of valid frame image.
  */
 long
@@ -2114,7 +2167,7 @@ gap_lib_save_non_xcf_dialog(char *key_gimprc, char *lower_extension)
                         "This dialog configures how to handle exchanges of\n"
                         "the current frame image (for frames with extension %s)\n"
                         "Note that automatical save on frame change just works with XCF\n"
-                        "but automatical overwrite (e.g export) to other formats\n"
+                        "but automatical overwrite (via export) to other formats\n"
                         "typically results in loss of layers and other information.")
                         , lower_extension);
 
@@ -2183,11 +2236,11 @@ gap_lib_save_non_xcf_dialog(char *key_gimprc, char *lower_extension)
  *   shall decide how to handle frame excanges.
  *   The options:
  *     SAVE_MODE_FOR_NON_XCF_ASK
- *        in case the user cancelled the dialog (e.g did not decide)
+ *        in case the user cancelled the dialog (i.e. did not decide)
  *        frame excange shall be blocked
  *
  *     SAVE_MODE_FOR_NON_XCF_AS_IS
- *        the current frame will be exported as is (e.g without flattening)
+ *        the current frame will be exported as is (i.e. without flattening)
  *        the returncode depends on the result of the export.
  *        ("as it is" will save only the background layer in 
  *         fileformat types that do not support multiple layers)
@@ -2426,7 +2479,7 @@ p_decide_save_as(gint32 image_id, const char *sav_name, const char *final_sav_na
     }
   }
 
-cleanup:
+/* cleanup: */
   g_free(l_basename);
   g_free(l_extension);
   g_free(l_lowerExtension);
@@ -2659,7 +2712,7 @@ p_lib_save_named_image_1(gint32 image_id, const char *sav_name, GimpRunMode run_
                                       "jpeg-save-options");
     if(gap_debug)
     {
-      printf("DEBUG: jpg_save_parasite %d\n", (int)jpg_save_parasite);
+      printf("DEBUG: jpg_save_parasite %ld\n", (long)jpg_save_parasite);
     }
     if (jpg_save_parasite)
     {
@@ -3122,10 +3175,8 @@ gap_lib_load_image (char *lod_name)
   char  *l_lowerExt;
   char  *l_tmpname;
   gint32 l_tmp_image_id;
-  int    l_rc;
   gboolean l_configured_for_ufraw;
 
-  l_rc = 0;
   l_tmpname = NULL;
   l_configured_for_ufraw = FALSE;
   l_ext = gap_lib_alloc_extension(lod_name);
@@ -4198,3 +4249,4 @@ gap_lib_framefile_with_framenr_exists(GapAnimInfo *ainfo_ptr, long frame_nr)
   return (l_rc);
 
 }       /* end gap_lib_framefile_with_framenr_exists */
+

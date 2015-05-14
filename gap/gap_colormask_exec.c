@@ -251,8 +251,6 @@ static guchar        p_check_significant_changes_in_one_direction(GapColorMaskPa
 
 static inline void   p_check_avg_add_one_pixel(GapColorMaskParams *cmaskParPtr, gint xx, gint yy    // DEPRECATED
                            , gdouble *sumNbColorDiff, gdouble *countNbPixels);
-static gdouble       p_check_avg_diff_within_radius(GapColorMaskParams *cmaskParPtr, gint radius    // DEPRECATED
-                           , gdouble *sumNbColorDiff, gdouble *countNbPixels);
 
 
 static void          p_init_colordiffTable (const GimpPixelRgn *maskPR
@@ -333,7 +331,7 @@ p_create_empty_layer(gint32 image_id
                 , 0       /* normal mode */
                 );
 
-  gimp_image_add_layer (image_id, layer_id, 0 /* stackposition */ );
+  gimp_image_insert_layer (image_id, layer_id, 0, 0 /* stackposition */ );
 
   return (layer_id);
 
@@ -1658,7 +1656,7 @@ p_is_isolated_pixel(GapColorMaskParams *cmaskParPtr, guchar currentAlpha)
  * p_isle_check_and_mark_nb_pixel
  * --------------------------------------------
  * checks if the specified neighbor pixel at coords nx, ny
- * has same opacity value as refOpacity (e.g the same opacity as the seed pixel).
+ * has same opacity value as refOpacity (that is the same opacity as the seed pixel).
  * If this is the case increment pixel count and
  * and add nx/ny to the point list (to initiate check of further neighbour pixels)
  *
@@ -1946,7 +1944,7 @@ p_remove_isolated_pixels(guchar currentAlpha, GapColorMaskParams *cmaskParPtr)
 /* ------------------------------------------
  * p_remove_isolates_pixels_rgn_render_region
  * ------------------------------------------
- * remove isolated pixels (e.g. areas smaller than isleRadius)
+ * remove isolated pixels (all areas smaller than isleRadius)
  * from the layermask
  * Note that protected pixels (that are transparent in the colormask)
  * are not affected.
@@ -2144,7 +2142,7 @@ p_colormask_avg_rgn_render_region (const GimpPixelRgn *maskPR
       if (isPixelProtected)
       {
         /* protected pixels are set full opaque in the layermask
-         * (e.g. they keep their original opacity when layermask is applied)
+         * (so they keep their original opacity when layermask is applied)
          */
         lmsk[idxLmsk] = 255;
         if(cmaskParPtr->debugCoordinate)
@@ -2383,11 +2381,11 @@ p_check_range_neighbour_sum(GapColorMaskParams *cmaskParPtr, gint dx, gint dy, g
 
     if (cmaskParPtr->debugCoordinate)
     {
-      printf("CHK xx:%d yy:%d countNbPixels:%.1f cmaskParPtr:%d hiColorThreshold:%.4f colordiffTab:%.4f\n"
+      printf("CHK xx:%d yy:%d countNbPixels:%.1f cmaskParPtr:%ld hiColorThreshold:%.4f colordiffTab:%.4f\n"
         , (int)xx
         , (int)yy
         , *countNbPixels
-        , (int)cmaskParPtr
+        , (long)cmaskParPtr
         , (float)cmaskParPtr->hiColorThreshold
         , (float)cmaskParPtr->colordiffTable[iTab]
         );
@@ -2819,7 +2817,7 @@ p_calculate_clip_area_average_values(GapColorMaskParams *cmaskParPtr)
  *   check average colordiff of neighbor pixels
  *   in upper, lower, left and right direction.
  *   in case the average colordiff is below the threshold
- *   return TRUE (e.g. the pixel is considered as matching good enough
+ *   return TRUE (i.e. the pixel is considered as matching good enough
  *   with the colormask)
  *   Otherwise return FALSE.
  *   This algorithm is also used as fallback strategy
@@ -2832,7 +2830,7 @@ p_check_average_colordiff_incl_neighbours(GapColorMaskParams *cmaskParPtr)
   gdouble countNbPixels;
   gdouble avgColordiff[4];
 
-  gint32 iTab;
+  //gint32 iTab;
 
   if ((cmaskParPtr->algorithm == GAP_COLORMASK_ALGO_AVG_CHANGE_1)
   || (cmaskParPtr->algorithm == GAP_COLORMASK_ALGO_AVG_CHANGE_2))
@@ -3719,7 +3717,7 @@ p_mix_newmask_rgn_render(const GimpPixelRgn *pmskPR
   guchar*  pmsk = pmskPR->data;   /* the colormask from previous frame  */
   guchar*  mask = maskPR->data;   /* the initial reference colormask */
   guchar*  orig = origPR->data;   /* the current frame original */
-  guchar*  work = workPR->data;   /* the destination drawable (e.g. new colormask) */
+  guchar*  work = workPR->data;   /* the destination drawable (i.e. new colormask) */
 
 
   for (row = 0; row < workPR->h; row++)
@@ -3854,7 +3852,7 @@ p_fetch_colormask_in_previous_frame(gint32 orig_layer_id)
   GapAnimInfo *ainfo_ptr;
 
   prevCmskId = -1;
-  image_id = gimp_drawable_get_image(orig_layer_id);
+  image_id = gimp_item_get_image(orig_layer_id);
   ainfo_ptr = gap_lib_alloc_ainfo(image_id, GIMP_RUN_NONINTERACTIVE);
   if(ainfo_ptr != NULL)
   {
@@ -3989,7 +3987,7 @@ p_copy_cmaskvals_to_colorMaskParams(GapColormaskValues *cmaskvals, GapColorMaskP
 
   cmaskParPtr->algorithm = cmaskvals->algorithm;
   cmaskParPtr->dst_layer_id = dst_layer_id;
-  cmaskParPtr->dst_image_id = gimp_drawable_get_image(dst_layer_id);
+  cmaskParPtr->dst_image_id = gimp_item_get_image(dst_layer_id);
   cmaskParPtr->cmask_drawable_id = cmaskvals->colormask_id;
   cmaskParPtr->colorThreshold = cmaskvals->loColorThreshold;    /* use loColorThreshold as default for  colorThreshold */
   cmaskParPtr->loColorThreshold = cmaskvals->loColorThreshold;
@@ -4074,7 +4072,7 @@ p_copy_cmaskvals_to_colorMaskParams(GapColormaskValues *cmaskvals, GapColorMaskP
  * handles transparency by applying a color image (RGB) or (RGBA) as mask,
  * The pixels that are transparent (below or equal triggerAlpha) in
  * the alpha channel of the colormask are considered as PROTECTED
- * e.g are not affected by this filter.
+ * i.e. are not affected by this filter.
  * (those pixels keep their original alpha channel)
  *
  * The resulting transparency is generated as new layermask
@@ -4126,7 +4124,7 @@ gap_colormask_apply_to_layer_of_same_size (gint32 dst_layer_id
            "  DST: width:%d height: %d  BPP:%d \n"
            "  MSK: width:%d height: %d  BPP:%d \n"
            "  triggerAlpha:%d lowerAlpha:%d upperAlpha:%d algorithm:%d loColorThreshold:%f\n"
-           "  cmaskParPtr:%d  hiColorThreshold: %f\n"
+           "  cmaskParPtr:%ld  hiColorThreshold: %f\n"
           , (int)dst_drawable->width
           , (int)dst_drawable->height
           , (int)dst_drawable->bpp
@@ -4138,7 +4136,7 @@ gap_colormask_apply_to_layer_of_same_size (gint32 dst_layer_id
           , (int)cmaskParPtr->upperAlpha255
           , (int)cmaskParPtr->algorithm
           , (float)cmaskParPtr->loColorThreshold
-          , (int)cmaskParPtr
+          , (long)cmaskParPtr
           , (float)cmaskParPtr->hiColorThreshold
           );
   }
@@ -4607,9 +4605,9 @@ gap_create_or_replace_colormask_layer (gint32 orig_layer_id
 
   if(prevCmaskId != cmaskParPtr->cmask_drawable_id)
   {
-    /* delete (e.g. close) the previous frame image (form memory not from disk)
+    /* delete (i.e. close) the previous frame image (form memory not from disk)
      */
-    gap_image_delete_immediate(gimp_drawable_get_image(prevCmaskId));
+    gap_image_delete_immediate(gimp_item_get_image(prevCmaskId));
   }
   return (workLayerId);
 
@@ -4633,7 +4631,7 @@ gap_colormask_apply_by_name (gint32 dst_layer_id
   gint32    colormaskId;
 
 
-  colormaskId = gap_layer_find_by_name(gimp_drawable_get_image(dst_layer_id), COLORMASK_LAYER_NAME);
+  colormaskId = gap_layer_find_by_name(gimp_item_get_image(dst_layer_id), COLORMASK_LAYER_NAME);
   if (colormaskId < 0)
   {
     return (-1);
@@ -4646,5 +4644,3 @@ gap_colormask_apply_by_name (gint32 dst_layer_id
                           ));
 
 }  /* end gap_colormask_apply_by_name */
-
-

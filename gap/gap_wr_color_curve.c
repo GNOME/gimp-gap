@@ -703,6 +703,10 @@ p_read_samples(CurveParserContext *cpc)
   p_skip_whitespace(cpc);
 
   intValue = p_read_gint32_value(cpc);
+  if(gap_debug)
+  {
+    printf("p_read_samples START intValue:%d\n", (int)intValue);
+  }
   cpc->point_index = 0;
   while(*cpc->ptr != '\0')
   {
@@ -745,7 +749,7 @@ p_read_samples(CurveParserContext *cpc)
  * p_read_curve
  * ----------------------------------------
  * read curve description 
- *  this implementation read only the expected 256 samples and ignores (e.g. skips) other parts
+ *  this implementation read only the expected 256 samples and ignores (i.e. skips) other parts
  *  of the curve description
  * the scan ptr is set to the character after the closing bracket.
  */

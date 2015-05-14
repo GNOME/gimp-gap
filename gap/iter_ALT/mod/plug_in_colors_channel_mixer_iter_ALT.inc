@@ -59,6 +59,9 @@ gint p_plug_in_colors_channel_mixer_iter_ALT(GimpRunMode run_mode, gint32 total_
     p_delta_channel_mixer_ch_type(&buf.blue, &buf_from->blue, &buf_to->blue, total_steps, current_step);
     p_delta_channel_mixer_ch_type(&buf.black, &buf_from->black, &buf_to->black, total_steps, current_step);
 
+    p_delta_gboolean(&buf.monochrome_flag, buf_from->monochrome_flag, buf_to->monochrome_flag, total_steps, current_step);
+    p_delta_gboolean(&buf.preserve_luminosity_flag, buf_from->preserve_luminosity_flag, buf_to->preserve_luminosity_flag, total_steps, current_step);
+
     buf.preview = FALSE;
 
     gimp_set_data("plug-in-colors-channel-mixer", &buf, sizeof(buf)); 

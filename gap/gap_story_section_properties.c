@@ -117,10 +117,10 @@ p_spw_prop_response(GtkWidget *widget
                   )
 {
   GtkWidget *dlg;
-  GapStbMainGlobalParams  *sgpp;
+  /* GapStbMainGlobalParams  *sgpp; */
   gboolean ok_flag;
 
-  sgpp = spw->sgpp;
+  /* sgpp = spw->sgpp; */
   switch (response_id)
   {
     case GAP_STORY_SECTION_RESPONSE_CREATE:
@@ -217,7 +217,7 @@ p_section_name_entry_set_text(GapStbSecpropWidget *spw, const char *text)
 static gboolean
 p_rename_section(GapStbSecpropWidget *spw)
 {
-  const guchar *section_name;
+  const gchar *section_name;
   if (spw == NULL) { return (TRUE); }
  
   if(spw->section_refptr == NULL)  { return(TRUE); }
@@ -485,15 +485,15 @@ p_spw_icontype_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbSecpropWidget *spw)
 {
-  GdkEventExpose *eevent;
-  GapStbMainGlobalParams  *sgpp;
+  /*GdkEventExpose *eevent;*/
+  /* GapStbMainGlobalParams  *sgpp; */
 
   if ((spw->stb_refptr == NULL))
   {
     /* the widget is not initialized or it is just a dummy, no action needed */
     return FALSE;
   }
-  sgpp = spw->sgpp;
+  /* sgpp = spw->sgpp; */
 
   switch (event->type)
   {
@@ -504,12 +504,12 @@ p_spw_icontype_preview_events_cb (GtkWidget *widget
     case GDK_EXPOSE:
       if(gap_debug)
       {
-        printf("p_spw_icontype_preview_events_cb GDK_EXPOSE widget:%d  da_wgt:%d\n"
-                              , (int)widget
-                              , (int)spw->typ_icon_pv_ptr->da_widget
+        printf("p_spw_icontype_preview_events_cb GDK_EXPOSE widget:%ld  da_wgt:%ld\n"
+                              , (long)widget
+                              , (long)spw->typ_icon_pv_ptr->da_widget
                               );
       }
-      eevent = (GdkEventExpose *) event;
+      /* eevent = (GdkEventExpose *) event; */
 
       if(spw->typ_icon_pv_ptr)
       {
@@ -537,8 +537,7 @@ p_spw_icontype_preview_events_cb (GtkWidget *widget
 static void
 p_spw_section_name_entry_update_cb(GtkWidget *widget, GapStbSecpropWidget *spw)
 {
-  const guchar *section_name;
-  gboolean unique_name_entered;
+  const gchar *section_name;
   GapStorySpwSectionType l_section_type;
   
   
@@ -549,6 +548,15 @@ p_spw_section_name_entry_update_cb(GtkWidget *widget, GapStbSecpropWidget *spw)
   section_name = gtk_entry_get_text(GTK_ENTRY(widget));
 
   l_section_type = p_get_section_type(spw);
+  
+  if(gap_debug)
+  {
+    printf("p_spw_section_name_entry_update_cb section_name:%s l_section_type:%d\n"
+      ,section_name
+      ,(int)l_section_type
+      );
+  }
+  
 //  if(l_section_type == GAP_SPW_TYPE_SUB_SECTION)
 //  {
 //    if(spw->section_refptr->section_name != NULL)
@@ -745,7 +753,6 @@ gap_story_section_spw_properties_dialog (GapStbSecpropWidget *spw)
   GtkWidget *entry;
   gint       row;
   GapStbTabWidgets *tabw;
-  GapStorySpwSectionType l_section_type;
 
   if(spw == NULL) { return (NULL); }
   if(spw->spw_prop_dialog != NULL) { return(NULL); }   /* is already open */
@@ -753,8 +760,6 @@ gap_story_section_spw_properties_dialog (GapStbSecpropWidget *spw)
   tabw = (GapStbTabWidgets *)spw->tabw;
   if(tabw == NULL) { return (NULL); }
 
-  l_section_type = p_get_section_type(spw);
-  
   dlg = gimp_dialog_new (_("Section Properties"), "gap_story_section_properties"
                          ,NULL, 0
                          ,gimp_standard_help_func, GAP_STORY_SECTION_PROP_HELP_ID
@@ -888,7 +893,7 @@ gap_story_section_spw_properties_dialog (GapStbSecpropWidget *spw)
   /* the spw_info_text_label */
   label = gtk_label_new (" *** ");
   spw->spw_info_text_label = label;
-  gtk_label_set_line_wrap(label, TRUE);
+  gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
   gtk_table_attach_defaults (GTK_TABLE(table), label, 1, 2, row, row+1);
   gtk_widget_show (label);

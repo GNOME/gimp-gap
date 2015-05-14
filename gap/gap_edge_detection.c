@@ -119,7 +119,7 @@ p_get_debug_coords_from_guides(gint32 image_id, gint *cx, gint *cy)
   *cx = guideCol;
   *cy = guideRow;
 
-  //if(gap_debug)
+  if(gap_debug)
   {
     printf("image_id:%d  guideCol:%d :%d\n"
        ,(int)image_id
@@ -372,7 +372,7 @@ p_createEmptyEdgeDrawable(GapEdgeContext *ectx)
                 , 0       /* normal mode */
                 );
 
-  gimp_image_add_layer (ectx->edgeImageId, ectx->edgeDrawableId, 0 /* stackposition */ );
+  gimp_image_insert_layer (ectx->edgeImageId, ectx->edgeDrawableId, 0, 0 /* stackposition */ );
 
   ectx->edgeDrawable = gimp_drawable_get(ectx->edgeDrawableId);
   
@@ -650,13 +650,13 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    gpointer  pr;
    gdouble   threshold01f;
    gdouble   threshold255f;
-   gint      threshold255;
+   //gint      threshold255;
    gint      cx;
    gint      cy;
    
    threshold01f = CLAMP((threshold / 100.0), 0, 1);
    threshold255f = 255.0 * threshold01f;
-   threshold255 = threshold255f;
+   //threshold255 = threshold255f;
 
    p_get_debug_coords_from_guides(image_id, &cx, &cy);
    
@@ -743,7 +743,7 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    , gdouble threshold, gint32 shift, gboolean doLevelsAutostretch
    , gboolean invert)
  {
-   gint32 blurLayerId;
+   //gint32 blurLayerId;
    gint32 edgeLayerId;
    gint32 imageId;
    GimpDrawable *edgeDrawable;
@@ -753,10 +753,10 @@ gint32 gap_edgeDetection(gint32  refDrawableId
  
  
  
-   imageId = gimp_drawable_get_image(activeDrawableId);
+   imageId = gimp_item_get_image(activeDrawableId);
  
    edgeLayerId = gimp_layer_copy(activeDrawableId);
-   gimp_image_add_layer (imageId, edgeLayerId, 0 /* stackposition */ );
+   gimp_image_insert_layer (imageId, edgeLayerId, 0, 0 /* stackposition */ );
  
    edgeDrawable = gimp_drawable_get(edgeLayerId);
    refDrawable = gimp_drawable_get(activeDrawableId);
@@ -768,7 +768,7 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    
    blurDrawable = NULL;
 //    blurLayerId = gimp_layer_copy(edgeLayerId);
-//    gimp_image_add_layer (imageId, blurLayerId, 0 /* stackposition */ );
+//    gimp_image_insert_layer (imageId, blurLayerId, 0, 0 /* stackposition */ );
 //    blurDrawable = gimp_drawable_get(blurLayerId);
 
    p_subtract_ref_layer(imageId, edgeDrawable, refDrawable, threshold, shift, invert);
@@ -800,5 +800,4 @@ gint32 gap_edgeDetection(gint32  refDrawableId
    return (edgeLayerId);
    
  }  /* end gap_edgeDetectionByBlurDiff */
- 
  

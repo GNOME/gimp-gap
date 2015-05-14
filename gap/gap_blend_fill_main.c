@@ -462,7 +462,7 @@ p_progress_init(FilterContext *context)
     areaPixels = context->workLayerWidth * context->workLayerHeight;
     context->progressStepsDone = 0.0;
 
-    /* progress steps e.g. pixels to be handled for creating the work layer */
+    /* progress steps i.e. pixels to be handled for creating the work layer */
     context->progressStepsTotal = areaPixels;
 
     if (context->valPtr->horizontalBlendFlag)
@@ -1006,13 +1006,13 @@ p_set_selection_from_vectors_string(FilterContext *context)
 
   if ((vectorsOk) && (vectors_ids != NULL) && (num_vectors > 0))
   {
-    gboolean       selOk;
+    /* gboolean       selOk; */
     gint32         vectorId;
     GimpChannelOps operation;
 
     vectorId = vectors_ids[0];
     operation = GIMP_CHANNEL_OP_REPLACE;
-    selOk = gimp_vectors_to_selection(vectorId
+    /* selOk = */ gimp_vectors_to_selection(vectorId
                                      , operation
                                      , FALSE      /*  antialias */
                                      , FALSE      /*  feather   */
@@ -1059,13 +1059,13 @@ p_set_selection_from_vectors_file(FilterContext *context)
 
   if ((vectorsOk) && (vectors_ids != NULL) && (num_vectors > 0))
   {
-    gboolean       selOk;
+    /* gboolean       selOk; */
     gint32         vectorId;
     GimpChannelOps operation;
 
     vectorId = vectors_ids[0];
     operation = GIMP_CHANNEL_OP_REPLACE;
-    selOk = gimp_vectors_to_selection(vectorId
+    /* selOk =  */ gimp_vectors_to_selection(vectorId
                                      , operation
                                      , FALSE      /*  antialias */
                                      , FALSE      /*  feather   */
@@ -1179,6 +1179,10 @@ p_create_workLayer(FilterContext *context)
       printf("creating altSelection: %d\n", (int)context->valPtr->altSelection);
     }
     altSelection_success = p_set_altSelection(context);
+    if(gap_debug)
+    {
+      printf("after creating altSelection_success: %d\n", (int)altSelection_success);
+    }
   }
 
   if(context->valPtr->altSelection == SELECTION_FROM_VECTORS)
@@ -1227,7 +1231,7 @@ p_create_workLayer(FilterContext *context)
 
   if(gap_debug)
   {
-    printf("intersect ix:%d iy:%d iWidth:%d iHeight:%d  ix1:%d iy1:%d ix2:%d iy2:%d\n"
+    printf("intersect ix:%d iy:%d iWidth:%d iHeight:%d  ix1:%d iy1:%d ix2:%d iy2:%d has_sel:%d\n"
        ,(int)ix
        ,(int)iy
        ,(int)iWidth
@@ -1236,6 +1240,7 @@ p_create_workLayer(FilterContext *context)
        ,(int)iy1
        ,(int)ix2
        ,(int)iy2
+       ,(int)has_selection
        );
     printf("workLayerOffsX:%d workLayerOffsY:%d workLayerWidth:%d workLayerHeight:%d\n"
        ,(int)context->workLayerOffsX
@@ -1255,7 +1260,7 @@ p_create_workLayer(FilterContext *context)
                 , 100.0   /* full opacity */
                 , 0       /* normal mode */
                 );
-  gimp_image_add_layer(context->imageId, context->workLayerId, 0);
+  gimp_image_insert_layer(context->imageId, context->workLayerId, 0, 0);
   gimp_layer_set_offsets(context->workLayerId
                         , context->workLayerOffsX
                         , context->workLayerOffsY
@@ -1452,8 +1457,8 @@ p_check_exec_condition_and_set_ok_sesitivity(GuiStuff *guiStuffPtr)
       {
         gchar *msg;
 
-        msg = g_strdup_printf(_("Path Vectors too large to fit into buffersize:%d.")
-                              , sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
+        msg = g_strdup_printf(_("Path Vectors too large to fit into buffersize:%ld.")
+                              , (long)sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
         gtk_label_set_text(GTK_LABEL(guiStuffPtr->msg_label), msg);
         g_free(msg);
         okButtonSensitive = FALSE;
@@ -1512,8 +1517,8 @@ p_selectionComboCallback (GtkWidget *widget, gint32 *layerId)
 
   if(gap_debug)
   {
-    printf("p_selectionComboCallback: LayerAddr:%d value:%d\n"
-      ,(int)layerId
+    printf("p_selectionComboCallback: LayerAddr:%ld value:%d\n"
+      ,(long)layerId
       ,(int)value
       );
   }
@@ -1754,8 +1759,8 @@ p_save_vectors_to_string(GuiStuff *guiStuffPtr)
     }
     else
     {
-        g_message(_("Path Vectors too large to fit into buffersize:%d.")
-                 , sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
+        g_message(_("Path Vectors too large to fit into buffersize:%ld.")
+                 , (long)sizeof(guiStuffPtr->valPtr->selectionSVGFileName));
     }
     g_free(svgString);
   }
@@ -1791,7 +1796,7 @@ gap_blend_fill_dialog (FilterVals *fiVals, gint32 drawable_id)
 
 
   guiStuffPtr = &guiStuffRecord;
-  guiStuffPtr->imageId = gimp_drawable_get_image(drawable_id);
+  guiStuffPtr->imageId = gimp_item_get_image(drawable_id);
   guiStuffPtr->msg_label = NULL;
   guiStuffPtr->svg_entry = NULL;
   guiStuffPtr->svg_filesel = NULL;
@@ -1837,7 +1842,7 @@ gap_blend_fill_dialog (FilterVals *fiVals, gint32 drawable_id)
 
   /* horizontalBlendFlag checkbutton  */
   label = gtk_label_new (_("fills the selection by blending opposite border colors "
-                           "outside the selction to cover the selected area.\n"
+                           "outside the selection to cover the selected area.\n"
                            "Intended to fix small pixel errors"));
   gtk_widget_show (label);
   gtk_table_attach (GTK_TABLE (table), label, 0, 3, row, row+1,
@@ -1935,7 +1940,7 @@ gap_blend_fill_dialog (FilterVals *fiVals, gint32 drawable_id)
   {
     initalComboElem = SELECTION_FROM_SVG_FILE;
   }
-  else if(gimp_drawable_is_valid(fiVals->altSelection) == TRUE)
+  else if(gimp_item_is_valid(fiVals->altSelection) == TRUE)
   {
     initalComboElem = fiVals->altSelection;
   }
@@ -1957,8 +1962,8 @@ gap_blend_fill_dialog (FilterVals *fiVals, gint32 drawable_id)
   gtk_table_attach (GTK_TABLE (table), button, 0, 1, row, row + 1,
                     GTK_FILL, GTK_FILL, 4, 0);
 
-  gimp_help_set_help_data (button, _("Save all pathes as svg vector file."
-                          "(use svg file when large or many pathes shall be used)"), NULL);
+  gimp_help_set_help_data (button, _("Save all paths as svg vector file."
+                          "(use svg file when large or many paths shall be used)"), NULL);
   g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_save_svg_clicked),
                       guiStuffPtr);

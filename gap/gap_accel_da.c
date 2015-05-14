@@ -238,7 +238,7 @@ p_accel_event_callback(GtkWidget *wgt, GdkEvent *event,
         {
           case 1:
             accel_wgt->isButton1Pressed = TRUE;
-            gtk_adjustment_set_value(accel_wgt->adj, p_calculate_accelCharacteristic_from_Position(accel_wgt));
+            gtk_adjustment_set_value(GTK_ADJUSTMENT(accel_wgt->adj), p_calculate_accelCharacteristic_from_Position(accel_wgt));
             break;
           case 2:
             gtk_adjustment_set_value(accel_wgt->adj, (gfloat)0.0);
@@ -334,7 +334,7 @@ gap_accel_repaint(GtkWidget *wgt, GdkEvent *evt,
   }
 
  
-  /*  Draw the the acceleration curve according to accelerationCharacteristic
+  /*  Draw the acceleration curve according to accelerationCharacteristic
    *  when acceleration is active 
    */
   if(accelerationCharacteristic != 0)

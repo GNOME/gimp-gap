@@ -35,12 +35,12 @@ typedef struct GapMultiPocessorCopyOrDelaceData {  /* memcpd */
 /* ---------------------------
  * GVA_fcache_mutex_lock
  * ---------------------------
- * lock the fcache_mutex if present (e.g. is NOT NULL)
+ * lock the fcache_mutex if present (i.e. is NOT NULL)
  * Note: the fcache_mutex is NULL per default.
  *       In case an application wants to use the GVA api fcache in multithread environment,
  *       it must provide a mutex.
  *       example how to provide the mutex:
- *       (e.g gvahand->fcache_mutex = g_mutex_new() )
+ *       (i.e gvahand->fcache_mutex = g_mutex_new() )
  */
 void
 GVA_fcache_mutex_lock(t_GVA_Handle  *gvahand)
@@ -60,11 +60,11 @@ GVA_fcache_mutex_lock(t_GVA_Handle  *gvahand)
 /* ---------------------------
  * GVA_fcache_mutex_trylock
  * ---------------------------
- * lock the fcache_mutex if present (e.g. is NOT NULL)
+ * lock the fcache_mutex if present (i.e. is NOT NULL)
  * return immediate FALSE in case the mutex is locked by another thread
  * return TRUE in case the mutex was locked successfully (may sleep until other threads unlock the mutex)
  *        TRUE will be immediatly returned in case
- *        a) thread system is not initialized, e.g g_thread_init was not yet called
+ *        a) thread system is not initialized, i.e g_thread_init was not yet called
  *        b) in case the gvahand->fcache_mutex is NULL (which is default after opening a videohandle)
  */
 gboolean
@@ -84,7 +84,7 @@ GVA_fcache_mutex_trylock(t_GVA_Handle  *gvahand)
   {
     /* not really locked, because no mutex is available.
      * but in this case behave same as g_mutex_trylock
-     * when thread system is not initialized, e.g g_thread_init was not yet called
+     * when thread system is not initialized, i.e g_thread_init was not yet called
      */
     isSuccessful = TRUE;
   }
@@ -97,7 +97,7 @@ GVA_fcache_mutex_trylock(t_GVA_Handle  *gvahand)
 /* ---------------------------
  * GVA_fcache_mutex_unlock
  * ---------------------------
- * unlock the fcache_mutex if present (e.g. is NOT NULL)
+ * unlock the fcache_mutex if present (i.e. is NOT NULL)
  */
 void
 GVA_fcache_mutex_unlock(t_GVA_Handle  *gvahand)
@@ -300,6 +300,7 @@ GVA_copy_or_deinterlace_fcache_data_to_rgbBuffer(GVA_RgbPixelBuffer *rgbBuffer
   GAP_TIMM_GET_FUNCTION_ID(funcIdMainWait, "GVA_copy_or_deinterlace_fcache_data_to_rgbBuffer.main (Wait)");
 
   error = NULL;
+  ii = 0;
 
   if(gap_debug)
   {

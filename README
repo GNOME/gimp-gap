@@ -7,12 +7,12 @@ Animations as sequences of single frames.
 
 Requires:
 =========
- - gimp 2.6.0 or higher.
-     This release was tested with gimp-2.6.6
+ - gimp 2.8.0 or higher.
+     This release was tested with gimp-2.8.10
      
      Note: GIMP-GAP provides some features that are able to call many of the
            GIMP standard filters. (plug-in programs that are shiped with 
-           gimp-2.6.6) Those features depend on the tested PDB interface
+           gimp-2.8.10) Those features depend on the tested PDB interface
            versions and may fail if newer version are used.
 
  - glib 2.8 or higher.
@@ -81,7 +81,7 @@ Those configure_option files are read by the master .configure script
 
 
 
-Installation from SVN source tree:
+Installation from GIT source tree:
 ==================================
 
   ./autogen.sh   # includes generation of the configure script ant the ./configure call
@@ -105,6 +105,31 @@ Additional notes:
   This version of GIMP-GAP is a separated Package since GIMP-1.3.x
   and does not compile/run with GIMP-1.2.x or older GIMP versions than 2.4.
 
+Cross compilation for Windows:
+==================================
+
+GIMP-GAP was succesfully built for Windows 64 bit systems
+on a 64 bit Linux Host by following those cross compilation steps:
+
+    o) installed most dependency libs from openSuSE 13.1 windows 64 bit
+       Note that openSuSE already provides many cross compiled libraries for Windows.
+       The url for the win 64 bit repository is:
+       http://download.opensuse.org/repositories/windows:/mingw:/win64/openSUSE_13.1/
+    o) have a script to setup environment varbles 
+       (PREFIX, LD_LIBRARY_PATH and other stuff see the gimp wiki crosscompile page)
+    o) crosscompiled some dependency libs that were not provided as binary by openSUSE 13.1
+    o) crosscompiled gimp-2.8.10 (see gimp wiki crosscompile page)
+
+    o) configure GAP for cross compilation:
+    
+       -) Add the options:
+              --enable-cross-compile  --target-os=mingw32  --arch=x86_64
+          to the file:  extern_libs/configure_options_ffmpeg_win32.txt
+          
+       -) run configure (or autogen.sh) with the following configure options:
+           ./configure  --prefix=$PREFIX --host=x86_64-w64-mingw32 --disable-libmpeg3 --disable-gui-thread-support
+           
+
 
 Notes:
 ======
@@ -122,7 +147,7 @@ Notes:
      The programs mpeg2encode, mpeg_encode, and xanim
      are old and you may not need them at all since GIMP-GAP-2.2
      provides improved alternatives for all of them.
-     Note that the old frontends are not bulit by default.
+     Note that the old frontends are not maintained and not bulit by default.
      
      If you want to use that old stuff, you should install
        xanim 2.80.1 (loki)
@@ -132,17 +157,24 @@ Notes:
      
      
      
-     It is recommanded to install the program mplayer.
+     It is recommended to install the program mplayer.
      MPlayer does support very much videofileformats.
      
 
    - The GIMP-GAP playback module provides audiosupport for audiofiles
-     in RIFF WAV format.  The audiosupport is based on wavplay (tested
-     with version 1.4).
+     in RIFF WAV format based on the SDL library.
      
-     If you want to have audiosupport you must install wavplay
-     and configure and compile gimp-gap without the
-     configure option --disable-audiosupport
+     The older implementation of audiosupport is based on wavplay (tested
+     with version 1.4) is still available 
+     (but you should not need it anyway since the SDL based implementation
+     works without an external audioserver and is available on multiple operation systems).
+     
+     
+     If you want to have the OLD audiosupport you must install wavplay
+     and configure and compile gimp-gap with the configure options:
+     
+     --enable-audio-support-wavplay
+     --disable-audio-support-sdl
      
      As far as i know, wavplay is available only for LINUX, but i may
      be wrong..

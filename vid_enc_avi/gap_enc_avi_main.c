@@ -644,7 +644,7 @@ p_avi_encode(GapGveAviGlobalParams *gpp)
   long audio_margin = 8192; /* The audio chunk size */
 
 
-  char databuffer[300000]; /* For transferring audio data */
+  guchar databuffer[300000]; /* For transferring audio data */
   gint32   l_video_frame_chunk_size;
   gint32   l_video_frame_chunk_hdr_size;
   gboolean l_dont_recode_frames;
@@ -944,9 +944,9 @@ p_avi_encode(GapGveAviGlobalParams *gpp)
 
         if (gap_debug)
         {
-          printf("DEBUG: 1:1 copy of frame %d (fetch as chunk OK) chunk_ptr:%d  chunk_size:%d chunk_hdr_size:%d\n"
+          printf("DEBUG: 1:1 copy of frame %d (fetch as chunk OK) chunk_ptr:%ld  chunk_size:%d chunk_hdr_size:%d\n"
               , (int)l_cur_frame_nr
-              , (int)l_video_chunk_ptr
+              , (long)l_video_chunk_ptr
               , (int)l_video_frame_chunk_size
               , (int)l_video_frame_chunk_hdr_size
               );
@@ -954,7 +954,7 @@ p_avi_encode(GapGveAviGlobalParams *gpp)
         l_FRAME_size = l_video_frame_chunk_size - l_video_frame_chunk_hdr_size;
         buffer = l_video_chunk_ptr + l_video_frame_chunk_hdr_size;
 
-        AVI_write_frame(l_avifile, buffer, l_FRAME_size, TRUE /* all frames are keyframe for JPEG codec */);
+        AVI_write_frame(l_avifile, (char*)buffer, l_FRAME_size, TRUE /* all frames are keyframe for JPEG codec */);
 
       }
       else
@@ -1062,7 +1062,7 @@ p_avi_encode(GapGveAviGlobalParams *gpp)
                  , (int)l_keyframe
                  );
           }
-          AVI_write_frame(l_avifile, buffer, l_FRAME_size, l_keyframe);
+          AVI_write_frame(l_avifile, (char *)buffer, l_FRAME_size, l_keyframe);
           /* free the (un)compressed Frame data buffer */
           g_free(buffer);
         }
@@ -1099,7 +1099,7 @@ p_avi_encode(GapGveAviGlobalParams *gpp)
        * in case the audio input is shorter than video playtime write the rest
        * and stop writing audio for all further frame.
        * in case the audio input is longer than video playtime it is truncated.
-       * (e.g. the remaining audio is not written to the resulting video file).
+       * (i.e. the remaining audio is not written to the resulting video file).
        */
       if ((l_fp_inwav) && (wavsize > 0))
       {
@@ -1154,7 +1154,7 @@ p_avi_encode(GapGveAviGlobalParams *gpp)
           {
             printf("Now saving audio frame datasize:%d\n", (int)datasize);
           }
-          AVI_write_audio(l_avifile, databuffer, datasize);
+          AVI_write_audio(l_avifile, (char *)databuffer, datasize);
 
           if(gap_debug)
           {

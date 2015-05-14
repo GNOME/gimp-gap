@@ -38,12 +38,19 @@
  */
 
 
-/* the gui can run even if we dont have gthread library
+/* if not defined GAP_GUI_USE_GTHREAD (from config.h) the gui can run without the gthread library
  * (but the main window refresh will not be done while the encoder
  * parameter dialog -- that is called via pdb -- is open)
+ *
+ * if not defined GAP_ENC_USE_GTHREAD (from config.h) the encoder call is NOT doen as thread
+ * (tyou will not have progress feedback in the GUI in this case)
+ *
+ * Typically both GAP_GUI_USE_GTHREAD and GAP_ENC_USE_GTHREAD shall be enabled in Linux environment.
+ * In Windows 64 bit environment
+ *    you may  --disable-gui-thread-support (undef GAP_GUI_USE_GTHREAD )
+ *    but      --enable-enc-thread-support  (define GAP_ENC_USE_GTHREAD )
+ * as workaround for a (probably GTK related) bug that leads to crash on atttempt to move the dialog window.
  */
-#define GAP_USE_GTHREAD
-
 
 #include <config.h>
 
@@ -165,7 +172,10 @@ p_gap_message(const char *msg)
   {
     if(*msg)
     {
-       if(gap_debug) printf("%s\n", msg);
+       if(gap_debug)
+       {
+         gap_file_printf("%s\n", msg);
+       }
        gap_arr_buttons_dialog  (_("GAP Message"), msg, l_argc, l_argv, -1);
     }
   }
@@ -185,7 +195,10 @@ gap_cme_gui_check_gui_thread_is_active(GapCmeGlobalParams *gpp)
      /* only one of the threads (Master or GUI thread) can use the PDB Interface (or call gimp_xxx procedures)
       * If 2 threads are talking to the gimp main app parallel it comes to crash.
       */
-     if(gap_debug) printf("MASTER: GUI thread %d is already active\n", (int)gpp->val.gui_proc_thread);
+     if(gap_debug)
+     {
+       gap_file_printf("MASTER: GUI gui_proc_thread %ld is already active\n", (long)gpp->val.gui_proc_thread);
+     }
      if(l_gap_message_open == FALSE)
      {
        l_gap_message_open = TRUE;
@@ -211,12 +224,15 @@ gap_cme_gui_pdb_call_encoder_gui_plugin(GapCmeGlobalParams *gpp)
     return -1;
   }
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   if(gap_cme_gui_check_gui_thread_is_active(gpp)) return -1;
 
   /* start a thread for asynchron PDB call of the gui_ procedure
    */
-  if(gap_debug) printf("MASTER: Before g_thread_create\n");
+  if(gap_debug)
+  {
+    gap_file_printf("MASTER: Before g_thread_create\n");
+  }
 
   joinable = TRUE;
   gpp->val.gui_proc_thread =
@@ -226,8 +242,15 @@ gap_cme_gui_pdb_call_encoder_gui_plugin(GapCmeGlobalParams *gpp)
                      , NULL  /* GError **error (NULL dont report errors) */
                      );
 
-  if(gap_debug) printf("MASTER: After g_thread_create\n");
+  if(gap_debug)
+  {
+    gap_file_printf("MASTER: After g_thread_create\n");
+  }
 #else
+  if(gap_debug)
+  {
+    gap_file_printf("MASTER: gap_cme_gui_pdb_call_encoder_gui_plugin (without threads)\n");
+  }
   /* if threads are not used simply call the procedure
    * (the common GUI window is not refreshed until the called gui_proc ends)
    */
@@ -266,7 +289,17 @@ gap_cme_gui_thread_async_pdb_call(gpointer data)
 
   gpp = gap_cme_main_get_global_params();
 
-  if(gap_debug) printf("THREAD: gap_cme_gui_thread_async_pdb_call &gpp: %d\n", (int)gpp);
+#ifdef GAP_GUI_USE_GTHREAD
+  if(gap_debug) 
+  {
+    gap_file_printf("THREAD: gap_cme_gui_thread_async_pdb_call &gpp: %ld\n", (long)gpp);
+  }
+#else
+  if(gap_debug) 
+  {
+    gap_file_printf("non-thread call gap_cme_gui_thread_async_pdb_call &gpp: %ld\n", (long)gpp);
+  }
+#endif
 
   plugin_name = gpp->val.ecp_sel.gui_proc;
 
@@ -283,9 +316,12 @@ gap_cme_gui_thread_async_pdb_call(gpointer data)
                                      &l_params,
                                      &l_return_vals))
   {
-    printf("ERROR: Plugin not available, Name was %s\n", plugin_name);
+    gap_file_printf("ERROR: Plugin not available, Name was %s\n", plugin_name);
 
-    if(gap_debug) printf("THREAD gui_proc err TERMINATING: %d\n", (int)gpp->val.gui_proc_thread);
+    if(gap_debug)
+    {
+      gap_file_printf("THREAD gui_proc_thread err TERMINATING: %ld\n", (long)gpp->val.gui_proc_thread);
+    }
 
     gpp->val.gui_proc_thread = NULL;
     return (NULL);
@@ -340,8 +376,8 @@ gap_cme_gui_thread_async_pdb_call(gpointer data)
 
   if(gap_debug)
   {
-      printf("THREAD Common GUI key: %s\n", l_argv[1].data.d_string);
-      printf("THREAD Common GUI rate: %f  w:%d h:%d\n", (float)gpp->val.framerate, (int)gpp->val.vid_width, (int)gpp->val.vid_height);
+      gap_file_printf("THREAD Common GUI key: %s\n", l_argv[1].data.d_string);
+      gap_file_printf("THREAD Common GUI rate: %f  w:%d h:%d\n", (float)gpp->val.framerate, (int)gpp->val.vid_width, (int)gpp->val.vid_height);
   }
 
 
@@ -365,11 +401,14 @@ gap_cme_gui_thread_async_pdb_call(gpointer data)
 
   if (l_ret_params[0].data.d_status != GIMP_PDB_SUCCESS)
   {
-    printf("THREAD ERROR: p_call_plugin %s failed.\n", plugin_name);
+    gap_file_printf("THREAD ERROR: p_call_plugin %s failed.\n", plugin_name);
   }
   else
   {
-    if(gap_debug) printf("THREAD DEBUG: p_call_plugin: %s successful.\n", plugin_name);
+    if(gap_debug)
+    {
+      gap_file_printf("THREAD DEBUG: p_call_plugin: %s successful.\n", plugin_name);
+    }
   }
 
   /* the GUI of the encoder plugin might have changed the current video filename extension
@@ -377,7 +416,10 @@ gap_cme_gui_thread_async_pdb_call(gpointer data)
    */
   gap_cme_gui_requery_vid_extension(gpp);
 
-  if(gap_debug) printf("THREAD gui_proc TERMINATING: %d\n", (int)gpp->val.gui_proc_thread);
+  if(gap_debug)
+  {
+    gap_file_printf("THREAD gui_proc_thread TERMINATING: %ld\n", (long)gpp->val.gui_proc_thread);
+  }
 
   gpp->val.gui_proc_thread = NULL;
 
@@ -413,7 +455,7 @@ pdb_find_video_encoders(void)
 
   if(gap_debug)
   {
-    printf("pdb_find_video_encoders: START\n");
+    gap_file_printf("pdb_find_video_encoders: START\n");
   }
 
   list_ecp = NULL;
@@ -423,7 +465,7 @@ pdb_find_video_encoders(void)
                            &num_procs, &proc_list);
   if(gap_debug)
   {
-    printf("pdb_find_video_encoders: num_procs:%d (matching the wildcard:%s)\n"
+    gap_file_printf("pdb_find_video_encoders: num_procs:%d (matching the wildcard:%s)\n"
       ,(int)num_procs
       , GAP_WILDCARD_VIDEO_ENCODERS
       );
@@ -449,7 +491,7 @@ pdb_find_video_encoders(void)
 
      if(gap_debug)
      {
-       printf("pdb_find_video_encoders: check proc:%s  has_proc_info:%d\n"
+       gap_file_printf("pdb_find_video_encoders: check proc:%s  has_proc_info:%d\n"
          , proc_list[i]
          , (int)l_has_proc_info
          );
@@ -463,7 +505,7 @@ pdb_find_video_encoders(void)
         {
            if(gap_debug)
            {
-             printf("pdb_find_video_encoders: procedure %s is skipped (nparams %d != %d)\n"
+             gap_file_printf("pdb_find_video_encoders: procedure %s is skipped (nparams %d != %d)\n"
                                , proc_list[i], (int)l_nparams, (int)GAP_VENC_NUM_STANDARD_PARAM );
            }
            continue;
@@ -493,7 +535,7 @@ pdb_find_video_encoders(void)
         {
            if(gap_debug)
            {
-             printf("pdb_find_video_encoders: run procedure %s nparams:%d nretrun_vals:%d\n"
+             gap_file_printf("pdb_find_video_encoders: run procedure %s nparams:%d nretrun_vals:%d\n"
                      , ecp_infoproc, (int)l_nparams, (int)l_nreturn_vals);
            }
 
@@ -514,7 +556,7 @@ pdb_find_video_encoders(void)
                 {
                   if(gap_debug)
                   {
-                    printf("[1].d_string %s\n", l_params[1].data.d_string);
+                    gap_file_printf("[1].d_string %s\n", l_params[1].data.d_string);
                   }
                   g_snprintf(l_ecp->menu_name, sizeof(l_ecp->menu_name), "%s", l_params[1].data.d_string);
                 }
@@ -533,7 +575,7 @@ pdb_find_video_encoders(void)
                 {
                   if(gap_debug)
                   {
-                    printf("[1].d_string %s\n", l_params[1].data.d_string);
+                    gap_file_printf("[1].d_string %s\n", l_params[1].data.d_string);
                   }
                   g_snprintf(l_ecp->video_extension, sizeof(l_ecp->video_extension), "%s",  l_params[1].data.d_string);
                 }
@@ -552,7 +594,7 @@ pdb_find_video_encoders(void)
                 {
                   if(gap_debug)
                   {
-                    printf("[1].d_string %s\n", l_params[1].data.d_string);
+                    gap_file_printf("[1].d_string %s\n", l_params[1].data.d_string);
                   }
                   g_snprintf(l_ecp->short_description, sizeof(l_ecp->short_description), "%s",  l_params[1].data.d_string);
                 }
@@ -572,7 +614,7 @@ pdb_find_video_encoders(void)
                 {
                   if(gap_debug)
                   {
-                    printf("[1].d_string %s\n", l_params[1].data.d_string);
+                    gap_file_printf("[1].d_string %s\n", l_params[1].data.d_string);
                   }
                   g_snprintf(l_ecp->gui_proc, sizeof(l_ecp->gui_proc), "%s",  l_params[1].data.d_string);
                 }
@@ -614,7 +656,10 @@ gap_cme_gui_requery_vid_extension(GapCmeGlobalParams *gpp)
 {
   GapGveEncList *l_ecp;
 
-  if(gap_debug) printf("gap_cme_gui_requery_vid_extension START\n");
+  if(gap_debug)
+  {
+    gap_file_printf("gap_cme_gui_requery_vid_extension START\n");
+  }
 
   for(l_ecp = gpp->ecp; l_ecp != NULL; l_ecp = (GapGveEncList *)l_ecp->next)
   {
@@ -638,7 +683,11 @@ gap_cme_gui_requery_vid_extension(GapCmeGlobalParams *gpp)
         {
           if((l_params[1].data.d_string) && (l_params[1].type == GIMP_PDB_STRING))
           {
-            if(gap_debug) printf("gap_cme_gui_requery_vid_extension: [1].d_string %s\n", l_params[1].data.d_string);
+            if(gap_debug)
+            {
+              gap_file_printf("gap_cme_gui_requery_vid_extension: [1].d_string %s\n"
+                     , l_params[1].data.d_string);
+            }
             g_snprintf(l_ecp->video_extension, sizeof(l_ecp->video_extension), "%s",  l_params[1].data.d_string);
             g_snprintf(gpp->val.ecp_sel.video_extension, sizeof(gpp->val.ecp_sel.video_extension), "%s",  l_params[1].data.d_string);
           }
@@ -666,7 +715,10 @@ p_replace_combo_encodername(GapCmeGlobalParams *gpp)
   gint  l_active_menu_nr;
   gint  l_idx;
 
-  if(gap_debug) printf("p_replace_combo_encodername: START\n");
+  if(gap_debug)
+  {
+    gap_file_printf("p_replace_combo_encodername: START\n");
+  }
 
   combo = gpp->cme__combo_encodername;
   if(combo == NULL)
@@ -681,7 +733,7 @@ p_replace_combo_encodername(GapCmeGlobalParams *gpp)
   {
      if(gap_debug)
      {
-        printf("p_replace_combo_encodername: %d, %s %s\n"
+        gap_file_printf("p_replace_combo_encodername: %d, %s %s\n"
               , (int)l_ecp->menu_nr
               , l_ecp->menu_name
               , l_ecp->vid_enc_plugin);
@@ -882,10 +934,10 @@ p_update_aud_info (GapCmeGlobalParams *gpp
 
   if(gap_debug)
   {
-    printf("p_update_aud_info: START lbl_info:%d lbl_time:%d lbl_time0:%d\n"
-       ,(int)lbl_info
-       ,(int)lbl_time
-       ,(int)lbl_time0
+    gap_file_printf("p_update_aud_info: START lbl_info:%ld lbl_time:%ld lbl_time0:%ld\n"
+       ,(long)lbl_info
+       ,(long)lbl_time
+       ,(long)lbl_time0
        );
   }
 
@@ -908,7 +960,7 @@ p_update_aud_info (GapCmeGlobalParams *gpp
   {
      if(gap_debug)
      {
-       printf("p_update_aud_info: audioname is null or empty\n");
+       gap_file_printf("p_update_aud_info: audioname is null or empty\n");
      }
 
      p_print_time_label(lbl_time, 0);
@@ -928,7 +980,7 @@ p_update_aud_info (GapCmeGlobalParams *gpp
 
   if(gap_debug)
   {
-    printf("p_update_aud_info: audioname %s\n", audioname);
+    gap_file_printf("p_update_aud_info: audioname %s\n", audioname);
   }
 
 
@@ -950,7 +1002,7 @@ p_update_aud_info (GapCmeGlobalParams *gpp
 
      if(gap_debug)
      {
-       printf("p_update_aud_info: l_rc:%d all_playlist_references:%d\n"
+       gap_file_printf("p_update_aud_info: l_rc:%d all_playlist_references:%d\n"
          ,(int)l_rc
          ,(int)all_playlist_references
          );
@@ -1208,7 +1260,10 @@ gap_cme_gui_util_sox_widgets (GapCmeGlobalParams *gpp)
 {
   GtkEntry *entry;
 
-  if(gap_debug) printf("gap_cme_gui_util_sox_widgets\n");
+  if(gap_debug)
+  {
+    gap_file_printf("gap_cme_gui_util_sox_widgets\n");
+  }
 
   entry = GTK_ENTRY(gpp->cme__entry_sox);
   if(entry != NULL)
@@ -1240,7 +1295,7 @@ p_range_widgets_set_limits(GapCmeGlobalParams *gpp
 
   if(gap_debug)
   {
-    printf("(++)p_range_widgets_set_limits lower_limit:%d upper_limit:%d input_mode:%d\n"
+    gap_file_printf("(++)p_range_widgets_set_limits lower_limit:%d upper_limit:%d input_mode:%d\n"
        , (int)lower_limit
        , (int)upper_limit
        , (int)range_type
@@ -1323,7 +1378,10 @@ p_range_widgets_set_limits(GapCmeGlobalParams *gpp
 static void
 p_init_shell_window_widgets (GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("p_init_shell_window_widgets: Start INIT\n");
+ if(gap_debug)
+ {
+   gap_file_printf("p_init_shell_window_widgets: Start INIT\n");
+ }
 
  /* put initial values to the widgets */
 
@@ -1400,7 +1458,10 @@ p_status_progress(GapCmeGlobalParams *gpp, t_global_stb *gstb)
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pbar), gstb->status_msg);
   }
 
-  if(gap_debug) printf("progress: %f\n", (float)gstb->progress );
+  if(gap_debug)
+  {
+    gap_file_printf("progress: %f\n", (float)gstb->progress );
+  }
 }  /* end p_status_progress */
 
 
@@ -1432,28 +1493,28 @@ p_storybord_job_finished(GapCmeGlobalParams *gpp, t_global_stb *gstb)
 
   if(gap_debug)
   {
-    printf("p_storybord_job_finished: START\n");
+    gap_file_printf("p_storybord_job_finished: START\n");
   }
 
   gstb->progress = 1.0;
   g_snprintf(gstb->status_msg, sizeof(gstb->status_msg), _("ready"));
   p_status_progress(gpp, gstb);
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
    /* is the encoder specific gui_thread still open ? */
    if(gpp->val.gui_proc_thread)
    {
       /* wait until thread exits */
       if(gap_debug)
       {
-        printf("p_storybord_job_finished: before g_thread_join\n");
+        gap_file_printf("p_storybord_job_finished: before g_thread_join\n");
       }
 
       g_thread_join(gpp->val.gui_proc_thread);
 
       if(gap_debug)
       {
-        printf("p_storybord_job_finished: after g_thread_join\n");
+        gap_file_printf("p_storybord_job_finished: after g_thread_join\n");
       }
       gpp->val.gui_proc_thread = NULL;
    }
@@ -1607,8 +1668,8 @@ p_storybord_job_finished(GapCmeGlobalParams *gpp, t_global_stb *gstb)
 
   if(gap_debug)
   {
-    printf("p_storybord_job_finished:\nMSG: %s\n", l_msg);
-    printf("(##) first:%d last:%d input_mode:%d\n"
+    gap_file_printf("p_storybord_job_finished:\nMSG: %s\n", l_msg);
+    gap_file_printf("(##) first:%d last:%d input_mode:%d\n"
        , (int)gstb->first_frame_limit
        , (int)gstb->last_frame_nr
        , (int)gpp->val.input_mode
@@ -1658,7 +1719,10 @@ on_timer_poll(gpointer   user_data)
   t_global_stb *gstb;
   GapCmeGlobalParams *gpp;
 
-  if(gap_debug) printf("\non_timer_poll: START\n");
+  if(gap_debug)
+  {
+    gap_file_printf("\non_timer_poll: START\n");
+  }
 
   gstb = (t_global_stb *)user_data;
   gpp = gap_cme_main_get_global_params();
@@ -1717,7 +1781,7 @@ p_thread_storyboard_file(gpointer data)
 
   if(gap_debug)
   {
-    printf("THREAD: p_thread_storyboard_file &gpp: %d\n", (int)gpp);
+    gap_file_printf("THREAD: p_thread_storyboard_file &gpp: %ld\n", (long)gpp);
   }
 
   gstb = &global_stb;
@@ -1773,7 +1837,10 @@ p_thread_storyboard_file(gpointer data)
     {
       char *l_composite_audio;
 
-      if(gap_debug) gap_gve_story_debug_print_audiorange_list(vidhand->aud_list, -1);
+      if(gap_debug)
+      {
+        gap_gve_story_debug_print_audiorange_list(vidhand->aud_list, -1);
+      }
 
       /* name for the composite audio that should be created */
       l_composite_audio = g_strdup_printf("%s_composite_audio.wav", gpp->val.storyboard_file);
@@ -1790,7 +1857,10 @@ p_thread_storyboard_file(gpointer data)
                       ,l_composite_audio
                       );
 
-            if(gap_debug) gap_gve_story_debug_print_audiorange_list(vidhand->aud_list, -1);
+            if(gap_debug)
+            {
+              gap_gve_story_debug_print_audiorange_list(vidhand->aud_list, -1);
+            }
             gap_gve_story_drop_audio_cache();
          }
          g_free(l_composite_audio);
@@ -1837,8 +1907,8 @@ p_thread_storyboard_file(gpointer data)
 
   if(gap_debug)
   {
-    printf("THREAD storyboard TERMINATING: tid:%d first:%d last:%d input_mode:%d\n"
-       , (int)gpp->val.gui_proc_thread
+    gap_file_printf("THREAD storyboard TERMINATING: gui_proc_thread:%ld first:%d last:%d input_mode:%d\n"
+       , (long)gpp->val.gui_proc_thread
        , (int)gstb->first_frame_limit
        , (int)gstb->last_frame_nr
        , (int)gpp->val.input_mode
@@ -1901,7 +1971,7 @@ gap_cme_gui_check_storyboard_file(GapCmeGlobalParams *gpp)
 
 
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   if(gap_cme_gui_check_gui_thread_is_active(gpp))  { return; }
   if(gstb->poll_timertag >= 0)           { return; }
 
@@ -1915,7 +1985,10 @@ gap_cme_gui_check_storyboard_file(GapCmeGlobalParams *gpp)
 
   /* start a thread for asynchron PDB call of the gui_ procedure
    */
-  if(gap_debug) printf("MASTER: Before storyborad g_thread_create\n");
+  if(gap_debug)
+  {
+    gap_file_printf("MASTER: Before storyborad g_thread_create\n");
+  }
 
   joinable = TRUE;
   gpp->val.gui_proc_thread =
@@ -1925,7 +1998,10 @@ gap_cme_gui_check_storyboard_file(GapCmeGlobalParams *gpp)
                      , NULL  /* GError **error (NULL dont report errors) */
                      );
 
-  if(gap_debug) printf("MASTER: After storyborad g_thread_create\n");
+  if(gap_debug)
+  {
+    gap_file_printf("MASTER: After storyborad g_thread_create\n");
+  }
 
   /* start poll timer to update progress and notify when storyboard job finished */
   gstb->poll_timertag =
@@ -1991,20 +2067,21 @@ gboolean
 gap_cme_gui_check_encode_OK (GapCmeGlobalParams *gpp)
 {
   gchar       *l_msg;
-  long        samplerate, samplerate2;
+  long        samplerate;
   long        channels;
   long        bytes_per_sample;
-  long        bits, bits2;
+  long        bits;
   long        samples;
   gint         l_rc;
   gint32      tmsec;        /* audioplaytime in milli secs */
 
   samplerate = 0;
-  samplerate2 = 0;
   bits = 16;
-  bits2 = 16;
 
-  if(gap_debug) printf("gap_cme_gui_check_encode_OK: Start\n");
+  if(gap_debug)
+  {
+    gap_file_printf("gap_cme_gui_check_encode_OK: Start\n");
+  }
 
   if(gpp->val.gui_proc_thread)
   {
@@ -2152,7 +2229,10 @@ gap_cme_gui_check_encode_OK (GapCmeGlobalParams *gpp)
      return (FALSE);
   }
 
-  if(gap_debug) printf("gap_cme_gui_check_encode_OK: End OK\n");
+  if(gap_debug)
+  {
+    gap_file_printf("gap_cme_gui_check_encode_OK: End OK tmsec:%s\n", (int)tmsec);
+  }
   return (TRUE); /* OK */
 }  /* end gap_cme_gui_check_encode_OK */
 
@@ -2559,7 +2639,7 @@ p_create_shell_window (GapCmeGlobalParams *gpp)
   gpp->cme__spinbutton_framerate_adj = NULL;
   gpp->cme__spinbutton_samplerate_adj = NULL;
 
-  shell_window = gimp_dialog_new (_("Master Videoencoder"),
+  shell_window = gap_dialog_new (_("Master Videoencoder"),
                          GAP_CME_PLUGIN_NAME_VID_ENCODE_MASTER,
                          NULL, 0,
                          gimp_standard_help_func, GAP_CME_PLUGIN_HELP_ID_VID_ENCODE_MASTER,
@@ -2567,7 +2647,7 @@ p_create_shell_window (GapCmeGlobalParams *gpp)
                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                          GTK_STOCK_OK,     GTK_RESPONSE_OK,
                          NULL);
-  gtk_window_set_type_hint (shell_window, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(shell_window), GDK_WINDOW_TYPE_HINT_NORMAL);
   
   g_signal_connect (G_OBJECT (shell_window), "response",
                     G_CALLBACK (on_cme__response),
@@ -2772,11 +2852,6 @@ p_create_encoder_status_frame (GapCmeGlobalParams *gpp)
   GtkWidget *frame;
   GtkWidget *table;
   GtkWidget *label;
-  GtkObject *adj;
-  GtkWidget *spinbutton;
-  GtkWidget *combo;
-  GtkWidget *button;
-  GtkWidget *entry;
   gint       row;
 
   frame = gimp_frame_new (_("Video Encoder Status"));
@@ -3888,7 +3963,7 @@ p_call_encoder_procedure(GapCmeGlobalParams *gpp)
 
   if(gpp->val.ecp_sel.vid_enc_plugin[0] == '\0')
   {
-     printf("p_call_encoder_procedure: No encoder available (exit)\n");
+     gap_file_printf("p_call_encoder_procedure: No encoder available (exit)\n");
      return -1;
   }
 
@@ -3899,24 +3974,24 @@ p_call_encoder_procedure(GapCmeGlobalParams *gpp)
 
   if(gap_debug)
   {
-     printf("p_call_encoder_procedure %s: START\n", gpp->val.ecp_sel.vid_enc_plugin);
-     printf("  videoname: %s\n", gpp->val.videoname);
-     printf("  audioname1: %s\n", gpp->val.audioname1);
-     printf("  basename: %s\n", gpp->ainfo.basename);
-     printf("  extension: %s\n", gpp->ainfo.extension);
-     printf("  range_from: %d\n", (int)gpp->val.range_from);
-     printf("  range_to: %d\n", (int)gpp->val.range_to);
-     printf("  framerate: %f\n", (float)gpp->val.framerate);
-     printf("  samplerate: %d\n", (int)gpp->val.samplerate);
-     printf("  wav_samplerate: %d\n", (int)gpp->val.wav_samplerate1);
-     printf("  vid_width: %d\n", (int)gpp->val.vid_width);
-     printf("  vid_height: %d\n", (int)gpp->val.vid_height);
-     printf("  vid_format: %d\n", (int)gpp->val.vid_format);
-     printf("  image_ID: %d\n", (int)gpp->val.image_ID);
-     printf("  l_use_encoderspecific_params: %d\n", (int)l_use_encoderspecific_params);
-     printf("  filtermacro_file: %s\n", gpp->val.filtermacro_file);
-     printf("  storyboard_file: %s\n", gpp->val.storyboard_file);
-     printf("  input_mode: %d\n", gpp->val.input_mode);
+     gap_file_printf("p_call_encoder_procedure %s: START\n", gpp->val.ecp_sel.vid_enc_plugin);
+     gap_file_printf("  videoname: %s\n", gpp->val.videoname);
+     gap_file_printf("  audioname1: %s\n", gpp->val.audioname1);
+     gap_file_printf("  basename: %s\n", gpp->ainfo.basename);
+     gap_file_printf("  extension: %s\n", gpp->ainfo.extension);
+     gap_file_printf("  range_from: %d\n", (int)gpp->val.range_from);
+     gap_file_printf("  range_to: %d\n", (int)gpp->val.range_to);
+     gap_file_printf("  framerate: %f\n", (float)gpp->val.framerate);
+     gap_file_printf("  samplerate: %d\n", (int)gpp->val.samplerate);
+     gap_file_printf("  wav_samplerate: %d\n", (int)gpp->val.wav_samplerate1);
+     gap_file_printf("  vid_width: %d\n", (int)gpp->val.vid_width);
+     gap_file_printf("  vid_height: %d\n", (int)gpp->val.vid_height);
+     gap_file_printf("  vid_format: %d\n", (int)gpp->val.vid_format);
+     gap_file_printf("  image_ID: %d\n", (int)gpp->val.image_ID);
+     gap_file_printf("  l_use_encoderspecific_params: %d\n", (int)l_use_encoderspecific_params);
+     gap_file_printf("  filtermacro_file: %s\n", gpp->val.filtermacro_file);
+     gap_file_printf("  storyboard_file: %s\n", gpp->val.storyboard_file);
+     gap_file_printf("  input_mode: %d\n", gpp->val.input_mode);
   }
 
   if(FALSE == gimp_procedural_db_proc_info (gpp->val.ecp_sel.vid_enc_plugin,
@@ -3977,7 +4052,7 @@ p_call_encoder_procedure(GapCmeGlobalParams *gpp)
   
   if(gap_debug)
   {
-     printf("p_call_encoder_procedure %s: DONE\n", gpp->val.ecp_sel.vid_enc_plugin);
+     gap_file_printf("p_call_encoder_procedure %s: DONE\n", gpp->val.ecp_sel.vid_enc_plugin);
   }
   
   
@@ -4031,7 +4106,7 @@ gap_cme_gui_update_encoder_status(GapCmeGlobalParams *gpp)
 {
   if(gap_debug)
   {
-    printf("  gap_cme_gui_update_encoder_status -- frames_processed:%d\n"
+    gap_file_printf("  gap_cme_gui_update_encoder_status -- frames_processed:%d\n"
       , gpp->encStatus.frames_processed
       );
   }
@@ -4147,7 +4222,7 @@ gap_cme_gui_update_encoder_status(GapCmeGlobalParams *gpp)
 //      {
 //        if(gap_debug)
 //        {
-//          printf("  gap_cme_gui_update_encoder_status -- detected encoder FINISHED via progress\n"
+//          gap_file_printf("  gap_cme_gui_update_encoder_status -- detected encoder FINISHED via progress\n"
 //            , gpp->encStatus.frames_processed
 //            );
 //        }
@@ -4256,14 +4331,18 @@ gap_cme_encoder_worker_thread(gpointer data)
 
   if(gap_debug)
   {
-    printf("THREAD: gap_cme_encoder_worker_thread &gpp: %d\n", (int)gpp);
+    gap_file_printf("THREAD: gap_cme_encoder_worker_thread &gpp: %ld\n"
+        , (long)gpp
+        );
   }
 
   gap_cme_gui_start_video_encoder(gpp);
 
   if(gap_debug)
   {
-    printf("THREAD gap_cme_encoder_worker_thread TERMINATING: %d\n", (int)gpp->val.gui_proc_thread);
+    gap_file_printf("THREAD gap_cme_encoder_worker_thread TERMINATING: %ld\n"
+        , (long)gpp->val.gui_proc_thread
+        );
   }
 
   gpp->productive_encoder_thread = NULL;
@@ -4286,7 +4365,7 @@ gap_cme_gui_start_video_encoder_as_thread(GapCmeGlobalParams *gpp)
     return -1;
   }
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_ENC_USE_GTHREAD
   if(gpp->productive_encoder_thread != NULL)
   {
     return -1;
@@ -4296,7 +4375,7 @@ gap_cme_gui_start_video_encoder_as_thread(GapCmeGlobalParams *gpp)
    */
   if(gap_debug)
   {
-    printf("MASTER: Before g_thread_create encode video worker\n");
+    gap_file_printf("MASTER: Before g_thread_create encode video worker\n");
   }
 
   joinable = TRUE;
@@ -4309,7 +4388,7 @@ gap_cme_gui_start_video_encoder_as_thread(GapCmeGlobalParams *gpp)
 
   if(gap_debug)
   {
-    printf("MASTER: After g_thread_create encode video worker\n");
+    gap_file_printf("MASTER: After g_thread_create encode video worker\n");
   }
 #else
   /* if threads are not used simply call the procedure
@@ -4341,9 +4420,12 @@ gap_cme_gui_master_encoder_dialog(GapCmeGlobalParams *gpp)
   t_global_stb    *gstb;
   GapLibTypeInputRange l_rangetype;
 
-  if(gap_debug) printf("gap_cme_gui_master_encoder_dialog: Start\n");
+  if(gap_debug)
+  {
+    gap_file_printf("gap_cme_gui_master_encoder_dialog: Start\n");
+  }
 
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   /* check and init thread system */
   gap_base_thread_init();
   gdk_threads_init ();
@@ -4385,11 +4467,17 @@ gap_cme_gui_master_encoder_dialog(GapCmeGlobalParams *gpp)
   gpp->ow__dialog_window = NULL;
   gpp->ecp = pdb_find_video_encoders();
 
-  if(gap_debug) printf("gap_cme_gui_master_encoder_dialog: Before p_create_shell_window\n");
+  if(gap_debug)
+  {
+    gap_file_printf("gap_cme_gui_master_encoder_dialog: Before p_create_shell_window\n");
+  }
 
   gpp->shell_window = p_create_shell_window (gpp);
 
-  if(gap_debug) printf("gap_cme_gui_master_encoder_dialog: After p_create_shell_window\n");
+  if(gap_debug)
+  {
+    gap_file_printf("gap_cme_gui_master_encoder_dialog: After p_create_shell_window\n");
+  }
 
   p_init_shell_window_widgets(gpp);
   gtk_widget_show (gpp->shell_window);
@@ -4405,11 +4493,14 @@ gap_cme_gui_master_encoder_dialog(GapCmeGlobalParams *gpp)
 
   gpp->val.run = 0;
   gtk_main ();
-#ifdef GAP_USE_GTHREAD
+#ifdef GAP_GUI_USE_GTHREAD
   gdk_threads_leave ();
 #endif
 
-  if(gap_debug) printf("A F T E R gtk_main run:%d\n", (int)gpp->val.run);
+  if(gap_debug)
+  {
+    gap_file_printf("A F T E R gtk_main run:%d\n", (int)gpp->val.run);
+  }
 
   gpp->shell_window = NULL;
 

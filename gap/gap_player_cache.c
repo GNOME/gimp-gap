@@ -104,9 +104,6 @@
 
 extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 
-// local debug setting
-//static gint gap_debug = 1;  /* 1 == print debug infos , 0 dont print debug infos */
-
 
 typedef struct GapPlayerCacheElem {
   gchar                            *ckey;
@@ -175,7 +172,7 @@ p_get_admin_ptr(void)
                                                          );
     if(gap_debug)
     {
-      printf("p_get_admin_ptr: %d\n", (int)global_pca_ptr);
+      printf("p_get_admin_ptr: %ld\n", (long)global_pca_ptr);
     }
   }
   return (global_pca_ptr);
@@ -188,10 +185,10 @@ p_get_admin_ptr(void)
 static void
 p_debug_printf_cdata(GapPlayerCacheData *cdata)
 {
-    printf("  cdata  compression: %d, size:%d, th_data:%d, width:%d, height:%d, bpp:%d\n"
+    printf("  cdata  compression: %d, size:%d, th_data:%ld, width:%d, height:%d, bpp:%d\n"
              , (int)cdata->compression
              , (int)cdata->th_data_size
-             , (int)cdata->th_data
+             , (long)cdata->th_data
              , (int)cdata->th_width
              , (int)cdata->th_height
              , (int)cdata->th_bpp
@@ -209,9 +206,9 @@ p_debug_printf_cache_list(GapPlayerCacheAdmin *admin_ptr)
   GapPlayerCacheElem *prev_elem_ptr;
   gint ii;
 
-  printf("\np_debug_printf_cache_list: START start_elem:%d, end_elem:%d\n"
-    ,(int)admin_ptr->start_elem
-    ,(int)admin_ptr->end_elem
+  printf("\np_debug_printf_cache_list: START start_elem:%ld, end_elem:%ld\n"
+    ,(long)admin_ptr->start_elem
+    ,(long)admin_ptr->end_elem
     );
 
   ii = 0;
@@ -219,12 +216,12 @@ p_debug_printf_cache_list(GapPlayerCacheAdmin *admin_ptr)
   elem_ptr = admin_ptr->start_elem;
   while(elem_ptr != NULL)
   {
-    printf("elem_ptr[%03d]: %d ckey: <%s> prev:%d next:%d\n"
+    printf("elem_ptr[%03d]: %ld ckey: <%s> prev:%ld next:%ld\n"
              , (int)ii
-             , (int)elem_ptr
+             , (long)elem_ptr
              , elem_ptr->ckey
-             , (int)elem_ptr->prev
-             , (int)elem_ptr->next
+             , (long)elem_ptr->prev
+             , (long)elem_ptr->next
              );
     ii++;
 
@@ -529,7 +526,7 @@ gap_player_cache_free_all(void)
 
   if(gap_debug)
   {
-    printf("gap_player_cache_free_all: %d\n", (int)admin_ptr);
+    printf("gap_player_cache_free_all: %ld\n", (long)admin_ptr);
   }
 
   if(admin_ptr)
@@ -587,8 +584,8 @@ p_player_cache_remove_oldest_frame(GapPlayerCacheAdmin *admin_ptr)
   {
      if(gap_debug)
      {
-       printf("p_player_cache_remove_oldest_frame: delete_elem_ptr: %d ckey: <%s> \n"
-             , (int)delete_elem_ptr
+       printf("p_player_cache_remove_oldest_frame: delete_elem_ptr: %ld ckey: <%s> \n"
+             , (long)delete_elem_ptr
              ,delete_elem_ptr->ckey
              );
      }
@@ -630,10 +627,10 @@ p_free_elem(GapPlayerCacheElem  *delete_elem_ptr)
 
   if(gap_debug)
   {
-    printf("p_free_elem: delete_elem_ptr: %d, ckey: %d, cdata:%d"
-      ,(int)delete_elem_ptr
-      ,(int)delete_elem_ptr->ckey
-      ,(int)delete_elem_ptr->cdata
+    printf("p_free_elem: delete_elem_ptr: %ld, ckey: %ld, cdata:%ld"
+      ,(long)delete_elem_ptr
+      ,(long)delete_elem_ptr->ckey
+      ,(long)delete_elem_ptr->cdata
       );
     if(delete_elem_ptr->ckey)
     {
@@ -834,10 +831,10 @@ gap_player_cache_decompress(GapPlayerCacheData *cdata)
     memcpy(th_data, cdata->th_data, cdata->th_data_size);
     if(gap_debug)
     {
-      printf("gap_player_cache_decompress: th_data:%d size:%d, cdata->th_data: %d\n"
-        , (int)th_data
+      printf("gap_player_cache_decompress: th_data:%ld size:%d, cdata->th_data: %ld\n"
+        , (long)th_data
         , (int)cdata->th_data_size
-        , (int)cdata->th_data
+        , (long)cdata->th_data
         );
     }
   }

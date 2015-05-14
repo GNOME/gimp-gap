@@ -6,8 +6,8 @@ gint p_plug_in_checkerboard_iter_ALT(GimpRunMode run_mode, gint32 total_steps, g
 {
     typedef struct t_plug_in_checkerboard_Vals 
     {
-      long      check_mode;
-      long      check_size;
+      gboolean mode;
+      gint     size;
     } t_plug_in_checkerboard_Vals; 
 
     t_plug_in_checkerboard_Vals  buf, *buf_from, *buf_to; 
@@ -26,8 +26,8 @@ gint p_plug_in_checkerboard_iter_ALT(GimpRunMode run_mode, gint32 total_steps, g
     buf_to   = (t_plug_in_checkerboard_Vals *)&g_plugin_data_to[0]; 
     memcpy(&buf, buf_from, sizeof(buf));
 
-    p_delta_long(&buf.check_mode, buf_from->check_mode, buf_to->check_mode, total_steps, current_step);
-    p_delta_long(&buf.check_size, buf_from->check_size, buf_to->check_size, total_steps, current_step);
+    p_delta_gboolean(&buf.mode, buf_from->mode, buf_to->mode, total_steps, current_step);
+    p_delta_gint(&buf.size, buf_from->size, buf_to->size, total_steps, current_step);
 
     gimp_set_data("plug-in-checkerboard", &buf, sizeof(buf)); 
 

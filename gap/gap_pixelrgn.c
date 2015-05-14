@@ -25,7 +25,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 
 #include "libgimp/gimp.h"
@@ -61,7 +63,7 @@ struct _GimpPixelRgnIterator
  * This function cleans up by unref tiles that were initialized in a
  * loop constuct with gimp_pixel_rgns_register and gimp_pixel_rgns_process calls.
  * It is intended for clean escape from such a loop at early time
- * e.g. before all tiles are processed.
+ * i.e. before all tiles are processed.
  *
  * Note: leaving such a loop construct with break or return
  *        without clean up keeps tile references alive
@@ -93,7 +95,7 @@ gap_gimp_pixel_rgns_unref (gpointer pri_ptr)
   GimpPixelRgnIterator *pri;
   GSList               *list;
 
-  g_return_val_if_fail (pri_ptr != NULL, NULL);
+  g_return_if_fail (pri_ptr != NULL);
 
   pri = (GimpPixelRgnIterator*) pri_ptr;
   pri->process_count++;

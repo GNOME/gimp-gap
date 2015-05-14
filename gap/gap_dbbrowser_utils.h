@@ -17,17 +17,17 @@
  */
 
 
-/* 
+/*
    gap_dbbrowser_utils.h (original code dbbrowser_utils.h by Thomas NOEL <thomas@minet.net>
-   
+
    09. dec .1998   hof: update for GIMP 1.1
    20. dec .1997   hof: GAP variant of DBbrowser
                         removed apply_callback
-                        added constraint_procedure, 
+                        added constraint_procedure,
                         added 2 buttons
                         added return type
 
-   0.08  26th sept 97  by Thomas NOEL <thomas@minet.net> 
+   0.08  26th sept 97  by Thomas NOEL <thomas@minet.net>
 */
 
 #ifndef _GAP_DB_BROWSER_UTILS_H
@@ -35,10 +35,16 @@
 
 #include "libgimp/gimp.h"
 
+#define GAP_GROUP_FILTER_HANDLING_NORMAL  0
+#define GAP_GROUP_FILTER_HANDLING_SKIP    1
+#define GAP_GROUP_FILTER_HANDLING_MERGE   2
+
+
 typedef struct {
    char   selected_proc_name[256];
    int    button_nr;               /* -1 on cancel, 0 .. n */
    gint32 accelCharacteristic;
+   gint32 groupFilterHandlingMode;
 } GapDbBrowserResult;
 
 /* proc to check if to add or not to add the procedure to the browsers listbox

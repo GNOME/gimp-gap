@@ -607,20 +607,20 @@ gap_get_combo_string_by_idx(gpointer string_combo_elem_list, gint idx)
   {
     if(string_combo_elem_list == (gpointer)glist_vid_codec)
     {
-      printf("gap_get_combo_string_by_idx: glist_vid_codec  ptr:%d\n"
-            ,(int)string_combo_elem_list
+      printf("gap_get_combo_string_by_idx: glist_vid_codec  ptr:%ld\n"
+            ,(long)string_combo_elem_list
             );
     }
     if(string_combo_elem_list == (gpointer)glist_aud_codec)
     {
-      printf("gap_get_combo_string_by_idx: glist_aud_codec  ptr:%d\n"
-            ,(int)string_combo_elem_list
+      printf("gap_get_combo_string_by_idx: glist_aud_codec  ptr:%ld\n"
+            ,(long)string_combo_elem_list
             );
     }
     if(string_combo_elem_list == (gpointer)glist_fileformat)
     {
-      printf("gap_get_combo_string_by_idx: glist_fileformat  ptr:%d\n"
-            ,(int)string_combo_elem_list
+      printf("gap_get_combo_string_by_idx: glist_fileformat  ptr:%ld\n"
+            ,(long)string_combo_elem_list
             );
     }
   }
@@ -812,7 +812,7 @@ p_init_combo_vals(GapGveFFMpegGlobalParams *gpp)
 
   if(gap_debug)
   {
-    printf("p_init_combo_vals DONE\n");
+    printf("p_init_combo_vals DONE, %s\n", name);
   }
 
 }  /* end p_init_combo_vals */
@@ -1092,9 +1092,9 @@ p_init_entry_widgets(GapGveFFMpegGlobalParams *gpp)
 {
   if(gap_debug)
   {
-    printf("p_init_entry_widgets gpp:%d  adr of evl: %d\n"
-          , (int)gpp
-          , (int)(&gpp->evl)
+    printf("p_init_entry_widgets gpp:%ld  adr of evl: %ld\n"
+          , (long)gpp
+          , (long)(&gpp->evl)
           );
     printf("gpp->evl.passlogfile %s\n", gpp->evl.passlogfile);
   }
@@ -4007,7 +4007,7 @@ p_create_ffmpeg_dialog_shell (GapGveFFMpegGlobalParams *gpp)
                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                          GTK_STOCK_OK,     GTK_RESPONSE_OK,
                          NULL);
-  gtk_window_set_type_hint (shell_window, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(shell_window), GDK_WINDOW_TYPE_HINT_NORMAL);
 
   g_signal_connect (G_OBJECT (shell_window), "response",
                     G_CALLBACK (on_ff_response),

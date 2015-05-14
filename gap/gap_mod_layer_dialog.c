@@ -63,6 +63,8 @@
 #define MENU_ITEM_TITLE_KEY    "gap_menu_item_title_key"
 #define MENU_ITEM_TIPTEXT_KEY  "gap_menu_item_tiptext_key"
 
+#define GAP_MOD_FRAMES_RESPONSE_ACTIVE 1
+
 
 extern      int gap_debug; /* ==0  ... dont print debug infos */
 
@@ -98,8 +100,15 @@ static void p_case_sensitive_toggled_callback(GtkCheckButton *checkbutton, GapMo
 static void p_invert_selection_toggled_callback(GtkCheckButton *checkbutton, GapModFramesGlobalParams *gmop);
 static void p_layer_pattern_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmop);
 static void p_new_layername_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmop);
+static void p_new_groupname_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmop);
+static void p_sel_groupname_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmop);
+static void p_delimiter_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmop);
+
+
 static void p_sel_mode_radio_callback(GtkWidget *widget, GapModFramesGlobalParams *gmop);
 static void p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop);
+static void p_get_values_from_active_layer(GapModFramesGlobalParams *gmop);
+
 
 
 /* ---------------------------------
@@ -111,9 +120,14 @@ p_mod_frames_response (GtkWidget *widget,
                  gint       response_id,
                  GapModFramesGlobalParams *gmop)
 {
-  if (response_id == GTK_RESPONSE_CANCEL)
+  if (response_id == GAP_MOD_FRAMES_RESPONSE_ACTIVE)
   {
-    gmop->retcode = -1; 
+    p_get_values_from_active_layer(gmop);
+    return;
+  }
+  else if (response_id == GTK_RESPONSE_CANCEL)
+  {
+    gmop->retcode = -1;
     if(gmop->run_flag == TRUE)
     {
       gmop->run_flag = FALSE;
@@ -138,6 +152,10 @@ p_mod_frames_response (GtkWidget *widget,
                                         , gmop->sel_invert
                                         , gmop->sel_pattern
                                         , gmop->new_layername
+                                        , gmop->new_position
+                                        , gmop->new_groupname
+                                        , gmop->sel_groupname
+                                        , gmop->delimiter
                                         , gmop->progress_bar
                                         , &gmop->run_flag
                                         );
@@ -155,6 +173,154 @@ p_mod_frames_response (GtkWidget *widget,
   }
 }  /* end p_mod_frames_response */
 
+
+/* ---------------------------------
+ * p_get_values_from_active_layer
+ * ---------------------------------
+ */
+static void
+p_get_values_from_active_layer(GapModFramesGlobalParams *gmop)
+{
+  gint32 l_image_id;
+  gint32 l_active_layer_id;
+  gint32 l_parent_layer_id;
+  gchar *l_group_path;
+  gchar *l_delimiter;
+  gchar *l_name;
+  gint32 l_position;
+  
+  if (gmop == NULL)
+  {
+    return;
+  }
+  if((gmop->ainfo_ptr == NULL)
+  || (gmop->layer_pattern_entry == NULL)
+  || (gmop->sel_groupname_entry == NULL))
+  {
+    return;
+  }
+
+
+  l_image_id = gmop->ainfo_ptr->image_id;
+  l_active_layer_id = gimp_image_get_active_layer(l_image_id);
+  if (l_active_layer_id < 0)
+  {
+    return;
+  }
+  
+  l_group_path = g_strdup("\0");
+  l_delimiter = g_strdup("\0");
+  l_parent_layer_id = gimp_item_get_parent (l_active_layer_id);
+  while(l_parent_layer_id > 0)
+  {
+    char *l_name;
+    char *l_group_path_new;
+    
+    l_name = gimp_item_get_name(l_parent_layer_id);
+    l_group_path_new = g_strdup_printf("%s%s%s", l_name, l_delimiter, l_group_path);
+    
+    
+    
+    g_free(l_delimiter);
+    g_free(l_name);
+    g_free(l_group_path);
+    l_group_path = l_group_path_new;
+    l_delimiter = g_strdup(&gmop->delimiter[0]);
+    
+    l_parent_layer_id = gimp_item_get_parent (l_parent_layer_id);
+
+  }
+  
+  gtk_entry_set_text(GTK_ENTRY(gmop->sel_groupname_entry), l_group_path);
+  g_free(l_group_path);
+
+  switch(gmop->sel_mode)
+  {
+    case GAP_MTCH_EQUAL:
+    case GAP_MTCH_START:
+    case GAP_MTCH_END:
+    case GAP_MTCH_ANYWHERE:
+      l_name = gimp_item_get_name(l_active_layer_id);
+      break;
+    case GAP_MTCH_INV_NUMBERLIST:
+      {
+        gint        l_nlayers;
+        gint32     *l_src_layers;
+        l_src_layers = NULL;
+        l_nlayers = 0;
+        l_parent_layer_id = gimp_item_get_parent (l_active_layer_id);
+        if (l_parent_layer_id <= 0)
+        {
+          l_src_layers = gimp_image_get_layers (l_image_id, &l_nlayers);
+        }
+        else
+        {
+          l_src_layers = gimp_item_get_children (l_parent_layer_id, &l_nlayers);
+        }
+        if (l_src_layers != NULL)
+        {
+          g_free(l_src_layers);
+        }
+        l_position = gimp_image_get_item_position (l_image_id, l_active_layer_id);
+        l_name = g_strdup_printf("%d", (l_nlayers -1) - l_position);
+      }
+      break;
+    default:
+      l_position = gimp_image_get_item_position (l_image_id, l_active_layer_id);
+      l_name = g_strdup_printf("%d", l_position);
+      break;
+  }
+  gtk_entry_set_text(GTK_ENTRY(gmop->layer_pattern_entry), l_name);
+  g_free(l_name);
+
+ 
+  
+}  /* end p_get_values_from_active_layer */
+
+
+
+/* --------------------------------------
+ * p_hide_or_show_widget
+ * --------------------------------------
+ */
+static void
+p_hide_or_show_widget(GtkWidget  *wgt, gboolean sensitive)
+{
+  if(wgt)
+  {
+    if(sensitive == TRUE)
+    {
+      gtk_widget_show(wgt);
+    }
+    else
+    {
+      gtk_widget_hide(wgt);
+    }
+  }
+
+}  /* end p_hide_or_show_widget */
+
+
+/* --------------------------------------
+ * p_hide_or_show_attached_widget_by_name
+ * --------------------------------------
+ */
+static void
+p_hide_or_show_attached_widget_by_name(GtkObject *adj, const char *name, gboolean sensitive)
+{
+  GtkWidget  *wgt;
+
+  if(adj == NULL)
+  {
+    return;
+  }
+
+  wgt = GTK_WIDGET(g_object_get_data (G_OBJECT (adj), name));
+  p_hide_or_show_widget(wgt, sensitive);
+
+}  /* end p_hide_or_show_attached_widget_by_name */
+
+
 /* ---------------------------------
  * p_upd_sensitivity
  * ---------------------------------
@@ -165,9 +331,11 @@ p_upd_sensitivity(GapModFramesGlobalParams *gmop)
   GtkWidget  *wgt;
   gboolean    l_sensitive;
   gboolean    l_sensitive_frame;
+  gboolean    l_sensitive_new_group;
   const char *l_label_name;
 
   l_sensitive = FALSE;
+  l_sensitive_new_group = FALSE;
   switch(gmop->sel_mode)
   {
     case GAP_MTCH_EQUAL:
@@ -207,6 +375,14 @@ p_upd_sensitivity(GapModFramesGlobalParams *gmop)
   l_label_name = " ";
   switch(gmop->action_mode)
   {
+    case GAP_MOD_ACM_NEW_LAYER_GROUP:
+      l_sensitive_new_group = TRUE;
+      break;
+    case GAP_MOD_ACM_REORDER_LAYER:
+      l_label_name = _("New Layer Name");
+      l_sensitive = TRUE;
+      l_sensitive_new_group = TRUE;
+      break;
     case GAP_MOD_ACM_DUPLICATE:
     case GAP_MOD_ACM_RENAME:
       l_label_name = _("New Layer Name");
@@ -256,8 +432,17 @@ p_upd_sensitivity(GapModFramesGlobalParams *gmop)
     gtk_label_set_text(GTK_LABEL(wgt), l_label_name);
   }
 
+ 
+  p_hide_or_show_widget(gmop->new_groupname_label, l_sensitive_new_group);
+  p_hide_or_show_widget(gmop->new_groupname_entry, l_sensitive_new_group);
+
+  p_hide_or_show_attached_widget_by_name(gmop->new_position_adj, "label", l_sensitive_new_group);
+  p_hide_or_show_attached_widget_by_name(gmop->new_position_adj, "scale", l_sensitive_new_group);
+  p_hide_or_show_attached_widget_by_name(gmop->new_position_adj, "spinbutton", l_sensitive_new_group);
+  
 
 }  /* end p_upd_sensitivity */
+
 
 
 
@@ -273,9 +458,15 @@ p_func_optionmenu_callback  (GtkWidget     *wgt_item,
   const char *title;
   const char *tiptext;
 
- if(gap_debug) printf("CB: p_func_optionmenu_callback\n");
+ if(gap_debug)
+ {
+   printf("CB: p_func_optionmenu_callback\n");
+ }
 
- if(gmop == NULL) return;
+ if(gmop == NULL)
+ {
+   return;
+ }
 
  l_idx = GPOINTER_TO_INT(g_object_get_data (G_OBJECT (wgt_item),
                                             MENU_ITEM_INDEX_KEY));
@@ -284,8 +475,10 @@ p_func_optionmenu_callback  (GtkWidget     *wgt_item,
 
  if(gap_debug)
  {
-    printf("CB: p_func_optionmenu_callback index: %d\n"
-          , (int)l_idx);
+    printf("CB: p_func_optionmenu_callback index: %d %s\n"
+          , (int)l_idx
+          , (tiptext == NULL) ? "<null>" : tiptext
+          );
  }
 
  gmop->action_mode = l_idx;
@@ -569,6 +762,12 @@ p_make_layer_stackpositions_submenu(GtkWidget *master_menu, GapModFramesGlobalPa
   sub_menu = gtk_menu_new ();
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_item), sub_menu);
 
+  p_make_func_menu_item(_("Raise layer(s) to top")
+                       ,_("raise selected layer(s) to top")
+                       ,GAP_MOD_ACM_RAISE_TOP
+                       ,sub_menu
+                       ,gmop
+                       );
   p_make_func_menu_item(_("Raise layer(s)")
                        ,_("raise all selected layers")
                        ,GAP_MOD_ACM_RAISE
@@ -578,6 +777,18 @@ p_make_layer_stackpositions_submenu(GtkWidget *master_menu, GapModFramesGlobalPa
   p_make_func_menu_item(_("Lower layer(s)")
                        ,_("lower all selected layers")
                        ,GAP_MOD_ACM_LOWER
+                       ,sub_menu
+                       ,gmop
+                       );
+  p_make_func_menu_item(_("Lower layer(s) to bottom")
+                       ,_("lower selected layer(s) to bottom")
+                       ,GAP_MOD_ACM_LOWER_BOTTOM
+                       ,sub_menu
+                       ,gmop
+                       );
+  p_make_func_menu_item(_("Reorder layer(s)")
+                       ,_("move the selected layer(s) to specified group and/or stack position")
+                       ,GAP_MOD_ACM_REORDER_LAYER
                        ,sub_menu
                        ,gmop
                        );
@@ -617,6 +828,25 @@ p_make_merge_layers_submenu(GtkWidget *master_menu, GapModFramesGlobalParams *gm
   p_make_func_menu_item(_("Merge layer(s) clipped to bg-layer")
                        ,_("merge selected layers and clip to bg-layer")
                        ,GAP_MOD_ACM_MERGE_BG
+                       ,sub_menu
+                       ,gmop
+                       );
+
+  p_make_func_menu_item(_("Merge down layer(s); expand as necessary")
+                       ,_("merge selected layers with the layer below and expand as necessary")
+                       ,GAP_MOD_ACM_MERGE_DOWN_EXPAND
+                       ,sub_menu
+                       ,gmop
+                       );
+  p_make_func_menu_item(_("Merge down layer(s); clipped to image")
+                       ,_("merge selected layers with the layer below and clip to image size")
+                       ,GAP_MOD_ACM_MERGE_DOWN_IMG
+                       ,sub_menu
+                       ,gmop
+                       );
+  p_make_func_menu_item(_("Merge down layer(s) clipped to bg-layer")
+                       ,_("merge selected layers with the layer below and clip to bg-layer")
+                       ,GAP_MOD_ACM_MERGE_DOWN_BG
                        ,sub_menu
                        ,gmop
                        );
@@ -870,6 +1100,12 @@ p_make_toplevel_menu_items(GtkWidget *master_menu, GapModFramesGlobalParams *gmo
                        ,master_menu
                        ,gmop
                        );
+  p_make_func_menu_item(_("Create Layergroup")
+                       ,NULL
+                       ,GAP_MOD_ACM_NEW_LAYER_GROUP
+                       ,master_menu
+                       ,gmop
+                       );
 }  /* end p_make_toplevel_menu_items */
 
 
@@ -950,6 +1186,58 @@ p_new_layername_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmo
             );
 }  /* end p_new_layername_entry_update_cb */
 
+/* --------------------------
+ * p_sel_groupname_entry_update_cb
+ * --------------------------
+ */
+static void
+p_sel_groupname_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmop)
+{
+  if(gmop == NULL)
+  {
+    return;
+  }
+
+  g_snprintf(gmop->sel_groupname, sizeof(gmop->sel_groupname), "%s"
+            , gtk_entry_get_text(GTK_ENTRY(widget))
+            );
+}  /* end p_sel_groupname_entry_update_cb */
+
+/* --------------------------
+ * p_new_groupname_entry_update_cb
+ * --------------------------
+ */
+static void
+p_new_groupname_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmop)
+{
+  if(gmop == NULL)
+  {
+    return;
+  }
+
+  g_snprintf(gmop->new_groupname, sizeof(gmop->new_groupname), "%s"
+            , gtk_entry_get_text(GTK_ENTRY(widget))
+            );
+}  /* end p_new_groupname_entry_update_cb */
+
+
+/* --------------------------
+ * p_delimiter_entry_update_cb
+ * --------------------------
+ */
+static void
+p_delimiter_entry_update_cb(GtkWidget *widget, GapModFramesGlobalParams *gmop)
+{
+  if(gmop == NULL)
+  {
+    return;
+  }
+
+  g_snprintf(gmop->delimiter, sizeof(gmop->delimiter), "%s"
+            , gtk_entry_get_text(GTK_ENTRY(widget))
+            );
+}  /* end p_delimiter_entry_update_cb */
+
 
 /* --------------------------
  * p_sel_mode_radio_callback
@@ -983,13 +1271,12 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
 {
   GtkWidget *dlg;
   GtkWidget *main_vbox;
-  GtkWidget *active_vbox;
   GtkWidget *hbox;
   GtkWidget *frame;
   GtkWidget *entry;
   GtkWidget *table;
-  GtkWidget *func_table;
   GtkWidget *sel_table;
+  GtkWidget *sel_sub_table;
   GtkWidget *range_table;
   GtkWidget *label;
   GtkWidget *check_button;
@@ -998,6 +1285,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
   GtkWidget *master_menu;
   GtkWidget *progress_bar;
   gint       row;
+  gint       subrow;
   GtkObject *adj;
 
   GtkWidget *radio_button;
@@ -1010,6 +1298,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
                          NULL, 0,
                          gimp_standard_help_func, GAP_MOD_FRAMES_HELP_ID,
 
+                         _("Get Active Layer"), GAP_MOD_FRAMES_RESPONSE_ACTIVE,
                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                          GTK_STOCK_OK,     GTK_RESPONSE_OK,
                          NULL);
@@ -1035,7 +1324,6 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
   gtk_widget_show (frame);
 
   table = gtk_table_new (3, 2, FALSE);
-  func_table = table;
   gtk_table_set_col_spacings (GTK_TABLE (table), 4);
   gtk_table_set_row_spacings (GTK_TABLE (table), 4);
   gtk_container_add (GTK_CONTAINER (frame), table);
@@ -1123,7 +1411,49 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
                          , _("Name for all handled layers (or channels),\n"
                              "where the string '[######]' is replaced by the frame number.")
                          , NULL);
+  row++;
 
+  /* the newGroupName label */
+  label = gtk_label_new (_("New Group Name:"));
+  gmop->new_groupname_label = label;
+  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+  gtk_table_attach (GTK_TABLE(table), label, 0, 1, row, row+1
+                    , GTK_FILL, 0, 0, 0);
+  gtk_widget_show (label);
+
+  /* the newGroupName entry  */
+  entry = gtk_entry_new();
+  gmop->new_groupname_entry = entry;
+  gtk_entry_set_text(GTK_ENTRY(entry), gmop->new_groupname);
+  gtk_widget_show(entry);
+  gtk_table_attach (GTK_TABLE(table), entry, 1, 2, row, row+1
+                    ,GTK_FILL|GTK_EXPAND , 0, 0, 0);
+  g_signal_connect(G_OBJECT(entry), "changed",
+                   G_CALLBACK (p_new_groupname_entry_update_cb),
+                   gmop);
+  gimp_help_set_help_data(entry
+                         , _("Name for the new group to be created if not already present\n"
+                             "(relevant in reorder layer and creat group function)")
+                         , NULL);
+
+  row++;
+  /* the new_position scale entry */
+  adj = gimp_scale_entry_new (GTK_TABLE (table), 0, row,
+                              _("New Position:"), SCALE_WIDTH, SPIN_BUTTON_WIDTH,
+                              (gdouble)gmop->new_position,
+                              (gdouble)0,  /* lower */
+                              (gdouble)999,   /* upper */
+                              1, 10,          /* step, page */
+                              0,              /* digits */
+                              TRUE,           /* constrain */
+                              (gdouble)gmop->ainfo_ptr->first_frame_nr,  /* lower unconstrained */
+                              (gdouble)gmop->ainfo_ptr->last_frame_nr,   /* upper unconstrained */
+                              _("New Stack position (relevant for reorder layer function)"), NULL);
+  gmop->new_position_adj = adj;
+  g_object_set_data(G_OBJECT(adj), "gmop", gmop);
+  g_signal_connect (adj, "value_changed",
+                    G_CALLBACK (gimp_int_adjustment_update),
+                    &gmop->new_position);
 
   /*  +++++++++++++++++++++++++  */
   /*  the layer selection frame  */
@@ -1207,7 +1537,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
                     ,(GtkAttachOptions) (GTK_FILL)
                     ,(GtkAttachOptions) (0), 0, 0);
   gimp_help_set_help_data (check_button
-                          , _("Perform actions on all unselected layers")
+                          , _("Perform actions on all unselected layers at same level in the layers tree (i.e. in the same group)")
                           , NULL);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button)
                                 , gmop->sel_invert);
@@ -1315,7 +1645,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button),
                                    l_radio_pressed);
   gimp_help_set_help_data(radio_button
-                         , _("Select all visible layers")
+                         , _("Select all visible layers at same level in the layers tree (i.e. in the same group)")
                          , NULL);
 
   gtk_widget_show (radio_button);
@@ -1328,14 +1658,19 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
 
   row++;
 
-  /* the hbox */
-  hbox = gtk_hbox_new (FALSE, 4);
-  gtk_widget_show (hbox);
+  /* the sel_sub_table */
+  sel_sub_table = gtk_table_new (2, 3, FALSE);
+  gtk_widget_show (sel_sub_table);
+
+  subrow = 0;
+
 
   /* the layer_pattern label */
   label = gtk_label_new (_("Layer Pattern:"));
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
   gtk_widget_show (label);
+  gtk_table_attach (GTK_TABLE(sel_sub_table), label, 0, 1, subrow, subrow+1
+                    , 0, 0, 0, 0);
 
 
   /* the layer_pattern entry */
@@ -1350,12 +1685,59 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
                    G_CALLBACK (p_layer_pattern_entry_update_cb),
                    gmop);
 
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-  gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 4);
-
-  gtk_table_attach (GTK_TABLE(sel_table), hbox, 0, 2, row, row+1
+  gtk_table_attach (GTK_TABLE(sel_sub_table), entry, 1, 3, subrow, subrow+1
                     , GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
+
+  subrow++;
+
+  /* the sel_groupname label */
+  label = gtk_label_new (_("Groupname:"));
+  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_widget_show (label);
+  gtk_table_attach (GTK_TABLE(sel_sub_table), label, 0, 1, subrow, subrow+1
+                    , 0, 0, 0, 0);
+
+
+  /* the sel_groupname entry */
+  entry = gtk_entry_new();
+  gmop->sel_groupname_entry = entry;
+  gtk_entry_set_text(GTK_ENTRY(entry), gmop->sel_groupname);
+  gimp_help_set_help_data(entry
+                         , _("String to identify layer group/subgroup name "
+                             "that builds the scope for the layer selection. "
+                             "An empty string refers to the image toplevel")
+                         , NULL);
+  gtk_widget_show(entry);
+  g_signal_connect(G_OBJECT(entry), "changed",
+                   G_CALLBACK (p_sel_groupname_entry_update_cb),
+                   gmop);
+
+  gtk_table_attach (GTK_TABLE(sel_sub_table), entry, 1, 2, subrow, subrow+1
+                    , GTK_FILL | GTK_EXPAND, 0, 0, 0);
+
+  /* the delimiter entry */
+  entry = gtk_entry_new();
+  gmop->delimiter_entry = entry;
+  gtk_entry_set_text(GTK_ENTRY(entry), gmop->delimiter);
+  gtk_widget_set_size_request(entry, SPIN_BUTTON_WIDTH, -1);
+  gimp_help_set_help_data(entry
+                         , _("Delimiter string to split layer group/subgroup names.")
+                         , NULL);
+  gtk_widget_show(entry);
+  g_signal_connect(G_OBJECT(entry), "changed",
+                   G_CALLBACK (p_delimiter_entry_update_cb),
+                   gmop);
+
+  gtk_table_attach (GTK_TABLE(sel_sub_table), entry, 2, 3, subrow, subrow+1
+                    , GTK_FILL, 0, 0, 0);
+
+
+
+
+
+  gtk_table_attach (GTK_TABLE(sel_table), sel_sub_table, 0, 2, row, row+1
+                    , GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 
 
@@ -1439,7 +1821,9 @@ gap_mod_frames_dialog(GapAnimInfo *ainfo_ptr,
                    gint32 *range_from,  gint32 *range_to,
                    gint32 *action_mode, gint32 *sel_mode,
                    gint32 *sel_case,    gint32 *sel_invert,
-                   char *sel_pattern,   char   *new_layername)
+                   char *sel_pattern,   char   *new_layername,
+                   gint32 *new_position,
+                   char *new_groupname, char *sel_groupname, char *delimiter)
 {
   GapModFramesGlobalParams global_modify_params;
   GapModFramesGlobalParams *gmop;
@@ -1462,6 +1846,11 @@ gap_mod_frames_dialog(GapAnimInfo *ainfo_ptr,
   gmop->sel_pattern[0] = '0';
   gmop->sel_pattern[1] = '\0';
   gmop->new_layername[0] = '\0';
+  gmop->new_position = 0;
+  gmop->new_groupname[0] = '\0';
+  gmop->sel_groupname[0] = '\0';
+  gmop->delimiter[0] = '/';
+  gmop->delimiter[1] = '\0';
 
   gmop->case_sensitive_check_button = NULL;
   gmop->invert_check_button = NULL;
@@ -1470,9 +1859,17 @@ gap_mod_frames_dialog(GapAnimInfo *ainfo_ptr,
   gmop->new_layername_label = NULL;
   gmop->layer_selection_frame = NULL;
 
+  gmop->new_groupname_label = NULL;
+  gmop->new_groupname_entry = NULL;
+  gmop->sel_groupname_label = NULL;
+  gmop->sel_groupname_entry = NULL;
+  gmop->delimiter_label = NULL;
+  gmop->delimiter_entry = NULL;
+  gmop->new_position_adj = NULL;
 
   p_create_mod_frames_dialog(gmop);
   p_upd_sensitivity(gmop);
+  p_get_values_from_active_layer(gmop);
   gtk_widget_show (gmop->shell);
 
 
@@ -1489,9 +1886,13 @@ gap_mod_frames_dialog(GapAnimInfo *ainfo_ptr,
   *sel_mode     = gmop->sel_mode;
   *sel_case     = gmop->sel_case;
   *sel_invert   = gmop->sel_invert;
+  *new_position = gmop->new_position;
 
   g_snprintf(sel_pattern, MAX_LAYERNAME, "%s", gmop->sel_pattern);
   g_snprintf(new_layername, MAX_LAYERNAME, "%s", gmop->new_layername);
+  g_snprintf(new_groupname, MAX_LAYERNAME, "%s", gmop->new_groupname);
+  g_snprintf(sel_groupname, MAX_LAYERNAME, "%s", gmop->sel_groupname);
+  g_snprintf(delimiter, 32, "%s", gmop->delimiter);
 
   if(gmop->run_flag)
   {

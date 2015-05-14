@@ -41,8 +41,8 @@ gboolean    gap_xml_parse_value_gint32(const gchar *attribute_value, gint32 *val
 gboolean    gap_xml_parse_value_gint(const gchar *attribute_value, gint *valDestPtr);
 gboolean    gap_xml_parse_value_gboolean(const gchar *attribute_value, gboolean *valDestPtr);
 gboolean    gap_xml_parse_value_gboolean_as_gint(const gchar *attribute_value, gint *valDestPtr);
-gboolean    gap_xml_parse_EnumValue_as_gint(const gchar *attribute_value, gint
-*valDestPtr, const GEnumValue *enumValuesTable);
+gboolean    gap_xml_parse_EnumValue_as_gint(const gchar *attribute_value, gint *valDestPtr, const GEnumValue *enumValuesTable);
+gboolean    gap_xml_parse_value_utf8_string(const gchar *attribute_value, gchar **valDestPtr);
 
 void        gap_xml_write_gboolean_value(FILE *fp, const char *name, gboolean value);
 void        gap_xml_write_gint_as_gboolean_value(FILE *fp, const char *name, gint value);

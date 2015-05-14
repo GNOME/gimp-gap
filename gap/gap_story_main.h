@@ -65,6 +65,7 @@ typedef gpointer t_GVA_Handle;
 /* max flip request and delace modes (for dimensions of radio button tables) */
 #define GAP_MAX_FLIP_REQUEST  4
 #define GAP_MAX_DELACE_MODES  5
+#define GAP_STB_MAX_MASK_ANCHOR_MODES 3
 
 typedef enum
   {
@@ -205,7 +206,7 @@ typedef struct GapStbPropWidget  /* nickname: pw */
   GtkWidget  *mask_anchor_label;
   GtkWidget  *pingpong_label;
   GtkWidget  *pw_mask_enable_toggle;
-  GtkWidget  *pw_mask_anchor_radio_button_arr[3];
+  GtkWidget  *pw_mask_anchor_radio_button_arr[GAP_STB_MAX_MASK_ANCHOR_MODES];
   GtkObject  *pw_spinbutton_mask_stepsize_adj;
 
   /* for filermacro handling */

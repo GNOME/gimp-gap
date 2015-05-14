@@ -31,6 +31,10 @@
 #ifndef _GAP_BASE_H
 #define _GAP_BASE_H
 
+#include <time.h>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #include "libgimp/gimp.h"
 #include "gap_timm.h"
 
@@ -199,7 +203,7 @@ gap_base_is_pid_alive(gint32 pid);
  * --------------------------------
  * get curent system time in utc timecode
  */
-gint32
+time_t
 gap_base_get_current_time(void);
 
 

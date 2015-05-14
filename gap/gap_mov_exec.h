@@ -41,6 +41,7 @@
 #include "libgimp/gimp.h"
 #include "gap_mov_dialog.h"
 
+void    gap_mov_exec_set_iteration_relevant_src_layers(GapMovCurrent *cur_ptr, gint32 src_layer_id, gint32 src_image_id);
 gint32  gap_mov_exec_move_path(GimpRunMode run_mode, gint32 image_id, GapMovValues *pvals, gchar *pointfile, gint rotation_follow, gdouble startangle);
 gint32  gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint preview_frame_nr);
 gint32  gap_mov_exec_move_path_singleframe(GimpRunMode run_mode, gint32 image_id
@@ -58,8 +59,20 @@ void    gap_mov_exec_query(GapMovValues *val_ptr, GapAnimInfo *ainfo_ptr, GapMov
 gdouble gap_mov_exec_get_default_rotate_threshold();
 
 GapMovValues *gap_mov_exec_new_GapMovValues();
+void gap_mov_exec_free_GapMovValues(GapMovValues *pvals);
+void gap_mov_exec_copy_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues);
+void gap_mov_exec_copy_xml_GapMovValues(GapMovValues *dstValues, GapMovValues *srcValues);
 
 gboolean  gap_mov_exec_check_valid_xml_paramfile(const char *filename);
+
+/* ------------------------------
+ * gap_mov_exec_dim_point_table
+ * ------------------------------
+ * (re) allocate point table when actual size is smaller than specified num_points
+ * e.g. this procedure does never shrink an already allocated point table,
+ * but just makes sure it can hold up to num_points.
+ */
+void gap_mov_exec_dim_point_table(GapMovValues *pvals, gint num_points);
 
 /* ---------------------------------------------
  * gap_mov_exec_move_path_singleframe_directcall

@@ -210,4 +210,24 @@ gboolean gap_arr_create_vindex_permission(const char *videofile
       , gint32 seek_status
       );
 
+
+
+GtkWidget *
+gap_dialog_new (const gchar    *title,
+                 const gchar    *role,
+                 GtkWidget      *parent,
+                 GtkDialogFlags  flags,
+                 GimpHelpFunc    help_func,
+                 const gchar    *help_id,
+                 ...);
+
+GtkWidget *
+gap_dialog_new_valist (const gchar    *title,
+                        const gchar    *role,
+                        GtkWidget      *parent,
+                        GtkDialogFlags  flags,
+                        GimpHelpFunc    help_func,
+                        const gchar    *help_id,
+                        va_list         args);
+
 #endif

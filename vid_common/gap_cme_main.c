@@ -214,7 +214,10 @@ run (const gchar *name,          /* name of plugin */
     if((*l_env != 'n') && (*l_env != 'N')) gap_debug = 1;
   }
 
-  if(gap_debug) fprintf(stderr, "\n\ngap_qt_main: debug name = %s\n", name);
+  if(gap_debug)
+  {
+    gap_file_printf("\n\ngap_qt_main: debug name = %s\n", name);
+  }
 
   gpp->val.gui_proc_thread = NULL;
   gpp->val.run_mode = param[0].data.d_int32;
@@ -333,7 +336,7 @@ run (const gchar *name,          /* name of plugin */
          {
             if(gap_debug)
             {
-               printf("MAIN before gap_cme_gui_master_encoder_dialog ------------------\n");
+               gap_file_printf("MAIN before gap_cme_gui_master_encoder_dialog ------------------\n");
             }
             
             /* note that the dialog alrady performs the encoding (as worker thread) */
@@ -342,7 +345,7 @@ run (const gchar *name,          /* name of plugin */
             
             if(gap_debug)
             {
-              printf("MAIN after gap_cme_gui_master_encoder_dialog ------------------\n");
+              gap_file_printf("MAIN after gap_cme_gui_master_encoder_dialog ------------------\n");
             }
             if(l_rc < 0)
             {
@@ -377,7 +380,7 @@ run (const gchar *name,          /* name of plugin */
 
       if(gap_debug)
       {
-        printf("MAIN cleanup ------------------\n");
+        gap_file_printf("MAIN cleanup ------------------\n");
       }
 
       /* clean up removes the communication file and the cancel request file (if there is any)

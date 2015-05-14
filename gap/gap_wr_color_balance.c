@@ -175,6 +175,10 @@ p_run_color_balance_tool(gint32 drawable_id, wr_color_balance_val_t *cuvals)
                              , cuvals->yellow_blue
                              );
 
+  if(gap_debug)
+  {
+    printf("p_run_color_balance_tool: success:%d\n", (int)success);
+  }
 
 }
 
@@ -528,7 +532,6 @@ do_dialog (wr_color_balance_val_t *cuvals)
   GtkWidget *frame1;
   GtkWidget *hbox1;
   GtkWidget *vbox1;
-  GtkWidget *label1;
   GSList *vbox1_group = NULL;
   GtkWidget *radiobutton1;
   GtkWidget *radiobutton2;

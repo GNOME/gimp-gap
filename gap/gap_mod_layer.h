@@ -114,6 +114,14 @@
 #define  GAP_MOD_ACM_CREATE_LAYER_FROM_LMASK       61
 #define  GAP_MOD_ACM_CREATE_LAYER_FROM_ALPHA       62
 
+#define  GAP_MOD_ACM_REORDER_LAYER                 63
+#define  GAP_MOD_ACM_NEW_LAYER_GROUP               64
+#define  GAP_MOD_ACM_RAISE_TOP                     65
+#define  GAP_MOD_ACM_LOWER_BOTTOM                  66
+#define  GAP_MOD_ACM_MERGE_DOWN_EXPAND             67
+#define  GAP_MOD_ACM_MERGE_DOWN_IMG                68
+#define  GAP_MOD_ACM_MERGE_DOWN_BG                 69
+
 typedef struct
 {
   gint32 layer_id;
@@ -121,24 +129,37 @@ typedef struct
   gint   selected;
 }  GapModLayliElem;
 
-GapModLayliElem *gap_mod_alloc_layli(gint32 image_id, gint32 *l_sel_cnt, gint *nlayers,
-                           gint32 sel_mode,
-                           gint32 sel_case,
-                           gint32 sel_invert,
-                           char *sel_pattern );
+GapModLayliElem *gap_mod_alloc_layli(gint32 image_id, gint32 *l_sel_cnt, gint *nlayers
+                           , gint32 sel_mode
+                           , gint32 sel_case
+                           , gint32 sel_invert
+                           , char *sel_pattern
+                           );
+GapModLayliElem *gap_mod_alloc_layli_group(gint32 image_id, gint32 *l_sel_cnt, gint *nlayers
+                           , gint32 sel_mode
+                           , gint32 sel_case
+                           , gint32 sel_invert
+                           , char *sel_pattern
+                           , char *sel_groupname
+                           , char *delimiter
+                           );
 int  gap_mod_get_1st_selected (GapModLayliElem * layli_ptr, gint nlayers);
 
 gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
                    gint32 range_from,  gint32 range_to,
                    gint32 action_mode, gint32 sel_mode,
                    gint32 sel_case, gint32 sel_invert,
-                   char *sel_pattern, char *new_layername);
+                   char *sel_pattern, char *new_layername,
+                   gint32 new_position,
+                   char *new_groupname, char *sel_groupname, char *delimiter);
 
 gint32  gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
                    long range_from, long range_to,
                    gint32 action_mode, gint32 sel_mode,
                    gint32 sel_case, gint32 sel_invert,
                    char *sel_pattern, char *new_layername,
+                   gint32 new_position,
+                   char *new_groupname, char *sel_groupname, char *delimiter,
                    GtkWidget *progress_bar,
                    gboolean *run_flag);
 

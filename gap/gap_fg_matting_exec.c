@@ -242,7 +242,7 @@ p_tri_map_preprocessing (GimpDrawable *drawable, GapFgExtractValues *fgValPtr, g
   gint32           imageId;
 
   *dummyLayerId = -1;
-  imageId = gimp_drawable_get_image(drawable->drawable_id);
+  imageId = gimp_item_get_image(drawable->drawable_id);
 
 
   inputLayerMaskId = gimp_layer_get_mask(drawable->drawable_id);
@@ -270,7 +270,7 @@ p_tri_map_preprocessing (GimpDrawable *drawable, GapFgExtractValues *fgValPtr, g
     gimp_drawable_offsets (drawable->drawable_id, &offset_x, &offset_y);
 
     /* add dummy layer (of same size at same offsets) to the same image */
-    gimp_image_add_layer(imageId, *dummyLayerId, -1 /* stackposition */ );
+    gimp_image_insert_layer(imageId, *dummyLayerId, 0, -1 /* stackposition */ );
     gimp_layer_set_offsets(*dummyLayerId, offset_x, offset_y);
 
     /* create a new layermask (black is full transparent */
@@ -327,7 +327,7 @@ gap_drawable_foreground_extract (GimpDrawable              *drawable,
   {
     gint32 imageId;
 
-    imageId = gimp_drawable_get_image(drawable->drawable_id);
+    imageId = gimp_item_get_image(drawable->drawable_id);
     resultLayerId = gimp_layer_new(imageId
             , "FG"
             , drawable->width
@@ -354,7 +354,7 @@ gap_drawable_foreground_extract (GimpDrawable              *drawable,
         gimp_drawable_offsets (drawable->drawable_id, &offset_x, &offset_y);
 
         /* add resulting layer (of same size at same offsets) to the same image */
-        gimp_image_add_layer(imageId, resultLayerId, -1 /* stackposition */ );
+        gimp_image_insert_layer(imageId, resultLayerId, 0, -1 /* stackposition */ );
         gimp_layer_set_offsets(resultLayerId, offset_x, offset_y);
 
         /* perform the foreground extraction */
@@ -656,7 +656,7 @@ gap_fg_from_selection_exec_apply_run (gint32 image_id, gint32 drawable_id
   gimp_context_set_background (&color);
   gimp_edit_fill(trimap, GIMP_BACKGROUND_FILL);
   
-  gimp_selection_load(activeSelection);
+  gimp_image_select_item(image_id, GIMP_CHANNEL_OP_REPLACE, activeSelection);
   gimp_selection_sharpen(image_id);
   if (fsValPtr->outerRadius > 0)
   {
@@ -698,7 +698,7 @@ gap_fg_from_selection_exec_apply_run (gint32 image_id, gint32 drawable_id
   /* restore original selection */
   if (hadSelection == TRUE)
   {
-    gimp_selection_load(activeSelection);
+    gimp_image_select_item(image_id, GIMP_CHANNEL_OP_REPLACE, activeSelection);
   }
 
   gimp_image_undo_group_end(image_id);

@@ -80,7 +80,7 @@
     (while (< idx copies)
        (set! draw-name (string-append "frame_0" (number->string idx)))
        (set! brush-draw (car (gimp-layer-new brush-image selection-width selection-height draw-type draw-name 100 NORMAL)))
-       (gimp-image-add-layer brush-image brush-draw 0)
+       (gimp-image-insert-layer brush-image brush-draw 0 0)
        (if (= bgfill TRUE)
            (gimp-drawable-fill brush-draw BG-IMAGE-FILL)
            (gimp-drawable-fill brush-draw TRANS-IMAGE-FILL)

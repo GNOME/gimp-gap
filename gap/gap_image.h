@@ -42,6 +42,12 @@
 #include "gtk/gtk.h"
 #include "libgimp/gimp.h"
 
+typedef struct {
+  gint stack_position;
+  void *next;
+} GapImageStackPositionsList;
+
+
 void      gap_image_delete_immediate (gint32 image_id);
 gint32    gap_image_merge_visible_layers(gint32 image_id, GimpMergeType mergemode);
 void      gap_image_prevent_empty_image(gint32 image_id);
@@ -59,6 +65,39 @@ void      gap_image_limit_layers(gint32 image_id, gint keepTopLayers,  gint keep
 
 gint32    gap_image_create_unicolor_image(gint32 *layer_id, gint32 width , gint32 height
                        , gdouble r_f, gdouble g_f, gdouble b_f, gdouble a_f);
+
+
+GapImageStackPositionsList * gap_image_get_tree_position_list(gint32 item_id);
+void     gap_image_gfree_tree_position_list(GapImageStackPositionsList *rootPosPtr);
+gint32   gap_image_get_layer_id_by_tree_position_list(gint32 image_id, GapImageStackPositionsList *rootPosPtr);
+gint32   gap_image_greate_group_layer_path(gint32 image_id
+                             , gint32 parent_id      /* or 0 for top imagelevel */
+                             , gint32 stackposition  /* where 0 is on top position */
+                             , gchar  **nameArray
+                             , gint   start_idx
+                             );
+
+gint32   gap_image_find_or_create_group_layer(gint32 image_id
+            , gchar *group_name_path_string
+            , gchar *delimiter
+            , gint stackposition
+            , gboolean enableCreate
+            );
+
+gint32  gap_image_reorder_layer(gint32 image_id, gint32 layer_id,
+              gint32 new_position,
+              char *new_groupname,
+              char *delimiter,
+              gboolean enableGroupCreation,
+              char *new_layername);
+
+gint32  gap_image_merge_group_layer(gint32 image_id,
+              gint32 group_layer_id,
+              gint merge_mode);
+
+
+char *   gap_image_get_parentpositions_as_int_stringlist(gint32 drawable_id);
+gint32 * gap_image_get_layers_at_parentpositions(gint32 image_id, gint *nlayers, const char *parentpositions);
 
 
 #endif

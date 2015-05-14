@@ -64,7 +64,7 @@ typedef struct FilterValues {
    gint32     offsX;               /* add this value when logging coords */
    gint32     offsY;
    gdouble    offsRotate;          /* additional rotation angle, to be added in all controlpoints */
-   gboolean   enableScaling;       /* on: use rotation and scaling  off: roate only  */
+   gboolean   enableScaling;       /* on: use rotation and scaling  off: rotate only  */
    gboolean   bgLayerIsReference;
    gboolean   removeMidlayers;     /* on: keep 2 top layers and Bg layer, remove other layers  off: keep all layers  */
    char       moveLogFile[1600];

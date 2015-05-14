@@ -202,10 +202,16 @@ run (const gchar *name,          /* name of plugin */
   l_env = g_getenv("NUML_DEBUG");
   if(l_env != NULL)
   {
-    if((*l_env != 'n') && (*l_env != 'N')) gap_debug = 1;
+    if((*l_env != 'n') && (*l_env != 'N'))
+    {
+      gap_debug = 1;
+    }
   }
 
-  if(gap_debug) fprintf(stderr, "\n\nDEBUG: run %s\n", name);
+  if(gap_debug)
+  {
+    printf("\n\nDEBUG: run %s\n", name);
+  }
 
   /* initialize the return of the status */
   values[0].type = GIMP_PDB_STATUS;
@@ -302,7 +308,13 @@ p_Naml (gint32 image_id, gint32 drawable_id)
   gchar *l_imagename;
   gchar *l_text;
 
-  if(gap_debug) printf("p_Naml START\n");
+  if(gap_debug)
+  {
+    printf("p_Naml START image_id:%d drawable_id:%d\n"
+        , (int)image_id
+        , (int)drawable_id
+        );
+  }
 
   l_imagename = g_strdup(gimp_image_get_filename(image_id) );
   if(l_imagename == NULL)
@@ -311,7 +323,10 @@ p_Naml (gint32 image_id, gint32 drawable_id)
   }
   l_text = l_imagename;
 
-  if(gap_debug) printf("p_Naml (1) l_imagename:%s\n", l_imagename);
+  if(gap_debug)
+  {
+   printf("p_Naml (1) l_imagename:%s\n", l_imagename);
+  }
 
   l_drawable_id = -1;
   if(glob_namlvals.create_new_layer == 0)
@@ -412,7 +427,10 @@ p_Naml (gint32 image_id, gint32 drawable_id)
 
   gimp_image_undo_group_end(image_id);
 
-  if(gap_debug) printf("p_Naml END layer_id: %d\n", (int)l_new_layer_id);
+  if(gap_debug)
+  {
+    printf("p_Naml END layer_id: %d\n", (int)l_new_layer_id);
+  }
 
   return l_new_layer_id;
 }       /* end p_Naml */

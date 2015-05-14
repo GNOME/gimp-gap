@@ -570,14 +570,12 @@ run(const gchar *name
   static GimpParam values[2];
   GimpRunMode run_mode;
   GimpPDBStatusType status = GIMP_PDB_SUCCESS;
-  gint32     nr;
   pid_t  l_navid_pid;
 
   gint32     l_rc;
 
   *nreturn_vals = 1;
   *return_vals = values;
-  nr = 0;
   l_rc = 0;
 
   INIT_I18N();
@@ -825,7 +823,7 @@ p_edit_paste_call(gint32 paste_mode)
   }
   else
   {
-    gap_arr_msg_win(GIMP_RUN_INTERACTIVE, _("Video paste operaton failed"));
+    gap_arr_msg_win(GIMP_RUN_INTERACTIVE, _("Video paste operation failed"));
   }
 
   gimp_destroy_params(return_vals, nreturn_vals);
@@ -2512,7 +2510,7 @@ navi_render_preview (FrameWidget *fw)
    }
    else
    {
-     struct stat  l_stat;
+     GStatBuf     l_stat;
      gchar       *l_frame_filename;
      gboolean     l_can_use_cached_thumbnail;
      gboolean     l_referenced_frame_exists;
@@ -2529,8 +2527,8 @@ navi_render_preview (FrameWidget *fw)
          {
            if(gap_debug)
            {
-             printf("  CHECK SIZE old pv_area_data: %d  pv_w: %d pv_h:%d  filename:%s timestamp:%d\n"
-                               , (int)fw->pv_ptr->pv_area_data
+             printf("  CHECK SIZE old pv_area_data: %ld  pv_w: %d pv_h:%d  filename:%s timestamp:%d\n"
+                               , (long)fw->pv_ptr->pv_area_data
                                , (int)fw->pv_ptr->pv_width
                                , (int)fw->pv_ptr->pv_height
                                , fw->frame_filename
@@ -2679,7 +2677,7 @@ frame_widget_preview_events (GtkWidget *widget,
                              GdkEvent  *event,
                              gpointer  user_data)
 {
-  GdkEventExpose *eevent;
+  /* GdkEventExpose *eevent; */
   GdkEventButton *bevent;
   FrameWidget *fw;
   /* int sx, sy, dx, dy, w, h; */
@@ -2710,11 +2708,11 @@ frame_widget_preview_events (GtkWidget *widget,
     case GDK_BUTTON_PRESS:
       bevent = (GdkEventButton *) event;
 
-      if(gap_debug) printf("frame_widget_preview_events GDK_BUTTON_PRESS button:%d frame_nr:%d widget:%d  da_wgt:%d\n"
+      if(gap_debug) printf("frame_widget_preview_events GDK_BUTTON_PRESS button:%d frame_nr:%d widget:%ld  da_wgt:%ld\n"
                               , (int)bevent->button
                               , (int)fw->frame_nr
-                              , (int)widget
-                              , (int)fw->pv_ptr->da_widget
+                              , (long)widget
+                              , (long)fw->pv_ptr->da_widget
                               );
       if(fw->frame_nr < 0)
       {
@@ -2765,13 +2763,13 @@ frame_widget_preview_events (GtkWidget *widget,
       break;
 
     case GDK_EXPOSE:
-      if(gap_debug) printf("frame_widget_preview_events GDK_EXPOSE frame_nr:%d widget:%d  da_wgt:%d\n"
+      if(gap_debug) printf("frame_widget_preview_events GDK_EXPOSE frame_nr:%d widget:%ld  da_wgt:%ld\n"
                               , (int)fw->frame_nr
-                              , (int)widget
-                              , (int)fw->pv_ptr->da_widget
+                              , (long)widget
+                              , (long)fw->pv_ptr->da_widget
                               );
 
-      eevent = (GdkEventExpose *) event;
+      /* eevent = (GdkEventExpose *) event; */
 
       if(widget == fw->pv_ptr->da_widget)
       {
@@ -2879,12 +2877,12 @@ static void
 navi_dialog_update(gint32 update_flag)
 {
   gint32 l_first, l_last;
-  gint   l_image_menu_was_changed;
+  /* gint   l_image_menu_was_changed; */
 
-  l_image_menu_was_changed = FALSE;
+  /*  l_image_menu_was_changed = FALSE; */
   if(update_flag & NUPD_IMAGE_MENU)
   {
-    l_image_menu_was_changed = navi_refresh_image_menu();
+    /* l_image_menu_was_changed = */ navi_refresh_image_menu();
   }
   if(update_flag & NUPD_FRAME_NR_CHANGED)
   {
@@ -3068,7 +3066,11 @@ navi_frame_widget_time_label_update(FrameWidget *fw)
     frame_nr_to_time[1] = '\0';
   }
 
-  if(gap_debug) printf("navi_frame_widget_time_label_update: GTK_STYLE_SET_BACKGROUND bg_color: %d\n", (int)bg_color);
+  if(gap_debug)
+  {
+    printf("navi_frame_widget_time_label_update: GTK_STYLE_SET_BACKGROUND bg_color: %ld\n"
+       , (long)bg_color);
+  }
 
   /* Note: Gtk does not know about selcted items, since selections are handled
    * external by gap_navigator_dialog code.

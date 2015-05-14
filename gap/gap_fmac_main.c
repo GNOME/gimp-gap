@@ -73,6 +73,7 @@
 #define GAP_DB_BROWSER_FMAC_HELP_ID  "gap-filtermacro-db-browser"
 
 #define FMAC_FILE_LENGTH  1500
+#define ERRCODE_KEY_STRING "(err:"
 
 /* ------------------------
  * global gap DEBUG switch
@@ -112,6 +113,8 @@ typedef struct
 
 gint         gap_fmac_dialog(GimpRunMode run_mode, gint32 image_id, gint32 drawable_id);
 
+static long  p_get_errorcode_as_long(const char *line);
+static gchar * p_get_errorcode_string(const char *line);
 static gchar * p_get_filtername(const char *line);
 static void  p_procedure_select_callback (GtkTreeSelection *sel, fmac_globalparams_t *gpp);
 static void  p_tree_fill (fmac_globalparams_t *gpp);
@@ -129,8 +132,7 @@ static void  p_create_action_area_buttons(fmac_globalparams_t *gpp);
 static void  p_setbutton_sensitivity(fmac_globalparams_t *gpp);
 
 static gboolean  p_chk_filtermacro_file(const char *filtermacro_file);
-static void      p_print_and_free_msg(char *msg, GimpRunMode run_mode);
-static gchar *   p_get_gap_filter_data_string(const char *plugin_name);
+static gchar *   p_get_gap_filter_data_string(const char *plugin_name, gint errorcode);
 static gchar *   p_get_mapped_gap_filter_data_string(const char *plugin_name, const char *filtermacro_file);
 static gint      p_fmac_add_filter_to_file(const char *filtermacro_file, const char *plugin_name);
 static gint      p_fmac_add_filter(const char *filtermacro_file, gint32 image_id);
@@ -357,22 +359,6 @@ p_chk_filtermacro_file(const char *filtermacro_file)
 
 
 
-/* --------------------
- * p_print_and_free_msg
- * --------------------
- */
-static void
-p_print_and_free_msg(char *msg, GimpRunMode run_mode)
-{
-  if(run_mode == GIMP_RUN_INTERACTIVE)
-  {
-    g_message("%s", msg);
-  }
-  printf("%s\n", msg);
-  g_free(msg);
-}  /* end p_print_and_free_msg */
-
-
 /* ----------------------------
  * p_get_gap_filter_data_string
  * ----------------------------
@@ -382,12 +368,13 @@ p_print_and_free_msg(char *msg, GimpRunMode run_mode)
  *      "plug_in_name" len hexbyte1 hexbyte2 .......\n
  *   example:
  *      "plug_in_sharpen"    4  0a 00 00 00
+ *      "plug_in_sharpen"    4  0a 00 00 00 (err: -1)
  *
  * return data_string or  NULL pointer if nothing was found.
  *        the returned data_string should be g_free'd by the caller (if it was not NULL)
  */
 static gchar *
-p_get_gap_filter_data_string(const char *plugin_name)
+p_get_gap_filter_data_string(const char *plugin_name, gint errorcode)
 {
   gint plugin_data_len;
   int   l_byte;
@@ -403,7 +390,7 @@ p_get_gap_filter_data_string(const char *plugin_name)
 
    if(gap_debug)
    {
-     printf("p_get_gap_filter_data_string: plugin_name:%s:\n", plugin_name);
+     printf("p_get_gap_filter_data_string: plugin_name:%s: errorcode:%d\n", plugin_name, errorcode);
    }
 
    plugin_data_len = gimp_get_data_size (plugin_name);
@@ -428,8 +415,16 @@ p_get_gap_filter_data_string(const char *plugin_name)
           g_free(l_str);
         }
 
-        /* add terminating newline character */
-        l_str = g_strdup_printf("%s\n", l_str_tmp);
+        if (errorcode == 0)
+        {
+          /* add terminating newline character */
+          l_str = g_strdup_printf("%s\n", l_str_tmp);
+        }
+        else
+        {
+          /* add errorcode and terminating newline character */
+          l_str = g_strdup_printf("%s %s %d)\n", l_str_tmp, ERRCODE_KEY_STRING, errorcode);
+        }
         g_free(l_str_tmp);
 
         if (gap_debug)
@@ -445,6 +440,7 @@ p_get_gap_filter_data_string(const char *plugin_name)
    return (data_string);
 
 }  /* end p_get_gap_filter_data_string */
+
 
 
 /* -----------------------------------
@@ -464,7 +460,7 @@ p_get_gap_filter_data_string(const char *plugin_name)
  *
  * return data_string or  NULL pointer if nothing was found.
  *        the returned data_string should be g_free'd by the caller (if it was not NULL)
- * 
+ *
  */
 static gchar *
 p_get_mapped_gap_filter_data_string(const char *plugin_name, const char *filtermacro_file)
@@ -476,10 +472,11 @@ p_get_mapped_gap_filter_data_string(const char *plugin_name, const char *filterm
   gchar  *data_string;
   const char *l_iteratorname;
   gint l_count;
+  gint l_error;
 
 
   data_string = NULL;
- 
+
   if(plugin_name == NULL)
   {
     return (NULL);
@@ -521,7 +518,7 @@ p_get_mapped_gap_filter_data_string(const char *plugin_name, const char *filterm
     gimp_get_data(plugin_name, plugin_data_bck);
 
 
-    /* Set FROM and TO buffers. 
+    /* Set FROM and TO buffers.
      * (in recording mode we use all the same data as the backup of the original buffer)
      * those buffers are not relevant in recording mode, but are required
      * for the iterator call interface.
@@ -536,22 +533,26 @@ p_get_mapped_gap_filter_data_string(const char *plugin_name, const char *filterm
      * this triggers the mapping of drawable ids in the persistent .fmref file.
      * (but only in case the called plugin has at least one an iterable drawable_id in its last_values paramters,
      * otherwise the las values buffer shall not change by the iteratorcall,
-     * due to same settings for from and to values) 
+     * due to same settings for from and to values)
      */
-    gap_filter_iterator_call(l_iteratorname
+    l_error = 0;
+    if(!gap_filter_iterator_call(l_iteratorname
        , 1       /* total_steps */
        , 1.0     /* current_step */
        , plugin_name
        , plugin_data_len
-       );
+       ))
+    {
+      l_error = 1;
+    }
 
-    data_string = p_get_gap_filter_data_string(plugin_name);
+    data_string = p_get_gap_filter_data_string(plugin_name, l_error);
 
     /* restore original data from backup buffer */
     gimp_set_data(plugin_name, plugin_data_bck, plugin_data_len);
 
     g_free(plugin_data_bck);
-    
+
     /* disable the sessionwide filtermacro context */
     gap_fmct_disable_GapFmacContext();
 
@@ -775,6 +776,11 @@ gap_fmac_dialog(GimpRunMode run_mode, gint32 image_id, gint32 drawable_id)
                                                renderer,
                                                "text", 3,
                                                NULL);
+  gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (gpp->tv),
+                                               -1, _("Information"),
+                                               renderer,
+                                               "text", 4,
+                                               NULL);
   gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (gpp->tv), TRUE);
 
   gtk_widget_set_size_request (gpp->tv, 320 /*WIDTH*/, 100 /*HEIGHT*/);
@@ -820,6 +826,73 @@ gap_fmac_dialog(GimpRunMode run_mode, gint32 image_id, gint32 drawable_id)
 
   return 0;
 } /* end gap_fmac_dialog */
+
+/* ----------------------------
+ * p_get_errorcode_as_long
+ * ----------------------------
+ * input is a typical filtermacro file line
+ *       if the line contains a filtername (starting with double quotes character)
+ *       AND also contains an errorcode string "(err: -1)
+ *       then return the errorcode as long integer
+ * return 0 in case the line has no errorcode (or errorcode 0)
+ */
+static long
+p_get_errorcode_as_long(const char *line)
+{
+  if(*line == '"')
+  {
+    gint  l_idx;
+    gint  l_start;
+
+    l_idx = 1;
+    l_start = -1;
+    while((line[l_idx] != '\0') && (line[l_idx] != '\n'))
+    {
+      if (l_start == -1)
+      {
+        if (line[l_idx] == '"')
+        {
+          /* found the closing double qute character */
+          l_start = 0;
+        }
+      }
+      else if (l_start == 0)
+      {
+        gint l_len;
+        l_len = strlen(ERRCODE_KEY_STRING);
+        if(strncmp(&line[l_idx], ERRCODE_KEY_STRING, l_len) == 0)
+        {
+          long  l_errcode;
+          l_errcode = atol(&line[l_idx + l_len]);
+          return (l_errcode);
+        }
+      }
+
+      l_idx++;
+    }
+    return(0);
+  }
+  return (0);
+
+}  /* end p_get_errorcode_as_long */
+
+/* ----------------------------
+ * p_get_errorcode_as_string
+ * ----------------------------
+ * return empty string for errorcode 0 (OK) or n case when no errorcode present
+ */
+static gchar *
+p_get_errorcode_string(const char *line)
+{
+  long  l_errcode;
+  l_errcode = p_get_errorcode_as_long(line);
+  if (l_errcode == 0)
+  {
+    return (g_strdup("\0"));
+  }
+  return (g_strdup_printf(_("Error: %d"), (int)l_errcode));
+
+}  /* end p_get_errorcode_string */
 
 
 /* ----------------------------
@@ -898,7 +971,13 @@ p_tree_fill (fmac_globalparams_t *gpp)
   GapValTextFileLines *txf_ptr_root;
 
 
-  gpp->store = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+  gpp->store = gtk_list_store_new (5
+                                  , G_TYPE_STRING
+                                  , G_TYPE_STRING
+                                  , G_TYPE_STRING
+                                  , G_TYPE_STRING
+                                  , G_TYPE_STRING
+                                  );
   gtk_tree_view_set_model (GTK_TREE_VIEW (gpp->tv)
                           ,GTK_TREE_MODEL (gpp->store)
                           );
@@ -930,7 +1009,9 @@ p_tree_fill (fmac_globalparams_t *gpp)
          gchar *numtxt;
          gchar *label;
          gchar *menu_path;
+         gchar *errorcode;
 
+         errorcode = p_get_errorcode_string(txf_ptr->line);
          menu_path = gap_db_get_plugin_menupath(pdb_name);
          if(menu_path == NULL)
          {
@@ -945,11 +1026,13 @@ p_tree_fill (fmac_globalparams_t *gpp)
                             ,1, label             /* visible number starting at 1 */
                             ,2, pdb_name
                             ,3, menu_path
+                            ,4, errorcode
                             ,-1);
          g_free (numtxt);
          g_free (label);
          g_free (menu_path);
          g_free (pdb_name);
+         g_free (errorcode);
          count_elem++;
        }
     }
@@ -1452,7 +1535,7 @@ p_fmac_pdb_constraint_proc_sel1(gchar *proc_name, gint32 image_id)
 {
   char *data_string;
 
-  data_string = p_get_gap_filter_data_string(proc_name);
+  data_string = p_get_gap_filter_data_string(proc_name, 0);
 
   if(data_string)
   {
@@ -1472,4 +1555,3 @@ p_fmac_pdb_constraint_proc_sel2(gchar *proc_name, gint32 image_id)
 {
   return (p_fmac_pdb_constraint_proc_sel1 (proc_name, image_id));
 }
-

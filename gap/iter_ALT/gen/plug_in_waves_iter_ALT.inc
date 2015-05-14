@@ -33,6 +33,7 @@ gint p_plug_in_waves_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdouble 
     p_delta_gdouble(&buf.phase, buf_from->phase, buf_to->phase, total_steps, current_step);
     p_delta_gdouble(&buf.wavelength, buf_from->wavelength, buf_to->wavelength, total_steps, current_step);
     p_delta_gint32(&buf.type, buf_from->type, buf_to->type, total_steps, current_step);
+    p_delta_gboolean(&buf.reflective, buf_from->reflective, buf_to->reflective, total_steps, current_step);
 
     gimp_set_data("plug-in-waves", &buf, sizeof(buf)); 
 

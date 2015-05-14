@@ -55,7 +55,10 @@ p_wrapper_gimp_check_sig(char *filename)
   l_image_id = gimp_file_load(GIMP_RUN_NONINTERACTIVE, filename, filename);
   if (l_image_id < 0)
   {
-     if(gap_debug) printf("p_wrapper_gimp_check_sig:%s: could not load file\n", filename);
+     if(gap_debug)
+     {
+       printf("p_wrapper_gimp_check_sig:%s: could not load file\n", filename);
+     }
      return(FALSE);
   }
 
@@ -63,7 +66,10 @@ p_wrapper_gimp_check_sig(char *filename)
    * in most cases the check_sig call is followed by open_read
    * where we need that image again
    */
-  if(global_gva_gimp_filename) g_free(global_gva_gimp_filename);
+  if(global_gva_gimp_filename)
+  {
+    g_free(global_gva_gimp_filename);
+  }
   global_gva_gimp_filename = g_strdup(filename);
   global_gva_gimp_image_id = l_image_id;
 
@@ -299,7 +305,15 @@ p_wrapper_gimp_seek_frame(t_GVA_Handle *gvahand, gdouble pos, t_GVA_PosUnit pos_
 
   if(l_frame_pos < gvahand->total_frames)
   {
-    if(gap_debug) printf("p_wrapper_gimp_seek_frame: SEEK OK: l_frame_pos: %d cur_seek:%d cur_frame:%d\n", (int)l_frame_pos, (int)gvahand->current_seek_nr, (int)gvahand->current_frame_nr);
+    if(gap_debug)
+    {
+      printf("p_wrapper_gimp_seek_frame: SEEK OK: handle:%ld l_frame_pos: %d cur_seek:%d cur_frame:%d\n"
+          , (long)handle
+          , (int)l_frame_pos
+          , (int)gvahand->current_seek_nr
+          , (int)gvahand->current_frame_nr
+          );
+    }
 
     gvahand->current_seek_nr = (gint32)l_frame_pos;
 

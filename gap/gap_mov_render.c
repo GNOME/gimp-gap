@@ -151,7 +151,8 @@ p_mov_selection_handling(gint32 orig_layer_id
                                   GIMP_RGBA_IMAGE,
                                  100.0,     /* full opaque */
                                  GIMP_NORMAL_MODE);
-  gimp_image_add_layer(val_ptr->tmpsel_image_id, l_tmp_layer_id, 0);
+  
+  gimp_image_insert_layer(val_ptr->tmpsel_image_id, l_tmp_layer_id, 0, 0);
   gimp_layer_set_offsets(l_tmp_layer_id, src_offset_x, src_offset_y);
   gimp_selection_none(val_ptr->tmpsel_image_id);
 
@@ -160,7 +161,7 @@ p_mov_selection_handling(gint32 orig_layer_id
                                ,FALSE  /* shadow */
                                );
 
-  gimp_selection_load(val_ptr->tmpsel_channel_id);
+  gimp_image_select_item(val_ptr->tmpsel_image_id, GIMP_CHANNEL_OP_REPLACE, val_ptr->tmpsel_channel_id);
 
 
   if(cur_ptr->currSelFeatherRadius > 0.001)
@@ -225,7 +226,7 @@ p_mov_apply_bluebox(gint32 layer_id
 
   if(val_ptr->bbp)
   {
-    val_ptr->bbp->image_id = gimp_drawable_get_image(layer_id);
+    val_ptr->bbp->image_id = gimp_item_get_image(layer_id);
     val_ptr->bbp->drawable_id = layer_id;
     val_ptr->bbp->layer_id = layer_id;
     val_ptr->bbp->run_mode = GIMP_RUN_NONINTERACTIVE;
@@ -332,7 +333,10 @@ p_mov_transform_perspective(gint32 layer_id
           );
   }
 
-  gimp_drawable_transform_perspective_default (layer_id,
+
+  gimp_context_set_defaults();
+  gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
+  gimp_item_transform_perspective(layer_id,
                       x0,
                       y0,
                       x1,
@@ -340,9 +344,7 @@ p_mov_transform_perspective(gint32 layer_id
                       x2,
                       y2,
                       x3,
-                      y3,
-                      TRUE,        /* whether to use interpolation and supersampling for good quality */
-                      FALSE        /* whether to clip results */
+                      y3
                       );
 
   *resized_flag = 1;
@@ -563,8 +565,8 @@ p_mov_calculate_scale_factors(gint32 image_id, GapMovValues *val_ptr, GapMovCurr
     gdouble preScaleWidthFactor;
     gdouble preScaleHeightFactor;
 
-    gdouble result_width;         /* resulting width at unscaled size (e.g. 100%) */
-    gdouble result_height;        /* resulting height at unscaled size (e.g. 100%) */
+    gdouble result_width;         /* resulting width at unscaled size (that is 100%) */
+    gdouble result_height;        /* resulting height at unscaled size (that is 100%) */
     gdouble origWidth;
     gdouble origHeight;
 
@@ -733,10 +735,11 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
   GimpLayerModeEffects l_mode;
   gdouble              scaleWidthPercent;
   gdouble              scaleHeightPercent;
+  gint32       l_parent_id;
 
   if(gap_debug)
   {
-    printf("gap_mov_render_render: frame/layer: %ld/%ld  X=%f, Y=%f\n"
+    printf("gap_mov_render_render: frame/layer: %d/%d  X=%f, Y=%f\n"
                 "       Width=%f Height=%f\n"
                 "       Opacity=%f  Rotate=%f  clip_to_img = %d force_visibility = %d\n"
                 "       src_stepmode = %d rotate_threshold=%.7f\n"
@@ -752,17 +755,19 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                      val_ptr->src_stepmode,
                      val_ptr->rotate_threshold,
 		     cur_ptr->singleMovObjLayerId,
-		     gimp_drawable_get_image(cur_ptr->singleMovObjLayerId),
+		     (cur_ptr->singleMovObjLayerId >= 0) ? gimp_item_get_image(cur_ptr->singleMovObjLayerId) :-44,
 		     image_id
 		     );
   }
+  
+  l_parent_id = 0;
 
   if(cur_ptr->isSingleFrame)
   {
     l_mode = p_get_paintmode(val_ptr->src_paintmode
                             ,cur_ptr->singleMovObjLayerId
                             );
-    if(gimp_drawable_get_image(cur_ptr->singleMovObjLayerId) == image_id)
+    if(gimp_item_get_image(cur_ptr->singleMovObjLayerId) == image_id)
     {
       /* the moving object layer id is already part of the processed frame image */
       l_cp_layer_id = cur_ptr->singleMovObjLayerId;
@@ -796,7 +801,13 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
          cur_ptr->processedLayerId = -1;
          return -1;
       }
-      gimp_image_add_layer(image_id, l_cp_layer_id, val_ptr->dst_layerstack);
+      l_parent_id = gap_image_find_or_create_group_layer(image_id
+                        , val_ptr->dst_group_name_path_string
+                        , val_ptr->dst_group_name_delimiter
+                        , val_ptr->dst_layerstack     /* stackposition for the group in case it is created at toplvel */
+                        , TRUE  /* enableCreate */
+                        );
+      gimp_image_insert_layer(image_id, l_cp_layer_id, l_parent_id, val_ptr->dst_layerstack);
 
     }
 
@@ -853,7 +864,14 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
        return -1;
     }
 
-    gimp_image_add_layer(image_id, l_cp_layer_id,
+    l_parent_id = gap_image_find_or_create_group_layer(image_id
+                        , val_ptr->dst_group_name_path_string
+                        , val_ptr->dst_group_name_delimiter
+                        , val_ptr->dst_layerstack /* stackposition for the group in case it is created at toplvel */
+                        , TRUE  /* enableCreate */
+                        );
+
+    gimp_image_insert_layer(image_id, l_cp_layer_id, l_parent_id,
                          val_ptr->dst_layerstack);
     if(gap_debug)
     {
@@ -868,7 +886,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
 
   if(val_ptr->src_force_visible)
   {
-     gimp_drawable_set_visible(l_cp_layer_id, TRUE);
+     gimp_item_set_visible(l_cp_layer_id, TRUE);
   }
 
   /* check for layermask */
@@ -1106,7 +1124,7 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                                    &l_src_offset_x,
                                    &l_src_offset_y);
 
-     gimp_image_add_layer(val_ptr->trace_image_id, l_trc_layer_id, 0);
+     gimp_image_insert_layer(val_ptr->trace_image_id, l_trc_layer_id, 0, 0);
 
      /* merge the newly added l_trc_layer_id down to one tracelayer again */
      val_ptr->trace_layer_id = gap_image_merge_visible_layers(val_ptr->trace_image_id, l_mergemode);
@@ -1384,3 +1402,4 @@ gap_mov_render_create_or_replace_tempsel_image(gint32 channel_id
                           );
   }
 }  /* end gap_mov_render_create_or_replace_tempsel_image */
+

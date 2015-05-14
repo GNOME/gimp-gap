@@ -2,16 +2,16 @@
  *
  *
  *  This module handles the filtermacro context.
- *  The filtermacro context is used for itration of "persistent drawable ids" 
+ *  The filtermacro context is used for itration of "persistent drawable ids"
  *  for animated (or constant) filter apply.
  *  If gap controlled filterapply is done via a filtermacro
  *  the iteration is done within a filtermacro context.
- *  (e.g. while filtermacro is beeing recorded or is applied)
+ *  (i.e. while filtermacro is beeing recorded or is applied)
  *  the handled drawable ids are mapped with the help of a filtermacro reference file
  *  In this case the "persitent_drawable_id" is used to open the referenced
  *  image, frame or videoframe at apply time (this may happen in another gimp
  *  session than the recording of the filtermacro was done).
- *  
+ *
  *
  * Copyright (C) 2008 Wolfgang Hofer <hof@gimp.org>
  *
@@ -74,10 +74,10 @@ gap_fmct_set_derived_lookup_filename(GapFmacContext *fmacContext, const char *fi
  * setup a filtermacro context for recording or playback mode.
  * the context affects the behaviour of drawable_iteration in the whole gimp_session
  * until the procedure gap_fmct_disable_GapFmacContext is called.
- * This procedure registers a new frame fetcher resource user_id if playback (e.g NOT recording_mode)
+ * This procedure registers a new frame fetcher resource user_id if playback (i.e. NOT recording_mode)
  * is used. The drawable_iteration will refere to this ffetch_user_id when fetching
  * frames via mapped persistent drawable ids.
- * 
+ *
  * The current implementation can NOT handle parallell processing of multiple filtermacros
  * because there is only ONE context that will be overwritten in case of concurrent calls.
  */
@@ -111,7 +111,7 @@ void
 gap_fmct_disable_GapFmacContext(void)
 {
   gint            sizeFmacContext;
-  
+
   sizeFmacContext = gimp_get_data_size(GAP_FMAC_CONTEXT_KEYWORD);
 
   if(sizeFmacContext == sizeof(GapFmacContext))
@@ -176,7 +176,7 @@ p_parse_string_raw(char **scan_ptr)
 {
   char *ptr;
   char *result_ptr;
-  
+
   result_ptr = NULL;
   ptr = *scan_ptr;
 
@@ -197,8 +197,8 @@ p_parse_string_raw(char **scan_ptr)
     }
     ptr++;  /* skip white space and continue */
   }
-  
-  
+
+
   while(ptr)
   {
     ptr++;
@@ -231,7 +231,7 @@ p_parse_string_raw(char **scan_ptr)
       }
     }
   }
-  
+
   return (result_ptr);
 }  /* end p_parse_string_raw */
 
@@ -296,6 +296,7 @@ p_parse_and_add_GapFmacRefEntry(GapFmacContext *fmacContext, char *line_ptr)
   long track;
   long mtime;
   char *filename;
+  char *parentpositions;
 
   id = -1;
   ainfo_type = -1;
@@ -304,7 +305,8 @@ p_parse_and_add_GapFmacRefEntry(GapFmacContext *fmacContext, char *line_ptr)
   track = -1;
   mtime = -1;
   filename = NULL;
-  
+  parentpositions = NULL;
+
   scan_ptr = line_ptr;
   while (scan_ptr != NULL)
   {
@@ -319,11 +321,11 @@ p_parse_and_add_GapFmacRefEntry(GapFmacContext *fmacContext, char *line_ptr)
       g_free(l_key);
       break;
     }
-    
+
     if (strcmp(l_key, GAP_FMREF_ID) == 0)
     {
       id = atol(l_value);
-    } 
+    }
     else if (strcmp(l_key, GAP_FMREF_FRAME_NR) == 0)
     {
       frame_nr = atol(l_value);
@@ -348,7 +350,7 @@ p_parse_and_add_GapFmacRefEntry(GapFmacContext *fmacContext, char *line_ptr)
     {
       int len;
       char *l_raw_filename;
-      
+
       l_raw_filename = l_value;
       if(gap_debug)
       {
@@ -367,6 +369,10 @@ p_parse_and_add_GapFmacRefEntry(GapFmacContext *fmacContext, char *line_ptr)
         }
       }
       filename = g_strdup(l_raw_filename);
+    }
+    else if (strcmp(l_key, GAP_FMREF_PARENTSTACK) == 0)
+    {
+      parentpositions = g_strdup(l_value);
     }
     else
     {
@@ -408,6 +414,7 @@ p_parse_and_add_GapFmacRefEntry(GapFmacContext *fmacContext, char *line_ptr)
   gap_fmct_add_GapFmacRefEntry(ainfo_type
       , frame_nr
       , stackposition
+      , parentpositions
       , track
       , id
       , filename
@@ -419,6 +426,11 @@ p_parse_and_add_GapFmacRefEntry(GapFmacContext *fmacContext, char *line_ptr)
   {
     g_free(filename);
   }
+  if (parentpositions != NULL)
+  {
+    g_free(parentpositions);
+  }
+
 
 }  /* end p_parse_and_add_GapFmacRefEntry */
 
@@ -442,21 +454,18 @@ gap_fmct_load_GapFmacContext(GapFmacContext *fmacContext)
 
   for(txf_ptr = txf_ptr_root; txf_ptr != NULL; txf_ptr = (GapValTextFileLines *) txf_ptr->next)
   {
-    gint l_len;
-
     line_nr++;
     if(gap_debug)
     {
       printf("line_nr: %d\n", (int)line_nr);
     }
     gap_file_chop_trailingspace_and_nl(&txf_ptr->line[0]);
-    l_len = strlen(txf_ptr->line);
 
     if(gap_debug)
     {
       printf("line:%s:\n", txf_ptr->line);
     }
-    
+
     if (line_nr == 1)
     {
       if (strncmp(txf_ptr->line, GAP_FMREF_FILEHEADER, strlen(GAP_FMREF_FILEHEADER)) != 0)
@@ -482,7 +491,7 @@ gap_fmct_load_GapFmacContext(GapFmacContext *fmacContext)
   {
     gap_val_free_textfile_lines(txf_ptr_root);
   }
-  
+
   if(gap_debug)
   {
     gap_fmct_debug_print_GapFmacContext(fmacContext);
@@ -511,27 +520,34 @@ gap_fmct_save_GapFmacContext(GapFmacContext *fmacContext)
     printf("ERROR: could not open write file:%s\n", fmacContext->persistent_id_lookup_filename);
     return;
   }
- 
+
   fprintf(fp, "%s\n", GAP_FMREF_FILEHEADER);
   fprintf(fp, "# type: %d=IMAGE,%d=ANIMIMAGE,%d=FRAMES,%d=MOVIE\n"
           , GAP_AINFO_IMAGE, GAP_AINFO_ANIMIMAGE, GAP_AINFO_FRAMES, GAP_AINFO_MOVIE);
 
-  /* write all reference entries in the following format: 
+  /* write all reference entries in the following format:
    * id:800000 frameNr:000001 stack:-1 file:"frame_000001.xcf"   mtime:123455678
    */
   for(fmref_entry = fmacContext->fmref_list; fmref_entry != NULL; fmref_entry = fmref_entry->next)
   {
-    fprintf(fp, "%s%06d %s%06d %s%02d %s%d %s%011d  %s%d %s\"%s\"\n"
+    fprintf(fp, "%s%06d %s%06d %s%02d %s%d %s%011ld  %s%d %s\"%s\""
            , GAP_FMREF_ID         , fmref_entry->persistent_drawable_id
            , GAP_FMREF_FRAME_NR   , fmref_entry->frame_nr
            , GAP_FMREF_STACK      , fmref_entry->stackposition
            , GAP_FMREF_TRACK      , fmref_entry->track
-           , GAP_FMREF_MTIME      , fmref_entry->mtime
+           , GAP_FMREF_MTIME      , (long)fmref_entry->mtime
            , GAP_FMREF_TYPE       , fmref_entry->ainfo_type
            , GAP_FMREF_FILE       , fmref_entry->filename
            );
+    if (*fmref_entry->parentpositions != '\0')
+    {
+      fprintf(fp, " %s%s"
+           , GAP_FMREF_PARENTSTACK, fmref_entry->parentpositions
+           );
+    }
+    fprintf(fp, "\n");
   }
-  
+
   fclose(fp);
 
 }  /* end gap_fmct_save_GapFmacContext */
@@ -554,18 +570,19 @@ gap_fmct_debug_print_GapFmacContext(GapFmacContext *fmacContext)
       , fmacContext->recording_mode
       , fmacContext->enabled
       , fmacContext->ffetch_user_id
-      ); 
+      );
 
   for(fmref_entry = fmacContext->fmref_list; fmref_entry != NULL; fmref_entry = fmref_entry->next)
   {
-    printf("%s%06d %s%06d %s%02d %s%d %s%011d  %s%d %s\"%s\"\n"
+    printf("%s%06d %s%06d %s%02d %s%d %s%011ld  %s%d %s\"%s\" %s%s\n"
            , GAP_FMREF_ID         , fmref_entry->persistent_drawable_id
            , GAP_FMREF_FRAME_NR   , fmref_entry->frame_nr
            , GAP_FMREF_STACK      , fmref_entry->stackposition
            , GAP_FMREF_TRACK      , fmref_entry->track
-           , GAP_FMREF_MTIME      , fmref_entry->mtime
+           , GAP_FMREF_MTIME      , (long)fmref_entry->mtime
            , GAP_FMREF_TYPE       , fmref_entry->ainfo_type
            , GAP_FMREF_FILE       , fmref_entry->filename
+           , GAP_FMREF_PARENTSTACK , fmref_entry->parentpositions
            );
   }
 
@@ -594,7 +611,7 @@ gap_fmct_get_GapFmacRefEntry_by_persitent_id(GapFmacContext *fmacContext, gint32
     }
   }
   return (NULL);
-  
+
 }  /* end gap_fmct_get_GapFmacRefEntry_by_persitent_id */
 
 /* --------------------------------------------
@@ -605,6 +622,7 @@ gint32
 gap_fmct_add_GapFmacRefEntry(GapLibAinfoType ainfo_type
   , gint32 frame_nr
   , gint32 stackposition
+  , char *parentpositions
   , gint32 track
   , gint32 drawable_id
   , const char *filename
@@ -614,11 +632,12 @@ gap_fmct_add_GapFmacRefEntry(GapLibAinfoType ainfo_type
   GapFmacRefEntry *new_fmref_entry;
   GapFmacRefEntry *fmref_entry;
   gint32           l_max_persistent_drawable_id;
-  
+  char             l_parentpositions[300];
+
   if(filename == NULL)
   {
      return (drawable_id);
-  } 
+  }
   if(!g_file_test(filename, G_FILE_TEST_EXISTS))
   {
     return (drawable_id);
@@ -626,9 +645,17 @@ gap_fmct_add_GapFmacRefEntry(GapLibAinfoType ainfo_type
   if(fmacContext == NULL)
   {
      return (drawable_id);
-  } 
+  }
 
-
+  l_parentpositions[0] = '\0';
+  if (parentpositions != NULL)
+  {
+    g_snprintf(l_parentpositions
+              , sizeof(l_parentpositions)
+              , "%s"
+              , parentpositions
+              );
+  }
   l_max_persistent_drawable_id = GAP_FMCT_MIN_PERSISTENT_DRAWABLE_ID;
 
   /* check if entry already present in the list */
@@ -638,7 +665,8 @@ gap_fmct_add_GapFmacRefEntry(GapLibAinfoType ainfo_type
     && (fmref_entry->frame_nr == frame_nr)
     && (fmref_entry->stackposition == stackposition)
     && (fmref_entry->track == track)
-    && (strcmp(fmref_entry->filename, filename) == 0))
+    && (strcmp(fmref_entry->filename, filename) == 0)
+    && (strcmp(fmref_entry->parentpositions, l_parentpositions) == 0))
     {
       /* the list already contains an equal entry, nothing left to do.. */
       return(fmref_entry->persistent_drawable_id);
@@ -663,8 +691,17 @@ gap_fmct_add_GapFmacRefEntry(GapLibAinfoType ainfo_type
   new_fmref_entry->track = track;
   new_fmref_entry->mtime = gap_file_get_mtime(filename);
   g_snprintf(new_fmref_entry->filename, sizeof(new_fmref_entry->filename), "%s", filename);
+  new_fmref_entry->parentpositions[0] = '\0';
+  if(parentpositions != NULL)
+  {
+    g_snprintf(new_fmref_entry->parentpositions
+              , sizeof(new_fmref_entry->parentpositions)
+              , "%s"
+              , parentpositions
+              );
+  }
 
-    
+
   new_fmref_entry->next = fmacContext->fmref_list;
   fmacContext->fmref_list = new_fmref_entry;
 
@@ -673,4 +710,3 @@ gap_fmct_add_GapFmacRefEntry(GapLibAinfoType ainfo_type
   return(new_fmref_entry->persistent_drawable_id);
 
 }  /* end gap_fmct_add_GapFmacRefEntry */
-

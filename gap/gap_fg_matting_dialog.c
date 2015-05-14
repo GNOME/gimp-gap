@@ -123,7 +123,7 @@ p_init_widget_values(FgExtractDialogGuiStuff *guiStuffPtr)
   {
       comboInitalValue = GAP_FG_USE_LAYER_MASK;
   }
-  else if(gimp_drawable_is_valid(guiStuffPtr->vals->tri_map_drawable_id))
+  else if(gimp_item_is_valid(guiStuffPtr->vals->tri_map_drawable_id))
   {
       comboInitalValue = guiStuffPtr->vals->tri_map_drawable_id;
   }
@@ -282,16 +282,16 @@ p_tri_map_combo_constrain(gint32 image_id, gint32 drawable_id, FgExtractDialogGu
      return(TRUE);
   }
 
-  if(gimp_drawable_is_valid(drawable_id) != TRUE)
+  if(gimp_item_is_valid(drawable_id) != TRUE)
   {
      if(gap_debug)
      {
-       printf("-- drawable_id:%d gimp_drawable_is_valid --\n", (int)drawable_id); 
+       printf("-- drawable_id:%d gimp_item_is_valid --\n", (int)drawable_id); 
      }
      return(FALSE);
   }
 
-  processedImageId = gimp_drawable_get_image(guiStuffPtr->drawable_id);
+  processedImageId = gimp_item_get_image(guiStuffPtr->drawable_id);
 
   if(image_id != processedImageId)
   {
@@ -443,10 +443,10 @@ do_dialog (FgExtractDialogGuiStuff *guiStuffPtr, GapFgExtractValues *cuvals)
                        _("Select the tri_map layer (or layermask). "
                          " the tri-map shall be of same size as the input layer and "
                          " provides a rough user selection "
-                         " where WHITE pixels in the tri map defines FOREGROUND (eg. opaque result) "
-                         " BLACK pixels define BACKGROUND (eg. transparent result)"
-                         " GRAY pixels (value 1 upto 240) ar marked as Undefined "
-                         " (eg. opacity to be processed by this filter.) )")
+                         " where WHITE pixels in the tri map defines FOREGROUND (i.e. opaque result) "
+                         " BLACK pixels define BACKGROUND (i.e. transparent result)"
+                         " GRAY pixels (value 1 upto 240) are marked as Undefined "
+                         " (i.e. opacity to be processed by this filter.) )")
                        , NULL);
 
   /* "Layermask" combo entry (is added in case the input drawable has a layermask that can be used as tri-mask) */
@@ -455,7 +455,7 @@ do_dialog (FgExtractDialogGuiStuff *guiStuffPtr, GapFgExtractValues *cuvals)
     gint   comboInitalValue;
 
     comboInitalValue = -1; 
-    if(gimp_drawable_is_valid(guiStuffPtr->vals->tri_map_drawable_id))
+    if(gimp_item_is_valid(guiStuffPtr->vals->tri_map_drawable_id))
     {
       comboInitalValue = guiStuffPtr->vals->tri_map_drawable_id;
     }  

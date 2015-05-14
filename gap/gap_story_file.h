@@ -61,6 +61,10 @@
 #define GAP_GIMPRC_VIDEO_STORYBOARD_RESOURCE_LOG_INTERVAL      "video-storyboard-resource-log-interval"
 #define GAP_GIMPRC_VIDEO_ENCODER_FFMPEG_MULTIPROCESSOR_ENABLE  "video-enoder-ffmpeg-multiprocessor-enable"
 
+#define GAP_STB_ATT_MAX_DUR            999999
+#define GAP_STB_ATT_MAX_MOVPATH_DBL    999999.0
+
+
 /* GapStoryRecordType enum values are superset of GapLibAinfoType
  * from the sourcefile gap_lib.h
  */

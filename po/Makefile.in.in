@@ -1,18 +1,20 @@
-# Makefile for program source directory in GNU NLS utilities package.
-# Copyright (C) 1995, 1996, 1997 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
+
+<!-- saved from url=(0061)https://git.gnome.org/browse/gimp-gap/plain/po/Makefile.in.in -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;"># Makefile for program source directory in GNU NLS utilities package.
+# Copyright (C) 1995, 1996, 1997 by Ulrich Drepper &lt;drepper@gnu.ai.mit.edu&gt;
 #
 # This file file be copied and used freely without restrictions.  It can
 # be used in projects which are not available under the GNU Public License
 # but which still want to provide support for the GNU gettext functionality.
 # Please note that the actual code is *not* freely available.
 #
-# - Modified by Owen Taylor <otaylor@redhat.com> to use GETTEXT_PACKAGE
+# - Modified by Owen Taylor &lt;otaylor@redhat.com&gt; to use GETTEXT_PACKAGE
 #   instead of PACKAGE and to look for po2tbl in ./ not in intl/
 #
-# - Modified by jacob berkman <jacob@ximian.com> to install
+# - Modified by jacob berkman &lt;jacob@ximian.com&gt; to install
 #   Makefile.in.in and po2tbl.sed.in for use with glib-gettextize
 #
-# - Modified by Rodney Dawes <dobey@novell.com> for use with intltool
+# - Modified by Rodney Dawes &lt;dobey@novell.com&gt; for use with intltool
 #
 # We have the following line for use by intltoolize:
 # INTLTOOL_MAKEFILE
@@ -37,7 +39,7 @@ DATADIRNAME = @DATADIRNAME@
 itlocaledir = $(prefix)/$(DATADIRNAME)/locale
 subdir = po
 install_sh = @install_sh@
-# Automake >= 1.8 provides @mkdir_p@.
+# Automake &gt;= 1.8 provides @mkdir_p@.
 # Until it can be supposed, use the safe fallback:
 mkdir_p = $(install_sh) -d
 
@@ -71,18 +73,18 @@ CATALOGS=$(shell if test -n "$(PO_LINGUAS)"; then LINGUAS="$(PO_LINGUAS)"; else 
 
 .po.pox:
 	$(MAKE) $(GETTEXT_PACKAGE).pot
-	$(MSGMERGE) $< $(GETTEXT_PACKAGE).pot -o $*.pox
+	$(MSGMERGE) $&lt; $(GETTEXT_PACKAGE).pot -o $*.pox
 
 .po.mo:
-	$(MSGFMT) -o $@ $<
+	$(MSGFMT) -o $@ $&lt;
 
 .po.gmo:
 	file=`echo $* | sed 's,.*/,,'`.gmo \
-	  && rm -f $$file && $(GMSGFMT) -o $$file $<
+	  &amp;&amp; rm -f $$file &amp;&amp; $(GMSGFMT) -o $$file $&lt;
 
 .po.cat:
-	sed -f ../intl/po2msg.sed < $< > $*.msg \
-	  && rm -f $@ && gencat $@ $*.msg
+	sed -f ../intl/po2msg.sed &lt; $&lt; &gt; $*.msg \
+	  &amp;&amp; rm -f $@ &amp;&amp; gencat $@ $*.msg
 
 
 all: all-@USE_NLS@
@@ -168,11 +170,11 @@ dist distdir: $(DISTFILES)
 	dists="$(DISTFILES)"; \
 	extra_dists="$(EXTRA_DISTFILES)"; \
 	for file in $$extra_dists; do \
-	  test -f $(srcdir)/$$file && dists="$$dists $(srcdir)/$$file"; \
+	  test -f $(srcdir)/$$file &amp;&amp; dists="$$dists $(srcdir)/$$file"; \
 	done; \
 	for file in $$dists; do \
 	  test -f $$file || file="$(srcdir)/$$file"; \
-	  ln $$file $(distdir) 2> /dev/null \
+	  ln $$file $(distdir) 2&gt; /dev/null \
 	    || cp -p $$file $(distdir); \
 	done
 
@@ -188,13 +190,13 @@ update-po: Makefile
 	  echo "$$lang:"; \
 	  result="`$(MSGMERGE) -o $$tmpdir/$$lang.new.po $$lang`"; \
 	  if $$result; then \
-	    if cmp $(srcdir)/$$lang.po $$tmpdir/$$lang.new.po >/dev/null 2>&1; then \
+	    if cmp $(srcdir)/$$lang.po $$tmpdir/$$lang.new.po &gt;/dev/null 2&gt;&amp;1; then \
 	      rm -f $$tmpdir/$$lang.new.po; \
             else \
 	      if mv -f $$tmpdir/$$lang.new.po $$lang.po; then \
 	        :; \
 	      else \
-	        echo "msgmerge for $$lang.po failed: cannot move $$tmpdir/$$lang.new.po to $$lang.po" 1>&2; \
+	        echo "msgmerge for $$lang.po failed: cannot move $$tmpdir/$$lang.new.po to $$lang.po" 1&gt;&amp;2; \
 	        rm -f $$tmpdir/$$lang.new.po; \
 	        exit 1; \
 	      fi; \
@@ -213,9 +215,10 @@ Makefile POTFILES: stamp-it
 
 stamp-it: Makefile.in.in ../config.status POTFILES.in
 	cd .. \
-	  && CONFIG_FILES=$(subdir)/Makefile.in CONFIG_HEADERS= CONFIG_LINKS= \
+	  &amp;&amp; CONFIG_FILES=$(subdir)/Makefile.in CONFIG_HEADERS= CONFIG_LINKS= \
 	       $(SHELL) ./config.status
 
 # Tell versions [3.59,3.63) of GNU make not to export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
+</pre></body></html>

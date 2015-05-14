@@ -751,7 +751,7 @@ gap_gve_drawable_to_RgbBuffer(GimpDrawable *drawable, GapRgbPixelBuffer *rgbBuff
 //  * --------------------------------------------
 //  * this function runs in concurrent parallel worker threads in multiprocessor environment.
 //  * each one of the parallel running threads processes another portion of the drawable
-//  * (e.g. stripes starting at startCol and colWidth wide. of the processed drawable differs for each thread) 
+//  * (i.e. stripes starting at startCol and colWidth wide. of the processed drawable differs for each thread) 
 //  */
 // static void
 // p_drawable_to_RgbBuffer_WorkerThreadFunction(DrawableToRgbBufferProcessorData *drgb)

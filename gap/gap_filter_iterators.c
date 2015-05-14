@@ -98,6 +98,7 @@
 #include "gap_frame_fetcher.h"
 #include "gap_drawable_vref_parasite.h"
 #include "gap_lib.h"
+#include "gap_image.h"
 #include "gap/gap_layer_copy.h"
 
 
@@ -226,6 +227,22 @@ static void p_delta_int(int *val, int val_from, int val_to, gint32 total_steps, 
 
      delta = ((double)(val_to - val_from) / (double)total_steps) * ((double)total_steps - current_step);
      *val  = val_from + delta;
+}
+static void p_delta_gboolean(gboolean *val, gboolean val_from, gboolean val_to, gint32 total_steps, gdouble current_step)
+{
+     double     delta;
+
+     if(total_steps < 1) return;
+
+     delta = (1.0 / (double)total_steps) * ((double)total_steps - current_step);
+     if (delta <= 0.5)
+     {
+       *val  = val_from;
+     }
+     else
+     {
+       *val  = val_to;
+     }
 }
 static void p_delta_gint(gint *val, gint val_from, gint val_to, gint32 total_steps, gdouble current_step)
 {
@@ -359,7 +376,7 @@ static void p_delta_gint_color(t_gint_color *val, t_gint_color *val_from, t_gint
  * via loading an image, or fetching a video frame.
  * In this case, the drawables (gint32 val_from and val_to) are expected to refere
  * to persistent Ids
- * e.g. are >= GAP_FMCT_MIN_PERSISTENT_DRAWABLE_ID
+ * i.e. are >= GAP_FMCT_MIN_PERSISTENT_DRAWABLE_ID
  * The image_ids of all fetched images are added to a list of last recent temp images
  * this list has to be deleted at end of filtermacro processing. if the list contains
  * more than NNNNN entries, the oldest entries are deleted at begin of a new fetch
@@ -447,6 +464,7 @@ p_delta_drawable_simple(gint32 *val, gint32 val_from, gint32 val_to, gint32 tota
   gint    l_nlayers;
   gint32 *l_layers_list;
   gint32  l_tmp_image_id;
+  gint32  l_parent_id;
   gint    l_idx, l_idx_from, l_idx_to;
 
   if(gap_debug)
@@ -461,25 +479,36 @@ p_delta_drawable_simple(gint32 *val, gint32 val_from, gint32 val_to, gint32 tota
   {
     return;
   }
-  if(gimp_drawable_is_valid(val_from) != TRUE)
+  if(gimp_item_is_valid(val_from) != TRUE)
   {
     return;
   }
-  if(gimp_drawable_is_valid(val_to) != TRUE)
+  if(gimp_item_is_valid(val_to) != TRUE)
   {
     return;
   }
-  l_tmp_image_id = gimp_drawable_get_image(val_from);
+  l_tmp_image_id = gimp_item_get_image(val_from);
+  l_parent_id = gimp_item_get_parent(val_from);
 
-  /* check if from and to values are both valid drawables within the same image */
+  /* check if from and to values are both valid drawables 
+   * within the same image at same level
+   */
   if ((l_tmp_image_id > 0)
-  &&  (l_tmp_image_id = gimp_drawable_get_image(val_to)))
+  &&  (l_tmp_image_id == gimp_item_get_image(val_to))
+  &&  (l_parent_id == gimp_item_get_parent(val_to)))
   {
      l_idx_from = -1;
      l_idx_to   = -1;
 
      /* check the layerstack index of from and to drawable */
-     l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
+     if (l_parent_id > 0)
+     {
+       l_layers_list = gimp_item_get_children(l_parent_id, &l_nlayers);
+     }
+     else
+     {
+       l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
+     }
      for (l_idx = l_nlayers -1; l_idx >= 0; l_idx--)
      {
         if( l_layers_list[l_idx] == val_from ) l_idx_from = l_idx;
@@ -496,6 +525,7 @@ p_delta_drawable_simple(gint32 *val, gint32 val_from, gint32 val_to, gint32 tota
      g_free (l_layers_list);
   }
 }  /* end p_delta_drawable_simple */
+
 
 
 /* --------------------------------------------
@@ -525,6 +555,7 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
   gint32 stackposition;
   gint32 track;
   char   *filename;
+  char   *parentpositions;
   
   
   if(gap_debug)
@@ -534,7 +565,7 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
       );
   }
 
-  if(gimp_drawable_is_valid(drawable_id) != TRUE)
+  if(gimp_item_is_valid(drawable_id) != TRUE)
   {
     /* drawable is no longer valid and can not be mapped.
      * This may happen if the layer was removed or the refered image was closed
@@ -546,6 +577,7 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
   
   persistent_drawable_id = drawable_id;
   filename = NULL;
+  parentpositions = NULL;
   
   dvref = gap_dvref_get_drawable_video_reference_via_parasite(drawable_id);
   if (dvref != NULL)
@@ -568,8 +600,9 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
   {
     GapAnimInfo *l_ainfo_ptr;
     
-    image_id = gimp_drawable_get_image(drawable_id);
+    image_id = gimp_item_get_image(drawable_id);
     filename = gimp_image_get_filename(image_id);
+    parentpositions = gap_image_get_parentpositions_as_int_stringlist(drawable_id);
     ainfo_type = GAP_AINFO_ANIMIMAGE;
     stackposition = gap_layer_get_stackposition(image_id, drawable_id);
     track = 1;
@@ -616,15 +649,20 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
     persistent_drawable_id = gap_fmct_add_GapFmacRefEntry(ainfo_type
                                  , frame_nr
                                  , stackposition
+                                 , parentpositions
                                  , track
                                  , drawable_id
                                  , filename
-                                 , FALSE           /* force_id NO (e.g generate unique id) */
+                                 , FALSE           /* force_id NO (i.e. generate unique id) */
                                  , fmacContext
                                  );
     g_free(filename);
   }
 
+  if(parentpositions != NULL)
+  {
+    g_free(parentpositions);
+  }
 
   if(gap_debug)
   {
@@ -636,6 +674,8 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
 
   return (persistent_drawable_id);
 }  /* end p_capture_image_name_and_assign_pesistent_id */
+
+
 
 
 /* -------------------------------------
@@ -704,16 +744,26 @@ p_iteration_by_pesistent_id(GapFmacContext *fmacContext
         
         if (fmref_entry_from->ainfo_type == GAP_AINFO_ANIMIMAGE)
         {
-          /* iterate stackposition */
+          /* iterate stackposition (restriction: this is only possible when from and to value are at same level) */
           gint32 stackposition;
+          gboolean isSameLevel;
+          
+          isSameLevel = FALSE;
+          if(strcmp(fmref_entry_from->parentpositions, fmref_entry_to->parentpositions) == 0)
+          {
+            isSameLevel = TRUE;
+          }
           
           stackposition = fmref_entry_from->stackposition;
-          p_delta_gint32(&stackposition, fmref_entry_from->stackposition, fmref_entry_to->stackposition
+          if (isSameLevel)
+          {
+            p_delta_gint32(&stackposition, fmref_entry_from->stackposition, fmref_entry_to->stackposition
                         ,total_steps, current_step);
-                        
+          }
           fetched_layer_id = gap_frame_fetch_dup_image(fmacContext->ffetch_user_id
                                     ,fmref_entry_from->filename   /* full filename of the image */
                                     ,stackposition                /* pick layer by stackposition */
+                                    ,fmref_entry_from->parentpositions
                                     ,TRUE                         /* enable caching */
                                     );
         }
@@ -740,6 +790,7 @@ p_iteration_by_pesistent_id(GapFmacContext *fmacContext
             fetched_layer_id = gap_frame_fetch_dup_image(fmacContext->ffetch_user_id
                                     ,fmref_entry_from->filename   /* full filename of the image */
                                     ,-1                           /* 0 pick layer on top of stack, -1 merge visible layers */
+                                    ,NULL
                                     ,TRUE                         /* enable caching */
                                     );
           }
@@ -770,6 +821,7 @@ p_iteration_by_pesistent_id(GapFmacContext *fmacContext
   }
   return (FALSE);
 }  /* end p_iteration_by_pesistent_id */
+
 
 
 static void
@@ -1332,6 +1384,27 @@ gap_common_iterator(const char *c_keyname, GimpRunMode run_mode, gint32 total_st
     } t_LightSettings;
 
 
+
+static void 
+p_delta_GimpOrientationType(GimpOrientationType *val, GimpOrientationType *val_from, GimpOrientationType *val_to, gint32 total_steps, gdouble current_step)
+{
+    double     delta;
+    gboolean   orientationFrom;
+    gboolean   orientationTo;
+    gboolean   orientationCurrent;
+
+    if(total_steps < 1) return;
+
+    orientationCurrent = (*val == GIMP_ORIENTATION_HORIZONTAL);
+    orientationFrom = (*val_from == GIMP_ORIENTATION_HORIZONTAL);
+    orientationTo   = (*val_to   == GIMP_ORIENTATION_HORIZONTAL);
+
+    p_delta_gboolean(&orientationCurrent, orientationFrom, orientationTo, total_steps, current_step);
+
+
+    *val = (orientationCurrent) ? GIMP_ORIENTATION_HORIZONTAL : GIMP_ORIENTATION_VERTICAL;
+
+}
 
 
 static void 

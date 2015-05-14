@@ -321,7 +321,7 @@ p_debug_print_videoindex(t_GVA_Videoindex *vindex)
                , (int)vindex->ofs_tab[l_idx].seek_nr
                , (int)vindex->ofs_tab[l_idx].frame_length
                , (int)vindex->ofs_tab[l_idx].checksum
-               , vindex->ofs_tab[l_idx].timecode_dts
+               , (long long int)vindex->ofs_tab[l_idx].timecode_dts
                );
     }
   }
@@ -378,7 +378,7 @@ GVA_load_videoindex(const char *filename, gint32 track, const char *decoder_name
         gint32 rd_len;
         gint32 rd_size;
         gint   l_flen;
-        gint32 l_mtime;
+        time_t l_mtime;
 
         rd_len = fread(&vindex->hdr, 1, sizeof(vindex->hdr), fp);
         if(rd_len)

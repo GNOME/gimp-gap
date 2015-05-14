@@ -299,11 +299,11 @@ p_init_default_cuvals(firepattern_val_t *cuvals)
 static void
 p_check_for_valid_cloud_layers(firepattern_val_t *cuvals)
 {
-  if(gimp_drawable_is_valid(cuvals->cloudLayer1) != TRUE)
+  if(gimp_item_is_valid(cuvals->cloudLayer1) != TRUE)
   {
     cuvals->cloudLayer1 = -1;
   }
-  if(gimp_drawable_is_valid(cuvals->fireShapeLayer) != TRUE)
+  if(gimp_item_is_valid(cuvals->fireShapeLayer) != TRUE)
   {
     cuvals->fireShapeLayer = -1;
   }
@@ -331,12 +331,12 @@ p_init_cuvals(firepattern_val_t *cuvals)
  * p_caclulate_trapezoid_blend
  * --------------------------------------
  * calculate opacity blend factor (in the range 0.0 for fully black
- * upto 1.0 for keep full original colorchannel e.g. white) for the specified coordinate px/py
+ * upto 1.0 for keep full original colorchannel i.e. white) for the specified coordinate px/py
  * Coordinates within the trapezoid shape return value 1.0
- * Coorinates left or right outside the shape will result 1.0 > value > 0 (e.g. a shade of gray value)
+ * Coorinates left or right outside the shape will result 1.0 > value > 0 (i.e. a shade of gray value)
  * depending on their distance to the tapezoid core shape.
  * Coordinates where distance is greater than the flameBorder will return 0.0.
- * Note that Coordinates above flameHeight immediate switch to full black (e.g. 0.0)
+ * Note that Coordinates above flameHeight immediate switch to full black (i.e. 0.0)
  * because the processed fire shape layer is already initally filled with a soft vertical blend
  * from white at the base line to black at flame height.
  */                          
@@ -380,7 +380,7 @@ p_caclulate_trapezoid_blend(gint32 px, gint32 py, firepattern_val_t *cuvals, fir
   
   if(borderDistance > borderWidth)
   {
-    /* keep full original colorchannel e.g. white for pixel within the trapezoid core area */
+    /* keep full original colorchannel i.e. white for pixel within the trapezoid core area */
     return (1.0);
   }
   
@@ -772,7 +772,7 @@ p_init_context_and_cloud_and_shape_layers(gint32 drawable_id, firepattern_val_t 
   gboolean success;
   gdouble  strechedHeight;
   
-  ctxt->image_id = gimp_drawable_get_image(drawable_id);
+  ctxt->image_id = gimp_item_get_image(drawable_id);
   ctxt->blend_mode = p_convertBlendNum_to_BlendMode(cuvals->blendNum);
   ctxt->width = gimp_image_width(ctxt->image_id);
   ctxt->height = gimp_image_height(ctxt->image_id);
@@ -785,7 +785,7 @@ p_init_context_and_cloud_and_shape_layers(gint32 drawable_id, firepattern_val_t 
   ctxt->ref_image_id = -1;
  
   /* check if cloud layer (the pattern) is already available */
-  if(!gimp_drawable_is_valid(cuvals->cloudLayer1))
+  if(!gimp_item_is_valid(cuvals->cloudLayer1))
   {
     /* create both cloud layers */
     GRand  *gr;
@@ -811,8 +811,8 @@ p_init_context_and_cloud_and_shape_layers(gint32 drawable_id, firepattern_val_t 
                                         , 100.0                 /* full opaque */
                                         , GIMP_NORMAL_MODE      /* 0 */
                                         );
-    gimp_image_add_layer(ctxt->ref_image_id, cuvals->fireShapeLayer, -1);
-    gimp_image_add_layer(ctxt->ref_image_id, cuvals->cloudLayer1, -1);
+    gimp_image_insert_layer(ctxt->ref_image_id, cuvals->fireShapeLayer, 0, -1);
+    gimp_image_insert_layer(ctxt->ref_image_id, cuvals->cloudLayer1, 0, -1);
 
 
     /* Adds the solid noise */
@@ -845,7 +845,7 @@ p_init_context_and_cloud_and_shape_layers(gint32 drawable_id, firepattern_val_t 
 
   }
 
-  if(!gimp_drawable_is_valid(cuvals->fireShapeLayer))
+  if(!gimp_item_is_valid(cuvals->fireShapeLayer))
   {
     if((cuvals->createImage != TRUE) || (ctxt->ref_image_id < 0))
     {
@@ -1011,9 +1011,9 @@ p_drawable_get_name(gint32 drawable_id)
 {
   const char *invalidName = "(invalid)";
   
-  if(gimp_drawable_is_valid(drawable_id))
+  if(gimp_item_is_valid(drawable_id))
   {
-    return(gimp_drawable_get_name(drawable_id));
+    return(gimp_item_get_name(drawable_id));
   }
   
   return (invalidName);
@@ -1046,9 +1046,9 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
 
 
   /* save visibility status of processed layer .. */
-  isVisible = gimp_drawable_get_visible(drawable_id);
+  isVisible = gimp_item_get_visible(drawable_id);
   /* .. and force visibility (required for merge down fire pattern to the active layer) */
-  gimp_drawable_set_visible(drawable_id, TRUE);
+  gimp_item_set_visible(drawable_id, TRUE);
 
   templayer_id = drawable_id;
   nframesToProcess = 1;
@@ -1128,7 +1128,7 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
        * copy the drawable to a new layer in this new image
        */
       templayer_id = gimp_layer_new_from_drawable(drawable_id, ctxt->image_id);
-      gimp_image_add_layer(ctxt->image_id, templayer_id, -1 /* -1 place above active layer */);
+      gimp_image_insert_layer(ctxt->image_id, templayer_id, 0, -1 /* -1 place above active layer */);
     }
   
     /* copy cloud layers from ref image to current processed image_id
@@ -1147,23 +1147,23 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
                                         , 100.0                 /* full opaque */
                                         , GIMP_NORMAL_MODE      /* 0 */
                                         );
-      gimp_image_add_layer(ctxt->image_id, newlayer2_id, -1 /* -1 place above active layer */);
+      gimp_image_insert_layer(ctxt->image_id, newlayer2_id, 0, -1 /* -1 place above active layer */);
       p_render_fireshape_layer(ctxt, cuvals, newlayer2_id);
     }
     else
     {
       newlayer2_id = gimp_layer_new_from_drawable(cuvals->fireShapeLayer, ctxt->image_id);
-      gimp_image_add_layer(ctxt->image_id, newlayer2_id, -1 /* -1 place above active layer */);
+      gimp_image_insert_layer(ctxt->image_id, newlayer2_id, 0, -1 /* -1 place above active layer */);
     }
 
-    gimp_image_add_layer(ctxt->image_id, newlayer1_id, -1 /* -1 place above active layer */);
+    gimp_image_insert_layer(ctxt->image_id, newlayer1_id, 0, -1 /* -1 place above active layer */);
 
     p_cloud_size_check(newlayer1_id, ctxt);
     p_shape_size_check(newlayer2_id, ctxt);
 
-    gimp_drawable_set_visible(newlayer1_id, TRUE);
-    gimp_drawable_set_visible(newlayer2_id, TRUE);
-    gimp_drawable_set_visible(templayer_id, TRUE);
+    gimp_item_set_visible(newlayer1_id, TRUE);
+    gimp_item_set_visible(newlayer2_id, TRUE);
+    gimp_item_set_visible(templayer_id, TRUE);
     
     /* calculate offsets to shift the cloud layer according to pahse of the currently processed frame */
     {
@@ -1220,7 +1220,7 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
       gchar *layerName;
       
       layerName = g_strdup_printf("Frame_%03d", (int)count +1);
-      gimp_drawable_set_name(templayer_id, layerName);
+      gimp_item_set_name(templayer_id, layerName);
       g_free(layerName);
     }
 
@@ -1233,7 +1233,7 @@ p_run_renderFirePattern(gint32 drawable_id, firepattern_val_t *cuvals, firepatte
 
 
   /* restore visibility status of processed layer */
-  gimp_drawable_set_visible(templayer_id, isVisible);
+  gimp_item_set_visible(templayer_id, isVisible);
 
   if (cuvals->createImage)
   {
@@ -1301,22 +1301,23 @@ on_blend_radio_callback(GtkWidget *wgt, gpointer user_data)
 static void
 p_update_widget_sensitivity (FirePatternDialog *wcd)
 {
-  gboolean inverseCreateImage;
+  //gboolean inverseCreateImage;
   gboolean inversecreateNewPattern;
   gboolean inverseForceShape;
   
   
   /* createImage dependent widgets */  
-  if(wcd->vals->createImage)
-  {
-    inverseCreateImage = FALSE;
-  }
-  else
-  {
-    inverseCreateImage = TRUE;
-  }
-  gtk_widget_set_sensitive(wcd->nframes_spinbutton ,          wcd->vals->createImage);
+  //if(wcd->vals->createImage)
+  //{
+  //  inverseCreateImage = FALSE;
+  //}
+  //else
+  //{
+  //  inverseCreateImage = TRUE;
+  //}
   //gtk_widget_set_sensitive(wcd->shiftPhaseY_spinbutton ,      inverseCreateImage);
+
+  gtk_widget_set_sensitive(wcd->nframes_spinbutton ,          wcd->vals->createImage);
 
   /* createNewPattern dependent widgets */  
   if(wcd->createNewPattern)
@@ -1434,11 +1435,11 @@ p_init_widget_values(FirePatternDialog *wcd)
   }
 
   countClouds = 0;
-  if(gimp_drawable_is_valid(wcd->existingCloud1Id))
+  if(gimp_item_is_valid(wcd->existingCloud1Id))
   {
     countClouds++;
   }
-  if(gimp_drawable_is_valid(wcd->existingFireShapeLayerId))
+  if(gimp_item_is_valid(wcd->existingFireShapeLayerId))
   {
     countClouds++;
   }
@@ -1579,8 +1580,8 @@ p_cloud_layer_menu_callback(GtkWidget *widget, gint32 *cloudLayerId)
 
   if(gap_debug)
   {
-    printf("p_cloud_layer_menu_callback: cloudLayerAddr:%d value:%d\n"
-      ,(int)cloudLayerId
+    printf("p_cloud_layer_menu_callback: cloudLayerAddr:%ld value:%d\n"
+      ,(long)cloudLayerId
       ,(int)value
       );
   }
@@ -1600,16 +1601,19 @@ p_cloud_layer_menu_callback(GtkWidget *widget, gint32 *cloudLayerId)
  * 
  */
 static gint
-p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, FirePatternDialog *wcd)
+p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, gpointer data)
 {
   gint32 processedImageId;
+  FirePatternDialog *wcd;
+  
+  wcd = (FirePatternDialog *)data;
 
   if(gap_debug)
   {
-    printf("p_pattern_layer_constrain PROCEDURE image_id:%d drawable_id:%d wcd:%d\n"
+    printf("p_pattern_layer_constrain PROCEDURE image_id:%d drawable_id:%d wcd:%ld\n"
                           ,(int)image_id
                           ,(int)drawable_id
-                          ,(int)wcd
+                          ,(long)wcd
                           );
   }
 
@@ -1621,12 +1625,12 @@ p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, FirePatternDialog
      return(TRUE);
   }
 
-  if(gimp_drawable_is_valid(drawable_id) != TRUE)
+  if(gimp_item_is_valid(drawable_id) != TRUE)
   {
      return(FALSE);
   }
 
-  processedImageId = gimp_drawable_get_image(wcd->drawable_id);
+  processedImageId = gimp_item_get_image(wcd->drawable_id);
   
   if(image_id == processedImageId)
   {
@@ -1671,7 +1675,6 @@ do_dialog (FirePatternDialog *wcd, firepattern_val_t *cuvals)
   GtkWidget *dialog_action_area1;
   GtkWidget *checkbutton;
   GtkWidget *combo;
-  gint       countClouds;
   gint       row;
 
 
@@ -1688,12 +1691,12 @@ do_dialog (FirePatternDialog *wcd, firepattern_val_t *cuvals)
   wcd->existingFireShapeLayerId = -1;
 
   wcd->countPotentialCloudLayers = 0;
-  if(gimp_drawable_is_valid(cuvals->cloudLayer1))
+  if(gimp_item_is_valid(cuvals->cloudLayer1))
   {
     wcd->existingCloud1Id = cuvals->cloudLayer1;
     wcd->createNewPatternDefault = FALSE;
   }
-  if(gimp_drawable_is_valid(cuvals->fireShapeLayer))
+  if(gimp_item_is_valid(cuvals->fireShapeLayer))
   {
     wcd->existingFireShapeLayerId = cuvals->fireShapeLayer;
   }
@@ -2559,8 +2562,6 @@ run(const gchar *name
 
   gint32    l_image_id = -1;
   gint32    l_drawable_id = -1;
-  gint32    l_handled_drawable_id = -1;
-
 
 
   /* Get the runmode from the in-parameters */
@@ -2696,7 +2697,6 @@ run(const gchar *name
         
         gimp_image_undo_group_start (l_image_id);
         success = p_run_renderFirePattern(l_drawable_id, &l_cuvals, ctxt);
-        l_handled_drawable_id = l_drawable_id;
         gimp_image_undo_group_end (l_image_id);
         
         if(success)

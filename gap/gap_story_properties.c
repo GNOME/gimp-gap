@@ -59,6 +59,7 @@
 #include "gap_story_vthumb.h"
 #include "gap_accel_char.h"
 #include "gap_accel_da.h"
+#include "gap_arr_dialog.h"
 
 
 #include "gap-intl.h"
@@ -67,9 +68,9 @@
 #define GAP_STORY_CLIP_PROP_HELP_ID  "plug-in-gap-storyboard-clip-prop"
 #define GAP_STORY_MASK_PROP_HELP_ID  "plug-in-gap-storyboard-mask-prop"
 
-#define GAP_STORY_RESPONSE_RESET 1
-#define GAP_STORY_RESPONSE_SCENE_SPLIT 2
-#define GAP_STORY_RESPONSE_SCENE_END   3
+#define GAP_STORY_RESPONSE_RESET ((gint)1)
+#define GAP_STORY_RESPONSE_SCENE_SPLIT ((gint)2)
+#define GAP_STORY_RESPONSE_SCENE_END   ((gint)3)
 #define PW_ENTRY_WIDTH        300
 #define PW_COMMENT_WIDTH      480
 #define PW_SCALE_WIDTH        300
@@ -1356,8 +1357,8 @@ p_pw_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbPropWidget *pw)
 {
-  GdkEventExpose *eevent;
-  GdkEventButton *bevent;
+  /*GdkEventExpose *eevent;*/
+  /*GdkEventButton *bevent;*/
   GapStbMainGlobalParams  *sgpp;
 
   if ((pw->stb_elem_refptr == NULL)
@@ -1371,7 +1372,7 @@ p_pw_preview_events_cb (GtkWidget *widget
   switch (event->type)
   {
     case GDK_BUTTON_PRESS:
-      bevent = (GdkEventButton *) event;
+      /*bevent = (GdkEventButton *) event;*/
 
       if((!pw->scene_detection_busy)
       && (!sgpp->gva_lock)
@@ -1391,12 +1392,12 @@ p_pw_preview_events_cb (GtkWidget *widget
       break;
 
     case GDK_EXPOSE:
-      if(gap_debug) printf("p_pw_preview_events_cb GDK_EXPOSE widget:%d  da_wgt:%d\n"
-                              , (int)widget
-                              , (int)pw->pv_ptr->da_widget
+      if(gap_debug) printf("p_pw_preview_events_cb GDK_EXPOSE widget:%ld  da_wgt:%ld\n"
+                              , (long)widget
+                              , (long)pw->pv_ptr->da_widget
                               );
 
-      eevent = (GdkEventExpose *) event;
+      /*eevent = (GdkEventExpose *) event;*/
 
       if(widget == pw->pv_ptr->da_widget)
       {
@@ -1423,8 +1424,8 @@ p_pw_mask_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbPropWidget *pw)
 {
-  GdkEventExpose *eevent;
-  GdkEventButton *bevent;
+  /*GdkEventExpose *eevent;*/
+  /*GdkEventButton *bevent;*/
   GapStbMainGlobalParams  *sgpp;
 
   if ((pw->stb_elem_refptr == NULL)
@@ -1438,7 +1439,7 @@ p_pw_mask_preview_events_cb (GtkWidget *widget
   switch (event->type)
   {
     case GDK_BUTTON_PRESS:
-      bevent = (GdkEventButton *) event;
+      /*bevent = (GdkEventButton *) event;*/
 
       if((!pw->scene_detection_busy)
       && (!sgpp->gva_lock)
@@ -1450,12 +1451,14 @@ p_pw_mask_preview_events_cb (GtkWidget *widget
       break;
 
     case GDK_EXPOSE:
-      if(gap_debug) printf("p_pw_mask_preview_events_cb GDK_EXPOSE widget:%d  da_wgt:%d\n"
-                              , (int)widget
-                              , (int)pw->mask_pv_ptr->da_widget
+      if(gap_debug)
+      {
+        printf("p_pw_mask_preview_events_cb GDK_EXPOSE widget:%ld  da_wgt:%ld\n"
+                              , (long)widget
+                              , (long)pw->mask_pv_ptr->da_widget
                               );
-
-      eevent = (GdkEventExpose *) event;
+      }
+      /*eevent = (GdkEventExpose *) event;*/
 
       if(widget == pw->mask_pv_ptr->da_widget)
       {
@@ -1558,8 +1561,8 @@ p_pw_icontype_preview_events_cb (GtkWidget *widget
                        , GdkEvent  *event
                        , GapStbPropWidget *pw)
 {
-  GdkEventExpose *eevent;
-  GdkEventButton *bevent;
+  /*GdkEventExpose *eevent;*/
+  /*GdkEventButton *bevent;*/
   GapStbMainGlobalParams  *sgpp;
 
   if ((pw->stb_elem_refptr == NULL)
@@ -1573,7 +1576,7 @@ p_pw_icontype_preview_events_cb (GtkWidget *widget
   switch (event->type)
   {
     case GDK_BUTTON_PRESS:
-      bevent = (GdkEventButton *) event;
+      /*bevent = (GdkEventButton *) event;*/
 
       if((!pw->scene_detection_busy)
       && (!sgpp->gva_lock)
@@ -1595,12 +1598,12 @@ p_pw_icontype_preview_events_cb (GtkWidget *widget
     case GDK_EXPOSE:
       if(gap_debug)
       {
-        printf("p_pw_icontype_preview_events_cb GDK_EXPOSE widget:%d  da_wgt:%d\n"
-                              , (int)widget
-                              , (int)pw->typ_icon_pv_ptr->da_widget
+        printf("p_pw_icontype_preview_events_cb GDK_EXPOSE widget:%ld  da_wgt:%ld\n"
+                              , (long)widget
+                              , (long)pw->typ_icon_pv_ptr->da_widget
                               );
       }
-      eevent = (GdkEventExpose *) event;
+      /*eevent = (GdkEventExpose *) event;*/
 
       if(widget == pw->typ_icon_pv_ptr->da_widget)
       {
@@ -1632,7 +1635,10 @@ p_pw_check_ainfo_range(GapStbPropWidget *pw, char *filename)
   gdouble l_upper;
   gdouble l_val;
 
-  if(gap_debug) printf("PROP AINFO CHECK\n");
+  if(gap_debug)
+  {
+    printf("PROP AINFO CHECK  START\n");
+  }
 
   /* default: allow maximum range
    * (for movies we dont know the exactnumber of frames
@@ -1725,6 +1731,10 @@ p_pw_check_ainfo_range(GapStbPropWidget *pw, char *filename)
   {
     gtk_adjustment_set_value(GTK_ADJUSTMENT(pw->pw_spinbutton_to_adj)
                             , CLAMP(l_val, l_lower, l_upper));
+  }
+  if(gap_debug)
+  {
+    printf("PROP AINFO CHECK DONE\n");
   }
 
 }  /* end p_pw_check_ainfo_range */
@@ -2034,7 +2044,7 @@ p_pw_set_mask_name_dependent_widget_sensitivity(GapStbPropWidget *pw, gint activ
   l_sensitive = TRUE;
   if(active_index <= 0)
   {
-    /* active index 0 always refers to NONE (e.g clip has no mask) */
+    /* active index 0 always refers to NONE (i.e. clip has no mask) */
     l_sensitive = FALSE;
   }
   l_show = l_sensitive;
@@ -2833,7 +2843,7 @@ p_pw_update_framenr_labels(GapStbPropWidget *pw, gint32 framenr)
   l_framenr_zero = framenr -1;
   if(pw->stb_elem_refptr->record_type == GAP_STBREC_VID_ANIMIMAGE)
   {
-    /* animimage framenr (e.g. layerstack position) starts at 0
+    /* animimage framenr (i.e. layerstack position) starts at 0
      * (other clips typically start with framenr 1)
      */
     l_framenr_zero = framenr;
@@ -3403,7 +3413,7 @@ on_clip_elements_dropped_as_mask_ref (GtkWidget        *widget,
         fw_drop = *fw_drop_ptr;
         if(gap_debug)
         {
-          printf("on_clip_elements_dropped_as_mask_ref FW_DROP:%d\n", (int)fw_drop);
+          printf("on_clip_elements_dropped_as_mask_ref FW_DROP:%ld\n", (long)fw_drop);
         }
         if (fw_drop == NULL)
         {
@@ -3927,6 +3937,11 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
   GapStbTabWidgets *tabw;
   gdouble           l_lower_limit;
 
+  if(gap_debug)
+  {
+    printf("gap_story_pw_properties_dialog START\n");
+  }
+
 
   if(pw == NULL) { return (NULL); }
   if(pw->pw_prop_dialog != NULL) { return(NULL); }   /* is already open */
@@ -3934,6 +3949,10 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
   tabw = (GapStbTabWidgets *)pw->tabw;
   if(tabw == NULL) { return (NULL); }
 
+  if(gap_debug)
+  {
+    printf("gap_story_pw_properties_dialog before p_pw_clear_widgets\n");
+  }
   p_pw_clear_widgets(pw);
 
 
@@ -3946,11 +3965,17 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
     }
   }
 
+  if(gap_debug)
+  {
+    printf("gap_story_pw_properties_dialog before dialog_new\n");
+  }
+
+
   if(pw->is_mask_definition)
   {
     if(pw->stb_elem_bck)
     {
-      dlg = gimp_dialog_new (_("Mask Properties"), "gap_story_clip_properties"
+      dlg = gap_dialog_new (_("Mask Properties"), "gap_story_clip_properties"
                          ,NULL, 0
                          ,gimp_standard_help_func, GAP_STORY_MASK_PROP_HELP_ID
 
@@ -3960,7 +3985,7 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
     }
     else
     {
-      dlg = gimp_dialog_new (_("Mask Properties"), "gap_story_clip_properties"
+      dlg = gap_dialog_new (_("Mask Properties"), "gap_story_clip_properties"
                          ,NULL, 0
                          ,gimp_standard_help_func, GAP_STORY_MASK_PROP_HELP_ID
 
@@ -3972,7 +3997,7 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
   {
     if(pw->stb_elem_bck)
     {
-      dlg = gimp_dialog_new (_("Clip Properties"), "gap_story_clip_properties"
+      dlg = gap_dialog_new (_("Clip Properties"), "gap_story_clip_properties"
                          ,NULL, 0
                          ,gimp_standard_help_func, GAP_STORY_CLIP_PROP_HELP_ID
 
@@ -3984,7 +4009,7 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
     }
     else
     {
-      dlg = gimp_dialog_new (_("Clip Properties"), "gap_story_clip_properties"
+      dlg = gap_dialog_new (_("Clip Properties"), "gap_story_clip_properties"
                          ,NULL, 0
                          ,gimp_standard_help_func, GAP_STORY_CLIP_PROP_HELP_ID
 
@@ -3992,10 +4017,15 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
                          ,_("Auto Scene Split"), GAP_STORY_RESPONSE_SCENE_SPLIT
                          ,GTK_STOCK_CLOSE,  GTK_RESPONSE_CLOSE
                          ,NULL);
-    }
+   }
   }
 
   pw->pw_prop_dialog = dlg;
+
+  if(gap_debug)
+  {
+    printf("gap_story_pw_properties_dialog before g_signal_connect dlg:%ld\n", (long)dlg);
+  }
 
   g_signal_connect (G_OBJECT (dlg), "response",
                     G_CALLBACK (p_pw_prop_response),
@@ -5056,13 +5086,26 @@ gap_story_pw_properties_dialog (GapStbPropWidget *pw)
 
   if(!pw->is_mask_definition)
   {
+    if(gap_debug)
+    {
+      printf("gap_story_pw_properties_dialog before p_pw_set_strings_for_mask_name_combo\n");
+    }
     p_pw_set_strings_for_mask_name_combo(pw);
   }
 
 
   /*  Show the main containers  */
+  if(gap_debug)
+  {
+    printf("gap_story_pw_properties_dialog before gtk_widget_show(main_vbox)\n");
+  }
 
-  gtk_widget_show (main_vbox);
+  gtk_widget_show(main_vbox);
+
+  if(gap_debug)
+  {
+    printf("gap_story_pw_properties_dialog DONE return dlg:%ld\n", (long)dlg);
+  }
 
   return(dlg);
 }  /* end gap_story_pw_properties_dialog */
@@ -5079,6 +5122,11 @@ gap_story_stb_elem_properties_dialog ( GapStbTabWidgets *tabw
   GapStbPropWidget *pw;
   gint idx;
 
+  if(gap_debug)
+  {
+    printf("gap_story_stb_elem_properties_dialog START\n");
+  }
+
   /* check if already open */
   for(pw=tabw->pw; pw!=NULL; pw=(GapStbPropWidget *)pw->next)
   {
@@ -5093,6 +5141,10 @@ gap_story_stb_elem_properties_dialog ( GapStbTabWidgets *tabw
     {
       if(pw->stb_elem_refptr->story_id == stb_elem->story_id)
       {
+        if(gap_debug)
+        {
+          printf("gap_story_stb_elem_properties_dialog calling gtk_window_present (window to front)\n");
+        }
         /* Properties for the selected element already open
          * bring the window to front
          */
@@ -5104,13 +5156,21 @@ gap_story_stb_elem_properties_dialog ( GapStbTabWidgets *tabw
 
   if(pw == NULL)
   {
-    pw = g_new(GapStbPropWidget ,1);
+    if(gap_debug)
+    {
+      printf("gap_story_stb_elem_properties_dialog pw is NULL calling g_new0(GapStbPropWidget ,1)\n");
+    }
+    pw = g_new0(GapStbPropWidget ,1);
     pw->stb_elem_bck = NULL;
     pw->next = tabw->pw;
     tabw->pw = pw;
   }
   if(pw->stb_elem_bck)
   {
+    if(gap_debug)
+    {
+      printf("gap_story_stb_elem_properties_dialog pw->stb_elem_bck is NOT NULL, calling gap_story_elem_free\n");
+    }
     gap_story_elem_free(&pw->stb_elem_bck);
   }
   pw->stb_elem_bck = NULL;
@@ -5141,7 +5201,7 @@ gap_story_stb_elem_properties_dialog ( GapStbTabWidgets *tabw
   {
     pw->pw_flip_request_radio_button_arr[idx] = NULL;
   }
-  for(idx=0; idx < sizeof(pw->pw_mask_anchor_radio_button_arr); idx++)
+  for(idx=0; idx < GAP_STB_MAX_MASK_ANCHOR_MODES; idx++)
   {
     pw->pw_mask_anchor_radio_button_arr[idx] = NULL;
   }
@@ -5164,12 +5224,22 @@ gap_story_stb_elem_properties_dialog ( GapStbTabWidgets *tabw
 
 
   pw->pw_prop_dialog = gap_story_pw_properties_dialog(pw);
+  if(gap_debug)
+  {
+    printf("gap_story_stb_elem_properties_dialog pw->pw_prop_dialog:%ld\n"
+          ,(long)pw->pw_prop_dialog
+          );
+  }
   if(pw->pw_prop_dialog)
   {
     gtk_widget_show(pw->pw_prop_dialog);
     p_pw_update_info_labels_and_cliptype_senstivity(pw);
     p_pv_pview_render(pw);
     p_pw_dialog_init_dnd(pw);
+  }
+  if(gap_debug)
+  {
+    printf("gap_story_stb_elem_properties_dialog DONE\n");
   }
 }  /* end gap_story_stb_elem_properties_dialog */
 
@@ -5197,4 +5267,3 @@ gap_story_fw_properties_dialog (GapStbFrameWidget *fw)
     gap_story_stb_elem_properties_dialog(tabw, fw->stb_elem_refptr, fw->stb_refptr);
   }
 }  /* end gap_story_fw_properties_dialog */
-

@@ -1,5 +1,5 @@
 /* gap_mov_dialog.h
- * 1997.11.06 hof (Wolfgang Hofer)
+ * 2014.05.07 hof (Wolfgang Hofer)
  *
  * GAP ... Gimp Animation Plugins
  *
@@ -27,6 +27,7 @@
 #define _GAP_MOV_DIALOG_H
 
 /* revision history:
+ * gimp    2.8.10;  2014/05/07  hof: support unlimited number of controlpoints.
  * gimp    1.3.20d; 2003/10/14  hof: added bluebox stuff
  * gimp    1.3.20d; 2003/10/05  hof: added tweenindex (twix)
  * gimp    1.3.20c; 2003/09/29  hof: new features: perspective transformation, tween_layer and trace_layer
@@ -36,6 +37,7 @@
  *                                   increased controlpoint Limit GAP_MOV_MAX_POINT (from 256 -> 1024)
  * gimp    1.1.20a; 2000/04/25  hof: support for keyframes, anim_preview
  * version 0.96.02; 1998.07.25  hof: added clip_to_img
+ *                   1997.11.06 hof: created
  */
 
 #include "gap_bluebox.h"
@@ -92,13 +94,14 @@ typedef enum
 } GapMovSelMode;
 
 typedef struct {
-        long    dst_frame_nr;     /* current destination frame_nr */
-        long    src_layer_idx;    /* index of current layer (used for multilayer stepmodes) */
-        long    src_frame_idx;    /* current frame number (used for source frame stepmodes) */
+        gint32  dst_frame_nr;        /* current destination frame_nr */
+        gint32  src_layer_parent_id; /* 0 for toplevel layer that are not member of a layer group */
+        gint32  src_layer_idx;       /* index of current layer within group or image (used for multilayer stepmodes) */
+        gint32  src_frame_idx;       /* current frame number (used for source frame stepmodes) */
         gdouble src_layer_idx_dbl;
         gdouble src_frame_idx_dbl;
-        gint32 *src_layers;       /* array of source images layer id's (used for multilayer stepmodes) */
-        long    src_last_layer;   /* index of last layer 0 upto n-1 (used for multilayer stepmodes) */
+        gint32 *src_layers;          /* array of layer id's  in hte same layer group or image (used for multilayer stepmodes) */
+        gint32  src_last_layer_idx;  /* index of last layer 0 upto n-1 within group or image (used for multilayer stepmodes) */
         gdouble currX,  currY;
         gint    l_handleX;
         gint    l_handleY;
@@ -172,7 +175,8 @@ typedef struct {
 
 } GapMovPoint;
 
-#define GAP_MOV_MAX_POINT 1024
+#define GAP_MOV_POINT_INITIAL_SIZE 1024
+#define GAP_MOV_POINT_EXPAND_SIZE 512
 
 /*
  * Notes:
@@ -212,9 +216,14 @@ typedef struct {
         gint           tracelayer_enable;
         gint           tween_steps;     /* 0 == no virtual tweens between frames */
 
-        gint    point_idx;           /* 0 upto MAX_POINT -1 */
-        gint    point_idx_max;       /* 0 upto MAX_POINT -1 */
-        GapMovPoint point[GAP_MOV_MAX_POINT];
+        gint    point_idx;           /* current point index starting at 0 */
+        gint    point_idx_max;       /* index of last valid point starting at 0 */
+        gint    point_table_size;    /* number of currently allocetd GapMovPoint elementgs in point table */
+        GapMovPoint *point;       /* dynamic allocated point table 
+                                   * note that this is not a list, but a table 
+                                   * that is reallocated when inital size 
+                                   * GAP_MOV_POINT_INITIAL_SIZE is not big enough
+                                   */
 
         gint    dst_range_start;  /* use current frame as default */
         gint    dst_range_end;
@@ -264,6 +273,8 @@ typedef struct {
 
         gdouble  rotate_threshold;
 
+        gchar  *dst_group_name_path_string;
+        gchar  *dst_group_name_delimiter;
 
 } GapMovValues;
 

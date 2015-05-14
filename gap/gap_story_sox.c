@@ -122,7 +122,6 @@ gap_story_sox_exec_resample(char *in_audiofile
   gchar *paramString;
   gchar *l_util_sox;
   gchar *l_util_sox_options;
-  int    l_ret;
   int    l_arg_idx;
   char  *l_ptr;
   char  *l_split_args_string;
@@ -271,7 +270,6 @@ gap_story_sox_exec_resample(char *in_audiofile
   {
     gboolean spawnRc;
     GSpawnFlags spawnFlags = G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL;
-    GError     *spawnError = NULL;
     gint exit_status;
 
     if(!g_file_test (l_util_sox, G_FILE_TEST_IS_EXECUTABLE) )
@@ -311,5 +309,3 @@ gap_story_sox_exec_resample(char *in_audiofile
 
 
 }  /* end gap_story_sox_exec_resample */
-
-

@@ -442,7 +442,7 @@ gap_ffpar_get(const char *filename, GapGveFFMpegValues *epp)
 
   if(gap_debug)
   {
-    printf("gap_ffpar_get: params loaded: epp:%d\n", (int)epp);
+    printf("gap_ffpar_get: params loaded: epp:%ld\n", (long)epp);
     p_debug_printf_parameters(epp);
   }
 }  /* end gap_ffpar_get */
@@ -468,7 +468,7 @@ gap_ffpar_set(const char *filename, GapGveFFMpegValues *epp)
 
   if(gap_debug)
   {
-    printf("gap_ffpar_set: now saving parameters: epp:%d to file:%s\n", (int)epp, filename);
+    printf("gap_ffpar_set: now saving parameters: epp:%ld to file:%s\n", (long)epp, filename);
     p_debug_printf_parameters(epp);
   }
 
@@ -722,11 +722,11 @@ p_add_entry_sorted_by_name(GapGveFFMpegValues *eppStart, GapGveFFMpegValues *epp
      
      for(epp = eppRoot; epp != NULL; epp = epp->next)
      {
-       printf("[%d]:%s: addr:%d next:%d"
+       printf("[%d]:%s: addr:%ld next:%ld"
          , (int)ii
          , epp->presetName
-         ,(int)epp
-         ,(int)epp->next
+         ,(long)epp
+         ,(long)epp->next
          );
        if(epp == eppRoot)
        {
@@ -888,7 +888,7 @@ gap_ffpar_getPresetList()
 
    /* user specific directory   example: /home/hof/.gimp-2.6 
     * (preset names that are already present in previous processed directory
-    * will be overwritten. e.g. user specific variant is preferred)
+    * will be overwritten. i.e. user specific variant is preferred)
     */
    presetDir = g_build_filename(gimp_directory(), GAP_VIDEO_ENCODER_PRESET_DIR, NULL);
    p_add_presets_from_directory(eppPrev, presetDir);

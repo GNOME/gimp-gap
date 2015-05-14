@@ -2,17 +2,17 @@
  *
  *
  *  The FrameFetcher provides access to frames both from imagefiles and videofiles.
- *  
+ *
  *  It holds a global image cache of temporary gimp images intended for
  *  read only access in various gimp-gap render processings.
- *  
- *  There are methods to get the temporary image 
+ *
+ *  There are methods to get the temporary image
  *  or to get a duplicate that has only one layer at imagesize.
  *  (merged or picked via desired stackposition)
  *
  *  For videofiles it holds a cache of open videofile handles.
  *  (note that caching of videoframes is already available in the videohandle)
- *  
+ *
  *
  * Copyright (C) 2008 Wolfgang Hofer <hof@gimp.org>
  *
@@ -119,7 +119,7 @@ gap_frame_fetch_prescaled_image(gint32 ffetch_user_id
 /* ----------------------------
  * gap_frame_fetch_dup_image
  * ----------------------------
- * returns merged or selected layer_id 
+ * returns merged or selected layer_id
  *        (that is the only visible layer in temporary created scratch image)
  *        the caller is resonsible to delete the scratch image when processing is done.
  *         this can be done by calling gap_frame_fetch_delete_list_of_duplicated_images()
@@ -128,6 +128,10 @@ gint32
 gap_frame_fetch_dup_image(gint32 ffetch_user_id
     ,const char *filename            /* full filename of the image (already contains framenr) */
     ,gint32      stackpos            /* 0 pick layer on top of stack, -1 merge visible layers */
+    ,const char *parentpositions     /* int list of parent stackpositions as string
+                                      * where NULL refers to image toplevel
+                                      *  example: 2/1/2
+                                      */
     ,gboolean addToCache             /* enable caching */
     );
 
@@ -187,10 +191,10 @@ gap_frame_fetch_remove_parasite(gint32 image_id);
  * gap_frame_fetch_dump_resources
  * ----------------------------------------------------
  * print current resource usage to stdout
- * this includes information about 
+ * this includes information about
  *  - ALL images currently loaded in gimp
  *  - all video filehandles with memory cache sizes
- * 
+ *
  */
 void
 gap_frame_fetch_dump_resources();

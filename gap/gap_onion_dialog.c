@@ -554,7 +554,10 @@ static void
 on_oni__button_default_clicked         (GtkButton       *button,
                                         GapOnionMainGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_oni__button_default_clicked gpp: %d\n", (int)gpp);
+ if(gap_debug)
+ {
+   printf("CB: on_oni__button_default_clicked gpp: %ld\n", (long)gpp);
+ }
 
  if(gpp)
  {
@@ -567,7 +570,10 @@ static void
 on_oni__button_help_clicked         (GtkButton       *button,
                                      GapOnionMainGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_oni__button_help_clicked gpp: %d\n", (int)gpp);
+ if(gap_debug)
+ {
+   printf("CB: on_oni__button_help_clicked gpp: %ld\n", (long)gpp);
+ }
 
  if(gpp)
  {
@@ -990,8 +996,8 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
   /* the ref_mode combo box */
   oni__combo_ref_mode
     = gimp_int_combo_box_new (_("Normal +1,+2,+3,+4,+5,+6"),                   0,
-                              _("Bidiriectional (single) +1,-2,+3,-4,+5,-6"),  1,
-                              _("Bidiriectional (double) +1,-1,+2,-2,+3,-3"),  2,
+                              _("Bidirectional (single) +1,-2,+3,-4,+5,-6"),  1,
+                              _("Bidirectional (double) +1,-1,+2,-2,+3,-3"),  2,
                               NULL);
   gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (oni__combo_ref_mode),
                                  0,  /* initial gint value */
@@ -1325,7 +1331,7 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
      gimp_help_set_help_data(oni__checkbutton_auto_replace
                          , _("ON: Automatic creation/replacement of onionskin layer(s). "
                              "Works on frame changes via 'VCR Navigator' and go to operations "
-                             "in the video menu -- but not on explicite load from the file menu.")
+                             "in the video menu -- but not on explicit load from the file menu.")
                          , NULL);
      gtk_table_attach (GTK_TABLE (auto_table), oni__checkbutton_auto_replace,
                        0, 1, 0, 1,
@@ -1337,7 +1343,7 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
      gimp_help_set_help_data(oni__checkbutton_auto_delete
                          , _("ON: Automatic delete of onionskin layer(s). "
                              "Works on framechanges via 'VCR Navigator' and go to operations "
-                             "in the video menu -- but not on explicite save from the file menu. "
+                             "in the video menu -- but not on explicit save from the file menu. "
                              "Use this option if you dont want onionskin layers to appear in thumbnail files.")
                          , NULL);
      gtk_table_attach (GTK_TABLE (auto_table), oni__checkbutton_auto_delete,

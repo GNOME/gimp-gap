@@ -13,6 +13,7 @@ presetdata_DATA =  \
         ff_mpeg2_dvd.preset \
         ff_mpeg2_svcd.preset \
         ff_real_standard.preset \
+        ff_x264_aac_hq.preset \
         ff_x264_hq.preset
 
 

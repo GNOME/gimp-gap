@@ -1,3 +1,357 @@
+2015-05-14 Wolfgang Hofer <hof@gimp.org>
+
+imported all GIMP-2.8 related changes
+from gap-2-8 branch to GIT master.
+
+From now on GIMP_GAP master depends on GIMP-2.8
+(no further support for outdated GIMP-2.6 planed)
+
+Note that current GIMP_GAP is still developed
+and tested based on the stable GIMP-2.8 version
+But Future changes and fixes to work with latest GIMP
+versions (GIMP-2.9.x or later) shall happen
+in the GIT masterof the GIMP_GAP repository.
+ 
+
+
+
+2015-05-14 Wolfgang Hofer <hof@gimp.org>
+
+added options for ffmpeg windows crosscompiliation 
+
+ * extern_libs/configure_options_ffmpeg_win32.txt
+
+2015-05-14 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug when loading Movepath from XML file
+  (the FromFrames value was set incorrect with the toFrames value)
+  
+ * gap_mov_dialog.c
+
+2015-05-14 Wolfgang Hofer <hof@gimp.org>
+ - applied (just the missing parts) provided by patch attached to bugreport #749290
+   to fix the map object iterator for use with GIMP-2.8.x releases
+
+ * gap/iter_ALT/mod/plug_in_map_object_iter_ALT.inc
+
+2014-07-05 Wolfgang Hofer <hof@gimp.org>
+
+- additional workaround for windows 64bit specific crash of the master video encoder window
+  on attempt to move the window.
+  
+   The GAP_GUI_USE_GTHREAD (configure option -disable-gui-thread-support )
+   now just disables threads in the master video encoder
+   (i.e. calls encoder specific plug ins for the encoder parameters dialog synchron)
+   
+   .. but still uses a worker thread for the non interactive call of the productive video encoder plugin.
+   This way the encoder progress updates are still working in the master encoder GUI while the
+   video encoder is running.
+  
+   the new configure option 
+    --disable-enc-thread-support
+  
+   may be used to separtely force synchron calls of the video encoder.
+   (but this shall not be necessary even for windows 64 bit environment)
+
+- more fixes for #730239 - e.g. used in strings where it should be i.e. 
+  
+
+  * configure.in
+  * gap/gap_cme_gui.c
+  * gap/gap_fg_matting_dialog.c
+
+
+
+2014-06-18 Wolfgang Hofer <hof@gimp.org>
+
+- workaround for windows specific crash of the master video encoder window
+  on attempt to move the window.
+  
+  (gtk seems to have a bug in WINDOWS 64 bit environment when the GUI uses threads
+   see also http://stackoverflow.com/questions/15675751/gtk-window-moved-then-crash)
+   
+  fortunately the master video encoder GUI already provides a fallback 
+  implementation without using threads that now can be compiled optionally
+  via configure option:
+  
+  (this option shall be used for WINDOWS 64 bit builds 
+  
+  * configure.in
+  * README
+  * gap/gap_cme_gui.c
+
+2014-05-30 Wolfgang Hofer <hof@gimp.org>
+
+- fixed typos (applied path by Anders Jonsson see #730549)
+
+- fixed endless loop in storyboard processor at attempt to read frames frome a video clip after EOF.
+
+- fixed crash after loading movepath settings from xml file.
+   (in case current point index is higher than number of available destination frames
+   the next refresh crashed on windows7 environment)
+
+- fixed movepath freeze caused by unbalanced mallog/free error
+  in gap_lib_dir_ainfo_duplicate (must duplicate all referenced strings of the ainfo structure)
+
+   * gap/gap_story_render_processor.c
+   * gap/gap_player_dialog.c
+   * gap/gap_mov_dialog.c
+   * gap/gap_mov_exec.c
+   * gap/gap_lib.c
+
+   typos:
+
+   * gap/gap_accel_char.c [.h]
+   * gap/gap_accel_da.c
+   * gap/gap_apcl_lib.h
+   * gap/gap_audio_extract.c [.h]
+   * gap/gap_audio_wav.c
+   * gap/gap_blend_fill_main.c
+   * gap/gap_colormask_dialog.c
+   * gap/gap_detail_align_exec.c
+   * gap/gap_detail_tracking_exec.c [.h]
+   * gap/gap_drawable_vref_parasite.c
+   * gap/gap_fg_matting_dialog.c
+   * gap/gap_morph_tween_dialog.c
+   * gap/gap_mov_dialog.c
+   * gap/gap_mov_exec.c
+   * gap/gap_navigator_dialog.c
+   * gap/gap_onion_dialog.c
+   * gap/gap_player_dialog.c
+   * gap/gap_range_ops.c
+   * gap/gap_split.c
+   * gap/gap_story_att_trans_dlg.c
+   * gap/gap_story_dialog.c
+   * gap/gap_story_render_audio.c
+   * gap/gap_story_render_processor.c
+   * gap/gap_vex_dialog.c
+   * gap/gap_wr_opacity.c
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+
+
+
+2014-05-21 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug at loading movepath settings from xml file
+  (load must not overwrite current and cached image_is's)
+
+- movepath disabled checks for too many controlpoints.
+    the old implementation refused rendering 
+    when the number of handled frames is less than the number of controlpoints.
+       Error: More controlpoints (%d) than handled frames (%d).
+       Error: Keyframe %d at point [%d] higher or equal than last handled frame
+    
+    now rendering is possible and the rest of controlpoints is ignored.
+
+- detailtracking 
+    fixed bug that captures invalid coordinates in case the path has only one point
+    (p_capture_2_vector_points)
+
+
+- fixed some typo's (according to patch by Anders Jonsson see #730034 and #730239 )
+
+- fixed a lot of compiler warnings. (most of them in debug logging printf calls..)
+
+ 
+   * gap/gap_accel_da.c
+   * gap/gap_arr_dialog.c
+   * gap/gap_audio_wav.c
+   * gap/gap_blend_fill_main.c
+   * gap/gap_colordiff.c 
+   * gap/gap_colormask_dialog.c
+   * gap/gap_colormask_exec.c
+   * gap/gap_colormask_file.c
+   * gap/gap_colormask_main.c
+   * gap/gap_dbbrowser_utils.c
+   * gap/gap_decode_mplayer_main.c
+   * gap/gap_detail_align_exec.c
+   * gap/gap_detail_tracking_exec.c
+   * gap/gap_detail_tracking_main.c
+   * gap/gap_edge_detection.c
+   * gap/gap_filter_iterators.c
+   * gap/gap_fire_pattern.c
+   * gap/gap_fmac_base.c
+   * gap/gap_fmac_context.c
+   * gap/gap_fmac_main.c
+   * gap/gap_fmac_varying_main.c
+   * gap/gap_frame_fetcher.c
+   * gap/gap_image.c
+   * gap/gap_layer_copy.c
+   * gap/gap_lib.c
+   * gap/gap_locate.c
+   * gap/gap_main.c
+   * gap/gap_mod_layer.c
+   * gap/gap_mod_layer_dialog.c
+   * gap/gap_morph_dialog.c
+   * gap/gap_morph_exec.c
+   * gap/gap_morph_shape.c   
+   * gap/gap_morph_tween_dialog.c  
+
+   * gap/gap_mov_dialog.c
+   * gap/gap_mov_exec.c [.h]
+   * gap/gap_mov_main.c
+   * gap/gap_mov_render.c
+   * gap/gap_mov_xml_par.c
+
+   * gap/gap_navigator_dialog.c
+   * gap/gap_onion_base.c
+   * gap/gap_onion_dialog.c
+   * gap/gap_onion_main.c   
+   * gap/gap_pdb_calls.c   
+   * gap/gap_pixelrgn.c
+   * gap/gap_player_cache.c
+   * gap/gap_player_dialog.c
+   * gap/gap_pview_da.c
+   * gap/gap_range_ops.c
+   * gap/gap_stock.c
+   * gap/gap_story_dialog.c
+   * gap/gap_story_file.c
+   * gap/gap_story_properties.c
+   * gap/gap_story_render_lossless.c
+   * gap/gap_story_render_processor.c  [.h]
+   * gap/gap_story_section_properties.c
+   * gap/gap_story_sox.c
+   * gap/gap_story_undo.c   
+   * gap/gap_thumbnail.c
+   * gap/gap_vex_dialog.c
+   * gap/gap_video_index_creator.c
+   * gap/gap_water_pattern.c
+   * gap/gap_wr_color_balance.c
+   * gap/gap_wr_color_curve.c
+   * gap/gap_wr_resynth.c
+   * gap/gap_wr_trans.c
+
+ 
+   * libgapbase/gap_base.c
+   * libgapbase/gap_timm.c [.h]
+   * libgapbase/gap_val_file.c
+ 
+   * libgapvidapi/gap_vid_api.c
+   * libgapvidapi/gap_vid_api_ffmpeg.c
+   * libgapvidapi/gap_vid_api_gimp.c 
+   * libgapvidapi/gap_vid_api_mp_util.c 
+   * libgapvidapi/gap_vid_api_mpeg3.c
+   * libgapvidapi/gap_vid_api_mpeg3toc.c
+   * libgapvidapi/vid_api_vidindex.c 
+ 
+   * libgapvidutil/gap_gve_raw.c [.h]
+
+   * vid_common/gap_cme_callbacks.c
+   * vid_common/gap_cme_gui.c
+
+   * vid_enc_avi/gap_enc_avi_gui.c
+   * vid_enc_avi/gap_enc_avi_main.c
+
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+   * vid_enc_ffmpeg/gap_enc_ffmpeg_par.c
+
+   * vid_enc_rawframes/gap_enc_rawframes_main.c
+   * vid_enc_single/gap_enc_singleframes_main.c
+   
+   
+2014-05-09 Wolfgang Hofer <hof@gimp.org>
+
+- provide additional video encoder preset file: ff_x264_aac_hq.preset
+  that uses the AAC audio codec.
+  The other ff_x264_hq.preset uses the AC3 codec that is not supported
+  by some players (as the Media player on my Windows7 64bit machine)
+
+- Movepath now supports unlimted number of controlpoints
+  (old implementation was restricted to maximal 1024 controlpoints)
+
+- various fixes (found at tests on linux64 bit and windows 64 bit crosscomiple environment)
+    - g_stat shall use GStatBuf
+    - timestamps shall use time_t  (gap_file_get_mtime, gap_base_get_current_time)
+    - fixed crash in query of some plug-ins @ gimp_lastval_desc_register call.
+       (use fopen mode "wb" and "rb" -- do not mix "w" & "rb")
+    - fixed crash in storyboard rendering when move path transition is used.
+       (procedure gap_mov_exec_new_GapMovValues   
+         must initialize:  pvals->dst_group_name_path_string = NULL;
+       )
+    - fixed crash in storyboard dialog
+      - at attempt to copy a clip when storyboard was not yet saved 
+        (and internal filename is still NULL)
+        both via copy/paste or with drag&drop
+      - sporadic crash at open clip property dialog window
+         (memory overwrite @ gap_story_pw_properties_dialog
+          in the loop that should reset the 3 elements of the array 
+          pw->pw_mask_anchor_radio_button_arr)
+
+    - added gap_dialog_new  with same interface as gimp_dialog_new
+        - shall fix crash on attempt to move the dialog window 
+          with the mouse on Windows7 64 bit system
+          (-- this issue is not yet fixed ---)
+        - open the dialog as "Normal Toplevel Window"
+           (e.g. in foreground and with minimize/maximize/close widget decorations)
+
+
+    Windows64 bit cross compilation was done on SuSE 13.1 Virtual machine
+
+    Setup Linux For GIMP-GAP cross compilation
+    o) installed most dependency libs from openSuSE 13.1 windows 64 bit
+    o) have a script to setup environment varbles 
+       (PREFIX, LD_LIBRARY_PATH and other stuff see the gimp wiki crsosscompile page)
+    o) crosscompiled some dependency libs that were not provided as binary by openSUSE 13.1
+    o) crosscompiled gimp-2.8.10 (see gimp wiki crsosscompile page)
+    o) configured GAP:
+    
+       -) Add the options:
+              --enable-cross-compile  --target-os=mingw32  --arch=x86_64
+          to the file:  extern_libs/configure_options_ffmpeg_win32.txt
+       -) run autogen.sh (or configure) with the following configure options:
+           ./configure  --prefix=$PREFIX --host=x86_64-w64-mingw32 --disable-libmpeg3 --disable-ff-libxvid
+   
+
+   * ChangeLog
+   * configure.in
+   * extern_libs/configure_options_ffmpeg_win32.txt
+   * gap/gap_arr_dialog.c
+   * gap/gap_arr_dialog.h
+   * gap/gap_audio_wav.c
+   * gap/gap_detail_tracking_main.c
+   * gap/gap_drawable_vref_parasite.c
+   * gap/gap_fmac_context.h
+   * gap/gap_frame_fetcher.c
+   * gap/gap_lib.c
+   * gap/gap_lib.h
+   * gap/gap_mov_dialog.c
+   * gap/gap_mov_dialog.h
+   * gap/gap_mov_exec.c
+   * gap/gap_mov_exec.h
+   * gap/gap_mov_main.c
+   * gap/gap_mov_render.c
+   * gap/gap_mov_xml_par.c
+   * gap/gap_navigator_dialog.c
+   * gap/gap_onion_base.h
+   * gap/gap_player_dialog.c
+   * gap/gap_story_att_trans_dlg.c
+   * gap/gap_story_dialog.c
+   * gap/gap_story_file.c
+   * gap/gap_story_file.h
+   * gap/gap_story_main.h
+   * gap/gap_story_properties.c
+   * gap/gap_story_undo_types.h
+   * gap/gimplastvaldesc.c
+   * libgapbase/gap_base.c
+   * libgapbase/gap_base.h
+   * libgapbase/gap_file_util.c
+   * libgapbase/gap_file_util.h
+   * libgapvidapi/gap_vid_api.h
+   * libgapvidapi/gap_vid_api_util.c
+   * libgapvidapi/gap_vid_api_vidindex.c
+   * libgapvidutil/gap_gve_misc_util.c
+   * libgapvidutil/gap_gve_xvid.c
+   * vid_common/gap_cme_callbacks.c
+   * vid_common/gap_cme_gui.c
+   * vid_common/gap_cme_main.c
+   * vid_enc_ffmpeg/Makefile.am
+
+
+   * vid_enc_ffmpeg/ff_x264_aac_hq.preset    # new file
+
+
 2014-02-27 Wolfgang Hofer <hof@gimp.org>
 
 - fixed bug in the GAP video API that caused endless loop in
@@ -10,13 +364,138 @@
     and the percentage is kept at constant level if there are (much) more frames to process
     (than assumed in the initial guess.)
 
-  * libgapvidapi/gap_vid_api_ffmpeg.c
+- Updated iterator procedures to fit last values buffer structures
+  for the plug-ins that are part of the GIMP-2.8.10 release.
+  (some of them have changed their structure and are not compatible
+  with GIMP-2.6.x releases)
+
+
+- added information column in the filtermacro dialog 
+  this column shows errors that occured when recording a filtercall.
+  The current implementation marks filters with Error 1
+  when the probe iteratorcall fails at recording time 
+  (triggered by the Add button in the filtermacro dialog)
+  
+  The probe iteratorcall typically fails when the last values buffer
+  (where the filter stores its parmaters) does not match the
+  corresponding iterator implementation.
+
+
+  * gap/gap_filter_iterators.c
+  * gap/gap_fmac_main.c
+  * gap/gap_name2layer_main.c
   * gap/gap_player_dialog.c
   * gap/gap_video_index_creator.c
+  * gap/iter_ALT/gen/plug_in_blinds_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_checkerboard_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_destripe_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_engrave_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_fractal_trace_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_mblur_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_mosaic_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_newsprint_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_ripple_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_shift_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_video_iter_ALT.inc
+  * gap/iter_ALT/gen/plug_in_waves_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_applylens_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_bump_map_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_colors_channel_mixer_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_dog_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_map_object_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_polar_coords_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_sinus_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_solid_noise_iter_ALT.inc
+  * gap/iter_ALT/mod/plug_in_sparkle_iter_ALT.inc
+  * libgapvidapi/gap_vid_api_ffmpeg.c
 
 
 2014-02-22 Wolfgang Hofer <hof@gimp.org>
+- extended filtermacro reference sidecar filformat (.fmref)
+  .fmref files do describe persistent layer ids and 
+  allow succesful applying a filter that requires additional layers
+  (such as bumpmap that needs a layer for the map)
+  with recorded lastvlues buffer in the next gimp session.
 
+  The old format describes layer rference by imagname and stackposition.
+  In case of nested layer this is not sufficient.
+  
+  Therefore the fileformat was exteded with keyword "parentstack:",
+  followed by a list of integer stack positions of all parent group layers 
+  concatenated by the "/" delimiter character.
+  
+  Note that toplevel layers are still refered without the new parentstack
+  (== compatible to the old format) 
+
+  id:800003 frameNr:000000 stack:02 track:-1 mtime:01392968915  type:3 file:"/home/hof/testimage.xcf" parentstack:2/0
+
+
+
+- replaced deprecated gimp_drawable_is_valid calls by gimp_item_is_valid
+
+- Filter All Layers feature now has options how to handle applying a filter to a group layer.
+  The GAP filter db browser dialog provides radio buttons how to handle group layers.
+    - normal mode (enables filter calls on group layer items)
+    - merge group items before calling a filter
+    - skip filtercalls on group items
+
+  This feature is mainly a workaround for the fact, that many plug-in filters
+  of the GIMP-2.8.10 release fail on attempt to process a group layer.
+  
+  Example: the  whirl-pinch plugin fails with the message:
+  Calling error for procedure 'gimp-drawable-merge-shadow':
+                  Item 'GR-1' (20) cannot be modified because it is a group item
+
+- fixed issuses for the "FramesModify" feature
+  when function "Apply filter on layer(s)" is selected.
+  Support skip and automatical merge on selected group layers in the processed frames
+  for this modify function.
+  Notes:
+    for filter apply with constant values (acceleration characteristic value == 0)
+    the first processed frame must contain at least one layer 
+    that matches the selection criteria.
+    
+    for filter apply with varying values both 
+    the first and the last processed frame
+    must contain at least one layer 
+    that matches the selection criteria.
+    
+    This is required for the interactive filtercalls to record the
+    last values buffer(s) for the called filter pdb procedure.
+    
+
+- dropped support for GAP_FILTER_PITSTOP environment variable
+  the pitstop dialog is now configurable via gimprc parameters:
+    (gap-filterall-enable-pitstop-dialog "no")
+    (gap-modify-enable-pitstop-dialog "no")
+  
+  Both pitstop dialogs now have an option "do not show this dialog again"
+  to disable those (optional) dialogs in the future (in this and further sessions).
+  
+
+  * gap/gap_blend_fill_main.c
+  * gap/gap_dbbrowser_utils.c
+  * gap/gap_dbbrowser_utils.h
+  * gap/gap_edge_detection.c
+  * gap/gap_fg_matting_dialog.c
+  * gap/gap_filter_foreach.c
+  * gap/gap_filter_iterators.c
+  * gap/gap_fire_pattern.c
+  * gap/gap_fmac_base.c
+  * gap/gap_fmac_context.c
+  * gap/gap_fmac_context.h
+  * gap/gap_frame_fetcher.c
+  * gap/gap_frame_fetcher.h
+  * gap/gap_image.c
+  * gap/gap_image.h
+  * gap/gap_mod_layer.c
+  * gap/gap_player_cache.c
+  * gap/gap_water_pattern.c
+  * gap/iter_ALT/mod/plug_in_bump_map_iter_ALT.inc
+
+
+
+2014-02-15 Wolfgang Hofer <hof@gimp.org>
 
 - applied fix for the foreground matting feature as suggested at bug #723818
   The warning "Problem!: final_confidence: %f\n" now shall be printed only in critical case.
@@ -27,6 +506,121 @@
 
   * gap/gap_fg_matting.c
   * gap/gap_fg_matting_main.c
+
+2014-02-15 Wolfgang Hofer <hof@gimp.org>
+
+  - added LAYER GROUP support for the "FramesModify" feature.
+
+     - Added Groupname and delimiter entry widgets where the user can
+       specify the scope of the layer selection.
+       (e.g. the name of the group that contains the layers that are to be selected)
+       Nested groups can be selected as "MyGroup/SubGroup"
+       Where the delimiter string "/" is used to split subgroup names.
+       An empty Groupname refers to the images toplevel layers.
+     
+     - Added new Functions:
+        Layer Stackposition/Raise layers(s) to top
+        Layer Stackposition/Lower Layers(s) to bottom
+        Layer Stackposition/Reorder Layer
+        
+        Merge Layers/Merge down layer(s) expand as necessary
+        Merge Layers/Merge down layer(s) clipped to image
+        Merge Layers/Merge down layer(s) clipped to bg-layer
+        
+        Create Layergroup
+        
+        ----------
+        
+        The Reorder Layer function provides new entries
+          New Group Name
+          New Position
+        to specify the target group (empty name refers to toplevel image)
+        and stackposition where the selected Layer(s) shall be moved to.
+     
+     - Modify Functions "Merge.." 
+     
+
+     - Modify Function "duplicate layer"  now creates the layer above the source layer
+       (older versions placed the duplicate above the active layer)
+
+
+  - replaced the follwing deprecated procedure calls
+   
+    gimp_drawable_get_###   gimp_item_get_###
+    gimp_drawable_set_###   gimp_item_set_##
+    gimp_image_raise_layer  gimp_image_raise_item
+    gimp_image_lower_layer  gimp_image_lower_item
+
+
+  * gap/gap_blend_fill_main.c
+  * gap/gap_bluebox.c
+  * gap/gap_colormask_exec.c
+  * gap/gap_detail_tracking_exec.c
+  * gap/gap_edge_detection.c
+  * gap/gap_fg_matting_dialog.c
+  * gap/gap_fg_matting_exec.c
+  * gap/gap_filter_codegen.c
+  * gap/gap_filter_foreach.c
+  * gap/gap_filter_iterators.c
+  * gap/gap_fire_pattern.c
+  * gap/gap_image.c
+  * gap/gap_image.h
+  * gap/gap_layer_copy.c
+  * gap/gap_lib.c
+  * gap/gap_main.c
+  * gap/gap_match.c
+  * gap/gap_mod_layer.c
+  * gap/gap_mod_layer.h
+  * gap/gap_mod_layer_dialog.c
+  * gap/gap_mod_layer_dialog.h
+  * gap/gap_morph_dialog.c
+  * gap/gap_morph_exec.c
+  * gap/gap_morph_main.c
+  * gap/gap_morph_shape.c
+  * gap/gap_mov_dialog.c
+  * gap/gap_mov_exec.c
+  * gap/gap_mov_render.c
+  * gap/gap_mov_xml_par.c
+  * gap/gap_onion_base.c
+  * gap/gap_player_dialog.c
+  * gap/gap_range_ops.c
+  * gap/gap_split.c
+  * gap/gap_story_att_trans_dlg.c
+  * gap/gap_story_render_processor.c
+  * gap/gap_vex_exec.c
+  * gap/gap_water_pattern.c
+  * gap/gap_wr_resynth.c
+  * libgapvidapi/gap_vid_api.c
+  * libgapvidutil/gap_gve_png.c
+
+2014-02-02 Wolfgang Hofer <hof@gimp.org>
+
+- added LAYER GROUP Support in the "MovePath" dialog.
+     Tis dialog now provides a "Target Group" and Delimiter entry
+     To specifiy a Groupname where the rendered layer(s) shall be
+     inserted in all processed frame images. 
+     The groupname may also refere a subgroup when
+     it is separeted by the specified delimiter character
+     Example: 
+        Delimiter: /
+        Target Group: "animals/flying/birds"
+        
+     Note that an empty groupname refers to the image.
+     (e.g. the rendered layer(s) are inserted at image level)
+        
+     The Stepmode loop for layer specific stepmodes 
+     (loop, loop reverse, once, once reverse, ping pong)
+     now iterates over the layers that are member of the same group as the selected
+     Source Image/Layer. Selecting a toplevel Layer (or toplevel Grouplayer) iterates
+     over all toplevel layers including all toplevel Grouplayers of the Source image.
+
+ * gap/gap_image.c [.h]
+ * gap/gap_mov_dialog.c [.h]
+ * gap/gap_mov_exec.c [.h]
+ * gap/gap_mov_main.c
+ * gap/gap_mov_render.c [.h]
+ * gap/gap_mov_xml_par.c
+ * gap/gap_xml_util.c [.h]
 
 
 2014-01-12 Wolfgang Hofer <hof@gimp.org>
@@ -131,13 +725,14 @@
   * This again touched nearly all *.c and *.h files
   
 2013-11-09 Wolfgang Hofer <hof@gimp.org>
-  - replaced more software address of Free software foundation 
+  - replaced more software address of Free software foundation in the 2-8 branch sources
      OLD: * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
      NEW: * <http://www.gnu.org/licenses/>.
 
 2013-11-09 Wolfgang Hofer <hof@gimp.org>
+
   - replaced outdated Incorrect software address of Free software foundation 
-    from comments (assuggested in #711402)
+    in comments in the 2-8 branch sources (assuggested in #711402)
  
    OLD:
      * You should have received a copy of the GNU General Public License
@@ -150,8 +745,37 @@
     * <http://www.gnu.org/licenses/>.
   
   * This touched nearly all *.c and *.h files
+
+2013-09-09 Wolfgang Hofer <hof@gimp.org>
+
+- Replaced some deprecated calls by gimp-2.8 compatible pendants.
+  (this task is not yet finished, but current GAP should now run
+  both with GIMP-2.8 and GIMP-2.9 git master with remarkable less annoying deprection warning pop up windows)
   
-2013-07-21 Wolfgang Hofer <hof@gimp.org>
+  Handled so far:
+     gimp_selection_load        ==> gimp_image_select_item
+     gimp_drawable_transform_*  ==> gimp_item_transform_*
+     gimp_image_add_layer       ==> gimp_image_insert_layer (was already done at creation of branch gap-2-8)
+     
+  gap-2-8 branch now requires at least gimp-2.8.0 version.
+
+  * configure.in
+  * gap/gap_fg_matting_exec.c
+  * gap/gap_image.c
+  * gap/gap_mod_layer.c
+  * gap/gap_mov_render.c
+  * gap/gap_wr_resynth.c
+  * gap/gap_wr_trans.c
+
+  * gap/gap_layer_copy.c
+  * gap/gap_pdb_calls.c
+  * gap/gap_story_file.c
+  * gap/gap_story_render_processor.c
+
+  * gap/gap_detail_align_exec.c
+  * gap/gap_mov_render.c
+
+  (2013-07-21) merged latest features from master to gap-2-8 branch
 
 
 - Moved render framename feature to submenu.

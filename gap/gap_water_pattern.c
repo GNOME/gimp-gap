@@ -224,11 +224,11 @@ p_int_default_cuvals(waterpattern_val_t *cuvals)
 static void
 p_check_for_valid_cloud_layers(waterpattern_val_t *cuvals)
 {
-  if(gimp_drawable_is_valid(cuvals->cloudLayer1) != TRUE)
+  if(gimp_item_is_valid(cuvals->cloudLayer1) != TRUE)
   {
     cuvals->cloudLayer1 = -1;
   }
-  if(gimp_drawable_is_valid(cuvals->cloudLayer2) != TRUE)
+  if(gimp_item_is_valid(cuvals->cloudLayer2) != TRUE)
   {
     cuvals->cloudLayer2 = -1;
   }
@@ -295,7 +295,7 @@ p_init_context_and_cloud_layers(gint32 drawable_id, waterpattern_val_t *cuvals, 
 {
   gboolean success;
 
-  ctxt->image_id = gimp_drawable_get_image(drawable_id);
+  ctxt->image_id = gimp_item_get_image(drawable_id);
   ctxt->blend_mode = p_convertBlendNum_to_BlendMode(cuvals->blendNum);
   ctxt->width = gimp_image_width(ctxt->image_id);
   ctxt->height = gimp_image_height(ctxt->image_id);
@@ -305,7 +305,7 @@ p_init_context_and_cloud_layers(gint32 drawable_id, waterpattern_val_t *cuvals, 
 
 
   /* check if both cloud layers are already available */
-  if((!gimp_drawable_is_valid(cuvals->cloudLayer1)) || (!gimp_drawable_is_valid(cuvals->cloudLayer2)))
+  if((!gimp_item_is_valid(cuvals->cloudLayer1)) || (!gimp_item_is_valid(cuvals->cloudLayer2)))
   {
     /* create both cloud layers */
     GRand  *gr;
@@ -331,8 +331,8 @@ p_init_context_and_cloud_layers(gint32 drawable_id, waterpattern_val_t *cuvals, 
                                         , 100.0                 /* full opaque */
                                         , GIMP_DIFFERENCE_MODE  /* 6 */
                                         );
-    gimp_image_add_layer(ctxt->ref_image_id, cuvals->cloudLayer1, -1);
-    gimp_image_add_layer(ctxt->ref_image_id, cuvals->cloudLayer2, -1);
+    gimp_image_insert_layer(ctxt->ref_image_id, cuvals->cloudLayer1, 0, -1);
+    gimp_image_insert_layer(ctxt->ref_image_id, cuvals->cloudLayer2, 0, -1);
 
 
     /* Adds the solid noise */
@@ -432,9 +432,9 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
   }
 
   /* save visibility status of processed layer .. */
-  isVisible = gimp_drawable_get_visible(drawable_id);
+  isVisible = gimp_item_get_visible(drawable_id);
   /* .. and force visibility (required for merge down effects) */
-  gimp_drawable_set_visible(drawable_id, TRUE);
+  gimp_item_set_visible(drawable_id, TRUE);
 
   templayer_id = drawable_id;
   nframesToProcess = 1;
@@ -459,7 +459,7 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
 
   if(gap_debug)
   {
-     printf("p_run_renderWaterPattern: drawable_id :%d (%s)\n", (int)drawable_id, gimp_drawable_get_name(drawable_id));
+     printf("p_run_renderWaterPattern: drawable_id :%d (%s)\n", (int)drawable_id, gimp_item_get_name(drawable_id));
      printf("p_run_renderWaterPattern:  scalex:%f\n", (float)cuvals->scalex);
      printf("p_run_renderWaterPattern:  scaley:%f\n", (float)cuvals->scaley);
      printf("p_run_renderWaterPattern:  blendNum:%d\n", (int)cuvals->blendNum);
@@ -473,8 +473,8 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
      printf("p_run_renderWaterPattern:  nframes:%d\n", (int)cuvals->nframes);
      printf("p_run_renderWaterPattern:  seed1:%d\n", (int)cuvals->seed1);
      printf("p_run_renderWaterPattern:  seed2:%d\n", (int)cuvals->seed2);
-     printf("p_run_renderWaterPattern:  cloudLayer1:%d (%s)\n", (int)cuvals->cloudLayer1, gimp_drawable_get_name(cuvals->cloudLayer1));
-     printf("p_run_renderWaterPattern:  cloudLayer2:%d (%s)\n", (int)cuvals->cloudLayer2, gimp_drawable_get_name(cuvals->cloudLayer2));
+     printf("p_run_renderWaterPattern:  cloudLayer1:%d (%s)\n", (int)cuvals->cloudLayer1, gimp_item_get_name(cuvals->cloudLayer1));
+     printf("p_run_renderWaterPattern:  cloudLayer2:%d (%s)\n", (int)cuvals->cloudLayer2, gimp_item_get_name(cuvals->cloudLayer2));
 
      printf("p_run_renderWaterPattern:  ref_image_id:%d\n", (int)ctxt->ref_image_id);
      printf("p_run_renderWaterPattern:  image_id:%d\n", (int)ctxt->image_id);
@@ -500,7 +500,7 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
        * copy the drawable to a new layer in this new image
        */
       templayer_id = gimp_layer_new_from_drawable(drawable_id, ctxt->image_id);
-      gimp_image_add_layer(ctxt->image_id, templayer_id, -1 /* -1 place above active layer */);
+      gimp_image_insert_layer(ctxt->image_id, templayer_id, 0, -1 /* -1 place above active layer */);
     }
 
     /* copy cloud layers from ref image to current processed image_id
@@ -510,8 +510,8 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
     newlayer2_id = gimp_layer_new_from_drawable(cuvals->cloudLayer2, ctxt->image_id);
 
     gimp_image_set_active_layer(ctxt->image_id, templayer_id);
-    gimp_image_add_layer(ctxt->image_id, newlayer1_id, -1 /* -1 place above active layer */);
-    gimp_image_add_layer(ctxt->image_id, newlayer2_id, -1 /* -1 place above active layer */);
+    gimp_image_insert_layer(ctxt->image_id, newlayer1_id, 0, -1 /* -1 place above active layer */);
+    gimp_image_insert_layer(ctxt->image_id, newlayer2_id, 0, -1 /* -1 place above active layer */);
 
     p_cloud_size_check(newlayer1_id, ctxt);
     p_cloud_size_check(newlayer2_id, ctxt);
@@ -587,7 +587,7 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
       gchar *layerName;
 
       layerName = g_strdup_printf("Frame_%03d", (int)count +1);
-      gimp_drawable_set_name(templayer_id, layerName);
+      gimp_item_set_name(templayer_id, layerName);
       g_free(layerName);
     }
 
@@ -620,7 +620,7 @@ p_run_renderWaterPattern(gint32 drawable_id, waterpattern_val_t *cuvals, waterpa
 
 
   /* restore visibility status of processed layer */
-  gimp_drawable_set_visible(templayer_id, isVisible);
+  gimp_item_set_visible(templayer_id, isVisible);
 
   if (cuvals->createImage)
   {
@@ -792,11 +792,11 @@ p_init_widget_values(WaterPatternDialog *wcd)
   }
 
   countClouds = 0;
-  if(gimp_drawable_is_valid(wcd->existingCloud1Id))
+  if(gimp_item_is_valid(wcd->existingCloud1Id))
   {
     countClouds++;
   }
-  if(gimp_drawable_is_valid(wcd->existingCloud2Id))
+  if(gimp_item_is_valid(wcd->existingCloud2Id))
   {
     countClouds++;
   }
@@ -904,8 +904,8 @@ p_cloud_layer_menu_callback(GtkWidget *widget, gint32 *cloudLayerId)
 
   if(gap_debug)
   {
-    printf("p_cloud_layer_menu_callback: cloudLayerAddr:%d value:%d\n"
-      ,(int)cloudLayerId
+    printf("p_cloud_layer_menu_callback: cloudLayerAddr:%ld value:%d\n"
+      ,(long)cloudLayerId
       ,(int)value
       );
   }
@@ -925,16 +925,19 @@ p_cloud_layer_menu_callback(GtkWidget *widget, gint32 *cloudLayerId)
  *
  */
 static gint
-p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, WaterPatternDialog *wcd)
+p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, gpointer data)
 {
   gint32 processedImageId;
+  WaterPatternDialog *wcd;
+  
+  wcd = (WaterPatternDialog *)data;
 
   if(gap_debug)
   {
-    printf("p_pattern_layer_constrain PROCEDURE image_id:%d drawable_id:%d wcd:%d\n"
+    printf("p_pattern_layer_constrain PROCEDURE image_id:%d drawable_id:%d wcd:%ld\n"
                           ,(int)image_id
                           ,(int)drawable_id
-                          ,(int)wcd
+                          ,(long)wcd
                           );
   }
 
@@ -946,12 +949,12 @@ p_pattern_layer_constrain(gint32 image_id, gint32 drawable_id, WaterPatternDialo
      return(TRUE);
   }
 
-  if(gimp_drawable_is_valid(drawable_id) != TRUE)
+  if(gimp_item_is_valid(drawable_id) != TRUE)
   {
      return(FALSE);
   }
 
-  processedImageId = gimp_drawable_get_image(wcd->drawable_id);
+  processedImageId = gimp_item_get_image(wcd->drawable_id);
 
   if(image_id == processedImageId)
   {
@@ -1012,12 +1015,12 @@ do_dialog (WaterPatternDialog *wcd, waterpattern_val_t *cuvals)
   wcd->existingCloud2Id = -1;
   countClouds = 0;
   wcd->countPotentialCloudLayers = 0;
-  if(gimp_drawable_is_valid(cuvals->cloudLayer1))
+  if(gimp_item_is_valid(cuvals->cloudLayer1))
   {
     countClouds++;
     wcd->existingCloud1Id = cuvals->cloudLayer1;
   }
-  if(gimp_drawable_is_valid(cuvals->cloudLayer2))
+  if(gimp_item_is_valid(cuvals->cloudLayer2))
   {
     countClouds++;
     wcd->existingCloud2Id = cuvals->cloudLayer2;
@@ -1412,7 +1415,7 @@ do_dialog (WaterPatternDialog *wcd, waterpattern_val_t *cuvals)
   /* highlightOpacity spinbutton  */
   spinbutton_adj = gtk_adjustment_new (cuvals->highlightOpacity, 0.0, 100, 1.0, 10, 0);
   spinbutton = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_adj), 1, 3);
-  gimp_help_set_help_data (spinbutton, _("The highlight strength (e.g. opacity)"), NULL);
+  gimp_help_set_help_data (spinbutton, _("The highlight strength (i.e. opacity)"), NULL);
   gtk_widget_show (spinbutton);
   gtk_table_attach (GTK_TABLE (table1), spinbutton, 3, 4, row, row+1,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
@@ -1688,7 +1691,6 @@ run(const gchar *name
 
   gint32    l_image_id = -1;
   gint32    l_drawable_id = -1;
-  gint32    l_handled_drawable_id = -1;
 
 
 
@@ -1800,7 +1802,6 @@ run(const gchar *name
 
         gimp_image_undo_group_start (l_image_id);
         success = p_run_renderWaterPattern(l_drawable_id, &l_cuvals, ctxt);
-        l_handled_drawable_id = l_drawable_id;
         gimp_image_undo_group_end (l_image_id);
 
         if(success)

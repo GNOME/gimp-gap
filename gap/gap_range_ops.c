@@ -513,7 +513,7 @@ p_convert_dialog(GapAnimInfo *ainfo_ptr,
        "and need flattened frames (flattening does melt down all layers to one composite layer)."
        "Example: JPEG can not handle multiple layers and requires flattened frames."),
     N_("Merge resulting frame down to one layer. This keeps transparency information "
-       "Example: use this for PNG fileformat that can handle transpararency (alpha channel) "
+       "Example: use this for PNG fileformat that can handle transparency (alpha channel) "
        "but is limited to one layer)") 
   };
     
@@ -826,7 +826,7 @@ p_range_to_multilayer_dialog(GapAnimInfo *ainfo_ptr,
   if (gimp_image_base_type(ainfo_ptr->image_id) == GIMP_INDEXED)
   {
     gap_arr_arg_init(&argv[12], GAP_ARR_WGT_LABEL);
-    argv[12].label_txt = _("You are using INDEXED frames. please note that the result will be an RGB image");
+    argv[12].label_txt = _("You are using INDEXED frames. Please note that the result will be an RGB image");
     argc = 13;
   }
 
@@ -1045,13 +1045,13 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
     {
       /* set all selected layers visible, all others invisible */
       l_tmp_layer_id = l_layli_ptr[l_vidx].layer_id;
-      gimp_drawable_set_visible(l_tmp_layer_id,
+      gimp_item_set_visible(l_tmp_layer_id,
                                 l_layli_ptr[l_vidx].selected);
 
       if((bg_visible == 0) && (l_vidx == (l_nlayers -1)))
       {
          /* set BG_Layer invisible */
-         gimp_drawable_set_visible(l_tmp_layer_id, FALSE);
+         gimp_item_set_visible(l_tmp_layer_id, FALSE);
          if(l_layli_ptr[l_vidx].selected)
          {
            l_nvisible--;
@@ -1086,7 +1086,7 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
         l_tmp_layer_id = l_layers_list[l_vidx];
 
         /* stop at 1.st visible layer (this should be the only visible layer) */
-        if(gimp_drawable_get_visible(l_tmp_layer_id)) break;
+        if(gimp_item_get_visible(l_tmp_layer_id)) break;
 
         /* stop at 1.st layer if image was flattened */
         if((flatten_mode < GAP_RANGE_OPS_FLAM_MERG_EXPAND) || (flatten_mode > GAP_RANGE_OPS_FLAM_MERG_CLIP_BG))  break;
@@ -1114,7 +1114,7 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
                                      &l_src_offset_y);
 
         /* add the copied layer to current destination image */
-        gimp_image_add_layer(l_new_image_id, l_cp_layer_id, 0);
+        gimp_image_insert_layer(l_new_image_id, l_cp_layer_id, 0, 0);
         gimp_layer_set_offsets(l_cp_layer_id, l_src_offset_x, l_src_offset_y);
 
         if(l_clear_selected_area)
@@ -1136,9 +1136,9 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
 
         gap_match_substitute_framenr(&l_layername[0], sizeof(l_layername),
                               frame_basename, (long)l_cur_frame_nr);
-        gimp_drawable_set_name(l_cp_layer_id, &l_layername[0]);
+        gimp_item_set_name(l_cp_layer_id, &l_layername[0]);
 
-        gimp_drawable_set_visible(l_cp_layer_id, l_visible);
+        gimp_item_set_visible(l_cp_layer_id, l_visible);
         l_visible = FALSE;   /* all further layers are set invisible */
       }
       /* else: tmp image has no visible layers, ignore that frame */
@@ -1226,13 +1226,15 @@ gint32 gap_range_to_multilayer(GimpRunMode run_mode, gint32 image_id,
          }
          g_snprintf(frame_basename, frame_basename_len, "frame_[######] (%dms)", (int)(1000/l_framerate));
          framerate = 0;
+         l_layersel_case    = layersel_case;
+         l_sel_invert       = sel_invert;
          l_rc = p_range_to_multilayer_dialog (ainfo_ptr, &l_from, &l_to,
                                 &flatten_mode, &bg_visible,
                                 &framerate, frame_basename, frame_basename_len,
                                 _("Frames to Image"),
                                 _("Create Multilayer-Image from Frames"),
-                                &l_layersel_mode, &layersel_case,
-                                &sel_invert, &l_sel_pattern[0],
+                                &l_layersel_mode, &l_layersel_case,
+                                &l_sel_invert, &l_sel_pattern[0],
                                 &l_selection_mode
                                 );
       }
@@ -1255,8 +1257,8 @@ gint32 gap_range_to_multilayer(GimpRunMode run_mode, gint32 image_id,
          new_image_id = p_frames_to_multilayer(ainfo_ptr, l_from, l_to,
                                                flatten_mode, bg_visible,
                                                framerate, frame_basename,
-                                               l_layersel_mode, layersel_case,
-                                               sel_invert, &l_sel_pattern[0],
+                                               l_layersel_mode, l_layersel_case,
+                                               l_sel_invert, &l_sel_pattern[0],
                                                l_selection_mode);
          gimp_display_new(new_image_id);
          l_rc = new_image_id;
@@ -1453,7 +1455,7 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
     {
       if( (l_nlayers == 1)
       &&  (! gimp_drawable_has_alpha(l_layers_list[0]))
-      &&  (! gimp_drawable_get_visible(l_layers_list[0])))
+      &&  (! gimp_item_get_visible(l_layers_list[0])))
       {
         l_img_already_flat = TRUE;
       }
@@ -1478,7 +1480,7 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
                                  ((gint)(gimp_image_base_type(l_tmp_image_id)) * 2),
                                  100.0,     /* Opacity full opaque */
                                  0);        /* NORMAL */
-         gimp_image_add_layer(l_tmp_image_id, l_dummy_layer_id, 0);
+         gimp_image_insert_layer(l_tmp_image_id, l_dummy_layer_id, 0, 0);
          gimp_layer_set_offsets(l_dummy_layer_id, -1, -1);
 
          if(l_nlayers == 0)
@@ -1490,7 +1492,7 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
                                    ((gint)(gimp_image_base_type(l_tmp_image_id)) * 2),
                                    100.0,     /* Opacity full opaque */
                                    0);        /* NORMAL */
-           gimp_image_add_layer(l_tmp_image_id, l_dummy_layer_id, 0);
+           gimp_image_insert_layer(l_tmp_image_id, l_dummy_layer_id, 0, 0);
            gimp_layer_set_offsets(l_dummy_layer_id, -1, -1);
          }
 
@@ -1683,19 +1685,14 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
                long offs_x, long offs_y
 )
 {
-  guint   l_width, l_height;
   long    l_cur_frame_nr;
   long    l_step, l_begin, l_end;
   gint32  l_tmp_image_id;
   gdouble    l_percentage, l_percentage_step;
-  GimpParam     *l_params;
   int         l_rc;
   gboolean    l_frame_found;
 
   l_rc = 0;
-  l_params = NULL;
-
-
   l_percentage = 0.0;
   if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
   {
@@ -1715,10 +1712,6 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
 
 
   /* get info about the image (size and type is common to all frames) */
-  l_width  = gimp_image_width(ainfo_ptr->image_id);
-  l_height = gimp_image_height(ainfo_ptr->image_id);
-
-
   l_begin = ainfo_ptr->first_frame_nr;
   l_end   = ainfo_ptr->last_frame_nr;
 

@@ -37,6 +37,8 @@
 #include <gtk/gtk.h>
 #include "gap-intl.h"
 
+#include "gap_libgapbase.h"
+
 #include "gap_cme_main.h"
 #include "gap_cme_gui.h"
 #include "gap_gve_sox.h"
@@ -78,7 +80,7 @@ on_encoder_status_poll_timer(gpointer   user_data)
 
   if(gap_debug)
   {
-    printf("\n on_encoder_status_poll_timer: START\n");
+    gap_file_printf("\n on_encoder_status_poll_timer: START\n");
   }
 
   gpp = (GapCmeGlobalParams *)user_data;
@@ -104,7 +106,7 @@ on_productive_encoder_start(gpointer   user_data)
 
   if(gap_debug)
   {
-    printf("\n on_productive_encoder_start: START\n");
+    gap_file_printf("\n on_productive_encoder_start: START\n");
   }
 
   gpp = (GapCmeGlobalParams *)user_data;
@@ -115,7 +117,7 @@ on_productive_encoder_start(gpointer   user_data)
     {
       if(gap_debug)
       {
-        printf("MAIN on_productive_encoder_start remove productive_encoder_timertag:%d\n", (int)gpp->productive_encoder_timertag);
+        gap_file_printf("MAIN on_productive_encoder_start remove productive_encoder_timertag:%d\n", (int)gpp->productive_encoder_timertag);
       }
       g_source_remove(gpp->productive_encoder_timertag);
       gpp->productive_encoder_timertag = -1;
@@ -123,7 +125,7 @@ on_productive_encoder_start(gpointer   user_data)
 
     if(gap_debug)
     {
-      printf("MAIN on_productive_encoder_start VIDEO ENCODER START ------------------\n");
+      gap_file_printf("MAIN on_productive_encoder_start VIDEO ENCODER START ------------------\n");
     }
 
     gap_cme_gui_start_video_encoder_as_thread(gpp);
@@ -131,7 +133,7 @@ on_productive_encoder_start(gpointer   user_data)
 
     if(gap_debug)
     {
-      printf("MAIN on_productive_encoder_start VIDEO ENCODER finished ------------------\n");
+      gap_file_printf("MAIN on_productive_encoder_start VIDEO ENCODER finished ------------------\n");
     }
     p_start_encoder_status_poll_timer(gpp);
   }
@@ -152,7 +154,7 @@ p_drop_chache_and_start_video_encoder(GapCmeGlobalParams *gpp)
   gap_gve_story_drop_image_cache();
   if(gap_debug)
   {
-    printf("MAIN after gap_gve_story_drop_image_cache ------------------\n");
+    gap_file_printf("MAIN after gap_gve_story_drop_image_cache ------------------\n");
   }
 
   /* start timer (encoder start after 800 millisecs) */
@@ -174,7 +176,6 @@ p_drop_chache_and_start_video_encoder(GapCmeGlobalParams *gpp)
 static void
 p_switch_gui_to_running_encoder_state(GapCmeGlobalParams *gpp)
 {
-  GtkWidget *label;
   GtkWidget *frame;
   GtkWidget *notebook;
   gint idx;
@@ -310,7 +311,7 @@ on_cme__combo_enocder  (GtkWidget     *widget,
   gint       value;
   GapGveEncList *l_ecp;
 
-  if(gap_debug) printf("CB: on_cme__combo_encoder\n");
+  if(gap_debug) gap_file_printf("CB: on_cme__combo_encoder\n");
 
   if(gpp == NULL) return;
 
@@ -330,7 +331,7 @@ on_cme__combo_enocder  (GtkWidget     *widget,
   {
      if(gap_debug)
      {
-        printf("CB: on_cme__combo_encoder index: %d, %s, plugin: %s\n"
+        gap_file_printf("CB: on_cme__combo_encoder index: %d, %s, plugin: %s\n"
                , (int)l_ecp->menu_nr
                , l_ecp->menu_name
                , l_ecp->vid_enc_plugin);
@@ -359,7 +360,7 @@ on_cme__combo_scale  (GtkWidget     *widget,
   static gint  tab_width[GAP_CME_STANDARD_SIZE_MAX_ELEMENTS] =  { 0, 320, 320, 640, 720, 720, 1280, 1920, 1920 };
   static gint  tab_height[GAP_CME_STANDARD_SIZE_MAX_ELEMENTS] = { 0, 240, 288, 480, 480, 576,  720, 1080, 1088 };
 
-  if(gap_debug) printf("CB: on_cme__combo_scale\n");
+  if(gap_debug) gap_file_printf("CB: on_cme__combo_scale\n");
 
   if(gpp == NULL) return;
 
@@ -367,7 +368,7 @@ on_cme__combo_scale  (GtkWidget     *widget,
   l_idx = value;
   if(gap_debug) 
   {
-    printf("CB: on_cme__combo_scale index: %d\n", (int)l_idx);
+    gap_file_printf("CB: on_cme__combo_scale index: %d\n", (int)l_idx);
   }
   
   if(l_idx == GAP_CME_STANDARD_SIZE_KEEP)
@@ -413,7 +414,7 @@ on_cme__combo_framerate  (GtkWidget     *widget,
   static gdouble  tab_framerate[GAP_CME_STANDARD_FRAMERATE_MAX_ELEMENTS]
                   =  { 0, 23.98, 24, 25, 29.97, 30, 50, 59.94, 60, 1, 5, 10, 12, 15 };
 
-  if(gap_debug) printf("CB: on_cme__combo_framerate\n");
+  if(gap_debug) gap_file_printf("CB: on_cme__combo_framerate\n");
 
   if(gpp == NULL) return;
 
@@ -425,7 +426,7 @@ on_cme__combo_framerate  (GtkWidget     *widget,
     return;
   }
 
-  if(gap_debug) printf("CB: on_cme__combo_framerate index: %d\n", (int)l_idx);
+  if(gap_debug) gap_file_printf("CB: on_cme__combo_framerate index: %d\n", (int)l_idx);
   if((l_idx >= GAP_CME_STANDARD_FRAMERATE_MAX_ELEMENTS) || (l_idx < 1))
   {
      l_idx = 0;
@@ -450,7 +451,7 @@ on_cme__combo_outsamplerate  (GtkWidget     *widget,
 {
   gint       value;
 
-  if(gap_debug) printf("CB: on_cme__combo_outsamplerate\n");
+  if(gap_debug) gap_file_printf("CB: on_cme__combo_outsamplerate\n");
 
   if(gpp == NULL) return;
 
@@ -458,7 +459,7 @@ on_cme__combo_outsamplerate  (GtkWidget     *widget,
 
   if(gap_debug)
   {
-    printf("CB: on_cme__combo_outsamplerate value: %d\n", (int)value);
+    gap_file_printf("CB: on_cme__combo_outsamplerate value: %d\n", (int)value);
   }
 
 
@@ -481,13 +482,13 @@ on_cme__combo_vid_norm  (GtkWidget     *widget,
 {
   gint       value;
 
-  if(gap_debug) printf("CB: on_cme__combo_vid_norm\n");
+  if(gap_debug) gap_file_printf("CB: on_cme__combo_vid_norm\n");
 
   if(gpp == NULL) return;
 
   gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
 
-  if(gap_debug) printf("CB: on_cme__combo_vid_norm : %d\n", (int)value);
+  if(gap_debug) gap_file_printf("CB: on_cme__combo_vid_norm : %d\n", (int)value);
 
   gpp->val.vid_format = value;
   
@@ -503,7 +504,7 @@ void
 on_fsv__fileselection_destroy          (GtkObject       *object,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_fsv__fileselection_destroy\n");
+ if(gap_debug) gap_file_printf("CB: on_fsv__fileselection_destroy\n");
  if(gpp == NULL) return;
 
  gpp->fsv__fileselection = NULL;
@@ -517,7 +518,7 @@ on_fsv__button_OK_clicked              (GtkButton       *button,
   const gchar *filename;
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_fsv__button_OK_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_fsv__button_OK_clicked\n");
  if(gpp == NULL) return;
 
 
@@ -540,7 +541,7 @@ void
 on_fsv__button_cancel_clicked          (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_fsv__button_cancel_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_fsv__button_cancel_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fsv__fileselection)
@@ -560,7 +561,7 @@ void
 on_fsb__fileselection_destroy          (GtkObject       *object,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_fsb__fileselection_destroy\n");
+ if(gap_debug) gap_file_printf("CB: on_fsb__fileselection_destroy\n");
  if(gpp == NULL) return;
 
  gpp->fsb__fileselection = NULL;
@@ -574,7 +575,7 @@ on_fsb__button_OK_clicked              (GtkButton       *button,
   const gchar *filename;
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_fsb__button_OK_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_fsb__button_OK_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fsb__fileselection)
@@ -596,7 +597,7 @@ void
 on_fsb__button_cancel_clicked          (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_fsb__button_cancel_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_fsb__button_cancel_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fsb__fileselection)
@@ -616,7 +617,7 @@ void
 on_fss__fileselection_destroy          (GtkObject       *object,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_fss__fileselection_destroy\n");
+ if(gap_debug) gap_file_printf("CB: on_fss__fileselection_destroy\n");
  if(gpp == NULL) return;
 
  gpp->fss__fileselection = NULL;
@@ -630,7 +631,7 @@ on_fss__button_OK_clicked              (GtkButton       *button,
   const gchar *filename;
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_fss__button_OK_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_fss__button_OK_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fss__fileselection)
@@ -652,7 +653,7 @@ void
 on_fss__button_cancel_clicked          (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_fss__button_cancel_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_fss__button_cancel_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fss__fileselection)
@@ -674,7 +675,7 @@ void
 on_fsa__fileselection_destroy          (GtkObject       *object,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_fsa__fileselection_destroy\n");
+ if(gap_debug) gap_file_printf("CB: on_fsa__fileselection_destroy\n");
  if(gpp == NULL) return;
 
  gpp->fsa__fileselection = NULL;
@@ -688,7 +689,7 @@ on_fsa__button_OK_clicked              (GtkButton       *button,
   const gchar *filename;
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_fsa__button_OK_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_fsa__button_OK_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fsa__fileselection)
@@ -710,7 +711,7 @@ void
 on_fsa__button_cancel_clicked          (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_fsa__button_cancel_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_fsa__button_cancel_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fsa__fileselection)
@@ -730,7 +731,7 @@ void
 on_ow__dialog_destroy                  (GtkObject       *object,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_ow__dialog_destroy\n");
+ if(gap_debug) gap_file_printf("CB: on_ow__dialog_destroy\n");
 
  if(gpp)
  {
@@ -745,7 +746,7 @@ void
 on_ow__button_one_clicked              (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_ow__button_one_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_ow__button_one_clicked\n");
 
  if(gpp)
  {
@@ -761,7 +762,7 @@ void
 on_ow__button_cancel_clicked           (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_ow__button_cancel_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_ow__button_cancel_clicked\n");
 
  if(gpp)
  {
@@ -781,7 +782,7 @@ void
 on_cme__button_params_clicked           (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__button_params_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__button_params_clicked\n");
 
  if(gpp)
  {
@@ -797,14 +798,14 @@ on_cme__spinbutton_width_changed       (GtkEditable     *editable,
 {
   GtkAdjustment *adj;
 
- if(gap_debug) printf("CB: on_cme__spinbutton_width_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__spinbutton_width_changed\n");
 
  if(gpp == NULL) return;
 
  adj = GTK_ADJUSTMENT(gpp->cme__spinbutton_width_adj);
  if(adj)
  {
-   if(gap_debug) printf("vid_width spin value: %f\n", (float)adj->value );
+   if(gap_debug) gap_file_printf("vid_width spin value: %f\n", (float)adj->value );
 
    if((gint)adj->value != gpp->val.vid_width)
    {
@@ -826,14 +827,14 @@ on_cme__spinbutton_height_changed      (GtkEditable     *editable,
 {
   GtkAdjustment *adj;
 
- if(gap_debug) printf("CB: on_cme__spinbutton_height_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__spinbutton_height_changed\n");
 
  if(gpp == NULL) return;
 
  adj = GTK_ADJUSTMENT(gpp->cme__spinbutton_height_adj);
  if(adj)
  {
-   if(gap_debug) printf("vid_height spin value: %f\n", (float)adj->value );
+   if(gap_debug) gap_file_printf("vid_height spin value: %f\n", (float)adj->value );
 
    if((gint)adj->value != gpp->val.vid_height)
    {
@@ -854,14 +855,14 @@ on_cme__spinbutton_from_changed        (GtkEditable     *editable,
 {
   GtkAdjustment *adj;
 
- if(gap_debug) printf("CB: on_cme__spinbutton_from_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__spinbutton_from_changed\n");
 
  if(gpp == NULL) return;
 
  adj = GTK_ADJUSTMENT(gpp->cme__spinbutton_from_adj);
  if(adj)
  {
-   if(gap_debug) printf("range_from spin value: %f\n", (float)adj->value );
+   if(gap_debug) gap_file_printf("range_from spin value: %f\n", (float)adj->value );
 
    if((gint)adj->value != gpp->val.range_from)
    {
@@ -878,14 +879,14 @@ on_cme__spinbutton_to_changed          (GtkEditable     *editable,
 {
   GtkAdjustment *adj;
 
- if(gap_debug) printf("CB: on_cme__spinbutton_to_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__spinbutton_to_changed\n");
 
  if(gpp == NULL) return;
 
  adj = GTK_ADJUSTMENT(gpp->cme__spinbutton_to_adj);
  if(adj)
  {
-   if(gap_debug) printf("range_to spin value: %f\n", (float)adj->value );
+   if(gap_debug) gap_file_printf("range_to spin value: %f\n", (float)adj->value );
 
    if((gint)adj->value != gpp->val.range_to)
    {
@@ -902,7 +903,7 @@ on_cme__spinbutton_framerate_changed   (GtkEditable     *editable,
 {
   GtkAdjustment *adj;
 
- if(gap_debug) printf("CB: on_cme__spinbutton_framerate_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__spinbutton_framerate_changed\n");
 
 
  if(gpp == NULL) return;
@@ -910,7 +911,7 @@ on_cme__spinbutton_framerate_changed   (GtkEditable     *editable,
  adj = GTK_ADJUSTMENT(gpp->cme__spinbutton_framerate_adj);
  if(adj)
  {
-   if(gap_debug) printf("framerate spin value: %f\n", (float)adj->value );
+   if(gap_debug) gap_file_printf("framerate spin value: %f\n", (float)adj->value );
 
    if((gint)adj->value != gpp->val.framerate)
    {
@@ -936,7 +937,7 @@ on_cme__entry_audio1_changed           (GtkEditable     *editable,
 
  if(gap_debug) 
  {
-   printf("CB: on_cme__entry_audio1_changed\n");
+   gap_file_printf("CB: on_cme__entry_audio1_changed\n");
  }
  if(gpp == NULL) return;
 
@@ -972,7 +973,7 @@ void
 on_cme__button_audio1_clicked          (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__button_audio1_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__button_audio1_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fsa__fileselection == NULL)
@@ -993,7 +994,7 @@ on_cme__spinbutton_samplerate_changed  (GtkEditable     *editable,
 {
   GtkAdjustment *adj;
 
- if(gap_debug) printf("CB: on_cme__spinbutton_samplerate_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__spinbutton_samplerate_changed\n");
 
  if(gpp == NULL) return;
 
@@ -1004,7 +1005,7 @@ on_cme__spinbutton_samplerate_changed  (GtkEditable     *editable,
    
    if(gap_debug)
    {
-     printf("samplerate spin value: %f\n", (float)adj->value );
+     gap_file_printf("samplerate spin value: %f\n", (float)adj->value );
    }
    gintValue = (gint)adj->value;
    
@@ -1029,7 +1030,7 @@ on_cme__spinbutton_samplerate_changed  (GtkEditable     *editable,
        {
          if(gap_debug)
          {
-           printf("detected a commonly used samplerate value: %d\n", (int)gintValue );
+           gap_file_printf("detected a commonly used samplerate value: %d\n", (int)gintValue );
          }
          gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (gpp->cme__combo_outsamplerate)
              , gintValue);
@@ -1051,7 +1052,7 @@ on_cme__entry_video_changed             (GtkEditable     *editable,
 {
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_cme__entry_video_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__entry_video_changed\n");
  if(gpp == NULL) return;
 
  entry = GTK_ENTRY(gpp->cme__entry_video);
@@ -1067,7 +1068,7 @@ void
 on_cme__button_video_clicked           (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__button_video_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__button_video_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fsv__fileselection == NULL)
@@ -1085,7 +1086,7 @@ void
 on_cme__button_sox_save_clicked        (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: \n");
+ if(gap_debug) gap_file_printf("CB: \n");
 
   if(gpp)
   {
@@ -1099,7 +1100,7 @@ void
 on_cme__button_sox_load_clicked        (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: \n");
+ if(gap_debug) gap_file_printf("CB: \n");
 
   if(gpp)
   {
@@ -1114,7 +1115,7 @@ void
 on_cme__button_sox_default_clicked     (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__button_sox_default_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__button_sox_default_clicked\n");
 
   if(gpp)
   {
@@ -1128,7 +1129,7 @@ void
 on_cme__entry_sox_changed              (GtkEditable     *editable,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__entry_sox_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__entry_sox_changed\n");
 
  if(gpp)
  {
@@ -1142,7 +1143,7 @@ void
 on_cme__entry_sox_options_changed      (GtkEditable     *editable,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__entry_sox_options_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__entry_sox_options_changed\n");
 
  if(gpp)
  {
@@ -1157,7 +1158,7 @@ void
 on_cme__button_gen_tmp_audfile_clicked (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__button_gen_tmp_audfile_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__button_gen_tmp_audfile_clicked\n");
 
  if(gpp)
  {
@@ -1173,7 +1174,7 @@ on_cme__entry_mac_changed              (GtkEditable     *editable,
 {
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_cme__entry_mac_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__entry_mac_changed\n");
  if(gpp == NULL) return;
 
  entry = GTK_ENTRY(gpp->cme__entry_mac);
@@ -1189,7 +1190,7 @@ void
 on_cme__button_mac_clicked             (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__button_mac_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__button_mac_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fsb__fileselection == NULL)
@@ -1210,7 +1211,7 @@ on_cme__entry_stb_changed              (GtkEditable     *editable,
 {
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_cme__entry_stb_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__entry_stb_changed\n");
  if(gpp == NULL) return;
 
  entry = GTK_ENTRY(gpp->cme__entry_stb);
@@ -1230,7 +1231,7 @@ void
 on_cme__button_stb_clicked             (GtkButton       *button,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__button_stb_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__button_stb_clicked\n");
  if(gpp == NULL) return;
 
  if(gpp->fss__fileselection == NULL)
@@ -1250,7 +1251,7 @@ void
 on_cme__button_stb_audio_clicked     (GtkButton       *button,
                                       GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__button_stb_audio_clicked\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__button_stb_audio_clicked\n");
 
   if(gpp)
   {
@@ -1273,7 +1274,7 @@ on_cme__entry_debug_multi_changed      (GtkEditable     *editable,
 {
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_cme__entry_debug_multi_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__entry_debug_multi_changed\n");
  if(gpp == NULL) return;
 
  entry = GTK_ENTRY(gpp->cme__entry_debug_multi);
@@ -1283,7 +1284,7 @@ on_cme__entry_debug_multi_changed      (GtkEditable     *editable,
 
     l_write_to = g_strdup(gtk_entry_get_text(entry));
 
-    if(gap_debug) printf("on_cme__entry_debug_multi_changed:l_write_to:%s:\n", l_write_to);
+    if(gap_debug) gap_file_printf("on_cme__entry_debug_multi_changed:l_write_to:%s:\n", l_write_to);
     gimp_set_data( GAP_VID_ENC_SAVE_MULTILAYER, l_write_to, strlen(l_write_to) +1);
     g_free(l_write_to);
  }
@@ -1297,7 +1298,7 @@ on_cme__entry_debug_flat_changed       (GtkEditable     *editable,
 {
   GtkEntry *entry;
 
- if(gap_debug) printf("CB: on_cme__entry_debug_flat_changed\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__entry_debug_flat_changed\n");
  if(gpp == NULL) return;
 
  entry = GTK_ENTRY(gpp->cme__entry_debug_flat);
@@ -1307,7 +1308,7 @@ on_cme__entry_debug_flat_changed       (GtkEditable     *editable,
 
     l_write_to = g_strdup(gtk_entry_get_text(entry));
 
-    if(gap_debug) printf("on_cme__entry_debug_multi_changed:l_write_to:%s:\n", l_write_to);
+    if(gap_debug) gap_file_printf("on_cme__entry_debug_multi_changed:l_write_to:%s:\n", l_write_to);
     gimp_set_data( GAP_VID_ENC_SAVE_FLAT, l_write_to, strlen(l_write_to) +1);
     g_free(l_write_to);
  }
@@ -1320,7 +1321,7 @@ on_cme__checkbutton_enc_monitor_toggled
                                         (GtkCheckButton *checkbutton,
                                         GapCmeGlobalParams *gpp)
 {
- if(gap_debug) printf("CB: on_cme__checkbutton_enc_monitor_toggled\n");
+ if(gap_debug) gap_file_printf("CB: on_cme__checkbutton_enc_monitor_toggled\n");
 
  if(gpp)
  {

@@ -34,6 +34,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
+#include <time.h>
 
 #include <glib/gstdio.h>
 
@@ -201,7 +202,7 @@ p_gap_delete_old_communication_files()
    l_dirp = g_dir_open( l_directory, 0, NULL );
    if(l_dirp)
    {
-     gint32  l_ref_mtime;
+     time_t  l_ref_mtime;
 
      l_ref_mtime = gap_base_get_current_time();
      
@@ -214,8 +215,8 @@ p_gap_delete_old_communication_files()
         if (strncmp(l_entry, "gap_master_videoencoder_", strlen("gap_master_videoencoder_")) == 0)
         {
            char *l_filename;
-           gint32  l_mtime;
-           gint32  l_diff_time;
+           time_t  l_mtime;
+           time_t  l_diff_time;
            gint32  l_pid;
            gint32  l_delete_flag;
            

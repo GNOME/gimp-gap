@@ -563,15 +563,15 @@ p_wrapper_ffmpeg_open_read(char *filename, t_GVA_Handle *gvahand)
   if(gap_debug)
   {
      printf("gvahand->width: %d  gvahand->height: %d aspect_ratio:%f\n", (int)gvahand->width , (int)gvahand->height, (float)gvahand->aspect_ratio);
-     printf("picture_rgb: data[0]: %d linesize[0]: %d\n", (int)handle->picture_rgb->data[0], (int)handle->picture_rgb->linesize[0]);
-     printf("picture_rgb: data[1]: %d linesize[1]: %d\n", (int)handle->picture_rgb->data[1], (int)handle->picture_rgb->linesize[1]);
-     printf("picture_rgb: data[2]: %d linesize[2]: %d\n", (int)handle->picture_rgb->data[2], (int)handle->picture_rgb->linesize[2]);
-     printf("picture_rgb: data[3]: %d linesize[3]: %d\n", (int)handle->picture_rgb->data[3], (int)handle->picture_rgb->linesize[3]);
+     printf("picture_rgb: data[0]: %ld linesize[0]: %d\n", (long)handle->picture_rgb->data[0], (int)handle->picture_rgb->linesize[0]);
+     printf("picture_rgb: data[1]: %ld linesize[1]: %d\n", (long)handle->picture_rgb->data[1], (int)handle->picture_rgb->linesize[1]);
+     printf("picture_rgb: data[2]: %ld linesize[2]: %d\n", (long)handle->picture_rgb->data[2], (int)handle->picture_rgb->linesize[2]);
+     printf("picture_rgb: data[3]: %ld linesize[3]: %d\n", (long)handle->picture_rgb->data[3], (int)handle->picture_rgb->linesize[3]);
 
-     printf("picture_yuv: data[0]: %d linesize[0]: %d\n", (int)handle->picture_yuv->data[0], (int)handle->picture_yuv->linesize[0]);
-     printf("picture_yuv: data[1]: %d linesize[1]: %d\n", (int)handle->picture_yuv->data[1], (int)handle->picture_yuv->linesize[1]);
-     printf("picture_yuv: data[2]: %d linesize[2]: %d\n", (int)handle->picture_yuv->data[2], (int)handle->picture_yuv->linesize[2]);
-     printf("picture_yuv: data[3]: %d linesize[3]: %d\n", (int)handle->picture_yuv->data[3], (int)handle->picture_yuv->linesize[3]);
+     printf("picture_yuv: data[0]: %ld linesize[0]: %d\n", (long)handle->picture_yuv->data[0], (int)handle->picture_yuv->linesize[0]);
+     printf("picture_yuv: data[1]: %ld linesize[1]: %d\n", (long)handle->picture_yuv->data[1], (int)handle->picture_yuv->linesize[1]);
+     printf("picture_yuv: data[2]: %ld linesize[2]: %d\n", (long)handle->picture_yuv->data[2], (int)handle->picture_yuv->linesize[2]);
+     printf("picture_yuv: data[3]: %ld linesize[3]: %d\n", (long)handle->picture_yuv->data[3], (int)handle->picture_yuv->linesize[3]);
      printf("handle->yuv_buff_pix_fmt: %d\n", (int)handle->yuv_buff_pix_fmt);
   }
 
@@ -823,9 +823,9 @@ p_wrapper_ffmpeg_get_video_chunk(t_GVA_Handle  *gvahand
       }
     }
 
-    printf("p_wrapper_ffmpeg_get_video_chunk: chunk:%d chunk_ptr:%d, chunk_len:%d vcodec_name:%s\n"
-      ,(int)chunk
-      ,(int)handle->chunk_ptr
+    printf("p_wrapper_ffmpeg_get_video_chunk: chunk:%ld chunk_ptr:%ld, chunk_len:%d vcodec_name:%s\n"
+      ,(long)chunk
+      ,(long)handle->chunk_ptr
       ,(int)handle->chunk_len
       ,vcodec_name
       );
@@ -860,7 +860,7 @@ p_wrapper_ffmpeg_get_next_frame(t_GVA_Handle *gvahand)
  *
  * restrictions:
  *  only the part for input strams is supported.
- *  (e.g. write_flag is ignored here)
+ *  (i.e. write_flag is ignored here)
  *  includes some chacks for inplausible results.
  *
  * the internal calculation  looks like this:
@@ -892,10 +892,10 @@ p_url_ftell(ByteIOContext *s)
   }
   else
   {
-    printf(" ** ERROR current buf_ptr:%d  points outside of the buffer (start: %d   end:%d)\n"
-       ,(int)s->buf_ptr
-       ,(int)s->buffer
-       ,(int)s->buf_end
+    printf(" ** ERROR current buf_ptr:%ld  points outside of the buffer (start: %ld   end:%ld)\n"
+       ,(long)s->buf_ptr
+       ,(long)s->buffer
+       ,(long)s->buf_end
        );
   }
 
@@ -909,17 +909,17 @@ p_url_ftell(ByteIOContext *s)
 
   currentOffsetInStream = bufferStartOffsetInStream + bytesAlreadyHandledInBuffer;
 
-  printf("P_URL_FTELL: url64:%lld  pos: %lld, wr_flag:%d, buffer:%d buf_end:%d buf_ptr:%d\n"
+  printf("P_URL_FTELL: url64:%lld  pos: %lld, wr_flag:%d, buffer:%ld buf_end:%ld buf_ptr:%ld\n"
          "  bufferStartOffsetInStream:%lld, bytesReadInBuffer:%lld bytesAlreadyHandledInBuffer:%lld\n\n"
-         ,currentOffsetInStream
-         ,s->pos
+         ,(long long int)currentOffsetInStream
+         ,(long long int)s->pos
          ,(int)s->write_flag
-         ,(int)s->buffer
-         ,(int)s->buf_end
-         ,(int)s->buf_ptr
-         ,bufferStartOffsetInStream
-         ,bytesReadInBuffer
-         ,bytesAlreadyHandledInBuffer
+         ,(long)s->buffer
+         ,(long)s->buf_end
+         ,(long)s->buf_ptr
+         ,(long long int)bufferStartOffsetInStream
+         ,(long long int)bytesReadInBuffer
+         ,(long long int)bytesAlreadyHandledInBuffer
          );
 
   return (currentOffsetInStream);
@@ -1089,21 +1089,23 @@ p_private_ffmpeg_get_next_frame(t_GVA_Handle *gvahand, gboolean do_copy_raw_chun
 
 
       if(gap_debug)
-      {  printf("using Packet data:%d size:%d  dts:%lld  pts:%lld  AV_NOPTS_VALUE:%lld\n"
-                                 ,(int)handle->vid_pkt.data
+      {
+        printf("using Packet data:%ld size:%d (%d)  dts:%lld  pts:%lld  AV_NOPTS_VALUE:%lld\n"
+                                 ,(long)handle->vid_pkt.data
                                  ,(int)handle->vid_pkt.size
-                                 , handle->vid_pkt.dts
-                                 , handle->vid_pkt.pts
-                                 , AV_NOPTS_VALUE
+                                 ,(int)l_pkt_size
+                                 ,(long long int)handle->vid_pkt.dts
+                                 ,(long long int)handle->vid_pkt.pts
+                                 ,(long long int) AV_NOPTS_VALUE
                                  );
       }
     }
 
     if (gap_debug)
     {
-      printf("before %s: inbuf_ptr:%d inbuf_len:%d  USING FFMPEG-%s\n"
+      printf("before %s: inbuf_ptr:%ld inbuf_len:%d  USING FFMPEG-%s\n"
              , PROCNAME_AVCODEC_DECODE_VIDEO
-             , (int)handle->inbuf_ptr
+             , (long)handle->inbuf_ptr
              , (int)handle->inbuf_len
              , GAP_FFMPEG_VERSION_STRING
              );
@@ -1131,8 +1133,8 @@ p_private_ffmpeg_get_next_frame(t_GVA_Handle *gvahand, gboolean do_copy_raw_chun
         memcpy(handle->chunk_ptr, handle->inbuf_ptr, handle->chunk_len);
         if (gap_debug)
         {
-          printf("copy potential raw chunk: chunk_ptr:%d chunk_len:%d\n",
-                 (int)handle->chunk_ptr,
+          printf("copy potential raw chunk: chunk_ptr:%ld chunk_len:%d\n",
+                 (long)handle->chunk_ptr,
                  (int)handle->chunk_len);
         }
       }
@@ -1169,15 +1171,15 @@ p_private_ffmpeg_get_next_frame(t_GVA_Handle *gvahand, gboolean do_copy_raw_chun
     {
       
       printf("get_next_frame(call:%d): "
-             "curr_frame_nr:%d Pkt data:%d size:%d  dts:%lld pts:%lld l_len:%d got_pic:%d\n"
+             "curr_frame_nr:%d Pkt data:%ld size:%d  dts:%lld pts:%lld l_len:%d got_pic:%d\n"
          ,(int)ls_callNumber
          ,(int) gvahand->current_frame_nr
-         ,(int)handle->vid_pkt.data
+         ,(long)handle->vid_pkt.data
          ,(int)handle->vid_pkt.size
-         , handle->vid_pkt.dts
-         , handle->vid_pkt.pts
-         , (int)l_len
-         , (int)l_got_picture
+         ,(long long int)handle->vid_pkt.dts
+         ,(long long int)handle->vid_pkt.pts
+         ,(int)l_len
+         ,(int)l_got_picture
          );
     }
 
@@ -1215,7 +1217,7 @@ p_private_ffmpeg_get_next_frame(t_GVA_Handle *gvahand, gboolean do_copy_raw_chun
        printf("get_next_frame: %s returned ERROR, "
               "discarding packet dts:%lld and continueAfterReadErrors)\n"
            , PROCNAME_AVCODEC_DECODE_VIDEO
-           , handle->vid_pkt.dts
+           , (long long int)handle->vid_pkt.dts
            );
    
        handle->vid_pkt.size = 0;             /* set empty packet status */
@@ -1269,11 +1271,11 @@ p_private_ffmpeg_get_next_frame(t_GVA_Handle *gvahand, gboolean do_copy_raw_chun
         /* log information that could be relevant for redesign of VINDEX creation */
         printf("GOT PICTURE current_seek_nr:%06d   pp_prev_offset:%lld url_offset:%lld keyflag:%d dts:%lld dts1:%lld flen16:%d len:%d\n"
                   , (int)gvahand->current_seek_nr
-                  , handle->prev_url_offset[MAX_PREV_OFFSET -1]
-                  , l_record_url_offset
+                  , (long long int)handle->prev_url_offset[MAX_PREV_OFFSET -1]
+                  , (long long int)l_record_url_offset
                   ,  (handle->vid_pkt.flags & AV_PKT_FLAG_KEY)
-                  , handle->vid_pkt.dts
-                  , handle->pkt1_dts
+                  , (long long int)handle->vid_pkt.dts
+                  , (long long int)handle->pkt1_dts
                   ,(int)l_frame_len
                   ,(int)l_len
                   );
@@ -1483,7 +1485,7 @@ p_private_ffmpeg_get_next_frame(t_GVA_Handle *gvahand, gboolean do_copy_raw_chun
     if(gap_debug)
     {
       printf("AVFORMAT: get_next_frame timecode: %lld current_frame_nr:%d\n"
-                  , handle->vid_pkt.dts
+                  , (long long int)handle->vid_pkt.dts
                   , gvahand->current_frame_nr
                   );
     }
@@ -1578,7 +1580,7 @@ static void p_reset_proberead_results(t_GVA_ffmpeg*  handle)
  * this test analyzes the required settings
  * for native timebased seek.
  * further it tries to findout if this fast seek
- * method works (e.g. is able to perform frame exact positioning
+ * method works (i.e. is able to perform frame exact positioning
  * that may fail for videofiles with variable frametiming
  * or have read errors).
  * Note that this check is no 100% guarantee but is able
@@ -2303,11 +2305,11 @@ p_seek_private(t_GVA_Handle *gvahand, gdouble pos, t_GVA_PosUnit pos_unit)
              {
                printf("SEEK: USING_INDEX: ofs_tab[%d]: ofs64: %lld seek_nr:%d flen:%d chk:%d dts:%lld DTS_USABLE:%d NLOOPS:%d\n"
                , (int)l_idx
-               , vindex->ofs_tab[l_idx].uni.offset_gint64
+               , (long long int)vindex->ofs_tab[l_idx].uni.offset_gint64
                , (int)vindex->ofs_tab[l_idx].seek_nr
                , (int)vindex->ofs_tab[l_idx].frame_length
                , (int)vindex->ofs_tab[l_idx].checksum
-               , vindex->ofs_tab[l_idx].timecode_dts
+               , (long long int)vindex->ofs_tab[l_idx].timecode_dts
                , l_dts_timecode_usable
                , (int)l_nloops
                );
@@ -2435,7 +2437,7 @@ p_seek_private(t_GVA_Handle *gvahand, gdouble pos, t_GVA_PosUnit pos_unit)
                      , (int)l_idx_target
                      , (int)vindex->ofs_tab[l_idx_target].checksum
                      , (int)l_checksum
-                     , handle->vid_pkt.dts
+                     , (long long int)handle->vid_pkt.dts
                      );
                    }
                    l_target_found = TRUE;
@@ -2678,8 +2680,6 @@ p_seek_native_timcode_based(t_GVA_Handle *gvahand, gint32 target_frame)
 {
   t_GVA_ffmpeg *handle;
   t_GVA_RetCode l_retcode;
-  t_GVA_RetCode l_rc_rd;
-  gint32   l_readsteps;
   gdouble  l_progress_step;
   gint32   l_pre_read_frames;
   gint     l_tries;
@@ -2788,7 +2788,6 @@ p_seek_native_timcode_based(t_GVA_Handle *gvahand, gint32 target_frame)
         /* seek variant based on global (not stream specific) pts timecode
          */
         int64_t  target_pts;
-        gdouble  secs;
 
         target_pts =
           av_rescale_q(l_seek_timecode, handle->vid_stream->time_base, AV_TIME_BASE_Q);
@@ -3021,8 +3020,8 @@ p_seek_native_timcode_based(t_GVA_Handle *gvahand, gint32 target_frame)
 
            }
 
-           l_debug_msg[0] = "\n";
-           l_debug_msg[1] = "\0";
+           l_debug_msg[0] = '\n';
+           l_debug_msg[1] = '\0';
 #ifdef GAP_DEBUG_FF_NATIVE_SEEK
            {
              g_snprintf(&l_debug_msg[0], sizeof(l_debug_msg)
@@ -3147,11 +3146,11 @@ p_seek_native_timcode_based(t_GVA_Handle *gvahand, gint32 target_frame)
                {
                  printf("%s**   Timecode OVERFLOW: curr: %lld oflow:%lld  prev:%lld pprev:%lld (wanted:%lld)\n"
                   , l_debug_msg
-                  , l_curr_timecode
-                  , l_overflow_timecode
-                  , l_prev_timecode
-                  , l_pprev_timecode
-                  , l_wanted_timecode
+                  , (long long int)l_curr_timecode
+                  , (long long int)l_overflow_timecode
+                  , (long long int)l_prev_timecode
+                  , (long long int)l_pprev_timecode
+                  , (long long int)l_wanted_timecode
                   );
                }
                l_retcode = GVA_RET_ERROR;
@@ -3224,7 +3223,13 @@ p_wrapper_ffmpeg_seek_audio(t_GVA_Handle *gvahand, gdouble pos, t_GVA_PosUnit po
   }
 
 
-  if(gap_debug) printf("p_wrapper_ffmpeg_seek_audio: l_sample_pos:%d\n", (int)l_sample_pos);
+  if(gap_debug)
+  {
+    printf("p_wrapper_ffmpeg_seek_audio: handle:%ld l_sample_pos:%d\n"
+        , (long)handle
+        , (int)l_sample_pos
+        );
+  }
 
   gvahand->current_sample = (gint32)l_sample_pos;
   return(GVA_RET_OK);
@@ -3718,12 +3723,12 @@ p_debug_codec_list(void)
      printf("name: %s\n", codec->name);
      printf("type: %d\n", codec->type);
      printf("id: %d\n",   codec->id);
-     printf("priv_data_size: %d\n",   codec->priv_data_size);
-     printf("capabilities: %d\n",   codec->capabilities);
-     printf("init fptr: %d\n",   (int)codec->init);
-     printf("encode fptr: %d\n",   (int)codec->encode);
-     printf("close fptr: %d\n",   (int)codec->close);
-     printf("decode fptr: %d\n",   (int)codec->decode);
+     printf("priv_data_size: %d\n",  codec->priv_data_size);
+     printf("capabilities: %d\n",    codec->capabilities);
+     printf("init fptr: %ld\n",     (long)codec->init);
+     printf("encode fptr: %ld\n",   (long)codec->encode);
+     printf("close fptr: %ld\n",    (long)codec->close);
+     printf("decode fptr: %ld\n",   (long)codec->decode);
   }
 }
 
@@ -3772,7 +3777,10 @@ p_ff_open_input(char *filename, t_GVA_Handle *gvahand, t_GVA_ffmpeg*  handle, gb
   int rfps, rfps_base;
   int thread_count;
   
-  if(gap_debug) printf("p_ff_open_input: START  vid_open:%d\n", (int)vid_open);
+  if(gap_debug)
+  {
+    printf("p_ff_open_input: START  vid_open:%d\n", (int)vid_open);
+  }
 
   thread_count = 4;
   
@@ -3789,7 +3797,10 @@ p_ff_open_input(char *filename, t_GVA_Handle *gvahand, t_GVA_ffmpeg*  handle, gb
   err = av_open_input_file(&ic, filename, NULL, 0, NULL);
   if (err < 0)
   {
-     if(gap_debug) printf("p_ff_open_input: av_open_input_file FAILED: %d\n", (int)err);
+     if(gap_debug)
+     {
+       printf("p_ff_open_input: av_open_input_file FAILED: %d\n", (int)err);
+     }
      return(FALSE);
   }
 
@@ -3797,12 +3808,12 @@ p_ff_open_input(char *filename, t_GVA_Handle *gvahand, t_GVA_ffmpeg*  handle, gb
 
   if(gap_debug)
   {
-    printf("ic: iformat: %d\n", (int)iformat);
+    printf("ic: iformat: %ld\n", (long)iformat);
     if(iformat)
     {
       printf("iformat name: %s\n", iformat->name);
       printf("iformat long_name: %s\n", iformat->long_name);
-      printf("iformat FPTR read_seek: %d\n", (int)iformat->read_seek);
+      printf("iformat FPTR read_seek: %ld\n", (long)iformat->read_seek);
     }
   }
 
@@ -3992,8 +4003,16 @@ p_ff_open_input(char *filename, t_GVA_Handle *gvahand, t_GVA_ffmpeg*  handle, gb
 
     if(gap_debug)
     {
-      if(handle->vid_codec_context) printf("(2) CodecPointer  AVCodecContext->codec : %d\n", (int)handle->vid_codec_context->codec);
-      if(handle->vid_codec_context->codec) printf("(2) Codec FunctionPointer  AVCodecContext->codec->decode : %d\n", (int)handle->vid_codec_context->codec->decode);
+      if(handle->vid_codec_context)
+      {
+        printf("(2) CodecPointer  AVCodecContext->codec : %ld\n"
+             , (long)handle->vid_codec_context->codec);
+      }
+      if(handle->vid_codec_context->codec)
+      {
+        printf("(2) Codec FunctionPointer  AVCodecContext->codec->decode : %ld\n"
+             , (long)handle->vid_codec_context->codec->decode);
+      }
     }
   }
 
@@ -4025,8 +4044,16 @@ p_ff_open_input(char *filename, t_GVA_Handle *gvahand, t_GVA_ffmpeg*  handle, gb
 
     if(gap_debug)
     {
-      if(handle->aud_codec_context) printf("(3) CodecPointer  AVCodecContext->codec : %d\n", (int)handle->aud_codec_context->codec);
-      if(handle->aud_codec_context->codec) printf("(3) Codec FunctionPointer  AVCodecContext->codec->decode : %d\n", (int)handle->aud_codec_context->codec->decode);
+      if(handle->aud_codec_context)
+      {
+        printf("(3) CodecPointer  AVCodecContext->codec : %ld\n"
+            , (long)handle->aud_codec_context->codec);
+      }
+      if(handle->aud_codec_context->codec)
+      {
+        printf("(3) Codec FunctionPointer  AVCodecContext->codec->decode : %ld\n"
+            , (long)handle->aud_codec_context->codec->decode);
+      }
     }
   }
 
@@ -4035,13 +4062,21 @@ p_ff_open_input(char *filename, t_GVA_Handle *gvahand, t_GVA_ffmpeg*  handle, gb
   {
     handle->vid_input_context = ic;
 
-    if(gap_debug) printf("p_ff_open_input: END  vid_input_context:%d\n", (int)handle->vid_input_context);
+    if(gap_debug)
+    {
+      printf("p_ff_open_input: END  vid_input_context:%ld\n"
+          , (long)handle->vid_input_context);
+    }
   }
   else
   {
     handle->aud_input_context = ic;
 
-    if(gap_debug) printf("p_ff_open_input: END  aud_input_context:%d\n", (int)handle->aud_input_context);
+    if(gap_debug)
+    {
+      printf("p_ff_open_input: END  aud_input_context:%ld\n"
+          , (long)handle->aud_input_context);
+    }
   }
 
   return(TRUE);
@@ -4440,15 +4475,15 @@ p_pick_channel( t_GVA_ffmpeg *handle
 
   if(gap_debug)
   {
-    printf("p_pick_channel(1): sample_idx:%d ch:%d bytes_p_s:%d sam_read:%d peek_idx:%d prev_peek_ptr:%d  this_peek_ptr:%d poke_ptr:%d\n"
+    printf("p_pick_channel(1): sample_idx:%d ch:%d bytes_p_s:%d sam_read:%d peek_idx:%d prev_peek_ptr:%ld  this_peek_ptr:%ld poke_ptr:%ld\n"
                         ,(int)sample_idx
                         ,(int)channel
                         ,(int)bytes_per_sample
                         ,(int)handle->samples_read
                         ,(int)peek_idx
-                        ,(int)prev_peek_ptr
-                        ,(int)this_peek_ptr
-                        ,(int)poke_ptr
+                        ,(long)prev_peek_ptr
+                        ,(long)this_peek_ptr
+                        ,(long)poke_ptr
                         );
     printf("p_pick_channel(2): samples:%d   prev_samples:%d this_samples:%d\n"
                         ,(int)samples
@@ -4489,12 +4524,12 @@ p_pick_channel( t_GVA_ffmpeg *handle
 
   if(gap_debug)
   {
-    printf("p_pick_channel END: l_samples_picked:%d l_samples:%d prev_peek_ptr:%d this_peek_ptr:%d poke_ptr%d\n"
+    printf("p_pick_channel END: l_samples_picked:%d l_samples:%d prev_peek_ptr:%ld this_peek_ptr:%ld poke_ptr%ld\n"
                       ,(int)l_samples_picked
                       ,(int)l_samples
-                      ,(int)prev_peek_ptr
-                      ,(int)this_peek_ptr
-                      ,(int)poke_ptr
+                      ,(long)prev_peek_ptr
+                      ,(long)this_peek_ptr
+                      ,(long)poke_ptr
                       );
   }
 
@@ -4547,10 +4582,10 @@ p_read_audio_packets( t_GVA_ffmpeg *handle, t_GVA_Handle *gvahand, gint32 max_sa
    {
      printf("p_read_audio_packets: before WHILE max_sample_pos: %d\n", (int)max_sample_pos);
      printf("p_read_audio_packets: before WHILE samples_read: %d\n", (int)handle->samples_read);
-     printf("samples_buffer[0]: %d samples_buffer[1]:%d output_samples_ptr:%d\n"
-         , (int)handle->samples_buffer[0]
-         , (int)handle->samples_buffer[1]
-         , (int)handle->output_samples_ptr
+     printf("samples_buffer[0]: %ld samples_buffer[1]:%ld output_samples_ptr:%ld\n"
+         , (long)handle->samples_buffer[0]
+         , (long)handle->samples_buffer[1]
+         , (long)handle->output_samples_ptr
 	 );
    }
 
@@ -4604,9 +4639,9 @@ p_read_audio_packets( t_GVA_ffmpeg *handle, t_GVA_Handle *gvahand, gint32 max_sa
 
       if (gap_debug)
       {
-        printf("using Packet stream_index:%d data:%d size:%d\n"
+        printf("using Packet stream_index:%d data:%ld size:%d\n"
 	   ,(int)handle->aud_pkt.stream_index
-	   ,(int)handle->aud_pkt.data
+	   ,(long)handle->aud_pkt.data
 	   ,(int)handle->aud_pkt.size
 	   );
       }
@@ -4654,8 +4689,8 @@ p_read_audio_packets( t_GVA_ffmpeg *handle, t_GVA_Handle *gvahand, gint32 max_sa
     }
     if(gap_debug)
     {
-       printf("before avcodec_decode_audio3: av_samples:%d data_size:%d\n"
-	 , (int)handle->av_samples
+       printf("before avcodec_decode_audio3: av_samples:%ld data_size:%d\n"
+	 , (long)handle->av_samples
 	 , (int)data_size
 	 );
     }
@@ -4745,7 +4780,8 @@ p_read_audio_packets( t_GVA_ffmpeg *handle, t_GVA_Handle *gvahand, gint32 max_sa
               l_sum++;
             }
           }
-          printf("\nSUM of NOT NULL bytes: %d output_samples_ptr:%d\n", (int)l_sum, (int)handle->output_samples_ptr);
+          printf("\nSUM of NOT NULL bytes: %d output_samples_ptr:%ld\n"
+               , (int)l_sum, (long)handle->output_samples_ptr);
        }
 
        /* check for the biggest uncompressed packet size */
@@ -4872,11 +4908,11 @@ p_vindex_add_url_offest(t_GVA_Handle *gvahand
     {
       printf("p_vindex_add_url_offest: ofs_tab[%d]: ofs64: %lld seek_nr:%d flen:%d chk:%d dts:%lld\n"
                        , (int)vindex->tabsize_used
-                       , vindex->ofs_tab[vindex->tabsize_used].uni.offset_gint64
+                       , (long long int)vindex->ofs_tab[vindex->tabsize_used].uni.offset_gint64
                        , (int)vindex->ofs_tab[vindex->tabsize_used].seek_nr
                        , (int)vindex->ofs_tab[vindex->tabsize_used].frame_length
                        , (int)vindex->ofs_tab[vindex->tabsize_used].checksum
-                       , vindex->ofs_tab[vindex->tabsize_used].timecode_dts
+                       , (long long int)vindex->ofs_tab[vindex->tabsize_used].timecode_dts
                        );
     }
     vindex->tabsize_used++;
@@ -4940,12 +4976,10 @@ p_init_timecode_log(t_GVA_Handle   *gvahand)
 {
   FILE *fp_timecode_log;
   gint32 gimprc_timecode_log;
-  gchar *timecode_logfile_name;
 
   gimprc_timecode_log
     = gap_base_get_gimprc_int_value("video-libavformat-timecodelog", 0, 0, 1);
   fp_timecode_log = NULL;
-  timecode_logfile_name = g_strdup("\0");
 
   if (gimprc_timecode_log != 0)
   {
@@ -4982,7 +5016,7 @@ p_init_timecode_log(t_GVA_Handle   *gvahand)
         , READSTEPS_PROBE_TIMECODE
         );
       fprintf(fp_timecode_log, "# timecode offset for frame1: %lld\n"
-        , master_handle->timecode_offset_frame1
+        , (long long int)master_handle->timecode_offset_frame1
         );
       fprintf(fp_timecode_log, "# count_timecode_steps:%d stepsizes summary:%d\n"
         , (int)master_handle->count_timecode_steps
@@ -5016,7 +5050,6 @@ p_timecode_check_and_log(FILE *fp_timecode_log, gint32 framenr, t_GVA_ffmpeg *ha
   static int64_t old_dts = 0;
   const char *remark_ptr;
   int64_t expected_dts;
-  int64_t diff_dts;
 
   expected_dts = p_frame_nr_to_timecode(master_handle, framenr);
 
@@ -5039,10 +5072,10 @@ p_timecode_check_and_log(FILE *fp_timecode_log, gint32 framenr, t_GVA_ffmpeg *ha
 
   fprintf(fp_timecode_log, "num:%06d; exp:%lld; dts:%lld; dts-olddts:%lld; exp-dts:%lld"
           , framenr
-          , expected_dts
-          , handle->vid_pkt.dts
-          , handle->vid_pkt.dts - old_dts
-          , expected_dts - handle->vid_pkt.dts
+          , (long long int)expected_dts
+          , (long long int)handle->vid_pkt.dts
+          , (long long int)handle->vid_pkt.dts - old_dts
+          , (long long int)expected_dts - handle->vid_pkt.dts
           );
 
   old_dts = handle->vid_pkt.dts;
@@ -5050,15 +5083,15 @@ p_timecode_check_and_log(FILE *fp_timecode_log, gint32 framenr, t_GVA_ffmpeg *ha
   if(handle->vid_pkt.pts != AV_NOPTS_VALUE)
   {
     fprintf(fp_timecode_log, "; pts:%lld; exp-pts:%lld; pts-dts:%lld"
-          , handle->vid_pkt.pts
-          , expected_dts - handle->vid_pkt.pts
-          , handle->vid_pkt.pts - handle->vid_pkt.dts
+          , (long long int)handle->vid_pkt.pts
+          , (long long int)expected_dts - handle->vid_pkt.pts
+          , (long long int)handle->vid_pkt.pts - handle->vid_pkt.dts
           );
 
     if (old_pts != AV_NOPTS_VALUE)
     {
       fprintf(fp_timecode_log, "; pts-oldpts:%lld"
-          , handle->vid_pkt.pts - old_pts
+          , (long long int)handle->vid_pkt.pts - old_pts
           );
     }
     old_pts = handle->vid_pkt.pts;
@@ -5129,7 +5162,6 @@ p_save_video_analyse_results(t_GVA_Handle *gvahand)
   GapValKeyList *keylist;
   t_GVA_ffmpeg *master_handle;
   FILE *fp_analyse;
-  gint  ii;
   char *analysefile_name;
 
   master_handle = (t_GVA_ffmpeg *)gvahand->decoder_handle;
@@ -5187,8 +5219,8 @@ p_save_video_analyse_results(t_GVA_Handle *gvahand)
              "#  (ffmpeg-libs-version:%s)\n"
            , master_handle->vid_stream->time_base.num
            , master_handle->vid_stream->time_base.den
-           , master_handle->vid_input_context->start_time
-           , master_handle->vid_input_context->duration
+           , (long long int)master_handle->vid_input_context->start_time
+           , (long long int)master_handle->vid_input_context->duration
            , p_timecode_to_frame_nr(master_handle, stt+duration3)
            , p_timecode_to_frame_nr(master_handle, master_handle->eof_timecode)
            , gap_base_get_gimprc_int_value("video-libavformat-seek-gopsize", DEFAULT_NAT_SEEK_GOPSIZE, 0, MAX_NAT_SEEK_GOPSIZE)
@@ -5364,9 +5396,9 @@ p_timecode_to_frame_nr(t_GVA_ffmpeg *handle, int64_t timecode)
   if(gap_debug)
   {
     printf("p_timecode_to_frame_nr: framenr:%lld  timecode:%lld offset_frame1:%lld\n"
-         , framenr
-         , timecode
-         , handle->timecode_offset_frame1
+         , (long long int)framenr
+         , (long long int)timecode
+         , (long long int)handle->timecode_offset_frame1
          );
   }
   return (framenr);
@@ -5421,9 +5453,9 @@ p_frame_nr_to_timecode(t_GVA_ffmpeg *handle, gint32 frame_nr)
   if(gap_debug)
   {
     printf("FRAMENR %ld  to TIMECODE:%lld  offset for frame1:%lld step[0]:%d steps:%d steps_sum:%d\n"
-      , frame_nr
-      , timecode
-      , handle->timecode_offset_frame1
+      , (long)frame_nr
+      , (long long int)timecode
+      , (long long int)handle->timecode_offset_frame1
       , (int)handle->timecode_steps[0]
       , (int)handle->count_timecode_steps
       , (int)handle->timecode_steps_sum
@@ -5604,9 +5636,9 @@ p_probe_timecode_offset(t_GVA_Handle *master_gvahand)
     if(gap_debug)
     {
        printf("GOT master_handle->timecode_offset_frame1:%lld copy_handle->vid_pkt.dts:%lld dts1:%lld\n"
-                  , master_handle->timecode_offset_frame1
-                  , copy_handle->vid_pkt.dts
-                  , copy_handle->pkt1_dts
+                  , (long long int)master_handle->timecode_offset_frame1
+                  , (long long int)copy_handle->vid_pkt.dts
+                  , (long long int)copy_handle->pkt1_dts
                   );
     }
 
@@ -5641,7 +5673,7 @@ p_probe_timecode_offset(t_GVA_Handle *master_gvahand)
       {
         printf("p_probe_timecode_offset: step: (%d) timecode offset: %lld, stepsize:%ld (avg_measured: %ld avg: %.3f)\n"
           , (int)l_readsteps
-          , master_handle->timecode_offset_frame1
+          , (long long int)master_handle->timecode_offset_frame1
           , (long)master_handle->timecode_steps[l_readsteps -1]
           , (long)master_handle->timecode_step_avg
           , (float)avg_fstepsize
@@ -5685,3 +5717,4 @@ p_probe_timecode_offset(t_GVA_Handle *master_gvahand)
 
 
 #endif  /* ENABLE_GVA_LIBAVFORMAT */
+

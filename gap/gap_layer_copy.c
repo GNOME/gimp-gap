@@ -75,7 +75,7 @@ gint32 gap_layer_copy_to_dest_image (gint32 dst_image_id,
 
   opacity = CLAMP(opacity, 0.0, 100.0);
 
-  l_name = gimp_drawable_get_name(src_layer_id);
+  l_name = gimp_item_get_name(src_layer_id);
 
   /* copy the layer */
   l_new_layer_id = gimp_layer_new_from_drawable(src_layer_id, dst_image_id);
@@ -91,7 +91,7 @@ gint32 gap_layer_copy_to_dest_image (gint32 dst_image_id,
     /* findout the offsets of the original layer within the source Image */
     gimp_drawable_offsets(src_layer_id, src_offset_x, src_offset_y );
 
-    gimp_drawable_set_name(l_new_layer_id, l_name);
+    gimp_item_set_name(l_new_layer_id, l_name);
     gimp_layer_set_opacity(l_new_layer_id, opacity);
     gimp_layer_set_mode(l_new_layer_id, mode);
 
@@ -170,7 +170,7 @@ gap_layer_copy_to_image (gint32 dst_image_id, gint32 src_layer_id)
   }
 
   /* add the copied layer to  destination dst_image_id (0 == on top of layerstack) */
-  gimp_image_add_layer(dst_image_id, l_new_layer_id, 0);
+  gimp_image_insert_layer(dst_image_id, l_new_layer_id, 0, 0);
   gimp_layer_set_offsets(l_new_layer_id, l_src_offset_x, l_src_offset_y);
 
   return l_new_layer_id; /* all done OK */
@@ -494,7 +494,7 @@ gap_layer_copy_picked_channel (gint32 dst_drawable_id,  guint dst_channel_pick
  * create a new RGB or RGBA layer for the image with image_id
  * and init with supplied data.
  * The caller is responsible to add the returned layer
- * to the image ( by calling gimp_image_add_layer )
+ * to the image ( by calling gimp_image_insert_layer )
  *
  * return layer_id or -1 in case of errors
  */
@@ -580,7 +580,7 @@ gap_layer_clear_to_color(gint32 layer_id
 {
   gint32 image_id;
   
-  image_id = gimp_drawable_get_image(layer_id);
+  image_id = gimp_item_get_image(layer_id);
 
   if(alpha==0.0)
   {
@@ -636,37 +636,40 @@ gap_layer_flip(gint32 layer_id, gint32 flip_request)
   gint32   center_y;
   gdouble  axis;
 
-
+ 
   switch(flip_request)
   {
     case GAP_STB_FLIP_HOR:
+      gimp_context_set_defaults();
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_CLIP);   /* enable clipping */                                 
       axis = (gdouble)(gimp_drawable_width(layer_id)) / 2.0;
-      layer_id = gimp_drawable_transform_flip_simple(layer_id
+      layer_id = gimp_item_transform_flip_simple(layer_id
                                    ,GIMP_ORIENTATION_HORIZONTAL
                                    ,TRUE    /* auto_center */
                                    ,axis
-                                   ,TRUE    /* clip_result */
                                    );
       break;
     case GAP_STB_FLIP_VER:
+      gimp_context_set_defaults();
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_CLIP);   /* enable clipping */                                 
       axis = (gdouble)(gimp_drawable_height(layer_id)) / 2.0;
-      layer_id = gimp_drawable_transform_flip_simple(layer_id
+      layer_id = gimp_item_transform_flip_simple(layer_id
                                    ,GIMP_ORIENTATION_VERTICAL
                                    ,TRUE    /* auto_center */
                                    ,axis
-                                   ,TRUE    /* clip_result */
                                    );
       break;
     case GAP_STB_FLIP_BOTH:
+      gimp_context_set_defaults();
+      gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_CLIP);   /* enable clipping */                                 
       center_x = gimp_drawable_width(layer_id) / 2;
       center_y = gimp_drawable_height(layer_id) / 2;
   
-      layer_id = gimp_drawable_transform_rotate_simple(layer_id
+      layer_id = gimp_item_transform_rotate_simple(layer_id
                                   ,GIMP_ROTATE_180
                                   ,TRUE      /* auto_center */
                                   ,center_x
                                   ,center_y
-                                  ,TRUE      /* clip_result */
                                   );
       break;
     default:
@@ -684,7 +687,7 @@ gap_layer_flip(gint32 layer_id, gint32 flip_request)
  * copy specified dst_drawable into src_drawable using
  * gimp copy paste procedures.
  * The selection in the specified image will be removed
- * (e.g. is ignored for copying)
+ * (and therefore is ignored for copying)
  * the caller shall specify image_id == -1 in case where selection
  * shall be respected.
  */
@@ -785,7 +788,7 @@ gap_layer_make_duplicate(gint32 src_layer_id, gint32 image_id
   
   /* and add at stackposition above src_layer */
   l_stackposition = gap_layer_get_stackposition(image_id, src_layer_id);
-  gimp_image_add_layer (image_id, l_new_layer_id, l_stackposition);
+  gimp_image_insert_layer (image_id, l_new_layer_id, 0, l_stackposition);
 
   /* build name with optional prefix and/or suffix */  
   l_suffix = "\0";
@@ -798,11 +801,11 @@ gap_layer_make_duplicate(gint32 src_layer_id, gint32 image_id
   {
     l_prefix = name_prefix;
   }
-  l_old_name = gimp_drawable_get_name(src_layer_id);
+  l_old_name = gimp_item_get_name(src_layer_id);
   
   l_new_name = g_strdup_printf("%s%s%s", l_prefix, l_old_name, l_suffix);
   
-  gimp_drawable_set_name(l_new_layer_id, l_new_name);
+  gimp_item_set_name(l_new_layer_id, l_new_name);
   g_free(l_old_name);
   g_free(l_new_name);
   
@@ -831,8 +834,6 @@ gap_layer_create_layer_from_layermask(gint32 src_layer_id
   , gint32 image_id
   , const char *name_prefix, const char *name_suffix)
 {
-  gboolean       l_has_already_layermask;
-  gint32         l_layermask_id;
   gint32         l_new_layer_id;
   gint32         l_new_layermask_id;
 
@@ -885,7 +886,7 @@ gap_layer_create_layer_from_alpha(gint32 src_layer_id, gint32 image_id
 
   if (l_old_layermask_id >= 0)
   {
-    /* handle already exiting layermask: apply or remove (e.g. ignore) */
+    /* handle already exiting layermask: apply or remove (i.e. ignore) */
     if (applyExistingLayermask)
     {
        /* merge the already existing layermask into the alpha channel */
@@ -937,7 +938,7 @@ gap_layer_find_by_name(gint32 image_id, const char *name)
       char *layername;
       gboolean isEqual;
 
-      layername = gimp_drawable_get_name(l_layers_list[ii]);
+      layername = gimp_item_get_name(l_layers_list[ii]);
       isEqual = (strcmp(layername, name) == 0);
       g_free(layername);
       

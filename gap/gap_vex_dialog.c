@@ -965,16 +965,24 @@ on_mw__combo_mode_multilayer  (GtkWidget     *widget,
 {
   gint       l_idx;
   gint       value;
-  gboolean   sensitive;
 
-  if(gap_debug) printf("CB: on_mw__combo_mode_multilayer\n");
+  if(gap_debug)
+  {
+    printf("CB: on_mw__combo_mode_multilayer\n");
+  }
 
-  if(gpp == NULL) return;
+  if(gpp == NULL)
+  {
+    return;
+  }
 
   gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
   l_idx = value;
 
-  if(gap_debug) printf("CB: on_mw__combo_mode_multilayer index: %d\n", (int)l_idx);
+  if(gap_debug)
+  {
+    printf("CB: on_mw__combo_mode_multilayer index: %d\n", (int)l_idx);
+  }
 
   gpp->val.multilayer = l_idx;
 
@@ -2022,7 +2030,7 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                          GTK_STOCK_OK,     GTK_RESPONSE_OK,
                          NULL);
-  gtk_window_set_type_hint (mw__main_window, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(mw__main_window), GDK_WINDOW_TYPE_HINT_NORMAL);
 
   g_signal_connect (G_OBJECT (mw__main_window), "response",
                     G_CALLBACK (on_mw_response),
@@ -2554,7 +2562,7 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gimp_help_set_help_data (checkbutton
-                          , _("On: add trasparency for extracted frames via blubox filter"
+                          , _("On: add transparency for extracted frames via bluebox filter"
                               " (using values of last run in this session)\n"
                               "Off: extract frames 1.1")
                           , NULL);

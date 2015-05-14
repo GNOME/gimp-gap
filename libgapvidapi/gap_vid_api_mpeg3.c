@@ -306,8 +306,8 @@ p_wrapper_mpeg3_open_read(char *in_filename, t_GVA_Handle *gvahand)
 
     if(gap_debug)
     {
-      printf("GVA: libmpeg3 OPEN handle->main_handle:%d l_error_return:%d\n"
-            , (int)handle->main_handle
+      printf("GVA: libmpeg3 OPEN handle->main_handle:%ld l_error_return:%d\n"
+            , (long)handle->main_handle
             , (int)l_error_return
             );
     }
@@ -1166,7 +1166,13 @@ p_mpeg3_emulate_seek(mpeg3_t*  handle, gint32 seekto_frame, t_GVA_Handle *gvahan
        printf("p_mpeg3_emulate_seek(E): REOPEN ERROR filename: %s\n", gvahand->filename);
     }
 
-    if(gap_debug) printf("p_mpeg3_emulate_seek(E): after REOPEN seek_handle: %d  filename:%s\n", (int)seek_handle, gvahand->filename);
+    if(gap_debug)
+    {
+      printf("p_mpeg3_emulate_seek(E): after REOPEN seek_handle: %ld  filename:%s\n"
+          , (long)seek_handle
+          , gvahand->filename
+          );
+    }
 
   }
   else
@@ -1203,10 +1209,10 @@ p_mpeg3_emulate_seek(mpeg3_t*  handle, gint32 seekto_frame, t_GVA_Handle *gvahan
 
   if(gap_debug)
   {
-    printf("p_mpeg3_emulate_seek(E): current_seek_nr: %d    seekto_frame: %d  seek_handle:%d l_clean_reads: %d l_dirty_reads: %d\n"
+    printf("p_mpeg3_emulate_seek(E): current_seek_nr: %d    seekto_frame: %d  seek_handle:%ld l_clean_reads: %d l_dirty_reads: %d\n"
           , (int)gvahand->current_seek_nr
           , (int)seekto_frame
-          , (int)seek_handle
+          , (long)seek_handle
           , (int)l_clean_reads
           , (int)l_dirty_reads
           );
@@ -1457,4 +1463,3 @@ p_check_libmpeg3_toc_file(const char *filename)
 
 
 #endif   /* ENABLE_GVA_LIBMPEG3 */
-

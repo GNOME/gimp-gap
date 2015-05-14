@@ -1304,7 +1304,7 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
                        if(vidhand->status_msg)
                        {
                          g_snprintf(vidhand->status_msg, vidhand->status_msg_len
-                                   , _("converting audio (via external programm)")
+                                   , _("converting audio (via external program)")
                                    );
                        }
                        /* fake some dummy progress */
@@ -1451,7 +1451,7 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
                   if(vidhand->status_msg)
                   {
                     g_snprintf(vidhand->status_msg, vidhand->status_msg_len
-                              , _("converting audio (via external programm)")
+                              , _("converting audio (via external program)")
                               );
                   }
                   /* fake some dummy progress */

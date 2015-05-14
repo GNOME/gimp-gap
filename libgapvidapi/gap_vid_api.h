@@ -232,7 +232,7 @@ typedef struct t_GVA_Videoindex  /* nick: vindex */
   gint32               tabsize_allocated;
   gint32               track;
   gint32               total_frames;
-  gint32               mtime;
+  time_t               mtime;
   t_GVA_IndexElem     *ofs_tab;
 } t_GVA_Videoindex;
 
@@ -248,7 +248,7 @@ typedef struct t_GVA_Handle  /* nickname: gvahand */
   gboolean emulate_seek;        /* emulate seek ops by dummy read ops (for slow and exact positioning) */
   gboolean create_vindex;       /* TRUE: allow the fptr_count_frames procedure to create a videoindex file */
   t_GVA_Videoindex *vindex;
-  gint32            mtime;
+  time_t            mtime;
 
   gboolean disable_mmx;
   gboolean do_gimp_progress;    /* WARNING: dont try to set this TRUE if you call the API from a thread !! */

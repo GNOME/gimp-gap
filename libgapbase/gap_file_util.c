@@ -60,7 +60,7 @@ extern      int gap_debug; /* ==0  ... dont print debug infos */
 gint32
 gap_file_get_filesize(const char *fname)
 {
-  struct stat  stat_buf;
+  GStatBuf  stat_buf;
 
   if (0 != g_stat(fname, &stat_buf))
   {
@@ -326,10 +326,10 @@ gap_file_build_absolute_filename(const char * filename)
  * gap_file_get_mtime
  * --------------------------------
  */
-gint32
+time_t
 gap_file_get_mtime(const char *filename)
 {
-  struct stat  l_stat;
+  GStatBuf  l_stat;
 
   if(filename != NULL)
   {
@@ -341,3 +341,54 @@ gap_file_get_mtime(const char *filename)
   return(0);
   
 }  /* end gap_file_get_mtime */
+
+
+/* --------------------------------
+ * gap_file_printf
+ * --------------------------------
+ * printf to an optional logfile (specified via environment variable GAP_DEBUG_LOGFILE)
+ * or to stdout as default (when GAP_DEBUG_LOGFILE not set)
+ */
+void
+gap_file_printf(const char *fmt,
+                  ...)
+{
+  static const char *gapDebugLogFileName = NULL; //"gap_logfile.txt";
+  FILE *fp;
+
+  fp = NULL;
+  if(gapDebugLogFileName == NULL)
+  {
+    gapDebugLogFileName = g_getenv("GAP_DEBUG_LOGFILE");
+  }
+  
+  if(gapDebugLogFileName != NULL)
+  {
+    if(g_file_test(gapDebugLogFileName, G_FILE_TEST_EXISTS))
+    {
+      fp = g_fopen(gapDebugLogFileName, "ab");
+    }
+    else
+    {
+      fp = g_fopen(gapDebugLogFileName, "wb");
+    }
+  }
+
+  if(fp != NULL)
+  {
+    va_list argp;
+    va_start(argp, fmt);
+    vfprintf(fp, fmt, argp);
+    va_end(argp);
+    fclose(fp);
+  
+  }
+  else
+  {
+    va_list argp;
+    va_start(argp, fmt);
+    vprintf(fmt, argp);
+    va_end(argp);
+  }
+
+}  /* end gap_file_printf */

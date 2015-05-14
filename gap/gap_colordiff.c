@@ -46,20 +46,20 @@ extern      int gap_debug; /* ==0  ... dont print debug infos */
 
 
 
-static long p_gdouble_to_long(gdouble value)
-{
-  long lval;
-  
-  lval = value * TO_LONG_FACTOR;
-  return (lval);
-}
-static gdouble p_long_to_gdouble(long value)
-{
-  gdouble dval;
-  
-  dval = (gdouble)value / TO_GDOUDBLE_FACTOR;
-  return (dval);
-}
+// static long p_gdouble_to_long(gdouble value)
+// {
+//   long lval;
+//   
+//   lval = value * TO_LONG_FACTOR;
+//   return (lval);
+// }
+// static gdouble p_long_to_gdouble(long value)
+// {
+//   gdouble dval;
+//   
+//   dval = (gdouble)value / TO_GDOUDBLE_FACTOR;
+//   return (dval);
+// }
 
 
 

@@ -1751,7 +1751,7 @@ p_render_zoomed_pview(GapMorphSubWin  *swp)
 
     if(gap_debug) printf("p_render_zoomed_pview START src_layer_id: %d\n", (int)src_layer_id);
 
-    src_image_id = gimp_drawable_get_image(src_layer_id);
+    src_image_id = gimp_item_get_image(src_layer_id);
     l_basetype   = gimp_image_base_type(src_image_id);
     l_type   = GIMP_RGBA_IMAGE;
     if(l_basetype == GIMP_GRAY)
@@ -1780,7 +1780,7 @@ p_render_zoomed_pview(GapMorphSubWin  *swp)
                                 , 100.0      /* full opaque */
                                 , GIMP_NORMAL_MODE
                                 );
-    gimp_image_add_layer (tmp_image_id, tmp_layer_id, 0);
+    gimp_image_insert_layer (tmp_image_id, tmp_layer_id, 0, 0);
 
     /* copy the visible region to temp_layer_id */
     {
@@ -2262,7 +2262,7 @@ p_imglayer_menu_callback(GtkWidget *widget, GapMorphSubWin *swp)
   gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
   layer_id = value;
 
-  l_image_id = gimp_drawable_get_image(layer_id);
+  l_image_id = gimp_item_get_image(layer_id);
   if(!gap_image_is_alive(l_image_id))
   {
      if(gap_debug) printf("p_imglayer_menu_callback: NOT ALIVE image_id=%d layer_id=%d\n",
@@ -3468,7 +3468,7 @@ gap_morph_create_dialog(GapMorphGUIParams *mgup)
                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                          GTK_STOCK_OK,     GTK_RESPONSE_OK,
                          NULL);
-  gtk_window_set_type_hint (dlg, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(dlg), GDK_WINDOW_TYPE_HINT_NORMAL);
 
   mgup->shell = dlg;
   mgup->src_win.startup_flag = TRUE;
@@ -4076,7 +4076,11 @@ gap_morph_dialog(GapMorphGlobalParams *mgpp)
   mgup->workpointGenerationBusy = FALSE;
   mgup->cancelWorkpointGeneration = FALSE;
 
-  if(gap_debug) printf("gap_morph_dialog: START mgpp->master_wp_list: %d\n", (int)mgpp->master_wp_list);
+  if(gap_debug)
+  {
+    printf("gap_morph_dialog: START mgpp->master_wp_list: %ld\n"
+      , (long)mgpp->master_wp_list);
+  }
 
   /* startup with empty workpoint list
    * (the pointer may be initalized with illegal adress

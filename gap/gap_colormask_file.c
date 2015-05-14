@@ -104,8 +104,8 @@ gap_colormask_file_load (const char *filename, GapColormaskValues *cmaskvals)
 
   //if(gap_debug)
   {
-    printf("gap_colormask_file_load: params loaded: cmaskvals:%d cnt_scanned_items:%d\n"
-       , (int)cmaskvals
+    printf("gap_colormask_file_load: params loaded: cmaskvals:%ld cnt_scanned_items:%d\n"
+       , (long)cmaskvals
        , (int)cnt_scanned_items
        );
   }
@@ -163,4 +163,3 @@ gap_colormask_file_save (const char *filename, GapColormaskValues *cmaskvals)
 
   return(TRUE);
 }  /* end gap_colormask_file_save */
-

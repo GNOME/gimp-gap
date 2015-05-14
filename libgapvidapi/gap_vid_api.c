@@ -233,13 +233,13 @@ GVA_debug_print_fcache(t_GVA_Handle *gvahand)
     fc_ptr = (t_GVA_Frame_Cache_Elem  *)fcache->fc_current;
     for(ii=0; ii < fcache->frame_cache_size; ii++)
     {
-       printf("  [%d]  ID:%d framenumber: %d  (my_adr: %d  next:%d  prev:%d)\n"
+       printf("  [%d]  ID:%d framenumber: %d  (my_adr: %ld  next:%ld  prev:%ld)\n"
              , (int)ii
              , (int)fc_ptr->id
              , (int)fc_ptr->framenumber
-             , (int)fc_ptr
-             , (int)fc_ptr->next
-             , (int)fc_ptr->prev
+             , (long)fc_ptr
+             , (long)fc_ptr->next
+             , (long)fc_ptr->prev
              );
 
       fc_ptr = (t_GVA_Frame_Cache_Elem  *)fc_ptr->prev;
@@ -506,7 +506,7 @@ GVA_set_fcache_size(t_GVA_Handle *gvahand
 /* -------------------------------
  * GVA_get_fcache_size_in_elements
  * -------------------------------
- * return internal frame cache allocation size in number of elements (e.g. frames)
+ * return internal frame cache allocation size in number of elements (i.e. frames)
  * note that the fcache is already fully allocated at open time, therefore
  * the number of actual cached frames may be smaller than the returned number.
  */
@@ -817,7 +817,7 @@ p_copyRgbBufferToPixelRegion (const GimpPixelRgn *dstPR
  *     in case aspect is required the calling programm has to perform
  *     the additional call like this:
  *       GVA_search_fcache_and_get_frame_as_gimp_layer(gvahand, ....);
- *       GVA_image_set_aspect(gvahand, gimp_drawable_get_image(fetchResult->layer_id));
+ *       GVA_image_set_aspect(gvahand, gimp_item_get_image(fetchResult->layer_id));
  */
 void
 GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
@@ -830,8 +830,8 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
 {
   t_GVA_Frame_Cache *fcache;
   t_GVA_Frame_Cache_Elem  *fc_ptr;
-  gint32                   l_threshold;
-  gint32                   l_mix_threshold;
+  /*  gint32                   l_threshold; */
+  /*  gint32                   l_mix_threshold; */
 
   static gint32 funcId = -1;
   static gint32 funcIdMemcpy = -1;
@@ -865,8 +865,9 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
 
   /* expand threshold range from 0.0-1.0  to 0 - MIX_MAX_THRESHOLD */
   threshold = CLAMP(threshold, 0.0, 1.0);
-  l_threshold = (gdouble)MIX_MAX_THRESHOLD * (threshold * threshold * threshold);
-  l_mix_threshold = CLAMP((gint32)l_threshold, 0, MIX_MAX_THRESHOLD);
+
+  /*  l_threshold = (gdouble)MIX_MAX_THRESHOLD * (threshold * threshold * threshold); */
+  /* l_mix_threshold = CLAMP((gint32)l_threshold, 0, MIX_MAX_THRESHOLD); */
 
   GVA_fcache_mutex_lock (gvahand);
 
@@ -1118,8 +1119,8 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
            */
 
           /* add new layer on top of the layerstack */
-          gimp_image_add_layer (fetchResult->image_id, fetchResult->layer_id, 0);
-          gimp_drawable_set_visible(fetchResult->layer_id, TRUE);
+          gimp_image_insert_layer (fetchResult->image_id, fetchResult->layer_id, 0, 0);
+          gimp_item_set_visible(fetchResult->layer_id, TRUE);
 
           /* clear undo stack */
           if (gimp_image_undo_is_enabled(fetchResult->image_id))
@@ -1183,7 +1184,7 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
 //  *     in case aspect is required the calling programm has to perform
 //  *     the additional call like this:
 //  *       layer_id = GVA_search_fcache_and_get_frame_as_gimp_layer(gvahand, ....);
-//  *       GVA_image_set_aspect(gvahand, gimp_drawable_get_image(layer_id));
+//  *       GVA_image_set_aspect(gvahand, gimp_item_get_image(layer_id));
 //  */
 // gint32
 // GVA_search_fcache_and_get_frame_as_gimp_layer(t_GVA_Handle *gvahand
@@ -1450,8 +1451,8 @@ GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
 //            */
 // 
 //           /* add new layer on top of the layerstack */
-//           gimp_image_add_layer (image_id, l_new_layer_id, 0);
-//           gimp_drawable_set_visible(l_new_layer_id, TRUE);
+//           gimp_image_insert_layer (image_id, l_new_layer_id, 0, 0);
+//           gimp_item_set_visible(l_new_layer_id, TRUE);
 // 
 //           /* clear undo stack */
 //           if (gimp_image_undo_is_enabled(image_id))
@@ -1716,15 +1717,15 @@ p_gva_worker_close(t_GVA_Handle  *gvahand)
       
       if(gap_debug)
       {
-        printf("GVA: gvahand:%d p_gva_worker_close: before CLOSE %s with decoder:%s\n"
-           , (int)gvahand
+        printf("GVA: gvahand:%ld p_gva_worker_close: before CLOSE %s with decoder:%s\n"
+           , (long)gvahand
            , gvahand->filename
            , dec_elem->decoder_name
            );
       }
 
       /* log mutex wait statistics (only in case compiled with runtime recording) */
-      nameMutexLockStats = g_strdup_printf("... close gvahand:%d fcacheMutexLockStatistic ", (int)gvahand);
+      nameMutexLockStats = g_strdup_printf("... close gvahand:%ld fcacheMutexLockStatistic ", (long)gvahand);
       GVA_copy_or_delace_print_statistics();
       GAP_TIMM_PRINT_RECORD(&gvahand->fcacheMutexLockStats, nameMutexLockStats);
       g_free(nameMutexLockStats);
@@ -1733,8 +1734,8 @@ p_gva_worker_close(t_GVA_Handle  *gvahand)
 
       if(gap_debug)
       {
-        printf("GVA: gvahand:%d p_gva_worker_close: after CLOSE %s with decoder:%s\n"
-           , (int)gvahand
+        printf("GVA: gvahand:%ld p_gva_worker_close: after CLOSE %s with decoder:%s\n"
+           , (long)gvahand
            , gvahand->filename
            , dec_elem->decoder_name
            );
@@ -2273,7 +2274,7 @@ GVA_open_read_pref(const char *filename, gint32 vid_track, gint32 aud_track
                                  ,disable_mmx
                                  );
 
-  if(gap_debug) printf("GVA_open_read_pref: END handle:%d\n", (int)handle);
+  if(gap_debug) printf("GVA_open_read_pref: END handle:%ld\n", (long)handle);
 
   return(handle);
 }
@@ -2297,7 +2298,10 @@ GVA_open_read(const char *filename, gint32 vid_track, gint32 aud_track)
     g_free(l_env_preferred_decoder);
   }
 
-  if(gap_debug) printf("GVA_open_read: END handle:%d\n", (int)handle);
+  if(gap_debug)
+  {
+    printf("GVA_open_read: END handle:%ld\n", (long)handle);
+  }
 
   return(handle);
 }
@@ -2305,9 +2309,16 @@ GVA_open_read(const char *filename, gint32 vid_track, gint32 aud_track)
 void
 GVA_close(t_GVA_Handle  *gvahand)
 {
-  if(gap_debug) printf("GVA_close: START handle:%d\n", (int)gvahand);
+  if(gap_debug)
+  {
+    printf("GVA_close: START handle:%ld\n", (long)gvahand);
+  }
   p_gva_worker_close(gvahand);
-  if(gap_debug) printf("GVA_close: END\n");
+
+  if(gap_debug)
+  {
+    printf("GVA_close: END\n");
+  }
 }
 
 t_GVA_RetCode
@@ -2322,7 +2333,7 @@ GVA_get_next_frame(t_GVA_Handle  *gvahand)
 
   if(gap_debug)
   {
-    printf("GVA_get_next_frame: START handle:%d\n", (int)gvahand);
+    printf("GVA_get_next_frame: START handle:%ld\n", (long)gvahand);
   }
 
   l_rc = p_gva_worker_get_next_frame(gvahand);
@@ -2350,8 +2361,8 @@ GVA_seek_frame(t_GVA_Handle  *gvahand, gdouble pos, t_GVA_PosUnit pos_unit)
 
   if(gap_debug)
   {
-    printf("GVA_seek_frame: START handle:%d, pos%.4f unit:%d\n"
-      , (int)gvahand, (float)pos, (int)pos_unit);
+    printf("GVA_seek_frame: START handle:%ld, pos%.4f unit:%d\n"
+      , (long)gvahand, (float)pos, (int)pos_unit);
   }
 
   l_rc = p_gva_worker_seek_frame(gvahand, pos, pos_unit);
@@ -2372,9 +2383,15 @@ GVA_seek_audio(t_GVA_Handle  *gvahand, gdouble pos, t_GVA_PosUnit pos_unit)
 {
   t_GVA_RetCode l_rc;
 
-  if(gap_debug) printf("GVA_seek_audio: START handle:%d\n", (int)gvahand);
+  if(gap_debug)
+  {
+    printf("GVA_seek_audio: START handle:%ld\n", (long)gvahand);
+  }
   l_rc = p_gva_worker_seek_audio(gvahand, pos, pos_unit);
-  if(gap_debug) printf("GVA_seek_audio: END rc:%d\n", (int)l_rc);
+  if(gap_debug) 
+  {
+   printf("GVA_seek_audio: END rc:%d\n", (int)l_rc);
+  }
 
   return(l_rc);
 }
@@ -2389,7 +2406,15 @@ GVA_get_audio(t_GVA_Handle  *gvahand
 {
   t_GVA_RetCode l_rc;
 
-  if(gap_debug) printf("GVA_get_audio: START handle:%d, ch:%d samples:%d mod:%d\n", (int)gvahand, (int)channel, (int)samples, (int)mode_flag);
+  if(gap_debug)
+  {
+    printf("GVA_get_audio: START handle:%ld, ch:%d samples:%d mod:%d\n"
+        , (long)gvahand
+        , (int)channel
+        , (int)samples
+        , (int)mode_flag
+        );
+  }
   l_rc = p_gva_worker_get_audio(gvahand
                                ,output_i
                                ,channel
@@ -2406,9 +2431,15 @@ GVA_count_frames(t_GVA_Handle  *gvahand)
 {
   t_GVA_RetCode l_rc;
 
-  if(gap_debug) printf("GVA_count_frames: START handle:%d\n", (int)gvahand);
+  if(gap_debug)
+  {
+    printf("GVA_count_frames: START handle:%ld\n", (long)gvahand);
+  }
   l_rc = p_gva_worker_count_frames(gvahand);
-  if(gap_debug) printf("GVA_count_frames: END rc:%d\n", (int)l_rc);
+  if(gap_debug)
+  {
+    printf("GVA_count_frames: END rc:%d\n", (int)l_rc);
+  }
 
   return(l_rc);
 }
@@ -2418,9 +2449,15 @@ GVA_check_seek_support(t_GVA_Handle  *gvahand)
 {
   t_GVA_SeekSupport l_rc;
 
-  if(gap_debug) printf("GVA_check_seek_support: START handle:%d\n", (int)gvahand);
+  if(gap_debug)
+  {
+    printf("GVA_check_seek_support: START handle:%ld\n", (long)gvahand);
+  }
   l_rc = p_gva_worker_check_seek_support(gvahand);
-  if(gap_debug) printf("GVA_check_seek_support: END rc:%d\n", (int)l_rc);
+  if(gap_debug)
+  {
+    printf("GVA_check_seek_support: END rc:%d\n", (int)l_rc);
+  }
 
   return(l_rc);
 }
@@ -2434,12 +2471,16 @@ GVA_get_video_chunk(t_GVA_Handle  *gvahand
 {
   t_GVA_RetCode l_rc;
 
-  if(gap_debug) printf("GVA_get_video_chunk: START handle:%d, chunk addr:%d (max_size:%d) frame_nr:%d\n"
-                      , (int)gvahand
-                      , (int)chunk
+  if(gap_debug)
+  {
+    printf("GVA_get_video_chunk: START handle:%ld, chunk addr:%ld (max_size:%d) frame_nr:%d\n"
+                      , (long)gvahand
+                      , (long)chunk
                       , (int)max_size
                       , (int)frame_nr
                       );
+  }
+  
   l_rc = p_gva_worker_get_video_chunk(gvahand, frame_nr, chunk, size, max_size);
   if(gap_debug) printf("GVA_get_video_chunk: END rc:%d size:%d\n", (int)l_rc, (int)*size);
 
@@ -2452,7 +2493,10 @@ GVA_has_video_chunk_proc(t_GVA_Handle  *gvahand)
 {
   gboolean l_rc;
 
-  if(gap_debug) printf("GVA_has_video_chunk_proc: START handle:%d\n", (int)gvahand);
+  if(gap_debug)
+  {
+    printf("GVA_has_video_chunk_proc: START handle:%ld\n", (long)gvahand);
+  }
 
   l_rc = FALSE;
   if(gvahand)
@@ -2485,8 +2529,8 @@ GVA_get_codec_name(t_GVA_Handle  *gvahand
 
   if(gap_debug)
   {
-    printf("GVA_get_video_chunk: START handle:%d, codec_type:%d track_nr:%d\n"
-                      , (int)gvahand
+    printf("GVA_get_video_chunk: START handle:%ld, codec_type:%d track_nr:%d\n"
+                      , (long)gvahand
                       , (int)codec_type
                       , (int)track_nr
                       );
@@ -2865,13 +2909,11 @@ p_gva_deinterlace_drawable (GimpDrawable *drawable, gint32 deinterlace, gdouble 
 {
   GimpPixelRgn  srcPR, destPR;
   guchar       *dest;
-  guchar       *dest_buffer = NULL;
   guchar       *upper;
   guchar       *lower;
-  gint          row, col;
+  gint          row;
   gint          x, y;
   gint          width, height;
-  gint          bytes;
   gint x2, y2;
   gint32  l_row_bytewidth;
   gint32  l_interpolate_flag;
@@ -2881,7 +2923,6 @@ p_gva_deinterlace_drawable (GimpDrawable *drawable, gint32 deinterlace, gdouble 
   l_interpolate_flag = gva_delace_calculate_interpolate_flag(deinterlace);
   l_mix_threshold = gva_delace_calculate_mix_threshold(threshold);
 
-  bytes = drawable->bpp;
 
   gimp_drawable_mask_bounds (drawable->drawable_id, &x, &y, &x2, &y2);
   width  = x2 - x;
@@ -3075,8 +3116,8 @@ GVA_frame_to_gimp_layer_2(t_GVA_Handle *gvahand
   GimpPixelRgn pixel_rgn;
   GimpDrawable *drawable;
   gint32 l_new_layer_id;
-  gint32 l_threshold;
-  gint32 l_mix_threshold;
+  /* gint32 l_threshold; */
+  /* gint32 l_mix_threshold; */
 
   static gchar *odd_even_tab[8] = {"\0", "_odd", "_even", "_odd", "_even", "\0", "\0", "\0" };
 
@@ -3104,8 +3145,8 @@ GVA_frame_to_gimp_layer_2(t_GVA_Handle *gvahand
 
   /* expand threshold range from 0.0-1.0  to 0 - MIX_MAX_THRESHOLD */
   threshold = CLAMP(threshold, 0.0, 1.0);
-  l_threshold = (gdouble)MIX_MAX_THRESHOLD * (threshold * threshold * threshold);
-  l_mix_threshold = CLAMP((gint32)l_threshold, 0, MIX_MAX_THRESHOLD);
+  /* l_threshold = (gdouble)MIX_MAX_THRESHOLD * (threshold * threshold * threshold); */
+  /* l_mix_threshold = CLAMP((gint32)l_threshold, 0, MIX_MAX_THRESHOLD); */
 
 
   if(p_check_image_is_alive(*image_id))
@@ -3261,14 +3302,14 @@ GVA_frame_to_gimp_layer_2(t_GVA_Handle *gvahand
        * so do not delete previous added layer, but
        * only set invisible
        */
-      gimp_drawable_set_visible(old_layer_id, FALSE);
+      gimp_item_set_visible(old_layer_id, FALSE);
     }
   }
 
 
   /* add new layer on top of the layerstack */
-  gimp_image_add_layer (*image_id, l_new_layer_id, 0);
-  gimp_drawable_set_visible(l_new_layer_id, TRUE);
+  gimp_image_insert_layer (*image_id, l_new_layer_id, 0, 0);
+  gimp_item_set_visible(l_new_layer_id, TRUE);
 
   /* clear undo stack */
   if (gimp_image_undo_is_enabled(*image_id))

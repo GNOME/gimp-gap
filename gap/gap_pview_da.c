@@ -937,7 +937,7 @@ gap_pview_render_f_from_image (GapPView *pv_ptr
                                 , 0.0       /* Opacity full transparent */     
                                 , 0         /* NORMAL */
                                 );   
-    gimp_image_add_layer(image_id, l_layer_id, 0);
+    gimp_image_insert_layer(image_id, l_layer_id, 0, 0);
 
     l_layer_id = gimp_layer_new(image_id, "dummy_02"
                                 , 4, 4
@@ -945,7 +945,7 @@ gap_pview_render_f_from_image (GapPView *pv_ptr
                                 , 0.0       /* Opacity full transparent */     
                                 , 0         /* NORMAL */
                                 );   
-    gimp_image_add_layer(image_id, l_layer_id, 0);
+    gimp_image_insert_layer(image_id, l_layer_id, 0, 0);
     gimp_layer_resize_to_image_size(l_layer_id);
   }
   
@@ -1324,7 +1324,7 @@ p_pixmap_data_destructor(gpointer data)
   if(gap_debug)
   {
     printf(" -- DESTRUCTOR p_pixmap_data_destructor called\n");
-    printf(" -- data: %d\n", (int)data);
+    printf(" -- data: %ld\n", (long)data);
   }
   g_free(data);
   
@@ -1427,8 +1427,7 @@ gap_pview_get_repaint_thdata(GapPView   *pv_ptr        /* IN */
                             , gboolean  *th_has_alpha  /* OUT */
                             )
 { 
-  int bits_per_sample;
-  int rowstride;
+  /* int bits_per_sample; */
   int width;
   int height;
   gboolean has_alpha;
@@ -1441,8 +1440,7 @@ gap_pview_get_repaint_thdata(GapPView   *pv_ptr        /* IN */
     return(NULL);
   }
 
-  bits_per_sample = 8;
-  rowstride = pv_ptr->pv_width * pv_ptr->pv_bpp;
+  /* bits_per_sample = 8; */
   has_alpha = FALSE;
   width = pv_ptr->pv_width;
   height = pv_ptr->pv_height;
@@ -1452,8 +1450,7 @@ gap_pview_get_repaint_thdata(GapPView   *pv_ptr        /* IN */
   && (pv_ptr->pixbuf))
   {
     pixel_data_src = gdk_pixbuf_get_pixels(pv_ptr->pixbuf);
-    rowstride = gdk_pixbuf_get_rowstride(pv_ptr->pixbuf);
-    bits_per_sample = gdk_pixbuf_get_bits_per_sample(pv_ptr->pixbuf);
+    /* bits_per_sample = gdk_pixbuf_get_bits_per_sample(pv_ptr->pixbuf); */
     has_alpha = gdk_pixbuf_get_has_alpha(pv_ptr->pixbuf);
   }
   

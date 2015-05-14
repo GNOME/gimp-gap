@@ -463,7 +463,10 @@ p_exact_align_drawable(gint32 activeDrawableId, AlingCoords *alingCoords)
     scaleXY = len1 / len2;
   }
 
-  transformedDrawableId = gimp_drawable_transform_2d(activeDrawableId
+  gimp_context_set_defaults();
+  gimp_context_set_transform_resize(GIMP_TRANSFORM_RESIZE_ADJUST);   /* do NOT clip */                                 
+  gimp_context_set_transform_direction(GIMP_TRANSFORM_FORWARD);                                 
+  transformedDrawableId = gimp_item_transform_2d(activeDrawableId
                             , px3
                             , py3
                             , scaleXY 
@@ -471,11 +474,6 @@ p_exact_align_drawable(gint32 activeDrawableId, AlingCoords *alingCoords)
                             , angleRad
                             , px1
                             , py1
-                            , 0      /* FORWARD (0), TRANSFORM-BACKWARD (1) */
-                            , 2      /* INTERPOLATION-CUBIC (2) */
-                            , TRUE   /* supersample */
-                            , 1      /* Maximum recursion level used for supersampling */
-                            , 0      /* TRANSFORM-RESIZE-ADJUST (0) TRANSFORM-RESIZE-CLIP (1) */
                             );
 
   if(gap_debug)
@@ -921,9 +919,9 @@ p_refresh_and_update_infoLabel(GtkWidget *widgetDummy, AlignDialogVals *advPtr)
 
   if(gap_debug)
   {
-    printf("p_refresh_and_update_infoLabel widgetDummy:%d advPtr:%d\n"
-          , (int) widgetDummy
-          , (int) advPtr
+    printf("p_refresh_and_update_infoLabel widgetDummy:%ld advPtr:%ld\n"
+          , (long) widgetDummy
+          , (long) advPtr
           );
   }
 
@@ -1280,10 +1278,10 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
     {
       g_message(_("This filter requires a current path with 4 points,"
                 "where point 1 and 2 mark reference positions "
-                "and point 3 and 4 mark postions in the target layer."
+                "and point 3 and 4 mark positions in the target layer."
                 "It transforms the target layer in a way that "
                 "point3 is moved to point1 and point4 moves to point2."
-                "(this may include rotate an scale transformation).\n"
+                "(this may include rotate and scale transformation).\n"
                 "A path with 2 points can be used to move point2 to point1."
                 "(via simple move operation without rotate and scale)"));
     }
@@ -1291,10 +1289,10 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
     {
       g_message(_("This filter requires a current path with 4 points,"
                 "where point 1 and 3 mark reference positions "
-                "and point 2 and 4 mark postions in the target layer."
+                "and point 2 and 4 mark positions in the target layer."
                 "It transforms the target layer in a way that "
                 "point2 is moved to point1 and point4 moves to point3."
-                "(this may include rotate an scale transformation).\n"
+                "(this may include rotate and scale transformation).\n"
                 "A path with 2 points can be used to move point2 to point1."
                 "(via simple move operation without rotate and scale)"));
     }
@@ -1306,5 +1304,3 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
   
   
 }  /* end  gap_detail_exact_align_via_4point_path */
-
-

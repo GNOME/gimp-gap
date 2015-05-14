@@ -27,6 +27,12 @@
 #ifndef _GAP_STORY_UNDO_TYPES_H
 #define _GAP_STORY_UNDO_TYPES_H
 
+#include <time.h>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+
 #include "libgimp/gimp.h"
 #include "gap_story_file.h"
 #include <gtk/gtk.h>
@@ -60,7 +66,7 @@ typedef struct GapStoryUndoFileSnapshot {
   char       *filename;
   char       *filecontent;
   gint32      filesize;
-  gint32      mtimefile;
+  time_t      mtimefile;
 }  GapStoryUndoFileSnapshot;
 
 

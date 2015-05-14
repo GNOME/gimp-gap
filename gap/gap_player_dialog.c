@@ -583,7 +583,7 @@ p_audio_init(GapPlayerMainGlobalParams *gpp)
       {
          g_message(_("Failure to start the wavplay server is fatal.\n"
                 "Please check the executability of the 'wavplay' command.\n"
-                "If you have installed the wavplay executeable somewhere\n"
+                "If you have installed the wavplay executable somewhere\n"
                 "you can set the Environmentvariable WAVPLAYPATH before gimp startup\n"));
       }
       else
@@ -1389,8 +1389,9 @@ p_mtrace_image( GapPlayerMainGlobalParams *gpp
                                    ,&l_src_offset_x
                                    ,&l_src_offset_y);
 
-    gimp_image_add_layer(gpp->mtrace_image_id
+    gimp_image_insert_layer(gpp->mtrace_image_id
                         , dst_layer_id
+                        , 0
                         , 0              /* top of layerstack */
                         );
     if((width != mtrace_width)
@@ -1411,7 +1412,7 @@ p_mtrace_image( GapPlayerMainGlobalParams *gpp
                           ,(int)gpp->play_current_framenr
                           ,(int)(1000 / gpp->speed)
                           );
-      gimp_drawable_set_name(dst_layer_id, l_name);
+      gimp_item_set_name(dst_layer_id, l_name);
       g_free(l_name);
     }
 
@@ -1454,8 +1455,9 @@ p_mtrace_tmpbuf( GapPlayerMainGlobalParams *gpp
                                  , th_bpp
                                  , th_data
                                  );
-    gimp_image_add_layer(gpp->mtrace_image_id
+    gimp_image_insert_layer(gpp->mtrace_image_id
                         , dst_layer_id
+                        , 0
                         , 0              /* top of layerstack */
                         );
     if(th_bpp == 3)
@@ -1482,7 +1484,7 @@ p_mtrace_tmpbuf( GapPlayerMainGlobalParams *gpp
                           ,(int)gpp->play_current_framenr
                           ,(int)(1000 / gpp->speed)
                           );
-      gimp_drawable_set_name(dst_layer_id, l_name);
+      gimp_item_set_name(dst_layer_id, l_name);
       g_free(l_name);
     }
 
@@ -1509,7 +1511,7 @@ p_mtrace_pixbuf( GapPlayerMainGlobalParams *gpp
     if(pixbuf)
     {
       gint32 nchannels;
-      gint32 rowstride;
+      //gint32 rowstride;
       gint32 width;
       gint32 height;
       guchar *pix_data;
@@ -1518,7 +1520,7 @@ p_mtrace_pixbuf( GapPlayerMainGlobalParams *gpp
       height = gdk_pixbuf_get_height(pixbuf);
       nchannels = gdk_pixbuf_get_n_channels(pixbuf);
       pix_data = gdk_pixbuf_get_pixels(pixbuf);
-      rowstride = gdk_pixbuf_get_rowstride(pixbuf);
+      //rowstride = gdk_pixbuf_get_rowstride(pixbuf);
 
       p_mtrace_tmpbuf(gpp
                    , pix_data
@@ -1641,9 +1643,9 @@ p_update_ainfo_for_videofile(GapPlayerMainGlobalParams *gpp)
 #ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
   if(gap_debug)
   {
-    printf("p_update_ainfo_for_videofile  gpp->ainfo_ptr:%d gpp->gvahand:%d\n"
-      , (int)gpp->ainfo_ptr
-      , (int)gpp->gvahand
+    printf("p_update_ainfo_for_videofile  gpp->ainfo_ptr:%ld gpp->gvahand:%ld\n"
+      , (long)gpp->ainfo_ptr
+      , (long)gpp->gvahand
       );
   }
 
@@ -2452,7 +2454,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
   gboolean    l_otone_is_up_to_date;
   gint32      l_extract_audiotrack;
   gint32      l_begin_frame_nr;
-  gint32      l_end_frame_nr;
+  //gint32      l_end_frame_nr;
   char       *l_audiofilename;
   char       *l_audiofilename_cancel;
 
@@ -2494,7 +2496,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
   }
 
   p_reset_progress_bar_audio(gpp);
-  p_msg_progress_bar_audio(gpp, _("cheking audiotrack"));
+  p_msg_progress_bar_audio(gpp, _("checking audiotrack"));
 
   l_extract_audiotrack = CLAMP(GTK_ADJUSTMENT(gpp->audio_otone_atrack_spinbutton_adj)->value
                               , 1
@@ -2520,7 +2522,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
   {
     gdouble l_dbl_total_frames;
     l_begin_frame_nr = 1;
-    l_end_frame_nr = gpp->gvahand->total_frames;
+    //l_end_frame_nr = gpp->gvahand->total_frames;
     l_dbl_total_frames = (gdouble)gpp->gvahand->total_frames;
 
     p_msg_progress_bar_audio(gpp, _("extracting audio"));
@@ -3492,9 +3494,9 @@ p_open_composite_storyboard(GapPlayerMainGlobalParams *gpp)
 
   if(gap_debug)
   {
-    printf("p_open_composite_storyboard: %s comp_vidhand:%d type:%d(%d) id:%d(%d)\n"
+    printf("p_open_composite_storyboard: %s comp_vidhand:%ld type:%d(%d) id:%d(%d)\n"
         ,gpp->stb_ptr->storyboardfile
-        ,(int)gpp->stb_comp_vidhand
+        ,(long)gpp->stb_comp_vidhand
         ,(int)gpp->stb_ptr->stb_parttype
         ,(int)gpp->stb_parttype
         ,(int)gpp->stb_ptr->stb_unique_id
@@ -3540,6 +3542,10 @@ p_fetch_composite_image(GapPlayerMainGlobalParams *gpp
   ||  (gpp->stb_parttype != gpp->stb_ptr->stb_parttype)
   ||  (gpp->stb_unique_id != gpp->stb_ptr->stb_unique_id))
   {
+    if(gap_debug)
+    {
+      printf("p_fetch_composite_image before (re)open composite video handle\n");
+    }
     p_open_composite_storyboard(gpp);
   }
 
@@ -3556,6 +3562,12 @@ p_fetch_composite_image(GapPlayerMainGlobalParams *gpp
        * therefore no changes to propagate to the players
        * pview widget
        */
+       if(gap_debug)
+       {
+         printf("p_fetch_composite_image: before call gap_story_render_fetch_composite_image comp_vidhand:%ld \n"
+             ,(long)gpp->stb_comp_vidhand
+             );
+       }
 
       composite_image_id = gap_story_render_fetch_composite_image(
                                gpp->stb_comp_vidhand
@@ -3567,8 +3579,8 @@ p_fetch_composite_image(GapPlayerMainGlobalParams *gpp
                                );
        if(gap_debug)
        {
-         printf("p_fetch_composite_image: comp_vidhand:%d  composite_image_id:%d\n"
-             ,(int)gpp->stb_comp_vidhand
+         printf("p_fetch_composite_image: comp_vidhand:%ld  composite_image_id:%d\n"
+             ,(long)gpp->stb_comp_vidhand
              ,(int)composite_image_id
              );
        }
@@ -3767,8 +3779,8 @@ p_fetch_display_composite_image_from_storyboard(GapPlayerMainGlobalParams *gpp
               );
     if(gap_debug)
     {
-      printf("COMPOSITE thdata:%d ckey: %s\n"
-             ,(int)l_th_data
+      printf("COMPOSITE thdata:%ld ckey: %s\n"
+             ,(long)l_th_data
              ,*ckey_pptr
              );
     }
@@ -3893,6 +3905,14 @@ p_render_display_free_image_id(GapPlayerMainGlobalParams *gpp
    , gint32  flip_status
   )
 {
+  if (image_id < 0)
+  {
+    if(gap_debug)
+    {
+      printf("p_render_display_free_image_id: WARNING invalid image_id:%d\n", (int)image_id);
+    }
+    return;
+  }
   /* there is no need for undo on this scratch image
    * so we turn undo off for performance reasons
    */
@@ -4031,7 +4051,8 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 
   GAP_TIMM_GET_FUNCTION_ID(funcId, "playerDialog.p_display_frame");
 
-  /*if(gap_debug) printf("p_display_frame START: framenr:%d\n", (int)framenr);*/
+  /* if(gap_debug) printf("p_display_frame START: framenr:%d\n", (int)framenr); */
+  
   if(gpp->gva_lock)
   {
     /* do not attempt displaying frames while we are inside
@@ -4101,6 +4122,16 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
                 , &l_flip_request
                 , &l_flip_status
                 );
+                
+      if((l_th_data == NULL) && (l_composite_image_id < 0))
+      {
+        if(gap_debug)
+        {
+          printf("STOP playback on error after call to p_fetch_display_composite_image_from_storyboard\n");
+        }
+        p_stop_playback(gpp);
+      }
+             
     }
   }
   else
@@ -4373,10 +4404,15 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 
   gdk_flush();
 
-  if(l_th_data)  g_free(l_th_data);
+  if(l_th_data)
+  {
+    g_free(l_th_data);
+  }
 
-  if(l_filename) g_free(l_filename);
-
+  if(l_filename)
+  {
+    g_free(l_filename);
+  }
   GAP_TIMM_STOP_FUNCTION(funcId);
 
 }  /* end p_display_frame */
@@ -5416,7 +5452,7 @@ on_framenr_button_clicked             (GtkButton       *button,
 {
    GimpParam       *return_vals;
    int              nreturn_vals;
-   gint             button_type;
+   glong             button_type;
    gint32           dummy_layer_id;
 
   /*if(gap_debug) printf("on_framenr_button_clicked: START\n"); */
@@ -5430,7 +5466,7 @@ on_framenr_button_clicked             (GtkButton       *button,
 
   if(button)
   {
-    button_type = (gint) g_object_get_data (G_OBJECT (button), KEY_FRAMENR_BUTTON_TYPE);
+    button_type = (glong) g_object_get_data (G_OBJECT (button), KEY_FRAMENR_BUTTON_TYPE);
   }
   else
   {
@@ -7002,7 +7038,7 @@ p_new_audioframe(GapPlayerMainGlobalParams *gpp)
   gpp->audio_otone_extract_button = button;
   gtk_widget_show (button);
   gimp_help_set_help_data(button, _("Extract Audio Track from videofile "
-                                    "for the current videofile and use it for origial audiotrack playback")
+                                    "for the current videofile and use it for original audiotrack playback")
                                     ,NULL);
   gtk_table_attach(GTK_TABLE(table1), button, 2, 3, row, row + 1,
                     (GtkAttachOptions) GTK_FILL,
@@ -9186,7 +9222,4 @@ gap_player_dlg_playback_dialog(GapPlayerMainGlobalParams *gpp)
 
 
 }  /* end gap_player_dlg_playback_dialog */
-
-
-
 

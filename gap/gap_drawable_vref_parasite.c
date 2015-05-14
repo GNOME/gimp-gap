@@ -49,10 +49,9 @@ gap_dvref_debug_print_GapDrawableVideoRef(GapDrawableVideoRef *dvref)
     }
     if(dvref->videofile == NULL)
     {
-      printf("GapDrawableVideoRef: videofile:(null)  frame:%d seltrack:%d (%s)\n"
+      printf("GapDrawableVideoRef: videofile:(null)  frame:%d seltrack:%d\n"
         ,dvref->para.framenr
         ,dvref->para.seltrack
-        ,&dvref->para.preferred_decoder[0]
         );
       return;
     }
@@ -93,7 +92,7 @@ gap_dvref_free(GapDrawableVideoRef **dvref_ptr)
 /* ---------------------------------------------------
  * gap_dvref_get_drawable_video_reference_via_parasite
  * ---------------------------------------------------
- * return Gap drawable video reference parasite if such a parasite is atached to the specified drawable_id
+ * return Gap drawable video reference parasite if such a parasite is attached to the specified drawable_id
  *        oterwise return NULL;
  */
 GapDrawableVideoRef *

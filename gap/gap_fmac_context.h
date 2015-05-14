@@ -2,7 +2,7 @@
  *
  *
  *  This module handles the filtermacro context.
- *  The filtermacro context is used for itration of "persistent drawable ids" 
+ *  The filtermacro context is used for itration of "persistent drawable ids"
  *  for animated (or constant) filter apply.
  *  If gap controlled filterapply is done via a filtermacro
  *  the iteration is done within a filtermacro context.
@@ -11,7 +11,7 @@
  *  In this case the "persitent_drawable_id" is used to open the referenced
  *  image, frame or videoframe at apply time (this may happen in another gimp
  *  session than the recording of the filtermacro was done).
- *  
+ *
  *
  * Copyright (C) 2008 Wolfgang Hofer <hof@gimp.org>
  *
@@ -38,14 +38,16 @@
 #include "libgimp/gimp.h"
 #include "gap_lib_common_defs.h"
 
+
 typedef struct GapFmacRefEntry {
   GapLibAinfoType ainfo_type;
   gint32      persistent_drawable_id;
   gint32      frame_nr;
   gint32      stackposition;
   gint32      track;
-  gint32      mtime;
+  time_t      mtime;
   char        filename[1024];
+  char        parentpositions[300];
   struct GapFmacRefEntry *next;
 } GapFmacRefEntry;
 
@@ -69,6 +71,7 @@ typedef struct GapFmacContext {
 #define GAP_FMREF_MTIME      "mtime:"
 #define GAP_FMREF_TYPE       "type:"
 #define GAP_FMREF_FILE       "file:"
+#define GAP_FMREF_PARENTSTACK "parentstack:"
 
 
 #define GAP_FMAC_CONTEXT_KEYWORD   "GAP_FMAC_CONTEXT_KEYWORD"
@@ -87,6 +90,7 @@ void                 gap_fmct_free_GapFmacRefList(GapFmacContext *fmacContext);
 gint32               gap_fmct_add_GapFmacRefEntry(GapLibAinfoType ainfo_type
                                   , gint32 frame_nr
                                   , gint32 stackposition
+                                  , char *parentpositions   /* list of integers as string "1/2/3/" */
                                   , gint32 track
                                   , gint32 drawable_id
                                   , const char *filename

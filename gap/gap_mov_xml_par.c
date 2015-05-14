@@ -1,5 +1,5 @@
 /* gap_mov_xml_par.c
- * 2011.03.09 hof (Wolfgang Hofer)
+ * 2014.05.07 hof (Wolfgang Hofer)
  *
  * GAP ... Gimp Animation Plugins
  *
@@ -91,6 +91,9 @@
 #define GAP_MOVPATH_XML_TOKEN_SRC_SELMODE            "src_selmode"
 #define GAP_MOVPATH_XML_TOKEN_SRC_PAINTMODE          "src_paintmode"
 #define GAP_MOVPATH_XML_TOKEN_DST_LAYERSTACK         "dst_layerstack"
+#define GAP_MOVPATH_XML_TOKEN_DST_GROUP_PATH         "dst_group_name_path"
+#define GAP_MOVPATH_XML_TOKEN_DST_GROUP_DELIM        "dst_group_name_delimiter"
+
 #define GAP_MOVPATH_XML_TOKEN_STEP_SPEED_FACTOR      "step_speed_factor"
 #define GAP_MOVPATH_XML_TOKEN_SRC_FORCE_VISIBLE      "src_force_visible"
 #define GAP_MOVPATH_XML_TOKEN_CLIP_TO_IMG            "clip_to_img"
@@ -213,7 +216,7 @@ static void  p_xml_parse_element_controlpoint(const gchar         *element_name,
     const gchar        **attribute_values,
     GapMovXmlUserData   *userDataPtr,
     gint                 count);
-    
+
 
 
 
@@ -326,7 +329,7 @@ static const GEnumValue valuesGapBlueboxThresMode[] =
 
 
 
-/* 
+/*
  * XML PARSER procedures
  */
 
@@ -348,7 +351,7 @@ p_xml_parse_value_GapMovHandle(const gchar *attribute_value, GapMovHandle *valDe
     *valDestPtr = value;
   }
   return (isOk);
-  
+
 }  /* end p_xml_parse_value_GapMovHandle */
 
 
@@ -389,7 +392,7 @@ p_xml_parse_value_GapMovSelMode(const gchar *attribute_value, GapMovSelMode *val
     *valDestPtr = value;
   }
   return (isOk);
-  
+
 }  /* end p_xml_parse_value_GapMovSelMode */
 
 
@@ -409,7 +412,7 @@ p_xml_parse_value_GimpPaintmode_as_gint(const gchar *attribute_value, gint *valD
     *valDestPtr = value;
   }
   return (isOk);
-  
+
 }  /* end gap_xml_parse_value_GimpPaintmode */
 
 
@@ -429,7 +432,7 @@ p_xml_parse_value_GapBlueboxThresMode(const gchar *attribute_value, GapBlueboxTh
     *valDestPtr = value;
   }
   return (isOk);
-  
+
 }  /* end p_xml_parse_value_GapBlueboxThresMode */
 
 
@@ -439,7 +442,7 @@ p_xml_parse_value_GapBlueboxThresMode(const gchar *attribute_value, GapBlueboxTh
  * p_xml_parse_element_root
  * --------------------------------------
  */
-static void 
+static void
 p_xml_parse_element_root(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
@@ -472,7 +475,7 @@ p_xml_parse_element_root(const gchar         *element_name,
  * p_xml_parse_element_frame_description
  * --------------------------------------
  */
-static void 
+static void
 p_xml_parse_element_frame_description(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
@@ -509,7 +512,7 @@ p_xml_parse_element_frame_description(const gchar         *element_name,
     {
       userDataPtr->isParseOk = gap_xml_parse_value_gint32(*value_cursor, &userDataPtr->pvals->total_frames);
     }
-    
+
     name_cursor++;
     value_cursor++;
   }
@@ -520,7 +523,7 @@ p_xml_parse_element_frame_description(const gchar         *element_name,
  * p_xml_parse_element_tween
  * --------------------------------------
  */
-static void 
+static void
 p_xml_parse_element_tween(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
@@ -561,7 +564,7 @@ p_xml_parse_element_tween(const gchar         *element_name,
  * p_xml_parse_element_trace
  * --------------------------------------
  */
-static void 
+static void
 p_xml_parse_element_trace(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
@@ -602,7 +605,7 @@ p_xml_parse_element_trace(const gchar         *element_name,
  * p_xml_parse_element_moving_object
  * --------------------------------------
  */
-static void 
+static void
 p_xml_parse_element_moving_object(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
@@ -647,6 +650,14 @@ p_xml_parse_element_moving_object(const gchar         *element_name,
     {
       userDataPtr->isParseOk = gap_xml_parse_value_gint(*value_cursor, &userDataPtr->pvals->dst_layerstack);
     }
+    else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_DST_GROUP_PATH) == 0)
+    {
+      userDataPtr->isParseOk = gap_xml_parse_value_utf8_string(*value_cursor, &userDataPtr->pvals->dst_group_name_path_string);
+    }
+    else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_DST_GROUP_DELIM) == 0)
+    {
+      userDataPtr->isParseOk = gap_xml_parse_value_utf8_string(*value_cursor, &userDataPtr->pvals->dst_group_name_delimiter);
+    }
     else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_STEP_SPEED_FACTOR) == 0)
     {
       userDataPtr->isParseOk = gap_xml_parse_value_gdouble(*value_cursor, &userDataPtr->pvals->step_speed_factor);
@@ -690,7 +701,7 @@ p_xml_parse_element_moving_object(const gchar         *element_name,
  * p_xml_parse_element_bluebox_parameters
  * --------------------------------------
  */
-static void 
+static void
 p_xml_parse_element_bluebox_parameters(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
@@ -699,7 +710,7 @@ p_xml_parse_element_bluebox_parameters(const gchar         *element_name,
 {
   const gchar **name_cursor = attribute_names;
   const gchar **value_cursor = attribute_values;
-  
+
   GapBlueboxGlobalParams *bbp;
 
   if(count > 0)
@@ -710,7 +721,7 @@ p_xml_parse_element_bluebox_parameters(const gchar         *element_name,
   if(userDataPtr->pvals->bbp == NULL)
   {
     gint32 layer_id;
-   
+
     layer_id = -1;
     userDataPtr->pvals->bbp = gap_bluebox_bbp_new(layer_id);
     gap_bluebox_init_default_vals(userDataPtr->pvals->bbp);
@@ -799,7 +810,7 @@ p_xml_parse_element_bluebox_parameters(const gchar         *element_name,
  * p_xml_parse_element_controlpoints
  * --------------------------------------
  */
-static void 
+static void
 p_xml_parse_element_controlpoints(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
@@ -808,12 +819,12 @@ p_xml_parse_element_controlpoints(const gchar         *element_name,
 {
   const gchar **name_cursor = attribute_names;
   const gchar **value_cursor = attribute_values;
-  
+
   if(count > 0)
   {
     userDataPtr->isParseOk = FALSE;
   }
-  
+
   while ((*name_cursor) && (userDataPtr->isParseOk))
   {
     if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_CURRENT_POINT) == 0)
@@ -828,11 +839,15 @@ p_xml_parse_element_controlpoints(const gchar         *element_name,
     {
       gint numberOfPoints;
       userDataPtr->isParseOk = gap_xml_parse_value_gint(*value_cursor, &numberOfPoints);
-      
+
       if(userDataPtr->isParseOk)
       {
-        if((numberOfPoints < GAP_MOV_MAX_POINT) && (numberOfPoints > 0))
+        if(numberOfPoints > 0)
         {
+          if (numberOfPoints > userDataPtr->pvals->point_table_size)
+          {
+            gap_mov_exec_dim_point_table(userDataPtr->pvals, numberOfPoints + 2);
+          }
           userDataPtr->pvals->point_idx_max = numberOfPoints -1;
         }
         else
@@ -840,7 +855,7 @@ p_xml_parse_element_controlpoints(const gchar         *element_name,
           userDataPtr->isParseOk = FALSE;
         }
       }
-      
+
     }
 
     name_cursor++;
@@ -857,7 +872,7 @@ p_xml_parse_element_controlpoints(const gchar         *element_name,
 static void
 p_set_load_defaults_for_one_controlpoint(GapMovValues *pvals, gint idx)
 {
-  if((idx >= 0) && (idx < GAP_MOV_MAX_POINT))
+  if((idx >= 0) && (idx < pvals->point_table_size))
   {
     pvals->point[idx].p_x  = 0;
     pvals->point[idx].p_y  = 0;
@@ -877,16 +892,16 @@ p_set_load_defaults_for_one_controlpoint(GapMovValues *pvals, gint idx)
     pvals->point[idx].sel_feather_radius = 0.0;
     pvals->point[idx].keyframe = 0;   /* 0: controlpoint is not fixed to keyframe */
     pvals->point[idx].keyframe_abs = 0;   /* 0: controlpoint is not fixed to keyframe */
-    
-    pvals->point[idx].accPosition = 0;           /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accOpacity = 0;            /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accSize = 0;               /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accRotation = 0;           /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accPerspective = 0;        /* 0: linear (e.g NO acceleration) is default */
-    pvals->point[idx].accSelFeatherRadius = 0;   /* 0: linear (e.g NO acceleration) is default */
+
+    pvals->point[idx].accPosition = 0;           /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accOpacity = 0;            /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accSize = 0;               /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accRotation = 0;           /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accPerspective = 0;        /* 0: linear (NO acceleration) is default */
+    pvals->point[idx].accSelFeatherRadius = 0;   /* 0: linear (NO acceleration) is default */
 
   }
-  
+
 }  /* end p_set_load_defaults_for_one_controlpoint  */
 
 
@@ -895,7 +910,7 @@ p_set_load_defaults_for_one_controlpoint(GapMovValues *pvals, gint idx)
  * p_xml_parse_element_controlpoint
  * --------------------------------------
  */
-static void 
+static void
 p_xml_parse_element_controlpoint(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
@@ -904,14 +919,14 @@ p_xml_parse_element_controlpoint(const gchar         *element_name,
 {
   const gchar **name_cursor = attribute_names;
   const gchar **value_cursor = attribute_values;
-  
-  if(count >= GAP_MOV_MAX_POINT)
+
+  if(count >= userDataPtr->pvals->point_table_size)
   {
-    userDataPtr->isParseOk = FALSE;
+    gap_mov_exec_dim_point_table(userDataPtr->pvals, count + GAP_MOV_POINT_EXPAND_SIZE);
   }
-  
+
   p_set_load_defaults_for_one_controlpoint(userDataPtr->pvals, count);
-  
+
   while ((*name_cursor) && (userDataPtr->isParseOk))
   {
     if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_PX) == 0)
@@ -925,7 +940,7 @@ p_xml_parse_element_controlpoint(const gchar         *element_name,
     else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_KEYFRAME) == 0)
     {
       gint keyframe;
-      
+
       userDataPtr->isParseOk = gap_xml_parse_value_gint(*value_cursor, &keyframe);
       userDataPtr->pvals->point[count].keyframe = keyframe;
       userDataPtr->pvals->point[count].keyframe_abs = gap_mov_exec_conv_keyframe_to_abs(keyframe, userDataPtr->pvals);
@@ -934,7 +949,7 @@ p_xml_parse_element_controlpoint(const gchar         *element_name,
     else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_KEYFRAME_ABS) == 0)
     {
       gint keyframe_abs;
-      
+
       userDataPtr->isParseOk = gap_xml_parse_value_gint(*value_cursor, &keyframe_abs);
       userDataPtr->pvals->point[count].keyframe_abs = keyframe_abs;
       userDataPtr->pvals->point[count].keyframe = gap_mov_exec_conv_keyframe_to_rel(keyframe_abs, userDataPtr->pvals);
@@ -1030,15 +1045,18 @@ p_xml_parse_element_controlpoint(const gchar         *element_name,
  * this handler is called each time the parser recognizes
  * the start event of an xml element.
  */
-static void 
+static void
 p_start_xml_element (GMarkupParseContext *context,
     const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
-    GapMovXmlUserData   *userDataPtr,
-    GError             **error) 
+    gpointer           user_data,
+    GError             **error)
 {
   gint jj;
+  GapMovXmlUserData   *userDataPtr;
+  
+  userDataPtr = (GapMovXmlUserData *)user_data;
 
   if(gap_debug)
   {
@@ -1060,8 +1078,8 @@ p_start_xml_element (GMarkupParseContext *context,
       }
       if(!userDataPtr->isScopeValid)
       {
-        /* stop parsing when outsided of known namespace 
-         * (and stop on duplicate root element too) 
+        /* stop parsing when outsided of known namespace
+         * (and stop on duplicate root element too)
          */
         return;
       }
@@ -1091,12 +1109,16 @@ p_start_xml_element (GMarkupParseContext *context,
  * this handler is called each time the parser recognizes
  * the end event of an xml element
  */
-static void 
+static void
 p_end_xml_element (GMarkupParseContext *context,
     const gchar         *element_name,
-    GapMovXmlUserData   *userDataPtr,
+    gpointer             user_data,
     GError             **error)
 {
+  GapMovXmlUserData   *userDataPtr;
+
+  userDataPtr = (GapMovXmlUserData *)user_data;
+
   if(gap_debug)
   {
     printf("p_end_xml_element: %s\n", element_name);
@@ -1109,7 +1131,7 @@ p_end_xml_element (GMarkupParseContext *context,
   if(userDataPtr->isScopeValid)
   {
     gint jj;
-    
+
     for(jj=0; jmpTableElement[jj].name != NULL; jj++)
     {
       if(strcmp(jmpTableElement[jj].name, element_name) == 0)
@@ -1117,9 +1139,9 @@ p_end_xml_element (GMarkupParseContext *context,
         jmpTableElement[jj].count++;
       }
     }
-    
+
   }
-  
+
 }  /* end p_end_xml_element */
 
 
@@ -1140,20 +1162,20 @@ p_end_xml_element (GMarkupParseContext *context,
 static gint
 p_transform_path_coordinate(gint value, gint32 recordedSize, gint32 actualSize)
 {
-  
+
   if((recordedSize != 0) && (actualSize != recordedSize))
   {
     gdouble newValue;
     gint    newIntValue;
-    
+
     newValue = ((gdouble)value * (gdouble)actualSize) / (gdouble)recordedSize;
     newIntValue = rint(newValue);
-    
+
     return (newIntValue);
   }
 
   return(value);
-  
+
 }
 
 
@@ -1167,63 +1189,22 @@ p_copy_transformed_values(GapMovValues *dstValues, GapMovValues *srcValues
    , gint32 actualFrameWidth, gint32 actualFrameHeight)
 {
   gint ii;
-  
-  dstValues->version = srcValues->version;
-  dstValues->rotate_threshold = srcValues->rotate_threshold;
-  dstValues->recordedFrameWidth = srcValues->recordedFrameWidth;
-  dstValues->recordedFrameHeight = srcValues->recordedFrameHeight;
-  dstValues->recordedObjWidth = srcValues->recordedObjWidth;
-  dstValues->recordedObjHeight = srcValues->recordedObjHeight;
-  dstValues->dst_range_start = srcValues->dst_range_start;
-  dstValues->dst_range_end = srcValues->dst_range_end;
-  dstValues->total_frames = srcValues->total_frames;
-  dstValues->tween_steps = srcValues->tween_steps;
-  dstValues->tween_opacity_initial = srcValues->tween_opacity_initial;
-  dstValues->tween_opacity_desc = srcValues->tween_opacity_desc;
-  dstValues->tracelayer_enable = srcValues->tracelayer_enable;
-  dstValues->trace_opacity_initial = srcValues->trace_opacity_initial;
-  dstValues->trace_opacity_desc = srcValues->trace_opacity_desc;
-  dstValues->src_stepmode = srcValues->src_stepmode;
-  dstValues->src_handle = srcValues->src_handle;
-  dstValues->src_selmode = srcValues->src_selmode;
-  dstValues->src_paintmode = srcValues->src_paintmode;
-  dstValues->dst_layerstack = srcValues->dst_layerstack;
-  dstValues->step_speed_factor = srcValues->step_speed_factor;
-  dstValues->src_force_visible = srcValues->src_force_visible;
-  dstValues->clip_to_img = srcValues->clip_to_img;
-  dstValues->src_apply_bluebox = srcValues->src_apply_bluebox;
-  dstValues->src_layerstack = srcValues->src_layerstack;
 
-  if(dstValues->src_filename != NULL)
+  if(gap_debug)
   {
-    g_free(dstValues->src_filename);
-    dstValues->src_filename = NULL;
-  }
-  if(srcValues->src_filename != NULL)
-  {
-    dstValues->src_filename = g_strdup(srcValues->src_filename);
+    printf("p_copy_transformed_values START\n");
   }
 
-  if(dstValues->bbp != NULL)
-  {
-    g_free(dstValues->bbp);
-    dstValues->bbp = NULL;
-  }
-  if(srcValues->bbp != NULL)
-  {
-    dstValues->bbp = g_new(GapBlueboxGlobalParams, 1);
-    memcpy(dstValues->bbp, srcValues->bbp, sizeof(GapBlueboxGlobalParams));
-  }
-  
-  
-  dstValues->point_idx = srcValues->point_idx;
-  dstValues->point_idx_max = srcValues->point_idx_max;
+  /* copy all settings, points that come from the xml file (this also includes 
+   * reallocate the point table in dstValues to same size as the srcValues 
+   */
+  gap_mov_exec_copy_xml_GapMovValues(dstValues, srcValues);
 
-  /* copy controlpoint data for all points and transform coordinates */
+
+  /* transform coordinates */
   for(ii=0; ii <= srcValues->point_idx_max; ii++)
   {
-    memcpy(&dstValues->point[ii], &srcValues->point[ii], sizeof(GapMovPoint));
-    
+
     dstValues->point[ii].p_x = p_transform_path_coordinate(srcValues->point[ii].p_x
                                     , srcValues->recordedFrameWidth
                                     , actualFrameWidth
@@ -1232,7 +1213,7 @@ p_copy_transformed_values(GapMovValues *dstValues, GapMovValues *srcValues
                                     , srcValues->recordedFrameHeight
                                     , actualFrameHeight
                                     );
-    
+
   }
 
 }  /* end p_copy_transformed_values */
@@ -1255,28 +1236,28 @@ p_error_handler(GMarkupParseContext *context,
           ,(int)error->code
           ,error->message
           );
-    
+
   }
-  
+
   if(context != NULL)
   {
     gint line_number;
     gint char_number;
-    
+
     g_markup_parse_context_get_position (context, &line_number, &char_number);
-    
+
     printf("context: line_number:%d char_number:%d element:%s\n"
       ,(int)line_number
       ,(int)char_number
       ,g_markup_parse_context_get_element(context)
       );
   }
-  
+
   if(user_data != NULL)
   {
     GapMovXmlUserData *userDataPtr;
     userDataPtr = user_data;
-    
+
     printf("userDataPtr: isParseOk:%d isScopeValid:%d errorLineNumber:%d\n"
       ,(int)userDataPtr->isParseOk
       ,(int)userDataPtr->isScopeValid
@@ -1294,7 +1275,7 @@ p_error_handler(GMarkupParseContext *context,
  * (use  actualFrameWidth and actualFrameHeight value 0 in case no transformation
  * is desired)
  */
-gboolean 
+gboolean
 gap_mov_xml_par_load(const char *filename, GapMovValues *productiveValues
     ,gint32 actualFrameWidth, gint32 actualFrameHeight)
 {
@@ -1316,7 +1297,7 @@ gap_mov_xml_par_load(const char *filename, GapMovValues *productiveValues
   GapMovValues   *tmpValues;
   GapMovXmlUserData *userDataPtr;
   GError            *gError;
-  
+
   isOk = TRUE;
   gError = NULL;
   tmpValues = gap_mov_exec_new_GapMovValues();
@@ -1325,17 +1306,15 @@ gap_mov_xml_par_load(const char *filename, GapMovValues *productiveValues
   userDataPtr = g_new(GapMovXmlUserData, 1);
   userDataPtr->pvals = tmpValues;
 
-  ///p_init_default_values(tmpValues);   /// (?) TODO 
-  
   userDataPtr->isScopeValid = FALSE;
   userDataPtr->isParseOk = TRUE;
   userDataPtr->errorLineNumber = 0;
-  
+
   for(jj=0; jmpTableElement[jj].name != NULL; jj++)
   {
     jmpTableElement[jj].count = 0;
   }
-  
+
   GMarkupParseContext *context = g_markup_parse_context_new (
         &parserFuctions  /* GMarkupParser */
       , 0                /* GMarkupParseFlags flags */
@@ -1343,21 +1322,21 @@ gap_mov_xml_par_load(const char *filename, GapMovValues *productiveValues
       , NULL             /* GDestroyNotify user_data_dnotify */
       );
 
-  if (g_file_get_contents (filename, &textBuffer, &lengthTextBuffer, NULL) != TRUE) 
+  if (g_file_get_contents (filename, &textBuffer, &lengthTextBuffer, NULL) != TRUE)
   {
     printf("Couldn't load XML file:%s\n", filename);
     return(FALSE);
   }
-  
+
 
   if (g_markup_parse_context_parse (context, textBuffer, lengthTextBuffer, &gError) != TRUE)
   {
     printf("Parse failed of file: %s\n", filename);
     p_error_handler(context, gError, userDataPtr);
-    
+
     return(FALSE);
   }
-  
+
   /* check for mandatory elements */
   if(userDataPtr->isParseOk)
   {
@@ -1375,35 +1354,37 @@ gap_mov_xml_par_load(const char *filename, GapMovValues *productiveValues
         }
       }
     }
-    
+
   }
 
   if(userDataPtr->isParseOk)
   {
       /* copy loaded values and transform coordinates from recorded frame size
-       * to actual frame size 
+       * to actual frame size
        */
       p_copy_transformed_values(productiveValues, tmpValues, actualFrameWidth, actualFrameHeight);
-  }  
-  
+  }
+
   isOk = userDataPtr->isParseOk;
-  
+
   g_free(textBuffer);
   g_markup_parse_context_free (context);
 
   if(tmpValues->bbp != NULL)
   {
     g_free(tmpValues->bbp);
+    tmpValues->bbp = NULL;
   }
   if(tmpValues->src_filename != NULL)
   {
     g_free(tmpValues->src_filename);
+    tmpValues->src_filename = NULL;
   }
-  g_free(tmpValues);
+  gap_mov_exec_free_GapMovValues(tmpValues);
 
   g_free(userDataPtr);
-  
-  
+
+
   return (isOk);
 
 }  /* end gap_mov_xml_par_load */
@@ -1412,7 +1393,7 @@ gap_mov_xml_par_load(const char *filename, GapMovValues *productiveValues
 
 
 
-/* 
+/*
  * XML WRITER procedure
  */
 
@@ -1438,20 +1419,20 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
     gboolean writeRotateValues;
     gboolean writeOpacityValues;
     gboolean writeFeatherRadiusValues;
-    
+
     fprintf(l_fp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    
+
     /* root */
     fprintf(l_fp, "<%s ", GAP_MOVPATH_XML_TOKEN_ROOT);
     gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_VERSION, pvals->version);
     fprintf(l_fp, ">\n");
-    
+
     /* attributes for description of the processed frames */
     {
       gint32 total_frames;
-      
+
       total_frames = 1 + abs(pvals->dst_range_end - pvals->dst_range_start);
-    
+
       fprintf(l_fp, "  <%s ", GAP_MOVPATH_XML_TOKEN_FRAME_DESCRIPTION);
       gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_WIDTH, gimp_image_width(pvals->dst_image_id));
       gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_HEIGHT, gimp_image_height(pvals->dst_image_id));
@@ -1460,8 +1441,8 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_TOTAL_FRAMES, total_frames);
       fprintf(l_fp, "/>\n");
     }
-    
-           
+
+
     /* attributes for tween processing */
     fprintf(l_fp, "  <%s ", GAP_MOVPATH_XML_TOKEN_TWEEN);
     gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_TWEEN_STEPS, pvals->tween_steps);
@@ -1471,7 +1452,7 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_TWEEN_OPACITY_DESC, pvals->tween_opacity_desc, 1, 3);
     }
     fprintf(l_fp, "/>\n");
-    
+
     /* attributes for trace layer generation */
     isTraceLayerEnabled = (pvals->tracelayer_enable != 0);
     fprintf(l_fp, "  <%s ", GAP_MOVPATH_XML_TOKEN_TRACE);
@@ -1482,13 +1463,13 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_TRACE_OPACITY_DESC, pvals->trace_opacity_desc, 1, 3);
     }
     fprintf(l_fp, "/>\n");
-    
+
     /* attributes of the moving_object */
     {
       char   *src_filename;
       gint32  src_image_id;
- 
-      src_image_id = gimp_drawable_get_image(pvals->src_layer_id);
+
+      src_image_id = gimp_item_get_image(pvals->src_layer_id);
 
       fprintf(l_fp, "  <%s ", GAP_MOVPATH_XML_TOKEN_MOVING_OBJECT);
       gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_LAYER_ID, pvals->src_layer_id);
@@ -1513,11 +1494,13 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       gap_xml_write_EnumValue(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_PAINTMODE, pvals->src_paintmode, &valuesGimpPaintmode[0]);
       fprintf(l_fp, "\n    ");
       gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_DST_LAYERSTACK, pvals->dst_layerstack);
+      gap_xml_write_string_value(l_fp, GAP_MOVPATH_XML_TOKEN_DST_GROUP_PATH, pvals->dst_group_name_path_string);
+      gap_xml_write_string_value(l_fp, GAP_MOVPATH_XML_TOKEN_DST_GROUP_DELIM, pvals->dst_group_name_delimiter);
       gap_xml_write_gint_as_gboolean_value(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_FORCE_VISIBLE, pvals->src_force_visible);
       gap_xml_write_gint_as_gboolean_value(l_fp, GAP_MOVPATH_XML_TOKEN_CLIP_TO_IMG, pvals->clip_to_img);
       gap_xml_write_gint_as_gboolean_value(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_APPLY_BLUEBOX, pvals->src_apply_bluebox);
       fprintf(l_fp, "\n");
-      
+
       /* attributes for applying bluebox transparency processing */
       if((pvals->src_apply_bluebox) && (pvals->bbp != NULL))
       {
@@ -1546,13 +1529,13 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
         gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_KEYCOLOR_R, pvals->bbp->vals.keycolor.r, 1, 3);
         gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_KEYCOLOR_G, pvals->bbp->vals.keycolor.g, 1, 3);
         gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_KEYCOLOR_B, pvals->bbp->vals.keycolor.b, 1, 3);
-  
+
         fprintf(l_fp, "\n");
         fprintf(l_fp, "      >\n");
         fprintf(l_fp, "    </%s>\n", GAP_MOVPATH_XML_TOKEN_BLUEBOX_PARAMETERS);
-      
+
       }
-      
+
       fprintf(l_fp, "    >\n");
       fprintf(l_fp, "  </%s>\n", GAP_MOVPATH_XML_TOKEN_MOVING_OBJECT);
     }
@@ -1567,7 +1550,7 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
     gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_ROTATE_THRESHOLD, pvals->rotate_threshold, 1, 7);
     fprintf(l_fp, " >\n");
 
-    /* check for conditonal write 
+    /* check for conditonal write
      * (to keep files smaller and more readable we skip writing of some information
      * that is equal to the default value in all controlpoints)
      */
@@ -1582,22 +1565,22 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       {
         writeResizeValues = TRUE;
       }
-      
+
       if(pvals->point[l_idx].opacity != 100.0)
       {
         writeOpacityValues = TRUE;
       }
-      
+
       if(pvals->point[l_idx].rotation != 0.0)
       {
         writeRotateValues = TRUE;
       }
-      
+
       if(pvals->point[l_idx].sel_feather_radius != 0.0)
       {
         writeFeatherRadiusValues = TRUE;
       }
-      
+
     }
 
     /* write controlpoints loop */
@@ -1607,13 +1590,13 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       gdouble  py;
       gboolean writeAccelerationCharacteristics;
       gboolean keyframeInNewLine;
-      
+
       keyframeInNewLine = FALSE;
       px = pvals->point[l_idx].p_x;
       py = pvals->point[l_idx].p_y;
-      
+
       /* write basic attributes of the controlpoint */
-      
+
       fprintf(l_fp, "    <%s ", GAP_MOVPATH_XML_TOKEN_CONTROLPOINT);
       gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_PX, px, 5, 0);
       gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_PY, py, 5, 0);
@@ -1634,7 +1617,7 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       {
         gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_SEL_FEATHER_RADIUS, pvals->point[l_idx].sel_feather_radius, 3, 1);
       }
-      
+
       /* conditional write perspective transformation (only if there is any) */
       if(pvals->point[l_idx].ttlx != 1.0
             || pvals->point[l_idx].ttly != 1.0
@@ -1670,7 +1653,7 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       ||  (pvals->point[l_idx].accPerspective != 0)
       ||  (pvals->point[l_idx].accSelFeatherRadius != 0))
       {
-        if (l_idx == 0) 
+        if (l_idx == 0)
         {
           writeAccelerationCharacteristics = TRUE;
         }
@@ -1682,9 +1665,9 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
             writeAccelerationCharacteristics = TRUE;
           }
         }
-        
+
       }
-      
+
       if (writeAccelerationCharacteristics == TRUE)
       {
         keyframeInNewLine = TRUE;
@@ -1707,32 +1690,33 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
           ,gap_mov_exec_conv_keyframe_to_rel(pvals->point[l_idx].keyframe_abs, pvals)
           );
       }
-      
+
       /* check for writing keyframe
        * (the implicite keyframes at first and last controlpoints are not written to file)
        */
       if((l_idx > 0)
       && (l_idx < pvals->point_idx_max)
       && ((int)pvals->point[l_idx].keyframe_abs > 0))
-      { 
+      {
         if(keyframeInNewLine == TRUE)
         {
           fprintf(l_fp, "\n      ");
         }
-        gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_KEYFRAME_ABS, 
+        gap_xml_write_int_value(l_fp, GAP_MOVPATH_XML_TOKEN_KEYFRAME_ABS,
                                 pvals->point[l_idx].keyframe_abs);
-      
+
       }
 
       fprintf(l_fp, "/>\n"); /* end of GAP_MOVPATH_XML_TOKEN_CONTROLPOINT */
-      
-    }    
-    
+
+    }
+
     fprintf(l_fp, "  </%s>\n", GAP_MOVPATH_XML_TOKEN_CONTROLPOINTS);
     fprintf(l_fp, "</%s>", GAP_MOVPATH_XML_TOKEN_ROOT);
-    
+
     fclose(l_fp);
     return 0;
   }
   return -1;
 }  /* end gap_mov_xml_par_save */
+

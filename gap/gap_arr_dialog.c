@@ -86,13 +86,13 @@
 
 #include "config.h"
 
+#include <glib/gstdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
 
-#include <glib/gstdio.h>
 
 /* GIMP includes */
 #include "gtk/gtk.h"
@@ -332,7 +332,7 @@ label_create_value(char *title, GtkTable *table, int row,
     else
     {
       /* the caller provided just the Label
-       * in this case we show the label (spread accross all columns)
+       * in this case we show the label (spread across all columns)
        */
      from_col = 0;
      label = gtk_label_new(title);
@@ -1280,7 +1280,7 @@ gint gap_arr_std_dialog(const char *title_txt,
   g_object_set_data (G_OBJECT (arrint_ptr->dlg), GAP_ARR_INTERFACE_PTR, (gpointer)arrint_ptr);
   gtk_window_set_title (GTK_WINDOW (arrint_ptr->dlg), title_txt);
 
-  // hof: on my Gnome windowmanger (openSUSE 11.11) pop ups created with gtk_dialog_new
+  // hof: on my Gnome windowmanager (openSUSE 11.11) pop ups created with gtk_dialog_new
   // often open BEHIND other windows.
   //
   // As workaround i commented out placing the pop up on mouse position
@@ -1906,7 +1906,7 @@ void gap_arr_msg_popup(GimpRunMode run_mode, const char *msg)
 /* --------------------------------------
  * p_mkdir_from_file_if_not_exists
  * --------------------------------------
- * return TRUE if directory part of the specifed filename already exists
+ * return TRUE if directory part of the specified filename already exists
  *             or did not exist, but could be created successfully.
  * return FALSE if directory part does not exist and could not be created.
  */
@@ -2103,7 +2103,7 @@ gap_arr_create_vindex_permission(const char *videofile, const char *vindex_file
   l_info_msg = g_strdup_printf(_("Do you want to create a videoindex file ?\n"
                               "\n"
                               "If you want GIMP-GAP to create videoindex files automatically\n"
-                              "when recommanded, whithout showing up this dialog again\n"
+                              "when recommended, without showing up this dialog again\n"
                               "then you should add the following line to\n"
                               "your gimprc file:\n"
                               "%s")
@@ -2127,13 +2127,13 @@ gap_arr_create_vindex_permission(const char *videofile, const char *vindex_file
   {
     case SEEK_STATUS_SEEKSUPP_NONE:
       l_status_info = g_strdup_printf(_("WARNING:\nrandom positioning is not possible for this video.\n"
-                                      "creating a video index is NOT recommanded\n"
+                                      "creating a video index is NOT recommended\n"
                                       "(would not work)\n"));
       break;
     case SEEK_STATUS_SEEKSUPP_VINDEX:
-      l_status_info = g_strdup_printf(_("TIP:\ncreating a video index on this video is recommanded.\n"
+      l_status_info = g_strdup_printf(_("TIP:\ncreating a video index on this video is recommended.\n"
                                       "This will enable fast and random frame access.\n"
-                                      "but requires one initial full scann.\n"
+                                      "but requires one initial full scan.\n"
                                       "(this will take a while).\n"));
       break;
     case SEEK_STATUS_SEEKSUPP_NATIVE:
@@ -2184,3 +2184,214 @@ gap_arr_create_vindex_permission(const char *videofile, const char *vindex_file
 
   return (l_rc);
 }  /* end gap_arr_create_vindex_permission */
+
+
+
+/*---------------------------------- */
+/*---------------------------------- */
+/*---------------------------------- */
+
+GtkWidget *
+gap_dialog_add_button (GtkWidget  *dialog,
+                        const gchar *button_text,
+                        gint         response_id)
+{
+  GtkWidget *button;
+
+
+  if(gap_debug)
+  {
+   printf("gap_dialog_add_button %s response_id:%d\n"
+       ,button_text
+       ,response_id
+       );
+  }
+
+
+  button = gtk_dialog_add_button (GTK_DIALOG (dialog), button_text,
+                                  response_id);
+  gtk_widget_show (button);
+
+  if (response_id == GTK_RESPONSE_OK)
+    {
+      gtk_dialog_set_default_response (GTK_DIALOG (dialog),
+                                       GTK_RESPONSE_OK);
+    }
+
+  return button;
+}
+
+void
+gap_dialog_add_buttons_valist (GtkWidget *dialog,
+                                va_list     args)
+{
+  const gchar *button_text;
+  gint         response_id;
+
+  if(gap_debug)
+  {
+    printf("gap_dialog_add_buttons_valist START\n");
+  }
+
+  while ((button_text = va_arg (args, const gchar *)))
+    {
+      response_id = va_arg (args, gint);
+
+      gap_dialog_add_button (dialog, button_text, response_id);
+    }
+}
+
+
+
+static void
+gap_dialog_help (GtkWidget *widget, GtkWidget *dialog)
+{
+  GimpHelpFunc    help_func;
+  const gchar    *help_id;
+ 
+  if(gap_debug)
+  {
+    printf("gap_dialog_help START\n");
+  }
+
+  help_func = (GimpHelpFunc) g_object_get_data (G_OBJECT (widget)
+                                                       , "HelpFunc"
+                                                       );
+  help_id = (const gchar *) g_object_get_data (G_OBJECT (widget)
+                                                       , "HelpId"
+                                                       );
+
+  if ((help_id != NULL) && (dialog != NULL))
+  {
+    if (help_func != NULL)
+    {
+      /* call user help function */   
+      help_func (help_id, dialog);
+    }
+    else
+    { 
+      /* call gimp standard help function */
+      gimp_standard_help_func(help_id, dialog);
+    }
+  }
+}
+
+
+
+GtkWidget *
+gap_dialog_new_valist (const gchar    *title,
+                        const gchar    *role,
+                        GtkWidget      *parent,
+                        GtkDialogFlags  flags,
+                        GimpHelpFunc    help_func,
+                        const gchar    *help_id,
+                        va_list         args)
+{
+  GtkWidget *dlg;
+  if(gap_debug)
+  {
+    printf("gap_dialog_new_valist START\n");
+  }
+
+  g_return_val_if_fail (title != NULL, NULL);
+  g_return_val_if_fail (role != NULL, NULL);
+  g_return_val_if_fail (parent == NULL || GTK_IS_WIDGET (parent), NULL);
+
+
+  dlg = gtk_dialog_new ();
+  gtk_window_set_type_hint (GTK_WINDOW (dlg), GDK_WINDOW_TYPE_HINT_NORMAL);
+  if(gap_debug)
+  {
+    printf("gap_dialog_new_valist set title:%s\n", title);
+  }
+  gtk_window_set_title (GTK_WINDOW (dlg), title);
+  
+  gap_dialog_add_buttons_valist (dlg, args);
+
+
+  if(help_id != NULL)
+  {
+      GtkWidget *action_area = gtk_dialog_get_action_area (GTK_DIALOG(dlg));
+      GtkWidget *help_button = gtk_button_new_from_stock (GTK_STOCK_HELP);
+
+      g_object_set_data (G_OBJECT (help_button), "HelpFunc", (gpointer)help_func);
+      g_object_set_data (G_OBJECT (help_button), "HelpId", (gpointer)help_id);
+      
+      gtk_box_pack_end (GTK_BOX (action_area), help_button,
+                        FALSE, TRUE, 0);
+      gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (action_area),
+                                          help_button, TRUE);
+      gtk_widget_show (help_button);
+
+      g_signal_connect (G_OBJECT (help_button), "clicked",
+                      G_CALLBACK(gap_dialog_help),
+                      dlg);
+  }
+  else
+  {
+    if(gap_debug)
+    {
+      printf("gap_dialog_new_valist: help_id is NULL\n");
+    }
+  }
+  return dlg;
+}
+
+
+/* ------------------------------
+ * gap_dialog_new
+ * ------------------------------
+ * has same signature as gimp_dialog_new
+ * but forces creation with hint GDK_WINDOW_TYPE_HINT_NORMAL
+ * to behave like normal toplevel window
+ * (that has default decoreations of the Window manager
+ * typical close, maximize, minimize widgets
+ * and shall open in front of other windows..)
+ */
+
+GtkWidget *
+gap_dialog_new (const gchar    *title,
+                 const gchar    *role,
+                 GtkWidget      *parent,
+                 GtkDialogFlags  flags,
+                 GimpHelpFunc    help_func,
+                 const gchar    *help_id,
+                 ...)
+{
+  GtkWidget *dialog;
+  va_list    args;
+  if(gap_debug)
+  {
+    printf("gap_dialog_new START\n");
+  }
+
+  g_return_val_if_fail (parent == NULL || GTK_IS_WIDGET (parent), NULL);
+  g_return_val_if_fail (title != NULL, NULL);
+  g_return_val_if_fail (role != NULL, NULL);
+
+  if(gap_debug)
+  {
+    printf("gap_dialog_new title:%s role:%s parent:%ld flags:%d\n"
+       ,title
+       ,role
+       ,(long)parent
+       ,(int)flags
+       );
+  }
+
+  va_start (args, help_id);
+
+  dialog = gap_dialog_new_valist (title, role,
+                                  parent, flags,
+                                  help_func, help_id,
+                                  args);
+
+  va_end (args);
+
+  if(gap_debug)
+  {
+    printf("gap_dialog_new DONE, dialog:%ld\n", (long)dialog);
+  }
+
+  return dialog;
+}

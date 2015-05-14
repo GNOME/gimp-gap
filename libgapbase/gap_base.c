@@ -315,7 +315,6 @@ gap_base_gdouble_to_ascii_string(gdouble value, gint precision_digits)
   
   gchar l_dbl_str[G_ASCII_DTOSTR_BUF_SIZE];
   gchar l_fmt_str[20];
-  gint  l_len;
 
   g_snprintf(l_fmt_str, sizeof(l_fmt_str), "%%.%df", (int)precision_digits);
   g_ascii_formatd(l_dbl_str, sizeof(l_dbl_str), l_fmt_str, value);
@@ -583,10 +582,10 @@ gap_base_is_pid_alive(gint32 pid)
  * --------------------------------
  * get curent system time in utc timecode
  */
-gint32
+time_t
 gap_base_get_current_time(void)
 {
-  return ((gint32)time(0));
+  return (time(NULL));
 }
 
 
@@ -735,7 +734,7 @@ gap_base_get_thread_id()
   threadId = pthread_self();
   if(gap_debug)
   {
-    printf("pthread_self threadId:%lld\n", threadId);
+    printf("pthread_self threadId:%lld\n", (long long int)threadId);
   }
 #endif
 

@@ -15,6 +15,7 @@
 #include "unistd.h"
 #include <errno.h>
 #include "stdlib.h"
+#include <time.h>
 
 #include <glib/gstdio.h>
 
@@ -160,7 +161,7 @@ gap_audio_wav_write_header(FILE *fp
 
   if(gap_debug)
   {
-    printf("gap_audio_wav_write_header: START fp:%d\n", (int)fp);
+    printf("gap_audio_wav_write_header: START fp:%ld\n", (long)fp);
   }
 
   l_data_len  = nsamples * bytes_per_sample;
@@ -188,7 +189,7 @@ gap_audio_wav_write_header(FILE *fp
   p_check_errno();
   if(gap_debug)
   {
-    printf("gap_audio_wav_write_header: DONE fp:%d\n", (int)fp);
+    printf("gap_audio_wav_write_header: DONE fp:%ld\n", (long)fp);
   }
 }  /* end gap_audio_wav_write_header */
 
@@ -208,7 +209,7 @@ static FILE *
 p_wav_open_seek_data_private(const char *filename, unsigned char *audata)
 {
   FILE        *fp;
-  struct stat  l_stat_buf;
+  GStatBuf     l_stat_buf;
   size_t       l_len_to_read;
   size_t       l_len_read;
 
@@ -439,7 +440,7 @@ gap_audio_wav_16bit_save(const char *wavfile
     /* write the header */
     gap_audio_wav_write_header(fp
                             , (gint32)total_samples
-                            , channels                           /* cannels 1 or 2 */
+                            , channels                           /* channels 1 or 2 */
                             , samplerate
                             , l_bytes_per_sample
                             , 16                          /* 16 bit sample resolution */
@@ -611,7 +612,7 @@ p_check_for_valid_playlist(const char *audfile, long *sample_rate, long *channel
           if(ii > 0)
           {
             g_message(_("The file: %s\n"
-                    "has unexpect content that will be ignored.\n"
+                    "has unexpected content that will be ignored.\n"
                     "You should specify an audio file in RIFF WAVE fileformat,\n"
                     "or a textfile containing filenames of such audio files")
                    , audfile

@@ -119,7 +119,7 @@ p_check_vcodec_name(gint32 check_flags
       {
         if(codec_elem->codec_name)
         {
-          if(strcmp(codec_elem->codec_name, vcodec_name_chunk) == 0)
+          if(strcmp((const char*)codec_elem->codec_name, (const char *)vcodec_name_chunk) == 0)
           {
             return (TRUE);
           }
@@ -578,7 +578,6 @@ p_story_attempt_fetch_chunk(GapStoryRenderVidHandle *vidhand
 #define GAP_MPEG_ASSUMED_REFERENCE_DISTANCE 3
   static gint32     last_video_frame_nr = -1;
 
-  gchar  *l_framename;
   gchar  *l_videofile;
   GapStoryRenderFrameRangeElem *l_frn_elem;
   GapStoryRenderFrameRangeElem *l_frn_elem_2;
@@ -593,7 +592,6 @@ p_story_attempt_fetch_chunk(GapStoryRenderVidHandle *vidhand
 
 
   l_videofile = NULL;     /* NULL: also used as flag for "MUST fetch regular uncompressed frame" */
-  l_framename = NULL;
   l_video_frame_nr = 1;
 
 
@@ -696,9 +694,9 @@ p_story_attempt_fetch_chunk(GapStoryRenderVidHandle *vidhand
 
         if(gap_debug)
         {
-          printf("p_story_attempt_fetch_chunk:  AFTER CHUNK fetch max:%d chunk_data:%d  chunk_size:%d\n"
+          printf("p_story_attempt_fetch_chunk:  AFTER CHUNK fetch max:%d chunk_data:%ld  chunk_size:%d\n"
                       ,(int)video_frame_chunk_maxsize
-                      ,(int)video_frame_chunk_data
+                      ,(long)video_frame_chunk_data
                       ,(int)*video_frame_chunk_size
                       );
         }
@@ -1077,15 +1075,12 @@ gap_story_render_fetch_composite_image_or_chunk(GapStoryRenderVidHandle *vidhand
   static gboolean   last_fetch_was_compressed_chunk = FALSE;
 
   gchar  *l_videofile;
-  GapStoryRenderFrameRangeElem *l_frn_elem;
-
   gboolean      l_enable_chunk_fetch;
 
 
   *image_id         = -1;
   *layer_id         = -1;
   *force_keyframe   = FALSE;
-  l_frn_elem        = NULL;
   *video_frame_chunk_size = 0;
   *video_frame_chunk_hdr_size = 0;  /* assume chunk contains no frame header */
   l_enable_chunk_fetch = dont_recode_flag;
@@ -1294,8 +1289,6 @@ gap_story_render_fetch_composite_image_or_buffer_or_chunk(GapStoryRenderVidHandl
   static gboolean   last_fetch_was_compressed_chunk = FALSE;
 
   gchar  *l_videofile;
-  GapStoryRenderFrameRangeElem *l_frn_elem;
-
   gboolean      l_enable_chunk_fetch;
 
   /* init result record */
@@ -1306,7 +1299,6 @@ gap_story_render_fetch_composite_image_or_buffer_or_chunk(GapStoryRenderVidHandl
   gapStoryFetchResult->video_frame_chunk_size     = 0;
   gapStoryFetchResult->video_frame_chunk_hdr_size = 0;     /* assume chunk contains no frame header */
   
-  l_frn_elem        = NULL;
   l_enable_chunk_fetch = dont_recode_flag;
   
   if ((gapStoryFetchResult->video_frame_chunk_data == NULL)
@@ -1355,7 +1347,7 @@ gap_story_render_fetch_composite_image_or_buffer_or_chunk(GapStoryRenderVidHandl
                          , vid_width
                          , vid_height
                          , vcodec_list
-                         , &gapStoryFetchResult->video_frame_chunk_data
+                         , gapStoryFetchResult->video_frame_chunk_data
                          , &gapStoryFetchResult->video_frame_chunk_size
                          , video_frame_chunk_maxsize
                          , master_framerate
@@ -1429,4 +1421,3 @@ gap_story_render_fetch_composite_image_or_buffer_or_chunk(GapStoryRenderVidHandl
 
 
 } /* end gap_story_render_fetch_composite_image_or_buffer_or_chunk */
-

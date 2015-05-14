@@ -359,7 +359,10 @@ on_checkbutton_toggled (GtkToggleButton *togglebutton
 {
  GapGveAviGlobalParams *gpp;
 
- if(gap_debug) printf("CB: on_checkbutton_toggled: %d\n", (int)togglebutton);
+ if(gap_debug)
+ {
+   printf("CB: on_checkbutton_toggled: %ld\n", (long)togglebutton);
+ }
 
  if(val_ptr)
  {
@@ -462,7 +465,7 @@ p_create_shell_window (GapGveAviGlobalParams *gpp)
                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                          GTK_STOCK_OK,     GTK_RESPONSE_OK,
                          NULL);
-  gtk_window_set_type_hint (shell_window, GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_type_hint (GTK_WINDOW(shell_window), GDK_WINDOW_TYPE_HINT_NORMAL);
 
   g_signal_connect (G_OBJECT (shell_window), "response",
                     G_CALLBACK (on_avi_response),

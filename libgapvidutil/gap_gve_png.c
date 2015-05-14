@@ -142,7 +142,7 @@ gap_gve_png_drawable_encode_png(GimpDrawable *drawable, gint32 png_interlaced, g
   char *l_tmpname;
   
   l_tmpname = gimp_temp_name("tmp.png");
-  image_id = gimp_drawable_get_image(drawable->drawable_id);
+  image_id = gimp_item_get_image(drawable->drawable_id);
   
   l_pngSaveOk = p_save_as_tmp_png_file(l_tmpname
                        , image_id

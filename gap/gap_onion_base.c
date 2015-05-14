@@ -71,7 +71,7 @@ gap_onion_base_mark_as_onionlayer(gint32 layer_id)
 
   l_parasite_data = g_malloc(sizeof(GapOnionBaseParasite_data));
   l_parasite_data->timestamp = gap_base_get_current_time();
-  l_parasite_data->tattoo = gimp_drawable_get_tattoo(layer_id);
+  l_parasite_data->tattoo = gimp_item_get_tattoo(layer_id);
   if(gap_debug) printf("gap_onion_base_mark_as_onionlayer: tattoo is: %d\n", (int)l_parasite_data->tattoo);
 
   l_parasite = gimp_parasite_new(GAP_ONION_PARASITE_NAME,
@@ -111,7 +111,7 @@ gap_onion_base_check_is_onion_layer(gint32 layer_id)
       l_parasite_data = (GapOnionBaseParasite_data *)l_parasite->data;
       if(gap_debug) printf("gap_onion_base_check_is_onion_layer: tattoo is: %d\n", (int)l_parasite_data->tattoo);
 
-      if (l_parasite_data->tattoo == gimp_drawable_get_tattoo(layer_id))
+      if (l_parasite_data->tattoo == gimp_item_get_tattoo(layer_id))
       {
         l_found = TRUE;
         if(gap_debug) printf("gap_onion_base_check_is_onion_layer: ONION_LAYER_FOUND layer_id %d\n", (int)layer_id);
@@ -167,12 +167,12 @@ gap_onion_base_onionskin_visibility(gint32 image_id, gint visi_mode)
       {
         if (l_visible == VISIBILTY_UNSET)
         {
-          l_visible = !gimp_drawable_get_visible(l_layer_id);
+          l_visible = !gimp_item_get_visible(l_layer_id);
         }
 
         /* set visibility  */
         if(gap_debug) printf("layer_id %d  visibility: %d\n", (int)l_layer_id ,(int)l_visible);
-        gimp_drawable_set_visible(l_layer_id, l_visible);
+        gimp_item_set_visible(l_layer_id, l_visible);
       }
     }
     g_free(l_layers_list);
@@ -481,7 +481,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
       for(l_ign=0, l_idx=l_nlayers -1; l_idx >= 0;l_idx--)
       {
         l_layer_id = l_layers_list[l_idx];
-        l_layername = gimp_drawable_get_name(l_layer_id);
+        l_layername = gimp_item_get_name(l_layer_id);
 
 
         l_is_onion = gap_onion_base_check_is_onion_layer(l_layer_id);
@@ -498,7 +498,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
            )
         || (l_is_onion))
         {
-          gimp_drawable_set_visible(l_layer_id, FALSE);
+          gimp_item_set_visible(l_layer_id, FALSE);
         }
 
         g_free (l_layername);
@@ -563,12 +563,12 @@ gap_onion_base_onionskin_apply(gpointer gpp
 
 
       /* add the layer to current frame at desired stackposition  */
-      gimp_image_add_layer (image_id, l_new_layer_id, l_layerstack);
+      gimp_image_insert_layer (image_id, l_new_layer_id, 0, l_layerstack);
       gimp_layer_set_offsets(l_new_layer_id, l_src_offset_x, l_src_offset_y);
 
       /* set layername */
       l_name = g_strdup_printf(_("onionskin_%06d"), (int) l_frame_nr);
-      gimp_drawable_set_name(l_new_layer_id, l_name);
+      gimp_item_set_name(l_new_layer_id, l_name);
       g_free(l_name);
 
 
@@ -646,7 +646,7 @@ gap_onion_image_has_oinonlayers(gint32 image_id, gboolean only_visible)
       {
         if (only_visible)
         {
-          if(gimp_drawable_get_visible(l_layer_id))
+          if(gimp_item_get_visible(l_layer_id))
           {
             l_has_onion = TRUE;
             break;
@@ -688,7 +688,6 @@ gap_onion_base_image_duplicate(gint32 image_id)
     gint        l_idx;
     gint        l_is_onion;
     gint32      l_layer_id;
-    gboolean    l_has_onion;
 
     l_layers_list = gimp_image_get_layers(image_id, &l_nlayers);
     l_dup_layers_list = gimp_image_get_layers(dup_image_id, &l_dup_nlayers);

@@ -24,7 +24,7 @@
 static gint32
 p_get_filesize(char *fname)
 {
-  struct stat  stat_buf;
+  GStatBuf  stat_buf;
 
   if (0 != g_stat(fname, &stat_buf))
   {

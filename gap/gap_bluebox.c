@@ -167,7 +167,7 @@ gap_bluebox_bbp_new(gint32 layer_id)
   bbp->image_filename = NULL;
   if(layer_id >= 0)
   {
-    bbp->image_id = gimp_drawable_get_image(layer_id);
+    bbp->image_id = gimp_item_get_image(layer_id);
     bbp->image_filename = g_strdup(gimp_image_get_filename(bbp->image_id));
   }
   bbp->run_mode = GIMP_RUN_NONINTERACTIVE;
@@ -1617,7 +1617,7 @@ gap_bluebox_apply(GapBlueboxGlobalParams *bbp)
                                  ,100.0            /* Opacity full opaque */
                                  ,GIMP_NORMAL_MODE
                                  );
-    gimp_image_add_layer(bbp->pv_image_id, bbp->pv_layer_id, 0);
+    gimp_image_insert_layer(bbp->pv_image_id, bbp->pv_layer_id, 0, 0);
     gimp_layer_set_offsets(bbp->pv_layer_id, 0, 0);
 
     if(!gimp_drawable_has_alpha(bbp->pv_layer_id))
@@ -1646,7 +1646,7 @@ gap_bluebox_apply(GapBlueboxGlobalParams *bbp)
                                    ,100.0            /* Opacity full opaque */
                                    ,GIMP_NORMAL_MODE
                                    );
-      gimp_image_add_layer(bbp->pv_image_id, bbp->pv_master_layer_id, 1);
+      gimp_image_insert_layer(bbp->pv_image_id, bbp->pv_master_layer_id, 0, 1);
 
       if(!gimp_drawable_has_alpha(bbp->pv_master_layer_id))
       {
@@ -1657,7 +1657,7 @@ gap_bluebox_apply(GapBlueboxGlobalParams *bbp)
                             );
       gimp_layer_scale(bbp->pv_master_layer_id, l_width, l_height, 0);
       gimp_layer_set_offsets(bbp->pv_master_layer_id, 0, 0);
-      gimp_drawable_set_visible(bbp->pv_master_layer_id, FALSE);
+      gimp_item_set_visible(bbp->pv_master_layer_id, FALSE);
     }
 
     /* use a the scaled mastercopy when operating with reduced preview size */

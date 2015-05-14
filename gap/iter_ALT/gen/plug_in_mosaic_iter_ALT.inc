@@ -4,6 +4,14 @@
  */
 gint p_plug_in_mosaic_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdouble current_step, gint32 len_struct) 
 {
+  typedef enum
+  {
+    SQUARES   = 0,
+    HEXAGONS  = 1,
+    OCTAGONS  = 2,
+    TRIANGLES = 3
+  } t_plug_in_mosaic_TileType;
+
     typedef struct t_plug_in_mosaic_Vals 
     {
       gdouble   tile_size;
@@ -13,14 +21,17 @@ gint p_plug_in_mosaic_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdouble
       long      tile_allow_split;
       gdouble   light_dir;
       gdouble   color_variation;
-      long      antialiasing;
-      long      color_averaging;
-      long      tile_type;
-      long      tile_surface;
-      long      grout_color;
+      gboolean  antialiasing;
+      gint      color_averaging;
+      t_plug_in_mosaic_TileType      tile_type;
+      gint      tile_surface;
+      gint      grout_color;
     } t_plug_in_mosaic_Vals; 
 
     t_plug_in_mosaic_Vals  buf, *buf_from, *buf_to; 
+    
+    gboolean l_boolean_switch;
+    
 
     if(len_struct != sizeof(t_plug_in_mosaic_Vals)) 
     {
@@ -43,11 +54,17 @@ gint p_plug_in_mosaic_iter_ALT(GimpRunMode run_mode, gint32 total_steps, gdouble
     p_delta_long(&buf.tile_allow_split, buf_from->tile_allow_split, buf_to->tile_allow_split, total_steps, current_step);
     p_delta_gdouble(&buf.light_dir, buf_from->light_dir, buf_to->light_dir, total_steps, current_step);
     p_delta_gdouble(&buf.color_variation, buf_from->color_variation, buf_to->color_variation, total_steps, current_step);
-    p_delta_long(&buf.antialiasing, buf_from->antialiasing, buf_to->antialiasing, total_steps, current_step);
-    p_delta_long(&buf.color_averaging, buf_from->color_averaging, buf_to->color_averaging, total_steps, current_step);
-    p_delta_long(&buf.tile_type, buf_from->tile_type, buf_to->tile_type, total_steps, current_step);
-    p_delta_long(&buf.tile_surface, buf_from->tile_surface, buf_to->tile_surface, total_steps, current_step);
-    p_delta_long(&buf.grout_color, buf_from->grout_color, buf_to->grout_color, total_steps, current_step);
+    p_delta_gboolean(&buf.antialiasing, buf_from->antialiasing, buf_to->antialiasing, total_steps, current_step);
+
+    p_delta_gboolean(&l_boolean_switch, FALSE, TRUE, total_steps, current_step);
+
+    /* enum is not iterated, just pick the other value when its time to switch */
+    buf.tile_type = (l_boolean_switch) ? buf_to->tile_type : buf_from->tile_type;
+
+    /* the follwning gint values are flags and therefore handled as gboolean types */
+    buf.color_averaging = (l_boolean_switch) ? buf_to->color_averaging : buf_from->color_averaging;
+    buf.tile_surface = (l_boolean_switch) ? buf_to->tile_surface : buf_from->tile_surface;
+    buf.grout_color = (l_boolean_switch) ? buf_to->grout_color : buf_from->grout_color;
 
     gimp_set_data("plug-in-mosaic", &buf, sizeof(buf)); 
 
