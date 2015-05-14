@@ -19,8 +19,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -49,7 +49,7 @@ p_find_frame_in_img_cache(void *gpp_void
   gint32 l_idx;
   *image_id = -1;
   *layer_id = -1;
-  
+
   gpp = (GapOnionMainGlobalParams *)gpp_void;
 
   for(l_idx = 0; l_idx < MIN(gpp->cache.count, GAP_ONION_CACHE_SIZE); l_idx++)
@@ -207,7 +207,7 @@ gap_onion_worker_plug_in_gap_get_animinfo(gint32 image_ID, GapOnionMainAinfo *ai
      printf("Error: PDB call of %s failed, image_ID: %d\n", l_called_proc, (int)image_ID);
    }
    gimp_destroy_params(return_vals, nreturn_vals);
-   
+
 }       /* end gap_onion_worker_plug_in_gap_get_animinfo */
 
 
@@ -217,7 +217,7 @@ gint
 gap_onion_worker_set_data_onion_cfg(GapOnionMainGlobalParams *gpp, char *key)
 {
   if(gap_debug) printf("gap_onion_worker_set_data_onion_cfg: START\n");
-  
+
   return (gap_vin_set_common_onion(&gpp->vin, &gpp->ainfo.basename[0]));
 }
 
@@ -225,8 +225,8 @@ gint
 gap_onion_worker_get_data_onion_cfg(GapOnionMainGlobalParams *gpp)
 {
   GapVinVideoInfo *l_vin;
-  
-  
+
+
   if(gap_debug) printf("gap_onion_worker_get_data_onion_cfg: START\n");
 
   /* try to read configuration params */
@@ -338,6 +338,7 @@ gap_onion_worker_onion_range(GapOnionMainGlobalParams *gpp)
   gint32 l_curr_frame_nr;
   gdouble    l_percentage, l_percentage_step;
   gchar  *l_new_filename;
+  gboolean l_frame_found;
 
 
   l_percentage = 0.0;
@@ -376,7 +377,9 @@ gap_onion_worker_onion_range(GapOnionMainGlobalParams *gpp)
   l_new_filename = gimp_image_get_filename(l_current_image_id);
   l_rc = gap_lib_save_named_frame(gpp->image_ID, l_new_filename);
   if(l_rc < 0)
-     return -1;
+  {
+    return -1;
+  }
 
   l_curr_frame_nr = gpp->ainfo.curr_frame_nr;
   l_frame_nr = l_begin;
@@ -400,11 +403,22 @@ gap_onion_worker_onion_range(GapOnionMainGlobalParams *gpp)
       l_new_filename = gap_lib_alloc_fname(gpp->ainfo.basename,
                                           l_frame_nr,
                                           gpp->ainfo.extension);
-      /* load frame */
-      gpp->image_ID =  gap_lib_load_image(l_new_filename);
-      if(gpp->image_ID < 0)
-         return -1;
-
+      if(g_file_test(l_new_filename, G_FILE_TEST_EXISTS))
+      {
+        /* load frame */
+        gpp->image_ID =  gap_lib_load_image(l_new_filename);
+        if(gpp->image_ID < 0)
+        {
+          g_free(l_new_filename);
+          return -1;
+        }
+      }
+      else
+      {
+        g_free(l_new_filename);
+        l_new_filename = NULL;
+        goto continue_with_next_frame;
+      }
       /* add image to cache */
       p_add_img_to_cache(gpp, l_frame_nr, gpp->image_ID, -1);
     }
@@ -424,7 +438,17 @@ gap_onion_worker_onion_range(GapOnionMainGlobalParams *gpp)
 
     l_rc = gap_lib_save_named_frame(gpp->image_ID, l_new_filename);
     if(l_rc < 0)
+    {
+       g_free(l_new_filename);
        return -1;
+    }
+
+continue_with_next_frame:
+    if(l_new_filename != NULL)
+    {
+      g_free(l_new_filename);
+      l_new_filename = NULL;
+    }
 
     if(gpp->run_mode == GIMP_RUN_INTERACTIVE)
     {
@@ -436,7 +460,17 @@ gap_onion_worker_onion_range(GapOnionMainGlobalParams *gpp)
     {
       break;
     }
-    l_frame_nr += l_step;
+    /* advance l_frame_nr to the next/previous available frame number
+     * (normally to l_frame_nr += l_step
+     * sometimes to higher/lower number when frames are missing)
+     */
+    l_frame_nr =
+       gap_lib_get_next_available_frame_number(l_frame_nr, l_step,
+           gpp->ainfo.basename, gpp->ainfo.extension, &l_frame_found);
+    if (!l_frame_found)
+    {
+      break;
+    }
   }
 
   /* clean up the cache (delete all cached temp images) */

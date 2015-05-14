@@ -1,4 +1,4 @@
-/*  gap_morph_one_tween_dialog.h
+/*  gap_morph_tween_dialog.h
  *
  *  This module handles the GAP morph tween dialog
  */
@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -30,6 +30,7 @@
 #include "libgimp/gimp.h"
 #include "gap_libgimpgap.h"
 #include "gap_morph_main.h"
+#include "gap_locate.h"
 #include "gap_libgimpgap.h"
 
 #define GAP_MORPH_ONE_TWEEN_PLUGIN_NAME    "plug_in_gap_morph_one_tween"
@@ -38,7 +39,11 @@
 #define GAP_MORPH_TWEEN_PLUGIN_NAME    "plug_in_gap_morph_tween"
 #define GAP_MORPH_TWEEN_HELP_ID        "plug-in-gap-morph-tween"
 
-gboolean   gap_morph_one_tween_dialog(GapMorphGlobalParams *mgpp);
-gboolean   gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp);
+#define GAP_MORPH_WORKPOINTS_PLUGIN_NAME   "plug_in_gap_morph_workpoints"
+#define GAP_MORPH_WORKPOINTS_HELP_ID       "plug-in-gap-morph-workpoints"
 
+gboolean   gap_morph_one_tween_dialog(GapMorphGlobalParams *mgpp);
+gint32     gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp);
+gint32     gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr
+                   , GapMorphGlobalParams *mgpp);
 #endif

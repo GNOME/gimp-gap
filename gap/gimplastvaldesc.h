@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -87,7 +87,7 @@ typedef enum
 #define GIMP_LASTVALDEF_DOUBLE(flag,elem,name)        { GIMP_LASTVAL_DOUBLE,         &elem, sizeof(elem),       flag, name }
 #define GIMP_LASTVALDEF_DRAWABLE(flag,elem,name)      { GIMP_LASTVAL_DRAWABLE,       &elem, sizeof(elem),       flag, name }
 #define GIMP_LASTVALDEF_GINTDRAWABLE(flag,elem,name)  { GIMP_LASTVAL_GINTDRAWABLE,   &elem, sizeof(elem),       flag, name }
-#define GIMP_LASTVALDEF_GBOOLEAN(flag,elem,name)      { GIMP_LASTVAL_BOOLEAN,        &elem, sizeof(elem),       flag, name }
+#define GIMP_LASTVALDEF_GBOOLEAN(flag,elem,name)      { GIMP_LASTVAL_GBOOLEAN,       &elem, sizeof(elem),       flag, name }
 #define GIMP_LASTVALDEF_ENUM(flag,elem,name)          { GIMP_LASTVAL_ENUM,           &elem, sizeof(elem),       flag, name }
 #define GIMP_LASTVALDEF_GUINT(flag,elem,name)         { GIMP_LASTVAL_GUINT,          &elem, sizeof(elem),       flag, name }
 #define GIMP_LASTVALDEF_GUINT32(flag,elem,name)       { GIMP_LASTVAL_GUINT32,        &elem, sizeof(elem),       flag, name }
@@ -156,6 +156,8 @@ typedef enum
 #define GIMP_ITER_TRUE  1
 #define GIMP_ITER_FALSE 0
 
+#define GAP_LASTVAL_KEY_ANIMATED_CALL_INFO "GAP_LASTVAL_KEY_ANIMATED_CALL_INFO"
+
 typedef struct _GimpLastvalDef    GimpLastvalDef;
 
 struct _GimpLastvalDef
@@ -176,6 +178,14 @@ typedef  struct GimpLastvalDescType
    gint32         iter_flag;  /* 0 ignore, 1 iterate */
    gchar          elem_name[100];      /* parameter name */
 } GimpLastvalDescType;
+
+
+typedef struct
+{
+  gboolean  animatedCallInProgress;
+  gint32    total_steps; 
+  gdouble   current_step;            /* current step respecting acceleration characteristics */
+} GapLastvalAnimatedCallInfo;
 
 /* ----------------------------------
  * gimp_lastval_desc_register

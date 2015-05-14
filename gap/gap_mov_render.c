@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 /* revision history:
  * gimp    1.3.21b; 2003/09/22  hof: bugfix in selection handling
@@ -78,6 +78,11 @@ static void  p_mov_transform_perspective(gint32 layer_id
                   , guint        *new_height
                   );
 
+static void  p_mov_calculate_scale_factors(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur_ptr
+                  , guint orig_width, guint orig_height
+                  , gdouble *retScaleWidthPercent
+                  , gdouble *retScaleheightPercent
+                  );
 
 
 #define BOUNDS(a,x,y)  ((a < x) ? x : ((a > y) ? y : a))
@@ -93,7 +98,7 @@ p_get_paintmode(int mode, gint32 src_layer_id)
   if(mode == GAP_MOV_KEEP_SRC_PAINTMODE)
   {
     GimpLayerModeEffects l_mode;
-    
+
     l_mode = gimp_layer_get_mode(src_layer_id);
     return (l_mode);
   }
@@ -346,11 +351,367 @@ p_mov_transform_perspective(gint32 layer_id
 
 }  /* end p_mov_transform_perspective  */
 
-/* ============================================================================
+
+
+
+/* ----------------------------------------
+ * p_mov_calculate_scale_factors
+ * ----------------------------------------
+ * In case of single frame mode rendering is done with
+ * settings that were saved (recorded) based on frame and moving object size(s)
+ * that may differ from actual sizes at render time.
+ * The scaling factors are adjusted for automatically
+ * pre-scaling depending on scenarios that are controled by 3 flags.
+ *
+ *
+ * Example:
+ * recorded sizes of the frame and the moving object:
+ *
+ *   +---------------------+    recordedFrameWidth:  640
+ *   |                     |    recordedFrameHeight: 400
+ *   |  +-------+          |
+ *   |  |#######|          |    recordedObjWidth:    320
+ *   |  |#######|          |    recordedObjHeight:   240
+ *   |  +-------+          |
+ *   |                     |
+ *   |                     |
+ *   +---------------------+
+ *
+ * actual rendering shall be done on frame size 1280x400
+ * on a moving object of size 400 x 400.
+ *
+ *      +------+
+ *      |######|   orig_width:      400
+ *      |######|   orig_height:     400
+ *      |######|
+ *      |######|
+ *      +------+
+ *
+ * Prescaling will depending on 3 flags:
+ *
+ * ==== scenarios that allow changing proportions of the moving object =====
+ *
+ * o) fit_width = TRUE, fit_height = TRUE, keep_proportions = FALSE
+ *    In this scenario the moving object is pre-scaled to
+ *    preScaleWidth and preScaleHeight. This gives same relations
+ *    of the moving object / frame as the relations were at recording time,
+ *    but deform proportions of the moving object from square to rectangle shape.
+ *
+ *   +-------------------------------------+    renderImageWidth:  1280
+ *   |                                     |    renderImageHeight:  800
+ *   |                                     |
+ *   |  +--------------+                   |
+ *   |  |##############|                   |    preScaleWidth:      640
+ *   |  |##############|                   |    preScaleHeight:     480
+ *   |  |##############|                   |
+ *   |  |##############|                   |
+ *   |  +--------------+                   |    renderObjWidth:     640
+ *   |                                     |    renderObjHeight:    480
+ *   |                                     |
+ *   |                                     |
+ *   |                                     |
+ *   +-------------------------------------+
+ *
+ * o) fit_width = TRUE, fit_height = FALSE, keep_proportions = FALSE
+ *    In this scenario the moving object is scaled to preScaleWidth
+ *    and keeps its original height.
+ *
+ *   +-------------------------------------+    renderImageWidth:  1280
+ *   |                                     |    renderImageHeight:  800
+ *   |                                     |
+ *   |  +--------------+                   |
+ *   |  +--------------+                   |    preScaleWidth:      640
+ *   |  |##############|                   |    preScaleHeight:     480
+ *   |  |##############|                   |
+ *   |  +--------------+                   |
+ *   |  +--------------+                   |    renderObjWidth:     640
+ *   |                                     |    renderObjHeight:    400
+ *   |                                     |
+ *   |                                     |
+ *   |                                     |
+ *   +-------------------------------------+
+ *
+ * o) fit_width = FALSE, fit_height = TRUE, keep_proportions = FALSE
+ *    In this scenario the moving object is scaled to preScaleHeight
+ *    and keeps its original width.
+ *
+ *   +-------------------------------------+    renderImageWidth:  1280
+ *   |                                     |    renderImageHeight:  800
+ *   |                                     |
+ *   |  +---+------+---+                   |
+ *   |  |   |######|   |                   |    preScaleWidth:      640
+ *   |  |   |######|   |                   |    preScaleHeight:     480
+ *   |  |   |######|   |                   |
+ *   |  |   |######|   |                   |
+ *   |  +---+------+---+                   |    renderObjWidth:     400
+ *   |                                     |    renderObjHeight:    480
+ *   |                                     |
+ *   |                                     |
+ *   |                                     |
+ *   +-------------------------------------+
+ *
+ *
+ *
+ * ==== scenarios that keep proportions of the moving object =====
+ *
+ *
+ * o) fit_width = TRUE, fit_height = TRUE, keep_proportions = TRUE
+ *    In this scenario the moving object is pre-scaled to fit into a  rectangle
+ *    of size preScaleWidth x preScaleHeight, keeping its original proportions.
+ *
+ *   +-------------------------------------+    renderImageWidth:  1280
+ *   |                                     |    renderImageHeight:  800
+ *   |                                     |
+ *   |  +--+--------+--+                   |
+ *   |  |  |########|  |                   |    preScaleWidth:      640
+ *   |  |  |########|  |                   |    preScaleHeight:     480
+ *   |  |  |########|  |                   |
+ *   |  |  |########|  |                   |
+ *   |  +--+--------+--+                   |    renderObjWidth:     480
+ *   |                                     |    renderObjHeight:    480
+ *   |                                     |
+ *   |                                     |
+ *   |                                     |
+ *   +-------------------------------------+
+ *
+ * o) fit_width = TRUE, fit_height = FALSE, keep_proportions = TRUE
+ *    In this scenario the moving object is pre-scaled to preScaleWidth
+ *    keeping its original proportions.
+ *
+ *   +-------------------------------------+    renderImageWidth:  1280
+ *   |                                     |    renderImageHeight:  800
+ *   |  +--------------+                   |
+ *   |  +##############+                   |
+ *   |  |##############|                   |    preScaleWidth:      640
+ *   |  |##############|                   |    preScaleHeight:     480
+ *   |  |##############|                   |
+ *   |  |##############|                   |
+ *   |  +##############+                   |    renderObjWidth:     640
+ *   |  +--------------+                   |    renderObjHeight:    640
+ *   |                                     |
+ *   |                                     |
+ *   |                                     |
+ *   +-------------------------------------+
+ *
+ * o) fit_width = FALSE, fit_height = TRUE, keep_proportions = TRUE
+ *    In this scenario the moving object is pre-scaled to preScaleHeight
+ *    keeping its original proportions.
+ *
+ *   +-------------------------------------+    renderImageWidth:  1280
+ *   |                                     |    renderImageHeight:  800
+ *   |                                     |
+ *   |  +--+--------+--+                   |
+ *   |  |  |########|  |                   |    preScaleWidth:      640
+ *   |  |  |########|  |                   |    preScaleHeight:     480
+ *   |  |  |########|  |                   |
+ *   |  |  |########|  |                   |
+ *   |  +--+--------+--+                   |    renderObjWidth:     480
+ *   |                                     |    renderObjHeight:    480
+ *   |                                     |
+ *   |                                     |
+ *   |                                     |
+ *   +-------------------------------------+
+ *
+ * o) fit_width = FALSE, fit_height = FALSE, (keep_proportions NOT relevant)
+ *    In this scenario the moving object is not pre-scaled scaled
+ *    (therefore propotions are unchanged even in case keep_proportions flag is FALSE)
+ *
+ *   +-------------------------------------+    renderImageWidth:  1280
+ *   |                                     |    renderImageHeight:  800
+ *   |                                     |
+ *   |  +--------------+                   |
+ *   |  |   +######+   |                   |    preScaleWidth:      640
+ *   |  |   |######|   |                   |    preScaleHeight:     480
+ *   |  |   |######|   |                   |
+ *   |  |   +######+   |                   |
+ *   |  +--------------+                   |    renderObjWidth:     400
+ *   |                                     |    renderObjHeight:    400
+ *   |                                     |
+ *   |                                     |
+ *   |                                     |
+ *   +-------------------------------------+
+ *
+ *
+ * Note: the examples above show frame/moving object scenarios with handle object
+ * at center settings and with current scale 100%
+ *  (cur_ptr->currWidth == 100  cur_ptr->currHeight == 100)
+ *
+ */
+static void
+p_mov_calculate_scale_factors(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur_ptr
+   , guint orig_width, guint orig_height
+   , gdouble *retScaleWidthPercent
+   , gdouble *retScaleheightPercent
+   )
+{
+  gdouble              scaleWidthPercent;
+  gdouble              scaleHeightPercent;
+
+
+  scaleWidthPercent = cur_ptr->currWidth;
+  scaleHeightPercent = cur_ptr->currHeight;
+
+
+  if((cur_ptr->isSingleFrame)
+  && (orig_width != 0)
+  && (orig_height != 0))
+  {
+    gint32  renderImageWidth;
+    gint32  renderImageHeight;
+    gdouble preScaleWidth;
+    gdouble preScaleHeight;
+    gdouble preScaleWidthFactor;
+    gdouble preScaleHeightFactor;
+
+    gdouble result_width;         /* resulting width at unscaled size (e.g. 100%) */
+    gdouble result_height;        /* resulting height at unscaled size (e.g. 100%) */
+    gdouble origWidth;
+    gdouble origHeight;
+
+    origWidth = orig_width;
+    origHeight = orig_height;
+
+
+    renderImageWidth = gimp_image_width(image_id);
+    renderImageHeight = gimp_image_height(image_id);
+    preScaleWidth = origWidth;
+    preScaleHeight = origHeight;
+    preScaleWidthFactor = 1.0;
+    preScaleHeightFactor = 1.0;
+
+    /* calculate preScaleWidth */
+    if((val_ptr->recordedFrameWidth != renderImageWidth)
+    || (val_ptr->recordedObjWidth != orig_width))
+    {
+      if(val_ptr->recordedFrameWidth != 0)
+      {
+        preScaleWidth  = (gdouble)val_ptr->recordedObjWidth * (gdouble)renderImageWidth / (gdouble)val_ptr->recordedFrameWidth;
+      }
+    }
+
+    /* calculate preScaleHeight */
+    if((val_ptr->recordedFrameHeight != renderImageHeight)
+    || (val_ptr->recordedObjHeight != orig_height))
+    {
+      if(val_ptr->recordedFrameHeight != 0)
+      {
+        preScaleHeight = (gdouble)val_ptr->recordedObjHeight * (gdouble)renderImageHeight / (gdouble)val_ptr->recordedFrameHeight;
+      }
+    }
+
+
+
+    /* calculate (unscaled) result sizes according to flags */
+    result_width = orig_width;
+    result_height = orig_height;
+
+    if(cur_ptr->keep_proportions)
+    {
+      gdouble actualObjProportion;
+
+      actualObjProportion = origWidth / origHeight;
+
+
+      if((cur_ptr->fit_width) && (cur_ptr->fit_height))
+      {
+        result_width = preScaleHeight * actualObjProportion;
+        result_height = preScaleHeight;
+
+        if(result_width > preScaleWidth)
+        {
+          result_width = preScaleWidth;
+          result_height = preScaleWidth / actualObjProportion;
+        }
+      }
+      else
+      {
+        if(cur_ptr->fit_height)
+        {
+           result_height = preScaleHeight;
+           result_width = (gdouble)preScaleHeight * actualObjProportion;
+        }
+        if(cur_ptr->fit_width)
+        {
+           result_width = preScaleWidth;
+           result_height = (gdouble)preScaleHeight / actualObjProportion;
+        }
+      }
+
+    }
+    else
+    {
+      if(cur_ptr->fit_height)
+      {
+         result_height = preScaleHeight;
+      }
+      if(cur_ptr->fit_width)
+      {
+         result_width = preScaleWidth;
+      }
+    }
+
+    preScaleWidthFactor = result_width / origWidth;
+    preScaleHeightFactor = result_height / origHeight;
+
+    scaleWidthPercent = cur_ptr->currWidth * preScaleWidthFactor;
+    scaleHeightPercent = cur_ptr->currHeight * preScaleHeightFactor;
+
+
+
+    if(gap_debug)
+    {
+      printf("p_mov_calculate_scale_factors RESULTS:\n");
+      printf("  FrameSize Recorded:(%d x %d) Actual:(%d x %d) MovObjSize Recorded:(%d x %d) Actual:(%d x %d)\n"
+        ,(int)val_ptr->recordedFrameWidth
+        ,(int)val_ptr->recordedFrameHeight
+        ,(int)renderImageWidth
+        ,(int)renderImageHeight
+        ,(int)val_ptr->recordedObjWidth
+        ,(int)val_ptr->recordedObjHeight
+        ,(int)orig_width
+        ,(int)orig_height
+        );
+      printf("  Prescale flags fit_width:%d fit_height:%d keep_proportions:%d  result_width:%.4f result_height:%.4f\n"
+        ,cur_ptr->fit_width
+        ,cur_ptr->fit_height
+        ,cur_ptr->keep_proportions
+        ,(float)result_width
+        ,(float)result_height
+        );
+      printf("  Prescale WxH: (%.3f x %.3f) factors:(%.3f %.3f) scaleWidthPercent:%.3f scaleHeightPercent:%.3f\n"
+        ,(float)preScaleWidth
+        ,(float)preScaleHeight
+        ,(float)preScaleWidthFactor
+        ,(float)preScaleHeightFactor
+        ,(float)scaleWidthPercent
+        ,(float)scaleHeightPercent
+        );
+    }
+  }
+
+
+  /* deliver result values */
+  *retScaleWidthPercent = scaleWidthPercent;
+  *retScaleheightPercent = scaleHeightPercent;
+
+}  /* end p_mov_calculate_scale_factors */
+
+
+
+/* -----------------------------------
  * gap_mov_render_render
- * insert current source layer into image
- *    at current settings (position, size opacity ...)
- * ============================================================================
+ * -----------------------------------
+ * process transformations (current settings position, size opacity ...)
+ * for the current source layer.
+ *
+ * In case current source layer is not already part of the processed frame (image_id)
+ * insert a copy of the current source layer into the processed frame.
+ * and do perform the transformations on the inserted copy.
+ *
+ * Note: in singleframe mode the current source layer may be already
+ * part of the processed frame. In this special case perform the
+ * transformations directly on the source layer.
+ *
  */
 gint
 gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur_ptr)
@@ -361,6 +722,8 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
   gint         l_src_offset_x, l_src_offset_y;    /* layeroffsets as they were in src_image */
   guint        l_new_width;
   guint        l_new_height;
+  guint        l_potential_new_width;
+  guint        l_potential_new_height;
   guint        l_orig_width;
   guint        l_orig_height;
   gint         l_resized_flag;
@@ -368,11 +731,16 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
   guint        l_image_width;
   guint        l_image_height;
   GimpLayerModeEffects l_mode;
+  gdouble              scaleWidthPercent;
+  gdouble              scaleHeightPercent;
 
-  if(gap_debug) printf("gap_mov_render_render: frame/layer: %ld/%ld  X=%f, Y=%f\n"
+  if(gap_debug)
+  {
+    printf("gap_mov_render_render: frame/layer: %ld/%ld  X=%f, Y=%f\n"
                 "       Width=%f Height=%f\n"
                 "       Opacity=%f  Rotate=%f  clip_to_img = %d force_visibility = %d\n"
-                "       src_stepmode = %d\n",
+                "       src_stepmode = %d rotate_threshold=%.7f\n"
+		"       singleMovObjLayerId=%d singleMovObjIMAGEId=%d (frame)image_id=%d\n",
                      cur_ptr->dst_frame_nr, cur_ptr->src_layer_idx,
                      cur_ptr->currX, cur_ptr->currY,
                      cur_ptr->currWidth,
@@ -381,59 +749,122 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                      cur_ptr->currRotation,
                      val_ptr->clip_to_img,
                      val_ptr->src_force_visible,
-                     val_ptr->src_stepmode);
+                     val_ptr->src_stepmode,
+                     val_ptr->rotate_threshold,
+		     cur_ptr->singleMovObjLayerId,
+		     gimp_drawable_get_image(cur_ptr->singleMovObjLayerId),
+		     image_id
+		     );
+  }
 
-  if(val_ptr->src_stepmode < GAP_STEP_FRAME)
+  if(cur_ptr->isSingleFrame)
   {
-    if(gap_debug)
-    {
-      printf("gap_mov_render_render: Before gap_layer_copy_to_dest_image image_id:%d src_layer_id:%d\n"
-              ,(int)image_id, (int)cur_ptr->src_layers[cur_ptr->src_layer_idx]);
-    }
     l_mode = p_get_paintmode(val_ptr->src_paintmode
-                            ,cur_ptr->src_layers[cur_ptr->src_layer_idx]
+                            ,cur_ptr->singleMovObjLayerId
                             );
-    /* make a copy of the current source layer
-     * (using current opacity  & paintmode values)
-     */
-     l_cp_layer_id = gap_layer_copy_to_dest_image(image_id,
-                                   cur_ptr->src_layers[cur_ptr->src_layer_idx],
-                                   cur_ptr->currOpacity,
-                                   l_mode,
-                                   &l_src_offset_x,
-                                   &l_src_offset_y);
+    if(gimp_drawable_get_image(cur_ptr->singleMovObjLayerId) == image_id)
+    {
+      /* the moving object layer id is already part of the processed frame image */
+      l_cp_layer_id = cur_ptr->singleMovObjLayerId;
+      /* findout the offsets of the original layer within the source Image */
+      gimp_drawable_offsets(l_cp_layer_id, &l_src_offset_x, &l_src_offset_y );
+    }
+    else
+    {
+      /* the moving object layer id must be coped to the processed frame image
+       * (this is typically used when called from the storyboard processor
+       * where the frame image is just an empty temporary image without any layers)
+       */
+      if(val_ptr->src_stepmode >= GAP_STEP_FRAME)
+      {
+        gimp_layer_resize_to_image_size(cur_ptr->singleMovObjLayerId);
+      }
+
+      /* make a copy of the moving object layer
+       * (using current opacity  & paintmode values at initial unscaled size)
+       * and add the copied layer at dst_layerstack
+       * (layerstack position is not important on an empty image)
+       */
+      l_cp_layer_id = gap_layer_copy_to_dest_image(image_id,
+                                     cur_ptr->singleMovObjLayerId,
+                                     cur_ptr->currOpacity,
+                                     l_mode,
+                                     &l_src_offset_x,
+                                     &l_src_offset_y);
+      if(l_cp_layer_id < 0)
+      {
+         cur_ptr->processedLayerId = -1;
+         return -1;
+      }
+      gimp_image_add_layer(image_id, l_cp_layer_id, val_ptr->dst_layerstack);
+
+    }
+
+
   }
   else
   {
+    if(val_ptr->src_stepmode < GAP_STEP_FRAME)
+    {
+      if(gap_debug)
+      {
+        printf("gap_mov_render_render: Before gap_layer_copy_to_dest_image image_id:%d src_layer_id:%d\n"
+                ,(int)image_id, (int)cur_ptr->src_layers[cur_ptr->src_layer_idx]);
+      }
+      l_mode = p_get_paintmode(val_ptr->src_paintmode
+                              ,cur_ptr->src_layers[cur_ptr->src_layer_idx]
+                              );
+      /* make a copy of the current source layer
+       * (using current opacity  & paintmode values)
+       */
+       l_cp_layer_id = gap_layer_copy_to_dest_image(image_id,
+                                     cur_ptr->src_layers[cur_ptr->src_layer_idx],
+                                     cur_ptr->currOpacity,
+                                     l_mode,
+                                     &l_src_offset_x,
+                                     &l_src_offset_y);
+    }
+    else
+    {
+      if(gap_debug)
+      {
+        printf("gap_mov_render_render: Before gap_layer_copy_to_dest_image image_id:%d cache_tmp_layer_id:%d\n"
+                ,(int)image_id, (int)val_ptr->cache_tmp_layer_id);
+      }
+      l_mode = p_get_paintmode(val_ptr->src_paintmode
+                              ,val_ptr->cache_tmp_layer_id
+                              );
+       /* for FRAME based stepmodes use the flattened layer in the cached frame image */
+       l_cp_layer_id = gap_layer_copy_to_dest_image(image_id,
+                                     val_ptr->cache_tmp_layer_id,
+                                     cur_ptr->currOpacity,
+                                     l_mode,
+                                     &l_src_offset_x,
+                                     &l_src_offset_y);
+    }
+    /* add the copied layer to current destination image */
     if(gap_debug)
     {
-      printf("gap_mov_render_render: Before gap_layer_copy_to_dest_image image_id:%d cache_tmp_layer_id:%d\n"
-              ,(int)image_id, (int)val_ptr->cache_tmp_layer_id);
+      printf("gap_mov_render_render: after layer copy layer_id=%d\n", (int)l_cp_layer_id);
     }
-    l_mode = p_get_paintmode(val_ptr->src_paintmode
-                            ,val_ptr->cache_tmp_layer_id
-                            );
-     /* for FRAME based stepmodes use the flattened layer in the cahed frame image */
-     l_cp_layer_id = gap_layer_copy_to_dest_image(image_id,
-                                   val_ptr->cache_tmp_layer_id,
-                                   cur_ptr->currOpacity,
-                                   l_mode,
-                                   &l_src_offset_x,
-                                   &l_src_offset_y);
+    if(l_cp_layer_id < 0)
+    {
+       cur_ptr->processedLayerId = -1;
+       return -1;
+    }
+
+    gimp_image_add_layer(image_id, l_cp_layer_id,
+                         val_ptr->dst_layerstack);
+    if(gap_debug)
+    {
+      printf("gap_mov_render_render: after add layer\n");
+    }
   }
 
 
-  /* add the copied layer to current destination image */
-  if(gap_debug) printf("gap_mov_render_render: after layer copy layer_id=%d\n", (int)l_cp_layer_id);
-  if(l_cp_layer_id < 0)
-  {
-     return -1;
-  }
+  /* set processedLayerId (for return handling in singleframe mode) */
+  cur_ptr->processedLayerId = l_cp_layer_id;
 
-  gimp_image_add_layer(image_id, l_cp_layer_id,
-                       val_ptr->dst_layerstack);
-
-  if(gap_debug) printf("gap_mov_render_render: after add layer\n");
 
   if(val_ptr->src_force_visible)
   {
@@ -480,17 +911,50 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                              );
   }
 
-  if((cur_ptr->currWidth * cur_ptr->currHeight) > (100.0 * 100.0))
+
+  /* scale percentage values (where 100.0 is original size without scaling) */
+  scaleWidthPercent = cur_ptr->currWidth;
+  scaleHeightPercent = cur_ptr->currHeight;
+
+  /* re-calculate scale percentage values
+   * (for automatically pre-scaling in case of singleframes processing)  */
+  p_mov_calculate_scale_factors(image_id, val_ptr, cur_ptr
+                          , l_orig_width, l_orig_height
+                          , &scaleWidthPercent
+                          , &scaleHeightPercent
+                          );
+
+
+
+
+
+  if((scaleWidthPercent * scaleHeightPercent) > (100.0 * 100.0))
   {
-     /* have to scale layer (enlarge) */
-     l_resized_flag = 1;
+    l_potential_new_width  = (l_orig_width  * scaleWidthPercent) / 100;
+    l_potential_new_height = (l_orig_height * scaleHeightPercent) / 100;
 
-     l_new_width  = (l_orig_width  * cur_ptr->currWidth) / 100;
-     l_new_height = (l_orig_height * cur_ptr->currHeight) / 100;
-     gimp_layer_scale(l_cp_layer_id, l_new_width, l_new_height, 0);
+    if((l_potential_new_width != l_new_width)
+    || (l_potential_new_height != l_new_height))
+    {
+       /* have to scale layer (enlarge)  */
+       l_resized_flag = 1;
 
-     /* do 4-point perspective stuff (after enlarge) */
-     p_mov_transform_perspective(l_cp_layer_id
+       l_new_width  = l_potential_new_width;
+       l_new_height = l_potential_new_height;
+
+       if(gap_debug)
+       {
+         printf("SCALING-1 to size (%d x %d)\n"
+           ,(int)l_new_width
+           ,(int)l_new_height
+           );
+       }
+
+       gimp_layer_scale(l_cp_layer_id, l_new_width, l_new_height, 0);
+    }
+
+    /* do 4-point perspective stuff (after enlarge) */
+    p_mov_transform_perspective(l_cp_layer_id
                        , val_ptr
                        , cur_ptr
                        , &l_resized_flag
@@ -509,20 +973,31 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                        , &l_new_height
                        );
 
-    if((cur_ptr->currWidth  > 100.01) || (cur_ptr->currWidth < 99.99)
-    || (cur_ptr->currHeight > 100.01) || (cur_ptr->currHeight < 99.99))
+    l_potential_new_width  = (l_new_width  * scaleWidthPercent) / 100;
+    l_potential_new_height = (l_new_height * scaleHeightPercent) / 100;
+
+    if((l_potential_new_width != l_new_width)
+    || (l_potential_new_height != l_new_height))
     {
        /* have to scale layer */
        l_resized_flag = 1;
 
-       l_new_width  = (l_new_width  * cur_ptr->currWidth) / 100;
-       l_new_height = (l_new_height * cur_ptr->currHeight) / 100;
+       l_new_width  = l_potential_new_width;
+       l_new_height = l_potential_new_height;
+       if(gap_debug)
+       {
+         printf("SCALING-2 to size (%d x %d)\n"
+           ,(int)l_new_width
+           ,(int)l_new_height
+           );
+       }
        gimp_layer_scale(l_cp_layer_id, l_new_width, l_new_height, 0);
     }
   }
 
 
-  if((cur_ptr->currRotation  > 0.5) || (cur_ptr->currRotation < -0.5))
+  if((cur_ptr->currRotation  > val_ptr->rotate_threshold)
+  || (cur_ptr->currRotation <  (0.0 - val_ptr->rotate_threshold)))
   {
     gboolean     l_interpolation;
 
@@ -637,32 +1112,46 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
      val_ptr->trace_layer_id = gap_image_merge_visible_layers(val_ptr->trace_image_id, l_mergemode);
   }
 
-  if(gap_debug) printf("GAP gap_mov_render_render: exit OK\n");
+  if(gap_debug)
+  {
+    printf("GAP gap_mov_render_render: exit OK\n");
+  }
 
   return 0;
 }       /* end gap_mov_render_render */
 
+
 /* ============================================================================
- * gap_mov_render_fetch_src_frame
+ * gap_mov_render_fetch_src_frame_autoskip
  *   fetch the requested video frame SourceImage into cache_tmp_image_id
  *   and
- *    - reduce all visible layer to one layer (cache_tmp_layer_id)
+ *    - reduce all visible layers to one layer (cache_tmp_layer_id)
  *    - (scale to animated preview size if called for AnimPreview )
  *    - reuse cached image (for subsequent calls for the same framenumber
  *      of the same source image -- for  GAP_STEP_FRAME_NONE
  *    - never load current frame number from diskfile (use duplicate of the src_image)
  *  returns 0 (OK) or -1 (on Errors)
+ *
+ *  For the frame based modes this procedure supports the autoskip feature
+ *  that will automatically advance to the next/previous availble frame
+ *  (depending on stepsize) when the specified wanted_frame_nr is not availble.
+ *
+ *  IN/OUTPUT: but_got_frame_nr will be overwritten when the frame with the wanted_frame_nr
+ *             is not availble but autoskip to the next/prev frame was successful
+ *             in this case *but_got_frame_nr contains the number of an available frame image
+ *             in all other cases *but_got_frame_nr is NOT changed by this procedure.
  * ============================================================================
  */
 gint
-gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
+gap_mov_render_fetch_src_frame_autoskip(GapMovValues *pvals,  gint32 wanted_frame_nr
+   , gint32 *but_got_frame_nr, long stepsize)
 {
   GapAnimInfo  *l_ainfo_ptr;
   GapAnimInfo  *l_old_ainfo_ptr;
 
   if(gap_debug)
   {
-     printf("gap_mov_render_fetch_src_frame: START src_image_id: %d wanted_frame_nr:%d"
+     printf("gap_mov_render_fetch_src_frame_autoskip: START src_image_id: %d wanted_frame_nr:%d"
             " cache_src_image_id:%d cache_frame_number:%d\n"
             , (int)pvals->src_image_id
             , (int)wanted_frame_nr
@@ -683,7 +1172,7 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
      {
         if(gap_debug)
         {
-           printf("gap_mov_render_fetch_src_frame: DELETE cache_tmp_image_id:%d\n",
+           printf("gap_mov_render_fetch_src_frame_autoskip: DELETE cache_tmp_image_id:%d\n",
                     (int)pvals->cache_tmp_image_id);
         }
         /* destroy the cached frame image */
@@ -716,6 +1205,7 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
         }
      }
 
+render_fetch_wanted_src_frame:
      if ((wanted_frame_nr == pvals->cache_ainfo_ptr->curr_frame_nr)
      ||  (wanted_frame_nr < 0))
      {
@@ -741,15 +1231,43 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
           return -1;
        }
 
-       /* load the wanted source frame */
-       pvals->cache_tmp_image_id =  gap_lib_load_image(pvals->cache_ainfo_ptr->new_filename);
-       if(pvals->cache_tmp_image_id < 0)
+       if (g_file_test(pvals->cache_ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
        {
-          printf("gap: load error on src image %s\n", pvals->cache_ainfo_ptr->new_filename);
-          return -1;
+         /* load the wanted source frame */
+         pvals->cache_tmp_image_id =  gap_lib_load_image(pvals->cache_ainfo_ptr->new_filename);
+         if(pvals->cache_tmp_image_id < 0)
+         {
+            printf("gap: load error on src image %s\n", pvals->cache_ainfo_ptr->new_filename);
+            return -1;
+         }
        }
+       else
+       {
+         long    l_available_frame_nr;
+         gboolean l_frame_found;
 
+         l_available_frame_nr = gap_lib_get_next_available_frame_number(
+               wanted_frame_nr, stepsize
+             , pvals->cache_ainfo_ptr->basename, pvals->cache_ainfo_ptr->extension
+             , &l_frame_found);
+         if (l_frame_found)
+         {
+           /* autoskip to next or previous available frame number */
+           *but_got_frame_nr = l_available_frame_nr;
+           wanted_frame_nr = l_available_frame_nr;
+           goto render_fetch_wanted_src_frame;
+         }
+         else
+         {
+            printf("gap: missing frame number error on src image %s\n", pvals->cache_ainfo_ptr->new_filename);
+            return -1;
+         }
+
+       }
      }
+
+
+     /* frame fetch done at this point */
 
      gimp_image_undo_disable (pvals->cache_tmp_image_id);
 
@@ -766,7 +1284,7 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
 
        if(gap_debug)
        {
-          printf("gap_mov_render_fetch_src_frame: Scale for Animpreview apv_scalex %f apv_scaley %f\n"
+          printf("gap_mov_render_fetch_src_frame_autoskip: Scale for Animpreview apv_scalex %f apv_scaley %f\n"
                  , (float)pvals->apv_scalex, (float)pvals->apv_scaley );
        }
 
@@ -801,9 +1319,33 @@ gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
 
   }
 
-
-
   return 0; /* OK */
+
+}       /* end gap_mov_render_fetch_src_frame_autoskip */
+
+
+/* ============================================================================
+ * gap_mov_render_fetch_src_frame
+ *   fetch the requested video frame SourceImage into cache_tmp_image_id
+ *   and
+ *    - reduce all visible layers to one layer (cache_tmp_layer_id)
+ *    - (scale to animated preview size if called for AnimPreview )
+ *    - reuse cached image (for subsequent calls for the same framenumber
+ *      of the same source image -- for  GAP_STEP_FRAME_NONE
+ *    - never load current frame number from diskfile (use duplicate of the src_image)
+ *  returns 0 (OK) or -1 (on Errors)
+ * ============================================================================
+ */
+gint
+gap_mov_render_fetch_src_frame(GapMovValues *pvals,  gint32 wanted_frame_nr)
+{
+  gint32 l_but_got_frame_nr;
+  gint   l_rc;
+
+  l_rc = gap_mov_render_fetch_src_frame_autoskip(pvals
+                    ,  wanted_frame_nr, &l_but_got_frame_nr, 1);
+  return (l_rc);
+
 }       /* end gap_mov_render_fetch_src_frame */
 
 

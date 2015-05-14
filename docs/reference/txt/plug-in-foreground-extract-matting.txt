@@ -1,0 +1,104 @@
+"plug-in-foreground-extract-matting"
+
+Foreground Extract Filter
+
+    Start from Menu:
+       <Image>/Layer/Transparency/Foreground Extract
+       ## <Image>/Video/Layer/Attributes/Foreground Extract  ##
+
+How to use:
+  
+   Have a image with a forground object loaded in GIMP
+     (for instance a person) that shall be
+     separated from the background.
+     The image shall be of RGB color
+
+   Add a layermask to the layer that shall be processed
+     and fill the layermask whith a medium Gray color
+     now the complete layer looks semi-transparent.
+     
+   Paint on the layermask with WHITE color to mark foreground areas.
+     the painted areas appear fully opaque.
+   
+   Paint on the layermask with BLACK color to mark backround areas.
+     the painted areas disappear, e.g get fully transparent.
+     
+   Take care that you DO NOT mark background areas as foreground 
+     and vice versa. (e.g. your brush strokes
+     shall not overlap the borders of the forground object.
+     
+   When finished with that (rough) selection call the 
+   Foreground Extract Filter
+      select "Layermask" in the TRI.MAP combo box
+      
+      use unchecked state for the checkbuttons 
+      Create Layermask and Lock Colors
+      
+      This will create a new layer as copy of your input layer
+      with calculated transparency for the UNDEFINED areas.
+      This copy is placed above your input layer.
+      
+   Set your original layer invisible
+     to check the result.
+     (click the Eye-Icon in the GIMP Layers dialog
+      to toggle visibility)
+     
+   
+   
+   Note that the quality of the result depends on the provided TRI-MAP.
+   In many cases you can improve the results by tuning the TRI-MAP
+   on those areas where the filter algorithm did not deliver acceptable results
+   and run the filter again.
+   
+   For good results approximately 70% of the area shall be marked
+   as either FORGROUND or BACKGROUND. Further note that processing time
+   depends on the size of the UNDEFINED areas.
+   
+   
+Options:
+
+   Create Layermask
+      ON:  Render opacity by creating a new layer mask for the resulting layer
+      OFF: Apply rendered opacity to the alpha channel
+
+   Lock Colors
+      ON:  Keep RGB channels of the input layer
+      OFF: Allow Background color removal in processed undefined regions
+
+
+How it Works:
+       
+    The foreground extract filter calculates opacity and color based on a TRI-MAP.
+    The TRI-MAP is a special kind of user selection where the user marks areas as FOREGROUND (white)
+    BACKGROUND (black) and UNDEFINED (gray). The filter can calculate opacity and modify color for the
+    UNDEFINED areas in the corresponding layer.
+    Typically a layermask will be used as TRI-MAP. 
+    Optionally you may select another layer (with same size) as TRI-MAP input.
+    Note that RGB TR-MAP input is implicite converted to GRAYSCALE representation
+    where values >= 240 are considered as FOREGROUND, value 0 marks BACKGROUND and all other
+    values are considered as UNDEFINED.
+    
+    In case the processed layer already has an alpha channel, fully transparent
+    areas are also marked as BACKGROUND. (e.g. fully transparent pixels keep their transparency
+    and overrule the value in the corresponding TRI-MAP pixel
+    (even if the TRI-MAP marks those pixels as foreground)
+
+    
+    The foreground extraction is based on the alpha matting algorithm.
+    (http://www.alphamatting.com/eval_25.php)
+
+
+
+  Whats the difference to the foreground extraction tool?
+   The old algorithm, implemented after an older paper (http://www.siox.org/), 
+   has the main problem that it generates only a binary alpha matte. 
+   The problems with that is that you can have severe "color bleeding" of the background color 
+   into the foreground at borders. For example, fine black hair on a green background gets darkish green. 
+   Also, you don't have any transparancy or antialiasing at borders, each pixel is either foreground or background.
+
+   The new algorithm, on the other hand, tries to find out the foreground AND the background color of each pixel, 
+   and with that, it can calculate a semitransparent alpha value. 
+   This also means that the background color can be removed from the final extracted pixel, 
+   what gives, in general, much better results.
+
+    

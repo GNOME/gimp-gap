@@ -20,6 +20,8 @@ libgapbase_a_SOURCES = \
 	gap_base.h		\
 	gap_file_util.c		\
 	gap_file_util.h		\
+	gap_timm.c		\
+	gap_timm.h		\
 	gap_val_file.c		\
 	gap_val_file.h
 

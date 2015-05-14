@@ -21,8 +21,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -228,7 +228,7 @@ gap_match_number(gint32 layer_idx, const char *pattern)
          {
             /* now we are one character past a number */
             l_digit_buff[l_idx] = '\0';
-            l_num = atol(l_digit_buff);  /* scann the number */
+            l_num = atol(l_digit_buff);  /* scan the number */
 
             if(l_num == layer_idx)
             {

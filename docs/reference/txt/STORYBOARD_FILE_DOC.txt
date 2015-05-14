@@ -1,4 +1,4 @@
-STORYBOARD_FILES           2007.09.05:
+STORYBOARD_FILES           2011.04.14:
 
 
 General
@@ -59,6 +59,8 @@ in the style:
 if no parametername key prefix is specified the fixed order of items
 is assumed. items must not contain blanks. (except blanks in "quoted strings")
 
+Note: you should not use this style without key that is just supported
+for backwards compatibility with old GIMP-GAP versions)
 
 
 Overview of supported RECORD TYPES:
@@ -72,6 +74,7 @@ VID_MASTER_FRAME_ASPECT width:16 height:9
 VID_MASTER_SIZE         width:320  height:200
 VID_PREFERRED_DECODER   libavformat
 VID_MASTER_LAYERSTACK   track1:Background
+VID_MASTER_INSERT_ALPHA format:"/path/file_%s_%06d.xcf"
 
 AUD_MASTER_VOLUME      volume:1.0
 AUD_MASTER_SAMPLERATE  samples_per_sec:44100
@@ -90,7 +93,8 @@ VID_PLAY_MOVIE     track:1  file:"movie_filename"     from:0001  to:0099 \
 			     mask_anchor:clip \
 			     mask_stepsize:1.0 \
 			     mask_disable:n \
-			     macsteps:1
+			     macsteps:1 \
+			     macaccel
 
 VID_PLAY_ANIMIMAGE track:1  file:"image_filename"     from:0001 to:0099  \
                              mode:{pingpong|normal} \
@@ -102,7 +106,8 @@ VID_PLAY_ANIMIMAGE track:1  file:"image_filename"     from:0001 to:0099  \
 			     mask_anchor:clip \
 			     mask_stepsize:1.0 \
 			     mask_disable:n \
-			     macsteps:1
+			     macsteps:1 \
+			     macaccel
 
 VID_PLAY_FRAMES    track:1  base:"basename" ext:.jpg  from:0001 to:0099  \
                              mode:{pingpong|normal} \
@@ -114,7 +119,8 @@ VID_PLAY_FRAMES    track:1  base:"basename" ext:.jpg  from:0001 to:0099  \
 			     mask_anchor:clip \
 			     mask_stepsize:1.0 \
 			     mask_disable:n \
-			     macsteps:1
+			     macsteps:1 \
+			     macaccel
 
 VID_PLAY_IMAGE     track:1  file:"image_filename"    nloops:1 \
                              macro:"macro_filename"
@@ -123,7 +129,8 @@ VID_PLAY_IMAGE     track:1  file:"image_filename"    nloops:1 \
 			     mask_anchor:clip \
 			     mask_stepsize:1.0 \
 			     mask_disable:n \
-			     macsteps:1
+			     macsteps:1 \
+			     macaccel
 
 VID_PLAY_COLOR     track:1  red:0.0 green:1.0 blue:0.0 alpha:1.0   nloops:1 \
                              flip:n \
@@ -131,11 +138,13 @@ VID_PLAY_COLOR     track:1  red:0.0 green:1.0 blue:0.0 alpha:1.0   nloops:1 \
 			     mask_anchor:clip \
 			     mask_stepsize:1.0 \
 			     mask_disable:n \
-			     macsteps:1
+			     macsteps:1 \
+			     macaccel
 
 VID_SILENCE        track:1                                         nloops:1  wait_until_sec:0.0
 
 # video attributes
+VID_ROTATE         track:1  rotate_from:0.0      rotate_to:360.0    nframes:10
 VID_OPACITY        track:1  opacity_from:0.0     opacity_to:1.0     nframes:10
 VID_ZOOM_X         track:1  zoom_x_from:0.1      zoom_x_to:10.0     nframes:10
 VID_ZOOM_Y         track:1  zoom_y_from:0.1      zoom_y_to:10.0     nframes:10
@@ -236,6 +245,65 @@ VID_MASTER_LAYERSTACK   track1:[Top | Background]
 			      Background .... (track 1 is the background)
                             DEFAULT: Top 
 
+
+VID_MASTER_INSERT_ALPHA
+  Specifies a format string that referes to an image or to a series of frame images
+  to provide transparency for the corresponding video frame.
+  This format string shall contain placeholders
+     %s    for the basename of videoclips and 
+     %06d  for the 6 digit framenumber.
+     
+  This format string will be checked each time when storyboard processing
+  fetches a video frame (from clip type VID_PLAY_MOVIE)
+  and will be evaluated to a corresponding frame/image filename.
+  If a frame image with this evaluated filename exists,
+  that image will be automatically loaded,
+  scaled to frame size and attached as alpha channel
+  to the fetched frame.
+  This feature offers individual transparency per video clip and frame.
+
+  Example1:
+    Have a Storyboard with:
+      VID_MASTER_INSERT_ALPHA  format="/home/storyboards/video_alpha_frame/alpha_%s_%06d.png"
+      VID_PLAY_MOVIE track=2 file=my_clip.AVI  from=12 to=20
+    
+    When processing fetches frame number 14 of my_clip.AVI
+    it evaluates the alpha imagename by substitution
+    where 
+        %s    is replaced by "my_clip"
+        %06d  is replaced by "000014"
+    and checks if the resulting alpha imagename exists:
+      
+        /home/storyboards/video_alpha_frame/alpha_my_clip_000014.png
+    
+    If there is such an image it will be added as alpha channel
+    to add transparency for the fetched video frame.
+
+  Example2:
+    Have a Storyboard with:
+      VID_MASTER_INSERT_ALPHA  format="/home/storyboards/video_alpha_frame/alpha_%s.png"
+      VID_PLAY_MOVIE track=2 file=my_clip.AVI  from=12 to=20
+    
+    In this case there is just the placeholder for the videofile but no
+    placeholder for the framenumber.
+    In this case the alpha imagename evaluates to
+
+       /home/storyboards/video_alpha_frame/alpha_my_clip.png
+
+    for all frames of this video clip. If such a file exists it
+    is applied as alpha channel on all frames of my_clip.AVI
+    
+
+
+  (1) Record Key        ... VID_MASTER_INSERT_ALPHA
+  (2) format            ... the format string
+                            shall include 
+                            %s     as placeholder for
+                                   videofile basename and
+                            %06d   as placeholder for the framenumber.
+  
+
+
 VID_PLAY_MOVIE
   fetch frames from a videofile. (such as MPEG, AVI, ...
   see GAP_VID_API description for Informations about 
@@ -311,6 +379,13 @@ VID_PLAY_MOVIE
                                    In this mode the mask is fixed to the master frame.
                                    and does not follow transformations and movements
                                    of the input frame.
+                            "xcolor" scale mask to resulting layer size.
+                                   and apply as color mask.
+                                   In this case the image that is referred via mask_name
+                                   should be a color image.
+                                   the mask scales and moves according
+                                   to transformations of the input frame
+                                   where it is attached to.
  [17] mask_stepsize:    ... stepsize factor for the mask-frames.
                             a value of 2.0 speeds up the mask effect (by skipping
                             every 2nd frame in the assigned mask clip)
@@ -322,8 +397,19 @@ VID_PLAY_MOVIE
  [19] macsteps:         ... an integer value greater or equal than 1.
                             Defines the (maximal) duration in number of frames
                             for applying filtermacros with varying values.
-                            Default: 1
+ [20] macaccel:         ... an integer value specifiying acceleration characteristic
+                            for applying filtermacros with varying values.
+                            where 1 changes filtersettings with constant speed.
+                            other positive values result in increasing speed, negative values
+                            result in decreasing speed.
 
+ [21] colormask_file:   ... a filename referring to a file with parameters for
+                            applying a mask with the colormask filter.
+                            the colormask filter makes pixels of the processed frame
+                            transparent when they are equal or similar to the corresponding
+                            pixel in the colormask.
+                            typically the colormask represents the non-moving backround
+                            that can be set transparent while moving objects are opaque.
 
 
 
@@ -355,6 +441,8 @@ VID_PLAY_ANIMIMAGE
  [13] mask_stepsize:    ... Same as described for VID_PLAY_MOVIE (see above)
  [14] mask_disable:     ... Same as described for VID_PLAY_MOVIE (see above)
  [15] macsteps:         ... Same as described for VID_PLAY_MOVIE (see above)
+ [16] macaccel:         ... Same as described for VID_PLAY_MOVIE (see above)
+ [17] colormask_file:   ... Same as described for VID_PLAY_MOVIE (see above)
 
 
 
@@ -390,6 +478,8 @@ VID_PLAY_FRAMES
  [14] mask_stepsize:    ... Same as described for VID_PLAY_MOVIE (see above)
  [15] mask_disable:     ... Same as described for VID_PLAY_MOVIE (see above)
  [16] macsteps:         ... Same as described for VID_PLAY_MOVIE (see above)
+ [17] macaccel:         ... Same as described for VID_PLAY_MOVIE (see above)
+ [18] colormask_file:   ... Same as described for VID_PLAY_MOVIE (see above)
 
 VID_PLAY_IMAGE
   fetch frame from a single imagefile. (Multilayer Images are handled as
@@ -408,6 +498,8 @@ VID_PLAY_IMAGE
   [9] mask_stepsize:    ... Same as described for VID_PLAY_MOVIE (see above)
  [10] mask_disable:     ... Same as described for VID_PLAY_MOVIE (see above)
  [11] macsteps:         ... Same as described for VID_PLAY_MOVIE (see above)
+ [12] macaccel:         ... Same as described for VID_PLAY_MOVIE (see above)
+ [13] colormask_file:   ... Same as described for VID_PLAY_MOVIE (see above)
 
 
 
@@ -430,6 +522,8 @@ VID_PLAY_COLOR
  [10] mask_stepsize:    ... Same as described for VID_PLAY_MOVIE (see above)
  [11] mask_disable:     ... Same as described for VID_PLAY_MOVIE (see above)
  [12] macsteps:         ... Same as described for VID_PLAY_MOVIE (see above)
+ [13] macaccel:         ... Same as described for VID_PLAY_MOVIE (see above)
+ [14] colormask_file:   ... Same as described for VID_PLAY_MOVIE (see above)
 
 VID_SILENCE
   This record is used to define Pauses in a videotrack. 
@@ -442,6 +536,28 @@ VID_SILENCE
   [4] wait_until        ... wait until this timestamp is reached,
                             (then wait duration time)
                             timestamp can be a framenumber (integer) or seconds (float)
+                            DEFAULT: 0
+
+VID_ROTATE
+  This record is used to define rotate transitions,
+  by changing the rotation angle of the processed frames in the specified Videotrack slightly from one value
+  to another.
+  
+  (1) Record Key        ... VID_ROTATE
+  (2) track             ... integer tracknumer
+  (3) rotate_from       ... Start rotation with this value
+                            where 0.0 is and 360.0 is one full rotation
+  [4] rotate_to         ... Change rotation to this value
+                            DEFAULT: use same value as rotate_from
+  [5] nframes           ... optional duration of the effect
+                            in number of frames (integer) or seconds (float) 
+                            The duration Value 0 applies the TO value immediate.
+                            DEFAULT: 0
+  [6] accel             ... an integer value specifiying acceleration characteristic
+                            for speed behavior of rotation changes.
+                            where 1 (and 0) rotates the object with constant speed.
+                            other positive values result in increasing rotation speed, negative values
+                            result in decreasing speed.
                             DEFAULT: 0
 
 VID_OPACITY
@@ -459,6 +575,13 @@ VID_OPACITY
                             in number of frames (integer) or seconds (float) 
                             The duration Value 0 applies the TO value immediate.
                             DEFAULT: 0
+  [6] accel             ... an integer value specifiying acceleration characteristic
+                            for speed behavior of opacity changes.
+                            where 1 (and 0) changes opacity with constant speed.
+                            other positive values result in increasing speed, negative values
+                            result in decreasing speed.
+                            DEFAULT: 0
+
 
 VID_ZOOM_X and VID_ZOOM_Y
   These records are used to define Zooming Effects
@@ -475,6 +598,12 @@ VID_ZOOM_X and VID_ZOOM_Y
   [5] nframes           ... optional duration of the effect 
                             in number of frames (integer 10) or seconds (float) 
                             The duration Value 0 applies the TO value immediate.
+                            DEFAULT: 0
+  [6] accel             ... an integer value specifiying acceleration characteristic
+                            for speed behavior of zoom changes.
+                            where 1 (and 0) changes size with constant speed.
+                            other positive values result in increasing speed, negative values
+                            result in decreasing speed.
                             DEFAULT: 0
 
 
@@ -495,6 +624,12 @@ VID_MOVE_X and VID_MOVE_Y
   [5] nframes           ... optional duration time of the effect 
                             in number of frames (integer 10) or seconds (float) 
                             The duration Value 0 applies the TO value immediate.
+                            DEFAULT: 0
+  [6] accel             ... an integer value specifiying acceleration characteristic
+                            for speed behavior of movents.
+                            where 1 (and 0) changes positions with constant speed.
+                            other positive values result in increasing speed, negative values
+                            result in decreasing speed.
                             DEFAULT: 0
 
   Example:
@@ -560,15 +695,57 @@ VID_MOVE_X and VID_MOVE_Y
 
 
 VID_FIT_SIZE
-  Define how to match input framesize with the size of
-  the resulting video (VID_MASTER_SIZE).
+  Define how to match input framesize with the target size.
+  The target size is typically the size of the resulting video (VID_MASTER_SIZE).
+  except in scenarios where a movepath transistion is active.
+  In this special case the input frame is processed as moving object
+  of this transition and the target size refers to the scaled size 
+  (preScaleWidth, preScaleHeight) of the recorded moving object.
+  
 
   Notes:
   - The Input Frame is placed in the center of the 
     composite output frame.
     (unless VID_MOVE_X/Y define other offsets than 0.0)
-  - Zooming may cause additional Scaling. The VID_FIT_SIZE
+  - Zooming may cause additional Scaling. The VID_FIT_SIZE record
     describes the normal Size (where zoom is set to 1.0)
+
+  - In case the input Frame is processed by a movepath transistion
+    the target size depends on the size of the moving object and the framesize
+    in the xml_paramfile and on the VID_MASTER_SIZE.
+    (see VID_MOVE_PATH below)
+        
+    Example:
+    in the xml_paramfile the frame size 640x400 pixels and the 
+    moving object size was 320x240 pixels.
+    
+       <frame_description width="640" height="400"
+       <moving_object     width="320" height="240" 
+
+    The actual rendering shall be done at double frame size VID_MASTER_SIZE 1280 x 800 pixels.
+    In this example the target size of the pre-scaled moving object is 640 x 480 pixels
+    
+    target size calculation:
+       preScaleWidth  = recordedMovingObjWidth * masterWidth / recordedFrameWidth
+           640        = 320  * 1280  / 640
+       preScaleHeight = recordedMovingObjHeight * masterHeight / recordedFrameWidth
+           480        = 240  * 800   / 400
+    
+
+
+  - WARNING: settings that disable scaling 
+    (e.g. use fixed width or height at original source image size)
+    do NOT follow changes of the resulting VID_MASTER_SIZE.
+    In case you want to render videos in different sizes from the same storyboard
+    by simply changing the VID_MASTER_SIZE sizes, you should NOT
+    use such settings for your clips.
+    
+      VID_FIT_SIZE mode=none                                     # for fixed width and height
+      VID_FIT_SIZE mode=width proportions=change_proportions     # fixed width
+      VID_FIT_SIZE mode=height proportions=change_proportions    # fixed height
+      
+    Furthermore the fixed size also forces internal rendering for preview purpose
+    to operate at full VID_MASTER_SIZE which may be very slow (especially for HD video)
 
 
   The described behavior is valid for all fetched Frames in the same track
@@ -578,9 +755,15 @@ VID_FIT_SIZE
   (2) track             ... integer tracknumer
   [3] mode              ... One of the Keywords "width" "height" "none" or "both"
                             width:  Scale that only width does exactly
-                                    fit to the resulting video, height is unchanged
+                                    fit to the resulting video,
+                                    height is unchanged original input frame height,
+                                    or adjusted to keep the proportions of the input frame
+                                    (depends on the proportions setting)
                             height: Scale that only height does exactly
-                                    fit to the resulting video, width  is unchanged
+                                    fit to the resulting video,
+                                    width  is unchanged original input frame width,
+                                    or adjusted to keep the proportions of the input frame
+                                    (depends on the proportions setting)
                             both:   Scale that both width and height do exactly
                                     fit to the resulting video 
                             none:   Do not Scale the input frame at all
@@ -598,10 +781,181 @@ VID_FIT_SIZE
                                     background if there no such frames.
                             change_proportions:
                                     allow proportion changes at scaling.
-                                    Stretch the image to fit the resulting
-                                    video.
                                     
                             DEFAULT: "change_proportions"
+
+
+   This Example shows how an Input Frame of size 400x400 pixel is automatically scaled
+   to fit into a video at size 1280 x 800
+
+       +------+
+       |######|   Input Frame width:      400
+       |######|   Input Frame height:     400
+       |######|
+       |######|
+       +------+
+ 
+ 
+  ==== scenarios that allow changing proportions of the moving object =====
+ 
+  o) VID_FIT_SIZE mode=both proportions=change_proportions
+ 
+    +-------------------------------------+
+    |#####################################|  scaled copy of input frame:  1280 x 800
+    |#####################################|  video size:                  1280 x 800                  
+    |#####################################| 
+    |#####################################|
+    |#####################################|
+    |#####################################|
+    |#####################################|     
+    |#####################################|
+    |#####################################|
+    |#####################################|
+    |#####################################|
+    |#####################################|
+    +-------------------------------------+
+
+  o) VID_FIT_SIZE mode=width proportions=change_proportions
+ 
+    +-------------------------------------+
+    |                                     |  scaled copy of input frame:  1280 x 400
+    |                                     |  video size:                  1280 x 800                  
+    |                                     | 
+    +-------------------------------------+
+    |#####################################|
+    |#####################################|
+    |#####################################|     
+    |#####################################|
+    +-------------------------------------+
+    |                                     |
+    |                                     |
+    |                                     |
+    +-------------------------------------+
+ 
+
+  o) VID_FIT_SIZE mode=height proportions=change_proportions
+ 
+    +--------------+------+---------------+
+    |              |######|               |  scaled copy of input frame:   400 x 800
+    |              |######|               |  video size:                  1280 x 800                  
+    |              |######|               | 
+    |              |######|               | 
+    |              |######|               | 
+    |              |######|               | 
+    |              |######|               | 
+    |              |######|               | 
+    |              |######|               | 
+    |              |######|               | 
+    |              |######|               | 
+    |              |######|               | 
+    +--------------+------+---------------+
+
+ 
+  ==== scenarios that keep proportions of the moving object =====
+  
+  o) VID_FIT_SIZE mode=both proportions=keep_proportions
+  
+     The input frame is scaled to fit into video size rectangle
+     since the input frame has different proportions than the video size
+     there will be transparent borders. (where the black background
+     or clips of other tracks on lower stack position shows through)
+ 
+    +-------+---------------------+-------+
+    |       |#####################|       |  scaled copy of input frame:   800 x 800
+    |       |#####################|       |  video size:                  1280 x 800                  
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    +-------+---------------------+-------+
+
+ 
+  o) VID_FIT_SIZE mode=width proportions=keep_proportions
+    
+    The input frame is scaled to width 1280 pixels
+    and height 1280 pixels to keep the proportions.
+    But this cuts off the parts that do not fit into
+    the video height of 800 pixels.
+    
+
+
+    +-------------------------------------+
+    |.....................................| 
+    |.....................................| 
+    +-------------------------------------+
+    |#####################################|  scaled copy of input frame:  1280 x 1280
+    |#####################################|  video size:                  1280 x  800                  
+    |#####################################| 
+    |#####################################|
+    |#####################################|
+    |#####################################|
+    |#####################################|     
+    |#####################################|
+    |#####################################|
+    |#####################################|
+    |#####################################|
+    |#####################################|
+    +-------------------------------------+
+    |.....................................| 
+    |.....................................| 
+    +-------------------------------------+
+
+  o) VID_FIT_SIZE mode=height proportions=keep_proportions
+
+     The input frame is scaled to height 800 pixels.
+     keeping the proportions of the input frame results in width of 800 pixels
+     that gives transparent stripes left and right.
+     
+ 
+    +-------+---------------------+-------+
+    |       |#####################|       |  scaled copy of input frame:   800 x 800
+    |       |#####################|       |  video size:                  1280 x 800                  
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    |       |#####################|       | 
+    +-------+---------------------+-------+
+
+
+
+  o) VID_FIT_SIZE mode=none
+   
+    No automatic scaling is done to fit into video size.
+    (the proportions seting is not relevant in this case)
+ 
+    +-------------------------------------+
+    |                                     |  scaled copy of input frame:   400 x 400
+    |                                     |  video size:                  1280 x 800                  
+    |                                     | 
+    |              +------+               |
+    |              |######|               |
+    |              |######|               |
+    |              |######|               |     
+    |              |######|               |
+    |              +------+               |
+    |                                     |
+    |                                     |
+    |                                     |
+    +-------------------------------------+
+ 
+
+  
+
+
+
+
 
 VID_OVERLAP
   Define overlapping frames within one track.
@@ -649,6 +1003,32 @@ VID_OVERLAP
   00102        B.mpg 000007 
   ...
   00195        B.mpg 000100 
+
+
+      
+VID_MOVE_PATH
+  This record is used to define a set of complex transformations on the current video track (layer)
+  Those transformations can include movement along a path, scaling, rotation, perspective transformation,
+  opacity changes ... (see the GIMP-GAP MovePath feature for more details)
+  
+  to another.
+  
+  (1) Record Key        ... VID_MOVE_PATH
+  (2) track             ... integer tracknumer
+  (3) frame_from        ... Start frame number specifies the phase
+                            where to start in the move path (typically start at 1)
+  (4) frame_to          ... End frame number  specifies the phase
+                            where to end in the move path
+  (5) nframes           ... duration of the effect
+                            in number of frames (integer)
+                            In case nframes is greater than total_frames
+                            the transistions of the end
+                            The duration Value 0 disables move transitions.
+  (6) accel             ... an integer value specifiying acceleration characteristic
+                            DEFAULT: 0  ** other values are currently ignored 
+                            
+  (7) xml_paramfile     ... name of the paramterfile for the move path plugin.
+
 
 
 AUD_PLAY_SOUND
@@ -888,7 +1268,7 @@ Audiorange:
 Macrofiles:
 ------------
   Macros can be used to perform a user defineable set of
-  one or more gimp procedures, such as 
+  one or more gimp procedures (plug-ins), such as 
     - color correction
     - sharpen / blur
     - transformations
@@ -917,7 +1297,8 @@ Macrofiles:
   example:
   VID_PLAY_MOVIE track:1 file:"/vol1/videos/A.mpg" from:000001 to:000500 \
               macro:"/vol1/fmac/my_blur_macro.fmac" \
-              macsteps:200
+              macsteps:200 \
+              macaccel:10
               
   This example implicite referes to a second macrofile:
   
@@ -932,10 +1313,14 @@ Macrofiles:
   Procesing for frame 000001 of the input video clip A.mpg 
   will apply the parameter values of the 1st macrofile.
   As processing continues, the influence of
-  the values defined in the 2nd macrofile grows. At fame 000200
-  (macsteps:200) the final value as defined in the 2nd macrofile
+  the values defined in the 2nd macrofile grows.
+  At fame 000200 (macsteps:200) the final value, as defined in the 2nd macrofile
   is reached, and will be used for all further frames of this video clip too
   (201 upto 500).
+  The speed of the change from settings in the 1st and the 2nd
+  macrofile depends on the specified acceleration characteristic
+  (macaccel:10) where 10 defines increasing speed.
+  Use value 1 for constant speed (e.g linear changing settings)
   
   Filtercalls in the 2nd macrofile that have no correlating pendent
   in the 1st macrofile are ignored. Filtercalls of the 1st
@@ -964,9 +1349,14 @@ Macrofiles:
    *   macrofile2:line 3.) correlates with macrofile1:line 4.)
 
   RESTRICTION:
-   - Applying filters with varying values is restricted
-     to filters that provide an iterator procedure
-     that handles the mix of filter specific prameter values.
+   - Applying filters (e.g plug-ins) with varying values is restricted
+     to filters that provide the capability to access
+     the filter specific prameter settings (typically stored as last values buffer in memory)
+     by either implementing an iterator procedure or registering
+     the structure of this last values buffer in the
+     configuration file lastval_descriptions.txt
+     
+     This allows GIMP-GAP to handles the mix of filter specific prameter values.
      (see also Filter->Filter all Layers)
      
   

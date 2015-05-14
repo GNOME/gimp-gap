@@ -39,8 +39,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -76,7 +76,7 @@
 #include <libgimp/gimp.h>
 #include <libgimp/gimpui.h>
 
-#include "imgconvert.h"
+#include "swscale.h"
 
 #include "gap-intl.h"
 
@@ -88,6 +88,8 @@
 #include "gap_enc_ffmpeg_par.h"
 
 #include "gap_audio_wav.h"
+#include "gap_base.h"
+
 
 /* FFMPEG defaults */
 #define DEFAULT_PASS_LOGFILENAME "ffmpeg2pass"
@@ -121,6 +123,10 @@
 
 #define MAX_VIDEO_STREAMS 1
 #define MAX_AUDIO_STREAMS 16
+
+#define ENCODER_QUEUE_RINGBUFFER_SIZE 4
+ 
+
 
 typedef struct t_audio_work
 {
@@ -157,8 +163,6 @@ typedef struct t_ffmpeg_video
  AVCodecContext  *vid_codec_context;
  AVCodec         *vid_codec;
  AVFrame         *big_picture_codec;
- uint8_t         *yuv420_buffer;
- int              yuv420_buffer_size;
  uint8_t         *video_buffer;
  int              video_buffer_size;
  uint8_t         *video_dummy_buffer;
@@ -181,7 +185,7 @@ typedef struct t_ffmpeg_audio
 
 
 
-typedef struct t_ffmpeg_handle
+typedef struct t_ffmpeg_handle         /* ffh */
 {
  AVFormatContext *output_context;
  AVOutputFormat  *file_oformat;
@@ -204,8 +208,70 @@ typedef struct t_ffmpeg_handle
  gdouble pts_stepsize_per_frame;
  gint32 encode_frame_nr;          /* number of frame to encode always starts at 1 and inc by one (base for monotone timecode calculation) */
 
+ struct SwsContext *img_convert_ctx;
+
+ int countVideoFramesWritten;
+ uint8_t  *convert_buffer;
+ gint32    validEncodeFrameNr;
+ 
+ gboolean      isMultithreadEnabled;
+
 } t_ffmpeg_handle;
 
+
+typedef enum
+{
+   EQELEM_STATUS_FREE
+  ,EQELEM_STATUS_READY
+  ,EQELEM_STATUS_LOCK        
+} EncoderQueueElemStatusEnum;
+
+
+typedef struct EncoderQueueElem  /* eq_elem */
+{
+  AVFrame                      *eq_big_picture_codec[MAX_VIDEO_STREAMS];   /* picture data to feed the encoder codec */
+  gint32                        encode_frame_nr;
+  gint                          vid_track;
+  gboolean                      force_keyframe;
+  
+  EncoderQueueElemStatusEnum    status;
+  GMutex                       *elemMutex;
+  void                         *next;
+
+} EncoderQueueElem;
+
+
+typedef struct EncoderQueue    /* eque */
+{
+  gint                numberOfElements;
+  EncoderQueueElem   *eq_root;           /* 1st element in the ringbuffer */
+  EncoderQueueElem   *eq_write_ptr;      /* reserved for the frame fetcher thread to writes into the ringbuffer */
+  EncoderQueueElem   *eq_read_ptr;       /* reserved for the encoder thread to read frames from the ringbuffer */
+
+  t_ffmpeg_handle     *ffh;
+  t_awk_array         *awp;
+  gint                 runningThreadsCounter;
+  
+  GCond               *frameEncodedCond;  /* sent each time the encoder finished one frame */
+  GMutex              *poolMutex;
+
+
+  /* debug attributes reserved for runtime measuring in the main thread */
+  GapTimmRecord       mainElemMutexWaits;
+  GapTimmRecord       mainPoolMutexWaits;
+  GapTimmRecord       mainEnqueueWaits;
+  GapTimmRecord       mainPush2;
+  GapTimmRecord       mainWriteFrame;
+  GapTimmRecord       mainDrawableToRgb;
+  GapTimmRecord       mainReadFrame;
+
+
+  /* debug attributes reserved for runtime measuring in the encoder thread */
+  GapTimmRecord       ethreadElemMutexWaits;
+  GapTimmRecord       ethreadPoolMutexWaits;
+  GapTimmRecord       ethreadEncodeFrame;
+
+} EncoderQueue;
 
 
 /* ------------------------
@@ -218,6 +284,8 @@ typedef struct t_ffmpeg_handle
 
 int gap_debug = 0;
 
+static GThreadPool         *encoderThreadPool = NULL;
+
 GapGveFFMpegGlobalParams global_params;
 int global_nargs_ffmpeg_enc_par;
 
@@ -228,9 +296,11 @@ static void run(const gchar *name
               , gint *nreturn_vals
               , GimpParam **return_vals);
 
-
+static int    p_base_get_thread_id_as_int();
 static void   p_debug_print_dump_AVCodecContext(AVCodecContext *codecContext);
+static int    p_av_metadata_set(AVMetadata **pm, const char *key, const char *value, int flags);
 static void   p_set_flag(gint32 value_bool32, int *flag_ptr, int maskbit);
+static void   p_set_partition_flag(gint32 value_bool32, gint32 *flag_ptr, gint32 maskbit);
 
 
 static void   p_gimp_get_data(const char *key, void *buffer, gint expected_size);
@@ -255,6 +325,7 @@ static void              p_close_audio_input_files(t_awk_array *awp);
 static void              p_open_audio_input_files(t_awk_array *awp, GapGveFFMpegGlobalParams *gpp);
 
 static gint64            p_calculate_current_timecode(t_ffmpeg_handle *ffh);
+static gint64            p_calculate_timecode(t_ffmpeg_handle *ffh, int frameNr);
 static void              p_set_timebase_from_framerate(AVRational *time_base, gdouble framerate);
 
 static void              p_ffmpeg_open_init(t_ffmpeg_handle *ffh, GapGveFFMpegGlobalParams *gpp);
@@ -276,8 +347,32 @@ static t_ffmpeg_handle * p_ffmpeg_open(GapGveFFMpegGlobalParams *gpp
                                       , gint video_tracks
                                       );
 static int    p_ffmpeg_write_frame_chunk(t_ffmpeg_handle *ffh, gint32 encoded_size, gint vid_track);
-static uint8_t * p_convert_colormodel(t_ffmpeg_handle *ffh, AVPicture *picture_codec, guchar *rgb_buffer, gint vid_track);
-static int    p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GimpDrawable *drawable, gboolean force_keyframe, gint vid_track);
+static void   p_convert_colormodel(t_ffmpeg_handle *ffh, AVPicture *picture_codec, guchar *rgb_buffer, gint vid_track);
+
+static int    p_ffmpeg_encodeAndWriteVideoFrame(t_ffmpeg_handle *ffh, AVFrame *picture_codec
+                     , gboolean force_keyframe, gint vid_track, gint32 encode_frame_nr);
+
+static void   p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame(t_ffmpeg_handle *ffh
+                     , AVFrame *picture_codec
+                     , GapStoryFetchResult *gapStoryFetchResult
+                     , gint vid_track
+                     );
+
+static void   p_create_EncoderQueueRingbuffer(EncoderQueue *eque);
+static EncoderQueue * p_init_EncoderQueueResources(t_ffmpeg_handle *ffh, t_awk_array *awp);
+static void           p_debug_print_RingbufferStatus(EncoderQueue *eque);
+static void           p_waitUntilEncoderQueIsProcessed(EncoderQueue *eque);
+static void           p_free_EncoderQueueResources(EncoderQueue     *eque);
+
+static void   p_fillQueueElem(EncoderQueue *eque, GapStoryFetchResult *gapStoryFetchResult, gboolean force_keyframe, gint vid_track);
+static void   p_encodeCurrentQueueElem(EncoderQueue *eque);
+static void   p_encoderWorkerThreadFunction (EncoderQueue *eque);
+static int    p_ffmpeg_write_frame_and_audio_multithread(EncoderQueue *eque, GapStoryFetchResult *gapStoryFetchResult, gboolean force_keyframe, gint vid_track);
+
+
+
+
+static int    p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GapStoryFetchResult *gapStoryFetchResult, gboolean force_keyframe, gint vid_track);
 static int    p_ffmpeg_write_audioframe(t_ffmpeg_handle *ffh, guchar *audio_buf, int frame_bytes, gint aud_track);
 static void   p_ffmpeg_close(t_ffmpeg_handle *ffh);
 static gint   p_ffmpeg_encode(GapGveFFMpegGlobalParams *gpp);
@@ -396,7 +491,7 @@ query ()
 
 
   gimp_install_procedure(GAP_PLUGIN_NAME_FFMPEG_PARAMS,
-                         _("Set Parameters for GAP ffmpeg video encoder Plugin"),
+                         _("Set parameters for GAP ffmpeg video encoder Plugin"),
                          _("This plugin sets ffmpeg specific video encoding parameters."
                            " Non-interactive callers must provide a parameterfile,"
                            " Interactive calls provide a dialog window to specify and optionally save the parameters."),
@@ -412,7 +507,7 @@ query ()
 
   l_ecp_key = g_strdup_printf("%s%s", GAP_QUERY_PREFIX_VIDEO_ENCODERS, GAP_PLUGIN_NAME_FFMPEG_ENCODE);
   gimp_install_procedure(l_ecp_key,
-                         _("Get GUI Parameters for GAP ffmpeg video encoder"),
+                         _("Get GUI parameters for GAP ffmpeg video encoder"),
                          _("This plugin returns ffmpeg encoder specific parameters."),
                          "Wolfgang Hofer (hof@gimp.org)",
                          "Wolfgang Hofer",
@@ -438,7 +533,7 @@ run (const gchar      *name,
   GapGveFFMpegValues *epp;
   GapGveFFMpegGlobalParams *gpp;
 
-  static GimpParam values[1];
+  static GimpParam values[2];
   gint32     l_rc;
   const char *l_env;
   char       *l_ecp_key1;
@@ -688,18 +783,34 @@ run (const gchar      *name,
 
 }       /* end run */
 
+static guint64
+p_timespecDiff(GTimeVal *startTimePtr, GTimeVal *endTimePtr)
+{
+  return ((endTimePtr->tv_sec * G_USEC_PER_SEC) + endTimePtr->tv_usec) -
+           ((startTimePtr->tv_sec * G_USEC_PER_SEC) + startTimePtr->tv_usec);
+}
+
+static int
+p_base_get_thread_id_as_int()
+{
+  int tid;
+  
+  tid = gap_base_get_thread_id();
+  return (tid);
+}
 
 /* ---------------------------------------
  * p_debug_print_dump_AVCodecContext
  * ---------------------------------------
- * dump values of all (200 !!) parameters
+ * dump most parameters values
  * of the codec context to stdout
+ * (some unused and deprecated parameters are skipped)
  */
 static void
 p_debug_print_dump_AVCodecContext(AVCodecContext *codecContext)
 {
   printf("AVCodecContext Settings START\n");
-  
+
   printf("(av_class (ptr AVClass*)      %d)\n", (int)    codecContext->av_class);
   printf("(bit_rate                     %d)\n", (int)    codecContext->bit_rate);
   printf("(bit_rate_tolerance           %d)\n", (int)    codecContext->bit_rate_tolerance);
@@ -747,7 +858,7 @@ p_debug_print_dump_AVCodecContext(AVCodecContext *codecContext)
   printf("(misc_bits                    %d)\n", (int)    codecContext->misc_bits);
   printf("(frame_bits                   %d)\n", (int)    codecContext->frame_bits);
   printf("(opaque (void *)              %d)\n", (int)    codecContext->opaque);
-  printf("(codec_name                   %s)\n", (int)    &codecContext->codec_name[0]);
+  printf("(codec_name                   %s)\n",         &codecContext->codec_name[0]);
   printf("(codec_type                   %d)\n", (int)    codecContext->codec_type);
   printf("(codec_id                     %d)\n", (int)    codecContext->codec_id);
   printf("(codec_tag (fourcc)           %d)\n", (int)    codecContext->codec_tag);
@@ -901,9 +1012,68 @@ p_debug_print_dump_AVCodecContext(AVCodecContext *codecContext)
   printf("(rc_max_available_vbv_use     %f)\n", (float)  codecContext->rc_max_available_vbv_use);
   printf("(rc_min_vbv_overflow_use      %f)\n", (float)  codecContext->rc_min_vbv_overflow_use);
 
+#ifndef GAP_USES_OLD_FFMPEG_0_5
+
+  printf("(hwaccel_context              %d)\n", (int)    codecContext->hwaccel_context);
+  printf("(color_primaries              %d)\n", (int)    codecContext->color_primaries);
+  printf("(color_trc                    %d)\n", (int)    codecContext->color_trc);
+  printf("(colorspace                   %d)\n", (int)    codecContext->colorspace);
+  printf("(color_range                  %d)\n", (int)    codecContext->color_range);
+  printf("(chroma_sample_location       %d)\n", (int)    codecContext->chroma_sample_location);
+  /* *func */
+  printf("(weighted_p_pred              %d)\n", (int)    codecContext->weighted_p_pred);
+  printf("(aq_mode                      %d)\n", (int)    codecContext->aq_mode);
+  printf("(aq_strength                  %f)\n", (float)  codecContext->aq_strength);
+  printf("(psy_rd                       %f)\n", (float)  codecContext->psy_rd);
+  printf("(psy_trellis                  %f)\n", (float)  codecContext->psy_trellis);
+  printf("(rc_lookahead                 %d)\n", (int)    codecContext->rc_lookahead);
+
+#ifndef GAP_USES_OLD_FFMPEG_0_6
+  printf("(crf_max                      %f)\n", (float)  codecContext->crf_max);
+  printf("(log_level_offset             %d)\n", (int)    codecContext->log_level_offset);
+  /* attribute_deprecated enum AVLPCType lpc_type; */
+  /* attribute_deprecated int lpc_passes;          */
+  printf("(slices                       %d)\n", (int)    codecContext->slices);
+  /* uint8_t *subtitle_header; */
+  /* int subtitle_header_size; */
+  /* AVPacket *pkt */
+  /* int is_copy;  */
+  printf("(thread_type                  %d)\n", (int)    codecContext->thread_type);
+  printf("(active_thread_type           %d)\n", (int)    codecContext->active_thread_type);
+  printf("(thread_safe_callbacks        %d)\n", (int)    codecContext->thread_safe_callbacks);
+  printf("(vbv_delay                    %lld)\n",        codecContext->vbv_delay);
+  printf("(audio_service_type           %d)\n", (int)    codecContext->audio_service_type);
+  /* enum AVSampleFormat request_sample_fmt */
+  /* int64_t pts_correction_num_faulty_pts; */
+  /* int64_t pts_correction_num_faulty_dts; */
+  /* int64_t pts_correction_last_pts; */
+  /* int64_t pts_correction_last_dts; */
+
+#endif
+#endif
+
   printf("AVCodecContext Settings END\n");
 
 }  /* end p_debug_print_dump_AVCodecContext */
+
+
+/* --------------------------------
+ * p_av_metadata_set
+ * --------------------------------
+ */
+static int
+p_av_metadata_set(AVMetadata **pm, const char *key, const char *value, int flags)
+{
+  int ret;
+  
+#ifndef GAP_USES_OLD_FFMPEG_0_5
+  ret = av_metadata_set2(pm, key, value, flags);
+#else
+  ret = av_metadata_set(pm, key, value);
+#endif  
+  
+  return (ret);
+}  /* end p_av_metadata_set */
 
 
 /* --------------------------------
@@ -918,6 +1088,29 @@ p_set_flag(gint32 value_bool32, int *flag_ptr, int maskbit)
     *flag_ptr |= maskbit;
   }
 }  /* end p_set_flag */
+
+
+/* --------------------------------
+ * p_set_partition_flag
+ * --------------------------------
+ */
+static void
+p_set_partition_flag(gint32 value_bool32, gint32 *flag_ptr, gint32 maskbit)
+{
+  if(value_bool32)
+  {
+    *flag_ptr |= maskbit;
+  }
+  else
+  {
+    gint32 clearmask;
+    
+    clearmask = ~maskbit;
+    *flag_ptr &= clearmask;
+  }
+
+}  /* end p_set_partition_flag */
+
 
 /* --------------------------------
  * p_gimp_get_data
@@ -946,9 +1139,75 @@ p_gimp_get_data(const char *key, void *buffer, gint expected_size)
 
 
 /* ----------------------------------
- * gap_enc_ffmpeg_main_init_preset_params
+ * p_initPresetFromPresetIndex
  * ----------------------------------
+ * copy preset specified by presetId
+ * to the preset buffer provided by epp.
+ * Note: in case presetId not found epp is left unchanged.
+ */
+static void
+p_initPresetFromPresetIndex(GapGveFFMpegValues *epp, gint presetId)
+{
+  GapGveFFMpegValues *eppAtId;
+  GapGveFFMpegValues  eppBackup;
+  GapGveFFMpegValues *eppBck;
+
+  eppBck = &eppBackup;
+  memcpy(eppBck, epp, sizeof(GapGveFFMpegValues));
+
+
+  if(gap_debug)
+  {
+    printf("p_initPresetFromPresetIndex: name:%s title:%s bckTitle:%s size:%d\n"
+      ,epp->presetName
+      ,epp->title
+      ,eppBck->title
+      ,sizeof(epp->title)
+      );
+  }
+
+
+  for(eppAtId = gap_ffpar_getPresetList(); eppAtId != NULL; eppAtId = eppAtId->next)
+  {
+    if (eppAtId->presetId == presetId)
+    {
+      break;
+    }
+  }
+  
+  if(eppAtId != NULL)
+  {
+    memcpy(epp, eppAtId, sizeof(GapGveFFMpegValues));
+
+    /* restore original title, author, copyright and comment
+     * where present.
+     */  
+    if(eppBck->title[0] != '\0')
+    {
+      memcpy(epp->title, eppBck->title, sizeof(epp->title));
+    }
+    if(eppBck->author[0] != '\0')
+    {
+      memcpy(epp->author, eppBck->author, sizeof(epp->author));
+    }
+    if(eppBck->copyright[0] != '\0')
+    {
+      memcpy(epp->copyright, eppBck->copyright, sizeof(epp->copyright));
+    }
+    if(eppBck->comment[0] != '\0')
+    {
+      memcpy(epp->comment, eppBck->comment, sizeof(epp->comment));
+    }
+  }
+
+}  /* end p_initPresetFromPresetIndex */
+
+
+/* --------------------------------------
+ * gap_enc_ffmpeg_main_init_preset_params
+ * --------------------------------------
  * Encoding parameter Presets (Preset Values are just a guess and are not OK, have to check ....)
+ * ID
  * 0 .. DivX default (ffmpeg defaults, OK)
  * 1 .. DivX Best
  * 2 .. DivX Low
@@ -958,76 +1217,115 @@ p_gimp_get_data(const char *key, void *buffer, gint expected_size)
  * 6 .. MPEG2 SVCD
  * 7 .. MPEG2 DVD
  * 8 .. Real Video default
+ *
+ * Higher IDs may be available when preset files are installed.
+ *
+ * NOTE: the hardcoded presets are not used since standard presets are 
+ * now part of the installation.
+ * BUT: preset with index 0 is still relevant to init default settings
+ * for parameters that are NOT available in the preset files.
+ * (this is important when updates to newer ffmpeg releases introduce new params
+ * that are not present in private preset files created by users)
  */
 void
 gap_enc_ffmpeg_main_init_preset_params(GapGveFFMpegValues *epp, gint preset_idx)
 {
+#define GAP_FFPRESET_TABSIZE     10  /* GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS  */
+
   gint l_idx;
-  /*                                                                        DivX def      best       low   MS-def         VCD   MPGbest      SVCD       DVD      Real */
-  static gint32 tab_ntsc_width[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]        =  {     0,        0,        0,       0,        352,        0,      480,      720,        0 };
-  static gint32 tab_ntsc_height[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  {     0,        0,        0,       0,        240,        0,      480,      480,        0 };
+  /*                                                          DivX def      best       low   MS-def         VCD   MPGbest      SVCD       DVD      Real */
+  static gint32 tab_ntsc_width[GAP_FFPRESET_TABSIZE]        =  {     0,        0,        0,       0,        352,        0,      480,      720,        0 };
+  static gint32 tab_ntsc_height[GAP_FFPRESET_TABSIZE]       =  {     0,        0,        0,       0,        240,        0,      480,      480,        0 };
 
-  static gint32 tab_pal_width[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]         =  {     0,        0,        0,       0,        352,        0,      480,      720,        0 };
-  static gint32 tab_pal_height[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]        =  {     0,        0,        0,       0,        288,        0,      576,      576,        0 };
+  static gint32 tab_pal_width[GAP_FFPRESET_TABSIZE]         =  {     0,        0,        0,       0,        352,        0,      480,      720,        0 };
+  static gint32 tab_pal_height[GAP_FFPRESET_TABSIZE]        =  {     0,        0,        0,       0,        288,        0,      576,      576,        0 };
 
-  static gint32 tab_audio_bitrate[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]     =  {   160,      192,       96,     160,        224,      192,      224,      192,      160 };
-  static gint32 tab_video_bitrate[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]     =  {   200,     1500,      150,     200,       1150,     6000,     2040,     6000,     1200 };
-  static gint32 tab_gop_size[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]          =  {    12,       12,       96,      12,         18,       12,       18,       18,       18 };
-  static gint32 tab_intra[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]             =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_audio_bitrate[GAP_FFPRESET_TABSIZE]     =  {   160,      192,       96,     160,        224,      192,      224,      192,      160 };
+  static gint32 tab_video_bitrate[GAP_FFPRESET_TABSIZE]     =  {   200,     1500,      150,     200,       1150,     6000,     2040,     6000,     1200 };
+  static gint32 tab_gop_size[GAP_FFPRESET_TABSIZE]          =  {    12,       12,       96,      12,         18,       12,       18,       18,       18 };
+  static gint32 tab_intra[GAP_FFPRESET_TABSIZE]             =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
 
-  static float  tab_qscale[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]            =  {     2,        1,        6,       2,          1,        1,        1,        1,        2 };
+  static float  tab_qscale[GAP_FFPRESET_TABSIZE]            =  {     2,        1,        6,       2,          1,        1,        1,        1,        2 };
 
-  static gint32 tab_qmin[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]              =  {     2,        2,        8,       2,          2,        2,        2,        2,        2 };
-  static gint32 tab_qmax[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]              =  {    31,        8,       31,      31,         31,        8,       16,        8,       31 };
-  static gint32 tab_qdiff[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]             =  {     3,        2,        9,       3,          3,        2,        2,        2,        3 };
+  static gint32 tab_qmin[GAP_FFPRESET_TABSIZE]              =  {     2,        2,        8,       2,          2,        2,        2,        2,        2 };
+  static gint32 tab_qmax[GAP_FFPRESET_TABSIZE]              =  {    31,        8,       31,      31,         31,        8,       16,        8,       31 };
+  static gint32 tab_qdiff[GAP_FFPRESET_TABSIZE]             =  {     3,        2,        9,       3,          3,        2,        2,        2,        3 };
 
-  static float  tab_qblur[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]             =  {   0.5,       0.5,      0.5,    0.5,        0.5,      0.5,      0.5,      0.5,      0.5 };
-  static float  tab_qcomp[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]             =  {   0.5,       0.5,      0.5,    0.5,        0.5,      0.5,      0.5,      0.5,      0.5 };
-  static float  tab_rc_init_cplx[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]      =  {   0.0,       0.0,      0.0,    0.0,        0.0,      0.0,      0.0,      0.0,      0.0 };
-  static float  tab_b_qfactor[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]         =  {  1.25,      1.25,     1.25,   1.25,       1.25,     1.25,     1.25,     1.25,     1.25 };
-  static float  tab_i_qfactor[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]         =  {  -0.8,      -0.8,     -0.8,   -0.8,       -0.8,     -0.8,     -0.8,     -0.8,     -0.8 };
-  static float  tab_b_qoffset[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]         =  {  1.25,      1.25,     1.25,   1.25,       1.25,     1.25,     1.25,     1.25,     1.25 };
-  static float  tab_i_qoffset[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]         =  {   0.0,       0.0,      0.0,    0.0,        0.0,      0.0,      0.0,      0.0,      0.0 };
+  static float  tab_qblur[GAP_FFPRESET_TABSIZE]             =  {   0.5,       0.5,      0.5,    0.5,        0.5,      0.5,      0.5,      0.5,      0.5 };
+  static float  tab_qcomp[GAP_FFPRESET_TABSIZE]             =  {   0.5,       0.5,      0.5,    0.5,        0.5,      0.5,      0.5,      0.5,      0.5 };
+  static float  tab_rc_init_cplx[GAP_FFPRESET_TABSIZE]      =  {   0.0,       0.0,      0.0,    0.0,        0.0,      0.0,      0.0,      0.0,      0.0 };
+  static float  tab_b_qfactor[GAP_FFPRESET_TABSIZE]         =  {  1.25,      1.25,     1.25,   1.25,       1.25,     1.25,     1.25,     1.25,     1.25 };
+  static float  tab_i_qfactor[GAP_FFPRESET_TABSIZE]         =  {  -0.8,      -0.8,     -0.8,   -0.8,       -0.8,     -0.8,     -0.8,     -0.8,     -0.8 };
+  static float  tab_b_qoffset[GAP_FFPRESET_TABSIZE]         =  {  1.25,      1.25,     1.25,   1.25,       1.25,     1.25,     1.25,     1.25,     1.25 };
+  static float  tab_i_qoffset[GAP_FFPRESET_TABSIZE]         =  {   0.0,       0.0,      0.0,    0.0,        0.0,      0.0,      0.0,      0.0,      0.0 };
 
-  static gint32 tab_bitrate_tol[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  {  4000,     6000,     2000,    4000,       1150,     4000,     2000,     2000,     5000 };
-  static gint32 tab_maxrate_tol[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  {     0,        0,        0,       0,       1150,        0,     2516,     9000,        0 };
-  static gint32 tab_minrate_tol[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  {     0,        0,        0,       0,       1150,        0,        0,        0,        0 };
-  static gint32 tab_bufsize[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]           =  {     0,        0,        0,       0,         40,        0,      224,      224,        0 };
+  static gint32 tab_bitrate_tol[GAP_FFPRESET_TABSIZE]       =  {  4000,     6000,     2000,    4000,       1150,     4000,     2000,     2000,     5000 };
+  static gint32 tab_maxrate_tol[GAP_FFPRESET_TABSIZE]       =  {     0,        0,        0,       0,       1150,        0,     2516,     9000,        0 };
+  static gint32 tab_minrate_tol[GAP_FFPRESET_TABSIZE]       =  {     0,        0,        0,       0,       1150,        0,        0,        0,        0 };
+  static gint32 tab_bufsize[GAP_FFPRESET_TABSIZE]           =  {     0,        0,        0,       0,         40,        0,      224,      224,        0 };
 
-  static gint32 tab_motion_estimation[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS] =  {     5,        5,        5,       5,          5,        5,        5,        5,        5 };
+  static gint32 tab_motion_estimation[GAP_FFPRESET_TABSIZE] =  {     5,        5,        5,       5,          5,        5,        5,        5,        5 };
 
-  static gint32 tab_dct_algo[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]          =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_idct_algo[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]         =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_strict[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]            =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_mb_qmin[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]           =  {     2,        2,        8,       2,          2,        2,        2,        2,        2 };
-  static gint32 tab_mb_qmax[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]           =  {    31,       18,       31,      31,         31,       18,       31,       31,       31 };
-  static gint32 tab_mb_decision[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_aic[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]               =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_umv[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]               =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_dct_algo[GAP_FFPRESET_TABSIZE]          =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_idct_algo[GAP_FFPRESET_TABSIZE]         =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_strict[GAP_FFPRESET_TABSIZE]            =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_mb_qmin[GAP_FFPRESET_TABSIZE]           =  {     2,        2,        8,       2,          2,        2,        2,        2,        2 };
+  static gint32 tab_mb_qmax[GAP_FFPRESET_TABSIZE]           =  {    31,       18,       31,      31,         31,       18,       31,       31,       31 };
+  static gint32 tab_mb_decision[GAP_FFPRESET_TABSIZE]       =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_aic[GAP_FFPRESET_TABSIZE]               =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_umv[GAP_FFPRESET_TABSIZE]               =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
 
-  static gint32 tab_b_frames[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]          =  {     2,        2,        4,       0,          0,        0,        2,        2,        0 };
-  static gint32 tab_mv4[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]               =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_partitioning[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]      =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_packet_size[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_bitexact[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]          =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
-  static gint32 tab_aspect[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]            =  {     1,        1,        1,       1,          1,        1,        1,        1,        1 };
-  static gint32 tab_aspect_fact[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  {   0.0,      0.0,      0.0,     0.0,        0.0,      0.0,      0.0,      0.0,      0.0 };
+  static gint32 tab_b_frames[GAP_FFPRESET_TABSIZE]          =  {     2,        2,        4,       0,          0,        0,        2,        2,        0 };
+  static gint32 tab_mv4[GAP_FFPRESET_TABSIZE]               =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_partitioning[GAP_FFPRESET_TABSIZE]      =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_packet_size[GAP_FFPRESET_TABSIZE]       =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_bitexact[GAP_FFPRESET_TABSIZE]          =  {     0,        0,        0,       0,          0,        0,        0,        0,        0 };
+  static gint32 tab_aspect[GAP_FFPRESET_TABSIZE]            =  {     1,        1,        1,       1,          1,        1,        1,        1,        1 };
+  static gint32 tab_aspect_fact[GAP_FFPRESET_TABSIZE]       =  {   0.0,      0.0,      0.0,     0.0,        0.0,      0.0,      0.0,      0.0,      0.0 };
 
-  static char*  tab_format_name[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  { "avi",    "avi",    "avi",     "avi",     "vcd",   "mpeg",   "svcd",    "vob",     "rm" };
-  static char*  tab_vcodec_name[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  { "mpeg4", "mpeg4", "mpeg4", "msmpeg4", "mpeg1video", "mpeg1video", "mpeg2video", "mpeg2video", "rv10" };
-  static char*  tab_acodec_name[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  { "mp2",     "mp2",   "mp2",     "mp2",      "mp2",    "mp2",    "mp2",   "ac3",    "ac3" };
+  static char*  tab_format_name[GAP_FFPRESET_TABSIZE]       =  { "avi",    "avi",    "avi",     "avi",     "vcd",   "mpeg",   "svcd",    "vob",     "rm" };
+  static char*  tab_vcodec_name[GAP_FFPRESET_TABSIZE]       =  { "mpeg4", "mpeg4", "mpeg4", "msmpeg4", "mpeg1video", "mpeg1video", "mpeg2video", "mpeg2video", "rv10" };
+  static char*  tab_acodec_name[GAP_FFPRESET_TABSIZE]       =  { "mp2",     "mp2",   "mp2",     "mp2",      "mp2",    "mp2",    "mp2",   "ac3",    "ac3" };
 
-  static gint32 tab_mux_rate[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]          =  {     0,         0,        0,      0,     1411200,       0,       0,   10080000,        0 };
-  static gint32 tab_mux_packet_size[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]   =  {     0,         0,        0,      0,        2324,    2324,    2324,       2048,        0 };
-  static float  tab_mux_preload[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]       =  {   0.5,       0.5,      0.5,    0.5,        0.44,     0.5,     0.5,        0.5,      0.5 };
-  static float  tab_mux_max_delay[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]     =  {   0.7,       0.7,      0.7,    0.7,         0.7,     0.7,     0.7,        0.7,      0.7 };
-  static gint32 tab_use_scann_offset[GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS]  =  {     0,         0,        0,      0,           0,       0,       1,          0,        0 };
+  static gint32 tab_mux_rate[GAP_FFPRESET_TABSIZE]          =  {     0,         0,        0,      0,     1411200,       0,       0,   10080000,        0 };
+  static gint32 tab_mux_packet_size[GAP_FFPRESET_TABSIZE]   =  {     0,         0,        0,      0,        2324,    2324,    2324,       2048,        0 };
+  static float  tab_mux_preload[GAP_FFPRESET_TABSIZE]       =  {   0.5,       0.5,      0.5,    0.5,        0.44,     0.5,     0.5,        0.5,      0.5 };
+  static float  tab_mux_max_delay[GAP_FFPRESET_TABSIZE]     =  {   0.7,       0.7,      0.7,    0.7,         0.7,     0.7,     0.7,        0.7,      0.7 };
+  static gint32 tab_use_scann_offset[GAP_FFPRESET_TABSIZE]  =  {     0,         0,        0,      0,           0,       0,       1,          0,        0 };
 
+  static char*  tab_presetName[GAP_FFPRESET_TABSIZE] = {
+      "DivX default preset"
+     ,"DivX high quality preset"
+     ,"DivX low quality preset"
+     ,"DivX WINDOWS preset"
+     ,"MPEG1 (VCD) preset"
+     ,"MPEG1 high quality preset"
+     ,"MPEG2 (SVCD) preset"
+     ,"MPEG2 (DVD) preset"
+     ,"REAL video preset"
+  };
 
-  l_idx = CLAMP(preset_idx, 0, GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS -1);
+  l_idx = preset_idx -1;
+  if ((preset_idx < 1) 
+  || (preset_idx >= GAP_FFPRESET_TABSIZE)
+  || (preset_idx >= GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS)
+  )
+  {
+    /* use hardcoded preset 0 as base initialisation for non-hardcoded Id presets 
+     */
+    l_idx = 0;
+  }
+  else
+  {
+    g_snprintf(epp->presetName,  sizeof(epp->presetName),  tab_presetName[l_idx]);    /* "name of the preset */
+  }
+
   if(gap_debug)
   {
-    printf("gap_enc_ffmpeg_main_init_preset_params L_IDX:%d\n", (int)l_idx);
+    printf("gap_enc_ffmpeg_main_init_preset_params L_IDX:%d preset_idx:%d\n"
+        , (int)l_idx
+        , (int)preset_idx
+        );
   }
 
   g_snprintf(epp->format_name, sizeof(epp->format_name), tab_format_name[l_idx]);   /* "avi" */
@@ -1155,7 +1453,7 @@ gap_enc_ffmpeg_main_init_preset_params(GapGveFFMpegValues *epp, gint preset_idx)
 
 
   /* new parms 2009.01.31 */
-  
+
   epp->b_frame_strategy              = 0;
   epp->workaround_bugs               = FF_BUG_AUTODETECT;
   epp->error_recognition             = FF_ER_CAREFUL;
@@ -1177,7 +1475,7 @@ gap_enc_ffmpeg_main_init_preset_params(GapGveFFMpegValues *epp, gint preset_idx)
   epp->cqp                           = -1;
   epp->keyint_min                    = 25;   /* minimum GOP size */
   epp->refs                          = 1;
-  epp->chromaoffset                  = 0;        
+  epp->chromaoffset                  = 0;
   epp->bframebias                    = 0;
   epp->trellis                       = 0;
   epp->complexityblur                = 20.0;
@@ -1201,7 +1499,20 @@ gap_enc_ffmpeg_main_init_preset_params(GapGveFFMpegValues *epp, gint preset_idx)
   epp->channel_layout                = 0;
   epp->rc_max_available_vbv_use      = 1.0 / 3.0;
   epp->rc_min_vbv_overflow_use       = 3.0;
-  
+
+  /* new params of ffmpeg-0.6 2010.07.31 */
+  epp->color_primaries               =  0; // TODO  enum AVColorPrimaries color_primaries;
+  epp->color_trc                     =  0; //  enum AVColorTransferCharacteristic color_trc;
+  epp->colorspace                    =  0; //  enum AVColorSpace colorspace;
+  epp->color_range                   =  0; //  enum AVColorRange color_range;
+  epp->chroma_sample_location        =  0; //  enum AVChromaLocation chroma_sample_location;
+  epp->weighted_p_pred               = 0;
+  epp->aq_mode                       = 0;
+  epp->aq_strength                   = 0.0; 
+  epp->psy_rd                        = 0.0;
+  epp->psy_trellis                   = 0.0;
+  epp->rc_lookahead                  = 0;
+
   /* new flags/flags2 2009.01.31 */
   epp->codec_FLAG_GMC                   = 0; /* 0: FALSE */
   epp->codec_FLAG_INPUT_PRESERVED       = 0; /* 0: FALSE */
@@ -1225,6 +1536,48 @@ gap_enc_ffmpeg_main_init_preset_params(GapGveFFMpegValues *epp, gint preset_idx)
   epp->codec_FLAG2_CHUNKS               = 0; /* 0: FALSE */
   epp->codec_FLAG2_NON_LINEAR_QUANT     = 0; /* 0: FALSE */
   epp->codec_FLAG2_BIT_RESERVOIR        = 0; /* 0: FALSE */
+
+  /* new flags/flags2 of ffmpeg-0.6 2010.07.31 */
+  epp->codec_FLAG2_MBTREE               = 0; /* 0: FALSE */
+  epp->codec_FLAG2_PSY                  = 0; /* 0: FALSE */
+  epp->codec_FLAG2_SSIM                 = 0; /* 0: FALSE */
+  /* new flags/flags2 of ffmpeg-0.7.11 2012.01.12 */
+  epp->codec_FLAG2_INTRA_REFRESH        = 0; /* 0: FALSE */
+
+  epp->partition_X264_PART_I4X4         = 0; /* 0: FALSE */
+  epp->partition_X264_PART_I8X8         = 0; /* 0: FALSE */
+  epp->partition_X264_PART_P8X8         = 0; /* 0: FALSE */
+  epp->partition_X264_PART_P4X4         = 0; /* 0: FALSE */
+  epp->partition_X264_PART_B8X8         = 0; /* 0: FALSE */
+
+
+  /* new parameters of ffmpeg-0.7.11 2012.01.12 */
+  epp->crf_max                       = 0.0;
+  epp->log_level_offset              = 0;
+  epp->slices                        = 0;
+  epp->thread_type                   = 3;   /* FF_THREAD_FRAME   1  + FF_THREAD_SLICE   2 */
+  epp->active_thread_type            = 0;
+  epp->thread_safe_callbacks         = 0;
+  epp->vbv_delay                     = 0;
+  epp->audio_service_type            = 0;
+
+  if (preset_idx >= GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS)
+  {
+    if(gap_debug)
+    {
+      printf("gap_enc_ffmpeg_main_init_preset_params before p_initPresetFromPresetIndex\n"
+          );
+    }
+    p_initPresetFromPresetIndex(epp, preset_idx);
+  }
+
+  if(gap_debug)
+  {
+    printf("gap_enc_ffmpeg_main_init_preset_params DONE L_IDX:%d preset_idx:%d\n"
+        , (int)l_idx
+        , (int)preset_idx
+        );
+  }
 
 }   /* end gap_enc_ffmpeg_main_init_preset_params */
 
@@ -1594,9 +1947,15 @@ p_open_audio_input_files(t_awk_array *awp, GapGveFFMpegGlobalParams *gpp)
         }
         else
         {
-          g_message(_("The file: %s\n"
+          g_message(ngettext("The file: %s\n"
                       "contains too many audio-input tracks\n"
-                      "(only %d tracks are used, the rest are ignored).")
+                      "(only %d track is used, the rest is ignored)."
+                      
+                     ,"The file: %s\n"
+                      "contains too many audio-input tracks\n"
+                      "(only %d tracks are used, the rest is ignored)."
+                      
+                     , (int) MAX_AUDIO_STREAMS)
                    , gpp->val.audioname1
                    , (int) MAX_AUDIO_STREAMS
                    );
@@ -1612,6 +1971,28 @@ p_open_audio_input_files(t_awk_array *awp, GapGveFFMpegGlobalParams *gpp)
 }  /* end p_open_audio_input_files */
 
 /* -----------------------------
+ * p_calculate_timecode
+ * -----------------------------
+ * returns the timecode for the specified frameNr
+ */
+static gint64
+p_calculate_timecode(t_ffmpeg_handle *ffh, int frameNr)
+{
+  gdouble dblTimecode;
+  gint64  timecode64;
+
+  /*
+   * gdouble seconds;
+   * seconds = (ffh->encode_frame_nr  / gpp->val.framerate);
+   */
+
+  dblTimecode = frameNr * ffh->pts_stepsize_per_frame;
+  timecode64 = dblTimecode;
+
+  return (timecode64);
+}  /* end p_calculate_timecode */
+
+/* -----------------------------
  * p_calculate_current_timecode
  * -----------------------------
  * returns the timecode for the current frame
@@ -1619,18 +2000,7 @@ p_open_audio_input_files(t_awk_array *awp, GapGveFFMpegGlobalParams *gpp)
 static gint64
 p_calculate_current_timecode(t_ffmpeg_handle *ffh)
 {
-  gdouble dblTimecode;
-  gint64  timecode64;
-  
-  /*
-   * gdouble seconds;
-   * seconds = (ffh->encode_frame_nr  / gpp->val.framerate);
-   */
-
-  dblTimecode = ffh->encode_frame_nr * ffh->pts_stepsize_per_frame;
-  timecode64 = dblTimecode;
-  
-  return (timecode64);
+  return (p_calculate_timecode(ffh, ffh->encode_frame_nr));
 }
 
 
@@ -1669,19 +2039,19 @@ p_set_timebase_from_framerate(AVRational *time_base, gdouble framerate)
   {
     time_base->num = 1001;
     time_base->den = 60000;
-  
+
   }
   if ((framerate > 29.90) && (framerate < 29.99))
   {
     time_base->num = 1001;
     time_base->den = 30000;
-  
+
   }
   if ((framerate > 23.90) && (framerate < 23.99))
   {
     time_base->num = 1001;
     time_base->den = 24000;
-  
+
   }
 
 }  /* end p_set_timebase_from_framerate */
@@ -1707,8 +2077,6 @@ p_ffmpeg_open_init(t_ffmpeg_handle *ffh, GapGveFFMpegGlobalParams *gpp)
     ffh->vst[ii].vid_codec_context = NULL;
     ffh->vst[ii].vid_codec = NULL;
     ffh->vst[ii].big_picture_codec = avcodec_alloc_frame();
-    ffh->vst[ii].yuv420_buffer = NULL;
-    ffh->vst[ii].yuv420_buffer_size = 0;
     ffh->vst[ii].video_buffer = NULL;
     ffh->vst[ii].video_buffer_size = 0;
     ffh->vst[ii].video_dummy_buffer = NULL;
@@ -1729,10 +2097,10 @@ p_ffmpeg_open_init(t_ffmpeg_handle *ffh, GapGveFFMpegGlobalParams *gpp)
     ffh->ast[ii].audio_buffer = NULL;
     ffh->ast[ii].audio_buffer_size = 0;
   }
-  
+
   {
     AVRational l_time_base;
-    
+
     p_set_timebase_from_framerate(&l_time_base, gpp->val.framerate);
     ffh->pts_stepsize_per_frame = l_time_base.num;
 
@@ -1750,14 +2118,38 @@ p_ffmpeg_open_init(t_ffmpeg_handle *ffh, GapGveFFMpegGlobalParams *gpp)
   /* initialize common things */
   ffh->frame_width                  = (int)gpp->val.vid_width;
   ffh->frame_height                 = (int)gpp->val.vid_height;
+  /* allocate buffer for image conversion large enough for for uncompressed RGBA32 colormodel */
+  ffh->convert_buffer = g_malloc(4 * ffh->frame_width * ffh->frame_height);
 
   ffh->audio_bit_rate               = epp->audio_bitrate * 1000;     /* 64000; */
   ffh->audio_codec_id               = CODEC_ID_NONE;
 
   ffh->file_overwrite               = 0;
+  ffh->countVideoFramesWritten      = 0;
 
 }  /* end p_ffmpeg_open_init */
 
+
+/* ------------------
+ * p_choose_pixel_fmt
+ * ------------------
+ */
+static void p_choose_pixel_fmt(AVStream *st, AVCodec *codec)
+{
+    if(codec && codec->pix_fmts){
+        const enum PixelFormat *p= codec->pix_fmts;
+        for(; *p!=-1; p++){
+            if(*p == st->codec->pix_fmt)
+                break;
+        }
+        if(*p == -1
+           && !(   st->codec->codec_id==CODEC_ID_MJPEG
+                && st->codec->strict_std_compliance <= FF_COMPLIANCE_INOFFICIAL
+                && (   st->codec->pix_fmt == PIX_FMT_YUV420P
+                    || st->codec->pix_fmt == PIX_FMT_YUV422P)))
+            st->codec->pix_fmt = codec->pix_fmts[0];
+    }
+}
 
 
 /* ------------------
@@ -1786,7 +2178,7 @@ p_init_video_codec(t_ffmpeg_handle *ffh
      g_free(ffh);
      return(FALSE); /* error */
   }
-  if(ffh->vst[ii].vid_codec->type != CODEC_TYPE_VIDEO)
+  if(ffh->vst[ii].vid_codec->type != AVMEDIA_TYPE_VIDEO)
   {
      printf("CODEC: %s is no VIDEO CODEC!\n", epp->vcodec_name);
      g_free(ffh);
@@ -1809,6 +2201,8 @@ p_init_video_codec(t_ffmpeg_handle *ffh
       );
   }
 
+  avcodec_get_context_defaults2(ffh->vst[ii].vid_stream->codec, AVMEDIA_TYPE_VIDEO);
+  avcodec_thread_init(ffh->vst[ii].vid_stream->codec, epp->thread_count);
 
   /* set Video codec context in the video stream array (vst) */
   ffh->vst[ii].vid_codec_context = ffh->vst[ii].vid_stream->codec;
@@ -1825,20 +2219,20 @@ p_init_video_codec(t_ffmpeg_handle *ffh
 
   video_enc = ffh->vst[ii].vid_codec_context;
 
-  video_enc->codec_type = CODEC_TYPE_VIDEO;
+  video_enc->codec_type = AVMEDIA_TYPE_VIDEO;
   video_enc->codec_id = ffh->vst[ii].vid_codec->id;
 
   video_enc->bit_rate = epp->video_bitrate * 1000;
   video_enc->bit_rate_tolerance = epp->bitrate_tol * 1000;
 
   p_set_timebase_from_framerate(&video_enc->time_base, gpp->val.framerate);
-      
+
   video_enc->width = gpp->val.vid_width;
   video_enc->height = gpp->val.vid_height;
 
   if (gap_debug)
   {
-    printf("VCODEC: id:%d (%s) time_base.num :%d  time_base.den:%d    float:%f\n"
+    printf("VCODEC internal DEFAULTS: id:%d (%s) time_base.num :%d  time_base.den:%d    float:%f\n"
            "            DEFAULT_FRAME_RATE_BASE: %d\n"
       , video_enc->codec_id
       , epp->vcodec_name
@@ -1853,13 +2247,25 @@ p_init_video_codec(t_ffmpeg_handle *ffh
   }
 
 
-
   video_enc->pix_fmt = PIX_FMT_YUV420P;     /* PIX_FMT_YUV444P;  PIX_FMT_YUV420P;  PIX_FMT_BGR24;  PIX_FMT_RGB24; */
 
+  p_choose_pixel_fmt(ffh->vst[ii].vid_stream, ffh->vst[ii].vid_codec);
 
+
+  /* some formats want stream headers to be separate */
+  if(ffh->output_context->oformat->flags & AVFMT_GLOBALHEADER)
+  {
+    video_enc->flags |= CODEC_FLAG_GLOBAL_HEADER;
+  }
   if(!strcmp(epp->format_name, "mp4")
   || !strcmp(epp->format_name, "mov")
   || !strcmp(epp->format_name, "3gp"))
+  {
+    video_enc->flags |= CODEC_FLAG_GLOBAL_HEADER;
+  }
+
+  /* some formats want stream headers to be separate */
+  if(ffh->output_context->oformat->flags & AVFMT_GLOBALHEADER)
   {
     video_enc->flags |= CODEC_FLAG_GLOBAL_HEADER;
   }
@@ -2005,6 +2411,15 @@ p_init_video_codec(t_ffmpeg_handle *ffh
   p_set_flag(epp->codec_FLAG2_NON_LINEAR_QUANT,    &video_enc->flags2, CODEC_FLAG2_NON_LINEAR_QUANT);
   p_set_flag(epp->codec_FLAG2_BIT_RESERVOIR,       &video_enc->flags2, CODEC_FLAG2_BIT_RESERVOIR);
 
+#ifndef GAP_USES_OLD_FFMPEG_0_5
+  p_set_flag(epp->codec_FLAG2_MBTREE,              &video_enc->flags2, CODEC_FLAG2_MBTREE);
+  p_set_flag(epp->codec_FLAG2_PSY,                 &video_enc->flags2, CODEC_FLAG2_PSY);
+  p_set_flag(epp->codec_FLAG2_SSIM,                &video_enc->flags2, CODEC_FLAG2_SSIM);
+#ifndef GAP_USES_OLD_FFMPEG_0_6
+  p_set_flag(epp->codec_FLAG2_INTRA_REFRESH,       &video_enc->flags2, CODEC_FLAG2_INTRA_REFRESH);
+#endif
+#endif
+
 
   if ((epp->b_frames > 0) && (!epp->intra))
   {
@@ -2036,12 +2451,18 @@ p_init_video_codec(t_ffmpeg_handle *ffh
         break;
     }
   }
-  
+
   video_enc->qmin      = epp->qmin;
   video_enc->qmax      = epp->qmax;
   video_enc->max_qdiff = epp->qdiff;
   video_enc->qblur     = (float)epp->qblur;
   video_enc->qcompress = (float)epp->qcomp;
+#ifndef GAP_USES_OLD_FFMPEG_0_5
+  if (epp->rc_eq[0] != '\0')
+  {
+    video_enc->rc_eq     = &epp->rc_eq[0];
+  }
+#else
   if (epp->rc_eq[0] != '\0')
   {
     video_enc->rc_eq     = &epp->rc_eq[0];
@@ -2051,6 +2472,7 @@ p_init_video_codec(t_ffmpeg_handle *ffh
     /* use default rate control equation */
     video_enc->rc_eq     = "tex^qComp";
   }
+#endif
 
   video_enc->rc_override_count      =0;
   video_enc->inter_threshold        = epp->inter_threshold;
@@ -2069,8 +2491,8 @@ p_init_video_codec(t_ffmpeg_handle *ffh
   video_enc->workaround_bugs        = epp->workaround_bugs;
   video_enc->error_recognition      = epp->error_recognition;
   video_enc->mpeg_quant             = epp->mpeg_quant;
-  
-  
+
+
   video_enc->debug                  = 0;
   video_enc->mb_qmin                = epp->mb_qmin;
   video_enc->mb_qmax                = epp->mb_qmax;
@@ -2081,8 +2503,8 @@ p_init_video_codec(t_ffmpeg_handle *ffh
   video_enc->rc_qsquish             = epp->rc_qsquish;
   video_enc->rc_qmod_amp            = epp->rc_qmod_amp;
   video_enc->rc_qmod_freq           = epp->rc_qmod_freq;
-  
-  
+
+
   video_enc->luma_elim_threshold    = epp->video_lelim;
   video_enc->chroma_elim_threshold  = epp->video_celim;
 
@@ -2108,7 +2530,7 @@ p_init_video_codec(t_ffmpeg_handle *ffh
 
   video_enc->nsse_weight            = epp->nsse_weight;
   video_enc->me_subpel_quality      = epp->subpel_quality;
-  
+
   video_enc->dia_size               = epp->dia_size;
   video_enc->last_predictor_count   = epp->last_predictor_count;
   video_enc->pre_dia_size           = epp->pre_dia_size;
@@ -2130,13 +2552,19 @@ p_init_video_codec(t_ffmpeg_handle *ffh
   video_enc->cqp                      = epp->cqp;
   video_enc->keyint_min               = epp->keyint_min;
   video_enc->refs                     = epp->refs;
-  video_enc->chromaoffset             = epp->chromaoffset;        
+  video_enc->chromaoffset             = epp->chromaoffset;
   video_enc->bframebias               = epp->bframebias;
   video_enc->trellis                  = epp->trellis;
   video_enc->complexityblur           = (float) epp->complexityblur;
   video_enc->deblockalpha             = epp->deblockalpha;
   video_enc->deblockbeta              = epp->deblockbeta;
   video_enc->partitions               = epp->partitions;
+  p_set_partition_flag(epp->partition_X264_PART_I4X4,        &video_enc->partitions, X264_PART_I4X4);
+  p_set_partition_flag(epp->partition_X264_PART_I8X8,        &video_enc->partitions, X264_PART_I8X8);
+  p_set_partition_flag(epp->partition_X264_PART_P8X8,        &video_enc->partitions, X264_PART_P8X8);
+  p_set_partition_flag(epp->partition_X264_PART_P4X4,        &video_enc->partitions, X264_PART_P4X4);
+  p_set_partition_flag(epp->partition_X264_PART_B8X8,        &video_enc->partitions, X264_PART_B8X8);
+  
   video_enc->directpred               = epp->directpred;
   video_enc->scenechange_factor       = epp->scenechange_factor;
   video_enc->mv0_threshold            = epp->mv0_threshold;
@@ -2153,6 +2581,31 @@ p_init_video_codec(t_ffmpeg_handle *ffh
   video_enc->rc_max_available_vbv_use = (float)epp->rc_max_available_vbv_use;
   video_enc->rc_min_vbv_overflow_use  = (float)epp->rc_min_vbv_overflow_use;
 
+#ifndef GAP_USES_OLD_FFMPEG_0_5
+  //video_enc->hwaccel_context == NULL;
+  video_enc->color_primaries = epp->color_primaries;
+  video_enc->color_trc = epp->color_trc;
+  video_enc->colorspace = epp->colorspace;
+  video_enc->color_range = epp->color_range;
+  video_enc->chroma_sample_location = epp->chroma_sample_location;
+  //video_enc->func = NULL;
+  video_enc->weighted_p_pred = (int)epp->weighted_p_pred;
+  video_enc->aq_mode = (int)epp->aq_mode;
+  video_enc->aq_strength = (float)epp->aq_strength;
+  video_enc->psy_rd = (float)epp->psy_rd;
+  video_enc->psy_trellis = (float)epp->psy_trellis;
+  video_enc->rc_lookahead = (int)epp->rc_lookahead;
+#ifndef GAP_USES_OLD_FFMPEG_0_6
+  video_enc->crf_max = (float)epp->crf_max;
+  video_enc->log_level_offset = (int)epp->log_level_offset;
+  video_enc->slices = (int)epp->slices;
+  video_enc->thread_type = (int)epp->thread_type;
+  video_enc->active_thread_type = (int)epp->active_thread_type;
+  video_enc->thread_safe_callbacks = (int)epp->thread_safe_callbacks;
+  video_enc->vbv_delay = epp->vbv_delay;
+  video_enc->audio_service_type = epp->audio_service_type;
+#endif
+#endif
 
 
   if(epp->packet_size)
@@ -2167,19 +2620,19 @@ p_init_video_codec(t_ffmpeg_handle *ffh
 
   if (epp->title[0] != '\0')
   {
-      av_metadata_set(&ffh->output_context->metadata, "title",  &epp->title[0]);
+      p_av_metadata_set(&ffh->output_context->metadata, "title",  &epp->title[0], 0);
   }
   if (epp->author[0] != '\0')
   {
-      av_metadata_set(&ffh->output_context->metadata, "author",  &epp->author[0]);
+      p_av_metadata_set(&ffh->output_context->metadata, "author",  &epp->author[0], 0);
   }
   if (epp->copyright[0] != '\0')
   {
-      av_metadata_set(&ffh->output_context->metadata, "copyright",  &epp->copyright[0]);
+      p_av_metadata_set(&ffh->output_context->metadata, "copyright",  &epp->copyright[0], 0);
   }
   if (epp->comment[0] != '\0')
   {
-      av_metadata_set(&ffh->output_context->metadata, "comment",  &epp->comment[0]);
+      p_av_metadata_set(&ffh->output_context->metadata, "comment",  &epp->comment[0], 0);
   }
 
 
@@ -2263,9 +2716,24 @@ p_init_video_codec(t_ffmpeg_handle *ffh
   /* dont know why */
   /* *(ffh->vst[ii].vid_stream->codec) = *video_enc; */    /* XXX(#) copy codec context */
 
+  if (gap_debug)
+  {
+    printf("VCODEC initialized: id:%d (%s) time_base.num :%d  time_base.den:%d    float:%f\n"
+           "            DEFAULT_FRAME_RATE_BASE: %d\n"
+      , video_enc->codec_id
+      , epp->vcodec_name
+      , video_enc->time_base.num
+      , video_enc->time_base.den
+      , (float)gpp->val.framerate
+      , (int)DEFAULT_FRAME_RATE_BASE
+      );
+
+    /* dump all parameters (standard values reprsenting ffmpeg internal defaults) to stdout */
+    p_debug_print_dump_AVCodecContext(video_enc);
+  }
 
   return (TRUE); /* OK */
-  
+
 }  /* end p_init_video_codec */
 
 
@@ -2291,7 +2759,7 @@ p_init_and_open_audio_codec(t_ffmpeg_handle *ffh
 
   audioOK = TRUE;
   msg = NULL;
-  
+
   /* ------------ Start Audio CODEC init -------   */
   if(audio_channels > 0)
   {
@@ -2305,7 +2773,7 @@ p_init_and_open_audio_codec(t_ffmpeg_handle *ffh
     }
     else
     {
-      if(ffh->ast[ii].aud_codec->type != CODEC_TYPE_AUDIO)
+      if(ffh->ast[ii].aud_codec->type != AVMEDIA_TYPE_AUDIO)
       {
          audioOK = FALSE;
          msg = g_strdup_printf(_("CODEC: %s is no AUDIO CODEC!"), epp->acodec_name);
@@ -2326,7 +2794,7 @@ p_init_and_open_audio_codec(t_ffmpeg_handle *ffh
         /*  ffh->ast[ii].aud_codec_context = avcodec_alloc_context();*/
         audio_enc = ffh->ast[ii].aud_codec_context;
 
-        audio_enc->codec_type = CODEC_TYPE_AUDIO;
+        audio_enc->codec_type = AVMEDIA_TYPE_AUDIO;
         audio_enc->codec_id = ffh->ast[ii].aud_codec->id;
 
         audio_enc->bit_rate = epp->audio_bitrate * 1000;
@@ -2340,7 +2808,7 @@ p_init_and_open_audio_codec(t_ffmpeg_handle *ffh
         audio_enc->workaround_bugs       = epp->workaround_bugs;
         audio_enc->error_recognition     = epp->error_recognition;
         audio_enc->cutoff                = epp->cutoff;
-        
+
         if (bits == 16)
         {
           audio_enc->sample_fmt = SAMPLE_FMT_S16;
@@ -2349,8 +2817,8 @@ p_init_and_open_audio_codec(t_ffmpeg_handle *ffh
         {
           audio_enc->sample_fmt = SAMPLE_FMT_U8;
         }
-        
-        
+
+
         switch (audio_channels)
         {
           case 1:
@@ -2362,14 +2830,14 @@ p_init_and_open_audio_codec(t_ffmpeg_handle *ffh
           default:
             audio_enc->channel_layout = epp->channel_layout;
             break;
-            
+
         }
 
         /* open audio codec */
         if (avcodec_open(ffh->ast[ii].aud_codec_context, ffh->ast[ii].aud_codec) < 0)
         {
           audioOK = FALSE;
-          
+
           msg = g_strdup_printf(_("could not open audio codec: %s\n"
                       "at audio_samplerate:%d channels:%d bits per channel:%d\n"
                       "(try to convert to 48 KHz, 44.1KHz or 32 kHz samplerate\n"
@@ -2381,7 +2849,7 @@ p_init_and_open_audio_codec(t_ffmpeg_handle *ffh
                      );
           ffh->ast[ii].aud_codec = NULL;
         }
-        
+
       }
     }
   }
@@ -2438,6 +2906,7 @@ p_ffmpeg_open(GapGveFFMpegGlobalParams *gpp
   }
 
   ffh = g_malloc0(sizeof(t_ffmpeg_handle));
+  ffh->isMultithreadEnabled = FALSE;
   ffh->max_vst = MIN(MAX_VIDEO_STREAMS, video_tracks);
   ffh->max_ast = MIN(MAX_AUDIO_STREAMS, awp->audio_tracks);
 
@@ -2447,7 +2916,11 @@ p_ffmpeg_open(GapGveFFMpegGlobalParams *gpp
 
   /* ------------ File Format  -------   */
 
+#ifndef GAP_USES_OLD_FFMPEG_0_5
+  ffh->file_oformat = av_guess_format(epp->format_name, gpp->val.videoname, NULL);
+#else
   ffh->file_oformat = guess_format(epp->format_name, gpp->val.videoname, NULL);
+#endif
   if (!ffh->file_oformat)
   {
      printf("Unknown output format: %s\n", epp->format_name);
@@ -2478,6 +2951,7 @@ p_ffmpeg_open(GapGveFFMpegGlobalParams *gpp
 
 
   ffh->output_context->nb_streams = 0;  /* number of streams */
+  ffh->output_context->timestamp = 0;
 
   /* ------------ video codec -------------- */
 
@@ -2558,7 +3032,7 @@ p_ffmpeg_open(GapGveFFMpegGlobalParams *gpp
    */
   ffh->ap->sample_rate = awp->awk[0].sample_rate;
   ffh->ap->channels = awp->awk[0].channels;
-  
+
   p_set_timebase_from_framerate(&ffh->ap->time_base, gpp->val.framerate);
 
   ffh->ap->width = gpp->val.vid_width;
@@ -2611,10 +3085,6 @@ p_ffmpeg_open(GapGveFFMpegGlobalParams *gpp
     ffh->vst[ii].video_dummy_buffer_size =  size * 4;  /* (1024*1024); */
     ffh->vst[ii].video_dummy_buffer = g_malloc0(ffh->vst[ii].video_dummy_buffer_size);
 
-    /* allocate yuv420_buffer (for the RAW image data YUV 4:2:0) */
-    ffh->vst[ii].yuv420_buffer_size = size + (size / 2);
-    ffh->vst[ii].yuv420_buffer = g_malloc0(ffh->vst[ii].yuv420_buffer_size);
-
     ffh->vst[ii].yuv420_dummy_buffer_size = size + (size / 2);
     ffh->vst[ii].yuv420_dummy_buffer = g_malloc0(ffh->vst[ii].yuv420_dummy_buffer_size);
 
@@ -2636,6 +3106,8 @@ p_ffmpeg_open(GapGveFFMpegGlobalParams *gpp
   ffh->output_context->mux_rate    = epp->mux_rate;
   ffh->output_context->preload     = (int)(epp->mux_preload*AV_TIME_BASE);
   ffh->output_context->max_delay   = (int)(epp->mux_max_delay*AV_TIME_BASE);
+
+  ffh->img_convert_ctx = NULL; /* will be allocated at first img conversion */
 
   if(gap_debug)
   {
@@ -2718,6 +3190,14 @@ p_ffmpeg_write_frame_chunk(t_ffmpeg_handle *ffh, gint32 encoded_size, gint vid_t
         ffh->vst[ii].big_picture_codec->quality = ffh->vst[ii].vid_stream->quality;
         ffh->vst[ii].big_picture_codec->key_frame = 1;
 
+        /* some codecs just pass through pts information obtained from
+         * the AVFrame struct (big_picture_codec)
+         * therefore init the pts code in this structure.
+         * (a valid pts is essential to get encoded frame results in the correct order)
+         */
+        //ffh->vst[ii].big_picture_codec->pts = p_calculate_current_timecode(ffh);
+        ffh->vst[ii].big_picture_codec->pts = ffh->encode_frame_nr -1;
+
         encoded_dummy_size = avcodec_encode_video(ffh->vst[ii].vid_codec_context
                                ,ffh->vst[ii].video_dummy_buffer, ffh->vst[ii].video_dummy_buffer_size
                                ,ffh->vst[ii].big_picture_codec);
@@ -2740,7 +3220,7 @@ p_ffmpeg_write_frame_chunk(t_ffmpeg_handle *ffh, gint32 encoded_size, gint vid_t
       chunk_frame_type = GVA_util_check_mpg_frame_type(ffh->vst[ii].video_buffer, encoded_size);
       if(chunk_frame_type == 1)  /* check for intra frame type */
       {
-        pkt.flags |= PKT_FLAG_KEY;
+        pkt.flags |= AV_PKT_FLAG_KEY;
       }
 
 
@@ -2758,19 +3238,21 @@ p_ffmpeg_write_frame_chunk(t_ffmpeg_handle *ffh, gint32 encoded_size, gint vid_t
       ///// pkt.pts = ffh->vst[ii].vid_codec_context->coded_frame->pts;  // OLD
       {
         AVCodecContext *c;
-        
+
         c = ffh->vst[ii].vid_codec_context;
         if (c->coded_frame->pts != AV_NOPTS_VALUE)
         {
           pkt.pts= av_rescale_q(c->coded_frame->pts, c->time_base, ffh->vst[ii].vid_stream->time_base);
         }
       }
-      
+
       pkt.dts = AV_NOPTS_VALUE;  /* let av_write_frame calculate the decompression timestamp */
       pkt.stream_index = ffh->vst[ii].video_stream_index;
       pkt.data = ffh->vst[ii].video_buffer;
       pkt.size = encoded_size;
       ret = av_write_frame(ffh->output_context, &pkt);
+
+      ffh->countVideoFramesWritten++;
     }
 
     if(gap_debug)  printf("after av_write_frame  encoded_size:%d\n", (int)encoded_size );
@@ -2784,19 +3266,17 @@ p_ffmpeg_write_frame_chunk(t_ffmpeg_handle *ffh, gint32 encoded_size, gint vid_t
  * p_convert_colormodel
  * -----------------------
  * convert video frame specified in the rgb_buffer
- * from PIX_FMT_BGR24 to the colormodel that is required
+ * from PIX_FMT_RGB24 to the colormodel that is required
  * by the video codec.
  *
  * conversion is done based on ffmpegs img_convert procedure.
  */
-static uint8_t *
+static void
 p_convert_colormodel(t_ffmpeg_handle *ffh, AVPicture *picture_codec, guchar *rgb_buffer, gint vid_track)
 {
   AVFrame   *big_picture_rgb;
   AVPicture *picture_rgb;
-  uint8_t   *l_convert_buffer;
   int        ii;
-  int        l_rc;
 
   ii = ffh->vst[vid_track].video_stream_index;
 
@@ -2804,9 +3284,6 @@ p_convert_colormodel(t_ffmpeg_handle *ffh, AVPicture *picture_codec, guchar *rgb
   big_picture_rgb = avcodec_alloc_frame();
   picture_rgb = (AVPicture *)big_picture_rgb;
 
-    
-  /* allocate buffer for image conversion large enough for for uncompressed RGBA32 colormodel */
-  l_convert_buffer = g_malloc(4 * ffh->frame_width * ffh->frame_height);
 
   if(gap_debug)
   {
@@ -2820,7 +3297,7 @@ p_convert_colormodel(t_ffmpeg_handle *ffh, AVPicture *picture_codec, guchar *rgb
   /* init destination picture structure (the codec context tells us what pix_fmt is needed)
    */
    avpicture_fill(picture_codec
-                  ,l_convert_buffer
+                  ,ffh->convert_buffer
                   ,ffh->vst[ii].vid_codec_context->pix_fmt          /* PIX_FMT_RGB24, PIX_FMT_RGBA32, PIX_FMT_BGRA32 */
                   ,ffh->frame_width
                   ,ffh->frame_height
@@ -2839,21 +3316,50 @@ p_convert_colormodel(t_ffmpeg_handle *ffh, AVPicture *picture_codec, guchar *rgb
 
   if(gap_debug)
   {
-    printf("before img_convert  pix_fmt: %d  (YUV420:%d)\n"
+    printf("before colormodel convert  pix_fmt: %d  (YUV420:%d)\n"
         , (int)ffh->vst[ii].vid_codec_context->pix_fmt
         , (int)PIX_FMT_YUV420P);
   }
 
-  /* convert to pix_fmt needed by the codec */
-  l_rc = img_convert(picture_codec, ffh->vst[ii].vid_codec_context->pix_fmt  /* dst */
-               ,picture_rgb, PIX_FMT_BGR24                    /* src */
-               ,ffh->frame_width
-               ,ffh->frame_height
-               );
+  /* reuse the img_convert_ctx or create a new one
+   * (in case ctx is NULL or params have changed)
+   */
+  ffh->img_convert_ctx = sws_getCachedContext(ffh->img_convert_ctx
+                                         , ffh->frame_width
+                                         , ffh->frame_height
+                                         , PIX_FMT_RGB24               /* src pixelformat */
+                                         , ffh->frame_width
+                                         , ffh->frame_height
+                                         , ffh->vst[ii].vid_codec_context->pix_fmt    /* dest pixelformat */
+                                         , SWS_BICUBIC                 /* int sws_flags */
+                                         , NULL, NULL, NULL
+                                         );
+  if (ffh->img_convert_ctx == NULL)
+  {
+     printf("Cannot initialize the conversion context (sws_getCachedContext delivered NULL pointer)\n");
+     exit(1);
+  }
+
+  /* convert from RGB to pix_fmt needed by the codec */
+  sws_scale(ffh->img_convert_ctx
+           , picture_rgb->data        /* srcSlice */
+           , picture_rgb->linesize    /* srcStride the array containing the strides for each plane */
+           , 0                        /* srcSliceY starting at 0 */
+           , ffh->frame_height        /* srcSliceH the height of the source slice */
+           , picture_codec->data      /* dst */
+           , picture_codec->linesize  /* dstStride the array containing the strides for each plane */
+           );
+
+  // /* img_convert is no longer available since ffmpeg.0.6 */
+  //l_rc = img_convert(picture_codec, ffh->vst[ii].vid_codec_context->pix_fmt  /* dst */
+  //             ,picture_rgb, PIX_FMT_BGR24                    /* src */
+  //             ,ffh->frame_width
+  //             ,ffh->frame_height
+  //             );
 
   if(gap_debug)
   {
-    printf("after img_convert: l_rc:%d\n", l_rc);
+    printf("after sws_scale:\n");
   }
 
   g_free(big_picture_rgb);
@@ -2864,122 +3370,33 @@ p_convert_colormodel(t_ffmpeg_handle *ffh, AVPicture *picture_codec, guchar *rgb
     printf("DONE p_convert_colormodel\n");
   }
 
-  return (l_convert_buffer);
 }  /* end p_convert_colormodel */
 
-/* --------------------
- * p_ffmpeg_write_frame
- * --------------------
+
+/* ---------------------------------
+ * p_ffmpeg_encodeAndWriteVideoFrame
+ * ---------------------------------
  * encode one videoframe using the selected codec and write
  * the encoded frame to the mediafile as packet.
  */
 static int
-p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GimpDrawable *drawable, gboolean force_keyframe, gint vid_track)
+p_ffmpeg_encodeAndWriteVideoFrame(t_ffmpeg_handle *ffh, AVFrame *picture_codec
+   , gboolean force_keyframe, gint vid_track, gint32 encode_frame_nr)
 {
-  AVPicture *picture_codec;
   int encoded_size;
   int ret;
-  uint8_t  *l_convert_buffer;
   int ii;
 
   ii = ffh->vst[vid_track].video_stream_index;
   ret = 0;
-  l_convert_buffer = NULL;
-
-  if(gap_debug)
-  {
-     AVCodec  *codec;
-
-     codec = ffh->vst[ii].vid_codec_context->codec;
-
-     printf("p_ffmpeg_write_frame: START codec: %d track:%d frame_nr:%d\n"
-           , (int)codec
-           , (int)vid_track
-           , (int)ffh->encode_frame_nr
-           );
-     printf("\n-------------------------\n");
-     printf("name: %s\n", codec->name);
-     printf("type: %d\n", codec->type);
-     printf("id: %d\n",   codec->id);
-     printf("priv_data_size: %d\n",   codec->priv_data_size);
-     printf("capabilities: %d\n",   codec->capabilities);
-     printf("init fptr: %d\n",   (int)codec->init);
-     printf("encode fptr: %d\n",   (int)codec->encode);
-     printf("close fptr: %d\n",   (int)codec->close);
-     printf("decode fptr: %d\n",   (int)codec->decode);
-
-  }
-
-  /* picture to feed the codec */
-  picture_codec = (AVPicture *)ffh->vst[ii].big_picture_codec;
-
-
-  if(ffh->vst[ii].vid_codec_context->pix_fmt == PIX_FMT_YUV420P)
-  {
-    if(gap_debug)
-    {
-      printf("USE PIX_FMT_YUV420P (no pix_fmt convert needed)\n");
-    }
-
-
-
-    /* fill the yuv420_buffer with current frame image data */
-    gap_gve_raw_YUV420P_drawable_encode(drawable, ffh->vst[0].yuv420_buffer);
-
-
-    /* most of the codecs wants YUV420
-      * (we can use the picture in ffh->vst[ii].yuv420_buffer without pix_fmt conversion
-      */
-    avpicture_fill(picture_codec
-                  ,ffh->vst[ii].yuv420_buffer
-                  ,PIX_FMT_YUV420P          /* PIX_FMT_RGB24, PIX_FMT_RGBA32, PIX_FMT_BGRA32 */
-                  ,ffh->frame_width
-                  ,ffh->frame_height
-                  );
-  }
-  else
-  {
-    guchar     *rgb_buffer;
-    gint32      rgb_size;
-
-    rgb_buffer = gap_gve_raw_RGB_drawable_encode(drawable, &rgb_size, FALSE /* no vflip */
-                                                , NULL  /* app0_buffer */
-                                                , 0     /*  app0_length */
-                                                );
-
-    if (ffh->vst[ii].vid_codec_context->pix_fmt == PIX_FMT_BGR24)
-    {
-      if(gap_debug)
-      {
-        printf("USE PIX_FMT_BGR24 (no pix_fmt convert needed)\n");
-      }
-      avpicture_fill(picture_codec
-                  ,rgb_buffer
-                  ,PIX_FMT_BGR24          /* PIX_FMT_RGB24, PIX_FMT_RGBA32, PIX_FMT_BGRA32 */
-                  ,ffh->frame_width
-                  ,ffh->frame_height
-                  );
-    }
-    else
-    {
-      l_convert_buffer = p_convert_colormodel(ffh, picture_codec, rgb_buffer, vid_track);
-    }
-    
-
-    if(gap_debug)
-    {
-      printf("before g_free rgb_buffer\n");
-    }
-
-    g_free(rgb_buffer);
-  }
 
   /* AVFrame is the new structure introduced in FFMPEG 0.4.6,
    * (same as AVPicture but with additional members at the end)
    */
-  ffh->vst[ii].big_picture_codec->quality = ffh->vst[ii].vid_stream->quality;
+  picture_codec->quality = ffh->vst[ii].vid_stream->quality;
 
-  if(force_keyframe)
+  if((force_keyframe)
+  || (encode_frame_nr == 1))
   {
     /* TODO: howto force the encoder to write an I frame ??
      *   ffh->vst[ii].big_picture_codec->key_frame could be ignored
@@ -2987,11 +3404,11 @@ p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GimpDrawable *drawable, gboolean forc
      *   reported by the encoder.
      */
     /* ffh->vst[ii].vid_codec_context->key_frame = 1; */
-    ffh->vst[ii].big_picture_codec->key_frame = 1;
+    picture_codec->key_frame = 1;
   }
   else
   {
-    ffh->vst[ii].big_picture_codec->key_frame = 0;
+    picture_codec->key_frame = 0;
   }
 
 
@@ -2999,15 +3416,32 @@ p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GimpDrawable *drawable, gboolean forc
   {
     if(gap_debug)
     {
-      printf("before avcodec_encode_video  big_picture_codec:%d\n"
-         ,(int)ffh->vst[ii].big_picture_codec
+      printf("p_ffmpeg_encodeAndWriteVideoFrame: TID:%d before avcodec_encode_video  picture_codec:%d\n"
+         , p_base_get_thread_id_as_int()
+         ,(int)picture_codec
          );
     }
 
+
+    /* some codecs (x264) just pass through pts information obtained from
+     * the AVFrame struct (picture_codec)
+     * therefore init the pts code in this structure.
+     * (a valid pts is essential to get encoded frame results in the correct order)
+     */
+    picture_codec->pts = encode_frame_nr -1;
+
     encoded_size = avcodec_encode_video(ffh->vst[ii].vid_codec_context
                            ,ffh->vst[ii].video_buffer, ffh->vst[ii].video_buffer_size
-                           ,ffh->vst[ii].big_picture_codec);
+                           ,picture_codec);
 
+
+    if(gap_debug)
+    {
+      printf("p_ffmpeg_encodeAndWriteVideoFrame: TID:%d after avcodec_encode_video  encoded_size:%d\n"
+         , p_base_get_thread_id_as_int()
+         ,(int)encoded_size
+         );
+    }
 
     /* if zero size, it means the image was buffered */
     if(encoded_size != 0)
@@ -3021,26 +3455,18 @@ p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GimpDrawable *drawable, gboolean forc
 
 
         ///// pkt.pts = ffh->vst[ii].vid_codec_context->coded_frame->pts; // OLD
-        
+
         if (c->coded_frame->pts != AV_NOPTS_VALUE)
         {
           pkt.pts= av_rescale_q(c->coded_frame->pts, c->time_base, ffh->vst[ii].vid_stream->time_base);
         }
-        
-//        if ((pkt.pts == 0) || (pkt.pts == AV_NOPTS_VALUE))
-//        {
-//          /* WORKAROND calculate pts timecode for the current frame
-//           * because the codec did not deliver a valid timecode 
-//           */
-//          pkt.pts = p_calculate_current_timecode(ffh);
-//        }
 
-        
+
         if(c->coded_frame->key_frame)
         {
-          pkt.flags |= PKT_FLAG_KEY;
+          pkt.flags |= AV_PKT_FLAG_KEY;
         }
-        
+
         pkt.stream_index = ffh->vst[ii].video_stream_index;
         pkt.data = ffh->vst[ii].video_buffer;
         pkt.size = encoded_size;
@@ -3048,12 +3474,19 @@ p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GimpDrawable *drawable, gboolean forc
         if(gap_debug)
         {
           AVStream *st;
-          
-          st = ffh->output_context->streams[pkt.stream_index];
 
-          printf("before av_write_frame video encoded_size:%d\n"
+          st = ffh->output_context->streams[pkt.stream_index];
+          if (pkt.pts == AV_NOPTS_VALUE)
+          {
+            printf("p_ffmpeg_encodeAndWriteVideoFrame: TID:%d ** HOF: Codec delivered invalid pts  AV_NOPTS_VALUE !\n"
+                  , p_base_get_thread_id_as_int()
+                  );
+          }
+
+          printf("p_ffmpeg_encodeAndWriteVideoFrame: TID:%d  before av_interleaved_write_frame video encoded_size:%d\n"
                 " pkt.stream_index:%d pkt.pts:%lld dts:%lld coded_frame->pts:%lld  c->time_base:%d den:%d\n"
                 " st->pts.num:%lld, st->pts.den:%lld st->pts.val:%lld\n"
+             , p_base_get_thread_id_as_int()
              , (int)encoded_size
              , pkt.stream_index
              , pkt.pts
@@ -3065,13 +3498,20 @@ p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GimpDrawable *drawable, gboolean forc
              ,st->pts.den
              ,st->pts.val
              );
-             
-        }
-        ret = av_write_frame(ffh->output_context, &pkt);
 
+        }
+
+        //ret = av_write_frame(ffh->output_context, &pkt);
+        ret = av_interleaved_write_frame(ffh->output_context, &pkt);
+
+        ffh->countVideoFramesWritten++;
+        
         if(gap_debug)
         {
-          printf("after av_write_frame  encoded_size:%d\n", (int)encoded_size );
+          printf("p_ffmpeg_encodeAndWriteVideoFrame: TID:%d after av_interleaved_write_frame  encoded_size:%d\n"
+            , p_base_get_thread_id_as_int()
+            , (int)encoded_size 
+            );
         }
       }
     }
@@ -3084,13 +3524,1076 @@ p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GimpDrawable *drawable, gboolean forc
     fprintf(ffh->vst[ii].passlog_fp, "%s", ffh->vst[ii].vid_codec_context->stats_out);
   }
 
-  if(gap_debug)  printf("before free picture structures\n");
+  return(ret);
+  
+}  /* end p_ffmpeg_encodeAndWriteVideoFrame */
+
+/* -----------------------------------------------
+ * p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame
+ * -----------------------------------------------
+ * convert the specified gapStoryFetchResult into the specified AVFrame (picture_codec)
+ * the encoded frame to the mediafile as packet.
+ *
+ */
+static void
+p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame(t_ffmpeg_handle *ffh
+ , AVFrame *picture_codec
+ , GapStoryFetchResult *gapStoryFetchResult
+ , gint vid_track)
+{
+  int ii;
+  GapRgbPixelBuffer  rgbBufferLocal;
+  GapRgbPixelBuffer *rgbBuffer;
+  guchar            *frameData;
+
+  ii = ffh->vst[vid_track].video_stream_index;
+
+  rgbBuffer = &rgbBufferLocal;
+  frameData = NULL;
+ 
+  if(gapStoryFetchResult->resultEnum == GAP_STORY_FETCH_RESULT_IS_RAW_RGB888)
+  {
+    if(gap_debug)
+    {
+      printf("p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame: RESULT_IS_RAW_RGB888\n");
+    }
+    if(gapStoryFetchResult->raw_rgb_data == NULL)
+    {
+      printf("** ERROR p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame  RGB88 raw_rgb_data is NULL!\n");
+      return;
+    }
+    rgbBuffer->data = gapStoryFetchResult->raw_rgb_data;
+  }
+  else
+  {
+    GimpDrawable      *drawable;
+    
+    drawable = gimp_drawable_get (gapStoryFetchResult->layer_id);
+    if(drawable->bpp != 3)
+    {
+      printf("** ERROR drawable bpp value %d is not supported (only bpp == 3 is supporeted!\n"
+        ,(int)drawable->bpp
+        );
+    }
+    gap_gve_init_GapRgbPixelBuffer(rgbBuffer, drawable->width, drawable->height);
+ 
+    frameData = (guchar *)g_malloc0((rgbBuffer->height * rgbBuffer->rowstride));
+    rgbBuffer->data = frameData;
+
+    if(gap_debug)
+    {
+      printf("p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame: before gap_gve_drawable_to_RgbBuffer rgb_buffer\n");
+    }
+ 
+    /* tests with framesize 720 x 480 on my 4 CPU development machine showed that
+     *    gap_gve_drawable_to_RgbBuffer_multithread runs 1.5 times
+     *    slower than the singleprocessor implementation  (1.25 times slower on larger frames 1440 x 960)
+     * possible reasons may be
+     * a) too much overhead to init multithread stuff
+     * b) too much time spent waiting for unlocking the mutex.
+     * TODO in case a ==> remove code for gap_gve_drawable_to_RgbBuffer_multithread
+     *      in case b ==> further tuning to reduce wait cycles.
+     */
+    // gap_gve_drawable_to_RgbBuffer_multithread(drawable, rgbBuffer);
+    gap_gve_drawable_to_RgbBuffer(drawable, rgbBuffer);
+    gimp_drawable_detach (drawable);
+ 
+    /* destroy the fetched (tmp) image */
+    gimp_image_delete(gapStoryFetchResult->image_id);
+  }
+
+  if (ffh->vst[ii].vid_codec_context->pix_fmt == PIX_FMT_RGB24)
+  {
+    if(gap_debug)
+    {
+      printf("p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame: USE PIX_FMT_RGB24 (no pix_fmt convert needed)\n");
+    }
+    avpicture_fill(picture_codec
+                ,rgbBuffer->data
+                ,PIX_FMT_RGB24          /* PIX_FMT_RGB24, PIX_FMT_BGR24, PIX_FMT_RGBA32, PIX_FMT_BGRA32 */
+                ,ffh->frame_width
+                ,ffh->frame_height
+                );
+  }
+  else
+  {
+    if(gap_debug)
+    {
+      printf("p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame: before p_convert_colormodel rgb_buffer\n");
+    }
+    p_convert_colormodel(ffh, picture_codec, rgbBuffer->data, vid_track);
+  }
 
 
-  if(l_convert_buffer) g_free(l_convert_buffer);
+  if(frameData != NULL)
+  {
+    if(gap_debug)
+    {
+      printf("p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame: before g_free frameData\n");
+    }
+    g_free(frameData);
+  }
+
+}  /* end p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame */
+
+
+/* -------------------------------------------
+ * p_create_EncoderQueueRingbuffer
+ * -------------------------------------------
+ * this procedure allocates the encoder queue ringbuffer
+ * for use in multiprocessor environment.
+ * The Encoder queue ringbuffer is created 
+ * with all AVFrame buffers for N elements allocated
+ * and all elements have the initial status EQELEM_STATUS_FREE
+ *
+ * Initial                                                 After writing the 1st frame (main thread)
+ *                                                       
+ *                          +---------------------+		                          +------------------------+
+ *  eque->eq_write_ptr  --->| EQELEM_STATUS_FREE  |<---+                                  | EQELEM_STATUS_FREE     |<---+  
+ *  (main thread)           +---------------------+    |	                          +------------------------+    |
+ *                                  |                  |	                                  |                     |
+ *                                  V                  |	                                  V                     |
+ *                          +---------------------+    |	  eque->eq_write_ptr  --->+------------------------+    |
+ *  eque->eq_read_ptr   --->| EQELEM_STATUS_FREE  |    | 	  eque->eq_read_ptr   --->| EQELEM_STATUS_READY ** |    | 
+ *  (encoder thread)        +---------------------+    |	                          +------------------------+    |
+ *                                  |                  |	                                  |                     |
+ *                                  V                  |	                                  V                     |
+ *                          +---------------------+    |	                          +------------------------+    |
+ *                          | EQELEM_STATUS_FREE  |    | 	                          | EQELEM_STATUS_FREE     |    | 
+ *                          +---------------------+    |	                          +------------------------+    |
+ *                                  |                  |	                                  |                     |
+ *                                  V                  |	                                  V                     |
+ *                          +---------------------+    |	                          +------------------------+    |
+ *                          | EQELEM_STATUS_FREE  |    | 	                          | EQELEM_STATUS_FREE     |    | 
+ *                          +---------------------+    |	                          +------------------------+    |
+ *                                  |                  |	                                  |                     |
+ *                                  +------------------+	                                  +---------------------+
+ *
+ */
+static void
+p_create_EncoderQueueRingbuffer(EncoderQueue *eque)
+{
+  gint ii;
+  gint jj;
+  EncoderQueueElem *eq_elem_one;
+  EncoderQueueElem *eq_elem;
+  
+  eq_elem_one = NULL;
+  eq_elem = NULL;
+  for(jj=0; jj < ENCODER_QUEUE_RINGBUFFER_SIZE; jj++)
+  {
+    eq_elem = g_new(EncoderQueueElem, 1);
+    eq_elem->encode_frame_nr = 0;
+    eq_elem->vid_track = 1;
+    eq_elem->force_keyframe = FALSE;
+    eq_elem->status = EQELEM_STATUS_FREE;
+    eq_elem->elemMutex = g_mutex_new();
+    eq_elem->next = eque->eq_root;
+    
+    if(eq_elem_one == NULL)
+    {
+      eq_elem_one = eq_elem;
+    }
+    eque->eq_root = eq_elem;
+    
+    for (ii=0; ii < MAX_VIDEO_STREAMS; ii++)
+    {
+      eq_elem->eq_big_picture_codec[ii] = avcodec_alloc_frame();
+    }
+  }
+  
+  /* close the pointer ring */
+  if(eq_elem_one)
+  {
+    eq_elem_one->next = eq_elem;
+  }
+  
+  /* init read and write pointers
+   * note that write access typically start with advancing the write pointer
+   * followed by write data to eq_big_picture_codec.
+   */
+  eque->eq_write_ptr = eque->eq_root;
+  eque->eq_read_ptr  = eque->eq_root->next;
+
+}  /* end p_create_EncoderQueueRingbuffer */
+
+
+/* -------------------------------------------
+ * p_init_EncoderQueueResources
+ * -------------------------------------------
+ * this procedure creates a thread pool and an EncoderQueue ringbuffer in case 
+ * the gimprc parameters are configured for multiprocessor support.
+ * (otherwise those resources are not allocated and were initalized with NULL pointers)
+ * 
+ */
+static EncoderQueue *
+p_init_EncoderQueueResources(t_ffmpeg_handle *ffh, t_awk_array *awp)
+{
+  EncoderQueue     *eque;
+  
+  eque = g_new(EncoderQueue ,1);
+  eque->numberOfElements = 0;
+  eque->eq_root      = NULL;
+  eque->eq_write_ptr = NULL;
+  eque->eq_read_ptr  = NULL;
+  eque->ffh          = ffh;
+  eque->awp          = awp;
+  eque->runningThreadsCounter = 0;
+  eque->frameEncodedCond   = NULL;
+  eque->poolMutex          = NULL;
+  eque->frameEncodedCond   = NULL;
+
+  GAP_TIMM_INIT_RECORD(&eque->mainElemMutexWaits);
+  GAP_TIMM_INIT_RECORD(&eque->mainPoolMutexWaits);
+  GAP_TIMM_INIT_RECORD(&eque->mainEnqueueWaits);
+  GAP_TIMM_INIT_RECORD(&eque->mainPush2);
+  GAP_TIMM_INIT_RECORD(&eque->mainWriteFrame);
+  GAP_TIMM_INIT_RECORD(&eque->mainDrawableToRgb);
+  GAP_TIMM_INIT_RECORD(&eque->mainReadFrame);
+
+  GAP_TIMM_INIT_RECORD(&eque->ethreadElemMutexWaits);
+  GAP_TIMM_INIT_RECORD(&eque->ethreadPoolMutexWaits);
+  GAP_TIMM_INIT_RECORD(&eque->ethreadEncodeFrame);
+  
+  if (ffh->isMultithreadEnabled)
+  {
+    /* check and init thread system */
+    ffh->isMultithreadEnabled = gap_base_thread_init();
+    if(gap_debug)
+    {
+      printf("p_init_EncoderQueueResources: isMultithreadEnabled: %d\n"
+        ,(int)ffh->isMultithreadEnabled
+        );
+    }
+  }
+  
+  if (ffh->isMultithreadEnabled)
+  {
+    p_create_EncoderQueueRingbuffer(eque);
+    eque->poolMutex          = g_mutex_new ();
+    eque->frameEncodedCond   = g_cond_new ();
+  }
+
+  return (eque);
+  
+}  /* end p_init_EncoderQueueResources */
+
+
+/* ------------------------------
+ * p_debug_print_RingbufferStatus
+ * ------------------------------
+ * print status of all encoder queue ringbuffer elements
+ * to stdout for debug purpose.
+ * (all log lines are printed to a buffer and printed to stdout
+ * at once to prevent mix up stdout with output from other threads)
+ */
+static void
+p_debug_print_RingbufferStatus(EncoderQueue *eque)
+{
+  EncoderQueueElem    *eq_elem;
+  EncoderQueueElem    *eq_elem_next;
+  GString             *logString;
+  gint tid;
+  gint ii;
+      
+  tid = p_base_get_thread_id_as_int();
+  
+  logString = g_string_new(
+    "--------------------------------\n"
+    "p_debug_print_RingbufferStatus\n"
+    "--------------------------------\n"
+  );
+
+  eq_elem_next = NULL;
+  ii=0;
+  for(eq_elem = eque->eq_root; eq_elem != NULL; eq_elem = eq_elem_next)
+  {
+    g_string_append_printf(logString, "TID:%d EQ_ELEM[%d]: %d  EQ_ELEM->next:%d STATUS:%d encode_frame_nr:%d"
+          , (int)tid
+          , (int)ii
+          , (int)eq_elem
+          , (int)eq_elem->next
+          , (int)eq_elem->status
+          , (int)eq_elem->encode_frame_nr
+          );
+    if(eq_elem == eque->eq_write_ptr)
+    {
+      g_string_append_printf(logString, " <-- eq_write_ptr");
+    }
+    
+    if(eq_elem == eque->eq_read_ptr)
+    {
+      g_string_append_printf(logString, " <-- eq_read_ptr");
+    }
+    
+    g_string_append_printf(logString, "\n");
+    
+    
+    eq_elem_next = eq_elem->next;
+    if(eq_elem_next == eque->eq_root)
+    {
+      /* this was the last element in the ringbuffer.
+       */
+      eq_elem_next = NULL;
+    }
+    ii++;
+  }
+
+  printf("%s\n", logString->str);
+  
+  g_string_free(logString, TRUE);
+
+}  /* end p_debug_print_RingbufferStatus */
+
+/* -----------------------------------------
+ * p_waitUntilEncoderQueIsProcessed
+ * -----------------------------------------
+ * check if encoder thread is still running
+ * if yes then wait until  finished (e.q. until
+ * all enqued frames have been processed)
+ * 
+ */
+static void
+p_waitUntilEncoderQueIsProcessed(EncoderQueue *eque)
+{
+  gint retryCount;
+
+  if(eque == NULL)
+  {
+    return;
+  }
+
+  if(gap_debug)
+  {
+    printf("p_waitUntilEncoderQueIsProcessed: MainTID:%d\n"
+            ,p_base_get_thread_id_as_int()
+            );
+    p_debug_print_RingbufferStatus(eque);
+  }
+
+  retryCount = 0;
+  g_mutex_lock (eque->poolMutex);
+  while(eque->runningThreadsCounter > 0)
+  {
+    if(gap_debug)
+    {
+      printf("p_waitUntilEncoderQueIsProcessed: WAIT MainTID:%d until encoder thread finishes queue processing. eq_write_ptr:%d STATUS:%d retry:%d \n"
+        , p_base_get_thread_id_as_int()
+        , (int)eque->eq_write_ptr
+        , (int)eque->eq_write_ptr->status
+        , (int)retryCount
+        );
+      fflush(stdout);
+    }
+
+    g_cond_wait (eque->frameEncodedCond, eque->poolMutex);
+
+    if(gap_debug)
+    {
+      printf("p_waitUntilEncoderQueIsProcessed: WAKE-UP MainTID:%d after encoder thread finished queue processing. eq_write_ptr:%d STATUS:%d retry:%d \n"
+        , p_base_get_thread_id_as_int()
+        , (int)eque->eq_write_ptr
+        , (int)eque->eq_write_ptr->status
+        , (int)retryCount
+        );
+      fflush(stdout);
+    }
+
+    retryCount++;
+    if(retryCount >= 250)
+    {
+      printf("** WARNING encoder thread not yet finished after %d wait retries\n"
+        ,(int)retryCount
+        );
+      break;
+    }
+  }
+  g_mutex_unlock (eque->poolMutex);
+
+}  /* end p_waitUntilEncoderQueIsProcessed */
+
+
+/* -------------------------------------------
+ * p_free_EncoderQueueResources
+ * -------------------------------------------
+ * this procedure frees the resources for the specified EncoderQueue.
+ * Note: this does NOT include the ffh reference.
+ * 
+ */
+static void
+p_free_EncoderQueueResources(EncoderQueue     *eque)
+{
+  t_ffmpeg_handle     *ffh;
+  EncoderQueueElem    *eq_elem;
+  EncoderQueueElem    *eq_elem_next;
+  gint                 ii;
+  
+  if(eque == NULL)
+  {
+    return;
+  }
+
+  if(eque->frameEncodedCond != NULL)
+  {
+    if(gap_debug)
+    {
+      printf("p_free_EncoderQueueResources: before g_cond_free(eque->frameEncodedCond)\n");
+    }
+    g_cond_free(eque->frameEncodedCond);
+    eque->frameEncodedCond = NULL;
+    if(gap_debug)
+    {
+      printf("p_free_EncoderQueueResources: after g_cond_free(eque->frameEncodedCond)\n");
+    }
+  }
+
+  eq_elem_next = NULL;
+  for(eq_elem = eque->eq_root; eq_elem != NULL; eq_elem = eq_elem_next)
+  {
+    for (ii=0; ii < MAX_VIDEO_STREAMS; ii++)
+    {
+      if(gap_debug)
+      {
+        printf("p_free_EncoderQueueResources: g_free big_picture[%d] of eq_elem:%d\n"
+          ,(int)ii
+          ,(int)eq_elem
+          );
+      }
+      g_free(eq_elem->eq_big_picture_codec[ii]);
+      if(gap_debug)
+      {
+        printf("p_free_EncoderQueueResources: g_mutex_free of eq_elem:%d\n"
+          ,(int)eq_elem
+          );
+      }
+      g_mutex_free(eq_elem->elemMutex);
+    }
+    if(gap_debug)
+    {
+      printf("p_free_EncoderQueueResources: g_free eq_elem:%d\n"
+        ,(int)eq_elem
+        );
+    }
+    eq_elem_next = eq_elem->next;
+    if(eq_elem_next == eque->eq_root)
+    {
+      /* this was the last element in the ringbuffer that points to
+       * the (already free'd root); it is time to break the loop now.
+       */
+      eq_elem_next = NULL;
+    }
+    g_free(eq_elem);
+  }
+  eque->eq_root      = NULL;
+  eque->eq_write_ptr = NULL;
+  eque->eq_read_ptr  = NULL;
+  
+}  /* end p_free_EncoderQueueResources */
+
+
+/* -------------------------------------
+ * p_fillQueueElem
+ * -------------------------------------
+ * fill element eque->eq_write_ptr with imag data and information
+ * that is required for the encoder.
+ */
+static void
+p_fillQueueElem(EncoderQueue *eque, GapStoryFetchResult *gapStoryFetchResult, gboolean force_keyframe, gint vid_track)
+{
+  EncoderQueueElem *eq_write_ptr;
+  AVFrame *picture_codec;
+  GimpDrawable *drawable;
+
+  eq_write_ptr = eque->eq_write_ptr;
+  eq_write_ptr->encode_frame_nr = eque->ffh->encode_frame_nr;
+  eq_write_ptr->vid_track = vid_track;
+  eq_write_ptr->force_keyframe = force_keyframe;
+  picture_codec = eq_write_ptr->eq_big_picture_codec[vid_track];
+
+  GAP_TIMM_START_RECORD(&eque->mainDrawableToRgb);
+  if(gap_debug)
+  {
+    printf("p_fillQueueElem: START drawable:%d eq_write_ptr:%d picture_codec:%d vid_track:%d encode_frame_nr:%d\n"
+      ,(int)drawable
+      ,(int)eq_write_ptr
+      ,(int)picture_codec
+      ,(int)eq_write_ptr->vid_track
+      ,(int)eq_write_ptr->encode_frame_nr
+      );
+  }
+  
+  /* fill the AVFrame data at eq_write_ptr */
+  if(gapStoryFetchResult != NULL)
+  {
+    p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame(eque->ffh
+                 , picture_codec
+                 , gapStoryFetchResult
+                 , vid_track
+                 );
+    if(gap_debug)
+    {
+      printf("p_fillQueueElem: DONE drawable:%d drawableId:%d eq_write_ptr:%d picture_codec:%d vid_track:%d encode_frame_nr:%d\n"
+        ,(int)drawable
+        ,(int)drawable->drawable_id
+        ,(int)eq_write_ptr
+        ,(int)picture_codec
+        ,(int)eq_write_ptr->vid_track
+        ,(int)eq_write_ptr->encode_frame_nr
+        );
+    }
+  }
+  GAP_TIMM_STOP_RECORD(&eque->mainDrawableToRgb);
+  
+}  /* end p_fillQueueElem */
+
+
+/* -------------------------------------
+ * p_encodeCurrentQueueElem
+ * -------------------------------------
+ * Encode current queue element at eq_read_ptr
+ * and write encoded videoframe to the mediafile.
+ */
+static void
+p_encodeCurrentQueueElem(EncoderQueue *eque)
+{
+  EncoderQueueElem *eq_read_ptr;
+  AVFrame *picture_codec;
+  gint     vid_track;
+  
+  eq_read_ptr = eque->eq_read_ptr;
+  
+  vid_track = eq_read_ptr->vid_track;
+  picture_codec = eq_read_ptr->eq_big_picture_codec[vid_track];
+
+  if(gap_debug)
+  {
+    printf("p_encodeCurrentQueueElem: TID:%d START eq_read_ptr:%d STATUS:%d ffh:%d picture_codec:%d vid_track:%d encode_frame_nr:%d\n"
+      , p_base_get_thread_id_as_int()
+      ,(int)eq_read_ptr
+      ,(int)eq_read_ptr->status
+      ,(int)eque->ffh
+      ,(int)picture_codec
+      ,(int)eq_read_ptr->vid_track
+      ,(int)eq_read_ptr->encode_frame_nr
+      );
+  }
+  
+  p_ffmpeg_encodeAndWriteVideoFrame(eque->ffh
+                                  , picture_codec
+                                  , eque->eq_read_ptr->force_keyframe
+                                  , vid_track
+                                  , eque->eq_read_ptr->encode_frame_nr
+                                  );
+
+  if(gap_debug)
+  {
+    printf("p_encodeCurrentQueueElem: TID:%d DONE eq_read_ptr:%d picture_codec:%d vid_track:%d encode_frame_nr:%d\n"
+      , p_base_get_thread_id_as_int()
+      ,(int)eq_read_ptr
+      ,(int)picture_codec
+      ,(int)eq_read_ptr->vid_track
+      ,(int)eq_read_ptr->encode_frame_nr
+      );
+  }
+}  /* end p_encodeCurrentQueueElem */
+
+
+/* -------------------------------------------
+ * p_encoderWorkerThreadFunction
+ * -------------------------------------------
+ * this procedure runs as thread pool function to encode video and audio
+ * frames, Encoding is based on libavformat/libavcodec.
+ * videoframe input is taken from the EncoderQueue ringbuffer
+ *  (that is filled parallel by the main thread)
+ * audioframe input is directly fetched from an input audifile.
+ *
+ * After encoding the first available frame this thread tries
+ * to encode following frames when available.
+ * In case the elemMutex can not be locked for those additional frames
+ * it gives up immediate to avoid deadlocks. (such frames are handled in the next call
+ * when the thread is restarted from the thread pool)
+ * 
+ *
+ * The encoding is done with the selected codec, the compressed data is written
+ * to the mediafile as packet.
+ *
+ * Note: the read pointer is reserved for exclusive use in this thread
+ * therefore advance of this pointer can be done without locks.
+ * but accessing the element data (status or buffer) requires locking at element level
+ * because the main thread does acces the same data via the write pointer.
+ *
+ * 
+ */
+static void
+p_encoderWorkerThreadFunction (EncoderQueue *eque)
+{
+  EncoderQueueElem     *nextElem;
+  gint32                encoded_frame_nr;
+  if(gap_debug)
+  {
+    printf("p_encoderWorkerThreadFunction: TID:%d before elemMutex eq_read_ptr:%d\n"
+          , p_base_get_thread_id_as_int()
+          , (int)eque->eq_read_ptr
+          );
+  }
+  /* lock at element level */
+  if(g_mutex_trylock (eque->eq_read_ptr->elemMutex) != TRUE)
+  {
+    GAP_TIMM_START_RECORD(&eque->ethreadElemMutexWaits);
+
+    g_mutex_lock (eque->eq_read_ptr->elemMutex);
+  
+    GAP_TIMM_STOP_RECORD(&eque->ethreadElemMutexWaits);
+  }
+  
+  
+  
+  if(gap_debug)
+  {
+    printf("p_encoderWorkerThreadFunction: TID:%d  after elemMutex lock eq_read_ptr:%d STATUS:%d encode_frame_nr:%d\n"
+          , p_base_get_thread_id_as_int()
+          , (int)eque->eq_read_ptr
+          , (int)eque->eq_read_ptr->status
+          , (int)eque->eq_read_ptr->encode_frame_nr
+          );
+    p_debug_print_RingbufferStatus(eque);
+  }
+
+ENCODER_LOOP:
+
+  /* check next element is ready and advance read pointer if true.
+   *
+   * encoding of the last n-frames is typically triggerd
+   * by setting the same frame n times to EQELEM_STATUS_READY
+   * repeated without advance to the next element.
+   * therefore the read pointer advance is done only in case
+   * when the next element with EQELEM_STATUS_READY is already available.
+   */
+  if(eque->eq_read_ptr->status == EQELEM_STATUS_FREE)
+  {
+    nextElem = eque->eq_read_ptr->next;
+    g_mutex_unlock (eque->eq_read_ptr->elemMutex);
+
+    if(TRUE != g_mutex_trylock (nextElem->elemMutex))
+    {
+        goto ENCODER_STOP;
+    }
+    else
+    {
+      if(nextElem->status == EQELEM_STATUS_READY)
+      {
+        eque->eq_read_ptr = nextElem;
+      }
+      else
+      {
+        /* next element is not ready, 
+         */
+        g_mutex_unlock (nextElem->elemMutex);
+        goto ENCODER_STOP;
+      }
+    }
+  }
+
+  if(eque->eq_read_ptr->status == EQELEM_STATUS_READY)
+  {
+    eque->eq_read_ptr->status = EQELEM_STATUS_LOCK;
+
+
+    GAP_TIMM_START_RECORD(&eque->ethreadEncodeFrame);
+
+    /* Encode and write the current element (e.g. videoframe) at eq_read_ptr */
+    p_encodeCurrentQueueElem(eque);
+
+    if(eque->ffh->countVideoFramesWritten > 0)
+    {
+      /* fetch, encode and write one audioframe */
+      p_process_audio_frame(eque->ffh, eque->awp);
+    }
+
+    GAP_TIMM_STOP_RECORD(&eque->ethreadEncodeFrame);
+
+
+    /* setting EQELEM_STATUS_FREE enables re-use (e.g. overwrite)
+     * of this element's data buffers.
+     */
+    eque->eq_read_ptr->status = EQELEM_STATUS_FREE;
+    encoded_frame_nr = eque->eq_read_ptr->encode_frame_nr;
+    
+    /* encoding of the last n-frames is typically triggerd
+     * by setting the same frame n times to EQELEM_STATUS_READY
+     * repeated without advance to the next element.
+     * therefore the read pointer advance is done only in case
+     * when the next element with EQELEM_STATUS_READY is already available.
+     */
+    nextElem = eque->eq_read_ptr->next;
+
+    /* advance the lock to next element */
+    g_mutex_unlock (eque->eq_read_ptr->elemMutex);
+
+    if(TRUE != g_mutex_trylock (nextElem->elemMutex))
+    {
+        goto ENCODER_STOP;
+    }
+    else
+    {
+      if (nextElem->status == EQELEM_STATUS_READY)
+      {
+        eque->eq_read_ptr = nextElem;
+
+        if(TRUE == g_mutex_trylock (eque->poolMutex))
+        {
+          g_cond_signal  (eque->frameEncodedCond);
+          g_mutex_unlock (eque->poolMutex);
+        }
+        /* next frame already available, contine the encoder loop */ 
+        goto ENCODER_LOOP;
+      }
+      else
+      {
+        /* unlock because next element is not ready, 
+         */
+        g_mutex_unlock (nextElem->elemMutex);
+      }
+    }
+
+  }
+  else
+  {
+    g_mutex_unlock (eque->eq_read_ptr->elemMutex);
+  }
+  
+
+  /* no element in ready status available.
+   * This can occure in followinc scenarios:
+   * a) all frames are encoded
+   *    in this case the main thread will free up resources and exit
+   *    or
+   * b) encoding was faster than fetching/rendering (in the main thread)
+   *    in this case the main thread will reactivate this thread pool function
+   *    when the next frame is enqued and reached the ready status.
+   *
+   * send signal to wake up main thread (even if nothing was actually encoded)
+   */
+
+ENCODER_STOP:
+
+  /* lock at pool level */
+  if(g_mutex_trylock (eque->poolMutex) != TRUE)
+  {
+    GAP_TIMM_START_RECORD(&eque->ethreadPoolMutexWaits);
+    g_mutex_lock (eque->poolMutex);
+    GAP_TIMM_STOP_RECORD(&eque->ethreadPoolMutexWaits);
+  }
+
+  if(gap_debug)
+  {
+    printf("p_encoderWorkerThreadFunction: TID:%d  send frameEncodedCond encoded_frame_nr:%d\n"
+          , p_base_get_thread_id_as_int()
+          , encoded_frame_nr
+          );
+  }
+  eque->runningThreadsCounter--;
+  g_cond_signal  (eque->frameEncodedCond);
+  g_mutex_unlock (eque->poolMutex);
+
+  if(gap_debug)
+  {
+    printf("p_encoderWorkerThreadFunction: TID:%d  DONE eq_read_ptr:%d encoded_frame_nr:%d\n"
+          , p_base_get_thread_id_as_int()
+          , (int)eque->eq_read_ptr
+          , encoded_frame_nr
+          );
+  }
+
+}  /* end p_encoderWorkerThreadFunction */
+
+
+/* ------------------------------------------
+ * p_ffmpeg_write_frame_and_audio_multithread
+ * ------------------------------------------
+ * trigger encoding one videoframe and one audioframe (in case audio is uesd)
+ * The videoframe is enqueued and processed in parallel by the encoder worker thread.
+ * Passing NULL as gapStoryFetchResult is used to flush one frame from the codecs internal buffer
+ * (typically required after the last frame has been already feed to the codec)
+ */
+static int
+p_ffmpeg_write_frame_and_audio_multithread(EncoderQueue *eque
+   , GapStoryFetchResult *gapStoryFetchResult, gboolean force_keyframe, gint vid_track)
+{
+  GError *error = NULL;
+  gint retryCount;
+
+  GAP_TIMM_START_RECORD(&eque->mainWriteFrame);
+
+  retryCount = 0;
+
+  if(encoderThreadPool == NULL)
+  {
+    /* init thread pool for one encoder thread.
+     * The current implementation does not support 2 or more concurrent queue writer threads
+     * -- more threads would crash or produce unusable video --
+     * But independent form this setup some of the codecs in libavcodec do support
+     * multiple threads that are configuread with the treads encoder parameter.
+     */
+    encoderThreadPool = g_thread_pool_new((GFunc) p_encoderWorkerThreadFunction
+                                         ,NULL        /* user data */
+                                         ,1           /* max_threads */
+                                         ,TRUE        /* exclusive */
+                                         ,&error      /* GError **error */
+                                         );
+  }
+
+  if(gapStoryFetchResult != NULL)
+  {
+    /* a new frame is availble as gimp drawable
+     * and shall be enqueued at next position in the 
+     * EncoderQueue ringbuffer. Therefore first advance
+     * write position. 
+     */
+    eque->eq_write_ptr = eque->eq_write_ptr->next;
+  }
+
+  if(gap_debug)
+  {
+    printf("p_ffmpeg_write_frame_and_audio_multithread: before elemMutex lock eq_write_ptr:%d STATUS:%d retry:%d encode_frame_nr:%d\n"
+          , (int)eque->eq_write_ptr
+          , (int)eque->eq_write_ptr->status
+          , (int)retryCount
+          , (int)eque->ffh->encode_frame_nr
+          );
+    fflush(stdout);
+  }
+  
+  /* lock at element level (until element is filled and has reached EQELEM_STATUS_READY) */
+  if(g_mutex_trylock (eque->eq_write_ptr->elemMutex) != TRUE)
+  {
+    GAP_TIMM_START_RECORD(&eque->mainElemMutexWaits);
+
+    g_mutex_lock (eque->eq_write_ptr->elemMutex);
+
+    GAP_TIMM_STOP_RECORD(&eque->mainElemMutexWaits);
+  }
+  
+  if(gap_debug)
+  {
+    printf("p_ffmpeg_write_frame_and_audio_multithread: after elemMutex lock eq_write_ptr:%d STATUS:%d retry:%d encode_frame_nr:%d\n"
+          , (int)eque->eq_write_ptr
+          , (int)eque->eq_write_ptr->status
+          , (int)retryCount
+          , (int)eque->ffh->encode_frame_nr
+          );
+  }
+  
+  while(eque->eq_write_ptr->status != EQELEM_STATUS_FREE)
+  {
+    GAP_TIMM_START_RECORD(&eque->mainEnqueueWaits);
+    
+    g_mutex_unlock (eque->eq_write_ptr->elemMutex);
+
+    /* lock at pool level for checking numer of running encoder threads (0 or 1 expected) */
+    if(g_mutex_trylock (eque->poolMutex) != TRUE)
+    {
+      GAP_TIMM_START_RECORD(&eque->mainPoolMutexWaits);
+      g_mutex_lock (eque->poolMutex);
+      GAP_TIMM_STOP_RECORD(&eque->mainPoolMutexWaits);
+    }
+
+    if(eque->runningThreadsCounter <= 0)
+    {
+      if(gap_debug)
+      {
+        printf("p_ffmpeg_write_frame_and_audio_multithread: PUSH-1 (re)start worker thread eq_write_ptr:%d STATUS:%d retry:%d encode_frame_nr:%d\n"
+          , (int)eque->eq_write_ptr
+          , (int)eque->eq_write_ptr->status
+          , (int)retryCount
+          , (int)eque->ffh->encode_frame_nr
+          );
+      }
+      /* (re)activate encoder thread */
+      eque->runningThreadsCounter++;
+      g_thread_pool_push (encoderThreadPool
+                         , eque    /* VideoPrefetchData */
+                         , &error
+                         );
+    }
+
+    /* ringbuffer queue is currently full, 
+     * have to wait until encoder thread finished processing for at least one frame
+     * and sets the status to EQELEM_STATUS_FREE.
+     * g_cond_wait Waits until this thread is woken up on frameEncodedCond. 
+     * The mutex is unlocked before falling asleep and locked again before resuming. 
+     */
+    if(gap_debug)
+    {
+      printf("p_ffmpeg_write_frame_and_audio_multithread: WAIT MainTID:%d retry:%d encode_frame_nr:%d\n"
+        ,  p_base_get_thread_id_as_int()
+        , (int)retryCount
+        , (int)eque->ffh->encode_frame_nr
+        );
+    }
+    g_cond_wait (eque->frameEncodedCond, eque->poolMutex);
+    if(gap_debug)
+    {
+      printf("p_ffmpeg_write_frame_and_audio_multithread: WAKE-UP MainTID:%d retry:%d encode_frame_nr:%d\n"
+        ,  p_base_get_thread_id_as_int()
+        , (int)retryCount
+        , (int)eque->ffh->encode_frame_nr
+        );
+    }
+    g_mutex_unlock (eque->poolMutex);
+
+    retryCount++;
+    if(retryCount > 100)
+    {
+      printf("** INTERNAL ERROR: failed to enqueue frame data after %d reties!\n"
+         ,(int)retryCount
+         );
+      exit (1);
+    }
+
+    /* lock at element level (until element is filled and has reached EQELEM_STATUS_READY) */
+    g_mutex_lock (eque->eq_write_ptr->elemMutex);
+
+    GAP_TIMM_STOP_RECORD(&eque->mainEnqueueWaits);
+
+  }
+
+
+  if(gap_debug)
+  {
+    printf("p_ffmpeg_write_frame_and_audio_multithread: FILL-QUEUE eq_write_ptr:%d STATUS:%d retry:%d encode_frame_nr:%d\n"
+      , (int)eque->eq_write_ptr
+      , (int)eque->eq_write_ptr->status
+      , (int)retryCount
+      , (int)eque->ffh->encode_frame_nr
+      );
+  }
+
+  /* convert gapStoryFetchResult and put resulting data into element eque->eq_write_ptr */
+  p_fillQueueElem(eque, gapStoryFetchResult, force_keyframe, vid_track);
+
+  eque->eq_write_ptr->status = EQELEM_STATUS_READY;
+
+  g_mutex_unlock (eque->eq_write_ptr->elemMutex);
+  
+
+  /* try lock at pool level to check if encoder thread is already running
+   * and (re)start if this is not the case.
+   * in case g_mutex_trylock returns FALSE, the mutex is already locked
+   * and it can be assumed that the encoder Thread is the lock holder and already running
+   */
+  if(TRUE == g_mutex_trylock (eque->poolMutex))
+  {
+    if(eque->runningThreadsCounter <= 0)
+    {
+      GAP_TIMM_START_RECORD(&eque->mainPush2);
+      
+      if(gap_debug)
+      {
+        printf("p_ffmpeg_write_frame_and_audio_multithread: PUSH-2 (re)start worker thread eq_write_ptr:%d STATUS:%d retry:%d encode_frame_nr:%d\n"
+          , (int)eque->eq_write_ptr
+          , (int)eque->eq_write_ptr->status
+          , (int)retryCount
+          , (int)eque->ffh->encode_frame_nr
+          );
+      }
+
+      /* (re)activate encoder thread */
+      eque->runningThreadsCounter++;
+      g_thread_pool_push (encoderThreadPool
+                         , eque    /* VideoPrefetchData */
+                         , &error
+                         );
+
+      GAP_TIMM_STOP_RECORD(&eque->mainPush2);
+    }
+
+    g_mutex_unlock (eque->poolMutex);
+
+  }
+
+  GAP_TIMM_STOP_RECORD(&eque->mainWriteFrame);
+
+}  /* end p_ffmpeg_write_frame_and_audio_multithread */
+
+
+
+
+/* --------------------
+ * p_ffmpeg_write_frame  SINGLEPROCESSOR
+ * --------------------
+ * encode one videoframe using the selected codec and write
+ * the encoded frame to the mediafile as packet.
+ * Passing NULL as gapStoryFetchResult is used to flush one frame from the codecs internal buffer
+ * (typically required after the last frame has been already feed to the codec)
+ */
+static int
+p_ffmpeg_write_frame(t_ffmpeg_handle *ffh, GapStoryFetchResult *gapStoryFetchResult
+  , gboolean force_keyframe, gint vid_track)
+{
+  AVFrame *picture_codec;
+  int encoded_size;
+  int ret;
+  int ii;
+
+  ii = ffh->vst[vid_track].video_stream_index;
+  ret = 0;
+
+  if(gap_debug)
+  {
+     AVCodec  *codec;
+
+     codec = ffh->vst[ii].vid_codec_context->codec;
+
+     printf("\n-------------------------\n");
+     printf("p_ffmpeg_write_frame: START codec: %d track:%d countVideoFramesWritten:%d frame_nr:%d (validFrameNr:%d)\n"
+           , (int)codec
+           , (int)vid_track
+           , (int)ffh->countVideoFramesWritten
+           , (int)ffh->encode_frame_nr
+           , (int)ffh->validEncodeFrameNr
+           );
+     printf("name: %s\n", codec->name);
+     if(gap_debug)
+     {
+       printf("type: %d\n", codec->type);
+       printf("id: %d\n",   codec->id);
+       printf("priv_data_size: %d\n",   codec->priv_data_size);
+       printf("capabilities: %d\n",   codec->capabilities);
+       printf("init fptr: %d\n",   (int)codec->init);
+       printf("encode fptr: %d\n",   (int)codec->encode);
+       printf("close fptr: %d\n",   (int)codec->close);
+       printf("decode fptr: %d\n",   (int)codec->decode);
+    }
+  }
+
+  /* picture to feed the codec */
+  picture_codec = ffh->vst[ii].big_picture_codec;
+
+  /* in case gapStoryFetchResult is NULL
+   * we feed the previous handled picture (e.g the last of the input)
+   * again and again to the codec
+   * Note that this procedure typically is called with NULL  drawbale
+   * until all frames in its internal buffer are writen to the output video.
+   */
+
+  if(gapStoryFetchResult != NULL)
+  {
+    p_ffmpeg_convert_GapStoryFetchResult_to_AVFrame(ffh
+               , picture_codec
+               , gapStoryFetchResult
+               , vid_track
+               );
+  }
+
+
+  ret = p_ffmpeg_encodeAndWriteVideoFrame(ffh, picture_codec, force_keyframe, vid_track, ffh->encode_frame_nr);
 
   return (ret);
+
 }  /* end p_ffmpeg_write_frame */
+
+
 
 
 /* -------------------------
@@ -3123,46 +4626,55 @@ p_ffmpeg_write_audioframe(t_ffmpeg_handle *ffh, guchar *audio_buf, int frame_byt
 
     {
       AVPacket pkt;
-      AVCodecContext *c;
+      AVCodecContext *enc;
 
       av_init_packet (&pkt);
-      c = ffh->ast[ii].aud_codec_context;
+      enc = ffh->ast[ii].aud_codec_context;
 
 
 //      pkt.pts = ffh->ast[ii].aud_codec_context->coded_frame->pts;  // OLD
-      
-      if (c->coded_frame->pts != AV_NOPTS_VALUE)
-      {
-        pkt.pts= av_rescale_q(c->coded_frame->pts, c->time_base, ffh->ast[ii].aud_stream->time_base);
-      }
 
-//      if ((pkt.pts == 0) || (pkt.pts == AV_NOPTS_VALUE))
-//      {
-//        /* calculate pts timecode for the current frame
-//         * because the codec did not deliver a valid timecode 
-//         */
-//        pkt.pts = p_calculate_current_timecode(ffh);
-//      }
-      
-      
+      if(enc->coded_frame && enc->coded_frame->pts != AV_NOPTS_VALUE)
+      {
+        pkt.pts= av_rescale_q(enc->coded_frame->pts, enc->time_base, ffh->ast[ii].aud_stream->time_base);
+      }
+      pkt.flags |= AV_PKT_FLAG_KEY;
+
+
+//       if (pkt.pts == AV_NOPTS_VALUE)
+//       {
+//         /* WORKAROND calculate pts timecode for the current frame
+//          * because the codec did not deliver a valid timecode
+//          */
+//         pkt.pts = p_calculate_current_timecode(ffh);
+//         //pkt.pts = p_calculate_timecode(ffh, ffh->countVideoFramesWritten);
+//         pkt.dts = pkt.pts;
+//         //if(gap_debug)
+//         {
+//           printf("WORKAROND calculated audio pts (because codec deliverd AV_NOPTS_VALUE\n");
+//         }
+//       }
+
+
       pkt.stream_index = ffh->ast[ii].audio_stream_index;
       pkt.data = ffh->ast[ii].audio_buffer;
       pkt.size = encoded_size;
-      
+
       if(gap_debug)
       {
-        printf("before av_write_frame audio  encoded_size:%d pkt.pts:%lld dts:%lld\n"
+        printf("before av_interleaved_write_frame audio  encoded_size:%d pkt.pts:%lld dts:%lld\n"
           , (int)encoded_size
           , pkt.pts
           , pkt.dts
           );
       }
-      
-      ret = av_write_frame(ffh->output_context, &pkt);
+
+      //ret = av_write_frame(ffh->output_context, &pkt);
+      ret = av_interleaved_write_frame(ffh->output_context, &pkt);  // seems not OK work pts/dts is invalid
 
       if(gap_debug)
       {
-        printf("after av_write_frame audio encoded_size:%d\n", (int)encoded_size );
+        printf("after av_interleaved_write_frame audio encoded_size:%d\n", (int)encoded_size );
       }
     }
   }
@@ -3175,13 +4687,13 @@ p_ffmpeg_write_audioframe(t_ffmpeg_handle *ffh, guchar *audio_buf, int frame_byt
  * my_url_fclose
  * ---------------
  * this procedure is a workaround that fixes a crash that happens on attempt to call the original
- * url_fclose procedure 
+ * url_fclose procedure
  * my private copy of (libavformat/aviobuf.c url_fclose)
  * just skips the crashing step "av_free(s);"  that frees up the ByteIOContext itself
  * (free(): invalid pointer: 0x0859f3b0)
  * The workaround is still required in ffmpeg snapshot from 2009.01.31
  */
-int 
+int
 my_url_fclose(ByteIOContext *s)
 {
     URLContext *h = s->opaque;
@@ -3284,19 +4796,6 @@ p_ffmpeg_close(t_ffmpeg_handle *ffh)
          printf("[%d] after g_free video_dummy_buffer\n", ii);
        }
     }
-    if(ffh->vst[ii].yuv420_buffer)
-    {
-       if(gap_debug)
-       {
-         printf("[%d] before g_free yuv420_buffer\n", ii);
-       }
-       g_free(ffh->vst[ii].yuv420_buffer);
-       ffh->vst[ii].yuv420_buffer = NULL;
-       if(gap_debug)
-       {
-         printf("[%d] after g_free yuv420_buffer\n", ii);
-       }
-    }
     if(ffh->vst[ii].yuv420_dummy_buffer)
     {
        if(gap_debug)
@@ -3312,7 +4811,7 @@ p_ffmpeg_close(t_ffmpeg_handle *ffh)
     }
 
   }
- 
+
   if(gap_debug)
   {
     printf("Closing AUDIO stuff\n");
@@ -3343,7 +4842,7 @@ p_ffmpeg_close(t_ffmpeg_handle *ffh)
         printf("before url_fclose\n");
       }
       my_url_fclose(&ffh->output_context->pb);
-      
+
       if(gap_debug)
       {
         printf("after url_fclose\n");
@@ -3355,6 +4854,16 @@ p_ffmpeg_close(t_ffmpeg_handle *ffh)
     }
   }
 
+  if(ffh->img_convert_ctx != NULL)
+  {
+    sws_freeContext(ffh->img_convert_ctx);
+    ffh->img_convert_ctx = NULL;
+  }
+  if(ffh->convert_buffer != NULL)
+  {
+    g_free(ffh->convert_buffer);
+    ffh->convert_buffer = NULL;
+  }
 
 }  /* end p_ffmpeg_close */
 
@@ -3499,13 +5008,12 @@ p_setup_check_flags(GapGveFFMpegValues *epp
 static gint
 p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveMasterEncoderStatus *encStatusPtr)
 {
+#define GAP_FFENC_USE_YUV420P "GAP_FFENC_USE_YUV420P"
   GapGveFFMpegValues   *epp = NULL;
-  t_ffmpeg_handle     *ffh = NULL;
+  t_ffmpeg_handle      *ffh = NULL;
+  EncoderQueue         *eque = NULL;
   GapGveStoryVidHandle        *l_vidhand = NULL;
-  gint32        l_tmp_image_id = -1;
-  gint32        l_layer_id = -1;
-  GimpDrawable *l_drawable = NULL;
-  long          l_cur_frame_nr;
+  long          l_master_frame_nr;
   long          l_step, l_begin, l_end;
   int           l_rc;
   gint32        l_max_master_frame_nr;
@@ -3516,7 +5024,22 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
   t_awk_array   l_awk_arr;
   t_awk_array   *awp;
   GapCodecNameElem    *l_vcodec_list;
+  const char          *l_env;
+  GapStoryFetchResult  gapStoryFetchResultLocal;
+  GapStoryFetchResult *gapStoryFetchResult;
 
+
+  static gint32 funcId = -1;
+  static gint32 funcIdVidFetch = -1;
+  static gint32 funcIdVidEncode = -1;
+  static gint32 funcIdVidCopy11 = -1;
+
+  GAP_TIMM_GET_FUNCTION_ID(funcId,          "p_ffmpeg_encode_pass");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdVidFetch,  "p_ffmpeg_encode_pass.VideoFetch");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdVidEncode, "p_ffmpeg_encode_pass.VideoEncode");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdVidCopy11, "p_ffmpeg_encode_pass.VideoCopyLossless");
+
+  GAP_TIMM_START_FUNCTION(funcId);
 
   epp = &gpp->evl;
   awp = &l_awk_arr;
@@ -3527,7 +5050,7 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
   l_cnt_encoded_frames = 0;
   l_cnt_reused_frames = 0;
   p_init_audio_workdata(awp);
-  
+
   l_check_flags = GAP_VID_CHCHK_FLAG_SIZE;
   l_vcodec_list = p_setup_check_flags(epp, &l_check_flags);
 
@@ -3558,7 +5081,6 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
 
 
   l_rc = 0;
-  l_layer_id = -1;
 
   /* make list of frameranges (input frames to feed the encoder) */
   {
@@ -3578,7 +5100,7 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
   }
 
   /* TODO check for overwrite (in case we are called non-interactive)
-   * overwrite check shall be done only if (current_pass < 2) 
+   * overwrite check shall be done only if (current_pass < 2)
    */
 
   if (gap_debug) printf("Creating ffmpeg file.\n");
@@ -3598,11 +5120,52 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
     return(-1);     /* FFMPEG open Failed */
   }
 
+  gapStoryFetchResult = &gapStoryFetchResultLocal;
+  gapStoryFetchResult->raw_rgb_data = NULL;
+  gapStoryFetchResult->video_frame_chunk_data = ffh->vst[0].video_buffer;
 
 
   /* Calculations for encoding the sound */
   p_sound_precalculations(ffh, awp, gpp);
 
+
+  ffh->isMultithreadEnabled = gap_base_get_gimprc_gboolean_value(
+                                 GAP_GIMPRC_VIDEO_ENCODER_FFMPEG_MULTIPROCESSOR_ENABLE
+                               , FALSE  /* default */
+                                 );
+  if(gap_debug)
+  {
+    printf("pass: (1) isMultithreadEnabled: %d\n"
+      ,(int)ffh->isMultithreadEnabled
+      );
+  }
+
+  if((ffh->isMultithreadEnabled)
+  && (epp->dont_recode_flag != TRUE))
+  {
+    eque = p_init_EncoderQueueResources(ffh, awp);
+  }
+  else
+  {
+    if(ffh->isMultithreadEnabled)
+    {
+      printf("WARNING: multiprocessor support is not implemented for lossless video encoding\n");
+      printf("         therefore single cpu processing will be done due to the lossles render option\n");
+    }
+    /* lossless encoding is not supported in multiprocessor environment
+     * (for 1:1 copy there is no benfit to be expected 
+     * when parallel running encoder thread is used)
+     */
+    ffh->isMultithreadEnabled = FALSE;
+  }
+
+
+  if(gap_debug)
+  {
+    printf("pass: (2) isMultithreadEnabled: %d\n"
+      ,(int)ffh->isMultithreadEnabled
+      );
+  }
 
   /* special setup (makes it possible to code sequences backwards)
    * (NOTE: Audio is NEVER played backwards)
@@ -3619,14 +5182,16 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
   l_end   = gpp->val.range_to;
   l_max_master_frame_nr = abs(l_end - l_begin) + 1;
 
-  l_cur_frame_nr = l_begin;
+  l_master_frame_nr = l_begin;
   ffh->encode_frame_nr = 1;
+  ffh->countVideoFramesWritten = 0;
   while(l_rc >= 0)
   {
-    gboolean l_fetch_ok;
     gboolean l_force_keyframe;
     gint32   l_video_frame_chunk_size;
     gint32   l_video_frame_chunk_hdr_size;
+
+    ffh->validEncodeFrameNr = ffh->encode_frame_nr;
 
     /* must fetch the frame into gimp_image  */
     /* load the current frame image, and transform (flatten, convert to RGB, scale, macro, etc..) */
@@ -3636,72 +5201,113 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
       printf("\nFFenc: before gap_story_render_fetch_composite_image_or_chunk\n");
     }
 
-    l_fetch_ok = gap_story_render_fetch_composite_image_or_chunk(l_vidhand
-                                           , l_cur_frame_nr
-                                           , (gint32)  gpp->val.vid_width
-                                           , (gint32)  gpp->val.vid_height
-                                           , gpp->val.filtermacro_file
-                                           , &l_layer_id           /* output */
-                                           , &l_tmp_image_id       /* output */
-                                           , epp->dont_recode_flag
-                                           , l_vcodec_list           /* list of compatible vcodec_names */
-                                           , &l_force_keyframe
-                                           , ffh->vst[0].video_buffer
-                                           , &l_video_frame_chunk_size
-                                           , ffh->vst[0].video_buffer_size    /* IN max size */
-                                           , gpp->val.framerate
-                                           , l_max_master_frame_nr
-                                           , &l_video_frame_chunk_hdr_size
-                                           , l_check_flags
-                                           );
+    GAP_TIMM_START_FUNCTION(funcIdVidFetch);
+    if(eque)
+    {
+      GAP_TIMM_START_RECORD(&eque->mainReadFrame);
+    }
+
+    
+
+    gap_story_render_fetch_composite_image_or_buffer_or_chunk(l_vidhand
+                    , l_master_frame_nr  /* starts at 1 */
+                    , (gint32)  gpp->val.vid_width       /* desired Video Width in pixels */
+                    , (gint32)  gpp->val.vid_height      /* desired Video Height in pixels */
+                    , gpp->val.filtermacro_file
+                    , epp->dont_recode_flag              /* IN: TRUE try to fetch comressed chunk if possible */
+                    , TRUE                               /* IN: enable_rgb888_flag TRUE rgb88 result where possible */
+                    , l_vcodec_list                      /* IN: list of video_codec names that are compatible to the calling encoder program */
+                    , ffh->vst[0].video_buffer_size      /* IN: video_frame_chunk_maxsize sizelimit (larger chunks are not fetched) */
+                    , gpp->val.framerate
+                    , l_max_master_frame_nr              /* the number of frames that will be encoded in total */
+                    , l_check_flags                      /* IN: check_flags combination of GAP_VID_CHCHK_FLAG_* flag values */
+                    , gapStoryFetchResult                /* OUT: struct with feth result */
+                 );
+                 
+    l_force_keyframe = gapStoryFetchResult->force_keyframe;
+
+    GAP_TIMM_STOP_FUNCTION(funcIdVidFetch);
+    if(eque)
+    {
+      GAP_TIMM_STOP_RECORD(&eque->mainReadFrame);
+    }
 
     if(gap_debug)
     {
-      printf("\nFFenc: after gap_story_render_fetch_composite_image_or_chunk image_id:%d layer_id:%d\n"
-        , (int)l_tmp_image_id 
-        , (int) l_layer_id
+      printf("\nFFenc: after gap_story_render_fetch_composite_image_or_chunk master_frame_nr:%d image_id:%d layer_id:%d resultEnum:%d\n"
+        , (int) l_master_frame_nr
+        , (int) gapStoryFetchResult->image_id
+        , (int) gapStoryFetchResult->layer_id
+        , (int) gapStoryFetchResult->resultEnum
         );
     }
 
     /* this block is done foreach handled video frame */
-    if(l_fetch_ok)
+    if(gapStoryFetchResult->resultEnum != GAP_STORY_FETCH_RESULT_IS_ERROR)
     {
 
-      if (l_video_frame_chunk_size > 0)
+      if (gapStoryFetchResult->resultEnum == GAP_STORY_FETCH_RESULT_IS_COMPRESSED_CHUNK)
       {
         l_cnt_reused_frames++;
         if (gap_debug)
         {
-          printf("DEBUG: 1:1 copy of frame %d\n", (int)l_cur_frame_nr);
+          printf("DEBUG: 1:1 copy of frame %d\n", (int)l_master_frame_nr);
         }
+        l_video_frame_chunk_size = gapStoryFetchResult->video_frame_chunk_size;
+        l_video_frame_chunk_hdr_size = gapStoryFetchResult->video_frame_chunk_hdr_size;
+
+        GAP_TIMM_START_FUNCTION(funcIdVidCopy11);
 
         /* dont recode, just copy video chunk to output videofile */
         p_ffmpeg_write_frame_chunk(ffh, l_video_frame_chunk_size, 0 /* vid_track */);
+
+        GAP_TIMM_STOP_FUNCTION(funcIdVidCopy11);
+
+        /* encode AUDIO FRAME (audio data for playbacktime of one frame) */
+        if(ffh->countVideoFramesWritten > 0)
+        {
+          p_process_audio_frame(ffh, awp);
+        }
       }
       else   /* encode one VIDEO FRAME */
       {
         l_cnt_encoded_frames++;
-        l_drawable = gimp_drawable_get (l_layer_id);
 
         if (gap_debug)
         {
           printf("DEBUG: %s encoding frame %d\n"
                 , epp->vcodec_name
-                , (int)l_cur_frame_nr
+                , (int)l_master_frame_nr
                 );
         }
 
         /* store the compressed video frame */
-        if (gap_debug) printf("GAP_FFMPEG: Writing frame nr. %d\n", (int)l_cur_frame_nr);
+        if (gap_debug)
+        {
+          printf("GAP_FFMPEG: Writing frame nr. %d\n", (int)l_master_frame_nr);
+        }
 
-        p_ffmpeg_write_frame(ffh, l_drawable, l_force_keyframe, 0 /* vid_track */);
-        gimp_drawable_detach (l_drawable);
-        /* destroy the tmp image */
-        gimp_image_delete(l_tmp_image_id);
+
+        GAP_TIMM_START_FUNCTION(funcIdVidEncode);
+
+        if(ffh->isMultithreadEnabled)
+        {
+          p_ffmpeg_write_frame_and_audio_multithread(eque, gapStoryFetchResult, l_force_keyframe, 0 /* vid_track */ );
+        }
+        else
+        {
+          p_ffmpeg_write_frame(ffh, gapStoryFetchResult, l_force_keyframe, 0 /* vid_track */ );
+          if(ffh->countVideoFramesWritten > 0)
+          {
+            p_process_audio_frame(ffh, awp);
+          }
+        }
+
+
+        GAP_TIMM_STOP_FUNCTION(funcIdVidEncode);
       }
 
-      /* encode AUDIO FRAME (audio data for playbacktime of one frame) */
-      p_process_audio_frame(ffh, awp);
+
 
     }
     else  /* if fetch_ok */
@@ -3719,18 +5325,83 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
       gap_gve_misc_do_master_encoder_progress(encStatusPtr);
     }
 
-    /* terminate on cancel reqeuset (CANCEL button was pressed in the master encoder dialog) */
-    if(gap_gve_misc_is_master_encoder_cancel_request(encStatusPtr))
+    /* terminate on cancel reqeuset (CANCEL button was pressed in the master encoder dialog)
+     * or in case of errors.
+     */
+    if((gap_gve_misc_is_master_encoder_cancel_request(encStatusPtr))
+    || (l_rc < 0))
     {
        break;
     }
 
-    /* advance to next frame */
-    if((l_cur_frame_nr == l_end) || (l_rc < 0))
+    /* detect regular end */
+    if(l_master_frame_nr == l_end)
     {
+       /* handle encoder latency (encoders typically hold some frames in internal buffers
+        * that must be flushed after the last input frame was feed to the codec)
+        * in case of codecs without frame latency
+        * ffh->countVideoFramesWritten and ffh->encode_frame_nr
+        * shall be already equal at this point. (where no flush is reuired)
+        */
+       int flushTries;
+       int flushCount;
+
+       if(ffh->isMultithreadEnabled)
+       {
+         /* wait until encoder thread has processed all enqued frames so far.
+          * (otherwise the ffh->countVideoFramesWritten information will
+          * not count the still unprocessed remaining frames in the queue)
+          */
+         p_waitUntilEncoderQueIsProcessed(eque);
+       }
+
+       flushTries = 2 + (ffh->validEncodeFrameNr - ffh->countVideoFramesWritten);
+       
+       for(flushCount = 0; flushCount < flushTries; flushCount++)
+       {
+         if(ffh->countVideoFramesWritten >= ffh->validEncodeFrameNr)
+         {
+           /* all frames are now written to the output video */
+           break;
+         }
+         
+         /* increment encode_frame_nr, because this is the base for pts timecode calculation
+          * and some codecs (mpeg2video) complain about "non monotone timestamps"  otherwise.
+          */
+         ffh->encode_frame_nr++;
+
+         GAP_TIMM_START_FUNCTION(funcIdVidEncode);
+
+         if(ffh->isMultithreadEnabled)
+         {
+           p_ffmpeg_write_frame_and_audio_multithread(eque, NULL, l_force_keyframe, 0 /* vid_track */ );
+           if(gap_debug)
+           {
+             printf("p_ffmpeg_encode_pass: Flush-Loop for Codec remaining frames MainTID:%d, flushCount:%d\n"
+                ,p_base_get_thread_id_as_int()
+                ,(int)flushCount
+                );
+             p_debug_print_RingbufferStatus(eque);
+           }
+         }
+         else
+         {
+           p_ffmpeg_write_frame(ffh, NULL, l_force_keyframe, 0 /* vid_track */ );
+           /* continue encode AUDIO FRAME (audio data for playbacktime of one frame)
+            */
+           if(ffh->countVideoFramesWritten > 0)
+           {
+             p_process_audio_frame(ffh, awp);
+           }
+         }
+
+         GAP_TIMM_STOP_FUNCTION(funcIdVidEncode);
+         
+       }
        break;
     }
-    l_cur_frame_nr += l_step;
+    /* advance to next frame */
+    l_master_frame_nr += l_step;
     ffh->encode_frame_nr++;
 
   }  /* end loop foreach frame */
@@ -3741,6 +5412,12 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
     {
       printf("before: p_ffmpeg_close\n");
     }
+    
+    if(ffh->isMultithreadEnabled)
+    {
+      p_waitUntilEncoderQueIsProcessed(eque);
+    }
+    
     p_ffmpeg_close(ffh);
     if(gap_debug)
     {
@@ -3777,7 +5454,41 @@ p_ffmpeg_encode_pass(GapGveFFMpegGlobalParams *gpp, gint32 current_pass, GapGveM
     printf("1:1 copied    frames: %d\n", (int)l_cnt_reused_frames);
     printf("total handled frames: %d\n", (int)l_cnt_encoded_frames + l_cnt_reused_frames);
   }
-  
+
+
+  GAP_TIMM_STOP_FUNCTION(funcId);
+  GAP_TIMM_PRINT_FUNCTION_STATISTICS();
+
+  if(eque)
+  {
+    g_usleep(30000);  /* sleep 0.3 seconds */
+    
+    /*  print MAIN THREAD runtime statistics */
+    GAP_TIMM_PRINT_RECORD(&eque->mainReadFrame,         "... mainReadFrame");
+    GAP_TIMM_PRINT_RECORD(&eque->mainWriteFrame,        "... mainWriteFrame");
+    GAP_TIMM_PRINT_RECORD(&eque->mainDrawableToRgb,     "... mainWriteFrame.DrawableToRgb");
+    GAP_TIMM_PRINT_RECORD(&eque->mainElemMutexWaits,    "... mainElemMutexWaits");
+    GAP_TIMM_PRINT_RECORD(&eque->mainPoolMutexWaits,    "... mainPoolMutexWaits");
+    GAP_TIMM_PRINT_RECORD(&eque->mainEnqueueWaits,      "... mainEnqueueWaits");
+    GAP_TIMM_PRINT_RECORD(&eque->mainPush2,             "... mainPush2 (re-start times of encoder thread)");
+
+    /*  print Encoder THREAD runtime statistics */
+    GAP_TIMM_PRINT_RECORD(&eque->ethreadElemMutexWaits, "... ethreadElemMutexWaits");
+    GAP_TIMM_PRINT_RECORD(&eque->ethreadPoolMutexWaits, "... ethreadPoolMutexWaits");
+    GAP_TIMM_PRINT_RECORD(&eque->ethreadEncodeFrame,    "... ethreadEncodeFrame");
+
+    p_free_EncoderQueueResources(eque);
+    g_free(eque);
+  }
+ 
+  if (gapStoryFetchResult->raw_rgb_data != NULL)
+  {
+    /* finally free the rgb data that was optionally allocated in storyboard fetch calls.
+     * The raw_rgb_data is typically allocated at first direct RGB888 fetch (if any)
+     * and reused in all further direct RGB888 fetches.
+     */
+    g_free(gapStoryFetchResult->raw_rgb_data);
+  }
   return l_rc;
 }    /* end p_ffmpeg_encode_pass */
 

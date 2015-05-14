@@ -18,8 +18,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -43,6 +43,7 @@
 #define GAP_STBKEY_VID_MASTER_FRAME_ASPECT  "VID_MASTER_FRAME_ASPECT"
 #define GAP_STBKEY_VID_MASTER_LAYERSTACK    "VID_MASTER_LAYERSTACK"
 #define GAP_STBKEY_VID_PREFERRED_DECODER    "VID_PREFERRED_DECODER"
+#define GAP_STBKEY_VID_MASTER_INSERT_ALPHA  "VID_MASTER_INSERT_ALPHA"
 #define GAP_STBKEY_VID_MASTER_INSERT_AREA   "VID_MASTER_INSERT_AREA"
 
 #define GAP_STBKEY_MAIN_SECTION             "MAIN_SECTION"
@@ -56,6 +57,7 @@
 #define GAP_STBKEY_VID_PLAY_IMAGE           "VID_PLAY_IMAGE"
 #define GAP_STBKEY_VID_PLAY_COLOR           "VID_PLAY_COLOR"
 #define GAP_STBKEY_VID_SILENCE              "VID_SILENCE"
+#define GAP_STBKEY_VID_ROTATE               "VID_ROTATE"
 #define GAP_STBKEY_VID_OPACITY              "VID_OPACITY"
 #define GAP_STBKEY_VID_ZOOM_X               "VID_ZOOM_X"
 #define GAP_STBKEY_VID_ZOOM_Y               "VID_ZOOM_Y"
@@ -63,6 +65,7 @@
 #define GAP_STBKEY_VID_MOVE_Y               "VID_MOVE_Y"
 #define GAP_STBKEY_VID_FIT_SIZE             "VID_FIT_SIZE"
 #define GAP_STBKEY_VID_OVERLAP              "VID_OVERLAP"
+#define GAP_STBKEY_VID_MOVEPATH             "VID_MOVEPATH"
 
 #define GAP_STBKEY_MASK_IMAGE               "MASK_IMAGE"
 #define GAP_STBKEY_MASK_ANIMIMAGE           "MASK_ANIMIMAGE"

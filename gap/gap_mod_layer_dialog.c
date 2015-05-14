@@ -24,8 +24,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -111,24 +111,47 @@ p_mod_frames_response (GtkWidget *widget,
                  gint       response_id,
                  GapModFramesGlobalParams *gmop)
 {
-  switch (response_id)
+  if (response_id == GTK_RESPONSE_CANCEL)
   {
-    case GTK_RESPONSE_OK:
-      gmop->run_flag = TRUE;
+    gmop->retcode = -1; 
+    if(gmop->run_flag == TRUE)
+    {
+      gmop->run_flag = FALSE;
+      return;
+    }
+  }
+  else if (response_id == GTK_RESPONSE_OK)
+  {
+    if(gmop->run_flag == TRUE)
+    {
+      return;
+    }
+    gtk_widget_set_sensitive(gmop->main_vbox, FALSE);
 
-    default:
-      if(gmop->shell)
-      {
-        GtkWidget *l_shell;
+    gmop->run_flag = TRUE;
+    gmop->retcode = gap_mod_frames_modify(gmop->ainfo_ptr
+                                        , gmop->range_from
+                                        , gmop->range_to
+                                        , gmop->action_mode
+                                        , gmop->sel_mode
+                                        , gmop->sel_case
+                                        , gmop->sel_invert
+                                        , gmop->sel_pattern
+                                        , gmop->new_layername
+                                        , gmop->progress_bar
+                                        , &gmop->run_flag
+                                        );
+  }
 
-        l_shell = gmop->shell;
-        gmop->shell = NULL;
+  if(gmop->shell)
+  {
+    GtkWidget *l_shell;
 
-        gtk_widget_destroy(l_shell);
-        gtk_main_quit();
-      }
+    l_shell = gmop->shell;
+    gmop->shell = NULL;
 
-      break;
+    gtk_widget_destroy(l_shell);
+    gtk_main_quit();
   }
 }  /* end p_mod_frames_response */
 
@@ -960,6 +983,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
 {
   GtkWidget *dlg;
   GtkWidget *main_vbox;
+  GtkWidget *active_vbox;
   GtkWidget *hbox;
   GtkWidget *frame;
   GtkWidget *entry;
@@ -972,6 +996,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
   GtkWidget *menu_bar;
   GtkWidget *menu_item;
   GtkWidget *master_menu;
+  GtkWidget *progress_bar;
   gint       row;
   GtkObject *adj;
 
@@ -997,6 +1022,7 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
 
 
   main_vbox = gtk_vbox_new (FALSE, 4);
+  gmop->main_vbox = main_vbox;
   gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 6);
   gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dlg)->vbox), main_vbox);
 
@@ -1389,6 +1415,14 @@ p_create_mod_frames_dialog(GapModFramesGlobalParams *gmop)
                     G_CALLBACK (gimp_int_adjustment_update),
                     &gmop->range_to);
 
+  row++;
+
+  progress_bar = gtk_progress_bar_new ();
+  gmop->progress_bar = progress_bar;
+  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progress_bar), " ");
+  gtk_widget_show (progress_bar);
+
+  gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dlg)->vbox), progress_bar);
 
 
   gtk_widget_show(main_vbox);
@@ -1417,6 +1451,7 @@ gap_mod_frames_dialog(GapAnimInfo *ainfo_ptr,
   gap_stock_init();
 
   gmop->run_flag = FALSE;
+  gmop->retcode = -1;
   gmop->ainfo_ptr = ainfo_ptr;
   gmop->range_from = gmop->ainfo_ptr->first_frame_nr;
   gmop->range_to = gmop->ainfo_ptr->last_frame_nr;

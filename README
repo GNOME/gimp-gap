@@ -1,4 +1,4 @@
-This is version 2.6.0 of the GIMP Video menu.
+This is version 2.6.1 of the GIMP Video menu.
 
 The GIMP-GAP (GIMP Animation Package) is a collection of Plug-Ins
 to extend the GIMP with capabilities to edit and create
@@ -8,7 +8,7 @@ Animations as sequences of single frames.
 Requires:
 =========
  - gimp 2.6.0 or higher.
-     This release was tested with gimp-2.6.6
+     This release was tested with gimp-2.6.11
      
      Note: GIMP-GAP provides some features that are able to call many of the
            GIMP standard filters. (plug-in programs that are shiped with 
@@ -81,7 +81,7 @@ Those configure_option files are read by the master .configure script
 
 
 
-Installation from SVN source tree:
+Installation from GIT source tree:
 ==================================
 
   ./autogen.sh   # includes generation of the configure script ant the ./configure call
@@ -202,4 +202,3 @@ Other known Bugs
 
 Have fun,
   Wolfgang Hofer
-  Sven Neumann

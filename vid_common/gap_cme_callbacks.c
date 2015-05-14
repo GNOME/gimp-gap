@@ -18,8 +18,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -356,8 +356,8 @@ on_cme__combo_scale  (GtkWidget     *widget,
 {
   gint       value;
   gint       l_idx;
-  static gint  tab_width[GAP_CME_STANDARD_SIZE_MAX_ELEMENTS] =  { 0, 320, 320, 640, 720, 720 };
-  static gint  tab_height[GAP_CME_STANDARD_SIZE_MAX_ELEMENTS] = { 0, 240, 288, 480, 480, 576 };
+  static gint  tab_width[GAP_CME_STANDARD_SIZE_MAX_ELEMENTS] =  { 0, 320, 320, 640, 720, 720, 1280, 1920, 1920 };
+  static gint  tab_height[GAP_CME_STANDARD_SIZE_MAX_ELEMENTS] = { 0, 240, 288, 480, 480, 576,  720, 1080, 1088 };
 
   if(gap_debug) printf("CB: on_cme__combo_scale\n");
 
@@ -365,8 +365,17 @@ on_cme__combo_scale  (GtkWidget     *widget,
 
   gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
   l_idx = value;
+  if(gap_debug) 
+  {
+    printf("CB: on_cme__combo_scale index: %d\n", (int)l_idx);
+  }
+  
+  if(l_idx == GAP_CME_STANDARD_SIZE_KEEP)
+  {
+    /* the "unchanged" entry selection does nothing */ 
+    return;
+  }
 
-  if(gap_debug) printf("CB: on_cme__combo_scale index: %d\n", (int)l_idx);
   if((l_idx >= GAP_CME_STANDARD_SIZE_MAX_ELEMENTS) || (l_idx < 1))
   {
      l_idx = 0;
@@ -410,6 +419,11 @@ on_cme__combo_framerate  (GtkWidget     *widget,
 
   gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
   l_idx = value;
+  
+  if(l_idx == GAP_CME_STANDARD_FRAMERATE_KEEP)
+  {
+    return;
+  }
 
   if(gap_debug) printf("CB: on_cme__combo_framerate index: %d\n", (int)l_idx);
   if((l_idx >= GAP_CME_STANDARD_FRAMERATE_MAX_ELEMENTS) || (l_idx < 1))
@@ -795,6 +809,11 @@ on_cme__spinbutton_width_changed       (GtkEditable     *editable,
    if((gint)adj->value != gpp->val.vid_width)
    {
      gpp->val.vid_width = (gint)adj->value;
+     if(gpp->cme__combo_scale != NULL)
+     {
+       gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (gpp->cme__combo_scale), GAP_CME_STANDARD_SIZE_KEEP);
+     }
+    
    }
  }
 
@@ -819,6 +838,10 @@ on_cme__spinbutton_height_changed      (GtkEditable     *editable,
    if((gint)adj->value != gpp->val.vid_height)
    {
      gpp->val.vid_height = (gint)adj->value;
+     if(gpp->cme__combo_scale != NULL)
+     {
+       gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (gpp->cme__combo_scale), GAP_CME_STANDARD_SIZE_KEEP);
+     }
    }
  }
 
@@ -892,7 +915,12 @@ on_cme__spinbutton_framerate_changed   (GtkEditable     *editable,
    if((gint)adj->value != gpp->val.framerate)
    {
      gpp->val.framerate = adj->value;
+     if(gpp->cme__combo_framerate != NULL)
+     {
+       gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (gpp->cme__combo_framerate), GAP_CME_STANDARD_FRAMERATE_KEEP);
+     }
      gap_cme_gui_update_vid_labels (gpp);
+     
    }
  }
 

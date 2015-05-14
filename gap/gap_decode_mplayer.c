@@ -39,8 +39,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history
@@ -296,7 +296,7 @@ p_mplayer_info(char *errlist)
 /* -----------------------
  * p_scann_start_time
  * -----------------------
- * scann hour, minute, second from a string
+ * scan hour, minute, second from a string
  * that has the format "HH:MM:SS"
  * where any other non-digit characters are treated same as ":"
  * strings with format "HHMMSS" are also accepted.

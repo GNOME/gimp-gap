@@ -334,7 +334,7 @@ p_wrapper_mpeg3_open_read(char *in_filename, t_GVA_Handle *gvahand)
         gvahand->height           = mpeg3_video_height(handle->main_handle, (int)gvahand->vid_track);
         gvahand->aspect_ratio     = mpeg3_aspect_ratio(handle->main_handle, (int)gvahand->vid_track);
 
-        /* libmpeg3-1.5.4 has a bug and did always deliver apect ratio value 0.0
+        /* libmpeg3-1.5.4 has a bug and did always deliver aspect ratio value 0.0
          * the aspect was not recognized when it was there 
          * tested with some DVD and MPEG1 videofiles
          */
@@ -853,7 +853,7 @@ p_wrapper_mpeg3_count_frames(t_GVA_Handle *gvahand)
     
     if(gvahand->cancel_operation)
     {
-      /* delete uncomplete TOC file
+      /* delete incomplete TOC file
        * (dont know if libmpeg3 can use unfinished TOC files)
        */
       g_remove(vindex->tocfile);
@@ -883,7 +883,7 @@ p_wrapper_mpeg3_count_frames(t_GVA_Handle *gvahand)
       /* because of cancel the total_frames is still unknown
        * (vindex->total_frames == 0 is the indicator for incomplete index)
        * For libmpeg3: videoindex is just used to store total_frames info
-       *               so we dont save uncomplete videoindex file
+       *               so we dont save incomplete videoindex file
        */
       vindex->total_frames = 0;
     }
@@ -1117,7 +1117,7 @@ p_mpeg3_new_dec_elem(void)
 /* -----------------------
  * p_mpeg3_emulate_seek
  * -----------------------
- * procedure to completly emulate frame seek by dummy reads
+ * procedure to completely emulate frame seek by dummy reads
  * (is very slow but sets position to exact frame position
  *  this is needed if we have no TOC file)
  */
@@ -1183,7 +1183,7 @@ p_mpeg3_emulate_seek(mpeg3_t*  handle, gint32 seekto_frame, t_GVA_Handle *gvahan
   if(l_clean_reads > 0)
   {
     /* after (re)open we must start with a clean read
-     * (never start with a dirty read (because ist does not advance position as expected)
+     * (never start with a dirty read (because it does not advance position as expected)
      */
      l_clean_reads--;
 
@@ -1226,7 +1226,7 @@ p_mpeg3_emulate_seek(mpeg3_t*  handle, gint32 seekto_frame, t_GVA_Handle *gvahan
 
     for(l_ii = 0; l_ii < l_dirty_reads; l_ii++)
     {
-      /* read one frame (we use the comressed chunk
+      /* read one frame (we use the compressed chunk
        * because this is a dummy read to skip frames only)
        */
       l_rc = mpeg3_read_video_chunk(seek_handle,
@@ -1354,8 +1354,8 @@ p_mpeg3_gopseek(mpeg3_t*  handle, gint32 seekto_frame, t_GVA_Handle *gvahand)
     ||   ((gvahand->current_seek_nr + GVA_GOPSEEKSIZE) <= seekto_frame)  )
     {
        if(gap_debug) printf("p_mpeg3_gopseek(F): (GOPSEEK NEEDED)\n");
-      /* perform (faster) seek if we have to do backstep
-       * or if we have to do a bigstep forward (greater than GVA_GOPSEEKSIZE)
+      /* perform (faster) seek if we have to do step back
+       * or if we have to do a big step forward (greater than GVA_GOPSEEKSIZE)
        */
       l_rc = mpeg3_set_frame(seek_handle, l_gopseek +1, (int)gvahand->vid_track);
       gvahand->percentage_done += l_progress_step;
@@ -1426,9 +1426,9 @@ p_mpeg3_gopseek(mpeg3_t*  handle, gint32 seekto_frame, t_GVA_Handle *gvahand)
  * the name of the toc file must then be passed to the 
  * the mpeg3_open procedure (rather than the original videofile)
  *
- * toc files can be created explicite with the commandline tool mpeg3toc
+ * toc files can be created explicitly with the commandline tool mpeg3toc
  * (that is part of the libmpeg3 distribution)
- * or implicite by the GVA video Api procedures.
+ * or implicitly by the GVA video Api procedures.
  */
 gboolean
 p_check_libmpeg3_toc_file(const char *filename)

@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -36,7 +36,7 @@
 #include "gap_story_file.h"
 #include "gap_story_undo_types.h"
 
-void                    gap_stb_undo_debug_print_stack(GapStbTabWidgets *tabw);
+void                    gap_stb_undo_debug_fprint_stack(FILE *fp, GapStbTabWidgets *tabw);
 const char *            gap_stb_undo_feature_to_string(GapStoryFeatureEnum feature_id);
 GapStoryBoard *         gap_stb_undo_pop(GapStbTabWidgets *tabw);
 GapStoryBoard *         gap_stb_undo_redo(GapStbTabWidgets *tabw);
@@ -45,6 +45,10 @@ void                    gap_stb_undo_push_clip(GapStbTabWidgets *tabw
                            , GapStoryFeatureEnum feature_id
                            , gint32 story_id
                            );
+void                    gap_stb_undo_push_clip_with_file_snapshot(GapStbTabWidgets *tabw
+                           , GapStoryFeatureEnum feature_id, gint32 story_id
+                           , char **filenamePtr);
+
 void                    gap_stb_undo_push(GapStbTabWidgets *tabw, GapStoryFeatureEnum feature_id);
 void                    gap_stb_undo_group_begin(GapStbTabWidgets *tabw);
 void                    gap_stb_undo_group_end(GapStbTabWidgets *tabw);
@@ -53,4 +57,4 @@ const char *            gap_stb_undo_get_undo_feature(GapStbTabWidgets *tabw);
 const char *            gap_stb_undo_get_redo_feature(GapStbTabWidgets *tabw);
 void                    gap_stb_undo_stack_set_unsaved_changes(GapStbTabWidgets *tabw);
 
-#endif 
+#endif

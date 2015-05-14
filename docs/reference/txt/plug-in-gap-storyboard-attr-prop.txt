@@ -55,7 +55,20 @@ Transition Attributes (Storyboard)
      
     Frames:
       Duration of the transition effect measured in frames.
-      
+
+    Acceleration Characteristic:
+      A Spinbutton and a graph widget
+      is available to enter and display the acceleration characteristc value
+      in each row (for Opacity, MoveX, MoveY, ScaleWidht and ScaleHeight)
+      The graph next to the spinbutton shows the selected acceleration characteristic curve.
+      The acceleration characteristic can also be changed by
+      clicking on th graph and dragging vertically with the mouse.
+      	
+      A straight line from left bottom to right top corner of the graph
+      is drawn for value 1 that represents constant speed.
+      other positive values result in increasing speed of the transition,
+      negative values result in decreasing speed.
+
       
     Comment:
       An optional comment text on the transition.

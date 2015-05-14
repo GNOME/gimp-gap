@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -54,18 +54,32 @@ typedef enum
   } GapStoryFeatureEnum;
 
 
+/* storyboard undo file snapshot element
+ */
+typedef struct GapStoryUndoFileSnapshot {
+  char       *filename;
+  char       *filecontent;
+  gint32      filesize;
+  gint32      mtimefile;
+}  GapStoryUndoFileSnapshot;
+
+
+
 /* storyboard undo element
  */
 typedef struct GapStoryUndoElem {
-  GapStoryFeatureEnum  feature_id;     
+  GapStoryFeatureEnum  feature_id;
   gint32 clip_story_id;            /* -1 if feature modifies more than 1 clip */
-  GapStoryBoard       *stb;        /* storyboard backup before 
-                                    * feature with feature_id was applied 
+  GapStoryBoard       *stb;        /* storyboard backup before
+                                    * feature with feature_id was applied
                                     */
-  struct GapStoryUndoElem  *next;
+  GapStoryUndoFileSnapshot  *fileSnapshotBefore;
+  GapStoryUndoFileSnapshot  *fileSnapshotAfter;
+  char                     **filenamePtr;
+  struct GapStoryUndoElem   *next;
 }  GapStoryUndoElem;
 
 
 
 
-#endif 
+#endif

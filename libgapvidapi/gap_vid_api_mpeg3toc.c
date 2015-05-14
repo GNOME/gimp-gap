@@ -1,14 +1,14 @@
-/* this file is a modified variante
+/* this file is a modified variant
  * of the meg3toc.c Code that came with libmpeg3-1.8
  *
  * it is used to build the libmpeg3
- * compatible "Table of content" files implicite
+ * compatible "Table of content" files implicitly
  * when using the GIMP-GAP specific GVA video API.
  * .TOC files are the libmpeg3 specific pendant to gvaindexes
  * and enable fast and exact positioning in the MPEG videofile
  * (but need one initial full scan to create)
  *
- * This variante of the toc file genration is used in GIMP-GAP
+ * This variant of the toc file generation is used in GIMP-GAP
  * GUI Modules and provides Progress Feedback for the calling GUI
  * and has the option to STOP (cancel) TOC creation on GUI request.
  *

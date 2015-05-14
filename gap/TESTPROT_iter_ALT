@@ -204,7 +204,7 @@ Additional notes:
 
 plug_in_map_object old Testreport: (did not verfy that at the latest test)
    
-   - The MapObject has an implicite feature:
+   - The MapObject has an implicit feature:
      If the handled layer has NO ALPHA Channel (as backgrounds often do)
      and the "Transparent background" is ON
      it forces the creation of a new image.

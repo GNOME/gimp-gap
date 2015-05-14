@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -92,5 +92,7 @@ gint32  gap_layer_create_layer_from_layermask(gint32 src_layer_id
 gint32  gap_layer_create_layer_from_alpha(gint32 src_layer_id, gint32 image_id
                                , const char *name_prefix, const char *name_suffix
                                , gboolean applyExistingLayermask, gboolean useTransferAlpha);
+
+gint32  gap_layer_find_by_name(gint32 image_id, const char *name);
 
 #endif

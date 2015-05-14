@@ -34,11 +34,12 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
+ *                  2011/03/09  hof: - moved code for Move Path features to gap_mov_main.c module
  * gimp    2.1.0a;  2004/04/05  hof: - Move Path added option to keep the original paintmode of the src_layer
  * gimp    1.3.24a; 2004/01/17  hof: - get main version from config.h, fixed PDB docs for plug_in_gap_modify
  * gimp    1.3.23b; 2003/12/06  hof: - updated main version
@@ -116,7 +117,6 @@
 #include "gap_match.h"
 #include "gap_range_ops.h"
 #include "gap_split.h"
-#include "gap_mov_exec.h"
 #include "gap_mod_layer.h"
 #include "gap_arr_dialog.h"
 #include "gap_pdb_calls.h"
@@ -137,31 +137,28 @@
 int gap_debug = 0;
 
 #define PLUGIN_NAME_GAP_NEXT                 "plug_in_gap_next"
-#define PLUGIN_NAME_GAP_PREV                 "plug_in_gap_prev" 
+#define PLUGIN_NAME_GAP_PREV                 "plug_in_gap_prev"
 #define PLUGIN_NAME_GAP_FIRST                "plug_in_gap_first"
-#define PLUGIN_NAME_GAP_LAST                 "plug_in_gap_last" 
+#define PLUGIN_NAME_GAP_LAST                 "plug_in_gap_last"
 #define PLUGIN_NAME_GAP_GOTO                 "plug_in_gap_goto"
 #define PLUGIN_NAME_GAP_DEL                  "plug_in_gap_del"
 #define PLUGIN_NAME_GAP_DUP                  "plug_in_gap_dup"
 #define PLUGIN_NAME_GAP_DENSITY              "plug_in_gap_density"
 #define PLUGIN_NAME_GAP_EXCHG                "plug_in_gap_exchg"
-#define PLUGIN_NAME_GAP_MOVE                 "plug_in_gap_move"
-#define PLUGIN_NAME_GAP_MOVE_PATH_EXT        "plug_in_gap_move_path_ext" 
-#define PLUGIN_NAME_GAP_MOVE_PATH_EXT2       "plug_in_gap_move_path_ext2"
 #define PLUGIN_NAME_GAP_RANGE_TO_MULTILAYER  "plug_in_gap_range_to_multilayer"
-#define PLUGIN_NAME_GAP_RANGE_FLATTEN        "plug_in_gap_range_flatten" 
+#define PLUGIN_NAME_GAP_RANGE_FLATTEN        "plug_in_gap_range_flatten"
 #define PLUGIN_NAME_GAP_RANGE_LAYER_DEL      "plug_in_gap_range_layer_del"
-#define PLUGIN_NAME_GAP_RANGE_CONVERT        "plug_in_gap_range_convert" 
+#define PLUGIN_NAME_GAP_RANGE_CONVERT        "plug_in_gap_range_convert"
 #define PLUGIN_NAME_GAP_RANGE_CONVERT2       "plug_in_gap_range_convert2"
 #define PLUGIN_NAME_GAP_ANIM_RESIZE          "plug_in_gap_anim_resize"
-#define PLUGIN_NAME_GAP_ANIM_CROP            "plug_in_gap_anim_crop" 
+#define PLUGIN_NAME_GAP_ANIM_CROP            "plug_in_gap_anim_crop"
 #define PLUGIN_NAME_GAP_ANIM_SCALE           "plug_in_gap_anim_scale"
 #define PLUGIN_NAME_GAP_SPLIT                "plug_in_gap_split"
-#define PLUGIN_NAME_GAP_SHIFT                "plug_in_gap_shift" 
+#define PLUGIN_NAME_GAP_SHIFT                "plug_in_gap_shift"
 #define PLUGIN_NAME_GAP_REVERSE              "plug_in_gap_reverse"
 #define PLUGIN_NAME_GAP_RENUMBER             "plug_in_gap_renumber"
-#define PLUGIN_NAME_GAP_MODIFY               "plug_in_gap_modify" 
-#define PLUGIN_NAME_GAP_VIDEO_EDIT_COPY      "plug_in_gap_video_edit_copy"  
+#define PLUGIN_NAME_GAP_MODIFY               "plug_in_gap_modify"
+#define PLUGIN_NAME_GAP_VIDEO_EDIT_COPY      "plug_in_gap_video_edit_copy"
 #define PLUGIN_NAME_GAP_VIDEO_EDIT_PASTE     "plug_in_gap_video_edit_paste"
 #define PLUGIN_NAME_GAP_VIDEO_EDIT_CLEAR     "plug_in_gap_video_edit_clear"
 #define PLUGIN_NAME_GAP_GET_ANIMINFO         "plug_in_gap_get_animinfo"
@@ -255,138 +252,6 @@ GimpPlugInInfo PLUG_IN_INFO =
   };
   static int nargs_exchg = G_N_ELEMENTS (args_exchg);
 
-  static GimpParamDef args_mov[] =
-  {
-    {GIMP_PDB_INT32, "run_mode", "Interactive"},
-    {GIMP_PDB_IMAGE, "image", "Input image (one of the video frames)"},
-    {GIMP_PDB_DRAWABLE, "drawable", "Input drawable (unused)"},
-  };
-
-  static GimpParamDef args_mov_path_ext[] =
-  {
-    {GIMP_PDB_INT32,        "run_mode",   "non-interactive"},
-    {GIMP_PDB_IMAGE,        "dst_image",  "Destination image (one of the video frames), where to insert the animated source layers"},
-    {GIMP_PDB_DRAWABLE,     "drawable",   "drawable (unused)"},
-    {GIMP_PDB_INT32,        "range_from", "destination frame nr to start"},
-    {GIMP_PDB_INT32,        "range_to",   "destination frame nr to stop (can be lower than range_from)"},
-    {GIMP_PDB_INT32,        "nr",         "layerstack position where to insert source layer (0 == on top)"},
-    /* source specs */
-    { GIMP_PDB_LAYER,      "src_layer_id",      "starting LayerID of SourceObject. (use any Multilayeranimated Image, or a video frame of anoter Animation)"},
-    { GIMP_PDB_INT32,      "src_stepmode",      "0-5     derive inserted object as copy of one layer from a multilayer src_image \n"
-                                                "100-105 derive inserted object as copy of merged visible layers of a source video frame \n"
-                                                "0:  Layer Loop  1: Layer Loop reverse  2: Layer Once  3: Layer Once reverse  4: Layer PingPong \n"
-                                                "5: None (use onle the selected src_layer)\n"
-                                                "100: Frame Loop  101: Frame Loop reverse  102: Frame Once  103: Frame Once reverse  104: Frame PingPong \n"
-                                                "105: Frame None (use onle the flat copy of the selected frame)\n"
-                                                },
-    { GIMP_PDB_INT32,      "src_handle",        "0: handle left top   1: handle left bottom \n"
-                                                "2: handle right top  3: handle right bottom \n"
-                                                "4: handle center"},
-    { GIMP_PDB_INT32,      "src_paintmode",     "4444: keep original paintmode of src_layer 0: GIMP_NORMAL_MODE (see GimpLayerModeEffects -- libgimp/gimpenums.h -- for more information)"},
-    { GIMP_PDB_INT32,      "src_force_visible", "1: Set inserted layres visible, 0: insert layers as is"},
-    { GIMP_PDB_INT32,      "clip_to_img",       "1: Clip inserted layers to Image size of the destination video frame, 0: dont clip"},
-    /* extras */
-    { GIMP_PDB_INT32,      "rotation_follow",   "0: NO automatic calculation (use the rotation array parameters as it is) \n"
-                                                "1: Automatic calculation of rotation, following the path vectors, (Ignore rotation array parameters)\n"},
-    { GIMP_PDB_FLOAT,      "startangle",        "start angle for the first contolpoint (only used if rotation-follow is on)"},
-
-    /* new features of the _ext[ended] API */
-    {GIMP_PDB_FLOAT,        "step_speed_factor",       "Allows stepping Source and Destination at different speed. (0.1 upto 50 where 1.0 does step snychron, 2.0 Src makes 2 Steps while Destination makes 1 step) "},
-    {GIMP_PDB_INT32,        "tween_steps",             "0 upto 50, Number of virtual Frames to calculate between 2 destination Frames. (use value 0 if no tween processing should be done)"},
-    {GIMP_PDB_FLOAT,        "tween_opacity_initial",   "opacity 0.0 upto 100.0 for the tween step that is nearest to the (next) real frame"},
-    {GIMP_PDB_FLOAT,        "tween_opacity_desc",      "descending opacity 0.0 upto 100.0  for the othertween steps"},
-    {GIMP_PDB_INT32,        "tracelayer_enable",       "TRUE: calculate a tracelayer (with all steps of the moving objects since first step)"},
-    {GIMP_PDB_FLOAT,        "trace_opacity_initial",   "opacity 0.0 upto 100.0 for the nearest tracestep to the actual destination frame"},
-    {GIMP_PDB_FLOAT,        "trace_opacity_desc",      "descending opacity 0.0 upto 100.0 for fading out older positions (that are done before the actual step)"},
-    {GIMP_PDB_INT32,        "apply_bluebox",           "TRUE: apply blubox filter (using bluebox param VALUES of last successful bluebox run)"},
-    {GIMP_PDB_INT32,        "src_selmode",      "0: ignore selections in all source images\n"
-                                                "1: use one selection (from the inital source image) for all handled src layers \n"
-                                                "2: use selections in all source images (for stepmodes 0-5 there is only one source image)"},
-
-
-    /* CONTROLPOINT Arrays (the _ext API uses FLOAT arrays for more precision) */
-    { GIMP_PDB_INT32,      "argc_p_x",          "number of controlpoints"},
-    { GIMP_PDB_INT32ARRAY, "p_x",               "Controlpoint x-koordinate"},
-    { GIMP_PDB_INT32,      "argc_p_y",          "number of controlpoints"},
-    { GIMP_PDB_INT32ARRAY, "p_y",               "Controlpoint y-koordinate"},
-    { GIMP_PDB_INT32,      "argc_opacity",      "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "opacity",           "Controlpoint opacity value 0 <= value <= 100"},
-    { GIMP_PDB_INT32,      "argc_w_resize",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "w_resize",          "width scaling in percent"},
-    { GIMP_PDB_INT32,      "argc_h_resize",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "h_resize",          "height scaling in percent"},
-    { GIMP_PDB_INT32,      "argc_rotation",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "rotation",          "rotation in degrees"},
-    { GIMP_PDB_INT32,      "argc_keyframe_abs", "number of controlpoints"},
-    { GIMP_PDB_INT32ARRAY, "keyframe_abs",      "n: fix controlpoint to this frame number, 0: for controlpoints that are not fixed to a frame."},
-
-    /* new CONTROLPOINT ARRAY items of the _ext[ended] API */
-    { GIMP_PDB_INT32,      "argc_ttlx",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "ttlx",          "perspective transformfactor for top left X Coordinate (0.0 upto 5.0, value 1.0 does no trasformation)"},
-    { GIMP_PDB_INT32,      "argc_ttly",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "ttly",          "perspective transformfactor for top left Y Coordinate (0.0 upto 5.0, value 1.0 does no trasformation)"},
-    { GIMP_PDB_INT32,      "argc_ttrx",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "ttrx",          "perspective transformfactor for top right X Coordinate (0.0 upto 5.0, value 1.0 does no trasformation)"},
-    { GIMP_PDB_INT32,      "argc_ttry",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "ttry",          "perspective transformfactor for top right Y Coordinate (0.0 upto 5.0, value 1.0 does no trasformation)"},
-    { GIMP_PDB_INT32,      "argc_tblx",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "tblx",          "perspective transformfactor for bottom left X Coordinate (0.0 upto 5.0, value 1.0 does no trasformation)"},
-    { GIMP_PDB_INT32,      "argc_tbly",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "tbly",          "perspective transformfactor for bottom left Y Coordinate (0.0 upto 5.0, value 1.0 does no trasformation)"},
-    { GIMP_PDB_INT32,      "argc_tbrx",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "tbrx",          "perspective transformfactor for bottom right X Coordinate (0.0 upto 5.0, value 1.0 does no trasformation)"},
-    { GIMP_PDB_INT32,      "argc_tbry",     "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "tbry",          "perspective transformfactor for bottom right Y Coordinate (0.0 upto 5.0, value 1.0 does no trasformation)"},
-    { GIMP_PDB_INT32,      "argc_sel",      "number of controlpoints"},
-    { GIMP_PDB_FLOATARRAY, "sel_feather_radius", "feather radius for selections"},
-  };
-  static int nargs_mov_path_ext = G_N_ELEMENTS (args_mov_path_ext);
-
-  static GimpParamDef args_mov_path_ext2[] =
-  {
-    {GIMP_PDB_INT32,        "run_mode",   "non-interactive"},
-    {GIMP_PDB_IMAGE,        "dst_image",  "Destination image (one of the video frames), where to insert the animated source layers"},
-    {GIMP_PDB_DRAWABLE,     "drawable",   "drawable (unused)"},
-    {GIMP_PDB_INT32,        "range_from", "destination frame nr to start"},
-    {GIMP_PDB_INT32,        "range_to",   "destination frame nr to stop (can be lower than range_from)"},
-    {GIMP_PDB_INT32,        "nr",         "layerstack position where to insert source layer (0 == on top)"},
-    /* source specs */
-    { GIMP_PDB_LAYER,      "src_layer_id",      "starting LayerID of SourceObject. (use any Multilayeranimated Image, or an video frame of anoter Animation)"},
-    { GIMP_PDB_INT32,      "src_stepmode",      "0-5     derive inserted object as copy of one layer from a multilayer src_image \n"
-                                                "100-105 derive inserted object as copy of merged visible layers of a source video frame \n"
-                                                "0:  Layer Loop  1: Layer Loop reverse  2: Layer Once  3: Layer Once reverse  4: Layer PingPong \n"
-                                                "5: None (use onle the selected src_layer)\n"
-                                                "100: Frame Loop  101: Frame Loop reverse  102: Frame Once  103: Frame Once reverse  104: Frame PingPong \n"
-                                                "105: Frame None (use onle the flat copy of the selected frame)\n"
-                                                },
-    { GIMP_PDB_INT32,      "src_handle",        "0: handle left top   1: handle left bottom \n"
-                                                "2: handle right top  3: handle right bottom \n"
-                                                "4: handle center"},
-    { GIMP_PDB_INT32,      "src_paintmode",     "4444: keep original paintmode of src_layer 0: GIMP_NORMAL_MODE (see GimpLayerModeEffects -- libgimp/gimpenums.h -- for more information)"},
-    { GIMP_PDB_INT32,      "src_force_visible", "1: Set inserted layres visible, 0: insert layers as is"},
-    { GIMP_PDB_INT32,      "clip_to_img",       "1: Clip inserted layers to Image size of the destination video frame, 0: dont clip"},
-    /* extras */
-    { GIMP_PDB_INT32,      "rotation_follow",   "0: NO automatic calculation (use the rotation array parameters as it is) \n"
-                                                "1: Automatic calculation of rotation, following the path vectors, (Ignore rotation array parameters)\n"},
-    { GIMP_PDB_FLOAT,      "startangle",        "start angle for the first contolpoint (only used if rotation-follow is on)"},
-
-    /* new features of the _ext[ended] API */
-    {GIMP_PDB_FLOAT,        "step_speed_factor",       "Allows stepping Source and Destination at different speed. (0.1 upto 50 where 1.0 does step snychron, 2.0 Src makes 2 Steps while Destination makes 1 step) "},
-    {GIMP_PDB_INT32,        "tween_steps",             "0 upto 50, Number of virtual Frames to calculate between 2 destination Frames. (use value 0 if no tween processing should be done)"},
-    {GIMP_PDB_FLOAT,        "tween_opacity_initial",   "opacity 0.0 upto 100.0 for the tween step that is nearest to the (next) real frame"},
-    {GIMP_PDB_FLOAT,        "tween_opacity_desc",      "descending opacity 0.0 upto 100.0  for the othertween steps"},
-    {GIMP_PDB_INT32,        "tracelayer_enable",       "TRUE: calculate a tracelayer (with all steps of the moving objects since first step)"},
-    {GIMP_PDB_FLOAT,        "trace_opacity_initial",   "opacity 0.0 upto 100.0 for the nearest tracestep to the actual destination frame"},
-    {GIMP_PDB_FLOAT,        "trace_opacity_desc",      "descending opacity 0.0 upto 100.0 for fading out older positions (that are done before the actual step)"},
-    {GIMP_PDB_INT32,        "apply_bluebox",           "TRUE: apply blubox filter (using bluebox param VALUES of last successful bluebox run)"},
-
-    /* CONTROLPOINTs from file */
-    { GIMP_PDB_STRING,     "pointfile",         "a file with contolpoints (readable text file with one line per controlpoint)"},
-  };
-  static int nargs_mov_path_ext2 = G_N_ELEMENTS (args_mov_path_ext2);
-
-
-
   static GimpParamDef args_f2multi[] =
   {
     {GIMP_PDB_INT32, "run_mode", "Interactive, non-interactive"},
@@ -443,7 +308,9 @@ GimpPlugInInfo PLUG_IN_INFO =
     {GIMP_PDB_DRAWABLE, "drawable", "Input drawable (unused)"},
     {GIMP_PDB_INT32, "range_from", "frame nr to start"},
     {GIMP_PDB_INT32, "range_to", "frame nr to stop (can be lower than range_from)"},
-    {GIMP_PDB_INT32, "flatten", "0 .. dont flatten image before save"},
+    {GIMP_PDB_INT32, "flatten", "0 .. dont flatten image before save, "
+                                "1 .. flatten before save,"
+                                "2 .. merge visible layers (cliped to image) and remove invisible layers before save"},
     {GIMP_PDB_INT32, "dest_type", "0=RGB, 1=GRAY, 2=INDEXED"},
     {GIMP_PDB_INT32, "dest_colors", "1 upto 256 (used only for dest_type INDEXED)"},
     {GIMP_PDB_INT32, "dest_dither", "0=no, 1=floyd-steinberg  2=fs/low-bleed, 3=fixed (used only for dest_type INDEXED)"},
@@ -459,7 +326,9 @@ GimpPlugInInfo PLUG_IN_INFO =
     {GIMP_PDB_DRAWABLE, "drawable", "Input drawable (unused)"},
     {GIMP_PDB_INT32, "range_from", "frame nr to start"},
     {GIMP_PDB_INT32, "range_to", "frame nr to stop (can be lower than range_from)"},
-    {GIMP_PDB_INT32, "flatten", "0 .. dont flatten image before save"},
+    {GIMP_PDB_INT32, "flatten", "0 .. dont flatten image before save, "
+                                "1 .. flatten before save,"
+                                "2 .. merge visible layers (cliped to image) and remove invisible layers before save"},
     {GIMP_PDB_INT32, "dest_type", "0=RGB, 1=GRAY, 2=INDEXED"},
     {GIMP_PDB_INT32, "dest_colors", "1 upto 256 (used only for dest_type INDEXED)"},
     {GIMP_PDB_INT32, "dest_dither", "0=no, 1=floyd-steinberg 2=fs/low-bleed, 3=fixed(used only for dest_type INDEXED)"},
@@ -807,85 +676,6 @@ query ()
                          nargs_exchg, nreturn_std,
                          args_exchg, return_std);
 
-  gimp_install_procedure(PLUGIN_NAME_GAP_MOVE,
-                         "This plugin copies layer(s) from one sourceimage to multiple frames on disk, varying position, size and opacity.",
-                         "For NONINTERACTIVE PDB interfaces see also (plug_in_gap_move_path_ext, plug_in_gap_move_path_ext2)",
-                         "Wolfgang Hofer (hof@gimp.org)",
-                         "Wolfgang Hofer",
-                         GAP_VERSION_WITH_DATE,
-                         N_("Move Path..."),
-                         "RGB*, INDEXED*, GRAY*",
-                         GIMP_PLUGIN,
-                         G_N_ELEMENTS (args_mov), nreturn_std,
-                         args_mov, return_std);
-
-  l_help_str = g_strdup_printf(
-                         "This plugin inserts one layer in each frame of the selected frame range of an Animation\n"
-                         " (specified by the dst_image parameter).\n"
-                         " An Animation is a series of numbered video frame images on disk where only the current\n"
-                         " Frame is opened in the gimp\n"
-                         " The inserted layer is derived from another (multilayer)image\n"
-                         " or from another Animation (as merged copy of the visible layers in a source frame)\n"
-                         " the affected destination frame range is selected by the range_from and range_to parameters\n"
-                         " the src_stepmode parameter controls how to derive the layer that is to be inserted.\n"
-                         " With the Controlpoint Parameters you can control position (coordinates),\n"
-                         " size, rotation, perspective and opacity values of the inserted layer\n"
-                         " If you want to move an Object from position AX/AY to BX/BY in a straight line within the range of 24 frames\n"
-                         " you need 2 Contolpoints, if you want the object to move folowing a path\n"
-                         " you need some more Controlpoints to do that.\n"
-                         " With the rotation_follow Parameter you can force automatic calculation of the rotation for the inserted\n"
-                         " layer according to the path vectors it is moving along.\n"
-                         " A controlpoint can be fixed to a special framenumber using the keyframe_abs controlpoint-parameter.\n"
-                         " Restictions:\n"
-                         " - keyframe_abs numbers must be 0 (== not fixed) or a frame_number within the affected frame range\n"
-                         " - keyframes_abs must be in sequence (ascending or descending)\n"
-                         " - the first and last controlpoint are always implicite keyframes, and should be passed with keyframe_abs = 0\n"
-                         " - the number of controlpoints is limitied to a maximum of %d.\n"
-                         "   the number of controlpoints must be passed in all argc_* parameters\n"
-                         "If the TraceLayer feature is turned on, an additional layer\n"
-                         "  is inserted below the moving object. This Tracelayer shows all steps\n"
-                         "  of the moving object since the 1st Frame.\n"
-                         "With TweenSteps you can calculate virtual Frames between 2 destination frames\n"
-                         "  all these Steps are collected in another additional Layer.\n"
-                         "  this Tweenlayer is added below the moving Obect in all handled destination Frames\n"
-                         "See also (plug_in_gap_move_path, plug_in_gap_move)",
-                         (int)GAP_MOV_MAX_POINT);
-
-  gimp_install_procedure(PLUGIN_NAME_GAP_MOVE_PATH_EXT,
-                         "This plugin copies layer(s) from one sourceimage or source animation to multiple frames on disk,\n"
-                         "with varying position, size, perspective and opacity.\n"
-                         ,
-                         l_help_str,
-                         "Wolfgang Hofer (hof@gimp.org)",
-                         "Wolfgang Hofer",
-                         GAP_VERSION_WITH_DATE,
-                         NULL,                      /* do not appear in menus */
-                         "RGB*, INDEXED*, GRAY*",
-                         GIMP_PLUGIN,
-                         nargs_mov_path_ext, nreturn_std,
-                         args_mov_path_ext, return_std);
-  g_free(l_help_str);
-
-  gimp_install_procedure(PLUGIN_NAME_GAP_MOVE_PATH_EXT2,
-                         "This plugin copies layer(s) from one sourceimage or source animation to multiple frames on disk,\n"
-                         "with varying position, size, perspective and opacity.\n"
-                         ,
-                         "This plugin is just another Interface for the MovePath (plug_in_gap_move_path_ext)\n"
-                         " using a File to specify Controlpoints (rather than Array parameters).\n"
-                         " Notes:\n"
-                         " - you can create a controlpoint file with in the MovePath Dialog (interactive call of plug_in_gap_move)\n"
-                         " - for more infos about controlpoints see help of (plug_in_gap_move_path)\n"
-                         ,
-                         "Wolfgang Hofer (hof@gimp.org)",
-                         "Wolfgang Hofer",
-                         GAP_VERSION_WITH_DATE,
-                         NULL,                      /* do not appear in menus */
-                         "RGB*, INDEXED*, GRAY*",
-                         GIMP_PLUGIN,
-                         nargs_mov_path_ext2, nreturn_std,
-                         args_mov_path_ext2, return_std);
-
-
 
   gimp_install_procedure(PLUGIN_NAME_GAP_RANGE_TO_MULTILAYER,
                          "This plugin creates a new image from the given range of frame-images. Each frame is converted to one layer in the new image, according to flatten_mode. (the frames on disk are not changed).",
@@ -1045,8 +835,9 @@ query ()
 
   gimp_install_procedure(PLUGIN_NAME_GAP_VIDEO_EDIT_COPY,
                          "This plugin appends the selected framerange to the video paste buffer"
-                         "the video paste buffer is a directory configured by gimprc (video-paste-dir )"
-                         "and a framefile basename configured by gimprc (video-paste-basename)",
+                         " the video paste buffer is a directory configured by gimprc (video-paste-dir )"
+                         " and a framefile basename configured by gimprc (video-paste-basename)"
+                         ,
                          "",
                          "Wolfgang Hofer (hof@gimp.org)",
                          "Wolfgang Hofer",
@@ -1059,13 +850,14 @@ query ()
 
   gimp_install_procedure(PLUGIN_NAME_GAP_VIDEO_EDIT_PASTE,
                          "This plugin copies all frames from the video paste buffer"
-                         "to the current video. Depending on the paste_mode parameter"
-                         "the copied frames are replacing frames beginning at current frame"
-                         "or are inserted before or after the current frame"
-                         "the pasted frames are scaled to fit the current video size"
-                         "and converted in Imagetype (RGB,GRAY,INDEXED) if necessary"
-                         "the video paste buffer is a directory configured by gimprc (video-paste-dir )"
-                         "and a framefile basename configured by gimprc (video-paste-basename)",
+                         " to the current video. Depending on the paste_mode parameter"
+                         " the copied frames are replacing frames beginning at current frame"
+                         " or are inserted before or after the current frame"
+                         " the pasted frames are scaled to fit the current video size"
+                         " and converted in Imagetype (RGB,GRAY,INDEXED) if necessary"
+                         " the video paste buffer is a directory configured by gimprc (video-paste-dir)"
+                         " and a framefile basename configured by gimprc (video-paste-basename)"
+                         ,
                          "",
                          "Wolfgang Hofer (hof@gimp.org)",
                          "Wolfgang Hofer",
@@ -1077,9 +869,10 @@ query ()
                          args_video_paste, return_std);
 
   gimp_install_procedure(PLUGIN_NAME_GAP_VIDEO_EDIT_CLEAR,
-                         "clear the video paste buffer by deleting all framefiles"
-                         "the video paste buffer is a directory configured by gimprc (video-paste-dir )"
-                         "and a framefile basename configured by gimprc (video-paste-basename)",
+                         "Clear the video paste buffer by deleting all framefiles"
+                         " the video paste buffer is a directory configured by gimprc (video-paste-dir)"
+                         " and a framefile basename configured by gimprc (video-paste-basename)"
+                         ,
                          "",
                          "Wolfgang Hofer (hof@gimp.org)",
                          "Wolfgang Hofer",
@@ -1128,10 +921,10 @@ query ()
      /* Menu names */
      const char *menupath_image_video = N_("<Image>/Video/");
      const char *menupath_image_video_goto = N_("<Image>/Video/Go To/");
- 
+
      //gimp_plugin_menu_branch_register("<Image>", "Video");
      //gimp_plugin_menu_branch_register("<Image>/Video", "Go To");
-    
+
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_NEXT, menupath_image_video_goto);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_PREV, menupath_image_video_goto);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_FIRST, menupath_image_video_goto);
@@ -1142,7 +935,6 @@ query ()
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_DUP, menupath_image_video);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_DENSITY, menupath_image_video);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_EXCHG, menupath_image_video);
-     gimp_plugin_menu_register (PLUGIN_NAME_GAP_MOVE, menupath_image_video);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_RANGE_TO_MULTILAYER, menupath_image_video);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_RANGE_FLATTEN, menupath_image_video);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_RANGE_LAYER_DEL, menupath_image_video);
@@ -1250,7 +1042,7 @@ run (const gchar *name
   image_id = param[1].data.d_image;
   if(!gap_image_is_alive(image_id))
   {
-     printf("GAP plug-in was called on INVALID IMAGE_ID:%d (terminating)\n", 
+     printf("GAP plug-in was called on INVALID IMAGE_ID:%d (terminating)\n",
                   (int)image_id);
      status = GIMP_PDB_EXECUTION_ERROR;
      values[0].data.d_status = status;
@@ -1534,166 +1326,6 @@ run (const gchar *name
         l_rc_image = gap_base_exchg(run_mode, image_id, nr);
       }
   }
-  else if (strcmp (name, PLUGIN_NAME_GAP_MOVE) == 0)
-  {
-      GapMovValues *pvals;
-
-      pvals = g_new (GapMovValues, 1);
-      if (run_mode == GIMP_RUN_NONINTERACTIVE)
-      {
-          status = GIMP_PDB_CALLING_ERROR;
-      }
-
-      if (status == GIMP_PDB_SUCCESS)
-      {
-        l_rc_image = gap_mov_exec_move_path(run_mode, image_id, pvals, NULL, 0, 0);
-      }
-      g_free(pvals);
-  }
-  else if ((strcmp (name, PLUGIN_NAME_GAP_MOVE_PATH_EXT) == 0)
-       ||  (strcmp (name, PLUGIN_NAME_GAP_MOVE_PATH_EXT2) == 0))
-  {
-      GapMovValues *pvals;
-      gchar        *pointfile;
-      gint          l_idx;
-      gint          l_numpoints;
-      gint          l_rotation_follow;
-      gint32        l_startangle;
-
-      pointfile = NULL;
-      pvals = g_new (GapMovValues, 1);
-      l_rotation_follow = 0;
-      l_startangle = 0;
-
-      pvals->dst_image_id = image_id;
-      pvals->tmp_image_id = -1;
-      pvals->tmpsel_image_id = -1;
-      pvals->tmpsel_channel_id = -1;
-      pvals->apv_mode = 0;
-      pvals->apv_src_frame = -1;
-      pvals->apv_mlayer_image =  -1;
-      pvals->apv_gap_paste_buff = NULL;
-      pvals->apv_framerate = 24;
-      pvals->apv_scalex = 100.0;
-      pvals->apv_scaley = 100.0;
-      pvals->cache_src_image_id = -1;
-      pvals->cache_tmp_image_id = -1;
-      pvals->cache_tmp_layer_id = -1;
-      pvals->cache_frame_number = -1;
-      pvals->cache_ainfo_ptr = NULL;
-      pvals->point_idx = 0;
-      pvals->point_idx_max = 0;
-      pvals->src_apply_bluebox  = 0;
-      pvals->bbp  = NULL;
-
-      pvals->step_speed_factor = 1.0;
-      pvals->tracelayer_enable = FALSE;
-      pvals->trace_opacity_initial = 100.0;
-      pvals->trace_opacity_desc = 80.0;
-      pvals->tween_steps = 0;
-      pvals->tween_opacity_initial = 80.0;
-      pvals->tween_opacity_desc = 80.0;
-
-      if (run_mode == GIMP_RUN_NONINTERACTIVE)
-      {
-        if ( ((n_params != nargs_mov_path_ext)  && (strcmp (name, PLUGIN_NAME_GAP_MOVE_PATH_EXT)  == 0))
-        ||   ((n_params != nargs_mov_path_ext2) && (strcmp (name, PLUGIN_NAME_GAP_MOVE_PATH_EXT2) == 0)))
-        {
-          status = GIMP_PDB_CALLING_ERROR;
-        }
-        else
-        {
-           pvals->dst_range_start   = param[3].data.d_int32;
-           pvals->dst_range_end     = param[4].data.d_int32;
-           pvals->dst_layerstack    = param[5].data.d_int32;
-
-           pvals->src_layer_id      = param[6].data.d_layer;
-           pvals->src_stepmode      = param[7].data.d_int32;
-           pvals->src_handle        = param[8].data.d_int32;
-           pvals->src_paintmode     = param[9].data.d_int32;
-           pvals->src_force_visible = param[10].data.d_int32;
-           pvals->clip_to_img       = param[11].data.d_int32;
-
-           l_rotation_follow        = param[12].data.d_int32;
-           l_startangle             = param[13].data.d_float;
-
-           pvals->step_speed_factor      = param[14].data.d_float;
-           pvals->tween_steps            = param[15].data.d_int32;
-           pvals->tween_opacity_initial  = param[16].data.d_float;
-           pvals->tween_opacity_desc     = param[17].data.d_float;
-           pvals->tracelayer_enable      = param[18].data.d_int32;
-           pvals->trace_opacity_initial  = param[19].data.d_float;
-           pvals->trace_opacity_desc     = param[20].data.d_float;
-           pvals->src_apply_bluebox      = param[21].data.d_int32;
-           pvals->src_selmode            = param[22].data.d_int32;
-
-           if (strcmp (name, PLUGIN_NAME_GAP_MOVE_PATH_EXT)  == 0)
-           {
-              /* PLUGIN_NAME_GAP_MOVE_PATH_EXT passes controlpoints as array parameters */
-              l_numpoints = param[23].data.d_int32;
-              if ((l_numpoints != param[25].data.d_int32)
-              ||  (l_numpoints != param[27].data.d_int32)
-              ||  (l_numpoints != param[29].data.d_int32)
-              ||  (l_numpoints != param[31].data.d_int32)
-              ||  (l_numpoints != param[33].data.d_int32)
-              ||  (l_numpoints != param[35].data.d_int32)
-              ||  (l_numpoints != param[37].data.d_int32)
-              ||  (l_numpoints != param[39].data.d_int32)
-              ||  (l_numpoints != param[41].data.d_int32)
-              ||  (l_numpoints != param[43].data.d_int32)
-              ||  (l_numpoints != param[45].data.d_int32)
-              ||  (l_numpoints != param[47].data.d_int32)
-              ||  (l_numpoints != param[49].data.d_int32)
-              ||  (l_numpoints != param[51].data.d_int32)
-              ||  (l_numpoints != param[53].data.d_int32))
-              {
-                printf("plug_in_gap_move_path_ext: CallingError: different numbers in the controlpoint array argc parameters\n");
-                status = GIMP_PDB_CALLING_ERROR;
-              }
-              else
-              {
-                pvals->point_idx_max = l_numpoints -1;
-                for(l_idx = 0; l_idx < l_numpoints; l_idx++)
-                {
-                   pvals->point[l_idx].p_x = param[24].data.d_int32array[l_idx];
-                   pvals->point[l_idx].p_y = param[26].data.d_int32array[l_idx];
-                   pvals->point[l_idx].opacity  = param[28].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].w_resize = param[30].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].h_resize = param[32].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].rotation = param[34].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].keyframe_abs = param[36].data.d_int32array[l_idx];
-                   /* pvals->point[l_idx].keyframe = ; */ /* relative keyframes are calculated later */
-                   pvals->point[l_idx].ttlx = param[38].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].ttly = param[40].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].ttrx = param[42].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].ttry = param[44].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].tblx = param[46].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].tbly = param[48].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].tbrx = param[50].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].tbry = param[52].data.d_floatarray[l_idx];
-                   pvals->point[l_idx].sel_feather_radius = param[54].data.d_floatarray[l_idx];
-                }
-              }
-           }
-           else
-           {
-              /* PLUGIN_NAME_GAP_MOVE_PATH_EXT2 operates with controlpoint file */
-              if(param[23].data.d_string != NULL)
-              {
-                 pointfile = g_strdup(param[23].data.d_string);
-              }
-           }
-        }
-
-      }
-
-      if (status == GIMP_PDB_SUCCESS)
-      {
-        l_rc_image = gap_mov_exec_move_path(run_mode, image_id, pvals, pointfile, l_rotation_follow, (gdouble)l_startangle);
-      }
-      g_free(pvals);
-      if(pointfile != NULL) g_free(pointfile);
-  }
   else if (strcmp (name, PLUGIN_NAME_GAP_RANGE_TO_MULTILAYER) == 0)
   {
       *nreturn_vals = nreturn_f2multi + 1;
@@ -1829,7 +1461,7 @@ run (const gchar *name
         image_id    = param[1].data.d_image;
         range_from  = param[3].data.d_int32;  /* frame nr to start */
         range_to    = param[4].data.d_int32;  /* frame nr to stop  */
-        nr          = param[5].data.d_int32;  /* flatten (0 == no , 1 == flatten) */
+        nr          = param[5].data.d_int32;  /* flatten (0 == no , 1 == flatten, 2 == merge visible) */
         dest_type   = param[6].data.d_int32;
         dest_colors = param[7].data.d_int32;
         dest_dither = param[8].data.d_int32;

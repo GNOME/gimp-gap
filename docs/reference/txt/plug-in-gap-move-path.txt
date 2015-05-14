@@ -293,13 +293,13 @@ Move Path (make things move)
            
          
          - Speed:
-	   If no keyframes are set,
+	   If no keyframes are set, and acceleration characteristic value 0 is specified
            the "Move Path" plug-in alternates the settings linear from
            controlpoint to controlpoint, so things move (or happen) in constant speed
            between 2 controlpoints.
            
-           If you want to make accelerated moving obcets, you'll
-           have to set more controlpoints with growing distances.
+           If you want to make accelerated moving obcets, you
+           can set more controlpoints with growing distances.
            
            Example:
            
@@ -313,7 +313,109 @@ Move Path (make things move)
            but each part has another length. This results in different
            (growing) speeds for each part of the path.
            
+      Acceleration characteristic:
+      ---------------------------
            
+        Since GIMP-GAP-2.7 speed can be controled with acceleration
+        characteristic presets. Those presets are integer values
+        where value 1 defines constant speed along a path segment,
+        indepent to the distance between the controlpoints of the path segment.
+        (How to define path segments see chapter Keyframes below)
+        positive values result in acceleration, negative values in deceleration.
+        
+
+	        
+	0 ... implicite speed control, compatible to GAP 2.6.x and older releases
+	      (This is the default setting for all acceleration characteristic values)
+	      Each line between 2 contolpoints gets an equal time slot (e.g number of frames)
+	      The speed between 2 controlpoints is constant, but depends on the length of the line,
+	      where short lines result in low speed and long lines result in high speed.
+              
+        For all other Acceleration characteristic values than 0
+        the line length between controlpoints does not affect
+        the speed of the moving object.
+
+
+        1        ... Constant Speed 
+                     object moves through a path segment with constant speed.
+                     A path segment includes all path lines beween two keyframes
+                     (note that first and last controlpoint are considered as keyframes
+                     without explicite keyframe value)
+                     
+                     In this mode the line length between controlpoints does not affect
+                     the speed of the moving object.
+
+        positive value ...Acceleration                 
+                     object moves through a path segment with increasing speed.
+                     higher values result in slower speed at start and higher speed at end
+                     of the path segment
+
+        positive value  ...Deceleration
+                     object moves through a path segment with decreasing speed.
+
+
+        Acceleration characteristic values can be specified independent for
+        o) Movement     ... Movent of the object
+        o) Opacity      ... To control speed of the opacity changes
+        o) Size         ... To control speed of size changes (e.g. zooming)
+        o) Rotation     ... To control speed of object rotation
+        o) Perspective  ... To control speed of object perspective transformations
+        o) FeatherRadius... To control speed of selection fether radius changes
+
+        Each of those values can be changed in the Acceleration Tab
+        with a spinbutton where you can enter a value.
+        A graph next to the spinbutton shows the selected acceleration characteristic curve.
+        The acceleration characteristic can also be changed by
+        clicking on th graph and dragging vertically with the mouse.
+	
+	A straight line from left bottom to right top corner of the graph
+	is drawn for value 1 that represents constant speed.
+        
+
+
+        Acceleration characteristics are only relevant on the 1st controlpoint, 
+        and controlpoints that are marked as KEYFRAME but not on other controlpoints.
+        For controlpoints that are not relevant, the spinbutton widgets in the
+        acceleration characteristic tab are disabled.
+
+        In case acceleration characteristic values != 0 are used for any other settings than movement
+        all controlpoint settings other than positionm (X/Y) of NON-keyframes are ignored.
+        (note that first and last controlpoint are
+         implicite keyframes and therefore always relevant)
+         
+        Example:
+           have a path with 10 controlpoints, none of them marked as keyframe
+           specifiy rotation 0 for first controlpoint, rotation 360 for the last
+           controlpoint and select both Acceleration characteristic for Movement
+           and Rotation value 1 (for constant speed)
+           
+           This settings move the object along the path of 10 points and rotate it
+           with constant speed from 0 to 360 degree, regardless what rotation settings
+           are define in controlpoints 2,3,4,5,6,7,8,9.
+
+        
+        Speed of the moving object can be controled for each segment of the path,
+        where a segment is the distance to the next KEYFRAME. In case there are no
+        explicite Keyframes the path has only one segment with full length
+        from the first to the last controlpoint.
+
+
+        When acceleration characteristic other than 0 is used for movement, 
+        but not for other transitions (rotation, opacity ...), then the move path
+        tool automatically syncronizes frame timing for those other transitions
+        with the frametiming of the movement. 
+        
+        Example:
+          Have a path with 5 controlpoints and no explicite keyframe set.
+          At the first controlpoint secify acceleration caracteristic 12
+          for movement to start slow and increase speed of the moving
+          object while moving along the path.
+          Further let rotation of the object follow the path
+          (generate the rotation settings by pressing the "Rotate Follow" button)
+          
+          In this example the rotation follows the current postion of the
+          moving object with the same acceleration as the movement.
+
            
     - Keyframes
         
@@ -331,10 +433,73 @@ Move Path (make things move)
 	Keyframes are shown as absolute frame number
 	in the "Move Path" dialog window, but they
 	are saved as relative values in the
-	pointfile.
+	controlpointfile.
 	(if start frame = 5
 	 and a keyframe is displayed as 7
 	 the keyframe is internally stored as 2 (7 - 5)
+	 
+	Keyframes are also used to define path segments.
+	Where a Path segment includes all following controlpoints
+        until the next Keyframe.
+        
+        Independent acceleration characteristics can be set at
+        those controlpoints that are the begin of a path segment.
+        (e.g the 1st controlpoint and all keyframes)
+        
+        The current Segment Number, current segment length (in pixels)
+        and minimal / maximal speed (in pixels per tween) are displayed
+        below the preview.
+        The current Segment is the segment that includes the current
+        displayed controlpoint.
+        
+        Example:
+          You have 500 frames and want to render an object
+          that stands still at coordinate 320/200 in the 1st 50 frames,
+          than accelerates until frame 150, moves with constant speed
+          until frame 400, decelerates until frame 450 and stays still
+          at coordinate 470/150 until the end frame 500.
+          
+          Tip: 
+          To avoid unwanted speed jumps in this multi segmented
+          example, the controlpoints should be set in a way 
+          that max speed value of segment B is nearly equal
+          to the max speed value of Segment C and segment D.
+          Note that changes of control point coordinates affect the
+          length of the path segment, acceleration characteristic,
+          and number of involved frames (or tweens) also have
+          influence on the speed of the object within a segment.
+          
+        
+        #Segment  A  (standstill in Segment Number 0)
+        [ 0]  x:320 y:200
+
+        #Segment B  (increasing speed due to acceleration value 20 for Movement)
+        [ 1]  x:320 y:200  keyframe:50    acceleration Movement: 20
+        [ 2]  x:330 y:210
+        [ 3]  x:350 y:200
+        [ 4]  x:360 y:190
+
+        #Segment C  (move with constant speed due to acceleration value 1 for Movement)
+        [ 5]  x:362 y:170  keyframe:150   acceleration Movement: 1
+	[ 6]  ...
+	[ 7]  ...
+	[ 8]  ...
+	[ 9]  ...
+	[10]  ...       
+	
+        #Segment D  (decreasing speed due to acceleration value -15 for Movement)
+        [11]  x:500 y:150  keyframe:400   acceleration Movement: -15
+        [12]  x:490 y:160
+        [13]  x:475 y:155
+        [14]  x:475 y:155
+
+        #Segment E  (standstill)
+        [15]  x:470 y:150  keyframe:450
+        [16]  x:470 y:150
+
+
+
+	 
 	 
      - Checking Controlpoints
         - The check is done at "OK", and "Anim Preview"
@@ -387,7 +552,7 @@ Move Path (make things move)
 
 
     "Move Path" advanced settings
-    --------------------------
+    -----------------------------
     
     - Bluebox
          With the bluebox check_button you can apply the bluebox filter effect

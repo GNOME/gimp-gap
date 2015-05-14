@@ -17,8 +17,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* Revision history
@@ -223,6 +223,12 @@ static GapPlayerMainGlobalParams global_params =
 , NULL                /* GtkWidget *audio_enable_checkbutton */
 
 , NULL                /* GapDrawableVideoRef  *dvref_ptr */
+, FALSE               /* gboolean     enableDetailTracking */
+, GAP_PLAYER_MAIN_DEFAULT_CACHE_NTILES  /* gulong cache_ntiles */
+, NULL                /* GtkObject *cache_ntiles_spinbutton_adj */
+, NULL                /* GtkWidget   *detail_tracking_checkbutton */
+, TRUE                /* gboolean     enableAutoSkipMissingFrames */
+, NULL                /* GtkWidget   *autoSkipMissingFrames_checkbutton */
 };
 
 

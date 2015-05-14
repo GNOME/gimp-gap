@@ -1,0 +1,111 @@
+"plug-in-waterpattern"
+
+Water Pattern Filter:
+
+    Start from Menu:
+
+      "<Image>/Video/Layer/Render/Water Pattern..."
+
+
+   This plug-in generates an animated water effect that looks like the bottom of a ripple tank.
+   It can render the animation in one call, 
+      where  the input drawable is copied n-times to a newly created image
+      and renders the water pattern with slightly shifted on each copy.
+      (in this case the amount of phase shifting 
+
+
+   Note that this Plugin will create an additional image when the option
+   for creating patterns is selected. 
+   If you intend to record the Plugin using GIMP-GAP filtermacro feature
+   or want to be able to reproduce the exactly same same results in another GIMP session
+   You have to save this image to disc (using the XCF file format)
+
+  Animation options:
+  
+    Create Image: (checkbutton)
+      
+      ON:  create a new image with n copies of the input drawable
+           and render complete animation effect on those copies.
+      OFF: render only one frame/phase of the animation effect on
+           the input drawable.
+           (This type of call must be selected in case you call this plug-in
+           via the GIMP-GAP filter all layers feature)
+
+     N-Frames: (spinbutton)
+           Number of frames to be rendered as layer in the newly created image.
+           In this mode the vertical and horizontal shift value 
+           per frame is calculated automatically
+           for each frame varying from 0.0 to Phase Shift X (Y) value.
+           Select 1.0 (or multiples of 1.0) to create an animation 
+           that can be played in seamless loop.
+           (disabled in case Create Image: OFF is selected)
+
+     Phase shift X / Y: (2 spinbuttons)
+           Horizontal (Vertical) shift phase where 1.0 refers to image width (height)
+       
+  Pattern options:
+     Widgets to control the water pattern cloud layers that are used as base
+     for rendering the animated water effect.
+     
+     Create Pattern: (checkbutton)
+       ON:  create waterpattern cloud layers according to pattern options. 
+       OFF: Use (already existing) external pattern layers.
+
+
+     Layer Pattern 1 / 2:
+            Select an already existing pattern layer (from previous run)
+            
+     Scale Pattern X/Y:  (2 spinbuttons)
+            Horizontal/Vertical scaling of the random patterns that is
+            created for rendering the water highlights and displacement effects
+            (cloud layer1 and 2)
+            
+     Seed Pattern 1 / 2:  (2 spinbuttons)
+            Seed values for creating random patterns (cloud1 and cloud2 layers) 
+            use 0 for random value.
+
+  Render options:
+  
+     Use Highlights: (checkbutton)
+       ON:  Render water pattern highlight effect
+       OFF: Disable higlight effect.
+     
+     Opacity:  (spinbutton)
+            The highlight strength (e.g. opacity)
+            
+     Blend Mode: (radio buttons)
+            Selects the blend mode to be used to combine the patterns (cloud1 and cloud2 layers)
+            Follwing modes are available:
+            "Overlay"
+            "Addition"
+            "Screen"
+            "Dodge"
+            
+     Use Displace Map: (checkbutton)
+       ON:  Render water pattern distortion effect by applying a displace map
+            that is genarated by combining both patterns (cload1 and cloud2 layer)
+       OFF: Disable distortion rendering.
+
+     Displace Strength: (spinbutton)
+            The distortion displace strength.
+            Note that values grater than 0.02 results in heavy
+            distrotions (that does not look naturally).
+
+
+  
+  How it works:
+
+  This filter generates two layers with tileable solid noise, 
+  and sets the top layer to difference mode. This creates dark "bands" where the values of each layer cross. 
+  This result is normalized and has the curves filter applied to bring out the bands in white instead of black. 
+  This result is blended over the base layer (the one that was active when the script is called) 
+  with the chosen blend mode. 
+  With create Image option swithced ON this entire procedure is repeated for each frame, 
+  with slight offsets of the solid noise (e.g cloud 1 & 2 ) layers, so the bands are shifted slightly each time. 
+  The offsets are the size of the image multiplied by phase value and divided by the number of frames.
+  In case phase value 1 (or multiples of 1) is used at the end (processing of last layer)
+  the solid noise layers are back where they started, and the entire animation loops seamlessly.
+  Note that phase values control control the speed of the animation effect where higher values
+  result in faster speed.
+
+

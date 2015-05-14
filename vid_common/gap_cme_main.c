@@ -29,8 +29,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 
@@ -151,7 +151,7 @@ query ()
                          " and passed to the selected videoencoder plug-in as temporary file."
                          " (or direct if format and samplerate already matches the desired target samplerate)."
                          " The videoformat is defined with vid_enc_plugin parameter. The specified plugin "
-                         " is called with the Parameters specified in the dialog. for noninteractive calls"
+                         " is called with the parameters specified in the dialog. for noninteractive calls"
                          " default values will be used. (you may call the desired plugin directly if you"
                          " want to specify non-interacive parameters"),
                          "Wolfgang Hofer (hof@gimp.org)",

@@ -22,8 +22,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -79,6 +79,34 @@ static char *global_plugin_data = NULL;
 
 static char * p_filt_pdb_get_alternative_iterator_proc(char *plugin_name, gint *count);
 static gint   p_count_iterable_params(gchar *key_description, gint   desc_size);
+
+static void 
+p_setGapLastvalAnimatedCallInfo(gint32 total_steps, gdouble current_step)
+{
+  GapLastvalAnimatedCallInfo  animCallInfo;
+
+  animCallInfo.animatedCallInProgress = TRUE;
+  animCallInfo.total_steps = total_steps;
+  animCallInfo.current_step = current_step;
+  gimp_set_data(GAP_LASTVAL_KEY_ANIMATED_CALL_INFO
+               , &animCallInfo
+               , sizeof(animCallInfo)
+               ); 
+}
+
+static void 
+p_clearGapLastvalAnimatedCallInfo()
+{
+  GapLastvalAnimatedCallInfo  animCallInfo;
+
+  animCallInfo.animatedCallInProgress = FALSE;
+  animCallInfo.total_steps = 0;
+  animCallInfo.current_step = 0.0;
+  gimp_set_data(GAP_LASTVAL_KEY_ANIMATED_CALL_INFO
+               , &animCallInfo
+               , sizeof(animCallInfo)
+               ); 
+}
 
 /* ------------------------
  * gap_filt_pdb_call_plugin
@@ -184,14 +212,23 @@ gap_filt_pdb_call_plugin(char *plugin_name, gint32 image_id, gint32 layer_id, Gi
   l_rc = -1;
   if (l_ret_params[0].data.d_status != GIMP_PDB_SUCCESS)
   {
-    printf("ERROR: gap_filt_pdb_call_plugin %s failed.\n", plugin_name);
+    printf("ERROR: gap_filt_pdb_call_plugin %s failed with status:%d\n"
+       , plugin_name
+       ,(int)l_ret_params[0].data.d_status
+       );
   }
   else
   {
-    if(gap_debug) printf("DEBUG: gap_filt_pdb_call_plugin: %s successful.\n", plugin_name);
+    if(gap_debug)
+    {
+      printf("DEBUG: gap_filt_pdb_call_plugin: %s successful.\n", plugin_name);
+    }
     l_rc = 0;  /* OK */
   }
   gimp_destroy_params(l_ret_params, l_retvals);
+
+  p_clearGapLastvalAnimatedCallInfo();
+  
   return(l_rc);
 }  /* end gap_filt_pdb_call_plugin */
 
@@ -748,6 +785,15 @@ gap_filter_iterator_call(const char *iteratorname
   gboolean        l_rc;
 
   l_rc = TRUE;
+  
+  /* set information about the current processed step of an animated filtercall
+   * This information is provided to be queried from called plugins
+   * so those filters can detect that they are called in animated style
+   * (most plugins do not need this information. one example is the
+   * gap_fire_pattern filter that uses this information to implement
+   * iteration of colorsamples of 2 different gradients)
+   */
+  p_setGapLastvalAnimatedCallInfo(total_steps, current_step);
   
   /* call plugin-specific iterator (or the common iterator), to modify
    * the plugin's last_values

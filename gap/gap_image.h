@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -34,7 +34,7 @@
 
 #include "config.h"
 
-/* SYTEM (UNIX) includes */ 
+/* SYTEM (UNIX) includes */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -53,6 +53,12 @@ gint32    gap_image_get_any_layer(gint32 image_id);
 gint32    gap_image_merge_to_specified_layer(gint32 ref_layer_id, GimpMergeType mergemode);
 gboolean  gap_image_set_selection_from_selection_or_drawable(gint32 image_id, gint32 ref_drawable_id
                               , gboolean force_from_drawable);
+void      gap_image_remove_invisble_layers(gint32 image_id);
+void      gap_image_remove_all_guides(gint32 image_id);
+void      gap_image_limit_layers(gint32 image_id, gint keepTopLayers,  gint keepBgLayers);
+
+gint32    gap_image_create_unicolor_image(gint32 *layer_id, gint32 width , gint32 height
+                       , gdouble r_f, gdouble g_f, gdouble b_f, gdouble a_f);
 
 
 #endif

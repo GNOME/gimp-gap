@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -35,6 +35,10 @@
 
 #ifndef _GAP_MOD_LAYER_H
 #define _GAP_MOD_LAYER_H
+
+#include <libgimp/gimp.h>
+#include <libgimp/gimpui.h>
+#include "gap_libgapbase.h"
 
 #define MAX_LAYERNAME 128
 
@@ -129,5 +133,13 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
                    gint32 action_mode, gint32 sel_mode,
                    gint32 sel_case, gint32 sel_invert,
                    char *sel_pattern, char *new_layername);
+
+gint32  gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
+                   long range_from, long range_to,
+                   gint32 action_mode, gint32 sel_mode,
+                   gint32 sel_case, gint32 sel_invert,
+                   char *sel_pattern, char *new_layername,
+                   GtkWidget *progress_bar,
+                   gboolean *run_flag);
 
 #endif

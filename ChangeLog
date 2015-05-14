@@ -1,3 +1,2040 @@
+2015-05-14 Wolfgang Hofer <hof@gimp.org>
+- copied features and fixes (that are still GIMP-2.6 compatible)
+  from GIT master to gap-2-6 branch.
+  This is not an official release, but GIMP-GAP development 
+  in the HEAD of GIT repository from now on will require GIMP-2.8 or later
+ 
+2014-02-27 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug in the GAP video API that caused endless loop in
+  ffmpeg based video index creation.
+  (p_wrapper_ffmpeg_get_next_frame retcode was not returned to the caller !)
+
+- video index creator and player dialog:
+    video index creation now shows the current frame count in the progress bar.
+    This is done because the total number of frames to process is just a guess
+    and the percentage is kept at constant level if there are (much) more frames to process
+    (than assumed in the initial guess.)
+
+  * libgapvidapi/gap_vid_api_ffmpeg.c
+  * gap/gap_player_dialog.c
+  * gap/gap_video_index_creator.c
+
+
+2014-02-22 Wolfgang Hofer <hof@gimp.org>
+
+
+- applied fix for the foreground matting feature as suggested at bug #723818
+  The warning "Problem!: final_confidence: %f\n" now shall be printed only in critical case.
+
+  TODO: Note that GAP still uses a copy of the old foreground matting implementation
+  The already available GEGL implementation will be used in future GAP versions
+  targeted for the use with GIMP 2.10.
+
+  * gap/gap_fg_matting.c
+  * gap/gap_fg_matting_main.c
+
+
+2014-01-12 Wolfgang Hofer <hof@gimp.org>
+- support for RAW files as "readonly" frame sequences for processing 
+  as high bit depth video source in MovePath operations or Storyboard Clips.
+  
+  Note that the final video encoding (ffmpeg engine) still operates at 8 bit depth
+  (This will not change in the near future) but rendering in GIMP
+  can be done at higher bit depth.
+  
+  This feature was implemented to support rendering videos
+  based on RAW frame sequences 
+  (.cr2 files of a timelapse sequence shot on Canon EOS DSLR camera)
+  
+  To use RAW files you need a file load plug in that is capable to load
+  RAW files without truncating them to 8 bit depth
+  in non-interactive way (e.g. without opening a dialog
+  for each processed frame)
+  
+  For my tests i used the 3rd party plug-in UFRaw (version 0.19.2)
+  but it did not work properly out of the box.
+  workaround: I patched the source ufraw-gimp.c by commenting out the line:
+  //    if (run_mode == GIMP_RUN_NONINTERACTIVE) uf->conf->shrink = 8; 
+  
+  // because this causes loading at reduced size 1/8
+  // (i have no idea what is it good for ??)
+  
+  new gimprc parameters
+  ---------------------
+  o) (gap-load-ufraw-%s "yes")
+     force explicite call of the UFRaw file load plugin
+     whenever GIMP-GAP loads a frame image non-interactive mode.
+     
+  
+  o) (video-save-mode-for-%s "readonly")
+     # NON-XCF frame processing/export overwrite behaviour:
+        possible configuration values are:
+         "overwrite"
+           automaticaly overwrite the discfile image that corresponds 
+           to the current frame (which is opened in the gimp session)
+           on frame exchange opertions (such as go to next/previous frame)
+           where the file save plug-in is called with the backround layer as active layer.
+           
+         "overwrite_flattened"
+           automaticaly overwrite the discfile image that corresponds 
+           to the current frame (which is opened in the gimp session)
+           on frame exchange opertions (such as go to next/previous frame)
+           where the current frame is flattened before calling the file save plug-in.
+       
+         "readonly"
+           frame exchange will fail in case the current frame image has
+           unsaved changes (e.g. the dirty flag is set).
+           GIMP-GAP does not overwrite frame files on disc in this mode.
+           It is intended for fileformats where export/overwrite
+           is not available or not wanted.
+       
+         "readonly_discard"
+           GIMP-GAP does not overwrite frame files on disc in this mode,
+           but discards unsaved changes without any notice on frame exchange.
+           USE THIS ONLY WHEN YOU KONW WHAT YOUR DIONG ON YOUR OWN RISK !
+
+
+
+  * gap/gap_lib.c
+  * gap/gap_pdb_calls.c [.h]
+  * docs/reference/txt/gap_gimprc_params.txt
+
+2014-01-12 Wolfgang Hofer <hof@gimp.org>
+
+- audio resample via external tool (sox) did not work in WINDOWS environment.
+  The old code was restricted to Unix only.
+  Fixed the parameter substitution and use g_spawn_sync for the external audio converter call
+  that now shall work on other operating systems than unix.
+  
+  tests on windows with sox as external converter were successful,
+  but only in case when the external converter was configured with
+  the full absolute path.
+  sox is available on Linux, Windows, and MacOSX
+  see http://sox.sourceforge.net/
+
+  (note that this fix was already done 2013-01-16 in my local 
+   environment and already mentioned in the commit message on that date
+   .. but the file gap/gap_story_sox.c was forgotten to be added in the commit
+   .. now i recognized that mistake and can provide the fix)
+
+  * gap/gap_story_sox.c
+
+2013-11-09 Wolfgang Hofer <hof@gimp.org>
+  - fixed comment lines 
+    (related to #711402)
+ 
+   OLD:
+     * along with this program; if not, write to the Free Software
+
+   NEW:
+    * License along with this library.  If not, see
+
+   (due to a bug in my "replace in all sources" scripts
+    this changes were not performed at the previous attempt)
+
+
+  * This again touched nearly all *.c and *.h files
+  
+2013-11-09 Wolfgang Hofer <hof@gimp.org>
+  - replaced more software address of Free software foundation 
+     OLD: * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+     NEW: * <http://www.gnu.org/licenses/>.
+
+2013-11-09 Wolfgang Hofer <hof@gimp.org>
+  - replaced outdated Incorrect software address of Free software foundation 
+    from comments (assuggested in #711402)
+ 
+   OLD:
+     * You should have received a copy of the GNU General Public License
+     * along with this program; if not, write to the Free Software
+     * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+   NEW:
+    * You should have received a copy of the GNU Lesser General Public
+    * License along with this library.  If not, see
+    * <http://www.gnu.org/licenses/>.
+  
+  * This touched nearly all *.c and *.h files
+  
+2013-07-21 Wolfgang Hofer <hof@gimp.org>
+
+
+- Moved render framename feature to submenu.
+   from menu  <Image>/Video/Filename to Layer
+   to menu    <Image>/Video/Layer/Render/Filename to Layer
+ 
+   
+- added support for processing of incomplete frame sequences where some frame images are missing.
+  old behaviour handled this case as error condition and stopped processing.
+  new behaviour makes attempts to find the next available framenumber and continues
+  processing when a next frame image can be found.
+
+  The implemted strategy checks some (10) potential next frame numbers
+  and triggers a directory scan (that is more expensive tha a single file exists check)
+  in case when more frames are missing.
+  Example how this works:
+  
+      IMG_0050.XCF
+      IMG_0051.XCF
+      ............   (frames 52 to 59 are missing and will be checked via
+                      if (IMG_nr.XCF exists) in a loop.
+                      processing continues with IMG_0060.XCF)
+      IMG_0060.XCF
+      IMG_0061.XCF
+      IMG_0062.XCF
+      ............   (frames 62 to 89 are missing
+                      after 10 failed attempts if (IMG_nr.XCF exists)
+                      a directory scan is performed to find the next framenumber 90
+                      and processing continues with IMG_0090.XCF)
+      IMG_0090.XCF
+      
+  The following features (menu entries) were updated
+  to support the new behaviour:
+
+   Video/Go to/Next Frame
+   Video/Go to/Previous Frame
+   Video/Delete Frames
+   Video/Duplicate Frames
+   Video/Frames To Image
+   Video/Frames Flatten
+   Video/Frames Layer Delete
+ 
+   Video/Frames Convert
+   Video/Frames Resize
+   Video/Frames Crop
+   Video/Frames Scale
+   Video/Frame Sequence Shift
+   Video/Frame Sequence Reverse
+   Video/Frames Renumber
+   Video/Frames Modify
+
+   Video/VCR navigator
+     - dont show old thumbnails when corresponding image does (no longer) exits.
+     - show icons for all frames in range from first frame number up to last frame number.
+       all missing frames are shown but rendered as default icon.
+
+   Video/Onionskin/*
+     process all available frames in range but no longer stop
+     when frames are missing.
+     skip onionskin rendering whenever referenced frame 
+          (at number +n or -n) is not available.
+
+   Video/Playback   
+    implemented new preferences option to automatically skip missing frames at playback
+    OFF: missing frame images are shown as fully transparent (checker board) 
+    ON:  automatically step over missing frames
+    
+    this option is persisted as new gimprc parameter
+        "video_player_enable_auto_skip_missing_frames"
+        
+   Video/Movepath   
+    autoskip rendering of missing frames.
+    (and also skip missing frames in the moving object
+    when Frame based source stepmodes are used)
+
+
+   NOTE:
+      Missing frames in storyboard clips (with cliptype frames)
+      are still handled as ERROR.
+      .. and there are no plans to support autoskip of the missing frames there.
+         Because this would 
+         - remarkable slow down both storyboard rendering and editing.
+           To get the amount of frames included in a clip
+           this feature would require a directory scan
+           and not just a simple calculation 1 + (end_range - start_range)
+         - be much effort and makes the code more complex..
+
+
+           
+
+
+  * gap/gap_lib.c [.h]
+  * gap/gap_image.c [.h]
+  * gap/gap_base_ops.c
+  * gap/gap_range_ops.c
+  * gap/gap_mod_layer.c
+  * gap/gap_player_main.c [.h]
+  * gap/gap_player_dialog.c
+  * gap/gap_story_main.h 
+  * gap/gap_story_dialog.c 
+  * gap/gap_story_render_processor.c 
+  * gap/gap_navigator_dialog.c
+  * gap/gap_name2layer_main.c  
+  * gap/gap_onion_base.c
+  * gap/gap_onion_worker.c
+
+  * gap/gap_mov_exec.c
+  * gap/gap_mov_render.c [.h]
+
+
+
+
+   (added local features from 2013-06-02 that were not yet published until now)
+
+- workaround for winodows specific Audio Playback deadlock on short clips (only 1 frame)
+
+- added capability to set layermode in storyboard processing via filtermacro.
+   Therfore GIMP-GAP now provides a wrapper plug-in (gap_wr_layermode.c)
+   to set the layermode.
+   This wrapper plug-in can be recorded as filtermacro, and applied
+   to clips while storyboard processing via filtermacro calls.
+
+- support autogen versions 1.13 1.12 (as suggested in #699207)
+
+- Storyboard toggle unit support to display src frame number and frame count
+  as additional mode.
+
+
+
+  * autogen.sh
+  * gap/Makefile.am
+  * gap/gap_wr_layermode.c # new file
+  
+  * gap/gap_player_dialog.c
+  * gap/gap_range_ops.c
+  * gap/gap_story_render_processor.c 
+  * gap/gap_story_dialog.c
+  * gap/gap_story_main.h
+
+
+2013-02-20 Wolfgang Hofer <hof@gimp.org>
+
+- 2nd. bugfix for creation of storyboard from video extract plug-in.
+  fixes crash on attempt to save the created storyboard immediate after creation.
+   [the internal copy of the filename in the GapStoryBoard struct
+    was replaced (OK) but then free'd (NOT OK)]
+
+  * gap/gap_story_dialog.c
+
+2013-02-19 Wolfgang Hofer <hof@gimp.org>
+
+- storyboard debug features now support logging to file.
+  This can be optionally configured in the file "GAP_DEBUG_STORYBOARD"  (located in gimpdir)
+  by adding a line like this:
+    logfile=/tmp/GAP_STORYBOARD_DEBUG.log  
+
+  or like that (on Windows):
+    logfile=S:\SsdShare\GAP_STORYBOARD_DEBUG.log
+  
+  Note that logging to stdout is default, in case no logfile is specified.
+  (the filename must start immediate after the = character,
+   blanks in the logfilename/path are not supported !)
+
+  This feature was added for analyse of Storyboard bugs in Windows environment.
+
+- bugfix creation of storyboard from video extract plug-in.
+  A broken storyboard was created (with section list NULL)
+  
+
+
+  * gap/gap_story_dialog.c
+  * gap/gap_story_file.c [.h]
+  * gap/gap_story_undo.c [.h]
+  * gap/gap_story_vthumb.c [.h]
+  
+  * gap/gap_vex_dialog.c
+  * gap/gap_vex_exec.c
+
+2013-02-10 Wolfgang Hofer <hof@gimp.org>
+
+- added audio support for other Operating Systems than Linux.
+  Audio playback now can be configured to use an SDL media library based
+  audio playback module (as alternative to the already existing
+  wavplay client/server based audio playback).
+
+  The configure option --disable-audio-support was removed and
+  replaced by the new options: 
+
+     --disable-audio-support-sdl
+     --disable-audio-support-wavplay  
+
+  on Linux
+    enable-audio-support-sdl is default
+    enable-audio-support-wavplay  is fallback (when SDL library is not installed)
+
+  on Windows
+    enable-audio-support-sdl is default,
+    
+    NO audio playback possible when SDL library  library is not installed)
+    
+
+  The SDL library is available for Linux, Windows and MacOS
+
+
+    * configure.in
+    * Makefile.am
+    * gap/Makefile.am
+    * gap/gap_apcl_lib.h              #new file
+    * gap/gap_sdl_audioplayer.c [.h]  #new files
+    * gap/gap_player_dialog.c
+
+2013-01-16 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug in the storybard master properties that truncated framerate to integer values.
+
+- audio resample via external tool (sox) did not work in WINDOWS environment.
+  The old code was restricted to Unix only.
+  Fixed the parameter substitution and use g_spawn_sync for the external audio converter call
+  that now shall work on other operating systems than unix.
+  
+  tests on windows with sox as external converter were successful,
+  but only in case when the external converter was configured with
+  the full absolute path.
+  sox is available on Linux, Windows, and MacOSX
+  see http://sox.sourceforge.net/
+
+- Support audio rendering of an audiotrack that is an extracted audiotrack from a videofile.
+  I used this as workarond in case of unsupported audio codec.
+  The workaround allows extract the audio with another external tool (that supports the codec)
+  and then refere the external audiotrack in same way as internal audiotracks. 
+  (e.g. access it in the storyboard by frame numbers via AUD_PLAY_MOVIE)
+    
+    ==> manually edit the Storyboard and 
+          replace AUD_PLAY_MOVIE .... "my_video.mpg"
+          by      AUD_PLAY_MOVIE .... "my_video_extracted_audio.wav"
+
+- Added a new feature that creates a storyboard triggered by
+  the video extract plug-in.
+  The new output mode creates the stroryboard from the videofile,
+  adds the current selected range as initial clip,
+  and opens the created storyboard in the storyboard editor dialog.
+
+- new boolean gimprc parameter video-enable-storyboard-debug-features
+  enables the debug menu in the storyboard dialog
+  and preview image extraction by click on the preview image 
+  in the storyboard attributes dialog window.
+
+- fixed a bug in rendering the preview of clip type movie 
+  in the storyboard attributes dialog window.
+  (This bug did occure with gimp-2.6.11 running on Windows7
+   but did not occure with gimp-2.6.11 on Linux)
+
+- automake version check support for automake-1.12
+
+  * autogen.sh
+ 
+  * gap/gap_story_sox.c
+  * gap/gap_story_render_audio.c
+  * gap/gap_story_main.c [.h]
+  * gap/gap_story_dialog.c [.h]
+  * gap/gap_story_att_trans_dlg.c
+  * gap/gap_story_render_processor.c [.h]
+  * gap/gap_vex_dialog.c [.h]
+  * gap/gap_vex_exec.c [.h]
+  * gap/gap_vex_main.c [.h]
+  
+  * docs/reference/txt/gap_gimprc_params.txt
+  
+  * vid_common/gap_cme_gui.c   
+ 
+    
+2012-09-30 Wolfgang Hofer <hof@gimp.org>
+
+- fixed german menuname translations. Translated message must keep the prefix "<Image>"
+  (that must NOT be translated to "<Bild>")
+
+  fixes lots of translation warnings at Gimp startup with 
+  in german  setting  (LANG=de_DE.UTF-8)
+  that look like this:
+
+   bad translation "<Bild>/Ebene/Transparanz/"
+   for menu path   "<Image>/Layer/Transparency/"
+   (<Prefix> must not be translated)
+
+
+ * po/de.po
+
+
+2012-09-26 Wolfgang Hofer <hof@gimp.org>
+
+- Performance relevant changes for storyboard when rendering
+  large images.
+  o) gap_frame_fetcher supports caching of prescaled images.
+  o) storyboard render processor look ahead when processing
+   frame types GAP_FRN_IMAGE or GAP_FRN_ANIMIMAGE
+   and calculate the max prescale size.
+   
+   look ahead as far as the same imagename is used.
+   
+   procedure: p_stb_render_image_or_animimage
+
+   - "gap-image-delete-workarond"
+   
+    The workaround disables undo and scales the image down to miniumum size
+    before calling the gimp_image_delete procedure.
+    this way memory resources for big layers will be freed up immediate.
+    
+    Note that this workaround implematation is already present in previous
+    GIMP-GAP versions but now can be turned off via gimprc configuration.
+    
+    When using GIMP-GAP with gimp-2.6.x it is recommanded to enable this workaround
+    (otherwise encoding videos or stroryboard editing may quickly run out of memory
+    because lots of internally rendering is done by creating temporary images
+    and deletes them immediate after processing).
+    
+    This workaround may not be required when GIMP-GAP is used with newer gimp
+    versions. (not yet tested)
+
+ * gap/gap_image.c
+ * gap/gap_frame_fetcher.c [.h]
+ * gap/gap_story_render_processor.c
+
+
+
+2012-08-28 Wolfgang Hofer <hof@gimp.org>
+
+- Speed up for the BlendFill filter.
+  Use tile chache and write back only changed rows/columns
+  for performance reasons.
+
+ * gap/gap_blend_fill_main.c
+
+
+2012-06-07 Wolfgang Hofer <hof@gimp.org>
+
+- Implementation of dialog window for the exact align transform filter.
+  Now supports 2 modes for path point interpretation.
+  The mode is persisted as gimprc setting
+
+     (gap-exact-aligner-path-point-order "0")
+     (gap-exact-aligner-path-point-order "1")
+
+  where value 0 (default) is compatible behavior to previous
+  implementation (and to the exact aligner script
+  that is available in the plug-in regstry)
+
+  use mode TRANSFORM-RESIZE-ADJUST (0) for the transformation
+  because this feature is intended to do no clipping.
+  
+ * gap/gap_detail_align_exec.c [.h]
+ * gap/gap_detail_tracking_main.c
+
+
+2012-05-26 Wolfgang Hofer <hof@gimp.org>
+
+- added AC_CHECK_LIB(gthread-2.0, g_thread_init)
+  as suggested in #676701 to fix build on ubuntu 12.10
+  
+ * configure.in
+
+
+2012-05-05 Wolfgang Hofer <hof@gimp.org>
+
+- the configure.in script displays error message in case
+  when the pkg-config program is not executable.
+
+ * configure.in
+
+2012-05-02 Wolfgang Hofer <hof@gimp.org>
+
+- fixed Bug #675188 Frame filename matching misses 8-digit frame numbers
+- fixed Bug #675187 Frame Sequence Reverse handles filename improperly
+
+ * gap/gap_lib.c
+
+2012-01-29 Wolfgang Hofer <hof@gimp.org>
+
+- fixed a bug in the GAP video API that caused a crash when decoding audio.
+  This bug occured when GIMP-GAP was built with ffmpeg confiure options that enabled MMX
+  and ac3 or aac encoded audio was extracted from videofiles.
+  The fix uses an additional aligned buffer (required for proper operation of MMX based
+  audio format conversions)
+  Note that the current implementation of this fix eliminates the performance advantage 
+  of MMX for the audio conversion, but enabled MMX is still preferable for video processing.
+  
+  The fix is relevant for both ffmpeg-0.6.1 and ffmpeg-0.7.11
+
+- update to ffmpeg-0.7.11 "Peace" that was released on 2012-01-12
+  removed confiure "--enable-libfaad" (that is no longer supported by ffmpeg-0.7.11.)
+
+  The gimp-gap configure.in script now checks for the yasm assembler
+  and automatically adds --disable-yasm configure option when configuring
+  the ffmpeg libraries build.
+  It displays a warning that installation of yasm is recommanded
+  for the ffmpeg build in that case.
+
+
+  The ffmpeg configure call now uses the options:
+   --disable-ffmpeg  --disable-ffplay  --disable-ffprobe  --disable-ffserver 
+  because those binaries are not required to build GIMP-GAP
+  and may cause fail of the build in case different librariy versions
+  are available on different locations.
+
+      The ffmpeg build of those binaries failed in my environment with
+          older libx264 installed at /usr/lib 
+          and newer version at /usr/local/lib
+      but built successful when building just the static libs without the ffmpeg binaries.
+
+  - compile support for older ffmpeg 0.6 is still there.
+     replace extern_libs/ffmpeg.tar.gz with an older 0.6, or 0.6.1 tarball
+     and remove the extern_libs/ffmpeg directory before
+     running the autoconf.sh script to build gimp-gap with the older versions)
+
+  - #define GAP_USES_OLD_FFMPEG_0_6  when compiling against 0.6 or 0.6.1
+   
+  - support new encoder flags: (via preset parameterfile and GUI)
+     epp->codec_FLAG2_INTRA_REFRESH        = 0; /* 0: FALSE */
+
+  - new encoder codec parameters (supported via preset parameterfile):
+    gdouble crf_max;               // float crf_max;
+    gint32  log_level_offset;      // int log_level_offset;
+    gint32  slices;                // int slices;
+    gint32  thread_type;           // int thread_type;
+    gint32  active_thread_type;    //  int active_thread_type;
+    gint32  thread_safe_callbacks; // int thread_safe_callbacks;
+    gint64  vbv_delay;             // uint64_t vbv_delay;
+    gint32  audio_service_type;    // enum AVAudioServiceType  audio_service_type;
+  
+- new plug-in to fill selected (small) areas by blending surrounding
+  colors to cover pixel errors. Intended to fix videos
+  shot with (my) camera that has some defect sensor pixels.
+
+- new plug-in to for tracking a detail over a sequence of video frames.
+  This plug-in is typically triggered by the Player and records the movement
+  as XML file usable with the MovePath plug-in.
+  Intended to compensate unwanted camera movements.
+  
+  implemented alternative locate algorithm that
+  uses gimp regions more efficient than the old one.
+  (runs at least 10 times faster)
+  
+  per default all calls of the old procedure
+  are redirected to use the newer implementation.
+  With the gimprc parameter "
+  (gap-locate-details-use-old-algorithm "yes")
+  the old implementation can be enabled
+  -- for more test and compare purpose on further development cycles--) 
+
+- new plug-in inspired by the "exact aligner" script.
+
+  This plug-in can operate on XML files (recorded with the detail tracking feature)
+  to align multiple frames when called as filter with the frames modify feature.
+  
+
+- the module gap_pixelrgn implements the procedure 
+  gap_gimp_pixel_rgns_unref to enable clean escape
+  from loops based on gimp_pixel_rgns_register, gimp_pixel_rgns_process.
+
+  * Usage CODE example:
+  *
+  *  for (pr = gimp_pixel_rgns_register (2, &PR1, &PR2);
+  *      pr != NULL;
+  *      pr = gimp_pixel_rgns_process (pr))
+  *  {
+  *      ... evaluate pixel data in pixel regions PR1, PR2
+  *      ...
+  *      if (further evaluation of the remaining tiles is not necessary)
+  *      {
+  *        // escaping from the loop without the call
+  *        // to gap_gimp_pixel_rgns_unref
+  *        // leads to memory leaks because of unbalanced tile ref/unref calls.
+  *        break;
+  *      }
+  *  }
+  *  if (pr != NULL)
+  *  {
+  *    gap_gimp_pixel_rgns_unref(pr);
+  *  }
+  
+  NOTE:  A procedure like gap_gimp_pixel_rgns_unref
+  that deals with libgimp internal private structures
+  should better be part of libgimp.
+  (and should be generally available for plug-in development
+  in future gimp releases.)
+  BUT: The GIMP-GAP implementation would still be required for backwards compatibilty
+  with GIMP-2.6.x releases.
+  
+- fixed wrong dialog title in the MovePath single frame apply feature
+
+- MovePath rotation Threshold
+  The old move path implementation ignores rotate values between -0.5 and + 0.5 degree.
+  The threshold is intended for better render performance by skipping
+  rotate transformations when angle is nearly 0.
+  The hardcode value 0.5 is too high (especially for larger frame sizes introduced with HD video)
+  
+  The new implementation allows to configure this threshold 
+  in the range 0.0 upto 1.0 degree.
+  The new default threshold is configurable via gimprc parameter. "video-move-path-rotate-threshold"
+  and now the default is set to 0.015 degree that shall result in smoother rotations.
+  individual rotateThreshold configuration is supported via MovePath XML file.
+  The rotate_threshold value is not exposed in the Dialog.
+
+
+ * NEWS
+ * configure.in  
+ * po/POTFILES.in
+ * libgapbase/gap_base.c [.h]
+ * docs/reference/txt/gap_gimprc_params.txt  
+
+ * gap/Makefile.am
+ * gap/gap_mov_dialog.h
+ * gap/gap_mov_exec.c  [.h]
+ * gap/gap_mov_render.c
+ * gap/gap_mov_xml_par.c
+
+ * gap/gap_image.c [.h]
+ * gap/gap_player_main.c [.h]
+ * gap/gap_player_dialog.c 
+ * gap/gap_locate.c 
+ * gap/gap_colordiff.c [.h]
+ * gap/gap_edge_detection.c [.h]
+
+ * gap/gap_blend_fill_main.c             # new file
+ * gap/gap_detail_align_exec.c [.h]      # new files
+ * gap/gap_detail_tracking_exec.c [.h]   # new files
+ * gap/gap_detail_tracking_main.c        # new file
+ * gap/gap_locate2.c [.h]                # new files
+ * gap/gap_pixelrgn.c [.h]               # new files
+
+ * extern_libs/ffmpeg.tar.gz                # updated to ffmpeg release 0.7.11
+ * extern_libs/README_extern_libs  
+ * extern_libs/configure_options_ffmpeg_win32.txt
+ * extern_libs/configure_options_ffmpeg.txt
+
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c [.h]
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_par.c
+ * libgapvidapi/gap_vid_api_ffmpeg.c
+
+
+2011-11-30 Wolfgang Hofer <hof@gimp.org>
+
+- added option to merge visible layers
+  in the frames convert plug-in
+  This option merges the visible layers (and removes
+  the invisible layers) in the converted copy
+  to keep transparency before calling the file save plug-in.
+  This is useful for formats like PNG that can handle transparency,
+  but can not handle multiple layers.
+  (this feature was suggested in #665142)
+
+
+- Increased limits for animated filter apply last values buffer size
+  allow filtermacro with last values buffer larger than 255 bytes.
+  Note that current processing is still limited by intrnal buffer size for
+  reading one line via gap_val_file procedures.
+
+  gap_val file increased internal buffer to handle line length upto 16000 bytes
+  (old limit was 4000 bytes) GAP_VAL_MAX_BYTES_PER_LINE
+
+  
+- bugfix  Storyboard render processor ignored the move-path transformation
+  in case of processing a frame image in the 1st track 
+  when the move-path was the only transformation.
+
+
+- bugfix  MovePath xml paramfile.
+  Keyframe information was not saved to XML file in case the keyframe number
+  is lower or equal to the lower frame number of the specified frame range.
+  This unexpected behavior is caused by checking for valid relative keyframe number.
+  The save procedure was changed to save the absolute keyframe numbers
+  this fixes the problem and makes the xml file content easier to understand.
+  Note that loading now supports both relative <keyframe nn> and absolute <keyframe_abs nn>
+  to ensure compatibility with already existing move path xml files.
+
+  note that the same problem occurs with the old controlpoint format
+  but will not be fixed there becuse the change would break backwards compatibility
+  -- backwards compatibility is the only reason why the old format is still supported --
+
+ * libgapbase/gap_val_file.c [.h]
+ * gap/gap_fmac_base.c
+
+ * gap/gap_mov_xml_par.c
+ * gap/gap_story_render_processor.c
+
+ * gap/gap_main.c
+ * gap/gap_range_ops.c
+ * gap/gap_image.c [.h]
+
+
+2011-11-23 Wolfgang Hofer <hof@gimp.org>
+
+ * gap/Makefile.am
+- Foreground selection: fixed parameters for non interactive calls.
+
+- new feature: foreground extraction from current selection.
+  This feature generates the tri map by filling shrinked and expanded
+  variants of the current selection, and uses the alpha matting algoritm
+  to create a duplicate of the layer. Transparency of the duplicate
+  is automatically trimmed to the foreground object shape in the range
+  between shrinked and expanded selections variants.
+
+ * po/POTFILES.in
+ * gap/Makefile.am
+ * gap/gap_fg_matting_exec.c [.h]
+ * gap/gap_fg_matting_main.c [.h]
+ * gap/gap_fg_from_sel_dialog.c [.h]                             # new files
+ * docs/reference/txt/plug-in-selection-to-foreground-layer.txt  # new file
+ * docs/reference/txt/Makefile.am
+
+
+2011-11-12 Wolfgang Hofer <hof@gimp.org>
+
+- added implementation of the foreground extraction via alpha matting algorithm
+  as plug-in.
+  The code is a modificated copy of the implementation as
+  GIMP-tool originally done by Jan Ruegg.
+  (you can find the original at the un-official GIT repository:
+        https://github.com/rggjan/Gimp-Matting
+        IMPORTANT:  be sure to check out the "new_layer" branch...)
+
+  The quality of the alpha matting results are more promising than the
+  offical GIMP foreground extraction ( based on the  SIOX algorthm)
+  and may be a base for future GAP features to add 
+  transparency for video frames.
+
+- using --disable-vaapi option to configure ffmpeg
+  to avoid linking problems on platforms where libva
+  based video acceleration is installd.
+  (thanks to AndrzejL.PCLinuxOS@gmx.com for pointig out
+  this kind of problems on the PCLinuxOS platform)
+  Note that gimp-gap and the FFmpeg project, does not support VA-API, 
+  but libavcodec (also part of the FFmpeg project) does contain code 
+  that other applications use to support hardware accelerated decoding, including VA API."
+
+- added HD video sizes entries to the combo box
+  in the master video encoder dialog.
+
+- ffmpeg encoder parameter dialog hides the complex settings by default
+  and shows only the presets, aspect and comment that is sufficient for
+  the most users.
+
+- keep title,author,copyright an comment when load / select another preset.
+ 
+- added video encoder preset for HD video encoding with the x264 codec.
+  the ffmpeg based encoder now checks for preset in the systemwide gimp_data_diretory
+  and the user specific gimp_directory
+
+- disabled all hardcoded presets and installed same presets as preset file.
+
+
+  NOTE: presets that refere to invalid codecs are no longer shown in the dialog.
+  e.g. the new HD x264 preset is not shown in case GIMP-GAP is compiled without
+  libx64 support for the ffmpeg encode engine.
+
+ * NEWS  
+ * po/POTFILES.in
+
+ * gap/Makefile.am
+ * gap/gap_fg_matting_main.c [.h]    # new files
+ * gap/gap_fg_matting_exec.c [.h]    # new files
+ * gap/gap_fg_matting.c	[.h]         # new files
+ * gap/gap_fg_matting_dialog.c [.h]  # new files
+ * gap/gap_fg_regions.c [.h]         # new files
+ * gap/gap_fg_tile_manager.h         # new file
+
+ * vid_enc_ffmpeg/Makefile.am
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c [.h]
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_par.c
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c [.h]
+ * vid_enc_ffmpeg/ff_divx_hq.preset         # new file
+ * vid_enc_ffmpeg/ff_divx_low.preset        # new file
+ * vid_enc_ffmpeg/ff_divx_standard.preset   # new file
+ * vid_enc_ffmpeg/ff_divx_win.preset        # new file
+ * vid_enc_ffmpeg/ff_mpeg1_hq.preset        # new file
+ * vid_enc_ffmpeg/ff_mpeg1_vcd.preset       # new file
+ * vid_enc_ffmpeg/ff_mpeg2_dvd.preset       # new file
+ * vid_enc_ffmpeg/ff_mpeg2_svcd.preset      # new file
+ * vid_enc_ffmpeg/ff_real_standard.preset   # new file
+ * vid_enc_ffmpeg/ff_x264_hq.preset         # new file
+ * vid_common/gap_cme_main.h
+ * vid_common/gap_cme_gui.c
+ * vid_common/gap_cme_callbacks.c
+ * extern_libs/configure_options_ffmpeg_win32.txt
+ * extern_libs/configure_options_ffmpeg.txt
+
+
+ * gap/gap_lib.c [.h]
+ * gap/gap_layer_copy.c
+ * docs/reference/txt/Makefile.am  
+ * docs/reference/txt/INTRODUCTION.txt  
+ * docs/reference/txt/gap_gimprc_params.txt  
+ * docs/reference/txt/plug-in-foreground-extract-matting.txt            #new file 
+
+
+
+2011-10-12 Wolfgang Hofer <hof@gimp.org>
+
+
+- applied changes based on patche provided Thibaut Paumard 
+  to fix build problems with option -Werror=format-security #660250
+  
+  note that patch provided at #660262 was not applied 
+  because all the adresses issues for 64 bit environment
+  are already fixed in the main latest version.
+
+
+
+- fixed bug in the makefile for extern_lib (data hook for removing static libs)
+  as reported in #642512
+
+ * extern_libs/Makefile.am
+
+ * gap/gap_arr_dialog.c
+ * gap/gap_split.c
+ * gap/gap_fmac_base.c
+ * gap/gap_fmac_main.c
+ * gap/gap_morph_exec.c
+ * gap/gap_vex_dialog.c
+ * libgapvidutil/gap_gve_sox.c
+ * vid_common/gap_cme_gui.c
+
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c
+
+
+2011-10-02 Wolfgang Hofer <hof@gimp.org>
+
+- explicitly link with libm (patch provided by Ismail Donmez <idonmez@suse.com>. #660443)
+- added plural handling for several strings as suggested in #659447 
+- include the public visible header (libgimpwidgets/gimpwidgets.h)
+  instead of the private headers gimpwidgetstypes.h gimphelpui.h
+  (this fix is required to build GIMP-GAP for GIMP-2.7.x or latest GIT versions
+  note that GIMP-GAP is still backwards compatible to GIMP-2.6.x versions)
+- Disabled Tween frame morphing in case called on a single frame image
+  (and show information "This operation requires more than one frame."
+  in the dialog window)
+
+
+ * libgapbase/gap_base.c
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+ * vid_common/gap_cme_gui.c
+ * gap/gap_morph_tween_dialog.c
+ * gap/Makefile.am
+
+
+
+
+
+2011-09-18 Wolfgang Hofer <hof@gimp.org>
+
+- fixed configure / compile problems in MinGW environment
+  Now the configure script is using a MinGW variant of ffmpeg_configure options
+  The configuration that built usable Winows video encoder plug-in.exe files im my tests
+  is now the default setting in MinGW environment.
+  see extern_libs/configure_options_ffmpeg_win32.txt for more details.
+
+- fixed "array subscript is above array bounds" error in run procedures of the video encoder plu-ins 
+
+ * configure.in
+ * autogen.sh
+ * extern_libs/configure_options_ffmpeg_win32.txt       #new file
+ * extern_libs/configure_options_ffmpeg.txt
+ * extern_libs/Makefile.am
+ * libgapbase/gap_base.c
+ * gap/gap_frame_fetcher.c
+ 
+ * vid_enc_single/gap_enc_singleframes_main.c
+ * vid_enc_rawframes/gap_enc_rawframes_main.c
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+ * vid_enc_avi/gap_enc_main_avi.c
+
+2011-05-08 Wolfgang Hofer <hof@gimp.org>
+
+- added edit button in the Storyboard attributes dialog
+  to pop up a movepath edit dialog window
+  for creation and edit of movepath settings.
+
+- handle undo / redo for edited movepath xml paramter file content
+  when edited via the new edit button in the Storyboard attributes dialog
+
+ * gap/gap_lib.c [.h]
+ * gap/gap_mov_dialog.c [.h]
+ * gap/gap_mov_exec.c
+ * gap/gap_story_att_trans_dlg.c
+ * gap/gap_story_main.h
+ * gap/gap_story_dialog.c
+ * gap/gap_story_undo.c [.h]
+ * gap/gap_story_undo_types.h
+ 
+
+
+2011-04-27 Wolfgang Hofer <hof@gimp.org>
+
+- fixed a bug in procedure gap_mov_xml_par_save that did write an invalid 
+  xml movepath parameter file
+  and added error handling in the xml parser.
+
+ * gap/gap_mov_xml_par.c
+
+2011-04-26 Wolfgang Hofer <hof@gimp.org>
+
+- Storyboard render processor now supports processing
+  of new transition attribute record VID_MOVE_PATH
+   (based on the new singleframe mode of the move path feature)
+
+- Move Path now supports save of all settings (controlpoints and other relevant settings)
+  using a new XML stuctured fileformat.
+  Note that the old controlpoint file format is still supported both for load and save.
+  The new format is selected implicite by finename extension .xml 
+
+- New plug-in to call the MovePath for rendering only one frame where the
+  moving object is an already existing layer of the frame and all parameters
+  are provided via xml parameterfile
+  (this new feature is intended to be called as filter with the modify frames
+  feature)
+
+- The MovePath feature is still limited to process image types RGB 
+  (both for the frame and the moving object)
+  Therefore the PDB requstration was changed  
+   from "RGB*, INDEXED*, GRAY*"
+   to   "RGB*"
+
+  to disable the MovePath feature on unsupported frame types. 
+  (see also remarks at bugzilla #645303)
+  
+  
+- the MovePath feature now is built as separate plug-in with its own main
+  procedure to handle run and query.
+  
+- added a new gimprc parameter that enables logging of the
+  relevant render parameters each time the movePath feature
+  renders a frame. This parameter defaults to "no" in productive environment
+  and is intended for debug and analyse purpose.
+  This logging was used as base for regression tests on the current changes.
+  
+  (video-move-path-log-render-params "yes")
+
+
+ * NEWS  
+ * po/POTFILES.in
+ * gap/Makefile.am
+ * gap/gap_bluebox.h
+ * gap/gap_main.c
+ * gap/gap_mov_dialog.c  [.h]
+ * gap/gap_mov_exec.c    [.h]
+ * gap/gap_mov_main.c          # NEW FILE   
+ * gap/gap_mov_render.c  [.h]
+ * gap/gap_mov_xml_par.c [.h]  # NEW FILES    
+ * gap/gap_xml_util.c    [.h]  # NEW FILES    
+
+ * gap/gap_story_main.h
+ * gap/gap_story_file.c   [.h]
+ * gap/gap_story_render_processor.c [.h]
+ * gap/gap_story_render_lossless.c
+ * gap/gap_story_render_types.h
+ * gap/gap_story_syntax.c  [.h]
+ * gap/gap_story_vthumb.c
+ * gap/gap_story_properties.c
+ 
+ * gap/gap_story_att_trans_dlg.c
+ * docs/reference/txt/STORYBOARD_FILE_DOC.txt
+
+ 
+2011-04-26 Wolfgang Hofer <hof@gimp.org>
+
+- applied patch that fixes string typos provided by Christian Kirbach at #648607
+
+ * gap/gap_morph_tween_dialog.c
+ * gap/gap_player_dialog.c
+ * gap/gap_story_file.c
+ * gap/gap_video_index_creator.c
+ * gap/gap_wr_opacity.c
+ * vid_common/gap_cme_main.c
+ * vid_enc_avi/gap_enc_avi_main.c
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+ * vid_enc_rawframes/gap_enc_rawframes_main.c
+ * vid_enc_single/gap_enc_singleframes_main.c
+
+2011-02-24 Wolfgang Hofer <hof@gimp.org>
+
+- added new plug-ins to render an animated water pattern and flame effect, 
+  based on the algorithms
+  by William Morrison (his original wave tank scripts sf-will-wavetank.scm
+  and sf-will-flames.scm can be found  in the plugin registry)
+  The GAP variant supports the GIMP-GAP typical iterator interface that
+  allows to apply the same effect on already existing multilayer images or frames.
+
+- fixed a bug in storyboard processor (processing failed in case
+  the processed layer_id was changed during filtermacro processing)
+
+- fixed bug in handling of persistent drawable ids.
+  Filtermacros that call filters with additional drawable references 
+  (such as the plug-in-bump-map that uses the bumpmap DRAWABLE
+   in addition to the input drawable) used a flattened copy of the
+   image that contained the refered additional drawable (e.g. the bumpmap)
+
+- filtermacro processing now can handle the case when one of the called
+  filters makes the processed layer invalid.
+  (this is typicall the case after merge operations 
+  where the merged reult gets a new drawable id)
+  The implemented new behavior checks for valid layer
+  after each single filtercall. In case the processed layer
+  gets invalid it tries to find a newly created layer_id,
+  preferrable at same stackposition. If such a newly created layer
+  is found the next filtercall (in the list of filters in the macro) 
+  will be executed on this newly created layer.
+
+- GIMP-GAP typical animated filtercalls now provide
+  information about total_steps and current step of the animated call
+  intended for query by the called plug-in where necessary.
+  (The new firepatern plug-in makes use of this feature
+  for varying colors when 2 gradients are used in aminated calls)
+  
+  This information is available during the call of the iterator procedure
+  and during the call of the filter via gimp_get_data
+  code example:
+  
+  //  typedef struct
+  //  {
+  //    gboolean  animatedCallInProgress;
+  //    gint32    total_steps; 
+  //    gdouble   current_step;            /* current step respecting acceleration characteristics */
+  //  } GapLastvalAnimatedCallInfo;
+  
+  #include "gimplastvalsdesc.h"
+  GapLastvalAnimatedCallInfo  animCallInfo;
+  gimp_get_data(GAP_LASTVAL_KEY_ANIMATED_CALL_INFO, &animCallInfo);
+
+ * NEWS  
+ * docs/reference/txt/Makefile.am
+ * docs/reference/txt/plug_in_filter_macro.txt
+ * docs/reference/txt/plug-in-firepattern.txt   # new file
+ * docs/reference/txt/plug-in-waterpattern.txt  # new file
+
+ * po/POTFILES.in
+ * gap/gap_filter_iterators.c  
+ * gap/gap_story_render_processor.c
+ * gap/gimplastvaldesc.h
+ * gap/Makefile.am
+ * gap/gap_fmac_base.c 
+ * gap/gap_filter_pdb.c
+ * gap/gap_pdb_calls.c [.h]
+ * gap/gap_layer_copy.c
+ * gap/gap_fire_pattern.c    # new file
+ * gap/gap_water_pattern.c   # new file
+
+
+2010-12-18 Wolfgang Hofer <hof@gimp.org>
+
+- storyboard rounding at offest calcultion 
+
+ *  gap/gap_story_file.c
+
+
+2010-12-14 Wolfgang Hofer <hof@gimp.org>
+
+- GIMP-GAP has swichted its main video encoder/decoder engine
+  from ffmpeg-0.6 to ffmpeg-0.6.1
+  
+  - test videos videoinex creation smartscan gives same analyse files as ffmpeg-0.6
+  - seek tests repeated, same results as ffmpeg-0.6
+  - read various videoformat samples same results as ffmpeg-0.6
+
+- Analyze of the videoencoding performance 
+    GVA api and ffmpeg based encoder were checked and
+    some performance relevant changes were implemented.
+    
+    Note: the multithread support did NOT fulfill my expectations.
+    the performance advantage was minimal compared with singlethreaded implementation
+    on my 4 Processor development machine.
+    Other changes (like enable mmx ffmpeg options, replacement of row-by-row
+    processing) were more efficient for performance.
+
+- GVA video api 
+   - GVA_fetch_frame_to_buffer use fcache filling reads in case of backwards seek.
+   - added fcache_mutex to prepare fcache access code for multithred environment.
+   - provide new procedure GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888 
+     intended for use in multithreaded environment (e.g. the prefetch tread
+     in the storyboard processor)
+
+- replaced the slow row by row implementation
+  that converts from drawable to RGB buffer at encoding
+  (see: libgapvidutil/gap_gve_raw.c gap_gve_drawable_to_RgbBuffer)
+  
+- added multithreading support for the ffmpeg based video encoder plug-in
+  using a ringbuffer queue implementation where the main thread
+  feeds the queue via storyboard processor. The parallel running encoder
+  thread reads from the queue and uses libavformat/libavcodec to write
+  the resulting videofile.
+
+  On singleprocessor configuration encoding is done without the queue
+  (the same way as prior implementation did)
+
+- added a new menu in the storyboard dialog that allows edit gimprc parameters
+  that are relevant for the storyboard render processing.
+
+- The storyboardprocessor provides a new API procedure
+    gap_story_render_fetch_composite_image_or_buffer_or_chunk
+  that allows video encoders to bypass the render engine 
+  in scenes where simple 1:1 copy of fetched frames in movie clips is possible.
+  (in such cases an rgb888 buffer is delivered to the encoder instead of 
+  a gimp layer)
+  The ffmpeg based video encoder already uses this new API
+  and runs faster when encoding those storyboards scenes.
+
+- added gimprc parameters:
+  
+  "video-storyboard-fcache-size-per-videofile"
+  "video-storyboard-resource-log-interval"
+    # the integer parameter video-storyboard-resource-log-interval
+    # enables logging of cached resources during storyboard processing
+    # value n (positive integer) triggers resource logging every n-th frame.
+    #         where logging includes information about cached images 
+    #         and currently open video handles.
+    #         This is intended for debug purpose.
+    # value 0 (is the default) turns off this type of logging.
+
+  "video-storyboard-multiprocessor-enable"
+    # the boolean parameter video-storyboard-multiprocessor-enable
+    # enables multiprocessor support for the storyboard processor
+    # The current implementation uses a parallel running prefetch thread
+    # that reads frames from referenced videofiles into a frame cache
+    # in advance.
+  
+  "video-enoder-ffmpeg-multiprocessor-enable"
+    # the boolean parameter video-enoder-ffmpeg-multiprocessor-enable
+    # enables multiprocessor support for the ffmpeg based video encoder
+    # The current implementation uses a parallel running encoder thread
+    # that uses a ringbuffer queue that is feed by the storyboard processor.
+  
+
+- Analyse for out of memory errors while encoding large HD videos via storyboard processor.
+  ==> the default values for: 
+    video-storyboard-max-open-videofiles    12
+    GAP_STB_RENDER_GVA_FRAMES_TO_KEEP_CACHED 36
+
+  are too large in case HD video is processed
+  (this fills up my 4 GB ram on storyboard encoding
+  with the fcache of the video api.
+
+     one HD frame takes 6271236 bytes  // (1920 x 1088 x 3) + 4  + (1088 * 4)
+     for all videohandles this is a summary of 2709173952 bytes    //  12  * 36 * 6271236
+     
+     the rest of 4GB was mainly filled with gimp images 
+     (the image cache default "gap_ffetch_max_img_cache_elements" is 18 images)
+     
+  as result of this analyse the GAP_STB_RENDER_GVA_FRAMES_TO_KEEP_CACHED value
+  is now configurable via gimprc parameter "video-storyboard-fcache-size-per-videofile"
+  furthermore the configured value is only used in case videoclips are played backwards
+  For standard ascening frame access a small fcache size (6) is picked that 
+  shall be big enough for prefetch of videoframes in mutithreaded environment.
+  Those changes result in remarkable less usage of memory resources without
+  loss of performance.
+
+- added optional performance logging in single or multithread environment 
+  for storyboard processing, ffmpeg videoapi parts and ffmpeg based video encoder.
+
+  The new configure option
+     --enable-runtime_recording
+  compiles gimp-gap with support for runtime recording/logging on some
+  instrumented procedures, intended for performance analysis and tuning purpose.
+  (see gap_timm.c calls in the source code)
+  
+  
+  Logging report is triggered by
+  o) STOP button clicked in the player
+  o) after ffmpeg based encoder finished
+  
+  
+- optional resource usage logging while storyboard processing
+
+- use rounding in calculation of storboard scale and movement koords
+  (use gdouble variables and rint function in procedure gap_story_file_calculate_render_attributes)
+
+- AVI1 videoencoder added option to select RGB or BGR for raw video
+  (intended mainly for test purpose, most players want BGR for RAW video
+
+  * NEWS  
+  * configure.in  
+
+  * docs/reference/txt/gap_gimprc_params.txt  
+  * docs/reference/txt/STORYBOARD_FILE_DOC.txt  
+
+  * extern_libs/configure_options_ffmpeg.txt  
+  * extern_libs/ffmpeg.tar.gz                # updated to ffmpeg release 0.6.1
+  * extern_libs/README_extern_libs  
+
+  * gap/gap_frame_fetcher.c  
+  * gap/gap_frame_fetcher.h  
+  * gap/gap_player_dialog.c  
+  * gap/gap_story_dialog.c  
+  * gap/gap_story_file.c  
+  * gap/gap_story_file.h  
+  * gap/gap_story_main.c  
+  * gap/gap_story_main.h  
+  * gap/gap_story_render_audio.c  
+  * gap/gap_story_render_lossless.c  
+  * gap/gap_story_render_processor.c  
+  * gap/gap_story_render_processor.h  
+  * gap/gap_story_render_types.h  
+  * gap/Makefile.am  
+
+  * libgapbase/gap_base.c  
+  * libgapbase/gap_base.h  
+  * libgapbase/gap_libgapbase.h  
+  * libgapbase/Makefile.am  
+
+  * libgapvidapi/gap_vid_api.c  
+  * libgapvidapi/gap_vid_api_ffmpeg.c  
+  * libgapvidapi/gap_vid_api.h 
+  * libgapvidapi/Makefile.am  
+
+  * libgapvidutil/gap_gve_raw.c  
+  * libgapvidutil/gap_gve_raw.h  
+
+  * vid_common/gap_cme_gui.c 
+ 
+  * vid_enc_avi/gap_enc_avi_gui.c  
+  * vid_enc_avi/gap_enc_avi_main.c  
+  * vid_enc_avi/gap_enc_avi_main.h 
+ 
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_callbacks.c  
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c  
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c  
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_main.h  
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_par.c  
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_par.h  
+
+
+  *  libgapbase/gap_timm.c                # NEW FILE
+  *  libgapbase/gap_timm.h                # NEW FILE
+  *  libgapvidapi/gap_vid_api_mp_util.c   # NEW FILE
+
+2010-10-10 Wolfgang Hofer <hof@gimp.org>
+  
+- GIMP-GAP has swichted its main video encoder/decoder engine
+  from ffmpeg-0.5 to ffmpeg-0.6
+  
+  ( Note that gimp-gap still supports compile/linking with the 
+    old ffmpeg-0.5 libraies.
+  
+    to do so, just replace file extern_libs/ffmpeg.tar.gz
+    with a copy from older releases that contains the 0.5 release
+    and then configure gimp-gap with option:
+
+      --disable-ff-libx264
+  )
+  
+  
+  *** COMPATIBILITY WARNING: 
+  
+  Positioning to exact frame numbers in 
+  videos that do not start with a keyframe, or have read errors
+  is not compatible to older ffmpeg-0.5 based GIMP-GAP releases.
+
+  libavcodec prints error logging messages to stderr like this:
+      [mpeg2video @ 0x8d7c290]warning: first frame is no keyframe
+      [mpeg2video @ 0x8d7ef50]mpeg_decode_postinit() failure
+
+
+  Decoding of the first few frames of a video that does not start with a keyframe
+  triggers codec internal error handling and delviers different results
+  in different releases of the ffmpeg libraries.
+  
+  In my tests with mpeg2 encoded .vob files (DVD stuff) ffmpeg-0.6 detects 
+  and decodes some more leading non-key frames than ffmpeg-0.5 did.
+
+  BUT THIS BREAKS BACKWARDS COMPATIBILITY ON POSITIONING BY FRAME NUMBER !
+
+  Therefore Storyboards that were created based on older releases and include
+  references to frames in such videos may now refere to another frame
+  when processed with the newer release.
+
+
+- video api feature: continue after read errors for the ffmpeg based implementation.
+  
+  some of my testvideos that could be read with ffmpeg-0.5 based decoding
+  now fail because ffmpeg-0.6 seems to have a more restrictive error recognition
+  at least when decoding mpeg2 videos.
+  
+  The ffmpeg based gap video API now supports a gimprc parameter 
+    (video-gva-libavformat-continue-after-read_errors "yes")
+  that allows continue reading frames after read errors
+  and therefore is able to skip one frame and read further frames after read errors.
+  The default value is "yes" (e.g. TRUE)
+  
+
+
+
+- changed menu path for morphing tools 
+    to: "<Image>/Video/Morph/"
+    to: "<Image>/Video/Morphing/"
+  I made this change, because in German settings (LANG=de_DE.UTF-8)
+  the morph submenu was presented whre invocation of MovePath was expected
+  (Bewegungspfad) and Morph was not present at all.
+  ==> TODO check german translation for errors..
+    
+
+
+  -- 2010-09-18 ----
+
+
+- video api fixed for usage with ffmpeg-0.6 (MJPEG bug)
+  some codecs of the ffmpeg-0.6 release no longer deliver valid 
+  input length information about a successfully decoded frame.
+  The fix assumes that the decoded frame size is the full packet length
+  Note that packet is already read with av_read_frame and that shall already
+  collect all data of one frame in the packet.
+  The case where multiple frames are included in one packet
+  can not be handled after this fix
+  But this theroretical case does not occure in my testvideos 
+  and probably is not relevant at all (or probably is already handled
+  at lower level internally in  av_read_frame)
+  Note that the gap-video API was written before av_read_frame
+  was available and had to deal with collecting data
+  for one frame.
+    
+    
+  Further disable native seek support in case the codec
+  just delivers DTS timecodes with value 0.
+    
+     
+ 
+- gimp-gap configure.in was changed to detect current versions
+  of libx264 and libxvid.
+  it is now ready for ffmpeg-0.6 (and prepared for latest snapshots)
+  (both libs require to include stdint.h (or inttypes.h) 
+  before including the headerfile x264.h )
+  xvid now depends on the pthread library, 
+       therefore add the option --enable-pthreads when ffmpeg is configured
+       with option --enable-libxvid  
+
+  The older ffmpeg-0.5 fails to detect properly installed libx264 library
+  with current versions. This is OK, because it requires old libx264 version
+  (greater equal 0.65  but less than 0.85) to compile
+  
+  gimp-gap still supports using old ffmpeg-0.5
+  but have to use gimp-gap configure option
+
+   --disable-ff-libx264
+ 
+  further note that latest ffmpeg snapshots already
+  dropped libfaad support after release ffmpeg-0.6.
+  to compile gimp-gap with latest ffmpeg snapshot it is required
+  to configure with option:
+  
+    --disable-ff-libfaad
+
+
+- various bug fixes in the ffmpeg based video encoder.
+  
+  
+  o) added handling to compensate encoder frame latency.
+     some codecs keep frames in internal buffer and start
+     generate output when this internal buffer is filled.
+     After feeding the last input frame N to the codec
+     the obtained output frame is the one with number N - size of internal cached frames.
+     The fix continues feeding the last frame to the codec
+     multiple times until all relevant frames are written
+     to the output video file.
+     
+     without this fix, some frames at the end
+     were not written to the resulting video output file,
+     especially for codecs with high latency like the libx264.
+     
+  o) some codecs (x264) just pass through pts information obtained from
+     the AVFrame struct (big_picture_codec)
+     the fix now sets a valid the pts code to init
+     the AVFrame struct before encoding a video frame.
+     Note that invalid pts code could produce unusable videos,
+     it is also relevant for playback order of the frames.     
+
+ o) fixed another colormodel convert relevant bug.
+    the fix applies for codecs that want BGR input 
+    (dont konw if there is such a codec)
+    note that gap_gve_raw_RGB_drawable_encode was recently fixed to deliver RGB (not BGR)
+
+ o) qmin/qmax upper limit changed to 51
+ 
+ o) Gui parameter support for partition and new codec flags that are new in ffmpeg-0.6:
+     parti4x4
+     parti8x8
+     partp4x4
+     partp8x8
+     partb8x8
+
+     MB-Tree RC    // codec_FLAG2_MBTREE
+     PSY           // codec_FLAG2_PSY
+     Compute SSIM  // codec_FLAG2_SSIM
+
+
+  * configure.in
+  * NEWS
+  * gap/gap_morph_main.c
+  * extern_libs/configure_options_ffmpeg.txt
+  * extern_libs/README_extern_libs
+  * extern_libs/ffmpeg.tar.gz                 # update from ffmpeg-0.5 to ffmpeg-0.6
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c [.h]
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_par.c
+  * libgapvidapi/gap_vid_api_ffmpeg.c
+  * docs/reference/txt/gap_gimprc_params.txt
+
+2010-09-09 Wolfgang Hofer <hof@gimp.org>
+
+- applied patch #625667 that fixed various spelling mistakes.
+  (most of them occured in comments, some in message texts)
+
+
+ * gap/gap_decode_mplayer.c
+ * gap/gap_fmac_base.c  
+ * gap/gap_lib.c
+ * gap/gap_main.c  
+ * gap/gap_match.c  
+ * gap/gap_mod_layer.c  
+ * gap/gap_morph_dialog.c  
+ * gap/gap_morph_main.c  
+ * gap/gap_story_att_trans_dlg.c  
+ * gap/gap_story_dialog.c  
+ * gap/gap_story_file.c  
+ * gap/gap_story_properties.c  
+ * gap/gap_story_render_audio.c  
+ * gap/gap_story_section_properties.c  
+ * gap/gap_story_vthumb.c  
+ * gap/gap_thumbnail.c  
+ * gap/gap_vex_dialog.c  
+ * gap/gap_video_index_creator.c  
+ * gap/TESTPROT_iter_ALT  
+ * libgapbase/gap_val_file.c  
+ * libgapvidapi/gap_vid_api_mpeg3.c  
+ * libgapvidapi/gap_vid_api_mpeg3toc.c  
+
+
+--- 2010-08-23
+
+- added wrapper plug-in to run gimp_color_balance tool as animated filter.
+
+   
+ * gap/Makefile.am
+ * gap/gap_wr_color_balance.c  # NEW file
+ * po/POTFILES.in
+
+--- 2010-08-15 (Morph features)
+   
+- Added features to the Morph plug-in to support
+  more convenient creation of workpoints and lead to better
+  results (especially for morping tweens of a video)
+
+- Created new plug-in "Morph Workpoint Generator" 
+  (in the menupath Video/Morph/)
+  Generates workpointfiles for each frame in the specified frame range.
+
+- added new feature to morph plug-in "Create Tween Frames"
+   that creates a directory with (renumbered) copies of the processed frames
+   and additionally generated tween frames that are rendered via fade or morphing.
+   individual workpointfiles per processed frame are located via
+   name convention (extension .morphpoints) and used for morphing when they exist.
+   (such files can be created with the help of the plug-in "Morph Workpoint Generator").
+   
+ 
+   example1:
+     generate 2 tween frames between each handled frame.
+     master_tween_steps = 2, tween_subdir = "with_tweens"
+    
+    frame_000001.xcf     == copied to     ==>  with_tweens/frame_000001.xcf
+                         render via morph ==>  with_tweens/frame_000002.xcf
+                         render via morph ==>  with_tweens/frame_000003.xcf
+
+    frame_000002.xcf     == copied to     ==>  with_tweens/frame_000004.xcf
+                         render via morph ==>  with_tweens/frame_000005.xcf
+                         render via morph ==>  with_tweens/frame_000006.xcf
+
+
+    frame_000003.xcf     == copied to     ==>  with_tweens/frame_000007.xcf
+
+   
+   example2:
+     generate 1 tween frame between each handled frame
+     master_tween_steps = 1, tween_subdir = "with_tweens"
+     in this example frame 2 is missing, therefore 3 tweens
+     are generates between frame 1 and 3.
+    
+    frame_000001.xcf     == copied to     ==>  with_tweens/frame_000001.xcf
+                         render via morph ==>  with_tweens/frame_000002.xcf
+                         render via morph ==>  with_tweens/frame_000003.xcf
+                         render via morph ==>  with_tweens/frame_000004.xcf
+
+    frame_000003.xcf     == copied to     ==>  with_tweens/frame_000005.xcf
+                         render via morph ==>  with_tweens/frame_000006.xcf
+   
+    frame_000004.xcf     == copied to     ==>  with_tweens/frame_000007.xcf
+
+- Morph dialog provides new features
+  for edge detection based automatic workpoint generation.
+  This feature is available when CTRL modifier key is hold down while
+  the Shape button is pressed.
+  
+
+
+- morph dialog now supports a special way to set morph workpoints
+  that automatically tries to find the corresponding point in the other image
+  within a specified locate radius.
+  This feature is useful when both images contain similar data.
+
+  This new feature is available via CTRL modifier key when setting morph points
+  (in the modes set and move)
+
+
+ * gap/Makefile.am
+ * gap/gap_colordiff.c [.h]          # NEW files
+ * gap/gap_locate.c [.h]             # NEW files
+ * gap/gap_edge_detection.c [.h]     # NEW files
+ * gap/gap_morph_shape.c [.h]        # NEW files
+ 
+ * gap/gap_morph_dialog.c [.h]
+ * gap/gap_morph_main.c [.h]
+ * gap/gap_libgimpgap.h
+ * gap/gap_morph_tween_dialog.c [.h]
+ 
+ * docs/reference/txt/INTRODUCTION.txt
+ 
+
+-- 2010-07-30 (started update to ffmpeg release ffmpeg 0.6)
+  
+  status: partly works, but problems to read some videoformats
+      - mjpeg (my Olympus SP-560UZ digicam uses this format)
+      - RealMedia
+
+  switch to ffmpeg-0.6 shall not be done until fixing this,
+  because update to new release shall not break 
+  compatibility with videoformats that already worked fine with the 
+  ffmpeg-0.5 based gimp-gap video api.
+
+- fixed gap_gve_raw_RGB_drawable_encode  
+  that method did convert to BGR colormodel (and not to RGB as it should)
+  but this was compensated by another bug when using ffmpeg conversion via deprecated
+  img_convert.
+
+- ffmpeg API no longer supports the procedure img_convert.
+  gimp-gap now uses sws_scale (that was already part of ffmpeg-0.5) and provides
+  the colormodel conversions required to feed the codecs of libavcodec.
+
+- replaced calls to deprecated video/audio decoder procedures
+       avcodec_decode_video  ==> avcodec_decode_video2
+       avcodec_decode_audio2 ==> avcodec_decode_audio3
+
+- ffmpeg-0.6 configure now requires --enable-nonfree when built with
+  non free libs (gimp-gap configure now adds this option when
+  building with the non free libfaac)
+  
+- support to compile gimp-gap with ffmpeg-0.6,
+  but keep older ffmpeg-0.5 release as default 
+
+- build gimp-gap with latest versions of xvid and x264 libraries is currently not possible.
+  note that the gap configure script checks the same way as the included ffmpeg 0.5 version
+  which does not accept new versions of those libraries.
+  therefore a change in the gap configure.in is not sufficient !
+
+  ==> for support of newer xvid and x264 libs porting gimp-gap to newer ffmpeg
+      is also required
+
+
+
+  * configure.in
+  * libgapvidapi/gap_vid_api_ffmpeg.c
+  * extern_libs/README_extern_libs
+  * extern_libs/ffmpeg.tar.gz
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_par.c
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_par.c
+  * libgapvidutil/gap_gve_raw.c  
+
+
+--- 2010-05-xx
+
+- workaround for gtk_button_new_from_stock (); problem.
+
+  Short description of the problem:
+      buttons created with gtk_button_new_from_stock sometimes do not show the icon
+      (at least in case the theme is configured as "Show symbols in menus" = false")
+      
+      Some of the gimp-gap buttons do not have any text
+      (For example the play, pause and reverse buttons in the playback dialog)
+      and appear as very small completely empty buttons
+      that makes it very hard to use with such a theme configuration.
+  
+
+      Here are some examples of stock_ids where the button does NOT show the image:
+        GAP_STOCK_PLAY
+        GAP_STOCK_PAUSE
+        GAP_STOCK_PLAY_REVERSE
+
+        GIMP_STOCK_RESET
+
+        GTK_STOCK_SAVE
+        GTK_STOCK_CLOSE
+
+      Note that other plug-ins (map object, lighting, gfig) that are using stock images
+      in similar way as gimp-gap have the same problem.
+  
+  The workaround uses the new procedure gap_stock_button_new
+  instead of gtk_button_new_from_stock to create buttons with stock images
+  and is used only where it makes no sense to disable the images via themes configuration.
+
+- support for configuration of the gap frame fetcher cache by new gimprc parameters:
+
+  (gap_ffetch_max_img_cache_elements "18")
+  (gap_ffetch_max_gvc_cache_elements "6")
+  (gap_ffetch_gva_frames_to_keep_cached "36")
+  
+  the gap frame fetcher cache settings are relevant for storyboard
+  and filtermacro processing.
+  
+
+
+- fixed sporadic crash in the storyboard render processor.
+  work copy duplicates of images that are cached as gimp image in the gap frame fetcher cache
+  now do detach the image parasite "GAP-IMAGE-CACHE-PARASITE" that marks the image as member of the cache.
+  In case rendering of one frame requires more than one image fetch operations this parasite
+  did sometimes cause an unexpected delete of the duplicate during fetch
+  when the maximum number of cached images is already reached.
+
+  * gap/gap_player_dialog.c  
+  * gap/gap_stock.c [.h]
+  * gap/gap_frame_fetcher.c [.h]
+  * gap/gap_story_render_processor.c
+  * docs/refernce/txt/gap_gimprc_params.txt
+  
+
+----- 2010-04-xx ----
+
+- modify frames plug-in now keeps dialog window open to show progress while processing frames
+  and provides button to cancel processing.
+  The old behavior based on gimp_progress was not sufficient, especially in case
+  when a filter is applied and the called filter also uses gimp_progresss
+  for local progress. This resulted in confusing concurrent progress updates...
+
+- New colormask plug-in added
+  The colormask filter can apply transparency for pixels matching the colormask image.
+  intended for processing frames where moving objects can be isolated
+  from the non-moving constant background by applying the constant background
+  as colormask on all frames.
+  
+  NOTICE:
+  The current implementation is NOT YET READY for use.
+  There are more implementation variants, most of them are experimental
+  some of them will be removed after testing.
+  The dialog window currently hides the options for those experimental variants
+  (until implentation is finished, those options are only visible for USERNAME=hof).
+  
+  
+
+- New storyboard processing feature mask anchor mode CLIP_COLOR
+  applies the selected mask as colormask
+
+- Storyboard support rotate transitions
+
+- New storyboard processing feature to add external transparency 
+  for clip type movie. This is done via format string that refers to
+  the external frames (typical gray image frames)
+  the format string has placeholder %s (replaced by basename of the video)
+  and %06d (replaced by the currently processed frame number)
+  
+  The format string can be specified in the storyboard master properties dialog
+  (similar to the area replacement for logo processing)
+  
+  * docs/reference/txt/plug-in-gap-move-path.txt
+  * libgapbase/gap_val_file.c [.h]
+  * gap/gap_mod_*         
+
+  * NEWS
+  * docs/reference/txt/INTRODUCTION.txt
+  * docs/reference/txt/STORYBOARD_FILE_DOC.txt
+  * docs/reference/txt/plug-in-colormask.txt    # NEW FILE
+
+  * gap/gap_colormask_main.c          # NEW FILE
+  * gap/gap_colormask_exec.c [.h]     # NEW FILES
+  * gap/gap_colormask_file.c [.h]     # NEW FILES
+  * gap/gap_colormask_dialog.c [.h]   # NEW FILES
+  * gap/Makefile.am
+  * gap/gap_libgimpgap.h
+  * gap/gap_layer_copy.c [.h]
+
+  * gap/gap_morph_dialog.c
+
+
+  * gap/gap_lib.c
+  * gap/gap_lib.h
+  * gap/gap_story_att_trans_dlg.c
+  * gap/gap_story_dialog.c
+  * gap/gap_story_file.c
+  * gap/gap_story_file.h
+  * gap/gap_story_main.h
+  * gap/gap_story_properties.c
+  * gap/gap_story_render_lossless.c
+  * gap/gap_story_render_processor.c
+  * gap/gap_story_render_types.h
+  * gap/gap_story_syntax.c
+  * gap/gap_story_syntax.h
+
+
+2010-07-04 Wolfgang Hofer <hof@gimp.org>
+
+- added gitignore files (applied patch provided by Carlo Baldassi #623050)
+
+   git add .gitignore
+   git add docs/.gitignore
+   git add docs/howto/.gitignore
+   git add docs/howto/txt/.gitignore
+   git add docs/reference/.gitignore
+   git add docs/reference/txt/.gitignore
+   git add extern_libs/.gitignore
+   git add gap/.gitignore
+   git add images/.gitignore
+   git add libgapbase/.gitignore
+   git add libgapvidapi/.gitignore
+   git add libgapvidutil/.gitignore
+   git add libwavplayclient/.gitignore
+   git add po/.gitignore
+   git add vid_common/.gitignore
+   git add vid_enc_avi/.gitignore
+   git add vid_enc_ffmpeg/.gitignore
+   git add vid_enc_rawframes/.gitignore
+   git add vid_enc_single/.gitignore
+   
+2010-07-04 Wolfgang Hofer <hof@gimp.org>
+
+- removed the execution bit on .txt, *.c and *.h source files
+  as suggested in #623078
+  
+    find . -name '*.txt' -exec chmod a-x '{}' \;
+    find . -name '*.c' -exec chmod a-x '{}' \;
+    find . -name '*.h' -exec chmod a-x '{}' \;
+  
+  
+2010-07-04 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug in move path rendering acceleration handling at last controlpoint.
+  when acceleration characteristic value other than 0 and 1 was used, 
+  the value(s) specified in the last controlpoint were not reached in the last frame.
+
+  example:
+  have 5 frames and use 2 controlpoints that scale an object from 25 % to 400 %
+  expected result is an object scaled to 400% in the last frame
+  
+  with (buggy version) got unexpected result:
+  frame  | scale in %
+  -------+------------
+  1      |  25.0
+  2      |  64.3979 
+  3      | 128.9717
+  4      | 208.4185
+  5      | 299.3830    // expected to reach 400% in the last rendered frame
+
+
+  with fixed version now get the expected result:
+
+  frame  | scale in %
+  -------+------------
+  1      |  25.0
+  2      |  78.8452 
+  3      | 167.0984
+  4      | 275.6785
+  5      | 400.0000
+
+- fixed bug in fetching boolean gimprc parmeter that always returned FALSE
+
+  * gap/gap_mov_exec.c
+  * libgapbase/gap_base.c [.h]
+
+2010-04-19 Wolfgang Hofer <hof@gimp.org>
+
+- move path fix for unwanted object jumps forth and back as reported in #607927
+  (the 1st frame in a segment was sometimes calculated based on the controlpoint
+   of the previous segment. this resulted in the reported  pixel jumps)
+
+- added information label to the move path dialog to show max speed for current segment
+  and current segment length in pixels.
+  (this shall help to adjust ontrolpoints in a way to avoid unwanted speed jumps)
+  
+  * gap/gap_mov_render.c
+  * gap/gap_mov_exec.c [.h]
+  * gap/gap_mov_dialog.c [.h]
+  * docs/reference/txt/plug-in-gap-move-path.txt
+  
+
+2010-03-21 Wolfgang Hofer <hof@gimp.org>
+
+- added gimprc parameters to specify width and height
+  for the previews in the morph dialog.
+  In additon with some other layout changes
+  (Moved buttons for save,load, and swap to button row at the bottom of the dialog window
+   and omitted "Layer:" labels ...)
+  the dialog window now fits into small resolution displays (1024x768)
+  when using english language settings.
+  (relevant for #611826)
+
+  Note that translated texts may still result in dialog window that
+  does not fit into small displays.
+  
+  (gap_morph_preview_width  "260")
+  (gap_morph_preview_height "180")
+
+- fixed a bug in the bluebox filter
+  (hue difference handling must respect that 180 degree is the biggest
+   difference for a hue value in the HSV colorspace)
+   
+  * gap/gap_bluebox.c
+  * gap/gap_morph_dialog.c
+
+
+
+2010-02-16 Wolfgang Hofer <hof@gimp.org>
+
+- acceleration characteristic behavior was changed for MovePath.
+  In case movement uses acceleration characteristic other than 0
+  and other transitions (rotate, zoom, perspective, opacity)
+  do not use their own (e.g have acceleration characteristic value == 0)
+  the frametiming of those other transitions is now syncronized
+  to the frametiming of the movement.
+
+  This new behavior allows rotation following the path in case
+  the object move shall use acceleration, deceleration or constant speed
+  via acceleration characteristic setting.
+  (see also discussion at #607927)
+
+  * gap/gap_mov_exec.c
+  * docs/reference/txt/plug-in-gap-move-path.txt
+
+2010-02-15 Wolfgang Hofer <hof@gimp.org>
+
+- acceleration graph widget changed. Now the widget knows the connected adjustment
+  and can handle refresh on changed value internally.
+  further provides setting the value with the mouse by click on the graph
+    Button 1 (LEFT):   sets value dependent from y position
+    Button 2 (MIDDLE): sets value 0 (acceleration OFF)
+    Button 3 (RIGHT):  sets value 1 (constant speed)
+
+- implementation for acceleration characteristic support im
+  storyboard transitions.
+
+- refactoring: moved multiple local definitions of the same macro MIX_VALUE
+  to one central module libgapbase/gap_libgapbase.h
+  (and renamed as GAP_BASE_MIX_VALUE)
+
+
+- alternative Rendering algorithm for STORYBOARD processing
+  scale, move operations where the result is larger than the frame in the composite image
+  are now handled by computing the affected (clipped) rectangle that will be visible on frame
+  after scale/move. Only this smaller part is copied, scaled and moved.
+  This shall use less resources and speeds up processing when scrolling or zooming images
+  that are larger than the resulting video frame size.
+
+   a first test, a zoom into a 1200 x 900 imgae rendered
+   to 110 frames of size 640 x 480 showed that render time of 1 min 30 sec
+   was nearly the same with or without that optimize feature .....
+   TODO ... further testing
+
+  * NEWS
+  * docs/reference/txt/gap-filterall-db-browser.txt
+  * docs/reference/txt/plug-in-gap-move-path.txt
+  * docs/reference/txt/plug-in-gap-storyboard-attr-prop.txt
+  * docs/reference/txt/plug-in-gap-storyboard-clip-prop.txt
+  * docs/reference/txt/STORYBOARD_FILE_DOC.txt
+
+  * libgapbase/gap_libgapbase.h
+
+  * gap/gap_accel_char.c [.h]
+  * gap/gap_accel_da.c [.h]
+  * gap/gap_dbbrowser_utils.c [.h]
+  * gap/gap_filter_foreach.c
+  * gap/gap_filter.h
+  * gap/gap_filter_main.c
+  * gap/gap_filter_pdb.h
+  * gap/gap_fmac_main.c
+  * gap/gap_mod_layer.c
+  * gap/gap_morph_exec.c
+  * gap/gap_mov_dialog.c
+  * gap/gap_mov_exec.c
+
+  * gap/gap_story_att_trans_dlg.c
+  * gap/gap_story_file.c [.h]
+  * gap/gap_story_main.h
+  * gap/gap_story_properties.c
+  * gap/gap_story_render_processor.c
+  * gap/gap_story_render_types.h.
+  * gap/gap_story_syntax.c
+
+
+
+2010-02-08 Wolfgang Hofer <hof@gimp.org>
+
+- the GIMP-GAP libavformat(libavcodec based video encoder
+  now disables pre convert to YUV420P colormodel before feeding frame data to the encoding
+  engine. This GIMP_GAP internal pre convrsion seems to fail on 64bit OS
+  (see also #607924)
+  furthermore YUV420P input typically reduces quality of the resulting output video.
+  
+  (pre convert to YUV420P colormodel is still available for test purpose
+   and can be enabled by environment variable
+     export GAP_FFENC_USE_YUV420P=y
+  )
+
+  * vid_enc_ffmpeg/gap_enc_ffmpeg_main.c
+
+2010-02-07 Wolfgang Hofer <hof@gimp.org>
+
+- implementation for acceleration characteristic support im MovePath
+  (as suggested in #607927)
+  
+  * gap/gap_accel_char.c [.h]  # NEW files
+  * gap/gap_accel_da.c [.h]    # NEW files
+  * gap/Makefile.am
+
+  * gap/gap_mov_exec.c
+  * gap/gap_mov_dialog.c [.h]
+
+
+2010-01-16 Wolfgang Hofer <hof@gimp.org>
+- applied patch provided at #607040 that fixes the crash when selcting
+   controlpoint color.
+
+  * gap/gap_morph_dialog.c
+
+2009-12-29 Wolfgang Hofer <hof@gimp.org>
+
+- fixed a bug in generating original audiotrack for storyboard
+  whre the generated audio track sometimes is shorter than orignal video playtime
+  when videoclips without audio are included in the storyboard.
+
+- fixed storyboard composite playback of selected frames.
+  The calculation of total selected frames did not work in
+  some special cases where clips with overlapping frames
+  are selected. In case the user selected a clip
+  that was fully overlapped by an unselected clip
+  a total number of 0 frames was the result.
+
+  * gap/gap_story_file.c
+
+2009-11-19 Wolfgang Hofer <hof@gimp.org>
+
+ - fixed a bug in the storyboard clip properties
+   that removed masks from video clips when the properties popup dialog was closed and opend again.
+   an active_index -1 in the combo box inidcates empty combo box (typic while widget creation)
+   and must NOT trigger removal of the mask (this is restricted to selection of the "None" entry with index 0
+   or in case entries are present but none is matching the list of valid mask names)
+
+  * gap/gap_story_properties.c
+
+2009-08-11 Wolfgang Hofer <hof@gimp.org>
+
+- detection of videofiles by extension now also accepts.mp4 videos.
+- fixed broken videoapi framerate detection (did not work on some video files)
+  the fix for the libavformat based api now takes care of the
+  ticks_per_frame value of the video codec
+  (that is typically 2 in interlaced videos)
+  an additional fallback uses the container framerate in case the codec delivers
+  unplausible value.
+  now it seems to work, tested with videos of different types mpg, vob, wma, avi, mp4
+
+  * gap/gap_story_file.c
+  * gap/gap_story_dialog.c
+  * libgapvidapi/gap_vid_api_ffmpeg.c  
+ 
+ 
+2009-07-28 Wolfgang Hofer <hof@gimp.org>
+
+- fixed broken initialisation of default values in case the file
+  with animation properties (*_vin.gap) does not yet exist.
+  This also fixes the reported resource bug #589897
+  (that allocated memory for GapVinVideoInfo structure
+   that was never freed)
+
+
+  * gap/gap_vin.c
+  
 2009-06-20 Wolfgang Hofer <hof@gimp.org>
 
 - fixes for many compiler warnings
@@ -35,6 +2072,8 @@
 
 2009-05-22 Wolfgang Hofer <hof@gimp.org>
 
+- applied changes from gap-2-6 branch to master
+
 - autgen.sh script chcks for required automake now accepts automake-1.11
   (applied patch from David Evans #583500)
 
@@ -52,14 +2091,12 @@
   * po/LINGUAS       # new file
   * configure.in
  
-  
-2009-05-19 Wolfgang Hofer <hof@gimp.org>
+2009-05-20 Wolfgang Hofer <hof@gimp.org>
 
-- configure.in updated Version to 2.6.0.
+Updated Version to 2.7.0
 
+  README
   * configure.in
-  * README
-  * NEWS
 
 2009-05-17 Wolfgang Hofer <hof@gimp.org>
 

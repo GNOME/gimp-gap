@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-if GAP_AUDIO_SUPPORT
+if GAP_AUDIO_SUPPORT_WAVPLAY
 LIBWAVCLIENT=libwavplayclient
 endif
 

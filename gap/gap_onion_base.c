@@ -19,8 +19,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -269,7 +269,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
 {
   gint32        l_nr;
   gint32        l_sign;
-  
+
   gint32        l_onr;
   gint32        l_ign;
   gint32        l_idx;
@@ -327,7 +327,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
       l_active_layer = -1;
     }
   }
-  
+
   /* delete onion layers (if there are old ones) */
   gap_onion_base_onionskin_delete(image_id);
 
@@ -361,7 +361,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
        /* process near neigbours first to give them the highest configured opacity value */
        l_nr = l_onr;
     }
- 
+
     /* find out reference frame number */
     switch(vin_ptr->ref_mode)
     {
@@ -377,7 +377,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
       default:
         break;
     }
- 
+
     l_frame_nr = ainfo_curr_frame_nr + (l_sign * (vin_ptr->ref_delta * l_nr));
 
 
@@ -434,11 +434,23 @@ gap_onion_base_onionskin_apply(gpointer gpp
       l_new_filename = gap_lib_alloc_fname(ainfo_basename,
                                           l_frame_nr,
                                           ainfo_extension);
-      /* load referenced frame */
-      l_tmp_image_id = gap_lib_load_image(l_new_filename);
-      if(l_tmp_image_id < 0)
-         return -1;
-
+      if(g_file_test(l_new_filename, G_FILE_TEST_EXISTS))
+      {
+        /* load referenced frame */
+        l_tmp_image_id = gap_lib_load_image(l_new_filename);
+        if(l_tmp_image_id < 0)
+        {
+          g_free(l_new_filename);
+          return -1;
+	    }
+      }
+      else
+      {
+        /* refered frame image is not available, ignore it */
+        g_free(l_new_filename);
+        l_new_filename = NULL;
+        continue;
+      }
       /* dont waste time and memory for undo in noninteracive processing
        * of the src frames
        */
@@ -647,7 +659,7 @@ gap_onion_image_has_oinonlayers(gint32 image_id, gboolean only_visible)
         }
       }
     }
-    
+
     g_free(l_layers_list);
   }
   return (l_has_onion);
@@ -658,14 +670,14 @@ gap_onion_image_has_oinonlayers(gint32 image_id, gboolean only_visible)
 /* ---------------------------------
  * gap_onion_base_image_duplicate
  * ---------------------------------
- * duplicate the image 
- * and mark onionskin layers in the copy 
+ * duplicate the image
+ * and mark onionskin layers in the copy
  */
 gint32
 gap_onion_base_image_duplicate(gint32 image_id)
 {
   gint32 dup_image_id;
-  
+
   dup_image_id = gimp_image_duplicate(image_id);
   if(dup_image_id >= 0)
   {
@@ -677,11 +689,11 @@ gap_onion_base_image_duplicate(gint32 image_id)
     gint        l_is_onion;
     gint32      l_layer_id;
     gboolean    l_has_onion;
-    
+
     l_layers_list = gimp_image_get_layers(image_id, &l_nlayers);
     l_dup_layers_list = gimp_image_get_layers(dup_image_id, &l_dup_nlayers);
 
-    if((l_layers_list) 
+    if((l_layers_list)
     && (l_dup_layers_list))
     {
       for(l_idx=0;l_idx < MIN(l_nlayers, l_dup_nlayers);l_idx++)
@@ -698,8 +710,8 @@ gap_onion_base_image_duplicate(gint32 image_id)
       g_free(l_layers_list);
       g_free(l_dup_layers_list);
     }
-    
+
   }
-  
+
   return(dup_image_id);
 }  /* end gap_onion_base_image_duplicate */

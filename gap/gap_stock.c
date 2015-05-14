@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -35,6 +35,7 @@
 
 #include "images/gap-stock-pixbufs.h"
 
+extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 
 static GtkIconFactory *gap_icon_factory = NULL;
 
@@ -83,6 +84,16 @@ add_stock_icon (const gchar  *stock_id,
 
   pixbuf = gdk_pixbuf_new_from_inline (-1, inline_data, FALSE, NULL);
 
+  if(gap_debug)
+  {
+    printf("add_stock_icon stock_id:%s size:%d inline_data:%d pixbuf:%d\n"
+       ,stock_id
+       ,(int)size
+       ,(int)inline_data
+       ,(int)pixbuf
+       );
+  }
+
   gtk_icon_source_set_pixbuf (source, pixbuf);
   g_object_unref (pixbuf);
 
@@ -100,6 +111,11 @@ void
 gap_stock_init (void)
 {
   static gboolean initialized = FALSE;
+
+  if(gap_debug)
+  {
+    printf("gap_stock_init START\n");
+  }
 
   if (initialized)
     return;
@@ -137,4 +153,57 @@ gap_stock_init (void)
   gtk_stock_add_static (gap_stock_items, G_N_ELEMENTS (gap_stock_items));
 
   initialized = TRUE;
+
+  if(gap_debug)
+  {
+    printf("gap_stock_init DONE\n");
+  }
 }
+
+
+
+GtkWidget *  
+gap_stock_button_new_with_label(const char *stock_id, const char *optional_label)
+{
+  GtkWidget *button;
+  GtkWidget *image;
+
+  button = gtk_button_new ();
+
+  image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image);
+  
+
+  if (optional_label != NULL)
+  {
+    GtkWidget *hbox;
+    GtkWidget *label;
+
+    hbox = gtk_hbox_new (FALSE, 2);
+    gtk_widget_show (hbox);
+  
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
+    gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+    
+    label = gtk_label_new (optional_label);
+    gtk_widget_show (label);
+
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+
+    gtk_container_add (GTK_CONTAINER (button), hbox);
+
+  }
+  else
+  {
+    gtk_container_add (GTK_CONTAINER (button), image);
+  }
+
+  return (button);
+}
+
+GtkWidget *  
+gap_stock_button_new(const char *stock_id)
+{
+  return(gap_stock_button_new_with_label(stock_id, NULL));
+}
+

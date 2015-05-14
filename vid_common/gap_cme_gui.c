@@ -21,8 +21,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 
@@ -975,7 +975,9 @@ p_update_aud_info (GapCmeGlobalParams *gpp
           * valid_playlist_references holds the number of valid tracks
           * (where samplerate matches the desired samplerate and bits == 16)
           */
-         g_snprintf(txt, sizeof(txt), _("List[%d] has [%d] valid tracks, Bit:%d Chan:%d Rate:%d")
+         g_snprintf(txt, sizeof(txt), ngettext("List[%d] has [%d] valid track, Bit:%d Chan:%d Rate:%d"
+                                             , "List[%d] has [%d] valid tracks, Bit:%d Chan:%d Rate:%d"
+                                             , (int)valid_playlist_references )
                                   , (int)all_playlist_references
                                   , (int)valid_playlist_references
                                   , (int)bits
@@ -1596,7 +1598,7 @@ p_storybord_job_finished(GapCmeGlobalParams *gpp, t_global_stb *gstb)
   }
 
   /* info window of storyboard parsing report */
-  /* g_message(l_msg); */
+  /* g_message("%s", l_msg); */
   p_print_storyboard_text_label(gpp, l_msg);
 
   gstb->progress = 0.0;
@@ -1732,7 +1734,7 @@ p_thread_storyboard_file(gpointer data)
     l_create_audio_tmp_files = TRUE;
   }
 
-  vidhand = gap_gve_story_open_extended_video_handle
+  vidhand = gap_story_render_open_extended_video_handle
            ( FALSE   /* dont ignore video */
            , FALSE   /* dont ignore audio */
            , l_create_audio_tmp_files
@@ -1747,15 +1749,13 @@ p_thread_storyboard_file(gpointer data)
            , -1        /* frame_from */
            , 999999    /* frame_to */
            , &gpp->val.storyboard_total_frames
+           , gpp->val.util_sox
+           , gpp->val.util_sox_options
            );
 
   if(vidhand)
   {
     gstb->vidhand_open_ok = TRUE;
-    gap_gve_story_set_audio_resampling_program(vidhand
-                       , gpp->val.util_sox
-                       , gpp->val.util_sox_options
-                       );
 
     if(vidhand->master_framerate != 0.0)
     {
@@ -2035,7 +2035,7 @@ gap_cme_gui_check_encode_OK (GapCmeGlobalParams *gpp)
                          , (int)(gpp->val.vid_width / 16) * 16
                          , (int)(gpp->val.vid_height / 16) * 16
                          );
-      g_message(l_msg);
+      g_message("%s", l_msg);
       g_free(l_msg);
       return (FALSE);
     }
@@ -2058,7 +2058,7 @@ gap_cme_gui_check_encode_OK (GapCmeGlobalParams *gpp)
                             , (int)bits
                             , gpp->val.audioname1
                             );
-         g_message(l_msg);
+         g_message("%s", l_msg);
          g_free(l_msg);
          return (FALSE);
        }
@@ -2077,7 +2077,7 @@ gap_cme_gui_check_encode_OK (GapCmeGlobalParams *gpp)
                             "file: %s\n")
                             , gpp->val.audioname1
                             );
-         g_message(l_msg);
+         g_message("%s", l_msg);
          g_free(l_msg);
          return (FALSE);
     }
@@ -2101,7 +2101,7 @@ gap_cme_gui_check_encode_OK (GapCmeGlobalParams *gpp)
                                 "supported rates: \n"
                                 " 22050, 24000, 32000, 44100, 48000")
                                 , (int)gpp->val.samplerate);
-             g_message(l_msg);
+             g_message("%s", l_msg);
              g_free(l_msg);
              return (FALSE);
              break;
@@ -2129,7 +2129,7 @@ gap_cme_gui_check_encode_OK (GapCmeGlobalParams *gpp)
                                 "supported rates:\n"
                                 " 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000")
                                 , (int)gpp->val.samplerate);
-             g_message(l_msg);
+             g_message("%s", l_msg);
              g_free(l_msg);
              return (FALSE);
              break;
@@ -3657,12 +3657,16 @@ p_create_video_options_frame (GapCmeGlobalParams *gpp)
 
 
   /* the Frame width/height scale combo (for picking common used video sizes) */
-  combo = gimp_int_combo_box_new (_("Framesize (1:1)"),     GAP_CME_STANDARD_SIZE_IMAGE,
+  combo = gimp_int_combo_box_new (_("keep"),                GAP_CME_STANDARD_SIZE_KEEP,
+                                  _("Framesize (1:1)"),     GAP_CME_STANDARD_SIZE_IMAGE,
                                   _("320x240 NTSC"),        GAP_CME_STANDARD_SIZE_320x240,
                                   _("320x288 PAL"),         GAP_CME_STANDARD_SIZE_320x288,
                                   _("640x480"),             GAP_CME_STANDARD_SIZE_640x480,
                                   _("720x480 NTSC"),        GAP_CME_STANDARD_SIZE_720x480,
                                   _("720x576 PAL"),         GAP_CME_STANDARD_SIZE_720x576,
+                                  _("1280x720 HD"),         GAP_CME_STANDARD_SIZE_1280x720,
+                                  _("1920x1080 FullHD"),    GAP_CME_STANDARD_SIZE_1920x1080,
+                                  _("1920x1088 EosHD"),     GAP_CME_STANDARD_SIZE_1920x1088,
                                   NULL);
 
   gpp->cme__combo_scale            = combo;
@@ -3732,7 +3736,8 @@ p_create_video_options_frame (GapCmeGlobalParams *gpp)
 
 
   /* the framerate combo (to select common used video framerates) */
-  combo = gimp_int_combo_box_new (_("unchanged"),   GAP_CME_STANDARD_FRAMERATE_00_UNCHANGED,
+  combo = gimp_int_combo_box_new (_("keep"),        GAP_CME_STANDARD_FRAMERATE_KEEP,
+                                  _("original"),    GAP_CME_STANDARD_FRAMERATE_00_UNCHANGED,
                                   "23.98",          GAP_CME_STANDARD_FRAMERATE_01_23_98,
                                   "24",             GAP_CME_STANDARD_FRAMERATE_02_24,
                                   "25",             GAP_CME_STANDARD_FRAMERATE_03_25,
@@ -3929,7 +3934,7 @@ p_call_encoder_procedure(GapCmeGlobalParams *gpp)
      l_msg = g_strdup_printf(_("Required Plugin %s not available"), gpp->val.ecp_sel.vid_enc_plugin);
      if(gpp->val.run_mode == GIMP_RUN_INTERACTIVE)
      {
-       g_message(l_msg);
+       g_message("%s", l_msg);
      }
      g_free(l_msg);
      return -1;
@@ -3981,7 +3986,7 @@ p_call_encoder_procedure(GapCmeGlobalParams *gpp)
      l_msg = g_strdup_printf(_("Call of Required Plugin %s failed"), gpp->val.ecp_sel.vid_enc_plugin);
      if(gpp->val.run_mode == GIMP_RUN_INTERACTIVE)
      {
-       g_message(l_msg);
+       g_message("%s", l_msg);
      }
      g_free(l_msg);
   }
@@ -4339,7 +4344,8 @@ gap_cme_gui_master_encoder_dialog(GapCmeGlobalParams *gpp)
   if(gap_debug) printf("gap_cme_gui_master_encoder_dialog: Start\n");
 
 #ifdef GAP_USE_GTHREAD
-  g_thread_init (NULL);
+  /* check and init thread system */
+  gap_base_thread_init();
   gdk_threads_init ();
   gdk_threads_enter ();
 #endif

@@ -1,4 +1,4 @@
-Project gap "GIMP Animation Package"   08. Dec. 2004  (pre)release 2.1.0
+Project gap "GIMP Animation Package"   10. Oct. 2011  (pre)release 2.6.1
 
 --------------------------------------------------------------------
 Introduction
@@ -77,7 +77,7 @@ Input from videofile:
 	- mplayer
 	- xanim
 	those players are capable to extract frames from
-	common videofiel formats (avi, mpeg, quicktime, ....) .
+	common videofile formats (avi, mpeg, quicktime, ....) .
 	Please note that xanim is old unmaintained software.
 	The frontend for xanim is still there and may even work if
 	you still have xanim exporting edition.
@@ -99,7 +99,7 @@ Output to videofile:
         GIMP-GAP provides video encoder plug-ins
         to save a series of input frame images or videoclips
         as videofile.
-        This process is called encoding an usually 
+        This process is called encoding and usually 
         does compresses the processed frames and audiodata.
 
         GIMP-GAP encoder plug-ins can operate on
@@ -304,6 +304,9 @@ Internal PDB names and menu names of GIMP-GAP plug-ins
   plug_in_gap_exchg                   "<Image>/Video/Exchange Frame"
   plug_in_gap_modify                  "<Image>/Video/Frames Modify"
   plug-in-gap-morph-layers            "<Image>/Video/Morph"
+  plug_in_gap_morph_tween             "<Image>/Video/Morph Tweenframes"
+  plug_in_gap_morph_one_tween         "<Image>/Video/Morph One Tween"
+  plug_in_gap_morph_workpoints        "<Image>/Video/Morph Workpoint Generator"
   plug_in_gap_move                    "<Image>/Video/Move Path"
   plug_in_gap_navigator               "<Image>/Video/VCR Navigator"
   plug_in_gap_range_convert           "<Image>/Video/Frames Convert"
@@ -317,10 +320,12 @@ Internal PDB names and menu names of GIMP-GAP plug-ins
   plug-in-gap-storyboard-edit         "<Image>/Video/Storyboard"
   plug_in_gap_videoframes_player      "<Image>/Video/Playback"
 
+  plug-in-layer-set-alpha-by-colormask "<Image>/Video/Layer/Attributes/"
+  plug-in-foreground-extract-matting   "<Image>/Video/Layer/Attributes/"
+
   plug-in-gap-vid-encode-master       "<Image>/Video/Encode/Master Videoencoder"
   plug_in_gap_mpeg2encode             "<Image>/Video/Encode/MPEG2 (mpeg2encode)"
   plug_in_gap_mpeg_encode             "<Image>/Video/Encode/MPEG1 (mpeg_encode)"
-
   plug_in_gap_goto                    "<Image>/Video/Go To/Any Frame"
   plug_in_gap_first                   "<Image>/Video/Go To/First Frame"
   plug_in_gap_last                    "<Image>/Video/Go To/Last Frame"

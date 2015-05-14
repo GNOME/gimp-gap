@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -78,7 +78,7 @@ gint32 gap_layer_copy_to_dest_image (gint32 dst_image_id,
   l_name = gimp_drawable_get_name(src_layer_id);
 
   /* copy the layer */
-  l_new_layer_id = gap_pdb_gimp_layer_new_from_drawable(src_layer_id, dst_image_id);
+  l_new_layer_id = gimp_layer_new_from_drawable(src_layer_id, dst_image_id);
 
   if(l_new_layer_id >= 0)
   {
@@ -202,11 +202,68 @@ p_copy_rgn_render_region (const GimpPixelRgn *srcPR
 }  /* end p_copy_rgn_render_region */
 
 
+
+
+
+/* ---------------------------------
+ * p_copy_rgn_render_region_bpp
+ * ---------------------------------
+ * copy region where source and destination bpp
+ * are different.
+ */
+static void
+p_copy_rgn_render_region_bpp (const GimpPixelRgn *srcPR
+                    ,const GimpPixelRgn *dstPR)
+{
+  guint    row;
+  guint    col;
+  guint    minBpp = MIN(srcPR->bpp, dstPR->bpp);
+  guchar* src  = srcPR->data;
+  guchar* dest = dstPR->data;
+  
+
+  for (row = 0; row < dstPR->h; row++)
+  {
+     gint srcOff;
+     gint dstOff;
+     gint ii;
+     
+     srcOff = 0;
+     dstOff = 0;
+     
+     for (col = 0; col < dstPR->w; col++)
+     {
+       for(ii=0; ii < minBpp; ii++)
+       {
+        dest[dstOff + ii] = src[srcOff + ii];
+       }
+     
+       srcOff += srcPR->bpp;
+       dstOff += dstPR->bpp;
+     }
+
+     src  += srcPR->rowstride;
+     dest += dstPR->rowstride;
+  }
+}  /* end p_copy_rgn_render_region_bpp */
+
+
 /* ============================================================================
  * gap_layer_copy_content
- * - source and dest must be the same size and type
+ * - source and dest must be the same size
  * - selections are ignored
  *   (the full drawable content is copied without use of the shadow buffer)
+ * - different bpp values will copy only up to the smaller of both bpp values
+ *   and leaves the higher channel number(s) unchanged.
+ *   useful combinations are:
+ *       srcBpp == 4 (RBGA)  and dstBpp == 3 (RBG)   where only RGB is copied
+ *       srcBpp == 3 (RBG)   and dstBpp == 4 (RBGA)  where only RGB is copied and alpha is left unchanged
+ *       srcBpp == 2 (GRAYA) and dstBpp == 1 (GRAY)  where only the gray value is copied
+ *       srcBpp == 1 (GRAY)  and dstBpp == 2 (GRAYA) where only the gray value is copied and alpha is left unchanged
+ *   other combinations may not make sense
+ *   where gray value or alpha channel is copied to Red or green channel
+ *   and gives strange results. 
+ *
  * ============================================================================
  */
 gboolean
@@ -221,10 +278,9 @@ gap_layer_copy_content (gint32 dst_drawable_id, gint32 src_drawable_id)
   dst_drawable = gimp_drawable_get (dst_drawable_id);
 
   if((src_drawable->width  != dst_drawable->width)
-  || (src_drawable->height != dst_drawable->height)
-  || (src_drawable->bpp    != dst_drawable->bpp))
+  || (src_drawable->height != dst_drawable->height))
   {
-    printf("gap_layer_copy_content: calling ERROR src_drawable and dst_drawable do not match in size or bpp\n");
+    printf("gap_layer_copy_content: calling ERROR src_drawable and dst_drawable do not match in size\n");
     printf("src: w:%d h:%d bpp:%d\n"
            ,(int)src_drawable->width
            ,(int)src_drawable->height
@@ -251,12 +307,24 @@ gap_layer_copy_content (gint32 dst_drawable_id, gint32 src_drawable_id)
                       , FALSE     /* shadow */
                        );
 
-
-  for (pr = gimp_pixel_rgns_register (2, &srcPR, &dstPR);
-       pr != NULL;
-       pr = gimp_pixel_rgns_process (pr))
+  if (src_drawable->bpp == dst_drawable->bpp)
   {
-      p_copy_rgn_render_region (&srcPR, &dstPR);
+    /* can use faster variant for same bpp */
+    for (pr = gimp_pixel_rgns_register (2, &srcPR, &dstPR);
+         pr != NULL;
+         pr = gimp_pixel_rgns_process (pr))
+    {
+        p_copy_rgn_render_region (&srcPR, &dstPR);
+    }
+  }
+  else
+  {
+    for (pr = gimp_pixel_rgns_register (2, &srcPR, &dstPR);
+         pr != NULL;
+         pr = gimp_pixel_rgns_process (pr))
+    {
+        p_copy_rgn_render_region_bpp (&srcPR, &dstPR);
+    }
   }
 
   gimp_drawable_flush (dst_drawable);
@@ -847,3 +915,41 @@ gap_layer_create_layer_from_alpha(gint32 src_layer_id, gint32 image_id
 
 }  /* end gap_layer_create_layer_from_alpha  */
 
+/* ---------------------------------
+ * gap_layer_find_by_name
+ * ---------------------------------
+ * return -1 if the specified image has no layer with the specified name
+ */
+gint32
+gap_layer_find_by_name(gint32 image_id, const char *name)
+{
+  gint          l_nlayers;
+  gint32       *l_layers_list;
+  gint32        l_layer_id;
+
+  l_layer_id = -1;
+  l_layers_list = gimp_image_get_layers(image_id, &l_nlayers);
+  if(l_layers_list != NULL)
+  {
+    gint ii;
+    for(ii=0; ii < l_nlayers; ii++)
+    {
+      char *layername;
+      gboolean isEqual;
+
+      layername = gimp_drawable_get_name(l_layers_list[ii]);
+      isEqual = (strcmp(layername, name) == 0);
+      g_free(layername);
+      
+      if (isEqual)
+      {
+        l_layer_id = l_layers_list[ii];
+        break;
+      }
+    }
+    g_free (l_layers_list);
+  }
+
+  return (l_layer_id);
+
+}  /* end gap_layer_find_by_name */

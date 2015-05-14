@@ -22,8 +22,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history: 
@@ -163,13 +163,13 @@ p_gap_filename_to_uri(const char *filename)
  * and save the pixbuf for the new filename_dst.
  *
  * The following Information Tags in the resulting copy are updated
- * to match filename_dst. (this is done implicite by the gimp_thumbnail_* procedures)
+ * to match filename_dst. (this is done implicitly by the gimp_thumbnail_* procedures)
  *   tEXt::Thumb::URI
  *   tEXt::Thumb::MTime
  *   tEXt::Description
  *   tEXt::Thumb::Size
  *
- * The following Tags are copied explicite from the source thumbnail:
+ * The following Tags are copied explicit from the source thumbnail:
  *   tEXt::Thumb::Image::Width
  *   tEXt::Thumb::Image::Height
  *   tEXt::Thumb::X-GIMP::Type

@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #ifndef GAP_CME_MAIN_H
@@ -41,14 +41,19 @@
 #define GAP_CME_PLUGIN_HELP_ID_VID_ENCODE_MASTER "plug-in-gap-vid-encode-master"
 
 
+#define GAP_CME_STANDARD_SIZE_KEEP -1
 #define GAP_CME_STANDARD_SIZE_IMAGE   0
 #define GAP_CME_STANDARD_SIZE_320x240 1
 #define GAP_CME_STANDARD_SIZE_320x288 2
 #define GAP_CME_STANDARD_SIZE_640x480 3
 #define GAP_CME_STANDARD_SIZE_720x480 4
 #define GAP_CME_STANDARD_SIZE_720x576 5
-#define GAP_CME_STANDARD_SIZE_MAX_ELEMENTS  6
+#define GAP_CME_STANDARD_SIZE_1280x720 6
+#define GAP_CME_STANDARD_SIZE_1920x1080 7
+#define GAP_CME_STANDARD_SIZE_1920x1088 8
+#define GAP_CME_STANDARD_SIZE_MAX_ELEMENTS  9
 
+#define GAP_CME_STANDARD_FRAMERATE_KEEP -1
 #define GAP_CME_STANDARD_FRAMERATE_00_UNCHANGED  0
 #define GAP_CME_STANDARD_FRAMERATE_01_23_98 1
 #define GAP_CME_STANDARD_FRAMERATE_02_24    2

@@ -24,6 +24,7 @@
 #include <libgimp/gimp.h>
 
 #include "gap/gap_image.h"
+#include "gap_base.h"
 
 #define GVA_MPGFRAME_UNKNOWN -1
 #define GVA_MPGFRAME_I_TYPE 1
@@ -126,6 +127,32 @@ typedef struct t_GVA_Frame_Cache
 } t_GVA_Frame_Cache;
 
 
+typedef struct GVA_RgbPixelBuffer
+{
+  guchar       *data;          /* pointer to region data */
+  guint         width;         /* width in pixels */
+  guint         height;        /* height in pixels */
+  guint         bpp;           /* bytes per pixel (always initialized with 3) */
+  guint         rowstride;     /* bytes per pixel row */
+  gint32        deinterlace;
+  gdouble       threshold;     /* threshold value for  deinterlacing */
+} GVA_RgbPixelBuffer;
+
+
+typedef struct GVA_fcache_fetch_result {
+  gboolean   isFrameAvailable;        /* OUT */
+  gboolean   isRgb888Result;          /* IN/OUT The caller shall set isRgb888Result to 
+                                       *        FALSE: in case the result shall be converted
+                                       *               to a newly created gimp layer (in a new image)
+                                       *        TRUE:  in case rgbBuffer is prefered.
+                                       *               (this flag may flip to FALSE
+                                       *               in case the video has an alpha channel e.g.bpp == 4)
+                                       */
+  gint32     layer_id;                /* OUT the id of the newly created layer */
+  gint32     image_id;                /* OUT the id of the newly created image */
+  GVA_RgbPixelBuffer    rgbBuffer;    /* IN/OUT the buffer */
+} GVA_fcache_fetch_result;
+
 typedef  gboolean       (*t_GVA_progress_callback_fptr)(gdouble progress, gpointer user_data);
 
 
@@ -156,7 +183,7 @@ typedef struct t_GVA_VideoindexHdr
   char     val_mtim[15];
   char     key_flen[5];
   char     val_flen[10];
-  
+
 } t_GVA_VideoindexHdr;
 
 typedef enum
@@ -222,7 +249,7 @@ typedef struct t_GVA_Handle  /* nickname: gvahand */
   gboolean create_vindex;       /* TRUE: allow the fptr_count_frames procedure to create a videoindex file */
   t_GVA_Videoindex *vindex;
   gint32            mtime;
-  
+
   gboolean disable_mmx;
   gboolean do_gimp_progress;    /* WARNING: dont try to set this TRUE if you call the API from a thread !! */
   gboolean all_frames_counted;  /* TRUE: counted all frames, total_frames is an exact value
@@ -263,7 +290,7 @@ typedef struct t_GVA_Handle  /* nickname: gvahand */
   gint32  audio_cannels;        /* number of channel (in the selected aud_track) */
 
   gboolean critical_timecodesteps_found;
-  
+
 
   gdouble percentage_done;      /* 0.0 <= percentage_done <= 1.0 */
 
@@ -290,6 +317,19 @@ typedef struct t_GVA_Handle  /* nickname: gvahand */
   gint32  aud_track;
   char   *filename;
   gboolean gva_thread_save;
+
+  GapTimmRecord  fcacheMutexLockStats;   /* record runtime for locking the fcache mutex */
+  GMutex  *fcache_mutex;      /* NULL for standard singleprocessor usage
+                               * if the gvahand video handle is used in multithread environment
+                               * (see storyboard processor implementation)
+                               * the caller shall supply a mutex created with g_mutex_new
+                               * that will be used to lock the fcache while GVA procedures
+                               * access the fcache. (using g_mutex_lock, g_mutex_unlock)
+                               * Note that the GVA_open_read procedure(s) will init fcache_mutex = NULL
+                               */
+
+  gpointer user_data;         /* is set to NULL at open and is not internally used by GVA procedures */
+
 } t_GVA_Handle;
 
 typedef enum
@@ -381,6 +421,9 @@ t_GVA_SeekSupport GVA_check_seek_support(t_GVA_Handle  *gvahand);
 void            GVA_set_fcache_size(t_GVA_Handle *gvahand
                  ,gint32 frames_to_keep_cahed
                  );
+gint32          GVA_get_fcache_size_in_elements(t_GVA_Handle *gvahand);
+gint32          GVA_get_fcache_size_in_bytes(t_GVA_Handle *gvahand);
+
 
 t_GVA_RetCode   GVA_search_fcache(t_GVA_Handle *gvahand
                  ,gint32 framenumber
@@ -390,6 +433,29 @@ t_GVA_RetCode   GVA_search_fcache_by_index(t_GVA_Handle *gvahand
                  ,gint32 index
                  ,gint32 *framenumber
                  );
+
+void           GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
+                 , gint32   framenumber
+                 , gint32   deinterlace
+                 , gdouble  threshold
+                 , gint32   numProcessors
+                 , GVA_fcache_fetch_result *fetchResult
+                 );
+
+// gint32          GVA_search_fcache_and_get_frame_as_gimp_layer(t_GVA_Handle *gvahand
+//                  , gint32 framenumber
+//                  , gint32   deinterlace
+//                  , gdouble  threshold
+//                  , gint32   numProcessors
+//                  );
+
+
+gboolean        GVA_fcache_mutex_trylock(t_GVA_Handle  *gvahand);
+void            GVA_fcache_mutex_lock(t_GVA_Handle  *gvahand);
+void            GVA_fcache_mutex_unlock(t_GVA_Handle  *gvahand);
+
+
+
 void            GVA_debug_print_fcache(t_GVA_Handle *gvahand);
 void            GVA_image_set_aspect(t_GVA_Handle *gvahand, gint32 image_id);
 
@@ -427,6 +493,7 @@ guchar *       GVA_frame_to_buffer(t_GVA_Handle *gvahand
                 );
 guchar *       GVA_fetch_frame_to_buffer(t_GVA_Handle *gvahand
                 , gboolean do_scale
+                , gboolean isBackwards
                 , gint32 framenumber
                 , gint32 deinterlace
                 , gdouble threshold
@@ -443,7 +510,7 @@ void           GVA_delace_drawable(gint32 drawable_id
                 , gint32 deinterlace
                 , gdouble threshold
                 );
-                
+
 gint32          GVA_percent_2_frame(gint32 total_frames, gdouble percent);
 gdouble         GVA_frame_2_percent(gint32 total_frames, gdouble framenr);
 

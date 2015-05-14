@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -77,6 +77,7 @@
 #include "gap_range_ops.h"
 #include "gap_mod_layer.h"
 #include "gap_mod_layer_dialog.h"
+#include "gap_accel_char.h"
 
 
 extern      int gap_debug; /* ==0  ... dont print debug infos */
@@ -158,7 +159,7 @@ p_get_nb_layer_id(gint32 image_id, gint32 ref_layer_id, gint32 nb_ref)
   gint32        l_nb_idx;
 
   l_nb_layer_id = -1;
-  
+
   l_layers_list = gimp_image_get_layers(image_id, &l_nlayers);
   if(l_layers_list != NULL)
   {
@@ -174,7 +175,7 @@ p_get_nb_layer_id(gint32 image_id, gint32 ref_layer_id, gint32 nb_ref)
         break;
       }
     }
-  
+
     g_free (l_layers_list);
   }
 
@@ -282,7 +283,7 @@ p_raise_layer (gint32 image_id, gint32 layer_id, GapModLayliElem * layli_ptr, gi
 
   if(! gimp_drawable_has_alpha (layer_id))
   {
-    /* implicite add an alpha channel before we try to raise */
+    /* implicitly add an alpha channel before we try to raise */
     gimp_layer_add_alpha(layer_id);
   }
   gimp_image_raise_layer(image_id, layer_id);
@@ -295,7 +296,7 @@ p_lower_layer (gint32 image_id, gint32 layer_id, GapModLayliElem * layli_ptr, gi
 
   if(! gimp_drawable_has_alpha (layer_id))
   {
-    /* implicite add an alpha channel before we try to lower */
+    /* implicitly add an alpha channel before we try to lower */
     gimp_layer_add_alpha(layer_id);
   }
 
@@ -305,7 +306,7 @@ p_lower_layer (gint32 image_id, gint32 layer_id, GapModLayliElem * layli_ptr, gi
     && (! gimp_drawable_has_alpha (layli_ptr[nlayers-1].layer_id)))
     {
       /* the layer is one step above a "bottom-layer without alpha" */
-      /* implicite add an alpha channel before we try to lower */
+      /* implicitly add an alpha channel before we try to lower */
       gimp_layer_add_alpha(layli_ptr[nlayers-1].layer_id);
     }
   }
@@ -358,7 +359,7 @@ p_selection_combine(gint32 image_id
  *       To perform the action on the master image pass -1 as master_image_id.
  *       (this shall be done deferred after processing all the other frame images)
  *
- * return TRUE if action was handled 
+ * return TRUE if action was handled
  *             (this is also TRUE if the action was skiped due to the condition
  *              image_id == master_image_id)
  * return FALSE for all other actions
@@ -390,7 +391,7 @@ p_apply_selection_action(gint32 image_id, gint32 action_mode
 
   if(action_mode == GAP_MOD_ACM_SEL_ADD)
   {
-    /* if we are processing the master image, 
+    /* if we are processing the master image,
      * no need to add selection to itself
      */
     if (image_id != master_image_id)
@@ -402,7 +403,7 @@ p_apply_selection_action(gint32 image_id, gint32 action_mode
 
   if(action_mode == GAP_MOD_ACM_SEL_SUBTRACT)
   {
-    /* if we are processing the master image, 
+    /* if we are processing the master image,
      * we must defere action until all other images are handled
      * to keep original master selection intact.
      * (subtract from itself would clear the selection)
@@ -416,7 +417,7 @@ p_apply_selection_action(gint32 image_id, gint32 action_mode
 
   if(action_mode == GAP_MOD_ACM_SEL_INTERSECT)
   {
-    /* if we are processing the master image, 
+    /* if we are processing the master image,
      * intersect with itself can be skipped, because
      * the result will be the same selection as before.
      */
@@ -447,7 +448,7 @@ p_apply_selection_action(gint32 image_id, gint32 action_mode
 
 
   return(FALSE);
-  
+
 }  /* end p_apply_selection_action */
 
 
@@ -490,7 +491,7 @@ p_apply_action(gint32 image_id,
   if(gap_debug) printf("gap: p_apply_action START\n");
 
   l_rc = 0;
-  
+
   l_merge_mode = -44; /* none of the flatten modes */
 
   if(action_mode == GAP_MOD_ACM_MERGE_EXPAND) l_merge_mode = GAP_RANGE_OPS_FLAM_MERG_EXPAND;
@@ -503,9 +504,9 @@ p_apply_action(gint32 image_id,
   {
     gint32  master_channel_id;
     gboolean action_was_applied;
-    
+
     master_channel_id = gimp_image_get_selection(master_image_id);
-    action_was_applied = p_apply_selection_action(image_id 
+    action_was_applied = p_apply_selection_action(image_id
                                                 , action_mode
                                                 , master_image_id
                                                 , master_channel_id
@@ -817,7 +818,7 @@ p_apply_action(gint32 image_id,
             gint32 l_nb_ref;
             gint32 l_fsel_layer_id;
             gint32 l_nb_had_layermask;
-            
+
             l_nb_ref = 1;
             if(action_mode == GAP_MOD_ACM_LMASK_COPY_FROM_UPPER_LMASK)
             {
@@ -837,7 +838,7 @@ p_apply_action(gint32 image_id,
                 l_nb_mask_id = gimp_layer_create_mask(l_nb_layer_id, GIMP_ADD_COPY_MASK);
                 gimp_layer_add_mask(l_nb_layer_id, l_nb_mask_id);
               }
-              
+
               if(l_nb_mask_id >= 0)
               {
                 /* the referenced neigbour layer has a layermask
@@ -847,7 +848,7 @@ p_apply_action(gint32 image_id,
                 gimp_edit_copy(l_nb_mask_id);
                 l_fsel_layer_id = gimp_edit_paste(l_layermask_id, FALSE);
                 gimp_floating_sel_anchor(l_fsel_layer_id);
-                
+
                 if(l_nb_had_layermask == FALSE)
                 {
                   /* remove the temporary created layermask in the neigbour layer */
@@ -897,7 +898,7 @@ p_apply_action(gint32 image_id,
                                                , _("_msk")   /* name suffix */
                                                );
           break;
-        case GAP_MOD_ACM_SET_MODE_NORMAL: 
+        case GAP_MOD_ACM_SET_MODE_NORMAL:
           gimp_layer_set_mode(l_layer_id, GIMP_NORMAL_MODE);
           break;
         case GAP_MOD_ACM_SET_MODE_DISSOLVE:
@@ -990,7 +991,7 @@ p_do_filter_dialogs(GapAnimInfo *ainfo_ptr,
                     GapModLayliElem * layli_ptr, gint nlayers ,
                     char *filter_procname, int filt_len,
                     gint *plugin_data_len,
-                    GapFiltPdbApplyMode *apply_mode,
+                    gint32 *accelCharacteristic,
                     gboolean operate_on_layermask
                     )
 {
@@ -1001,11 +1002,13 @@ p_do_filter_dialogs(GapAnimInfo *ainfo_ptr,
   static char l_key_from[512];
   static char *canonical_proc_name;
 
+  l_browser_result.accelCharacteristic = GAP_ACCEL_CHAR_LINEAR;
+
   /* GAP-PDB-Browser Dialog */
   /* ---------------------- */
   if(gap_db_browser_dialog( _("Select Filter for Animated Apply on Frames"),
-                            _("Apply Constant"),
-                            _("Apply Varying"),
+                            _("Apply"),
+                            TRUE, /* showAccelerationCharacteristic */
                             gap_filt_pdb_constraint_proc,
                             gap_filt_pdb_constraint_proc_sel1,
                             gap_filt_pdb_constraint_proc_sel2,
@@ -1022,9 +1025,11 @@ p_do_filter_dialogs(GapAnimInfo *ainfo_ptr,
   strncpy(filter_procname, canonical_proc_name, filt_len-1);
   filter_procname[filt_len-1] = '\0';
   g_free(canonical_proc_name);
-  
-  if(l_browser_result.button_nr == 1) *apply_mode = GAP_PAPP_VARYING_LINEAR;
-  else                                *apply_mode = GAP_PAPP_CONSTANT;
+
+  /* invert acceleration to deceleration and vice versa
+   * (because processing runs backwards from total_frames down to 0)
+   */
+  *accelCharacteristic = (-1 * l_browser_result.accelCharacteristic);
 
   /* 1.st INTERACTIV Filtercall dialog */
   /* --------------------------------- */
@@ -1080,7 +1085,7 @@ p_do_filter_dialogs(GapAnimInfo *ainfo_ptr,
     return (-1);
   }
 
-  if(*apply_mode != GAP_PAPP_VARYING_LINEAR)
+  if(*accelCharacteristic == GAP_ACCEL_CHAR_NONE)
   {
     return (p_pitstop_dialog(1, filter_procname));
   }
@@ -1104,7 +1109,7 @@ p_do_filter_dialogs(GapAnimInfo *ainfo_ptr,
  */
 static gint
 p_do_2nd_filter_dialogs(char *filter_procname,
-                        GapFiltPdbApplyMode  l_apply_mode,
+                        gint32  accelCharacteristic,
                         char *last_frame_filename,
                         gint32 sel_mode, gint32 sel_case,
                         gint32 sel_invert, char *sel_pattern,
@@ -1213,7 +1218,7 @@ cleanup:
 
 
 /* ============================================================================
- * p_frames_modify
+ * gap_mod_frames_modify
  *
  *   foreach frame of the range (given by range_from and range_to)
  *   perform function defined by action_mode
@@ -1223,12 +1228,14 @@ cleanup:
  *           (or -1 on error or cancel)
  * ============================================================================
  */
-static gint32
-p_frames_modify(GapAnimInfo *ainfo_ptr,
+gint32
+gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
                    long range_from, long range_to,
                    gint32 action_mode, gint32 sel_mode,
                    gint32 sel_case, gint32 sel_invert,
-                   char *sel_pattern, char *new_layername)
+                   char *sel_pattern, char *new_layername,
+                   GtkWidget *progress_bar,
+                   gboolean *run_flag)
 {
   long    l_cur_frame_nr;
   long    l_step, l_begin, l_end;
@@ -1248,17 +1255,21 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
   char      *l_plugin_iterator;
   gdouble    l_cur_step;
   gint       l_total_steps;
-  GapFiltPdbApplyMode  l_apply_mode;
+  gint32        accelCharacteristic;
   char         *l_last_frame_filename;
   gint          l_count;
   gboolean      l_operating_on_current_image;
   gboolean      l_operate_on_layermask;
-      
+  gboolean      l_frame_found;
 
 
 
-  if(gap_debug) printf("gap: p_frames_modify START, action_mode=%d  sel_mode=%d case=%d, invert=%d patt:%s:\n",
+
+  if(gap_debug)
+  {
+    printf("gap: gap_mod_frames_modify START, action_mode=%d  sel_mode=%d case=%d, invert=%d patt:%s:\n",
         (int)action_mode, (int)sel_mode, (int)sel_case, (int)sel_invert, sel_pattern);
+  }
 
   l_operate_on_layermask = FALSE;
   l_percentage = 0.0;
@@ -1275,7 +1286,7 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
   l_rc = 0;
   l_plugin_iterator = NULL;
   l_plugin_data_len = 0;
-  l_apply_mode = GAP_PAPP_CONSTANT;
+  accelCharacteristic = GAP_ACCEL_CHAR_NONE;
   l_dpy_id = -1;
   l_last_frame_filename = NULL;
 
@@ -1314,7 +1325,10 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
   l_cur_frame_nr = l_begin;
   while(1)              /* loop foreach frame in range */
   {
-    if(gap_debug) printf("p_frames_modify While l_cur_frame_nr = %d\n", (int)l_cur_frame_nr);
+    if(gap_debug)
+    {
+      printf("gap_mod_frames_modify While l_cur_frame_nr = %d\n", (int)l_cur_frame_nr);
+    }
 
     /* build the frame name */
     if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
@@ -1322,7 +1336,10 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
                                         l_cur_frame_nr,
                                         ainfo_ptr->extension);
     if(ainfo_ptr->new_filename == NULL)
+    {
        goto error;
+    }
+
 
     if(ainfo_ptr->curr_frame_nr == l_cur_frame_nr)
     {
@@ -1332,12 +1349,19 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
     }
     else
     {
+      l_frame_found = g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS);
+      if (l_frame_found != TRUE)
+      {
+        goto modify_advance_to_next_frame;
+      }
       /* load current frame into temporary image */
       l_operating_on_current_image = FALSE;
       l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
     }
     if(l_tmp_image_id < 0)
+    {
        goto error;
+    }
 
     /* get informations (id, visible, selected) about all layers */
     l_layli_ptr = gap_mod_alloc_layli(l_tmp_image_id, &l_sel_cnt, &l_nlayers,
@@ -1345,13 +1369,13 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
 
     if(l_layli_ptr == NULL)
     {
-       printf("gap: p_frames_modify: cant alloc layer info list\n");
+       printf("gap: gap_mod_frames_modify: cant alloc layer info list\n");
        goto error;
     }
 
-    if((l_cur_frame_nr == l_begin) 
+    if((l_cur_frame_nr == l_begin)
     && ((action_mode == GAP_MOD_ACM_APPLY_FILTER) || (action_mode == GAP_MOD_ACM_APPLY_FILTER_ON_LAYERMASK)))
-    {      
+    {
       /* ------------- 1.st frame: extra dialogs for APPLY_FILTER ---------- */
 
       if(l_sel_cnt < 1)
@@ -1359,7 +1383,7 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
          g_message(_("No selected layer in start frame"));
          goto error;
       }
-      
+
       if(action_mode == GAP_MOD_ACM_APPLY_FILTER_ON_LAYERMASK)
       {
         gint l_ii;
@@ -1394,16 +1418,16 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
                                  l_layli_ptr, l_nlayers,
                                 &l_filter_procname[0], sizeof(l_filter_procname),
                                 &l_plugin_data_len,
-                                &l_apply_mode,
+                                &accelCharacteristic,
                                  l_operate_on_layermask
                                  );
 
       if(l_last_frame_filename != NULL)
       {
-        if((l_rc == 0) && (l_apply_mode == GAP_PAPP_VARYING_LINEAR))
+        if((l_rc == 0) && (accelCharacteristic != GAP_ACCEL_CHAR_NONE))
         {
           l_rc = p_do_2nd_filter_dialogs(&l_filter_procname[0],
-                                   l_apply_mode,
+                                   accelCharacteristic,
                                    l_last_frame_filename,
                                    sel_mode, sel_case, sel_invert, sel_pattern,
                                    l_operate_on_layermask
@@ -1427,14 +1451,16 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
       }
 
       /* check for matching Iterator PluginProcedures */
-      if(l_apply_mode == GAP_PAPP_VARYING_LINEAR )
+      if(accelCharacteristic != GAP_ACCEL_CHAR_NONE )
       {
         l_plugin_iterator =  gap_filt_pdb_get_iterator_proc(&l_filter_procname[0], &l_count);
       }
     }
 
     if(l_rc != 0)
+    {
       goto error;
+    }
 
     /* perform function (defined by action_mode) on selcted layer(s) */
     l_rc = p_apply_action(l_tmp_image_id,
@@ -1449,7 +1475,7 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
                    );
     if(l_rc != 0)
     {
-      if(gap_debug) printf("gap: p_frames_modify p_apply-action failed. rc=%d\n", (int)l_rc);
+      if(gap_debug) printf("gap: gap_mod_frames_modify p_apply-action failed. rc=%d\n", (int)l_rc);
       goto error;
     }
 
@@ -1467,29 +1493,41 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
     l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
     if(l_rc < 0)
     {
-      printf("gap: p_frames_modify save frame %d failed.\n", (int)l_cur_frame_nr);
+      printf("gap: gap_mod_frames_modify save frame %d failed.\n", (int)l_cur_frame_nr);
       goto error;
     }
     else l_rc = 0;
 
     /* iterator call (for filter apply with varying values) */
     if((action_mode == GAP_MOD_ACM_APPLY_FILTER)
-    && (l_plugin_iterator != NULL) && (l_apply_mode == GAP_PAPP_VARYING_LINEAR ))
+    && (l_plugin_iterator != NULL) && (accelCharacteristic != GAP_ACCEL_CHAR_NONE ))
     {
+       gdouble accelStep;
+
        l_cur_step -= 1.0;
+
+       accelStep = gap_calculate_current_step_with_acceleration(l_cur_step, l_total_steps, accelCharacteristic);
+       if(gap_debug)
+       {
+         printf("DEBUG: calling iterator %s  current frame:%d  accelStep:%f\n"
+                               ,l_plugin_iterator
+                               , (int)l_cur_frame_nr
+                               , (float)accelStep
+                               );
+       }
+
         /* call plugin-specific iterator, to modify
          * the plugin's last_values
          */
-       if(gap_debug) printf("DEBUG: calling iterator %s  current frame:%d\n",
-                               l_plugin_iterator, (int)l_cur_frame_nr);
+
        if(strcmp(l_plugin_iterator, GIMP_PLUGIN_GAP_COMMON_ITER) == 0)
        {
          l_params = gimp_run_procedure (l_plugin_iterator,
                            &l_retvals,
                            GIMP_PDB_INT32,   GIMP_RUN_NONINTERACTIVE,
                            GIMP_PDB_INT32,   l_total_steps,      /* total steps  */
-                           GIMP_PDB_FLOAT,   (gdouble)l_cur_step,    /* current step */
-                           GIMP_PDB_INT32,   l_plugin_data_len, /* length of stored data struct */
+                           GIMP_PDB_FLOAT,   accelStep,          /* current step respecting acceleration characteristic */
+                           GIMP_PDB_INT32,   l_plugin_data_len,  /* length of stored data struct */
                            GIMP_PDB_STRING,  &l_filter_procname[0],       /* the common iterator needs the plugin name as additional param */
                            GIMP_PDB_END);
        }
@@ -1498,9 +1536,9 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
          l_params = gimp_run_procedure (l_plugin_iterator,
                              &l_retvals,
                              GIMP_PDB_INT32,   GIMP_RUN_NONINTERACTIVE,
-                             GIMP_PDB_INT32,   l_total_steps,          /* total steps  */
-                             GIMP_PDB_FLOAT,   (gdouble)l_cur_step,    /* current step */
-                             GIMP_PDB_INT32,   l_plugin_data_len, /* length of stored data struct */
+                             GIMP_PDB_INT32,   l_total_steps,       /* total steps  */
+                             GIMP_PDB_FLOAT,   accelStep,           /* current step respecting acceleration characteristic */
+                             GIMP_PDB_INT32,   l_plugin_data_len,   /* length of stored data struct */
                              GIMP_PDB_END);
        }
        if (l_params[0].data.d_status != GIMP_PDB_SUCCESS)
@@ -1517,6 +1555,7 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
     {
       /* destroy the tmp image */
       gimp_image_delete(l_tmp_image_id);
+      l_tmp_image_id = -1;
     }
 
     /* close display (if open) */
@@ -1528,20 +1567,53 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
 
 
     if(l_rc != 0)
+    {
       goto error;
-
-
+    }
 
     if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
     {
       l_percentage += l_percentage_step;
-      gimp_progress_update (l_percentage);
+
+      if(progress_bar != NULL)
+      {
+        guchar *progressText;
+        progressText = g_strdup_printf("frame:%d (%d)", (int)l_cur_frame_nr, (int)l_end);
+
+        gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progress_bar), progressText);
+        gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress_bar), l_percentage);
+        g_free(progressText);
+        while (gtk_events_pending ())
+        {
+          gtk_main_iteration ();
+        }
+        if(*run_flag != TRUE)
+        {
+          /* cancel button was pressed in interactive mode */
+          break;
+        }
+      }
+      else
+      {
+        gimp_progress_update (l_percentage);
+      }
     }
 
-    /* advance to next frame */
+modify_advance_to_next_frame:
     if(l_cur_frame_nr == l_end)
+    {
        break;
-    l_cur_frame_nr += l_step;
+    }
+    /* advance l_cur_frame_nr to the next available frame number
+     * (normally to l_cur_frame_nr += l_step;
+     * sometimes to higher/lower number when frames are missing)
+     */
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, l_step
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
+    if(l_frame_found != TRUE)
+    {
+       break;
+    }
 
   }             /* end while(1)  loop foreach frame in range */
 
@@ -1565,7 +1637,7 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
         *  than using a copy)
         */
        master_channel_id = gimp_selection_save(ainfo_ptr->image_id);
-       p_apply_selection_action(ainfo_ptr->image_id 
+       p_apply_selection_action(ainfo_ptr->image_id
                              , action_mode
                              , -1   /* MASTER_image_id */
                              , master_channel_id
@@ -1574,12 +1646,12 @@ p_frames_modify(GapAnimInfo *ainfo_ptr,
     }
   }
 
-  if(gap_debug) printf("p_frames_modify End OK\n");
+  if(gap_debug) printf("gap_mod_frames_modify End OK\n");
 
   return 0;
 
 error:
-  if(gap_debug) printf("gap: p_frames_modify exit with Error\n");
+  if(gap_debug) printf("gap: gap_mod_frames_modify exit with Error\n");
 
   if((l_tmp_image_id >= 0) && (l_operating_on_current_image == FALSE))
   {
@@ -1594,8 +1666,7 @@ error:
   if(l_plugin_iterator != NULL)  g_free(l_plugin_iterator);
   return -1;
 
-}               /* end p_frames_modify */
-
+}               /* end gap_mod_frames_modify */
 
 /* ============================================================================
  * gap_mod_layer
@@ -1616,12 +1687,15 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
   gint32    l_sel_mode;
   gint32    l_sel_case;
   gint32    l_sel_invert;
+  GtkWidget *progress_bar;
+  GtkWidget *dlg;
 
   char      l_sel_pattern[MAX_LAYERNAME];
   char      l_new_layername[MAX_LAYERNAME];
 
   l_rc = 0;
-
+  progress_bar = NULL;
+  dlg = NULL;
 
   ainfo_ptr = gap_lib_alloc_ainfo(image_id, run_mode);
   if(ainfo_ptr != NULL)
@@ -1631,10 +1705,15 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
     {
       if(run_mode == GIMP_RUN_INTERACTIVE)
       {
+         /* note: for interactive call the processing is already done
+          * as callback of the dialog
+          */
          l_rc = gap_mod_frames_dialog (ainfo_ptr, &l_from, &l_to,
                                        &l_action_mode,
                                        &l_sel_mode, &sel_case, &sel_invert,
                                        &l_sel_pattern[0], &l_new_layername[0]);
+         gap_lib_free_ainfo(&ainfo_ptr);
+         return (l_rc);
       }
       else
       {
@@ -1653,16 +1732,20 @@ gint gap_mod_layer(GimpRunMode run_mode, gint32 image_id,
 
       if(l_rc >= 0)
       {
+        gboolean run_flag;
+
+        run_flag = TRUE;
         /* no need to save the current image before processing
-         * because the p_frames_modify procedure operates directly on the current frame
+         * because the gap_mod_frames_modify procedure operates directly on the current frame
          * and loads all other frames from disc.
          * futher all successful processed frames are saved back to disk
          * (including the current one)
          */
-           l_rc = p_frames_modify(ainfo_ptr, l_from, l_to,
+           l_rc = gap_mod_frames_modify(ainfo_ptr, l_from, l_to,
                                   l_action_mode,
                                   l_sel_mode, sel_case, sel_invert,
-                                  &l_sel_pattern[0], &l_new_layername[0]
+                                  &l_sel_pattern[0], &l_new_layername[0],
+                                  progress_bar, &run_flag
                                  );
       }
 

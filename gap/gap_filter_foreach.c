@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -71,6 +71,7 @@
 #include "gap_filter_pdb.h"
 #include "gap_dbbrowser_utils.h"
 #include "gap_lib.h"
+#include "gap_accel_char.h"
 
 #define GAP_DB_BROWSER_FILTERALL_HELP_ID  "gap-filterall-db-browser"
 
@@ -93,9 +94,9 @@ static gint p_pitstop(GimpRunMode run_mode, char *plugin_name, gint text_flag,
 static void p_visibilty_restore(gint32 image_id, gint nlayers, int *visible_tab, char *plugin_name);
 static gint32 p_get_indexed_layerid(gint32 image_id, gint *nlayers, gint32 idx, char *plugin_name);
 static int p_foreach_multilayer(GimpRunMode run_mode, gint32 image_id,
-                         const char *plugin_name, GapFiltPdbApplyMode apply_mode);
+                         const char *plugin_name, gint32 accelCharacteristic);
 static int p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
-                         char *canonical_plugin_name, GapFiltPdbApplyMode apply_mode);
+                         char *canonical_plugin_name, gint32 accelCharacteristic);
 
 /* ------------------------
  * p_gdisplays_update_full
@@ -250,13 +251,13 @@ p_get_indexed_layerid(gint32 image_id, gint *nlayers, gint32 idx, char *plugin_n
  */
 static int
 p_foreach_multilayer(GimpRunMode run_mode, gint32 image_id,
-                     const char *plugin_name, GapFiltPdbApplyMode apply_mode)
+                     const char *plugin_name, gint32 accelCharacteristic)
 {
   char *canonical_plugin_name;
   int rc;
   
   canonical_plugin_name = gimp_canonicalize_identifier(plugin_name);
-  rc = p_foreach_multilayer2(run_mode, image_id, canonical_plugin_name, apply_mode);
+  rc = p_foreach_multilayer2(run_mode, image_id, canonical_plugin_name, accelCharacteristic);
   
   g_free(canonical_plugin_name);
 
@@ -274,7 +275,7 @@ p_foreach_multilayer(GimpRunMode run_mode, gint32 image_id,
  */
 static int
 p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
-                         char *canonical_plugin_name, GapFiltPdbApplyMode apply_mode)
+                         char *canonical_plugin_name, gint32 accelCharacteristic)
 {
   static char l_key_from[512];
   static char l_key_to[512];
@@ -347,7 +348,7 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
 
       l_percentage_step = 1.0 / l_nlayers;
 
-      if((l_plugin_iterator != NULL)  && (l_nlayers > 1) && (apply_mode == GAP_PAPP_VARYING_LINEAR ))
+      if((l_plugin_iterator != NULL)  && (l_nlayers > 1) && (accelCharacteristic != GAP_ACCEL_CHAR_NONE ))
       {
         l_child_pid = 0; /* fork(); */
         if(l_child_pid < 0)
@@ -519,14 +520,18 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
           }
 
 
-          if((l_plugin_iterator != NULL) && (apply_mode == GAP_PAPP_VARYING_LINEAR ))
+          if((l_plugin_iterator != NULL) && (accelCharacteristic != GAP_ACCEL_CHAR_NONE ))
           {
+            gdouble accelStep;
+       
+       
+            accelStep = gap_calculate_current_step_with_acceleration((gdouble)l_idx, l_nlayers -1, accelCharacteristic);
             /* call plugin-specific iterator (or the common iterator), to modify
              * the plugin's last_values
              */
             if(!gap_filter_iterator_call(l_plugin_iterator
                  , l_nlayers -1      /* total steps  */
-                 , (gdouble)l_idx    /* current step */
+                 , accelStep         /* current step according to acceleration characteristic */
                  , canonical_plugin_name
                  , l_plugin_data_len
                  ))
@@ -581,16 +586,17 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
  */
 gint
 gap_proc_anim_apply(GimpRunMode run_mode, gint32 image_id, char *plugin_name
-  , GapFiltPdbApplyMode apply_mode)
+  , gint32 accelCharacteristic)
 {
   GapDbBrowserResult  l_browser_result;
+  l_browser_result.accelCharacteristic = GAP_ACCEL_CHAR_LINEAR;
 
   if(run_mode == GIMP_RUN_INTERACTIVE)
   {
 
     if(gap_db_browser_dialog( _("Select Filter for Animated Apply"),
-                                 _("Apply Constant"),
-                                 _("Apply Varying"),
+                                 _("Apply"),
+                                 TRUE,                                  /* showAccelerationCharacteristic */
                                  gap_filt_pdb_constraint_proc,
                                  gap_filt_pdb_constraint_proc_sel1,
                                  gap_filt_pdb_constraint_proc_sel2,
@@ -604,15 +610,25 @@ gap_proc_anim_apply(GimpRunMode run_mode, gint32 image_id, char *plugin_name
     }
 
     strcpy(plugin_name, l_browser_result.selected_proc_name);
-    if(l_browser_result.button_nr == 1) apply_mode = GAP_PAPP_VARYING_LINEAR;
+    
+    /* invert acceleration to deceleration and vice versa
+     * (because processing layer indexes is done from high to low values) 
+     */
+    accelCharacteristic = (-1 * l_browser_result.accelCharacteristic);
 
-    if(gap_debug) printf("DEBUG: gap_db_browser_dialog SELECTED:%s\n", plugin_name);
+    if(gap_debug) 
+    {
+      printf("DEBUG: gap_db_browser_dialog SELECTED:%s accelCharacteristic:%d\n"
+           , plugin_name
+           , (int)accelCharacteristic
+           );
+    }
 
   }
 
   return(p_foreach_multilayer(run_mode,
                               image_id,
                               plugin_name,
-                              apply_mode ));
+                              accelCharacteristic ));
 
 }

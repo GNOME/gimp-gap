@@ -12,8 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 
@@ -36,8 +36,9 @@
 #include "libgimp/gimp.h"
 
 typedef struct {
-   char selected_proc_name[256];
-   int  button_nr;               /* -1 on cancel, 0 .. n */
+   char   selected_proc_name[256];
+   int    button_nr;               /* -1 on cancel, 0 .. n */
+   gint32 accelCharacteristic;
 } GapDbBrowserResult;
 
 /* proc to check if to add or not to add the procedure to the browsers listbox
@@ -50,7 +51,7 @@ typedef int (*t_constraint_func) (gchar *proc_name, gint32 image_id);
 int
 gap_db_browser_dialog (char *title_txt,
                        char *button_1_txt,
-                       char *button_2_txt,
+                       gboolean                 showAccelerationCharacteristic,
                        t_constraint_func        constraint_func,
                        t_constraint_func        constraint_func_sel1,
                        t_constraint_func        constraint_func_sel2,

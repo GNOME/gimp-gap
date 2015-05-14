@@ -89,10 +89,111 @@ Clip Properties (Storyboard)
         the deinterlace filter is only available for clip type
         MOVIE.
 
+    Transform:
+      Provides frame orientation transformations that are applied on frames
+      of this clip.
+      
+      The transform radio buttons are:
+      
+      "None"
+         keep the original frame orientation
+      
+      "Rotate 180"
+         rotate the frames of this clip by 180 degree
+      
+      "Flip Horizontally"
+         horizontally mirror the frames of this clip
+      
+      "Flip Vertically"
+         vertically mirror the frames of this clip
+      
+
+
     Duration:
       Information about the duration of the clip in frames
       and playtime in format mm:ss:msec
       
+
+
+    Mask:
+      Individual transparency foreach frame of the clip
+      can be added by selecting a mask.
+      Important:
+      You must define (at least one) Mask clip in the Mask Section of the Storyboard
+      before you can assign a mask to a clip.
+      
+      The mask can be assigned to clip or master.
+      
+      o) Clip    ... the mask is scaled to the size of the fetched frame of the clip
+                     and attached as additional transparency
+                     before transitions (move and scale) are applied.
+                     Eg. the mask moves and scales with the clip.
+      
+      o) Master ... the mask is scaled to the size of the resulting frame
+                    and attached after transitions (move and scale) were already applied.
+                    E.g the mask is fixed in size and position.
+
+
+      Mask Stepsize:
+        In case the assigned mask clip is an animation (and not a sinle image),
+        the mask stepsize controls how to advance to the next mask frame.
+        Where a value of 2.0 speeds up the mask effect (by skipping
+        every 2nd frame in the assigned mask clip)
+        A value of 0.5 will slow down the mask effect.
+        Use value 1.0 for normal speed for mask effect.
+
+
+    Filtermacro:
+       Here you can specify the filename of a GIMP-GAP filtermacro
+       that shall be applied for each frame of this clip.
+       
+       see plug-in-filter-macro.txt how to record filtermacros
+       and STORYBOARD_FILE_DOC.txt chapter Macrofiles for more details.
+    
+       Filtermacro Steps:
+         Here you can enter the duration in number of frames for the transition
+         of settings from filtermacro to settings of a 2nd filtermacro
+         (in case a 2nd filtermacro is available)
+       
+         Use value 1 to apply just constant settings of the 1st filtermacro
+         (if a 2nd filtermacro is available it will be ignored
+         and its name will be displayed with the prefix "OFF")
+
+       Note that filtermacro effects are not automatically visible
+       in standard playback of the Storyboard dialog.
+       You must use the playback based on full rendering
+       to preview those effects.
+      
+       
+
+    Filtermacro2:
+       For applying filtermacros with varing values you need a 2nd
+       filtermacro file.
+       The 2nd filtermacro file is automatically identified via naming convention
+       and can NOT be specified explicite. Its name is diplayed read only
+       when such a file is available, and prefixed with "ON" when active
+       or "OFF" when disabled (e.g duration of 1 frame is specified)
+       
+       
+       see STORYBOARD_FILE_DOC.txt chapter Macrofiles for details
+       about applying filtermacros with varying values.
+
+       Acceleration Characteristic for applying filtermacro with varying values:
+       A Spinbutton and a graph widget
+       is available to enter and display the acceleration characteristc value
+       The graph next to the spinbutton shows the selected acceleration characteristic curve.
+       The acceleration characteristic can also be changed by
+       clicking on th graph and dragging vertically with the mouse.
+      	
+       A straight line from left bottom to right top corner of the graph
+       is drawn for value 1 that represents constant speed.
+       other positive values result in increasing speed of the transition,
+       negative values result in decreasing speed.
+
+
+
+
+
     Comment:
       An optional comment text on the clip.
 

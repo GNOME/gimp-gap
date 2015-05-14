@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #ifndef GAP_ENC_FFMPEG_MAIN_H
@@ -38,6 +38,32 @@
 #include "avformat.h"
 #include "avcodec.h"
 
+/// start ffmpeg 0.5 / 0.6 / 0.7 support
+#if LIBAVCODEC_VERSION_MAJOR < 52
+#define GAP_USES_OLD_FFMPEG_0_5
+#endif
+
+#if LIBAVCODEC_VERSION_MAJOR == 52
+#if LIBAVCODEC_VERSION_MINOR <= 20
+#define GAP_USES_OLD_FFMPEG_0_5
+#endif
+#if LIBAVCODEC_VERSION_MINOR <= 72
+#define GAP_USES_OLD_FFMPEG_0_6
+#endif
+#endif
+
+
+
+#ifdef GAP_USES_OLD_FFMPEG_0_5
+/* defines to use older ffmpeg-0.5 compatible types */
+#define AVMEDIA_TYPE_UNKNOWN  CODEC_TYPE_UNKNOWN
+#define AVMEDIA_TYPE_VIDEO    CODEC_TYPE_VIDEO
+#define AVMEDIA_TYPE_AUDIO    CODEC_TYPE_AUDIO
+#define AV_PKT_FLAG_KEY       PKT_FLAG_KEY
+#endif
+
+/// end ffmpeg 0.5 / 0.6 support
+
 
 #define GAP_HELP_ID_FFMPEG_PARAMS         "plug-in-gap-encpar-ffmpeg"
 #define GAP_PLUGIN_NAME_FFMPEG_PARAMS     "plug-in-gap-encpar-ffmpeg"
@@ -46,16 +72,23 @@
 #define GAP_FFMPEG_CURRENT_VID_EXTENSION  "plug-in-gap-enc-ffmpeg-CURRENT-VIDEO-EXTENSION"
 
 #define GAP_GVE_FFMPEG_PRESET_00_NONE           0
-#define GAP_GVE_FFMPEG_PRESET_01_DIVX_DEFAULT   1
-#define GAP_GVE_FFMPEG_PRESET_02_DIVX_BEST      2
-#define GAP_GVE_FFMPEG_PRESET_03_DIVX_LOW       3
-#define GAP_GVE_FFMPEG_PRESET_04_DIVX_MS        4
-#define GAP_GVE_FFMPEG_PRESET_05_MPEG1_VCD      5
-#define GAP_GVE_FFMPEG_PRESET_06_MPEG1_BEST     6
-#define GAP_GVE_FFMPEG_PRESET_07_MPEG2_SVCD     7
-#define GAP_GVE_FFMPEG_PRESET_08_MPEG2_DVD      8
-#define GAP_GVE_FFMPEG_PRESET_09_REAL           9
-#define GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS      10
+// #define GAP_GVE_FFMPEG_PRESET_01_DIVX_DEFAULT   1
+// #define GAP_GVE_FFMPEG_PRESET_02_DIVX_BEST      2
+// #define GAP_GVE_FFMPEG_PRESET_03_DIVX_LOW       3
+// #define GAP_GVE_FFMPEG_PRESET_04_DIVX_MS        4
+// #define GAP_GVE_FFMPEG_PRESET_05_MPEG1_VCD      5
+// #define GAP_GVE_FFMPEG_PRESET_06_MPEG1_BEST     6
+// #define GAP_GVE_FFMPEG_PRESET_07_MPEG2_SVCD     7
+// #define GAP_GVE_FFMPEG_PRESET_08_MPEG2_DVD      8
+// #define GAP_GVE_FFMPEG_PRESET_09_REAL           9
+// #define GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS      10
+
+/* NOTE:
+ * since 2011.10.29 gimp-gap is shiped with preset files that are installed
+ * automatically and checked for valid codecs at runtime.
+ * therefore all the hardcoded presets are disabled.
+ */
+#define GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS      1
 
 #define GAP_GVE_FFMPEG_AUDIO_KBIT_RATE_00_32   0
 #define GAP_GVE_FFMPEG_AUDIO_KBIT_RATE_01_40   1
@@ -170,11 +203,18 @@
 
 
 #define GAP_GVE_FF_QP2LAMBDA   FF_QP2LAMBDA
+#define GAP_ENCODER_PRESET_NAME_MAX_LENGTH 60
+#define GAP_ENCODER_PRESET_FILENAME_MAX_LENGTH 1024
+
+#define GAP_GVE_FFMPEG_SHOW_EXPERT_SETTINGS "video-enoder-ffmpeg-show-expert-settings"
 
 
 
 /* GapGveFFMpegValues ffmpeg specific encoder params */
 typedef struct {
+  gint32  presetId;
+  char    presetName[GAP_ENCODER_PRESET_NAME_MAX_LENGTH];
+  char    presetFileName[GAP_ENCODER_PRESET_FILENAME_MAX_LENGTH];
   char    current_vid_extension[80];
 
   /* ffmpeg options */
@@ -355,6 +395,29 @@ typedef struct {
   gdouble rc_max_available_vbv_use;
   gdouble rc_min_vbv_overflow_use;
 
+  gint32  color_primaries;        // enum AVColorPrimaries color_primaries;
+  gint32  color_trc;              // enum AVColorTransferCharacteristic color_trc;
+  gint32  colorspace;             // enum AVColorSpace colorspace;
+  gint32  color_range;            // enum AVColorRange color_range;
+  gint32  chroma_sample_location; // enum AVChromaLocation chroma_sample_location;
+  gint32  weighted_p_pred;   // int weighted_p_pred;
+  gint32  aq_mode;           // int aq_mode;
+  gdouble aq_strength;       // float aq_strength;
+  gdouble psy_rd;            // float psy_rd;
+  gdouble psy_trellis;       // float psy_trellis;
+  gint32  rc_lookahead;      // int rc_lookahead;
+
+  /* new params ffmpeg-0.7.11 */
+  gdouble crf_max;               // float crf_max;
+  gint32  log_level_offset;      // int log_level_offset;
+  gint32  slices;                // int slices;
+  gint32  thread_type;           // int thread_type;
+  gint32  active_thread_type;    // int active_thread_type;
+  gint32  thread_safe_callbacks; // int thread_safe_callbacks;
+  gint64  vbv_delay;             // uint64_t vbv_delay;
+  gint32  audio_service_type;    // enum AVAudioServiceType  audio_service_type;
+
+
   gint32 codec_FLAG_GMC;
   gint32 codec_FLAG_INPUT_PRESERVED;
   gint32 codec_FLAG_GRAY;
@@ -377,6 +440,19 @@ typedef struct {
   gint32 codec_FLAG2_CHUNKS;
   gint32 codec_FLAG2_NON_LINEAR_QUANT;
   gint32 codec_FLAG2_BIT_RESERVOIR;
+  gint32 codec_FLAG2_MBTREE;
+  gint32 codec_FLAG2_PSY;
+  gint32 codec_FLAG2_SSIM;
+  gint32 codec_FLAG2_INTRA_REFRESH;
+
+  gint32 partition_X264_PART_I4X4;
+  gint32 partition_X264_PART_I8X8;
+  gint32 partition_X264_PART_P8X8;
+  gint32 partition_X264_PART_P4X4;
+  gint32 partition_X264_PART_B8X8;
+
+
+  void *next;
 
 } GapGveFFMpegValues;
 
@@ -393,10 +469,14 @@ typedef struct GapGveFFMpegGlobalParams {   /* nick: gpp */
   GtkWidget *shell_window;
   gboolean   startup;
   gboolean   ffpar_save_flag;
+  gboolean   show_expert_settings;
   char       ffpar_filename[1024];
   GtkWidget *ffpar_fileselection;   /* ffmpeg video encoder parameter file */
   GtkWidget *fsb__fileselection;    /* passlog file */
 
+  GtkWidget *main_notebook;
+  GtkWidget *show_expert_settings_checkbutton;
+  
   GtkWidget *ff_aspect_combo;
   GtkWidget *ff_aud_bitrate_combo;
   GtkWidget *ff_aud_bitrate_spinbutton;
@@ -495,7 +575,16 @@ typedef struct GapGveFFMpegGlobalParams {   /* nick: gpp */
   GtkWidget *ff_codec_FLAG2_NON_LINEAR_QUANT_checkbutton;
   GtkWidget *ff_codec_FLAG2_BIT_RESERVOIR_checkbutton;
 
+  GtkWidget *ff_codec_FLAG2_MBTREE_checkbutton;
+  GtkWidget *ff_codec_FLAG2_PSY_checkbutton;
+  GtkWidget *ff_codec_FLAG2_SSIM_checkbutton;
+  GtkWidget *ff_codec_FLAG2_INTRA_REFRESH_checkbutton;
 
+  GtkWidget *ff_partition_X264_PART_I4X4_checkbutton;
+  GtkWidget *ff_partition_X264_PART_I8X8_checkbutton;
+  GtkWidget *ff_partition_X264_PART_P8X8_checkbutton;
+  GtkWidget *ff_partition_X264_PART_P4X4_checkbutton;
+  GtkWidget *ff_partition_X264_PART_B8X8_checkbutton;
 
 
 

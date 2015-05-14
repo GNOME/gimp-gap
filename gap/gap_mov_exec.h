@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -43,6 +43,9 @@
 
 gint32  gap_mov_exec_move_path(GimpRunMode run_mode, gint32 image_id, GapMovValues *pvals, gchar *pointfile, gint rotation_follow, gdouble startangle);
 gint32  gap_mov_exec_anim_preview(GapMovValues *pvals_orig, GapAnimInfo *ainfo_ptr, gint preview_frame_nr);
+gint32  gap_mov_exec_move_path_singleframe(GimpRunMode run_mode, gint32 image_id
+              , GapMovValues *pvals, GapMovSingleFrame *singleFramePtr);
+
 
 gchar  *gap_mov_exec_chk_keyframes(GapMovValues *pvals);
 gint    gap_mov_exec_conv_keyframe_to_rel(gint abs_keyframe, GapMovValues *pvals);
@@ -51,6 +54,28 @@ gint    gap_mov_exec_gap_save_pointfile(char *filename, GapMovValues *pvals);
 gint    gap_mov_exec_gap_load_pointfile(char *filename, GapMovValues *pvals);
 void    gap_mov_exec_calculate_rotate_follow(GapMovValues *pvals, gdouble startangle);
 void    gap_mov_exec_set_handle_offsets(GapMovValues *val_ptr, GapMovCurrent *cur_ptr);
+void    gap_mov_exec_query(GapMovValues *val_ptr, GapAnimInfo *ainfo_ptr, GapMovQuery *mov_query);
+gdouble gap_mov_exec_get_default_rotate_threshold();
+
+GapMovValues *gap_mov_exec_new_GapMovValues();
+
+gboolean  gap_mov_exec_check_valid_xml_paramfile(const char *filename);
+
+/* ---------------------------------------------
+ * gap_mov_exec_move_path_singleframe_directcall
+ * ---------------------------------------------
+ * this procedure renders one frame of a movepath sequence.
+ * it is typically called by the storyboard processor.
+ * return the processed layer id
+ */
+gint32  gap_mov_exec_move_path_singleframe_directcall(gint32 frame_image_id
+          , gint32 drawable_id
+          , gboolean keep_proportions
+          , gboolean fit_width
+          , gboolean fit_height
+          , gint32 frame_phase
+          , const char *xml_paramfile
+          );
 
 #endif
 

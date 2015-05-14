@@ -15,8 +15,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -153,7 +153,7 @@ gap_gve_sox_chk_and_resample(GapGveCommonValues *cval)
                            , cval->tmp_audfile);
         if(cval->run_mode == GIMP_RUN_INTERACTIVE)
         {
-          g_message(l_msg);
+          g_message("%s", l_msg);
             }
         return -1;
      }
@@ -175,7 +175,7 @@ gap_gve_sox_chk_and_resample(GapGveCommonValues *cval)
                        );
        if(cval->run_mode == GIMP_RUN_INTERACTIVE)
        {
-         g_message(l_msg);
+         g_message("%s", l_msg);
            }
        g_free(l_msg);
        return -1;

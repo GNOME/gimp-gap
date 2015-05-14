@@ -6,7 +6,10 @@ EXTRA_DIST = \
 	gap-filterall-db-browser.txt		\
 	gap_gimprc_params.txt			\
 	plug-in-bluebox.txt			\
+	plug-in-plug-in-colormask.txt.txt       \
 	plug-in-filter-macro.txt		\
+	plug-in-firepattern.txt 		\
+	plug-in-foreground-extract-matting.txt	\
 	plug-in-gap-anim-crop.txt		\
 	plug-in-gap-anim-resize.txt		\
 	plug-in-gap-anim-scale.txt		\
@@ -42,6 +45,8 @@ EXTRA_DIST = \
 	plug-in-gap-videoframes-player.txt	\
 	plug-in-gap-xanim-decode.txt		\
 	plug-in-name2layer.txt			\
+	plug-in-selection-to-foreground-layer.txt \
+	plug-in-waterpattern.txt		\
 	plug-in-wr-color-levels.txt		\
 	plug-in-wr-curves.txt			\
 	plug-in-wr-huesat.txt

@@ -17,8 +17,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* Revision history
@@ -354,7 +354,7 @@ p_opa_dialog(void)
 
   ii++; gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_DEFAULT_BUTTON);
   argv[ii].label_txt = _("Default");
-  argv[ii].help_txt  = _("Reset all Parameters to Default Values");
+  argv[ii].help_txt  = _("Reset all parameters to default values");
 
   if(TRUE == gap_arr_ok_cancel_dialog(_("Set Layer Opacity"),
                             _("Settings :"),

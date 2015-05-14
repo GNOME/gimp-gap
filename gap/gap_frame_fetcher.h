@@ -28,8 +28,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _GAP_FRAME_FETCHER_H
@@ -99,6 +99,22 @@ gap_frame_fetch_orig_image(gint32 ffetch_user_id
     ,gboolean addToCache             /* enable caching */
     );
 
+/* -------------------------------
+ * gap_frame_fetch_prescaled_image
+ * -------------------------------
+ * returns image_id of the prescaled cached image.
+ * NOTE: the returned image MUST NOT not be changed by the caller
+ *
+ */
+gint32
+gap_frame_fetch_prescaled_image(gint32 ffetch_user_id
+    ,const char *filename            /* full filename of the image */
+    ,gboolean addToCache             /* enable caching on prescaled image */
+    ,gint32 prescaleWidth            /* use 0 in case prescale size is not yet known */
+    ,gint32 prescaleHeight           /* use 0 in case prescale size is not yet known */
+    ,gint32 *originalWidthPtr        /* OUT: width of the unscaled original image file */
+    ,gint32 *originalHeightPtr       /* OUT: width of the unscaled original image file */
+    );
 
 /* ----------------------------
  * gap_frame_fetch_dup_image
@@ -132,6 +148,52 @@ gap_frame_fetch_dup_video(gint32 ffetch_user_id
     ,const char *preferred_decoder
     );
 
+/* -------------------------------
+ * gap_frame_fetch_image_scale
+ * -------------------------------
+ */
+void
+gap_frame_fetch_image_scale(gint32 imageId, gint32 width, gint32 height);
+
+/* -------------------------------
+ * gap_frame_fetch_image_duplicate
+ * -------------------------------
+ */
+gint32
+gap_frame_fetch_image_duplicate(gint32 imageId);
+
+
+/* ---------------------------------
+ * gap_frame_fetch_is_image_in_cache
+ * ---------------------------------
+ * checks the image for presence of the parasite that marks the image as member
+ * of the gap frame fetcher cache.
+ * return TRUE if the parasite was found (e.g. image is cache member)
+ */
+gboolean
+gap_frame_fetch_is_image_in_cache(gint32 image_id);
+
+/* -------------------------------
+ * gap_frame_fetch_remove_parasite
+ * -------------------------------
+ * removes the image parasite that marks the image as member
+ * of the gap frame fetcher cache.
+ */
+void
+gap_frame_fetch_remove_parasite(gint32 image_id);
+
+
+/* ----------------------------------------------------
+ * gap_frame_fetch_dump_resources
+ * ----------------------------------------------------
+ * print current resource usage to stdout
+ * this includes information about 
+ *  - ALL images currently loaded in gimp
+ *  - all video filehandles with memory cache sizes
+ * 
+ */
+void
+gap_frame_fetch_dump_resources();
 
 
 #endif

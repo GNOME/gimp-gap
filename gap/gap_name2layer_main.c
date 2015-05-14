@@ -18,8 +18,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* Revision history
@@ -173,8 +173,7 @@ static void query (void)
                           in_args,
                           out_args);
 
-  // gimp_plugin_menu_branch_register("<Image>", "Video");
-  gimp_plugin_menu_register (PLUG_IN_NAME, N_("<Image>/Video/"));
+  gimp_plugin_menu_register (PLUG_IN_NAME, N_("<Image>/Video/Layer/Render/"));
 }  /* end query */
 
 static void

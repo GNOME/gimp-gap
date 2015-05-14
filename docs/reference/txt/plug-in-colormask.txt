@@ -1,0 +1,31 @@
+"plug-in-colormask"
+
+Colormask Filter
+
+    Start from Menu:
+       <Image>/Video/Layer/Attributes/Apply Colormask
+       
+    The colormask filter can apply transparency for pixels matching the colormask image.
+    It is intended for processing frames where moving objects can be isolated
+    from the non-moving constant background by aplying the constant background
+    as colormask on all frames.
+    
+    The colormask provides more flexibility than the bluebox filter
+    because it can operate on frames where the background is not just made of shades
+    of the same color.
+    But for good results the moving object shall not contain the same colors as the background.
+    
+    In case the colormask layer has an alpha channel it is used to
+    define protected areas, e.g the alpha channel of the colormask controls 
+    where the filter shall be applied (opaque) or not (transparent pixels are protected).
+    Pixels where the corresponding alpha channel in the colormask is below the specifed
+    triggerAlpha value are not affected by the colormask filter.
+    This is useful when the colormask filter runs non-interactive
+    under control of storyboard render processing
+    on frame images that are created internally where the image has no selction.
+    
+    
+    
+    The colormask filter is not yet fully implemented.
+    
+    TODO: add more detailed feature description here when implementation is finished.

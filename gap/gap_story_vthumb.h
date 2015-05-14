@@ -19,8 +19,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -34,7 +34,7 @@
 #include "gap_story_main.h"
 
 
-void     gap_story_vthumb_debug_print_videolist(GapStoryVTResurceElem *video_list, GapVThumbElem *vthumb_list);
+void     gap_story_vthumb_debug_fprint_videolist(FILE *fp, GapStoryVTResurceElem *video_list, GapVThumbElem *vthumb_list);
 void     gap_story_vthumb_close_videofile(GapStbMainGlobalParams *sgpp);
 void     gap_story_vthumb_open_videofile(GapStbMainGlobalParams *sgpp
                      , const char *filename

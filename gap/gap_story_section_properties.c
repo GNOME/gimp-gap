@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -396,7 +396,7 @@ p_switch_to_section(GapStbSecpropWidget *spw, GapStorySection *target_section)
   
   /* make the section the active section
    * make the section the active section, refresh the sections combo box
-   * (this implicite triggers thumbnail rendering)
+   * (this implicitly triggers thumbnail rendering)
    */
   gap_story_dlg_spw_section_refresh(spw, target_section);
   

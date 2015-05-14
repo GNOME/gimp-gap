@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -431,6 +431,7 @@ static gint32
 p_del(GapAnimInfo *ainfo_ptr, long cnt)
 {
    long  l_lo, l_hi, l_curr, l_idx;
+   gboolean l_hi_frame_found;
 
    if(gap_debug) fprintf(stderr, "DEBUG  p_del\n");
 
@@ -463,19 +464,28 @@ p_del(GapAnimInfo *ainfo_ptr, long cnt)
     */
    l_lo   = l_curr;
    l_hi   = l_curr + cnt;
+   l_hi_frame_found = gap_lib_framefile_with_framenr_exists(ainfo_ptr, l_hi);
    while(l_hi <= ainfo_ptr->last_frame_nr)
    {
-     if(0 != gap_lib_rename_frame(ainfo_ptr, l_hi, l_lo))
+     l_lo = l_hi - cnt;
+     if(l_hi_frame_found)
      {
-        gchar *tmp_errtxt;
+      if(0 != gap_lib_rename_frame(ainfo_ptr, l_hi, l_lo))
+      {
+         gchar *tmp_errtxt;
 
-        tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld") ,l_hi, l_lo);
-        gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
-        g_free(tmp_errtxt);
-        return -1;
+         tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld") ,l_hi, l_lo);
+         gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
+         g_free(tmp_errtxt);
+         return -1;
+       }
      }
-     l_lo++;
-     l_hi++;
+     /* advance l_hi to the next available frame number 
+      * (normally to l_hi += 1; sometimes to higher number when frames are missing) 
+      */
+     l_hi = gap_lib_get_next_available_frame_number(l_hi, 1
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_hi_frame_found);
+
    }
 
    /* calculate how much frames are left */
@@ -525,6 +535,7 @@ p_dup(GapAnimInfo *ainfo_ptr, long cnt, long range_from, long range_to)
    char  *l_dup_name;
    char  *l_curr_name;
    gdouble    l_percentage, l_percentage_step;
+   gboolean   l_lo_frame_found;
 
    if(gap_debug) fprintf(stderr, "DEBUG  p_dup fr:%d to:%d cnt:%d extension:%s: basename:%s frame_cnt:%d\n",
                          (int)range_from, (int)range_to, (int)cnt, ainfo_ptr->extension, ainfo_ptr->basename, (int)ainfo_ptr->frame_cnt);
@@ -596,18 +607,26 @@ p_dup(GapAnimInfo *ainfo_ptr, long cnt, long range_from, long range_to)
     */
    l_lo   = ainfo_ptr->last_frame_nr;
    l_hi   = l_lo + l_cnt2;
+   l_lo_frame_found = gap_lib_framefile_with_framenr_exists(ainfo_ptr, l_hi);
    while(l_lo > l_src_nr_max)
    {
-     if(0 != gap_lib_rename_frame(ainfo_ptr, l_lo, l_hi))
+     l_hi   = l_lo + l_cnt2;
+     if (l_lo_frame_found)
      {
-        gchar *tmp_errtxt;
-        tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), l_lo, l_hi);
-        gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
-        g_free(tmp_errtxt);
-        return -1;
+      if(0 != gap_lib_rename_frame(ainfo_ptr, l_lo, l_hi))
+      {
+         gchar *tmp_errtxt;
+         tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), l_lo, l_hi);
+         gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
+         g_free(tmp_errtxt);
+         return -1;
+       }
      }
-     l_lo--;
-     l_hi--;
+     /* advance l_lo to the previous available frame number 
+      * (normally to l_lo -= 1; sometimes to lower number when frames are missing) 
+      */
+     l_lo = gap_lib_get_next_available_frame_number(l_lo, -1
+               , ainfo_ptr->basename, ainfo_ptr->extension, &l_lo_frame_found);
    }
 
 
@@ -626,7 +645,10 @@ p_dup(GapAnimInfo *ainfo_ptr, long cnt, long range_from, long range_to)
       l_dup_name = gap_lib_alloc_fname(ainfo_ptr->basename, l_hi, ainfo_ptr->extension);
       if((l_dup_name != NULL) && (l_curr_name != NULL))
       {
-         gap_lib_image_file_copy(l_curr_name, l_dup_name);
+         if (g_file_test(l_curr_name, G_FILE_TEST_EXISTS))
+         {
+           gap_lib_image_file_copy(l_curr_name, l_dup_name);
+         }
          g_free(l_dup_name);
          g_free(l_curr_name);
       }
@@ -742,6 +764,7 @@ p_shift(GapAnimInfo *ainfo_ptr, long cnt, long range_from, long range_to)
    long  l_shift;
    gchar *l_curr_name;
    gchar *tmp_errtxt;
+   gboolean l_frame_found;
 
    gdouble    l_percentage, l_percentage_step;
 
@@ -787,41 +810,59 @@ p_shift(GapAnimInfo *ainfo_ptr, long cnt, long range_from, long range_to)
      gimp_progress_init( _("Renumber frame sequence..."));
    }
 
-   /* rename (renumber) all frames (using high numbers)
+   /* rename (renumber) all frames 
+    * (using higher numbers than last available frame number)
     */
 
    l_upper = ainfo_ptr->last_frame_nr +100;
    l_percentage_step = 0.5 / ((1.0 + l_lo) - l_hi);
-   for(l_curr = l_lo; l_curr <= l_hi; l_curr++)
+   l_curr = l_lo;
+   while (l_curr <= l_hi)
    {
-     if(0 != gap_lib_rename_frame(ainfo_ptr, l_curr, l_curr + l_upper))
+     l_frame_found = gap_lib_framefile_with_framenr_exists(ainfo_ptr, l_curr);
+     if (l_frame_found)
      {
-        tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), l_lo, l_hi);
-        gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
-        g_free(tmp_errtxt);
-        return -1;
+       if(0 != gap_lib_rename_frame(ainfo_ptr, l_curr, l_curr + l_upper))
+       {
+         tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), l_lo, l_hi);
+         gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
+         g_free(tmp_errtxt);
+         return -1;
+       }
      }
      if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
      {
        l_percentage += l_percentage_step;
        gimp_progress_update (l_percentage);
      }
+     /* advance l_curr to the next available frame number 
+      * (normally to l_curr += 1; sometimes to higher number when frames are missing) 
+      */
+     l_curr = gap_lib_get_next_available_frame_number(l_curr, 1
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
    }
 
-   /* rename (renumber) all frames (using desied destination numbers)
+   /* rename (renumber) all frames (using desired destination numbers)
     */
    l_dst = l_lo + l_shift;
    if (l_dst > l_hi) { l_dst -= (l_lo -1); }
    if (l_dst < l_lo) { l_dst += ((l_hi - l_lo) +1); }
    for(l_curr = l_upper + l_lo; l_curr <= l_upper + l_hi; l_curr++)
    {
-     if (l_dst > l_hi) { l_dst = l_lo; }
-     if(0 != gap_lib_rename_frame(ainfo_ptr, l_curr, l_dst))
+     if (l_dst > l_hi) 
      {
-        tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), l_lo, l_hi);
-        gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
-        g_free(tmp_errtxt);
-        return -1;
+       l_dst = l_lo; 
+     }
+     l_frame_found = gap_lib_framefile_with_framenr_exists(ainfo_ptr, l_curr);
+     if (l_frame_found)
+     {
+       if(0 != gap_lib_rename_frame(ainfo_ptr, l_curr, l_dst))
+       {
+         tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), l_lo, l_hi);
+         gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
+         g_free(tmp_errtxt);
+         return -1;
+       }
      }
      if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
      {
@@ -845,10 +886,17 @@ p_shift(GapAnimInfo *ainfo_ptr, long cnt, long range_from, long range_to)
 /* ============================================================================
  * p_reverse
  *
- * all frames in the given range are renumbered in reverse order
+ * all frames in the given range are renamed to reverse the order of the frame sequence range.
+ * Note that frame numbers in the range will be the same before and after this procdure,
+ * but content of the frame images is swapped.
  *
- *  example:  range before 3, 4, 5, 6, 7
- *            range after  7, 6, 5, 4, 3
+ *  examples:
+ *      A,B,C  .... image content with FrameNumber (n)
+ *   range before A(3), B(4), C(5), D(6), E(7)
+ *   range after  E(3), D(4), C(5), B(6), A(7)
+ *
+ *   range before A(3), B(4), C(7), D(21), E(22), F(51)
+ *   range after  F(3), E(4), D(7), C(21), B(22), A(51)
  *
  * return image_id (of the new loaded frame) on success
  *        or -1 on errors
@@ -861,7 +909,6 @@ p_reverse(GapAnimInfo *ainfo_ptr, long range_from, long range_to)
    long  l_lo, l_hi, l_curr;
    long  l_swap;
    gchar *tmp_errtxt;
-
    gdouble    l_percentage;
 
    l_tmp_nr = ainfo_ptr->last_frame_nr + 4;  /* use a free frame_nr for temp name */
@@ -902,11 +949,49 @@ p_reverse(GapAnimInfo *ainfo_ptr, long range_from, long range_to)
      gimp_progress_init( _("Renumber frame sequence..."));
    }
 
-   /* swap lo with high for each of the (first half of the) frames */
-   for(l_curr = l_lo; l_curr < l_lo + ((l_hi - l_lo + 1) / 2); l_curr++)
+
+   /* swap lo with high for each of the (first half of the) frames
+    * to reverse the frame sequence.
+    */
+   l_curr = l_lo;
+   l_swap = l_hi - (l_curr - l_lo);
+   while(1)
    {
-     l_swap = l_hi - (l_curr - l_lo);
-     /* rename hi to temp */
+     gboolean l_cur_frame_found;
+     gboolean l_swap_frame_found;
+     
+     l_cur_frame_found = gap_lib_framefile_with_framenr_exists(ainfo_ptr, l_curr);
+     if(l_cur_frame_found != TRUE)
+     {
+       /* advance l_curr to the next available frame number 
+        * (normally to l_curr += 1; 
+        * sometimes to higher number when frames are missing) 
+        */
+       l_curr = gap_lib_get_next_available_frame_number(l_curr, 1
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_cur_frame_found);
+     }
+     l_swap_frame_found = gap_lib_framefile_with_framenr_exists(ainfo_ptr, l_swap);
+     if(l_swap_frame_found != TRUE)
+     {
+       /* advance l_swap to the previous available frame number 
+        * (normally to l_swap -= 1; 
+        * sometimes to lower number when frames are missing) 
+        */
+       l_swap = gap_lib_get_next_available_frame_number(l_swap, -1
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_swap_frame_found);
+     }
+     
+     if ((l_cur_frame_found != TRUE) 
+     ||  (l_swap_frame_found != TRUE)
+     ||  (l_swap <= l_curr))
+     {
+        /* stop when no more frames found for swapping 
+         * or all framenames in the range are already swapped.
+         */
+        break;  
+     }
+
+     /* rename hi (l_swap) to temp */
      if(0 != gap_lib_rename_frame(ainfo_ptr, l_swap, l_tmp_nr))
      {
        tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), l_swap, l_tmp_nr);
@@ -928,7 +1013,7 @@ p_reverse(GapAnimInfo *ainfo_ptr, long range_from, long range_to)
        tmp_errtxt = g_strdup_printf(_("Error: could not rename frame %ld to %ld"), l_tmp_nr, ainfo_ptr->curr_frame_nr);
        gap_arr_msg_win(ainfo_ptr->run_mode, tmp_errtxt);
        g_free(tmp_errtxt);
-     return -1;
+       return -1;
      }
      if (ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
      {
@@ -936,6 +1021,8 @@ p_reverse(GapAnimInfo *ainfo_ptr, long range_from, long range_to)
        if (l_percentage > 1.0) l_percentage = 1.0;
        gimp_progress_update (l_percentage);
      }
+     l_curr++;
+     l_swap--;
    }
 
    /* load from the "new" current frame */
@@ -966,8 +1053,17 @@ gap_base_next(GimpRunMode run_mode, gint32 image_id)
   ainfo_ptr = gap_lib_alloc_ainfo(image_id, run_mode);
   if(ainfo_ptr != NULL)
   {
-    ainfo_ptr->frame_nr = ainfo_ptr->curr_frame_nr + 1;
-    rc = gap_lib_replace_image(ainfo_ptr);
+    gboolean l_frame_found;
+ 
+    ainfo_ptr->frame_nr = 
+          gap_lib_get_next_available_frame_number(ainfo_ptr->curr_frame_nr, 1
+                      , ainfo_ptr->basename, ainfo_ptr->extension
+                      , &l_frame_found
+                      );
+    if (l_frame_found)
+    {
+      rc = gap_lib_replace_image(ainfo_ptr);
+    }
 
     gap_lib_free_ainfo(&ainfo_ptr);
   }
@@ -985,8 +1081,16 @@ gap_base_prev(GimpRunMode run_mode, gint32 image_id)
   ainfo_ptr = gap_lib_alloc_ainfo(image_id, run_mode);
   if(ainfo_ptr != NULL)
   {
-    ainfo_ptr->frame_nr = ainfo_ptr->curr_frame_nr - 1;
-    rc = gap_lib_replace_image(ainfo_ptr);
+    gboolean l_frame_found;
+    ainfo_ptr->frame_nr = 
+          gap_lib_get_next_available_frame_number(ainfo_ptr->curr_frame_nr, -1
+                      , ainfo_ptr->basename, ainfo_ptr->extension
+                      , &l_frame_found
+                      );
+    if (l_frame_found)
+    {
+      rc = gap_lib_replace_image(ainfo_ptr);
+    }
 
     gap_lib_free_ainfo(&ainfo_ptr);
   }
@@ -1053,7 +1157,6 @@ gap_base_last(GimpRunMode run_mode, gint32 image_id)
  *    show dialogwindow where user can enter the destination frame Nr.
  * ============================================================================
  */
-
 gint32
 gap_base_goto(GimpRunMode run_mode, gint32 image_id, int nr)
 {
@@ -1160,12 +1263,14 @@ gap_base_del(GimpRunMode run_mode, gint32 image_id, int nr)
   GapAnimInfo *ainfo_ptr;
 
   long           l_cnt;
+  long           l_delete_to_frame_nr;
   long           l_max;
   gchar         *l_hline;
   gchar         *l_title;
   gchar         *l_tooltip;
 
   rc = -1;
+  l_cnt = -1;
   ainfo_ptr = gap_lib_alloc_ainfo(image_id, run_mode);
   if(ainfo_ptr != NULL)
   {
@@ -1194,7 +1299,7 @@ gap_base_del(GimpRunMode run_mode, gint32 image_id, int nr)
         l_tooltip = g_strdup_printf(_("Delete frames starting at current number %d "
                                       "up to this number (inclusive)")
                     , (int)ainfo_ptr->curr_frame_nr );
-        l_cnt = gap_arr_slider_dialog(l_title, l_hline
+        l_delete_to_frame_nr = gap_arr_slider_dialog(l_title, l_hline
               , _("Number:")
               , l_tooltip
               , ainfo_ptr->curr_frame_nr
@@ -1207,9 +1312,9 @@ gap_base_del(GimpRunMode run_mode, gint32 image_id, int nr)
         g_free (l_title);
         g_free (l_hline);
 
-        if(l_cnt >= 0)
+        if(l_delete_to_frame_nr >= 0)
         {
-           l_cnt = 1 + l_cnt - ainfo_ptr->curr_frame_nr;
+           l_cnt = 1 + l_delete_to_frame_nr - ainfo_ptr->curr_frame_nr;
 
            /* ask the user to confirm delete (there is no undo) */
            if(!p_delete_confirm_dialog(ainfo_ptr
@@ -2065,7 +2170,12 @@ p_renumber_frames(GapAnimInfo *ainfo_ptr, long start_frame_nr, long digits)
         l_to--;
         l_cnt++;
       }
-      l_from--;
+      /* advance l_from to the previous available frame number 
+       * (normally to l_from -= 1; sometimes to lower number when frames are missing) 
+       */
+      l_from = gap_lib_get_next_available_frame_number(l_from, -1
+               , ainfo_ptr->basename, ainfo_ptr->extension, NULL);
+
       if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
       {
         gimp_progress_update( (gdouble)(l_cnt)

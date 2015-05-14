@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -28,6 +28,8 @@
 #define _GAP_VAL_FILE_H
 
 #include "libgimp/gimp.h"
+
+#define GAP_VAL_MAX_BYTES_PER_LINE 16000
 
 
 typedef struct GapValTextFileLines {
@@ -46,6 +48,7 @@ typedef enum
 , GAP_VAL_STRING
 , GAP_VAL_GBOOLEAN
 , GAP_VAL_G32BOOLEAN
+, GAP_VAL_GINT
 } GapValDataType;
 
 

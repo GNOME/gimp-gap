@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -55,6 +55,18 @@
 
 
 /* procedures used in other gap*.c files */
+
+gint32      gap_lib_layer_tracking(gint32 image_id
+                    , gchar *ref_layer_name
+                    , gint32 ref_layer_stackpos
+                    , gboolean setActiveLayer
+                    , gboolean ignoreOnionLayers
+                    , gboolean trackByName
+                    , gboolean trackByStackPosition
+                    );
+
+
+
 int          gap_lib_file_exists(const char *fname);
 char*        gap_lib_searchpath_for_exefile(const char *exefile, const char *path);
 int          gap_lib_file_copy(char *fname, char *fname_copy);
@@ -63,9 +75,11 @@ char*        gap_lib_alloc_basename(const char *imagename, long *number);
 char*        gap_lib_alloc_extension(const char *imagename);
 GapAnimInfo* gap_lib_alloc_ainfo_from_name(const char *imagename, GimpRunMode run_mode);
 GapAnimInfo* gap_lib_alloc_ainfo(gint32 image_id, GimpRunMode run_mode);
+GapAnimInfo* gap_lib_alloc_ainfo_unsaved_image(gint32 image_id);
 int          gap_lib_dir_ainfo(GapAnimInfo *ainfo_ptr);
 int          gap_lib_chk_framerange(GapAnimInfo *ainfo_ptr);
 int          gap_lib_chk_framechange(GapAnimInfo *ainfo_ptr);
+char*        gap_lib_build_basename_without_ext(const char *filename);
 
 int    gap_lib_save_named_frame (gint32 image_id, char *sav_name);
 int    gap_lib_load_named_frame (gint32 image_id, char *lod_name);
@@ -80,7 +94,6 @@ long  gap_lib_get_frame_nr(gint32 image_id);
 long  gap_lib_get_frame_nr_from_name(char *fname);
 int   gap_lib_image_file_copy(char *fname, char *fname_copy);
 
-
 gchar *gap_lib_get_video_paste_name(void);
 gint32 gap_vid_edit_clear(void);
 gint32 gap_vid_edit_framecount(void);
@@ -92,6 +105,10 @@ gboolean gap_lib_gap_check_save_needed(gint32 image_id);
 int      gap_lib_rename_frame(GapAnimInfo *ainfo_ptr, long from_nr, long to_nr);
 int      gap_lib_delete_frame(GapAnimInfo *ainfo_ptr, long nr);
 gint32   gap_lib_replace_image(GapAnimInfo *ainfo_ptr);
+
+long     gap_lib_get_next_available_frame_number(long cur_frame_nr, long stepsize,
+            char *basename, char *extension, gboolean *frame_found_ptr);
+gboolean gap_lib_framefile_with_framenr_exists(GapAnimInfo *ainfo_ptr, long frame_nr);
 
 
 #endif

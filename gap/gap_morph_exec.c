@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -64,7 +64,6 @@
  * (gives bad quality results, you should NOT enable this option)
  */
 #undef  GAP_MORPH_USE_SIMPLE_PIXEL_WARP
-//#define  GAP_MORPH_USE_SIMPLE_PIXEL_WARP
 
 #define GAP_MORPH_NEAR_SQR_RADIUS  64
 #define GAP_MORPH_NEAR_RADIUS  4
@@ -77,7 +76,6 @@
 #define GAP_MORPH_MIN_TOL_FAKTOR 4.5
 #define GAP_MORPH_XY_REL_FAKTOR 5
 
-#define MIX_VALUE(factor, a, b) ((a * (1.0 - factor)) +  (b * factor))
 
 typedef struct GapMorphExeLayerstack
 {
@@ -204,7 +202,7 @@ p_error_message_with_filename(GimpRunMode run_mode, const char *msg_fmt, const c
   
   if(run_mode != GIMP_RUN_NONINTERACTIVE)
   {
-    g_message(l_msg);
+    g_message("%s", l_msg);
   }
   g_free(l_msg);
 
@@ -1733,7 +1731,6 @@ p_calculate_work_point_movement(gdouble total_steps
   gdouble            scaley;
 
 
-  if(gap_debug) printf ("p_calculate_work_point_movement: START\n");
 
   if(forward_move)
   {
@@ -1745,9 +1742,30 @@ p_calculate_work_point_movement(gdouble total_steps
     scalex = (gdouble)curr_width  / (gdouble)gimp_drawable_width(dst_layer_id);
     scaley = (gdouble)curr_height / (gdouble)gimp_drawable_height(dst_layer_id);
   }
+
+  if(gap_debug)
+  {
+    gint32  countPoints;
+
+    countPoints = 0;
+    for(wp_elem_orig = master_list; wp_elem_orig != NULL; wp_elem_orig = (GapMorphWorkPoint *)wp_elem_orig->next)
+    {
+      countPoints++;
+    }
+    printf ("p_calculate_work_point_movement: START total_steps:%.2f current_step:%.2f forward_move:%d scalex:%.3f scaley:%.3f master_list:%d countPoints:%d\n"
+      ,(float)total_steps
+      ,(float)current_step
+      ,(int)forward_move
+      ,(float)scalex
+      ,(float)scaley
+      ,(int)master_list
+      ,(int)countPoints
+      );
+  }
   
   wp_list = NULL;
   wp_elem_prev = NULL;
+  
   
   for(wp_elem_orig = master_list; wp_elem_orig != NULL; wp_elem_orig = (GapMorphWorkPoint *)wp_elem_orig->next)
   {
@@ -1965,8 +1983,8 @@ p_layer_warp_move (GapMorphWorkPoint     *wp_list_1
            if(mgpp->have_workpointsets)
            {
              /* pick based on 2 sets of workpoints */
-             p_pixel_warp_multipick(wcap_1  /// XXXXX list1
-                   , wcap_2                 /// XXXXX list2
+             p_pixel_warp_multipick(wcap_1  /*  list1 */
+                   , wcap_2                 /*  list2 */
                    , wp_mix_factor
                    , l_col
                    , l_row
@@ -2015,7 +2033,14 @@ p_layer_warp_move (GapMorphWorkPoint     *wp_list_1
         * }
         */
         
-       gimp_progress_update(l_total_progress);
+       if(mgpp->progress_callback_fptr == NULL)
+       {
+         gimp_progress_update(l_total_progress);
+       }
+       else
+       {
+         (*mgpp->progress_callback_fptr)(l_total_progress, mgpp->callback_data_ptr);
+       }
      }
 
   }
@@ -2163,7 +2188,7 @@ p_mix_layers (gint32  curr_image_id
         {
            gdouble val;
            
-           val = MIX_VALUE(curr_mix_factor, (gdouble)(*bg_ptr), (gdouble)(*top_ptr));
+           val = GAP_BASE_MIX_VALUE(curr_mix_factor, (gdouble)(*bg_ptr), (gdouble)(*top_ptr));
            *pixel_ptr = (guchar)val;
            
            pixel_ptr++;
@@ -2406,6 +2431,16 @@ p_create_morph_tween_frame(gint32 total_steps
      }
      else
      {
+       if(gap_debug)
+       {
+         printf("simple workpoint setting for BG LAYER total_steps:%.2f current_step:%.2f forward_move:%d  wp_mix_factor:%.3f\n"
+            , (float)total_steps
+            , (float)current_step
+            , (int)forward_move
+            , (float)wp_mix_factor
+            );
+       }
+     
        /* simple workpoint settings for src_layer */
        curr_wp_list_1 = p_calculate_work_point_movement((gdouble)total_steps
                                                      ,(gdouble)current_step
@@ -2473,6 +2508,16 @@ p_create_morph_tween_frame(gint32 total_steps
    }
    else
    {
+     if(gap_debug)
+     {
+       printf("simple workpoint setting for TOP LAYER total_steps:%.2f current_step:%.2f forward_move:%d  wp_mix_factor:%.3f\n"
+          , (float)total_steps
+          , (float)current_step
+          , (int)forward_move
+          , (float)wp_mix_factor
+          );
+     }
+
      /* simple workpoint settings for sc_layer */
      curr_wp_list_1 = p_calculate_work_point_movement((gdouble)total_steps
                                                    ,(gdouble)current_step
@@ -2507,11 +2552,7 @@ p_create_morph_tween_frame(gint32 total_steps
    }
 
    /* merge BG and TOP Layer (does mix opacity according to current step) */
-//   merged_layer_id = 
-//   gap_image_merge_visible_layers(curr_image_id, GIMP_EXPAND_AS_NECESSARY);
-
-   merged_layer_id = 
-   p_mix_layers(curr_image_id
+   merged_layer_id = p_mix_layers(curr_image_id
                ,bg_layer_id
                ,top_layer_id
                ,curr_width
@@ -2602,7 +2643,10 @@ p_get_tween_steps_and_layerstacks(GapMorphGlobalParams *mgpp, GapMorphExeLayerst
     for(ii=0; ii < mlayers->dst_nlayers; ii++)
     {
 
-      if(gap_debug) printf("dst: id[%d]: %d\n", (int)ii, (int)mlayers->dst_layers[ii] );
+      if(gap_debug)
+      {
+        printf("dst: id[%d]: %d\n", (int)ii, (int)mlayers->dst_layers[ii] );
+      }
 
       if(mlayers->dst_layers[ii] == mgpp->fdst_layer_id)
       {
@@ -2717,7 +2761,7 @@ gap_morph_execute(GapMorphGlobalParams *mgpp)
     mgpp->render_mode = GAP_MORPH_RENDER_MODE_WARP;
   }
 
-  if(mgpp->do_progress)
+  if((mgpp->do_progress) && (mgpp->progress_callback_fptr == NULL))
   {
     if(mgpp->render_mode == GAP_MORPH_RENDER_MODE_MORPH)
     {
@@ -2826,7 +2870,14 @@ gap_morph_execute(GapMorphGlobalParams *mgpp)
     if(mgpp->do_progress)
     {
       mgpp->master_progress = (gdouble)current_step / (gdouble)(MAX(1, last_step));
-      gimp_progress_update(mgpp->master_progress);
+      if(mgpp->progress_callback_fptr == NULL)
+      {
+        gimp_progress_update(mgpp->master_progress);
+      }
+      else
+      {
+        (*mgpp->progress_callback_fptr)(mgpp->master_progress, mgpp->callback_data_ptr);
+      }
     }
 
     
@@ -2913,6 +2964,13 @@ p_create_simple_fade_tween_frame(gint32 total_steps
                                 ,(gdouble)0.0
                                 ,(gdouble)100.0
                                 );
+   if(mgpp->do_progress)
+   {
+     if(mgpp->progress_callback_fptr != NULL)
+     {
+         (*mgpp->progress_callback_fptr)(0.05, mgpp->callback_data_ptr);
+     }
+   }
 
    merged_layer_id = 
    p_mix_layers(curr_image_id
@@ -2923,7 +2981,15 @@ p_create_simple_fade_tween_frame(gint32 total_steps
                ,(gdouble)(curr_opacity / 100.0)
                );
  
+   if(mgpp->do_progress)
+   {
+     if(mgpp->progress_callback_fptr != NULL)
+     {
+         (*mgpp->progress_callback_fptr)(1.0, mgpp->callback_data_ptr);
+     }
+   }
    mgpp->master_progress += mgpp->layer_progress_step;
+
 
    /* DEBUG code: show duplicate of the temporary tween image */
    if(FALSE)
@@ -2957,6 +3023,8 @@ gap_morph_render_one_of_n_tweens(GapMorphGlobalParams *mgpp, gdouble total_steps
   gint32 new_layer_id;
   GapMorphExeLayerstack mlayers_struct;
   GapMorphExeLayerstack *mlayers;
+  gint32              bck_tween_steps;
+  gint32              ret_layer_id;
   
   mlayers = &mlayers_struct;
   mlayers->tab_wp_sets = NULL;
@@ -2972,21 +3040,29 @@ gap_morph_render_one_of_n_tweens(GapMorphGlobalParams *mgpp, gdouble total_steps
   {
     if(*mgpp->workpoint_file_lower != '\0')
     {
-      /* load a single workpointfile
-       * (note: we use general procedure p_build_wp_set_table and handle the single workpointfile
-       *  as mix of upper and lower set that both refere to the same single workpointfile)
-       */
-      p_build_wp_set_table(mgpp ,mlayers);
+      /* load a single workpointfile */
+      mlayers->available_wp_sets = 1;
+      mlayers->tab_wp_sets = g_new(GapMorphWarpCoreAPI*, mlayers->available_wp_sets);
+      
+      mlayers->tab_wp_sets[0] = p_load_workpoint_set(mgpp->workpoint_file_lower, mgpp, mlayers);
+      mgpp->master_wp_list = mlayers->tab_wp_sets[0]->wp_list;
+      
       mgpp->have_workpointsets = FALSE;
       mlayers->available_wp_sets = 0;
     }
   }
   
   /* overrule the number of steps with the explicite parameter value */
+  bck_tween_steps = mgpp->tween_steps;
   mgpp->tween_steps = total_steps;
 
   if(mgpp->do_simple_fade)
   {
+    if(gap_debug)
+    {
+      printf("do_simple_fade == TRUE, skip morph and do fade operation instead\n");
+    }
+
     /* we have no workpoints available
      * in this case make an attempt with a fast fade operation
      *  (but restricted to frames of same size and type)
@@ -3013,7 +3089,13 @@ gap_morph_render_one_of_n_tweens(GapMorphGlobalParams *mgpp, gdouble total_steps
                           ,mlayers
                           );
   }
-  return (gap_image_merge_to_specified_layer(new_layer_id, GIMP_CLIP_TO_IMAGE));
+  ret_layer_id = gap_image_merge_to_specified_layer(new_layer_id, GIMP_CLIP_TO_IMAGE);
+
+  /* restore tween_steps value */
+  mgpp->tween_steps = bck_tween_steps;
+  
+  return(ret_layer_id);
+  
 }  /* end gap_morph_render_one_of_n_tweens */
 
 
@@ -3046,6 +3128,505 @@ gap_morph_render_one_tween(GapMorphGlobalParams *mgpp)
 
 
 
+
+/* -----------------------------------------------
+ * p_buildTargetTweenFilename
+ * -----------------------------------------------
+ * build filename for the target Tween frame with the specified targetFrameNr number part
+ * with full directory path (specified by tweenDirectory)
+ *
+ * the caller is rsponsible to g_free the returned filename.
+ */
+static char*
+p_buildTargetTweenFilename(GapAnimInfo *ainfo_ptr, const char *tweenDirectory, gint32 targetFrameNr)
+{
+  char *fileBasenameWithoutDir;
+  char *fileNameTarget;
+  char *fileNameTargetWithDir;
+  char *checkName;
+  
+  
+  fileBasenameWithoutDir = g_path_get_basename(ainfo_ptr->basename);
+  fileNameTarget = g_strdup_printf("%s%06d%s"
+                          , fileBasenameWithoutDir
+                          , (int)targetFrameNr
+                          , ainfo_ptr->extension
+                          );
+
+  checkName = g_build_filename(tweenDirectory, fileBasenameWithoutDir, NULL);
+  
+  if((strcmp(checkName, ainfo_ptr->basename) == 0)
+  || (*tweenDirectory == '.'))
+  {
+    if(gap_debug)
+    {
+      printf("WARNING: create tween in directory: %s\n"
+           "  with additional prefix tween_"
+           "  to prevent overwrite of source frames in the same directory\n"
+        , tweenDirectory
+        );
+    }
+    fileNameTarget = g_strdup_printf("tween_%s%06d%s"
+                          , fileBasenameWithoutDir
+                          , (int)targetFrameNr
+                          , ainfo_ptr->extension
+                          );
+  }
+  else
+  {
+    fileNameTarget = g_strdup_printf("%s%06d%s"
+                          , fileBasenameWithoutDir
+                          , (int)targetFrameNr
+                          , ainfo_ptr->extension
+                          );
+  }
+
+  fileNameTargetWithDir = g_build_filename(tweenDirectory, fileNameTarget, NULL);
+
+
+  if(gap_debug)
+  {
+    printf("checkName: %s\n", checkName);
+    printf("fileBasenameWithoutDir: %s\n", fileBasenameWithoutDir);
+    printf("fileNameTarget: %s\n", fileNameTarget);
+    printf("fileNameTargetWithDir: %s\n", fileNameTargetWithDir);
+  }
+  
+  if(fileBasenameWithoutDir)    { g_free(fileBasenameWithoutDir); }
+  if(fileNameTarget)            { g_free(fileNameTarget); }
+  if(checkName)                 { g_free(checkName); }
+
+  return(fileNameTargetWithDir);
+
+}  /* end p_buildTargetTweenFilename */
+
+
+/* -----------------------------------------------
+ * p_copyAndGetMergedFrameImageLayer
+ * -----------------------------------------------
+ * load the specified frame as temporary image, merge to one layer and return this layer's id.
+ * further copy the original image to the directory specified via tweenDirectory
+ * the filename of the copy is built with original filename and extension but the number part is replaced
+ * by the specified targetFrameNr.
+ *
+ * return -1 if FAILED, or layerId (positive integer) on success
+ */
+gint32
+p_copyAndGetMergedFrameImageLayer(GapAnimInfo *ainfo_ptr, gint32 frameNr
+   , const char *tweenDirectory, gint32 targetFrameNr, gboolean overwrite_flag)
+{
+  gint32 imageId;
+  gint32 layerId;
+
+  layerId = -1;
+  if(ainfo_ptr->new_filename != NULL)
+  {
+    g_free(ainfo_ptr->new_filename);
+  }
+  ainfo_ptr->new_filename = gap_lib_alloc_fname(ainfo_ptr->basename,
+                                      frameNr,
+                                      ainfo_ptr->extension);
+  if(ainfo_ptr->new_filename == NULL)
+  {
+     printf("could not create frame filename for frameNr:%d\n", (int)frameNr);
+     return -1;
+  }
+
+  if(!g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
+  {
+     printf("file not found: %s\n", ainfo_ptr->new_filename);
+     return -1;
+  }
+
+  /* load current frame */
+  imageId = gap_lib_load_image(ainfo_ptr->new_filename);
+  if(imageId >= 0)
+  {
+    char *targetTweenFilename;
+    
+    layerId = gap_image_merge_visible_layers(imageId, GIMP_CLIP_TO_IMAGE);
+    
+    targetTweenFilename = p_buildTargetTweenFilename(ainfo_ptr, tweenDirectory, targetFrameNr);
+    
+    if(gap_debug)
+    {
+      printf("COPY: %s ==> %s\n", ainfo_ptr->new_filename, targetTweenFilename);
+    }
+
+
+    if((!g_file_test(targetTweenFilename, G_FILE_TEST_EXISTS))
+    || (overwrite_flag == TRUE))
+    {
+      gap_lib_file_copy(ainfo_ptr->new_filename /* the original file */
+                     ,targetTweenFilename     /* the copy */
+                     );
+    }
+    
+
+  }
+  
+  return(layerId);
+
+}  /* end p_copyAndGetMergedFrameImageLayer */
+
+
+
+
+/* -------------------------------------
+ * p_morph_render_frame_tweens_in_subdir
+ * -------------------------------------
+ *
+ * return one of the newly created morphed tween frame layers
+ *       (the one that was created last is picked)
+ *
+ */
+gint32
+p_morph_render_frame_tweens_in_subdir(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp, gboolean *cancelFlagPtr)
+{
+  char   *tweenDirectory;
+  char   *targetTweenFrameFilename;
+  gint32 l_tween_layer_id;
+  gint32 l_rc;
+  gint   l_errno;
+  gint32 frameCount;
+  gint32 currFrameNr;
+  gint32 nextFrameNr;
+  gint32 nextTargetFrameNr;
+  gint32 baseTargetFrameNr;
+  gint32 currTargetFrameNr;
+  gint32 currLayerId;
+  gint32 nextLayerId;
+  gint32 firstFrameNr;
+  gint32 lastFrameNr;
+  gdouble framesToProcess;
+  gdouble nTweenFramesTotal;   /* for outer progress (frames that are just copied are not included in progress) */
+  gdouble nTweenFramesDone;    /* rendered tween frames so far (frames that are just copied are not included) */
+
+
+
+  l_tween_layer_id = -1;
+  l_errno = 0;
+  targetTweenFrameFilename = NULL;
+
+  if(gap_debug)
+  {
+    printf("p_morph_render_frame_tweens_in_subdir  START\n");
+  }
+  
+  if((mgpp->tween_subdir[0] == '\0') || (mgpp->tween_subdir[0] == '.'))
+  {
+    /* use same directory as source frames
+     * (in this case tween frame filenames are automatically prefixed with "tween_"
+     * to prevent overwrite of the source frames while processing)
+     */
+    tweenDirectory = g_path_get_dirname(ainfo_ptr->basename);
+  }
+  else
+  {
+    tweenDirectory = gap_file_make_abspath_filename(&mgpp->tween_subdir[0]
+                     , ainfo_ptr->basename
+                     );
+  }
+  
+
+  if(gap_debug)
+  {
+    printf("p_morph_render_frame_tweens_in_subdir  tweenDirectory:%s\n"
+       ,tweenDirectory
+       );
+  }
+
+
+
+  if (!g_file_test(tweenDirectory, G_FILE_TEST_IS_DIR))
+  {
+    gap_file_mkdir (tweenDirectory, GAP_FILE_MKDIR_MODE);
+    l_errno = errno;
+  }
+
+  if (!g_file_test(tweenDirectory, G_FILE_TEST_IS_DIR))
+  {
+    g_message (_("Failed to create tween subdirectory: '%s':\n%s")
+                   , tweenDirectory
+                   , g_strerror (l_errno)
+                   );
+    return (-1);
+  }
+
+
+  frameCount = 0;
+  nextLayerId = -1;
+ 
+  if(gap_lib_chk_framerange(ainfo_ptr) != 0)
+  {
+    return(0);
+  }
+  
+  
+  firstFrameNr = CLAMP(mgpp->range_from, ainfo_ptr->first_frame_nr, ainfo_ptr->last_frame_nr);
+  currFrameNr = firstFrameNr;
+  currTargetFrameNr = firstFrameNr;
+  nextTargetFrameNr = firstFrameNr;
+  baseTargetFrameNr = firstFrameNr;
+
+  currLayerId = p_copyAndGetMergedFrameImageLayer(ainfo_ptr
+                      , currTargetFrameNr
+                      , tweenDirectory
+                      , currTargetFrameNr
+                      , mgpp->overwrite_flag
+                      );
+  nextFrameNr = currFrameNr + 1;
+
+
+  lastFrameNr = MIN(mgpp->range_to, ainfo_ptr->last_frame_nr);
+  nTweenFramesTotal = MAX(1.0, (lastFrameNr - firstFrameNr) * mgpp->master_tween_steps);
+  nTweenFramesDone = 0;
+
+  /* loop to process all frames within the specified frame range */
+  while(TRUE)
+  {
+    gdouble nFrames;
+    gint32  tweenFramesToBeCreated;
+    gdouble l_current_step;
+
+    /* recalculate (in case range_to is changed on GUI while processing is already running) */
+    lastFrameNr = MIN(mgpp->range_to, ainfo_ptr->last_frame_nr);
+    framesToProcess = MAX(1, (lastFrameNr - currFrameNr) -1);
+    nTweenFramesTotal = MAX(1.0, (lastFrameNr - firstFrameNr) * mgpp->master_tween_steps);
+   
+    if (nextFrameNr > lastFrameNr)
+    {
+      if(gap_debug)
+      {
+        printf("BREAK nextFrameNr:%d lastFrameNr:%d\n"
+          ,(int)nextFrameNr
+          ,(int)lastFrameNr
+          );
+      }
+     
+      break;
+    }
+
+    nFrames = nextFrameNr - currFrameNr;
+    tweenFramesToBeCreated = (nFrames * mgpp->master_tween_steps) + (nFrames -1);
+
+    nextTargetFrameNr = baseTargetFrameNr + (1 + tweenFramesToBeCreated);
+    
+    if(gap_debug)
+    {
+      printf("ATTR currFrameNr:%d  nextFrameNr:%d  master_tween_steps:%d  tweenFramesToBeCreated:%d  baseTargetFrameNr:%d  nextTargetFrameNr:%d\n"
+        ,(int)currFrameNr
+        ,(int)nextFrameNr
+        ,(int)mgpp->master_tween_steps
+        ,(int)tweenFramesToBeCreated
+        ,(int)baseTargetFrameNr
+        ,(int)nextTargetFrameNr
+        );
+    }
+    nextLayerId = p_copyAndGetMergedFrameImageLayer(ainfo_ptr
+                         , nextFrameNr
+                         , tweenDirectory
+                         , nextTargetFrameNr
+                         , mgpp->overwrite_flag
+                         );
+    
+    if((nextLayerId >= 0) && (currLayerId >= 0))
+    {
+      char *workpointFileName;
+      gboolean success;
+        
+   
+      success = TRUE;
+      baseTargetFrameNr = nextTargetFrameNr;
+
+      workpointFileName = gap_lib_alloc_fname(ainfo_ptr->basename,
+                                      currFrameNr,
+                                      "." GAP_MORPH_WORKPOINT_EXTENSION);      
+      if(g_file_test(workpointFileName, G_FILE_TEST_EXISTS))
+      {
+        if(gap_debug)
+        {
+          printf("USING workpointfile: %s\n"
+                 , workpointFileName
+                 );
+        }
+        g_snprintf(&mgpp->workpoint_file_lower[0]
+                , sizeof(mgpp->workpoint_file_lower)
+                , "%s"
+                , workpointFileName
+                );
+        g_snprintf(&mgpp->workpoint_file_upper[0]
+                , sizeof(mgpp->workpoint_file_upper)
+                , "%s"
+                , workpointFileName
+                );
+        
+        mgpp->do_simple_fade = FALSE;
+      }
+      else
+      {
+        if(gap_debug)
+        {
+          printf("have no valid frame specific workpointfile: %s\n"
+                 "  (reset names to force simple fade operaton\n"
+                 , workpointFileName
+                 );
+        }
+        mgpp->workpoint_file_lower[0] = '\0';
+        mgpp->workpoint_file_upper[0] = '\0';
+        mgpp->do_simple_fade = TRUE;
+      }
+
+      
+       mgpp->osrc_layer_id = currLayerId;
+       mgpp->fdst_layer_id = nextLayerId;
+
+      /* loop to generate tween frames between currentFrameNr and nextFrameNr */
+      for (l_current_step = 1; l_current_step <= tweenFramesToBeCreated; l_current_step++)
+      {
+        gint32  l_tween_tmp_image_id;
+        
+        currTargetFrameNr++;
+
+        mgpp->master_progress = 0.0;
+        mgpp->layer_progress_step = 0.5;
+
+        if(l_tween_layer_id >= 0)
+        {
+          /* delete the previous handled tween frame image in memory. 
+           * (that is already saved to disk)
+           * we keep only the last one opened in gimp.
+           */
+          gap_image_delete_immediate(gimp_drawable_get_image(l_tween_layer_id));
+        }
+
+        if(targetTweenFrameFilename != NULL)
+        {
+          g_free(targetTweenFrameFilename);
+        }
+        targetTweenFrameFilename = p_buildTargetTweenFilename(ainfo_ptr
+                                            , tweenDirectory
+                                            , currTargetFrameNr);
+        if(targetTweenFrameFilename == NULL)
+        {
+          success = FALSE;
+          break;
+        }
+        
+        if(gap_debug)
+        {
+          printf("p_morph_render_frame_tweens_in_subdir creating tween:%s\n"
+             , targetTweenFrameFilename
+             );
+        }
+
+        /* progress and cancel handling */
+        if(mgpp->do_progress)
+        {
+           gdouble percentage;
+           percentage = nTweenFramesDone / nTweenFramesTotal;
+           if(gap_debug)
+           {
+             printf("\nTWEEN_PROGRESS: nTweenFramesDone:%.0f nTweenFramesTotal:%.0f percentage:%.5f\n\n"
+               , (float)nTweenFramesDone
+               , (float)nTweenFramesTotal
+               , (float)percentage
+               );
+           }
+           if(mgpp->master_progress_callback_fptr != NULL)
+           {
+             (*mgpp->master_progress_callback_fptr)( nTweenFramesDone
+                                                   , nTweenFramesTotal
+                                                   , targetTweenFrameFilename
+                                                   , mgpp->callback_data_ptr
+                                                   );           
+           }
+           if(cancelFlagPtr != NULL)
+           {
+             if (*cancelFlagPtr == TRUE)
+             {
+                success = FALSE;
+                break;
+             }           
+           }
+        }
+
+        if (mgpp->overwrite_flag != TRUE)
+        {
+          if(g_file_test(targetTweenFrameFilename, G_FILE_TEST_EXISTS))
+          {
+            l_tween_layer_id = -1;
+            if(gap_debug)
+            {
+              printf("SKIP tween generation because file: %s already exists"
+                 , targetTweenFrameFilename
+                 );
+            }
+            continue;
+          }
+        }
+
+
+        /* CALL of the morphing processor */
+
+        l_tween_layer_id = gap_morph_render_one_of_n_tweens(mgpp
+                                                           , tweenFramesToBeCreated +1
+                                                           , l_current_step
+                                                           );
+        l_tween_tmp_image_id = gimp_drawable_get_image(l_tween_layer_id);
+        if(gap_debug)
+        {
+          printf("p_morph_render_frame_tweens_in_subdir saving tween:%s :%d\n"
+             ,targetTweenFrameFilename
+             ,(int)l_tween_tmp_image_id
+             );
+        }
+        l_rc = gap_lib_save_named_frame(l_tween_tmp_image_id, targetTweenFrameFilename);
+        if(targetTweenFrameFilename != NULL)
+        {
+          g_free(targetTweenFrameFilename);
+          targetTweenFrameFilename = NULL;
+        }
+        if (l_rc < 0)
+        {
+          l_tween_layer_id = -1;
+          p_error_message_with_filename(mgpp->run_mode, _("file: %s save failed"), targetTweenFrameFilename);
+          success = FALSE;
+          break;
+        }
+
+        nTweenFramesDone++;
+
+      }
+
+      g_free(workpointFileName);
+      gap_image_delete_immediate(gimp_drawable_get_image(currLayerId));
+      if(!success)
+      {
+        break;
+      }
+
+      currFrameNr = nextFrameNr;
+      currLayerId = nextLayerId;
+      currTargetFrameNr++;
+
+    }
+    nextFrameNr++;
+
+  }
+  
+  if(nextLayerId >= 0)
+  {
+    gap_image_delete_immediate(gimp_drawable_get_image(nextLayerId));
+  }
+
+  return(l_tween_layer_id);
+
+}  /* end p_morph_render_frame_tweens_in_subdir */
+
+
+
+
 /* ----------------------------------
  * gap_morph_render_frame_tweens
  * ----------------------------------
@@ -3054,24 +3635,27 @@ gap_morph_render_one_tween(GapMorphGlobalParams *mgpp)
  *
  */
 gint32
-gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp)
+gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp, gboolean *cancelFlagPtr)
 {
   gint32 l_tween_layer_id;
   gint32 l_tween_frame_nr;
   gint32 l_rc;
   gdouble total_steps;
 
+
+  if(mgpp->create_tweens_in_subdir == TRUE)
+  {
+    return(p_morph_render_frame_tweens_in_subdir(ainfo_ptr, mgpp, cancelFlagPtr));
+  }
+
+
   l_tween_layer_id = -1;
 
   total_steps = (mgpp->range_to -  mgpp->range_from);
-  mgpp->tween_steps = (mgpp->range_to -  mgpp->range_from); /// ??? - 1;
+  mgpp->tween_steps = (mgpp->range_to -  mgpp->range_from);
 
   mgpp->master_progress = 0.0;
-  mgpp->layer_progress_step = 0.5 / (gdouble)(MAX(1.0, (total_steps -1.0)));
-  if(mgpp->do_progress)
-  {
-    gimp_progress_init(_("creating morph tween frames..."));
-  }
+  mgpp->layer_progress_step = 0.5;
   
   if (mgpp->tween_steps > 0)
   {
@@ -3098,6 +3682,8 @@ gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
        }
        return -1;
     }
+
+
 
     /* load current frame */
     l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
@@ -3127,7 +3713,9 @@ gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
       gint32  l_tween_tmp_image_id;
       gdouble l_current_step;
       
-      mgpp->master_progress = 2.0 * mgpp->layer_progress_step * (l_tween_frame_nr - (mgpp->range_from +1));
+      mgpp->master_progress = 0.0;
+      mgpp->layer_progress_step = 0.5;
+
 
       if(l_tween_layer_id >= 0)
       {
@@ -3145,13 +3733,44 @@ gap_morph_render_frame_tweens(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
       ainfo_ptr->new_filename = gap_lib_alloc_fname(ainfo_ptr->basename,
                                           l_tween_frame_nr,
                                           ainfo_ptr->extension);
+      /* progress and cancel handling */
       if(mgpp->do_progress)
       {
-        char *l_msg;
-        l_msg = g_strdup_printf(_("creating morph tween frame: %d"), (int)l_tween_frame_nr);
-        gimp_progress_init(l_msg);
-        g_free(l_msg);
+         gdouble percentage;
+         gdouble nTweenFramesDone;
+         gdouble nTweenFramesTotal;
+         
+         nTweenFramesDone = l_tween_frame_nr - mgpp->range_from;
+         nTweenFramesTotal = mgpp->range_to - mgpp->range_from;
+         
+         percentage = nTweenFramesDone / nTweenFramesTotal;
+         if(gap_debug)
+         {
+           printf("\nTWEEN_PROGRESS: nTweenFramesDone:%.0f nTweenFramesTotal:%.0f percentage:%.5f\n\n"
+             , (float)nTweenFramesDone
+             , (float)nTweenFramesTotal
+             , (float)percentage
+             );
+         }
+         if(mgpp->master_progress_callback_fptr != NULL)
+         {
+           (*mgpp->master_progress_callback_fptr)( nTweenFramesDone
+                                                 , nTweenFramesTotal
+                                                 , ainfo_ptr->new_filename
+                                                 , mgpp->callback_data_ptr
+                                                 );           
+         }
+         if(cancelFlagPtr != NULL)
+         {
+           if (*cancelFlagPtr == TRUE)
+           {
+              break;
+           }           
+         }
       }
+
+
+
       if(gap_debug)
       {
         printf("gap_morph_render_frame_tweens creating tween:%s\n"

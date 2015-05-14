@@ -21,8 +21,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _GAP_BLUEBOX_H
@@ -32,6 +32,10 @@
 #define GAP_BLUEBOX_DATA_KEY_VALS  "plug_in_bluebox"
 #define GAP_BLUEBOX_HELP_ID        "plug-in-bluebox"
 
+
+#include <gtk/gtk.h>
+#include "libgimp/gimp.h"
+
 typedef enum
 {
    GAP_BLUBOX_THRES_RGB        
@@ -40,7 +44,6 @@ typedef enum
   ,GAP_BLUBOX_THRES_ALL
 } GapBlueboxThresMode;
 
-#include "libgimp/gimp.h"
 typedef struct GapBlueboxVals {
   GimpRGB               keycolor;
   GapBlueboxThresMode   thres_mode;

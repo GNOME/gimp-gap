@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 #ifndef _GAP_MOV_DIALOG_H
 #define _GAP_MOV_DIALOG_H
@@ -32,7 +32,7 @@
  * gimp    1.3.20c; 2003/09/29  hof: new features: perspective transformation, tween_layer and trace_layer
  *                                   changed opacity, rotation and resize from int to gdouble
  * gimp    1.3.14a; 2003/05/24  hof: moved render procedures to module gap_mov_render
- * gimp    1.1.29b; 2000/11/19  hof: new feature: FRAME based Stepmodes, 
+ * gimp    1.1.29b; 2000/11/19  hof: new feature: FRAME based Stepmodes,
  *                                   increased controlpoint Limit GAP_MOV_MAX_POINT (from 256 -> 1024)
  * gimp    1.1.20a; 2000/04/25  hof: support for keyframes, anim_preview
  * version 0.96.02; 1998.07.25  hof: added clip_to_img
@@ -41,6 +41,13 @@
 #include "gap_bluebox.h"
 
 #define GAP_MOV_KEEP_SRC_PAINTMODE 4444
+
+#define GAP_MOV_INT_VERSION 2
+
+#define   GAP_MOVPATH_XML_FILENAME_MAX_LENGTH     1024
+#define   GAP_MOVEPATH_GIMPRC_LOG_RENDER_PARAMS "video-move-path-log-render-params"
+#define   GAP_MOVEPATH_GIMPRC_ROTATE_THRESHOLD  "video-move-path-rotate-threshold"
+#define   GAP_MOVEPATH_DEFAULT_ROTATE_THRESHOLD  0.015
 
 typedef enum
 {
@@ -95,7 +102,7 @@ typedef struct {
         gdouble currX,  currY;
         gint    l_handleX;
         gint    l_handleY;
-        
+
         gdouble currOpacity;
         gdouble currWidth;
         gdouble currHeight;
@@ -109,8 +116,26 @@ typedef struct {
         gdouble currTBLY;     /*  transform y bot left */
         gdouble currTBRX;     /*  transform x bot right */
         gdouble currTBRY;     /*  transform y bot right */
-        
+
         gdouble currSelFeatherRadius;
+
+        /* acceleration characteristics */
+        gint accPosition;
+        gint accOpacity;
+        gint accSize;
+        gint accRotation;
+        gint accPerspective;
+        gint accSelFeatherRadius;
+
+        gboolean isSingleFrame;      /* TRUE when processing in single frame mode */
+        gboolean keep_proportions;
+	gboolean fit_width;
+	gboolean fit_height;
+        gint32   singleMovObjLayerId;
+        gint32   singleMovObjImageId;
+        
+        gint32   processedLayerId;   /* id of the layer that was processed in the current render step */
+
 } GapMovCurrent;
 
 
@@ -120,10 +145,10 @@ typedef struct {
         gdouble w_resize;   /* width resize 10 upto 300% */
         gdouble h_resize;   /* height resize 10 upto 300% */
         gdouble rotation;   /* rotatation +- degrees */
-        
+
         gint    keyframe_abs;
         gint    keyframe;
-        
+
         /* 4-point transform distortion (perspective) */
         gdouble ttlx;     /* 0.0 upto 10.0 transform x top left */
         gdouble ttly;     /* 0.0 upto 10.0 transform y top left */
@@ -134,8 +159,17 @@ typedef struct {
         gdouble tbrx;     /* 0.0 upto 10.0 transform x bot right */
         gdouble tbry;     /* 0.0 upto 10.0 transform y bot right */
 
-        /* 4-point transform distortion (perspective) */
+        /* feather radius for selection handling */
         gdouble sel_feather_radius;
+
+        /* acceleration characteristics */
+	gint accPosition;
+	gint accOpacity;
+	gint accSize;
+	gint accRotation;
+	gint accPerspective;
+	gint accSelFeatherRadius;
+
 } GapMovPoint;
 
 #define GAP_MOV_MAX_POINT 1024
@@ -147,6 +181,16 @@ typedef struct {
  */
 
 typedef struct {
+        gint32   version;
+        gint32   recordedObjWidth;       /* witdh of the moving object layer (at recording time of the move path settings) */
+        gint32   recordedObjHeight;      /* height of the moving object layer (at recording time of the move path settings) */
+        gint32   recordedFrameWidth;     /* witdh of the frame (at recording time of the move path settings) */
+        gint32   recordedFrameHeight;    /* height of the frame (at recording time of the move path settings) */
+        gint32   total_frames;
+        gint32   src_layerstack;
+        gchar   *src_filename;
+
+
         gint32         src_image_id;   /* source image */
         gint32         src_layer_id;   /* id of layer (to begin with) */
         GapMovHandle   src_handle;
@@ -176,7 +220,7 @@ typedef struct {
         gint    dst_range_end;
         gint    dst_layerstack;
 
-        /* for dialog only */   
+        /* for dialog only */
         gint32  dst_image_id;      /* frame image */
         gint32  tmp_image_id;      /* temp. flattened preview image */
         gint32  tmp_alt_image_id;  /* temp. preview image (preloaded preview frame) */
@@ -192,7 +236,7 @@ typedef struct {
                                      * -1 if we are not in anim_preview mode
                                      */
         gchar   *apv_gap_paste_buff;  /* Optional PasteBuffer (to store preview frames)
-                                       * "/tmp/gimp_video_paste_buffer/gap_pasteframe_" 
+                                       * "/tmp/gimp_video_paste_buffer/gap_pasteframe_"
                                        * NULL if we do not copy frames to a paste_buffer
                                        */
 
@@ -201,7 +245,7 @@ typedef struct {
         gdouble  apv_scaley;
 
         /* for FRAME based stepmodes */
-        gint32   cache_src_image_id;    /* id of the source image (from where cache image was copied) */ 
+        gint32   cache_src_image_id;    /* id of the source image (from where cache image was copied) */
         gint32   cache_tmp_image_id;    /* id of a cached flattened copy of the src image */
         gint32   cache_tmp_layer_id;    /* the only visible layer in the cached image */
         gint32   cache_frame_number;
@@ -218,13 +262,58 @@ typedef struct {
         GapBlueboxGlobalParams *bbp;
         GapBlueboxGlobalParams *bbp_pv;
 
+        gdouble  rotate_threshold;
+
+
 } GapMovValues;
 
 typedef struct {
-        GapAnimInfo  *dst_ainfo_ptr;      /* destination frames */
+        gint32       drawable_id;      /* the layer in the frame image to be processed (e.g. moved and transofrmed) */
+        gint32       frame_phase;      /* current frame number starting at 1 */
+        gint32       total_frames;
+        gboolean     keep_proportions;
+	gboolean     fit_width;
+	gboolean     fit_height;
+        gchar        xml_paramfile[GAP_MOVPATH_XML_FILENAME_MAX_LENGTH];
+} GapMovSingleFrame;
+
+
+typedef struct {
+        GapAnimInfo  *dst_ainfo_ptr;        /* destination frames */
+        GapMovSingleFrame *singleFramePtr;  /* NULL when processing multiple frames */
         GapMovValues *val_ptr;
 } GapMovData;
 
+
+
+typedef struct {
+    /* IN */
+   gint  pointIndexToQuery;
+   gint  startOfSegmentIndexToQuery;
+   gint  endOfSegmentIndexToQuery;
+   gint  tweenCount;
+
+   /* OUT */
+   gint    segmentNumber;
+   gdouble pathSegmentLengthInPixels;
+   gdouble maxSpeedInPixelsPerFrame;
+   gdouble minSpeedInPixelsPerFrame;
+} GapMovQuery;
+
+
+typedef void (*t_close_movepath_edit_callback_fptr)(gpointer callback_data);
+
 long  gap_mov_dlg_move_dialog (GapMovData *mov_ptr);
+gint  gap_mov_dlg_move_dialog_singleframe(GapMovSingleFrame *singleFramePtr);
+
+GtkWidget * gap_mov_dlg_edit_movepath_dialog (gint32 frame_image_id, gint32 drawable_id
+   , const char *xml_paramfile
+   , GapAnimInfo *ainfo_ptr
+   , GapMovValues *pvals
+   , t_close_movepath_edit_callback_fptr close_fptr
+   , gpointer callback_data
+   , gint32 nframes
+   );
+
 
 #endif

@@ -4,8 +4,8 @@ Video Configuration (gimprc)
 --------------------------------------------------------------------
 
 There are optional configuration values for the GIMP-GAP video plug-ins.
-Those values are stored in your personal gimprc file (located in $HOME/.gimp-2.2/gimprc)
-or in the system-wide gimprc file (usually located at /usr/local/etc/gimp/2.2/gimprc)
+Those values are stored in your personal gimprc file (located in $HOME/.gimp-2.6/gimprc)
+or in the system-wide gimprc file (usually located at /usr/local/etc/gimp/2.6/gimprc)
 
 If you edit gimprc files by hand, you must do this before you startup GIMP.
 
@@ -50,6 +50,14 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # a cache size of 0 turns caching OFF.
 # the cache size can be set in kilobytes (K) or megaytes (M)
 (video_playback_cache "100M")
+
+# the gap player supports caching of gimp tiles
+# note that frame playback does NOT use gimp_tiles (see video_playback_cache)
+# but caching of gimp tiles is relevant for other tile based processing features
+# (especially detail tracking that accesses the same region of gimp tiles in many loop iterations)
+# the cache size is specified in number of tiles.
+(video_player_cache_ntiles 200)
+
 
 # the gap player has several widgets to set the
 # position (e.g. the currently displayed framenumber)
@@ -119,7 +127,21 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 (audioconvert_program "/usr/local/bin/my_private_audioconverter")
 
 
-# NON-XCF frame save behaviour:
+# Configure GIMP-GAP for explicite use of the UFRaw 3rd party plug-in
+# for non-interactive loading of frame files from raw filetypes.
+#  configuration (gap-load-ufraw-%s "yes")
+# Use this when the generical gimp-file-load fails to load Canon .cr2
+# or other raw files
+# (because it picks the file-tiff-load plug that is not capable to load those filetypes)
+(gap-load-ufraw-dng "yes")
+(gap-load-ufraw-nef "yes")
+(gap-load-ufraw-cr2 "yes")
+(gap-load-ufraw-cr "yes")
+
+
+
+
+# NON-XCF frame processing/export overwrite behaviour:
 # -----------------------------
 # if you want to use GIMP-GAP with other fileformats than XCF
 # for your frames, you will get a warning dialog at the first
@@ -129,15 +151,53 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # extension. 
 # for all configured fileformat extensions GIMP-GAP uses the configuration from the
 # gimprc file and does not show the warning dialog.
+# configuration key is video-save-mode-for-%s where %s stands for an extension
+# such as jpg, tif, cr2,....
+# possible configuration values are:
+#  "overwrite"
+#    automaticaly overwrite the discfile image that corresponds 
+#    to the current frame (which is opened in the gimp session)
+#    on frame exchange opertions (such as go to next/previous frame)
+#    where the file save plug-in is called with the backround layer as active layer.
+#    
+#  "overwrite_flattened"
+#    automaticaly overwrite the discfile image that corresponds 
+#    to the current frame (which is opened in the gimp session)
+#    on frame exchange opertions (such as go to next/previous frame)
+#    where the current frame is flattened before calling the file save plug-in.
+#
+#  "readonly"
+#    frame exchange will fail in case the current frame image has
+#    unsaved changes (e.g. the dirty flag is set).
+#    GIMP-GAP does not overwrite frame files on disc in this mode.
+#    It is intended for fileformats where export/overwrite
+#    is not available or not wanted.
+#
+#  "readonly_discard"
+#    GIMP-GAP does not overwrite frame files on disc in this mode,
+#    but discards unsaved changes without any notice on frame exchange.
+#    USE THIS ONLY WHEN YOU KONW WHAT YOUR DIONG ON YOUR OWN RISK !
+#
 # Here are recommanded gimprc configuration settings
 # for some common used fileformats:
+(video-save-mode-for-jpg "overwrite_flattened")
+(video-save-mode-for-jpeg "overwrite_flattened")
+(video-save-mode-for-bmp "overwrite_flattened")
+(video-save-mode-for-ppg "overwrite_flattened")
+(video-save-mode-for-gif "overwrite")
+(video-save-mode-for-dng "readonly")
+(video-save-mode-for-cr2 "readonly")
+(video-save-mode-for-nef "readonly")
 
+
+# old way (supported for backwards compatibility) 
+#   where "yes" is the same as video-save-mode-for-%s "overwrite_flattened"
+#   and   "no"  is the same as video-save-mode-for-%s "overwrite"
 (video-save-flattened-jpg    "yes")
 (video-save-flattened-jpeg   "yes")
 (video-save-flattened-bmp    "yes")
 (video-save-flattened-png    "yes")
 (video-save-flattened-ppm    "yes")
-(video-save-flattened-xjt    "no")
 (video-save-flattened-gif    "no")
 
 
@@ -174,6 +234,11 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # run out of memory and other resources. Therefore the number
 # of simultaneous open videofiles is limited to a default
 # of 12.
+# The integer parameter video-storyboard-fcache-size-per-videofile
+# sets the number of frames to be cached per open video handle
+# for backwards playing video clips. (it is not relevant for
+# the standard case where video clips are read in ascending frame sequence)
+#
 # If you have less than 1GB of memory, you may use a smaller
 # value (minimum is 2) when you are running out of memory
 # while storyboard processing.
@@ -181,6 +246,60 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # videoclips but this will be slower because there will be more
 # open, seek and close operations required with a smaller limit.
 (video-storyboard-max-open-videofiles 12)
+(video-storyboard-fcache-size-per-videofile 36)
+
+# The boolean parameter video-storyboard-preview-render-full-size
+# sets the size for storyboard rendering for preview purpose 
+# (in the player widget that is embedded in the storyboard dialog)
+# the value "no" picks the minimum of current preview size and storyboard size
+# for rendering.
+# Note that preview renderig is forced to full size (regardless
+# to the setting of this parameter) in case the storyboard
+# includes at least one clip with fixed width or height.
+# (e.g. the storyboard records of the following types:
+#  VID_FIT_SIZE mode=none
+#  VID_FIT_SIZE mode=width proportions=change_proportions
+#  VID_FIT_SIZE mode=height proportions=change_proportions
+# )  
+# The value "yes" uses full original storyboard size for rendering of the preview.
+# This may be desired in case the user wants to extract a composite frame
+# from the playback widget in the storyboard dialog at full size.
+(video-storyboard-preview-render-full-size "no")
+
+# the integer parameter video-storyboard-resource-log-interval
+# enables logging of cached resources during storyboard processing.
+# value n (positive integer) triggers resource logging every n-th frame.
+#         where logging includes information about cached images 
+#         and currently open video handles.
+#         This is intended for debug purpose.
+# value 0 (is the default) turns off this type of logging.
+(video-storyboard-resource-log-interval 0)
+
+
+# the boolean parameter video-storyboard-multiprocessor-enable
+# enables multiprocessor support for the storyboard processor
+# The current implementation uses a parallel running prefetch thread
+# that reads frames from referenced videofiles into a frame cache
+# in advance.
+# in case num-processors is configured with value 1 the default is "no" (otherwise "yes")
+(video-storyboard-multiprocessor-enable "no")
+  
+# the boolean parameter video-enoder-ffmpeg-multiprocessor-enable
+# enables multiprocessor support for the ffmpeg based video encoder
+# The current implementation uses a parallel running encoder thread
+# that uses a ringbuffer queue that is feed by the storyboard processor.
+# in case num-processors is configured with value 1 the default is "no" (otherwise "yes")
+(video-enoder-ffmpeg-multiprocessor-enable "no")
+
+  
+# the boolean parameter video-enoder-ffmpeg-show-expert-settings
+# defines the initial mode of the FFMPEG based videoencoder Parameter dialog window.
+# where value "no" hides all notebook tabs with details video encoder
+# parameters. In this mode the user can set the parameters
+# by selecting one of the preset names via a combo box.
+(video-enoder-ffmpeg-show-expert-settings "no")
+
+
 
 
 # the video-libavformat-seek-gopsize parameter
@@ -253,3 +372,76 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # anaylse results files (even if they are still valid)
 # 
 (video-gva-libavformat-video-analyse-persistent "yes")
+
+# the api for ffmpeg video access can be configured how to handle
+# read errors when decoding video files with the gimprc parameter video-gva-libavformat-continue-after-read_errors
+# the default option ("yes") is to skip the current package (e.g. the frame that cant be read/decoded)
+# and try to continue reading the next frame.
+# the other option ("no") is to stop when the first read error occurs
+# (available since 2010.10.02)
+(video-gva-libavformat-continue-after-read_errors "yes")
+
+# gimp_gap frame fetcher configuration
+# ------------------------------------
+#
+# the gap frame fetcher cache is currently relevant for storyboard processing
+# and filtermacro processing. it is used to keep the configured
+# number of images, videohandles and videoframes in cache for potential
+# reuse in further processing steps to avoid multiple load or open/close
+# operations.
+#
+# images are cached as gimp images that are marked with a temporary image parasite
+# "GAP-IMAGE-CACHE-PARASITE"
+# those parasite identifies an image as member of the gimp_gap frame fetcher cache. 
+# (gap does not open a display on such images)
+# setting the gap_ffetch_max_img_cache_elements too high can result in
+# slow processing because the gimp core starts to swap when too much
+# or too large images are loaded.
+#
+# using values up to 100 or more may speed up storyboard processing
+# on machines with large memory (4G or more).
+# (note: expect speed up only in case the storyboard has multiple references
+# to images, such as applying the same mask image to more frames
+# or using the same image to render multiple frames)
+#
+# default value is 18.
+#
+(gap_ffetch_max_img_cache_elements "18")
+
+# number of video handles to keep cached.
+# default value is 6
+(gap_ffetch_max_gvc_cache_elements "6")
+
+# number of video frames per video handle to keep cached.
+# note that video frames are not cached as gimp image.
+# video frames are cached by the gimp gap video api that allocates
+# the memory (and will fail in case not enough memory is available to hold the configured
+# number of video frames)
+# default value is 36
+(gap_ffetch_gva_frames_to_keep_cached "36")
+
+# gimp-gap has implemented 2 algorithms to locate small detail
+# of a layer in a corresponding layer.
+# the older implementation is slower but may may be activated
+# with this parameter for test purpose
+# default is no
+(gap-locate-details-use-old-algorithm "no")
+
+
+# Move Path debug feature to trigger logging current parameters
+# while rendering a frame to stdout.
+# default is no
+(video-move-path-log-render-params "no")
+
+# Move Path rotation threshold is a float number between 0.0 and 1.0
+# This threshold vaule allows Move path render engine to skip the time consuming
+# rotate transformations on very small angles.
+# default is 0.0125 degree
+(video-move-path-rotate-threshold "0.0125")
+
+
+# enables the debug menu in the storyboard dialog
+# and preview image extraction by click on the preview image 
+# in the storyboard attributes dialog window.
+# default is no
+(video-enable-storyboard-debug-features "no")

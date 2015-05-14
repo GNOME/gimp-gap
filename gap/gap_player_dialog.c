@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* Revision history
@@ -112,15 +112,18 @@
 #include "gap_audio_extract.h"
 #include "gap_audio_extract.h"
 #include "gap_drawable_vref_parasite.h"
+#include "gap_detail_tracking_exec.h"
+#include "gap_audio_wav.h"
 
 #include "gap-intl.h"
 
 extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 int cmdopt_x = 0;                               /* Debug option flag for wavplay */
 
-#ifdef GAP_ENABLE_AUDIO_SUPPORT
+#include "gap_apcl_lib.h"   /* headerfile for libwavplayclient (preferred) */
 
-#include "wpc_lib.h"   /* headerfile for libwavplayclient (preferred) */
+#ifdef GAP_ENABLE_AUDIO_SUPPORT_WAVPLAY
+
 
 char *env_WAVPLAYPATH = WAVPLAYPATH;            /* Default pathname of executable /usr/local/bin/wavplay */
 char *env_AUDIODEV = AUDIODEV;                  /* Default compiled in audio device */
@@ -154,6 +157,12 @@ unsigned long env_AUDIOLCK = 0;                 /* Default compiled in locking s
 #define KEY_FRAMENR_BUTTON_TYPE  "gap_player_framnr_button_type"
 #define FRAMENR_BUTTON_BEGIN 0
 #define FRAMENR_BUTTON_END   1
+
+#define GIMPRC_VIDEO_PLAYER_SHOW_GO_BUTTONS                 "video_player_show_go_buttons"
+#define GIMPRC_VIDEO_PLAYER_SHOW_POSITION_SCALE             "video_player_show_position_scale"
+#define GIMPRC_VIDEO_PLAYER_ENABLE_DETAIL_TRACKING          "video_player_enable_detail_tracking"
+#define GIMPRC_VIDEO_PLAYER_CACHE_NTILES                    "video_player_cache_ntiles"
+#define GIMPRC_VIDEO_PLAYER_ENABLE_AUTO_SKIP_MISSING_FRAMES "video_player_enable_auto_skip_missing_frames"
 
 
 typedef struct t_gobutton
@@ -255,6 +264,8 @@ static void   on_show_gobuttons_checkbutton_toggled  (GtkToggleButton *togglebut
                                                       GapPlayerMainGlobalParams *gpp);
 static void   on_show_positionscale_checkbutton_toggled (GtkToggleButton *togglebutton,
                                                       GapPlayerMainGlobalParams *gpp);
+static void   on_auto_skip_missing_checkbutton_toggled (GtkToggleButton *togglebutton,
+                                                      GapPlayerMainGlobalParams *gpp);
 
 static void   on_play_button_clicked                (GtkButton       *button,
                                                      GdkEventButton  *bevent,
@@ -344,7 +355,9 @@ static guchar * p_fetch_videoframe(GapPlayerMainGlobalParams *gpp
                    , gint32 *th_bpp
                    , gint32 *th_width
                    , gint32 *th_height
+                   , gboolean isBackwards
                    );
+static void     p_init_tile_cache(GapPlayerMainGlobalParams *gpp);
 static void     p_init_video_playback_cache(GapPlayerMainGlobalParams *gpp);
 static void     p_init_layout_options(GapPlayerMainGlobalParams *gpp);
 static guchar * p_fetch_frame_via_cache(GapPlayerMainGlobalParams *gpp
@@ -366,6 +379,7 @@ static guchar * p_fetch_videoframe_via_cache(GapPlayerMainGlobalParams *gpp
                    , gint32 *th_height_ptr
                    , gint32 *flip_status_ptr
                    , const gchar *ckey
+                   , gboolean isBackwards
                    );
 static void     p_frame_chache_processing(GapPlayerMainGlobalParams *gpp
                    , const gchar *ckey);
@@ -722,13 +736,12 @@ static void
 p_audio_filename_changed(GapPlayerMainGlobalParams *gpp)
 {
 #ifdef GAP_ENABLE_AUDIO_SUPPORT
-  int fd;
   int rc;
-  int channels;                         /* Channels recorded in this wav file */
-  u_long samplerate;                    /* Sampling rate */
-  int sample_bits;                      /* data bit size (8/12/16) */
-  u_long samples;                       /* The number of samples in this file */
-  u_long datastart;                     /* The offset to the wav data */
+  long samplerate;                   /* Sampling rate in Hz */
+  long channels;                     /* Channels recorded in this wav file */
+  long bytes_per_sample;             /* data bit size (8/12/16) */
+  long sample_bits;                  /* data bit size of one sample value (8/12/16) */
+  long samples;                      /* The number of samples in this file */
 
   if (gap_debug)
   {
@@ -737,21 +750,8 @@ p_audio_filename_changed(GapPlayerMainGlobalParams *gpp)
   p_audio_stop(gpp);
   gpp->audio_status = MIN(gpp->audio_status, GAP_PLAYER_MAIN_AUSTAT_SERVER_STARTED);
 
-  /* Open the file for reading: */
-  if ( (fd = g_open(gpp->audio_filename,O_RDONLY)) < 0 )
-  {
-     p_print_and_clear_audiolabels(gpp);
-     return;
-  }
-
-  rc = WaveReadHeader(fd
-                   ,&channels
-                   ,&samplerate
-                   ,&sample_bits
-                   ,&samples
-                   ,&datastart
-                   ,p_audio_errfunc);
-  close(fd);
+  rc = gap_audio_wav_file_check(gpp->audio_filename, &samplerate, &channels
+                           , &bytes_per_sample, &sample_bits, &samples);
 
   if(rc != 0)
   {
@@ -800,8 +800,8 @@ p_get_audio_relevant_FrameNr(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 {
   GapStoryLocateRet *stb_ret;
   gint32 localFrameNr;
-  
-  /* prepare standard behaviour 
+
+  /* prepare standard behaviour
    *
    */
   localFrameNr = framenr - gpp->ainfo_ptr->first_frame_nr;
@@ -843,7 +843,7 @@ p_get_audio_relevant_FrameNr(GapPlayerMainGlobalParams *gpp, gint32 framenr)
   }
 
   return (localFrameNr);
-  
+
 }  /* end p_get_audio_relevant_FrameNr */
 
 /* -----------------------------------------
@@ -872,7 +872,7 @@ p_build_otone_audiofilename(const char *videofilename, gint32 atrack, const char
 {
   char *l_audiofilename;
   FILE *l_fp;
-  
+
   if (suffix == NULL)
   {
     l_audiofilename = g_strdup_printf("%s.%d.wav", videofilename, atrack);
@@ -881,13 +881,13 @@ p_build_otone_audiofilename(const char *videofilename, gint32 atrack, const char
   {
     l_audiofilename = g_strdup_printf("%s%s.%d.wav", videofilename, suffix, atrack);
   }
-  
+
   if(g_file_test(l_audiofilename, G_FILE_TEST_EXISTS))
   {
     return(l_audiofilename);
   }
-  
-  
+
+
   /* test creation of l_audiofilename is possible */
   l_fp = fopen(l_audiofilename, "w");
   if (l_fp)
@@ -901,8 +901,8 @@ p_build_otone_audiofilename(const char *videofilename, gint32 atrack, const char
   }
 
   l_audiofilename = g_strdup(p_get_default_tmp_otone_audiofilename());
-  return(l_audiofilename);  
-  
+  return(l_audiofilename);
+
 }  /* end p_build_otone_audiofilename */
 
 
@@ -927,7 +927,7 @@ p_check_otone_workfile_up_to_date(const char *videofilename, const char *audiofi
   {
     return(FALSE);
   }
-  
+
   l_audiofilename = p_build_otone_audiofilename(videofilename
                                , l_extract_audiotrack
                                , NULL  /* no suffix used */
@@ -971,7 +971,7 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
   gint32 l_samplerate;
   gint32 l_samples;
   gdouble l_referedClipSpeed;
-    
+
 
   /* if (gap_debug) printf("p_audio_start_play\n"); */
 
@@ -982,6 +982,30 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
   if(gpp->audio_status >= GAP_PLAYER_MAIN_AUSTAT_PLAYING)       { return; }
   if(gpp->play_backward)                        { return; }
   if(gpp->ainfo_ptr == NULL)                    { return; }
+
+
+  if(gap_debug)
+  {
+    printf("p_audio_start_play play_current_framenr:%d  last_frame_nr:%d begin_frame:%d end_frame:%d\n"
+       , (int)gpp->play_current_framenr
+       , (int)gpp->ainfo_ptr->last_frame_nr
+       , (int)gpp->begin_frame
+       , (int)gpp->end_frame
+       );
+
+  }
+
+
+  /* Workarond: do not start audio when there is just one frame to play
+   * Note that short audioplayback of only one frame caused deadlock
+   * in tests on windows7, but caused no problem in linux environment.
+   */
+  if((gpp->begin_frame == gpp->end_frame)
+  || (gpp->play_current_framenr == gpp->end_frame))
+  {
+    return;
+  }
+
 
   l_samples = gpp->audio_samples;
   l_samplerate = gpp->audio_samplerate;
@@ -997,9 +1021,9 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
       l_samplerate = gpp->gvahand->samplerate;
     }
 #endif
-    
+
     localFramenr = p_get_audio_relevant_FrameNr(gpp, gpp->play_current_framenr);
-    
+
     offset_start_sec = ( localFramenr
                      + gpp->audio_frame_offset
                      ) / MAX(1, l_referedClipSpeed);
@@ -1013,7 +1037,7 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
   }
 
   offset_start_samples = offset_start_sec * l_samplerate;
-  
+
 #ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
   if(gap_debug)
   {
@@ -1028,8 +1052,8 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
       );
   }
 #endif
-  
-  
+
+
   if(l_referedClipSpeed > 0)
   {
     /* use moidfied samplerate if video is not played at original speed
@@ -1047,23 +1071,23 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
   && (flt_samplerate >= GAP_PLAYER_MAIN_MIN_SAMPLERATE)
   )
   {
-    UInt32  lu_samplerate;
+    guint32  lu_samplerate;
 
     p_audio_init(gpp);  /* tell ausioserver to go standby for this audiofile */
     gpp->audio_required_samplerate = (guint32)flt_samplerate;
     if(flt_samplerate > GAP_PLAYER_MAIN_MAX_SAMPLERATE)
     {
-      lu_samplerate = (UInt32)GAP_PLAYER_MAIN_MAX_SAMPLERATE;
+      lu_samplerate = (guint32)GAP_PLAYER_MAIN_MAX_SAMPLERATE;
       /* required samplerate is faster than highest possible audioplayback speed
        * (the audioplayback will be played but runs out of sync and cant follow)
        */
     }
     else
     {
-      lu_samplerate = (UInt32)flt_samplerate;
+      lu_samplerate = (guint32)flt_samplerate;
     }
     apcl_sampling_rate(lu_samplerate,0,p_audio_errfunc);
-    apcl_start_sample((UInt32)offset_start_samples,0,p_audio_errfunc);
+    apcl_start_sample((guint32)offset_start_samples,0,p_audio_errfunc);
     apcl_play(0,p_audio_errfunc);  /* Tell server to play */
     apcl_volume(gpp->audio_volume, 0, p_audio_errfunc);
 
@@ -1078,11 +1102,22 @@ p_audio_start_play(GapPlayerMainGlobalParams *gpp)
 /* -----------------------------
  * p_audio_startup_server
  * -----------------------------
+ * In case compiled with (older) wavplay client/server
+ * implementation, this method checks if the wavplay server
+ * is available.
+ *
+ * In case newer audiosupport  is availabel just enable the relevant GUI widgets
+ *
+ * In case audiosupport is NOT available
+ *
  */
 static void
 p_audio_startup_server(GapPlayerMainGlobalParams *gpp)
 {
-#ifdef GAP_ENABLE_AUDIO_SUPPORT
+  gboolean l_audio_enable = FALSE;
+
+
+#ifdef GAP_ENABLE_AUDIO_SUPPORT_WAVPLAY
   const char *cp;
   gboolean wavplay_server_found;
 
@@ -1159,11 +1194,11 @@ p_audio_startup_server(GapPlayerMainGlobalParams *gpp)
   if(wavplay_server_found)
   {
     p_audio_filename_changed(gpp);
-    gpp->audio_enable = TRUE;
+    l_audio_enable = TRUE;
   }
   else
   {
-    gpp->audio_enable = FALSE;
+    l_audio_enable = FALSE;
     g_message(_("No audiosupport available\n"
                  "the audioserver executable file '%s' was not found.\n"
                  "If you have installed '%s'\n"
@@ -1175,7 +1210,15 @@ p_audio_startup_server(GapPlayerMainGlobalParams *gpp)
                  , "WAVPLAYPATH"
                  );
   }
+#else
+#ifdef GAP_ENABLE_AUDIO_SUPPORT
+    p_audio_filename_changed(gpp);
+    l_audio_enable = TRUE;
 #endif
+
+#endif
+
+  gpp->audio_enable = l_audio_enable;
   return;
 }  /* end p_audio_startup_server */
 
@@ -1245,11 +1288,30 @@ p_mtrace_image_alive(GapPlayerMainGlobalParams *gpp
 
 
 /* ------------------------------
+ * p_conditional_detail_tracking
+ * ------------------------------
+ * optional call detail  tracking.
+ * that logs coordinates of a detail (typically marked via 2 path vector points)
+ * as XML input file for the MovePath feature.
+ */
+static void
+p_conditional_detail_tracking(GapPlayerMainGlobalParams *gpp, gint32 image_id)
+{
+  if(gpp->enableDetailTracking)
+  {
+    gap_track_detail_on_top_layers_lastvals(image_id);
+    /* flush display to force rendering of newly added layers and vectors */
+    gimp_displays_flush ();
+  }
+}  /* end p_conditional_detail_tracking */
+
+
+/* ------------------------------
  * p_conditional_attach_dvref
  * ------------------------------
  * check if there is a valid current videoreference.
- * if yes attach the reference as (temporary) videoreferenc parasite
- * to the specified drawable_id 
+ * if yes attach the reference as (temporary) videoreference parasite
+ * to the specified drawable_id
  * (that is typically the layer in the mtrace image)
  */
 static void
@@ -1275,7 +1337,7 @@ p_conditional_attach_dvref(GapPlayerMainGlobalParams *gpp
         gap_dvref_assign_videoref_parasites(gpp->dvref_ptr, drawable_id);
       }
     }
-  } 
+  }
 }  /* end p_conditional_attach_dvref */
 
 /* ------------------------------
@@ -1353,6 +1415,8 @@ p_mtrace_image( GapPlayerMainGlobalParams *gpp
       g_free(l_name);
     }
 
+    p_conditional_detail_tracking(gpp, gpp->mtrace_image_id);
+
     gimp_displays_flush();
   }
 }  /* end p_mtrace_image */
@@ -1421,6 +1485,9 @@ p_mtrace_tmpbuf( GapPlayerMainGlobalParams *gpp
       gimp_drawable_set_name(dst_layer_id, l_name);
       g_free(l_name);
     }
+
+    p_conditional_detail_tracking(gpp, gpp->mtrace_image_id);
+
     gimp_displays_flush();
   }
 }  /* end p_mtrace_tmpbuf */
@@ -1728,7 +1795,7 @@ p_reload_ainfo_ptr(GapPlayerMainGlobalParams *gpp, gint32 image_id)
 
   gpp->image_id = image_id;
   l_hasImagename = FALSE;
-  
+
   if(gpp->stb_ptr)    { return; }
   if(gpp->ainfo_ptr)  { gap_lib_free_ainfo(&gpp->ainfo_ptr); }
 
@@ -1825,7 +1892,7 @@ p_reload_ainfo_ptr(GapPlayerMainGlobalParams *gpp, gint32 image_id)
       gpp->ainfo_ptr->first_frame_nr = 1;
       gpp->ainfo_ptr->last_frame_nr = 1;
       gpp->original_speed = 24.0;
-      
+
     }
   }
 
@@ -2457,7 +2524,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
     l_dbl_total_frames = (gdouble)gpp->gvahand->total_frames;
 
     p_msg_progress_bar_audio(gpp, _("extracting audio"));
- 
+
     if(g_file_test(l_audiofilename, G_FILE_TEST_EXISTS))
     {
       g_remove(l_audiofilename);
@@ -2469,7 +2536,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
 
     gpp->cancel_video_api = FALSE;
     gpp->request_cancel_video_api = FALSE;
-   
+
     /* extract audio segment (in full length) to otone workfile */
     gap_audio_extract_from_videofile(gpp->gva_videofile
                          , l_audiofilename
@@ -2504,7 +2571,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
     else
     {
       gint32 l_audiofile_size;
-      
+
       l_audiofile_size = gap_file_get_filesize(l_audiofilename);
       if (l_audiofile_size < 1)
       {
@@ -2512,7 +2579,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
         g_message(_("Extract of audiotrack failed on videofile: %s"), gpp->gva_videofile);
         goto cleanup;
       }
-      
+
       if (gpp->cancel_video_api == TRUE)
       {
         /* due to cancel the extracted audiofile is not complete
@@ -2528,7 +2595,7 @@ on_audio_otone_extract_button_clicked (GtkButton       *button,
       }
     }
   }
-  
+
 
   gpp->audio_auto_offset_by_framenr = TRUE;
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gpp->audio_auto_offset_by_framenr_checkbutton),
@@ -2619,6 +2686,14 @@ p_vid_progress_callback(gdouble progress
   }
 
   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(gpp->progress_bar), progress);
+  if((gpp->vindex_creation_is_running)
+  && (gpp->gvahand != NULL))
+  {
+     gchar *progressMsg;
+     progressMsg = g_strdup_printf(_("Creating Index %d"), (int)gpp->gvahand->frame_counter);
+     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(gpp->progress_bar), progressMsg);
+     g_free(progressMsg);
+  }
 
   /* g_main_context_iteration makes sure that
    *  gtk does refresh widgets,  and react on events while the videoapi
@@ -2805,7 +2880,7 @@ p_open_videofile(GapPlayerMainGlobalParams *gpp
                                              );
       }
     }
-    
+
     if(gpp->gvahand->vindex)
     {
       if(gpp->gvahand->vindex->total_frames > 0)
@@ -2896,7 +2971,7 @@ p_open_videofile(GapPlayerMainGlobalParams *gpp
   }
 /* printf("PLAYER: open END\n"); */
 #endif
-  
+
 }  /* end p_open_videofile */
 
 
@@ -2917,9 +2992,14 @@ p_fetch_videoframe(GapPlayerMainGlobalParams *gpp
                    , gint32 *th_bpp
                    , gint32 *th_width
                    , gint32 *th_height
+                   , gboolean isBackwards
                    )
 {
   guchar *th_data;
+  static gint32 funcId = -1;
+
+  GAP_TIMM_GET_FUNCTION_ID(funcId, "playerDialog.p_fetch_videoframe");
+
 
   th_data = NULL;
 #ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
@@ -2929,6 +3009,8 @@ p_fetch_videoframe(GapPlayerMainGlobalParams *gpp
     return(NULL);
   }
   gpp->gva_lock = TRUE;
+
+  GAP_TIMM_START_FUNCTION(funcId);
 
   if((gpp->gva_videofile) && (gpp->gvahand))
   {
@@ -2966,23 +3048,15 @@ p_fetch_videoframe(GapPlayerMainGlobalParams *gpp
 
      if(global_max_vid_frames_to_keep_cached < 1)
      {
-        char *value_string;
-
-        value_string = gimp_gimprc_query("video-max-frames-keep-cached");
-
-        if(value_string)
-        {
-//printf(" VIDFETCH (4) gimprc: value_string: %s\n", value_string);
-          global_max_vid_frames_to_keep_cached = atol(value_string);
-        }
-        if(global_max_vid_frames_to_keep_cached < 1)
-        {
-          global_max_vid_frames_to_keep_cached = GAP_PLAYER_VID_FRAMES_TO_KEEP_CACHED;
-        }
+        fcache_size = gap_base_get_gimprc_int_value("video-max-frames-keep-cached"
+                                                     , GAP_PLAYER_VID_FRAMES_TO_KEEP_CACHED  /* default */
+                                                     , 2   /* min */
+                                                     , 250 /* max */
+                                                   );
      }
 
-     fcache_size = CLAMP(rangesize, 1, global_max_vid_frames_to_keep_cached);
-     if(fcache_size > gpp->gvahand->fcache.frame_cache_size)
+     // fcache_size = CLAMP(rangesize, 1, global_max_vid_frames_to_keep_cached);
+     if(fcache_size > GVA_get_fcache_size_in_elements(gpp->gvahand))
      {
 //printf(" VIDFETCH (5) gimprc: FCACHE_MAX:%d fcache_size:%d rangesize:%d\n"
 //         , (int)global_max_vid_frames_to_keep_cached
@@ -3015,6 +3089,7 @@ p_fetch_videoframe(GapPlayerMainGlobalParams *gpp
      /* fetch the wanted framenr  */
      th_data = GVA_fetch_frame_to_buffer(gpp->gvahand
                 , do_scale
+                , isBackwards
                 , framenumber
                 , l_deinterlace
                 , l_threshold
@@ -3044,7 +3119,7 @@ p_fetch_videoframe(GapPlayerMainGlobalParams *gpp
     }
     else if (gpp->dvref_ptr != NULL)
     {
-      /* refresh current videofile reference 
+      /* refresh current videofile reference
        * Note: the  dvref_ptr->videofile gets no COPY but only a rference to the current videofilename
        *       this pointer can be reset to NULL any time (at p_display_frame)
        *       but MUST NOT free up the refered name.
@@ -3090,10 +3165,35 @@ p_fetch_videoframe(GapPlayerMainGlobalParams *gpp
   }
   gpp->gva_lock = FALSE;
 
+  GAP_TIMM_STOP_FUNCTION(funcId);
+
 #endif
   return (th_data);
 }  /* end p_fetch_videoframe */
 
+
+/* -----------------------------
+ * p_init_tile_cache
+ * -----------------------------
+ */
+static void
+p_init_tile_cache(GapPlayerMainGlobalParams *gpp)
+{
+  gchar *value_string;
+
+  gpp->cache_ntiles = GAP_PLAYER_MAIN_DEFAULT_CACHE_NTILES;
+
+  value_string = gimp_gimprc_query(GIMPRC_VIDEO_PLAYER_CACHE_NTILES);
+  if(value_string)
+  {
+    gpp->cache_ntiles = MAX(0, atol(value_string));
+
+    g_free(value_string);
+  }
+
+  gimp_tile_cache_ntiles(gpp->cache_ntiles);
+
+}  /* end p_init_tile_cache */
 
 /* -----------------------------
  * p_init_video_playback_cache
@@ -3118,7 +3218,7 @@ p_init_layout_options(GapPlayerMainGlobalParams *gpp)
   gpp->show_go_buttons = TRUE;
   gpp->show_position_scale = TRUE;
 
-  value_string = gimp_gimprc_query("video_player_show_go_buttons");
+  value_string = gimp_gimprc_query(GIMPRC_VIDEO_PLAYER_SHOW_GO_BUTTONS);
   if(value_string)
   {
     if ((*value_string == 'Y') || (*value_string == 'y'))
@@ -3133,7 +3233,7 @@ p_init_layout_options(GapPlayerMainGlobalParams *gpp)
     g_free(value_string);
   }
 
-  value_string = gimp_gimprc_query("video_player_show_position_scale");
+  value_string = gimp_gimprc_query(GIMPRC_VIDEO_PLAYER_SHOW_POSITION_SCALE);
   if(value_string)
   {
     if ((*value_string == 'Y') || (*value_string == 'y'))
@@ -3148,6 +3248,37 @@ p_init_layout_options(GapPlayerMainGlobalParams *gpp)
     g_free(value_string);
   }
 
+
+  value_string = gimp_gimprc_query(GIMPRC_VIDEO_PLAYER_ENABLE_DETAIL_TRACKING);
+  if(value_string)
+  {
+    if ((*value_string == 'Y') || (*value_string == 'y'))
+    {
+      gpp->enableDetailTracking = TRUE;
+    }
+    else
+    {
+      gpp->enableDetailTracking = FALSE;
+    }
+
+    g_free(value_string);
+  }
+
+
+  value_string = gimp_gimprc_query(GIMPRC_VIDEO_PLAYER_ENABLE_AUTO_SKIP_MISSING_FRAMES);
+  if(value_string)
+  {
+    if ((*value_string == 'Y') || (*value_string == 'y'))
+    {
+      gpp->enableAutoSkipMissingFrames = TRUE;
+    }
+    else
+    {
+      gpp->enableAutoSkipMissingFrames = FALSE;
+    }
+
+    g_free(value_string);
+  }
 }  /* end p_init_layout_options */
 
 
@@ -3221,6 +3352,7 @@ p_fetch_videoframe_via_cache(GapPlayerMainGlobalParams *gpp
                    , gint32 *th_height_ptr
                    , gint32 *flip_status_ptr
                    , const gchar *ckey
+                   , gboolean isBackwards
                    )
 {
   guchar *th_data;
@@ -3244,6 +3376,7 @@ p_fetch_videoframe_via_cache(GapPlayerMainGlobalParams *gpp
                 , th_bpp_ptr
                 , th_width_ptr
                 , th_height_ptr
+                , isBackwards
                 );
   }
 
@@ -3476,6 +3609,10 @@ p_fetch_display_th_data_from_storyboard(GapPlayerMainGlobalParams *gpp
 {
   GapStoryLocateRet *stb_ret;
   guchar *l_th_data;
+  static gint32 funcId = -1;
+
+  GAP_TIMM_GET_FUNCTION_ID(funcId, "playerDialog.p_fetch_display_th_data_from_storyboard");
+  GAP_TIMM_START_FUNCTION(funcId);
 
   l_th_data = NULL;
   stb_ret = gap_story_locate_framenr(gpp->stb_ptr
@@ -3495,6 +3632,8 @@ p_fetch_display_th_data_from_storyboard(GapPlayerMainGlobalParams *gpp
       {
          if(*filename_pptr)
          {
+           gboolean isBackwards;
+
            if(gpp->use_thumbnails)
            {
              /* fetch does already scale down to current preview size */
@@ -3516,6 +3655,7 @@ p_fetch_display_th_data_from_storyboard(GapPlayerMainGlobalParams *gpp
                          , stb_ret->stb_elem->delace
                          );
            }
+           isBackwards = (stb_ret->stb_elem->to_frame < stb_ret->stb_elem->from_frame) || gpp->play_backward;
            l_th_data  = p_fetch_videoframe_via_cache(gpp
                          , *filename_pptr
                          , stb_ret->ret_framenr
@@ -3528,6 +3668,7 @@ p_fetch_display_th_data_from_storyboard(GapPlayerMainGlobalParams *gpp
                          , th_height_ptr    /* IN/OUT */
                          , flip_status_ptr  /* IN/OUT */
                          , *ckey_pptr       /* IN */
+                         , isBackwards
                          );
            if(gpp->cancel_video_api)
            {
@@ -3549,6 +3690,8 @@ p_fetch_display_th_data_from_storyboard(GapPlayerMainGlobalParams *gpp
     }
     g_free(stb_ret);
   }
+
+  GAP_TIMM_STOP_FUNCTION(funcId);
 
   return (l_th_data);
 }  /* end p_fetch_display_th_data_from_storyboard */
@@ -3768,10 +3911,14 @@ p_render_display_free_image_id(GapPlayerMainGlobalParams *gpp
 }  /* end p_render_display_free_image_id */
 
 
-
 /* ------------------------------------------
  * p_render_display_from_active_image_or_file
  * ------------------------------------------
+ * the active image is rendered by duplicating the the already loaded gimp image
+ * to reflect current (possibly not yet saved) representation.
+ * other frame images must be rendered from disc.
+ * (do not check if img_filename exists here again,
+ * because this was typically already done when called by the p_display_frame procedure.)
  */
 static void
 p_render_display_from_active_image_or_file(GapPlayerMainGlobalParams *gpp
@@ -3807,7 +3954,7 @@ p_render_display_from_active_image_or_file(GapPlayerMainGlobalParams *gpp
     if (l_image_id < 0)
     {
       /* could not read the image
-       * one reason could be, that frames were deleted while this plugin is active
+       * one reason could be, that frames were damged or deleted while this plugin is active
        * so we stop playback,
        * and try to reload informations about all frames
        */
@@ -3830,7 +3977,6 @@ p_render_display_from_active_image_or_file(GapPlayerMainGlobalParams *gpp
   {
     gap_thumb_cond_gimp_file_save_thumbnail(l_image_id, img_filename);
   }
-
 
   p_render_display_free_image_id(gpp
      , l_image_id
@@ -3869,18 +4015,21 @@ p_render_display_from_active_image_or_file(GapPlayerMainGlobalParams *gpp
 static void
 p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 {
-  char *l_filename;
-   gint32  l_th_width;
-   gint32  l_th_height;
-   gint32  l_th_data_count;
-   gint32  l_th_bpp;
-   gint32  l_flip_request;
-   gint32  l_flip_status;
-   gint32  l_composite_image_id;
-   guchar *l_th_data;
-   gboolean framenr_is_the_active_image;
-   GdkPixbuf *pixbuf;
-   gchar *ckey;
+  char   *l_filename;
+  gint32  l_th_width;
+  gint32  l_th_height;
+  gint32  l_th_data_count;
+  gint32  l_th_bpp;
+  gint32  l_flip_request;
+  gint32  l_flip_status;
+  gint32  l_composite_image_id;
+  guchar *l_th_data;
+  gboolean framenr_is_the_active_image;
+  GdkPixbuf *pixbuf;
+  gchar *ckey;
+  static gint32 funcId = -1;
+
+  GAP_TIMM_GET_FUNCTION_ID(funcId, "playerDialog.p_display_frame");
 
   /*if(gap_debug) printf("p_display_frame START: framenr:%d\n", (int)framenr);*/
   if(gpp->gva_lock)
@@ -3890,6 +4039,9 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
      */
     return;
   }
+
+  GAP_TIMM_START_FUNCTION(funcId);
+
   ckey = NULL;
   l_th_data = NULL;
   pixbuf = NULL;
@@ -3923,6 +4075,7 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 
       if(gpp->cancel_video_api)
       {
+        GAP_TIMM_STOP_FUNCTION(funcId);
         return;
       }
     }
@@ -3957,6 +4110,8 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 
     if(gpp->ainfo_ptr->ainfo_type == GAP_AINFO_MOVIE)
     {
+      gboolean isBackwards;
+
       /* playback of a single videoclip */
       if(gpp->use_thumbnails)
       {
@@ -3980,6 +4135,7 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
                          );
       }
 
+      isBackwards = (gpp->ainfo_ptr->last_frame_nr < gpp->ainfo_ptr->first_frame_nr) || gpp->play_backward;
       l_th_data  = p_fetch_videoframe_via_cache(gpp
                                      , gpp->ainfo_ptr->old_filename
                                      , framenr
@@ -3992,6 +4148,7 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
                                      , &l_th_height    /* IN/OUT */
                                      , &l_flip_status  /* OUT */
                                      , ckey            /* IN */
+                                     , isBackwards
                                      );
       if(gpp->cancel_video_api)
       {
@@ -4005,6 +4162,8 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
            gtk_progress_bar_set_text(GTK_PROGRESS_BAR(gpp->progress_bar)
                         , _("Canceled"));
         }
+
+        GAP_TIMM_STOP_FUNCTION(funcId);
         return;
       }
 
@@ -4050,7 +4209,7 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
   && (l_composite_image_id < 0))
   {
     /* frame not available, create black fully transparent buffer
-     * ( renders as empty checkerboard)
+     * (renders as empty checkerboard)
      */
     l_th_bpp = 4;
     l_th_width = gpp->pv_width;
@@ -4155,6 +4314,26 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
                        );
       }
 
+      if (l_th_data == NULL)
+      {
+        /* got no thumbnail data until now,
+         * check if the (full sized) image exists, e.g and can be used for rendering
+         */
+	    if(!g_file_test(l_filename, G_FILE_TEST_EXISTS))
+	    {
+		      /* frame image file not available, create black fully transparent buffer
+		       * (renders as empty checkerboard)
+		       */
+		      l_th_bpp = 4;
+		      l_th_width = gpp->pv_width;
+		      l_th_height = gpp->pv_height;
+		      l_th_data_count = l_th_width * l_th_height * l_th_bpp;
+		      l_th_data = g_malloc0(l_th_data_count);
+		}
+	  }
+
+
+
       if (l_th_data)
       {
          p_render_display_free_thdata(gpp
@@ -4169,7 +4348,7 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
       }
       else
       {
-        /* got no thumbnail data, must use the full image */
+        /* still got no thumbnail data, must use the full image */
         p_render_display_from_active_image_or_file(gpp
             , l_filename
             , framenr_is_the_active_image
@@ -4198,7 +4377,48 @@ p_display_frame(GapPlayerMainGlobalParams *gpp, gint32 framenr)
 
   if(l_filename) g_free(l_filename);
 
+  GAP_TIMM_STOP_FUNCTION(funcId);
+
 }  /* end p_display_frame */
+
+/* -----------------------------
+ * p_get_available_frame_number
+ * -----------------------------
+ * this procedure validates the specified framenumber
+ * for frame images (e.g. ainfo_type == GAP_AINFO_FRAMES)
+ * in case framenr refers to a missing frame image filename (that does not exist)
+ * the next (or previous for negative stepsize) available framenumber is returned
+ * 
+ * in case the frame image is found (e.g. ainfo_type != GAP_AINFO_FRAMES)
+ * return the unchanged framenr
+ */
+static gint32
+p_get_available_frame_number(GapPlayerMainGlobalParams *gpp, gint32  framenr, gint stepsize)
+{
+  gint32 available_framenr;
+  
+  available_framenr = framenr;
+  
+  if (gpp->ainfo_ptr->ainfo_type == GAP_AINFO_FRAMES)
+  {
+    gboolean l_cur_frame_found;
+
+    l_cur_frame_found = gap_lib_framefile_with_framenr_exists(gpp->ainfo_ptr, framenr);
+    if((l_cur_frame_found != TRUE)
+    && (gpp->enableAutoSkipMissingFrames))
+    {
+      /* advance l_curr to the next available frame number
+       * (normally to framenr += stepsize);
+       * sometimes to higher number when frames are missing)
+       */
+      available_framenr = gap_lib_get_next_available_frame_number(framenr, stepsize
+                         , gpp->ainfo_ptr->basename, gpp->ainfo_ptr->extension, &l_cur_frame_found);
+    }
+  }
+  return (available_framenr);
+  
+}  /* p_get_available_frame_number */
+
 
 /* ------------------------------
  * p_get_next_framenr_in_sequence /2
@@ -4209,7 +4429,8 @@ p_get_next_framenr_in_sequence2(GapPlayerMainGlobalParams *gpp)
 {
   gint32 l_first;
   gint32 l_last;
-
+  gint   l_stepsize;
+  
   l_first = gpp->ainfo_ptr->first_frame_nr;
   l_last  = gpp->ainfo_ptr->last_frame_nr;
   if(gpp->play_selection_only)
@@ -4296,6 +4517,20 @@ p_get_next_framenr_in_sequence2(GapPlayerMainGlobalParams *gpp)
     }
   }
 
+  if (gpp->play_backward)
+  {
+    l_stepsize = -1;
+  }
+  else
+  {
+    l_stepsize = 1;
+  }
+
+  gpp->play_current_framenr =
+     p_get_available_frame_number(gpp, gpp->play_current_framenr, l_stepsize);
+
+
+
   gpp->play_current_framenr = CLAMP(gpp->play_current_framenr, l_first, l_last);
   return (gpp->play_current_framenr);
 }  /* end p_get_next_framenr_in_sequence2 */
@@ -4370,6 +4605,8 @@ p_step_frame(GapPlayerMainGlobalParams *gpp, gint stepsize)
   framenr = gpp->play_current_framenr + stepsize;
   if(gpp->ainfo_ptr)
   {
+
+    framenr = p_get_available_frame_number(gpp, framenr, stepsize);
     framenr = CLAMP(framenr
                    , gpp->ainfo_ptr->first_frame_nr
                    , gpp->ainfo_ptr->last_frame_nr
@@ -4459,7 +4696,7 @@ on_timer_playback(GapPlayerMainGlobalParams *gpp)
        gint ii;
        gint ii_max;
        gint32 l_prev_framenr;
-       gint32 l_framenr = -1;
+       gint32 l_framenr;
        gboolean l_frame_dropped;
        gdouble  l_delay;
 
@@ -4715,6 +4952,8 @@ on_pause_button_press_event        (GtkButton       *button,
   {
     return FALSE;
   }
+
+  GAP_TIMM_PRINT_FUNCTION_STATISTICS();
 
   if(gpp->progress_bar)
   {
@@ -5832,6 +6071,93 @@ on_show_positionscale_checkbutton_toggled(GtkToggleButton *togglebutton,
 }  /* end on_show_positionscale_checkbutton_toggled */
 
 
+
+/* -----------------------------------------
+ * on_auto_skip_missing_checkbutton_toggled
+ * -----------------------------------------
+ */
+static void
+on_auto_skip_missing_checkbutton_toggled(GtkToggleButton *togglebutton,
+                                        GapPlayerMainGlobalParams *gpp)
+{
+  if(gpp == NULL)
+  {
+    return;
+  }
+
+  if (togglebutton->active)
+  {
+       gpp->enableAutoSkipMissingFrames = TRUE;
+  }
+  else
+  {
+       gpp->enableAutoSkipMissingFrames = FALSE;
+  }
+
+}  /* end on_auto_skip_missing_checkbutton_toggled */
+
+/* ---------------------------------------------
+ * on_enable_detail_tracking_checkbutton_toggled
+ * ---------------------------------------------
+ */
+static void
+on_enable_detail_tracking_checkbutton_toggled(GtkToggleButton *togglebutton,
+                                        GapPlayerMainGlobalParams *gpp)
+{
+  if(gpp == NULL)
+  {
+    return;
+  }
+
+  if (togglebutton->active)
+  {
+       gpp->enableDetailTracking = TRUE;
+  }
+  else
+  {
+       gpp->enableDetailTracking = FALSE;
+  }
+
+}  /* end on_enable_detail_tracking_checkbutton_toggled */
+
+/* ---------------------------------
+ * on_detail_tracking_button_clicked
+ * ---------------------------------
+ */
+static void
+on_detail_tracking_button_clicked (GtkButton       *button,
+                                   GapPlayerMainGlobalParams *gpp)
+{
+  gboolean dtailTrackingOk;
+  if(gpp == NULL)
+  {
+    return;
+  }
+  p_stop_playback(gpp);
+  if(gpp->gva_lock)
+  {
+    gpp->request_cancel_video_api = TRUE;
+    return;
+  }
+
+  dtailTrackingOk =
+    gap_detail_tracking_dialog_cfg_set_vals(gpp->mtrace_image_id);
+
+  if(dtailTrackingOk)
+  {
+    gpp->enableDetailTracking = TRUE;
+    if(gpp->detail_tracking_checkbutton)
+    {
+      gtk_toggle_button_set_active (
+         GTK_TOGGLE_BUTTON (gpp->detail_tracking_checkbutton), TRUE);
+    }
+  }
+
+}  /* end on_detail_tracking_button_clicked */
+
+
+
+
 /* -----------------------------
  * on_close_button_clicked
  * -----------------------------
@@ -6289,7 +6615,7 @@ on_audio_create_copy_button_clicked (GtkButton       *button,
 
       g_free(l_cmd);
       g_free(l_resample_params);
-      
+
 
       /* if the external converter created the wavfile
        * then use the newly created wavfile
@@ -6324,7 +6650,7 @@ on_audio_filename_entry_changed (GtkWidget     *widget,
                                  GapPlayerMainGlobalParams *gpp)
 {
   gboolean has_changed;
-  
+
   if(gpp == NULL)
   {
     return;
@@ -6340,7 +6666,7 @@ on_audio_filename_entry_changed (GtkWidget     *widget,
        printf(" ()) gtk_entry_get_text:%s\n"
             , gtk_entry_get_text(GTK_ENTRY(gpp->audio_filename_entry)));
      }
-     
+
     if (gtk_entry_get_text(GTK_ENTRY(gpp->audio_filename_entry)) != NULL)
     {
       if (strcmp(gpp->audio_filename, gtk_entry_get_text(GTK_ENTRY(gpp->audio_filename_entry))) == 0)
@@ -6349,7 +6675,7 @@ on_audio_filename_entry_changed (GtkWidget     *widget,
       }
     }
   }
-  
+
   g_snprintf(gpp->audio_filename, sizeof(gpp->audio_filename), "%s"
             , gtk_entry_get_text(GTK_ENTRY(gpp->audio_filename_entry))
              );
@@ -6478,7 +6804,7 @@ p_new_audioframe(GapPlayerMainGlobalParams *gpp)
 
   if (gap_debug) printf("p_new_audioframe\n");
 
-  frame0a = gimp_frame_new ("Audio Playback Settings");
+  frame0a = gimp_frame_new (_("Audio Playback Settings"));
 
   /* the vbox */
   vbox1 = gtk_vbox_new (FALSE, 0);
@@ -6953,6 +7279,40 @@ on_cache_size_spinbutton_changed (GtkEditable     *editable,
 
 
 /* -----------------------------------------
+ * on_tile_cache_size_spinbutton_changed
+ * -----------------------------------------
+ */
+static void
+on_tile_cache_size_spinbutton_changed (GtkEditable     *editable,
+                                  GapPlayerMainGlobalParams *gpp)
+{
+  gdouble  nsize;
+
+  if(gpp == NULL)
+  {
+    return;
+  }
+  nsize = GTK_ADJUSTMENT(gpp->cache_ntiles_spinbutton_adj)->value;
+
+  if(gap_debug)
+  {
+      printf("on_tile_cache_size_spinbutton_changed: cache_ntiles:%d newvalue:%d\n"
+              , (int) gpp->cache_ntiles
+              , (int) nsize
+              );
+  }
+
+  if(gpp->cache_ntiles != (gulong)nsize)
+  {
+    gpp->cache_ntiles = (gulong)nsize;
+
+    gimp_tile_cache_ntiles(gpp->cache_ntiles);
+  }
+
+}  /* end on_tile_cache_size_spinbutton_changed */
+
+
+/* -----------------------------------------
  * on_cache_clear_button_clicked
  * -----------------------------------------
  */
@@ -6969,13 +7329,12 @@ on_cache_clear_button_clicked (GtkButton       *button,
 }  /* end on_cache_clear_button_clicked */
 
 
-
 /* -----------------------------------------
- * p_gimprc_save_boolen_option
+ * p_gimprc_save_option
  * -----------------------------------------
  */
 static void
-p_gimprc_save_boolen_option (const char *option_name, gboolean value)
+p_gimprc_save_boolean_option (const char *option_name, gboolean value)
 {
   if(value)
   {
@@ -6985,8 +7344,7 @@ p_gimprc_save_boolen_option (const char *option_name, gboolean value)
   {
     gimp_gimprc_set(option_name, "no");
   }
-}  /* end p_gimprc_save_boolen_option */
-
+}  /* end p_gimprc_save_boolean_option */
 
 /* -----------------------------------------
  * on_prefs_save_gimprc_button_clicked
@@ -6996,16 +7354,27 @@ static void
 on_prefs_save_gimprc_button_clicked (GtkButton       *button,
                                GapPlayerMainGlobalParams *gpp)
 {
+  gchar *valueAsString;
+
   if(gpp == NULL)
   {
     return;
   }
   gap_player_cache_set_gimprc_bytesize(gpp->max_player_cache);
 
-  p_gimprc_save_boolen_option("video_player_show_go_buttons"
+  p_gimprc_save_boolean_option(GIMPRC_VIDEO_PLAYER_SHOW_GO_BUTTONS
                              ,gpp->show_go_buttons);
-  p_gimprc_save_boolen_option("video_player_show_position_scale"
+  p_gimprc_save_boolean_option(GIMPRC_VIDEO_PLAYER_SHOW_POSITION_SCALE
                              ,gpp->show_position_scale);
+  p_gimprc_save_boolean_option(GIMPRC_VIDEO_PLAYER_ENABLE_DETAIL_TRACKING
+                             ,gpp->enableDetailTracking);
+  p_gimprc_save_boolean_option(GIMPRC_VIDEO_PLAYER_ENABLE_AUTO_SKIP_MISSING_FRAMES
+                             ,gpp->enableAutoSkipMissingFrames);
+
+  valueAsString = g_strdup_printf("%ld", (long)gpp->cache_ntiles);
+  gimp_gimprc_set(GIMPRC_VIDEO_PLAYER_CACHE_NTILES, valueAsString);
+  g_free(valueAsString);
+
 
 }  /* end on_prefs_save_gimprc_button_clicked */
 
@@ -7031,7 +7400,7 @@ p_new_configframe(GapPlayerMainGlobalParams *gpp)
 
   if (gap_debug) printf("p_new_configframe\n");
 
-  frame0c = gimp_frame_new ("Playback Preferences");
+  frame0c = gimp_frame_new (_("Playback Preferences"));
 
   /* the vbox */
   vbox1 = gtk_vbox_new (FALSE, 0);
@@ -7048,7 +7417,7 @@ p_new_configframe(GapPlayerMainGlobalParams *gpp)
 
   row = 0;
 
-  /* Cahe size label */
+  /* Cache size label */
   label = gtk_label_new (_("Cache Size (MB):"));
   gtk_widget_show (label);
   gtk_table_attach (GTK_TABLE (table1), label, 0, 1,  row, row+1,
@@ -7117,6 +7486,36 @@ p_new_configframe(GapPlayerMainGlobalParams *gpp)
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progress_bar), "0.0 MB");
   gpp->progress_bar_cache_usage = progress_bar;
 
+
+  row++;
+
+  /* tile Chache  */
+  label = gtk_label_new(_("Tile Cache:"));
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_table_attach(GTK_TABLE(table1), label, 0, 1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
+  gtk_widget_show(label);
+
+
+  /* tile cache size spinutton */
+  spinbutton = gimp_spin_button_new (&adj,  /* return value */
+                        gpp->cache_ntiles,         /*   initial_val */
+                        0.0,   /* umin */
+                     9000.0,   /* umax */
+                        1.0,   /* sstep */
+                       10.0,   /* pagestep */
+                       0.0,                  /* page_size */
+                       10.0,                 /* climb_rate */
+                        0                    /* digits */
+                        );
+  gtk_widget_show (spinbutton);
+  gpp->cache_ntiles_spinbutton_adj = adj;
+  gtk_table_attach(GTK_TABLE(table1), spinbutton, 1, 2, row, row + 1, GTK_FILL, GTK_FILL, 4, 0);
+  gimp_help_set_help_data(spinbutton, _("gimp tile cache for the player process. (in tiles 64x64 pixel)"),NULL);
+  g_signal_connect (G_OBJECT (gpp->cache_ntiles_spinbutton_adj), "value_changed",
+                        G_CALLBACK (on_tile_cache_size_spinbutton_changed),
+                        gpp);
+
+
   row++;
 
   /* Layout Options label */
@@ -7163,6 +7562,63 @@ p_new_configframe(GapPlayerMainGlobalParams *gpp)
   }
   g_signal_connect (G_OBJECT (checkbutton), "toggled",
                       G_CALLBACK (on_show_positionscale_checkbutton_toggled),
+                      gpp);
+
+  row++;
+
+  /* Auto skip missing frames */
+  checkbutton = gtk_check_button_new_with_label (_("Auto Skip Missing Frames"));
+  gpp->autoSkipMissingFrames_checkbutton = checkbutton;
+  gtk_widget_show (checkbutton);
+  gtk_table_attach (GTK_TABLE (table1), checkbutton, 1, 3, row, row+1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gimp_help_set_help_data (checkbutton, _("ON: Automatically skip missing frames on playback.\n"
+                                          "OFF: Show missing frames as empty (transparent) image."), NULL);
+  if(gpp->enableAutoSkipMissingFrames)
+  {
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
+  }
+  g_signal_connect (G_OBJECT (checkbutton), "toggled",
+                      G_CALLBACK (on_auto_skip_missing_checkbutton_toggled),
+                      gpp);
+
+  row++;
+
+
+
+  /* configure Detail Tracking button */
+  button = gtk_button_new_with_label(_("Configure Tracking:"));
+
+  gtk_widget_show (button);
+  gimp_help_set_help_data(button, _("Configure detail tracking options"),NULL);
+  gtk_table_attach(GTK_TABLE(table1), button, 0, 1, row, row + 1,
+                    (GtkAttachOptions) GTK_FILL,
+                    (GtkAttachOptions) GTK_FILL, 4, 0);
+  g_signal_connect (G_OBJECT (button), "pressed",
+                      G_CALLBACK (on_detail_tracking_button_clicked),
+                      gpp);
+
+  checkbutton = gtk_check_button_new_with_label (_("Enable Detail Tracking"));
+  gpp->detail_tracking_checkbutton = checkbutton;
+  gtk_widget_show (checkbutton);
+  gtk_table_attach (GTK_TABLE (table1), checkbutton, 1, 3, row, row+1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gimp_help_set_help_data (checkbutton, _("ON: Enable detail tracking in snapshot image."
+                                          " Mark coordinates of one (or 2) significant details in the snapshot image"
+                                          " using the current path with one or 2 points."
+                                          " Each further snapshot automatically moves the marked points"
+                                          " to the coordinates of the corresponding details "
+                                          " and logs the movement as XML parameters for the MovePath feature."
+                                          " In case 2 points are marked, the rotation is calculated too.\n"
+                                          "OFF: Disable detail tracking."), NULL);
+  if(gpp->enableDetailTracking)
+  {
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), TRUE);
+  }
+  g_signal_connect (G_OBJECT (checkbutton), "toggled",
+                      G_CALLBACK (on_enable_detail_tracking_checkbutton_toggled),
                       gpp);
 
   row++;
@@ -7585,7 +8041,7 @@ p_create_player_window (GapPlayerMainGlobalParams *gpp)
                       (GtkAttachOptions) (0), 0, 0);
 
     /* the framenr 1 button (does set Begin of range) */
-    framenr_1_button = gtk_button_new_from_stock (GAP_STOCK_SET_RANGE_START);
+    framenr_1_button = gap_stock_button_new (GAP_STOCK_SET_RANGE_START);
     gtk_widget_show (framenr_1_button);
     gtk_box_pack_start (GTK_BOX (fnr_hbox), framenr_1_button, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (framenr_1_button), KEY_FRAMENR_BUTTON_TYPE, (gpointer)FRAMENR_BUTTON_BEGIN);
@@ -7612,7 +8068,7 @@ p_create_player_window (GapPlayerMainGlobalParams *gpp)
     }
 
     /* the framenr 2 button (does set End of range) */
-    framenr_2_button = gtk_button_new_from_stock (GAP_STOCK_SET_RANGE_END);
+    framenr_2_button = gap_stock_button_new (GAP_STOCK_SET_RANGE_END);
     gtk_widget_show (framenr_2_button);
     gtk_box_pack_start (GTK_BOX (fnr_hbox), framenr_2_button, TRUE, TRUE, 0);
     g_object_set_data (G_OBJECT (framenr_2_button), KEY_FRAMENR_BUTTON_TYPE, (gpointer)FRAMENR_BUTTON_END);
@@ -7661,7 +8117,7 @@ p_create_player_window (GapPlayerMainGlobalParams *gpp)
   row++;
 
   /* the from button */
-  from_button = gtk_button_new_from_stock (GAP_STOCK_RANGE_START);
+  from_button = gap_stock_button_new (GAP_STOCK_RANGE_START);
   gpp->from_button = from_button;
   /* the from button */
   gtk_widget_show (from_button);
@@ -7711,7 +8167,7 @@ p_create_player_window (GapPlayerMainGlobalParams *gpp)
   row++;
 
   /* the to button */
-  to_button = gtk_button_new_from_stock (GAP_STOCK_RANGE_END);
+  to_button = gap_stock_button_new (GAP_STOCK_RANGE_END);
   gpp->to_button = to_button;
   gtk_widget_show (to_button);
   gtk_table_attach (GTK_TABLE (table2), to_button, colbutton, colbutton+1, row, row+1
@@ -7765,7 +8221,7 @@ p_create_player_window (GapPlayerMainGlobalParams *gpp)
   row++;
 
   /* the origspeed_button */
-  origspeed_button = gtk_button_new_from_stock (GAP_STOCK_SPEED);
+  origspeed_button = gap_stock_button_new (GAP_STOCK_SPEED);
   gtk_widget_show (origspeed_button);
   gtk_table_attach (GTK_TABLE (table2), origspeed_button, colbutton, colbutton+1, row, row+1,
                     (GtkAttachOptions) (GTK_FILL),
@@ -8036,11 +8492,11 @@ p_create_player_window (GapPlayerMainGlobalParams *gpp)
 
 
   /* the PLAY button */
-  play_button = gtk_button_new_from_stock (GAP_STOCK_PLAY);
+  play_button = gap_stock_button_new_with_label (GAP_STOCK_PLAY, _("Play"));
   gtk_widget_show (play_button);
   gtk_box_pack_start (GTK_BOX (play_n_stop_hbox), play_button, FALSE, TRUE, 0);
   gimp_help_set_help_data (play_button, _("Start playback. "
-                                          "SHIFT: snapshot frames  in a multilayer image at original size "
+                                          "SHIFT: snapshot frames in a multilayer image at original size "
                                           "CTRL: snapshot at preview size "
                                           "ALT: force creation of new snapshot image"), NULL);
   g_signal_connect (G_OBJECT (play_button), "button_press_event",
@@ -8048,7 +8504,7 @@ p_create_player_window (GapPlayerMainGlobalParams *gpp)
                       gpp);
 
   /* the PAUSE button */
-  pause_button = gtk_button_new_from_stock (GAP_STOCK_PAUSE);
+  pause_button = gap_stock_button_new_with_label (GAP_STOCK_PAUSE, _("Pause"));
   gtk_widget_show (pause_button);
   gtk_widget_set_events(pause_button, GDK_BUTTON_PRESS_MASK);
   gtk_box_pack_start (GTK_BOX (play_n_stop_hbox), pause_button, FALSE, TRUE, 0);
@@ -8059,11 +8515,11 @@ p_create_player_window (GapPlayerMainGlobalParams *gpp)
                       gpp);
 
   /* the PLAY_REVERSE button */
-  back_button = gtk_button_new_from_stock (GAP_STOCK_PLAY_REVERSE);
+  back_button = gap_stock_button_new_with_label (GAP_STOCK_PLAY_REVERSE, _("Reverse"));
   gtk_widget_show (back_button);
   gtk_box_pack_start (GTK_BOX (play_n_stop_hbox), back_button, FALSE, TRUE, 0);
   gimp_help_set_help_data (back_button, _("Start reverse playback. "
-                                          "SHIFT: snapshot frames  in a multilayer image at original size "
+                                          "SHIFT: snapshot frames in a multilayer image at original size "
                                           "CTRL: snapshot at preview size "
                                           "ALT: force creation of new snapshot image"), NULL);
   g_signal_connect (G_OBJECT (back_button), "button_press_event",
@@ -8479,11 +8935,14 @@ gap_player_dlg_create(GapPlayerMainGlobalParams *gpp)
   gpp->shell_initial_width = -1;
   gpp->shell_initial_height = -1;
 
+  gimp_tile_cache_ntiles(gpp->cache_ntiles);
+  p_init_tile_cache(gpp);
   p_init_video_playback_cache(gpp);
   p_init_layout_options(gpp);
 
   gpp->mtrace_image_id = -1;
   gpp->mtrace_mode = GAP_PLAYER_MTRACE_OFF;
+  gpp->detail_tracking_checkbutton = NULL;
 
   gpp->vindex_creation_is_running = FALSE;
   gpp->request_cancel_video_api = FALSE;
@@ -8557,7 +9016,7 @@ gap_player_dlg_create(GapPlayerMainGlobalParams *gpp)
   gpp->audio_frame_offset = 0;
   gpp->audio_filesel = NULL;
   gpp->audio_tmp_dialog_is_open = FALSE;
-  
+
   gpp->audio_otone_atrack = 1;
   gpp->audio_enable_checkbutton = NULL;
   gpp->audio_auto_offset_by_framenr_checkbutton = NULL;
@@ -8727,3 +9186,7 @@ gap_player_dlg_playback_dialog(GapPlayerMainGlobalParams *gpp)
 
 
 }  /* end gap_player_dlg_playback_dialog */
+
+
+
+

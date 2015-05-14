@@ -3,7 +3,7 @@ as sourcecode for convenient static linking.
 
 CURRENT FFMPEG version is:
 
-- ffmpeg-0.5.tar.bz2
+- ffmpeg 0.7.11
 
 CURRENT LIBMPEG3 version is:
        
@@ -20,9 +20,11 @@ of those libs.
 ffmpeg
 --------------
 
-GIMP-GAP uses the libraries libavformat and libavcodec
+GIMP-GAP uses the libraries 
+   libavformat, libavcodec, libavutil, libavdevice and libswscale
+   (libavcore -- new lib in latest snaphots of ffmpeg, not yet required)
 that are part of ffmpeg. 
-libavformat and libavcodec build up the basic videofile support for 
+Those libs build up the basic videofile support for 
 many MPEG based fileformats, both for read and write access 
 (frame and audio extraction, and for the powerful video encoder plug-in
  "FFMPEG" in the Master Videoencoder dialog).
@@ -43,13 +45,31 @@ this GIMP-GAP distribution.
   will work with a new ffmpeg version.
   Typically it requires much testing and some knowledge
   of both GIMP-GAP and ffmpeg internals to get new ffmpeg versions
-  working. 
+  working.
   
-  Therefore i decided to include the snapshot of the ffmpeg sourcetree.
-  that was tested with GIMP-GAP during Mar. 2009
+  
+  GIMP-GAP currently supports 
+  o) ffmpeg-0.7.11  basically works, tests done 
+       minor incopatibility detected at frame exact positioning compared against ffmpeg-0.6.1
+       on dvd mpeg2 encoded videos that do not start with a keyframe.
+       0.7.11 delivers one extra gray frame as 1st and a black frame as 2nd frame
+       where 0.6.1 did deliver just one black frame as 1st frame. 
+  o) ffmpeg-0.7.8 Not fully tested....
+  o) ffmpeg-0.6.1 tests repeated, same results as ffmpeg-0.6
+  o) ffmpeg-0.6 basically works, tests done 
+     incopatibility detected at frame exact positioning compared against ffmpeg-0.5 
+     on dvd mpeg2 encoded videos that do not start with a keyframe.
+     (No idea how to fix, there are no plans to investigate more effort on this...)
 
-  newer ffmpeg SVN snapshots
-  may or may not compile, link and run with this GIMP-GAP release.
+  o) ffmpeg-0.5 successfully tested with many videoformats
+     but does no longer work with recent version of libx264 (X264_BUILD 93)
+     (use gimp-gap configure option --disable-ff-libx264
+     when compiling/linking with ffmpeg-0.5)
+     
+
+  the ffmpeg releases 0.8.x, 0.9.x and latest GIT repository
+  are NOT compatible due to new API versions and will NOT compile with
+  this GIMP-GAP version.
 
 
 GIMP-GAP can be configured to be compiled without ffmpeg (in this case 
@@ -82,7 +102,7 @@ NOTE: Older ffmpeg versions that once worked with older GIMP-GAP
 
    ffmpeg-CVS-2005.04.08  (Support dropped)
    ffmpeg-CVS-2005.03.02  (Support dropped)
-   ffmpeg-0.4.9pre1       (latest, but outdated official release is NOT SUPPORTED)
+   ffmpeg-0.4.9pre1       (outdated official release is NOT SUPPORTED)
    ffmpeg 0.4.8           (outdated stable release is NOT SUPPORTED) 
    
 

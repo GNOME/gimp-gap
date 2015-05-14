@@ -17,8 +17,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -181,7 +181,7 @@ gap_val_load_textfile(const char *filename)
   GapValTextFileLines *txf_ptr;
   GapValTextFileLines *txf_ptr_prev;
   GapValTextFileLines *txf_ptr_root;
-  char         l_buf[4000];
+  char         l_buf[GAP_VAL_MAX_BYTES_PER_LINE +1];
   int   line_nr;
   
   line_nr = 0;
@@ -190,7 +190,7 @@ gap_val_load_textfile(const char *filename)
   l_fp = g_fopen(filename, "r");
   if(l_fp)
   {
-    while(NULL != fgets(l_buf, 4000-1, l_fp))
+    while(NULL != fgets(l_buf, GAP_VAL_MAX_BYTES_PER_LINE, l_fp))
     {
       line_nr++;
       txf_ptr = g_malloc0(sizeof(GapValTextFileLines));
@@ -238,6 +238,19 @@ p_write_keylist_value(FILE *fp, GapValKeyList *keyptr, const char *term_str)
   
   switch(keyptr->dataype)
   {
+    case GAP_VAL_GINT:
+      {
+        gint *val_ptr;
+      
+        val_ptr = (gint *)keyptr->val_ptr;
+        fprintf(fp, "%s%d%s %s\n"
+               , keyptr->keyword   /* "(keyword " */
+               , (int)*val_ptr          /* value */
+               , term_ptr
+               , keyptr->comment
+               );
+      }
+      break;
     case GAP_VAL_GINT32:
       {
         gint32 *val_ptr;
@@ -527,6 +540,14 @@ gap_val_scann_filevalues(GapValKeyList *keylist, const char *filename)
                l_cnt_keys++;
                switch(keyptr->dataype)
                {
+                 case GAP_VAL_GINT:
+                   {
+                      gint *val_ptr;
+                      
+                      val_ptr = (gint *)keyptr->val_ptr;
+                      *val_ptr = atol(&txf_ptr->line[l_len]);
+                   }
+                   break;
                  case GAP_VAL_GINT32:
                    {
                       gint32 *val_ptr;
@@ -641,7 +662,7 @@ gap_val_scann_filevalues(GapValKeyList *keylist, const char *filename)
                break;
              }
           }  /* end for keylist loop */
-      } /* end for text lines scann loop */
+      } /* end for text lines scan loop */
       if(txf_ptr_root)
       {
         gap_val_free_textfile_lines(txf_ptr_root);

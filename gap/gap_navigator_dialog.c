@@ -21,8 +21,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -405,6 +405,7 @@ static void       p_acl_tracking_off_callback(GtkWidget *widget, NaviDialog *nav
 static void       p_acl_tracking_by_name_callback(GtkWidget *widget, NaviDialog *naviD);
 static void       p_acl_tracking_by_pos_callback(GtkWidget *widget, NaviDialog *naviD);
 
+static gint32     p_get_number_of_frames(GapAnimInfo *ainfo_ptr);
 
 
 /* -----------------------
@@ -548,7 +549,6 @@ query ()
                          GIMP_PLUGIN,
                          G_N_ELEMENTS (args_navigator), nreturn_vals,
                          args_navigator, return_vals);
-  // gimp_plugin_menu_branch_register("<Image>", "Video");
   gimp_plugin_menu_register (PLUGIN_NAME, N_("<Image>/Video/"));
 }       /* end query */
 
@@ -2515,13 +2515,16 @@ navi_render_preview (FrameWidget *fw)
      struct stat  l_stat;
      gchar       *l_frame_filename;
      gboolean     l_can_use_cached_thumbnail;
+     gboolean     l_referenced_frame_exists;
 
      l_can_use_cached_thumbnail = FALSE;
+     l_referenced_frame_exists = FALSE;
      l_frame_filename = gap_lib_alloc_fname(naviD->ainfo_ptr->basename, fw->frame_nr, naviD->ainfo_ptr->extension);
      if(l_frame_filename)
      {
        if (0 == g_stat(l_frame_filename, &l_stat))
        {
+         l_referenced_frame_exists = TRUE;
          if(fw->frame_filename)
          {
            if(gap_debug)
@@ -2587,7 +2590,8 @@ navi_render_preview (FrameWidget *fw)
      {
        /* fetch l_th_data from thumbnail_file */
        if(gap_debug) printf("navi_render_preview: fetching THUMBNAILFILE for: %s\n", l_frame_filename);
-       if(l_frame_filename)
+       if((l_frame_filename)
+       && (l_referenced_frame_exists))
        {
          /* init preferred width and height
           * (as hint for the thumbnail loader to decide
@@ -3654,7 +3658,7 @@ navi_dyn_adj_set_limits(void)
   if(naviD == NULL) { return; }
   if(naviD->dyn_adj == NULL) { return; }
 
-  frame_cnt_zoomed = naviD->ainfo_ptr->frame_cnt / naviD->vin_ptr->timezoom;
+  frame_cnt_zoomed = p_get_number_of_frames(naviD->ainfo_ptr) / naviD->vin_ptr->timezoom;
   if(naviD->vin_ptr->timezoom > 1)
   {
     /* if there is a rest add 1 to make the last frame,
@@ -4342,7 +4346,7 @@ navi_dialog_create (GtkWidget* shell, gint32 image_id)
     gdouble upper_max;
     gdouble initial_val;
 
-    upper_max = naviD->ainfo_ptr->frame_cnt;
+    upper_max = p_get_number_of_frames(naviD->ainfo_ptr);
     initial_val = 1 + ((naviD->ainfo_ptr->curr_frame_nr - naviD->ainfo_ptr->first_frame_nr) / naviD->vin_ptr->timezoom);
 
     naviD->dyn_adj = gtk_adjustment_new (initial_val
@@ -4620,4 +4624,24 @@ ops_button_extended_callback (GtkWidget *widget,
 }
 /* ---------------------------------------  end copy of gimp-1.1.14/app/ops_buttons.c */
 
-
+/* -------------------------------
+ * p_get_number_of_frames
+ * -------------------------------
+ * calculate the number of frames from first and last frame number.
+ * the calculated value may not match the real number of available frame image files
+ * (ainfo_ptr->frame_cnt) in case some frame images are missing.
+ * Note that the current VCR navigator implemetation renders a default icon
+ * for each missing frame.
+ */
+static gint32
+p_get_number_of_frames(GapAnimInfo *ainfo_ptr)
+{
+  gint32 numFrames;
+  
+  numFrames = 1;
+  if (ainfo_ptr != NULL)
+  {
+    numFrames += abs(ainfo_ptr->last_frame_nr - ainfo_ptr->first_frame_nr);
+  }
+  return (numFrames);
+}

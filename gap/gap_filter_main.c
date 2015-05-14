@@ -29,8 +29,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* SYTEM (UNIX) includes */ 
@@ -50,6 +50,7 @@
 #include "gap_filter.h"
 #include "gap_filter_iterators.h"
 #include "gap_dbbrowser_utils.h"
+#include "gap_accel_char.h"
 
 /* revision history:
  * gimp   1.3.20b;  2003/09/20  hof: update version, minor cleanup
@@ -98,7 +99,7 @@ query ()
     {GIMP_PDB_IMAGE, "image", "Input image"},
     {GIMP_PDB_DRAWABLE, "drawable", "Input drawable (unused)"},
     {GIMP_PDB_STRING, "proc_name", "name of plugin procedure to run for each layer"},
-    {GIMP_PDB_INT32, "varying", "0 .. apply constant, 1..apply varying"},
+    {GIMP_PDB_INT32, "acceleration", "0 .. apply constant, 1..apply varying constant speed, positive accelerate, nagative decelerate"},
   };
 
   static GimpParamDef *return_vals = NULL;
@@ -203,9 +204,9 @@ run(const gchar *name
   
   if (strcmp (name, PLUG_IN_NAME_ANIMFILTER) == 0)
   {
-      GapFiltPdbApplyMode apply_mode;
+      gint32 accelCharacteristic;
 
-      apply_mode = GAP_PAPP_CONSTANT;
+      accelCharacteristic = GAP_ACCEL_CHAR_NONE;
       if (run_mode == GIMP_RUN_NONINTERACTIVE)
       {
         if (n_params != 5)
@@ -219,7 +220,7 @@ run(const gchar *name
         }
         if( param[4].data.d_int32 != 0)
         {
-          apply_mode = GAP_PAPP_VARYING_LINEAR;
+          accelCharacteristic = param[4].data.d_int32;
         }
       }
       else if(run_mode == GIMP_RUN_WITH_LAST_VALS)
@@ -233,7 +234,7 @@ run(const gchar *name
 
         image_id    = param[1].data.d_image;
 
-        l_rc = gap_proc_anim_apply(run_mode, image_id, l_plugin_name, apply_mode);
+        l_rc = gap_proc_anim_apply(run_mode, image_id, l_plugin_name, accelCharacteristic);
         gimp_set_data(PLUG_IN_NAME_ANIMFILTER,
                       l_plugin_name, sizeof(l_plugin_name));
       }

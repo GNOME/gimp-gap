@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -78,6 +78,9 @@ typedef struct GapMorphGUIParams  { /* nickname: mgup */
 
   GtkObject  *tween_steps_spinbutton_adj;
   GtkObject  *affect_radius_spinbutton_adj;
+  GtkObject  *locate_edge_threshold_spinbutton_adj;
+  GtkObject  *locate_radius_spinbutton_adj;
+  GtkObject  *locate_shape_radius_spinbutton_adj;
   GtkObject  *gravity_intensity_spinbutton_adj;
   GtkWidget  *gravity_intensity_spinbutton;
   GtkWidget  *use_gravity_checkbutton;
@@ -121,6 +124,10 @@ typedef struct GapMorphGUIParams  { /* nickname: mgup */
   GtkWidget *workpoint_file_upper_label;  
   GtkWidget *workpoint_lower_label;  
   GtkWidget *workpoint_upper_label;
+
+  GtkWidget *progressBar;
+  gboolean   workpointGenerationBusy;
+  gboolean   cancelWorkpointGeneration;
   
 } GapMorphGUIParams;
 

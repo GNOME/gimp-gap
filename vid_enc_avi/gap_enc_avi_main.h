@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #ifndef GAP_ENC_AVI_MAIN_H
@@ -71,6 +71,7 @@ typedef struct {
 
   /* for the "RGB " (== raw) CODEC */
   gint32 raw_vflip;
+  gint32 raw_bgr;    /* TRUE: BGR (default) FALSE: RGB */
 
   /* for the "PNG " CODEC */
   gint32 png_dont_recode_frames;
@@ -115,6 +116,7 @@ typedef struct GapGveAviGlobalParams {   /* nick: gpp */
   GtkObject *xvid_quality_spinbutton_adj;
   
   GtkWidget *raw_vflip_checkbutton;
+  GtkWidget *raw_bgr_checkbutton;
 
   GtkWidget *png_dont_recode_checkbutton;
   GtkWidget *png_interlace_checkbutton;

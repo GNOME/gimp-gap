@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -57,6 +57,8 @@
 #include "gap_match.h"
 #include "gap_pdb_calls.h"
 #include "gap_dbbrowser_utils.h"
+#include "gap_accel_char.h"
+#include "gap_accel_da.h"
 #include "gap-intl.h"
 
 
@@ -98,8 +100,13 @@ typedef struct
 
   /* GAP DB-Browser specific items */
   gchar            *selected_menu_path;
-  GtkWidget* app_const_button;
-  GtkWidget* app_vary_button;
+  GtkWidget        *app_const_button;
+  GapAccelWidget   *accel_wgt;
+  GtkObject        *accel_adj;
+  GtkWidget        *accel_spinbutton;
+  GtkWidget        *accel_hbox;
+
+
   GtkWidget* menupath_button;
 
   t_constraint_func      constraint_func;
@@ -114,8 +121,8 @@ typedef struct
 
 /* local functions */
 
-static const gchar * GParamType_to_string         (GimpPDBArgType   type);
-static const gchar * GimpPDBProcType_to_string    (GimpPDBProcType  type);
+//static const gchar * GParamType_to_string         (GimpPDBArgType   type);
+//static const gchar * GimpPDBProcType_to_string    (GimpPDBProcType  type);
 
 
 static void         procedure_select_callback    (GtkTreeSelection  *sel,
@@ -135,13 +142,13 @@ static void         dialog_num_button_callback   (dbbrowser_t* dbbrowser,
                                                   gint button_nr);
 static void         dialog_button_1_callback     (GtkWidget *widget,
                                                   dbbrowser_t* dbbrowser);
-static void         dialog_button_2_callback     (GtkWidget *widget,
-                                                  dbbrowser_t* dbbrowser);
 static void         dialog_button_3_callback     (GtkWidget *widget,
                                                   dbbrowser_t* dbbrowser);
+static void         p_accel_spinbutton_callback  (GtkObject *obj, dbbrowser_t* dbbrowser);
+
 static void         p_create_action_area_buttons (dbbrowser_t *dbbrowser,
                                                   char *button_1_txt,
-                                                  char *button_2_txt,
+                                                  gboolean showAccelerationCharacteristic,
                                                   const char *help_id
                                                 );
 
@@ -149,7 +156,7 @@ static void         p_create_action_area_buttons (dbbrowser_t *dbbrowser,
 int 
 gap_db_browser_dialog(char *title_txt,
                       char *button_1_txt,
-                      char *button_2_txt,
+                      gboolean                 showAccelerationCharacteristic,
                       t_constraint_func        constraint_func,
                       t_constraint_func        constraint_func_sel1,
                       t_constraint_func        constraint_func_sel2,
@@ -271,7 +278,7 @@ gap_db_browser_dialog(char *title_txt,
 
 
   /* GAP specific buttons in dialog->action_aera */
-  p_create_action_area_buttons(dbbrowser, button_1_txt, button_2_txt, help_id);
+  p_create_action_area_buttons(dbbrowser, button_1_txt, showAccelerationCharacteristic, help_id);
 
 
   /* now build the list */
@@ -305,6 +312,14 @@ gap_db_browser_dialog(char *title_txt,
   gtk_main ();
   gdk_flush ();
 
+
+  if(gap_debug)
+  {
+    printf("gap_db_browser_dialog: result accelCharacteristic:%d\n"
+       , (int)dbbrowser->result->accelCharacteristic
+       );
+  }
+
   return  (dbbrowser->result->button_nr);
 } /* end gap_db_browser_dialog */
 
@@ -312,7 +327,7 @@ gap_db_browser_dialog(char *title_txt,
 static void
 p_create_action_area_buttons(dbbrowser_t *dbbrowser,
                              char *button_1_txt,
-                             char *button_2_txt,
+                             gboolean  showAccelerationCharacteristic,
                              const char *help_id
                             )
 {
@@ -379,6 +394,67 @@ p_create_action_area_buttons(dbbrowser_t *dbbrowser,
 
 
   row++;
+
+  /* the Acceleration characteristic value spinbutton and graph */
+  if (showAccelerationCharacteristic) 
+  {
+    GapAccelWidget  *accel_wgt;
+    GtkObject       *adj;
+    GtkWidget       *spinbutton;
+    gint32           accelerationCharacteristic;
+
+#define ACC_WGT_WIDTH 34
+#define ACC_WGT_HEIGHT 30
+
+    dbbrowser->accel_hbox = gtk_hbox_new (FALSE, 1);
+    gtk_widget_show (dbbrowser->accel_hbox);
+    gtk_table_attach_defaults (GTK_TABLE(table), dbbrowser->accel_hbox, cof, cof+1, row, row + 1);
+
+    accelerationCharacteristic = 0;
+    if(dbbrowser->result != NULL)
+    {
+      accelerationCharacteristic = dbbrowser->result->accelCharacteristic;
+    }
+
+    /* the acceleration characteristic graph display widget */
+
+    accel_wgt = gap_accel_new(ACC_WGT_WIDTH, ACC_WGT_HEIGHT, accelerationCharacteristic);
+    gtk_box_pack_start (GTK_BOX (dbbrowser->accel_hbox), accel_wgt->da_widget, FALSE, FALSE, 1);
+    gtk_widget_show (accel_wgt->da_widget);
+  
+    adj = accel_wgt->adj;
+
+    /* the Acceleration characteristic value spinbutton */
+    spinbutton = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 1, 0);
+    dbbrowser->accel_adj = adj;
+    dbbrowser->accel_spinbutton = spinbutton;
+
+    gtk_widget_show (spinbutton);
+    
+    gtk_box_pack_start (GTK_BOX (dbbrowser->accel_hbox), spinbutton, TRUE, TRUE, 1);
+    gtk_widget_set_size_request (spinbutton, 50, -1);
+    gimp_help_set_help_data (spinbutton, _("acceleration characteristic for filter apply 0=constant, 1 varying with constant speed, positive accelerate, negative decelerate"), NULL);
+
+    g_object_set_data(G_OBJECT(adj), "dbbrowser", dbbrowser);
+
+    g_signal_connect (G_OBJECT (dbbrowser->accel_adj), "value_changed",
+                      G_CALLBACK (p_accel_spinbutton_callback),
+                      dbbrowser);
+
+
+    dbbrowser->accel_wgt = accel_wgt;
+  } 
+  else
+  { 
+    dbbrowser->accel_adj = NULL;
+    dbbrowser->accel_spinbutton = NULL;
+  
+    dbbrowser->accel_hbox = gtk_hbox_new (FALSE, 1);
+    gtk_widget_show (dbbrowser->accel_hbox);
+    gtk_table_attach_defaults (GTK_TABLE(table), dbbrowser->accel_hbox, cof, cof+1, row, row + 1);
+  
+  }
+
   /* Button1 (Apply Constant) */
   if (button_1_txt) {
     dbbrowser->app_const_button = gtk_button_new_with_label (button_1_txt);
@@ -386,24 +462,12 @@ p_create_action_area_buttons(dbbrowser_t *dbbrowser,
     g_signal_connect (G_OBJECT (dbbrowser->app_const_button), "clicked",
                         G_CALLBACK (dialog_button_1_callback), dbbrowser );
     gtk_table_attach (GTK_TABLE (table), dbbrowser->app_const_button,
-                      cof, cof+1, row, row + 1, 
+                      cof+1, cof+2, row, row + 1, 
                       GTK_FILL, 0, 0, 0);
     gtk_widget_set_sensitive (dbbrowser->app_const_button, FALSE);
     gtk_widget_show (dbbrowser->app_const_button);
   } else dbbrowser->app_const_button = NULL;
 
-  /* Button1 (Apply Varying) */
-  if (button_2_txt) {
-    dbbrowser->app_vary_button = gtk_button_new_with_label (button_2_txt);
-    GTK_WIDGET_SET_FLAGS (dbbrowser->app_vary_button, GTK_CAN_DEFAULT);
-    g_signal_connect (G_OBJECT (dbbrowser->app_vary_button), "clicked",
-                        G_CALLBACK (dialog_button_2_callback), dbbrowser );
-    gtk_table_attach (GTK_TABLE (table), dbbrowser->app_vary_button,
-                      cof+1, cof+2, row, row + 1, 
-                      GTK_FILL, 0, 0, 0);
-    gtk_widget_set_sensitive (dbbrowser->app_vary_button, FALSE);
-    gtk_widget_show (dbbrowser->app_vary_button);
-  } else dbbrowser->app_vary_button = NULL;
 
   /* Button Cancel */
   button = gtk_button_new_from_stock ( GTK_STOCK_CANCEL);
@@ -542,15 +606,15 @@ dialog_select (dbbrowser_t *dbbrowser,
        gtk_widget_set_sensitive (dbbrowser->app_const_button, FALSE);
      }
   }
-  if(dbbrowser->app_vary_button != NULL)
+  if(dbbrowser->accel_spinbutton != NULL)
   {
      if(0 != (dbbrowser->constraint_func_sel2)(dbbrowser->selected_proc_name, dbbrowser->current_image_id))
      { 
-        gtk_widget_set_sensitive (dbbrowser->app_vary_button, TRUE);
+        gtk_widget_set_sensitive (dbbrowser->accel_spinbutton, TRUE);
      }
      else
      {
-        gtk_widget_set_sensitive (dbbrowser->app_vary_button, FALSE);
+        gtk_widget_set_sensitive (dbbrowser->accel_spinbutton, FALSE);
      }
   }
   
@@ -643,12 +707,6 @@ dialog_button_1_callback (GtkWidget *widget, dbbrowser_t* dbbrowser)
   dialog_num_button_callback(dbbrowser, 0);
 }
 
-/* GAP APPLY varying callback */
-static void 
-dialog_button_2_callback (GtkWidget *widget, dbbrowser_t* dbbrowser)
-{
-  dialog_num_button_callback(dbbrowser, 1);
-}
 
 /* CODEGEN callback (does not close the dialog) */
 static void 
@@ -659,6 +717,30 @@ dialog_button_3_callback (GtkWidget *widget, dbbrowser_t* dbbrowser)
   dialog_search_callback(dbbrowser->name_button, (gpointer)dbbrowser );
   dbbrowser->codegen_flag = 0;
 }  /* end dialog_button_3_callback */
+
+
+/* -------------------------------
+ * p_accel_spinbutton_callback
+ * -------------------------------
+ */
+static void
+p_accel_spinbutton_callback(GtkObject *obj, dbbrowser_t* dbbrowser)
+{
+  gint32 l_val;
+
+  if(dbbrowser)
+  {
+    l_val = (GTK_ADJUSTMENT(dbbrowser->accel_adj)->value);
+    if(dbbrowser->result)
+    {
+      if(dbbrowser->result->accelCharacteristic != l_val)
+      {
+        dbbrowser->result->accelCharacteristic = l_val;
+      }
+    }
+  }
+}  /* end p_accel_spinbutton_callback */
+
 
 
 /* search in the whole db */
@@ -839,51 +921,51 @@ convert_string (gchar *str)
 }
 
 
-static const gchar *
-GParamType_to_string (GimpPDBArgType type)
-{
-  switch (type)
-    {
-    case GIMP_PDB_INT32:       return "INT32";
-    case GIMP_PDB_INT16:       return "INT16";
-    case GIMP_PDB_INT8:        return "INT8";
-    case GIMP_PDB_FLOAT:       return "FLOAT";
-    case GIMP_PDB_STRING:      return "STRING";
-    case GIMP_PDB_INT32ARRAY:  return "INT32ARRAY";
-    case GIMP_PDB_INT16ARRAY:  return "INT16ARRAY";
-    case GIMP_PDB_INT8ARRAY:   return "INT8ARRAY";
-    case GIMP_PDB_FLOATARRAY:  return "FLOATARRAY";
-    case GIMP_PDB_STRINGARRAY: return "STRINGARRAY";
-    case GIMP_PDB_COLOR:       return "COLOR";
-    case GIMP_PDB_REGION:      return "REGION";
-    case GIMP_PDB_DISPLAY:     return "DISPLAY";
-    case GIMP_PDB_IMAGE:       return "IMAGE";
-    case GIMP_PDB_LAYER:       return "LAYER";
-    case GIMP_PDB_CHANNEL:     return "CHANNEL";
-    case GIMP_PDB_DRAWABLE:    return "DRAWABLE";
-    case GIMP_PDB_SELECTION:   return "SELECTION";
-    case GIMP_PDB_BOUNDARY:    return "BOUNDARY";
-    case GIMP_PDB_PATH:        return "PATH";
-    case GIMP_PDB_PARASITE:    return "PARASITE";
-    case GIMP_PDB_STATUS:      return "STATUS";
-    case GIMP_PDB_END:         return "END";
-    default:                   return "UNKNOWN?";
-    }
-}
-
-
-static const gchar *
-GimpPDBProcType_to_string (GimpPDBProcType type)
-{
-  switch (type)
-    {
-    case GIMP_INTERNAL:  return _("Internal GIMP procedure");
-    case GIMP_PLUGIN:    return _("GIMP Plug-In");
-    case GIMP_EXTENSION: return _("GIMP Extension");
-    case GIMP_TEMPORARY: return _("Temporary Procedure");
-    default:             return "UNKNOWN";
-    }
-}
+// static const gchar *
+// GParamType_to_string (GimpPDBArgType type)
+// {
+//   switch (type)
+//     {
+//     case GIMP_PDB_INT32:       return "INT32";
+//     case GIMP_PDB_INT16:       return "INT16";
+//     case GIMP_PDB_INT8:        return "INT8";
+//     case GIMP_PDB_FLOAT:       return "FLOAT";
+//     case GIMP_PDB_STRING:      return "STRING";
+//     case GIMP_PDB_INT32ARRAY:  return "INT32ARRAY";
+//     case GIMP_PDB_INT16ARRAY:  return "INT16ARRAY";
+//     case GIMP_PDB_INT8ARRAY:   return "INT8ARRAY";
+//     case GIMP_PDB_FLOATARRAY:  return "FLOATARRAY";
+//     case GIMP_PDB_STRINGARRAY: return "STRINGARRAY";
+//     case GIMP_PDB_COLOR:       return "COLOR";
+//     case GIMP_PDB_REGION:      return "REGION";
+//     case GIMP_PDB_DISPLAY:     return "DISPLAY";
+//     case GIMP_PDB_IMAGE:       return "IMAGE";
+//     case GIMP_PDB_LAYER:       return "LAYER";
+//     case GIMP_PDB_CHANNEL:     return "CHANNEL";
+//     case GIMP_PDB_DRAWABLE:    return "DRAWABLE";
+//     case GIMP_PDB_SELECTION:   return "SELECTION";
+//     case GIMP_PDB_BOUNDARY:    return "BOUNDARY";
+//     case GIMP_PDB_PATH:        return "PATH";
+//     case GIMP_PDB_PARASITE:    return "PARASITE";
+//     case GIMP_PDB_STATUS:      return "STATUS";
+//     case GIMP_PDB_END:         return "END";
+//     default:                   return "UNKNOWN?";
+//     }
+// }
+// 
+// 
+// static const gchar *
+// GimpPDBProcType_to_string (GimpPDBProcType type)
+// {
+//   switch (type)
+//     {
+//     case GIMP_INTERNAL:  return _("Internal GIMP procedure");
+//     case GIMP_PLUGIN:    return _("GIMP Plug-In");
+//     case GIMP_EXTENSION: return _("GIMP Extension");
+//     case GIMP_TEMPORARY: return _("Temporary Procedure");
+//     default:             return "UNKNOWN";
+//     }
+// }
 
 /* search for menupath
  *  return NULL if menupath for plugin name was not found.

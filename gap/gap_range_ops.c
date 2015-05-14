@@ -27,8 +27,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history
@@ -111,6 +111,11 @@ extern      int gap_debug; /* ==0  ... dont print debug infos */
 #define GAP_HELP_ID_LAYER_DEL        "plug-in-gap-range-layer-del"
 #define GAP_HELP_ID_CONVERT          "plug-in-gap-range-convert"
 #define GAP_HELP_ID_TO_MULTILAYER    "plug-in-gap-range-to-multilayer"
+
+
+#define FLATTEN_MODE_NONE           0
+#define FLATTEN_MODE_FLATTEN        1
+#define FLATTEN_MODE_MERGE_VISIBLE  2
 
 /* ============================================================================
  * p_anim_sizechange_dialog
@@ -377,13 +382,14 @@ p_convert_indexed_dialog(gint32 *dest_colors, gint32 *dest_dither,
                                   , N_("Positioned Color Dithering")
                                   , N_("No Color Dithering")
                                   };
-  static int gettextize_loop = 0;
+  static int gettextize_paltype = 0;
+  static int gettextize_dither = 0;
 
-  for (;gettextize_loop < 4; gettextize_loop++)
-    radio_paltype[gettextize_loop] = gettext(radio_paltype[gettextize_loop]);
+  for (;gettextize_paltype < 4; gettextize_paltype++)
+    radio_paltype[gettextize_paltype] = gettext(radio_paltype[gettextize_paltype]);
 
-  for (;gettextize_loop < 4; gettextize_loop++)
-    radio_dither[gettextize_loop] = gettext(radio_dither[gettextize_loop]);
+  for (;gettextize_dither < 4; gettextize_dither++)
+    radio_dither[gettextize_dither] = gettext(radio_dither[gettextize_dither]);
 
   gap_arr_arg_init(&argv[0], GAP_ARR_WGT_RADIO);
   argv[0].label_txt = _("Palette Type");
@@ -495,10 +501,36 @@ p_convert_dialog(GapAnimInfo *ainfo_ptr,
     N_("Convert to Gray"),
     N_("Convert to Indexed")
   };
-  static int gettextize_loop = 0;
+  static char *radio_flatten_modes[3]  = {
+    N_("None"),
+    N_("Flatten"),
+    N_("Merge Visible Layers")
+  };
+  static char *radio_flatten_modes_help[3] = {
+    N_("Do not merge layers before save to the selected fileformat. "
+       "Example: use this when converting to XCF that can handle transparency and multiple layers."),
+    N_("Flatten all resulting frames. Most fileformats can not handle multiple layers "
+       "and need flattened frames (flattening does melt down all layers to one composite layer)."
+       "Example: JPEG can not handle multiple layers and requires flattened frames."),
+    N_("Merge resulting frame down to one layer. This keeps transparency information "
+       "Example: use this for PNG fileformat that can handle transpararency (alpha channel) "
+       "but is limited to one layer)") 
+  };
+    
+  static int gettext_cnt1 = 0;
+  static int gettext_cnt2 = 0;
+  static int gettext_cnt3 = 0;
 
-  for (;gettextize_loop < 4; gettextize_loop++)
-    radio_args[gettextize_loop] = gettext(radio_args[gettextize_loop]);
+
+  for (;gettext_cnt1 < 4; gettext_cnt1++)
+    radio_args[gettext_cnt1] = gettext(radio_args[gettext_cnt1]);
+
+  for (;gettext_cnt2 < 3; gettext_cnt2++)
+    radio_flatten_modes[gettext_cnt2] = gettext(radio_flatten_modes[gettext_cnt2]);
+
+  for (;gettext_cnt3 < 3; gettext_cnt3++)
+    radio_flatten_modes_help[gettext_cnt3] = gettext(radio_flatten_modes_help[gettext_cnt3]);
+
 
   gap_arr_arg_init(&argv[0], GAP_ARR_WGT_INT_PAIR);
   argv[0].constraint = TRUE;
@@ -546,12 +578,15 @@ p_convert_dialog(GapAnimInfo *ainfo_ptr,
   argv[5].radio_argv = radio_args;
   argv[5].radio_ret  = 0;
 
-  gap_arr_arg_init(&argv[6], GAP_ARR_WGT_TOGGLE);
-  argv[6].label_txt = _("Flatten:");
+  gap_arr_arg_init(&argv[6], GAP_ARR_WGT_RADIO);
+  argv[6].label_txt = _("Merge Layers:");
   argv[6].help_txt  = _("Flatten all resulting frames. Most fileformats can not handle multiple layers "
                         "and need flattened frames (flattening does melt down all layers to one composite layer)."
                         "Example: JPEG can not handle multiple layers and requires flattened frames.");
-  argv[6].int_ret   = 1;
+  argv[6].radio_argc  = 3;
+  argv[6].radio_argv = radio_flatten_modes;
+  argv[6].radio_help_argv = radio_flatten_modes_help;
+  argv[6].radio_ret  = 1;
 
   gap_arr_arg_init(&argv[7], GAP_ARR_WGT_HELP_BUTTON);
   argv[7].help_id = GAP_HELP_ID_CONVERT;
@@ -579,7 +614,7 @@ p_convert_dialog(GapAnimInfo *ainfo_ptr,
           *dest_type = 9444;   /*  huh ??  */
            break;
       }
-      *flatten     = (long)(argv[6].int_ret);
+      *flatten     = (long)(argv[6].radio_ret);
 
       *dest_colors = 255;
       *dest_dither = 0;
@@ -864,10 +899,10 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
   gint32 calling_frame_nr;
   gdouble    l_xresoulution, l_yresoulution;
   gint32     l_unit;
+  gboolean   l_frame_found;
 
   calling_image_id = ainfo_ptr->image_id;
   calling_frame_nr = ainfo_ptr->curr_frame_nr;
-
 
   l_percentage = 0.0;
   l_nlayers_result = 0;
@@ -956,7 +991,8 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
 
 
   l_cur_frame_nr = l_begin;
-  while(1)
+  l_frame_found = TRUE;
+  while(l_frame_found == TRUE)
   {
     /* build the frame name */
     if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
@@ -973,8 +1009,15 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
     }
     else
     {
-      /* load current frame into temporary image */
-      l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
+      if (g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
+      {
+        /* load current frame into temporary image */
+        l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
+      }
+      else
+      {
+         goto frames_to_multilayer_advance_to_next_frame;
+      }
     }
     if(l_tmp_image_id < 0)
        goto error;
@@ -1104,6 +1147,7 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
     /* destroy the tmp image */
     gimp_image_delete(l_tmp_image_id);
 
+frames_to_multilayer_advance_to_next_frame:
     if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
     {
       l_percentage += l_percentage_step;
@@ -1112,10 +1156,21 @@ p_frames_to_multilayer(GapAnimInfo *ainfo_ptr,
 
     /* advance to next frame */
     if(l_cur_frame_nr == l_end)
-       break;
-    l_cur_frame_nr += l_step;
+    {
+      break;
+    }
 
-  }
+     /* advance l_hi to the next available frame number 
+      * (normally to l_cur_frame_nr += l_step;
+      * sometimes to higher/lower number when frames are missing) 
+      */
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, l_step
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
+    if (l_frame_found != TRUE)
+    {
+      break;
+    }
+  }  /* end while */
 
   gap_image_prevent_empty_image(l_new_image_id);
 
@@ -1367,17 +1422,30 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
   while(l_rc >= 0)
   {
     /* build the frame name */
-    if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
+    if(ainfo_ptr->new_filename != NULL)
+    {
+      g_free(ainfo_ptr->new_filename);
+    }
+    
     ainfo_ptr->new_filename = gap_lib_alloc_fname(ainfo_ptr->basename,
                                         l_cur_frame_nr,
                                         ainfo_ptr->extension);
     if(ainfo_ptr->new_filename == NULL)
-       return -1;
+    {
+       goto check_end_or_advance_to_next_frame;
+    }
 
+    if(1 != gap_lib_file_exists(ainfo_ptr->new_filename)) 
+    {
+       goto check_end_or_advance_to_next_frame;
+    }
+    
     /* load current frame */
     l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
     if(l_tmp_image_id < 0)
+    {
        return -1;
+    }
 
     l_img_already_flat = FALSE; /* an image without any layer is considered as not flattend */
     l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
@@ -1428,7 +1496,21 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
 
 
        /* flatten current frame image (reduce to single layer) */
-       gimp_image_flatten (l_tmp_image_id);
+       if (flatten == FLATTEN_MODE_MERGE_VISIBLE)
+       {
+         gimp_image_merge_visible_layers (l_tmp_image_id, GIMP_CLIP_TO_IMAGE);
+         /* remove the remaining invisible layers because saving to
+          * imageformats that can not handle multiple layers would
+          * trigger the gimp export dialog (that is not desired
+          * for processing multiple frames) on attempt to save
+          * an image with more than 1 layer.
+          */
+         gap_image_remove_invisble_layers(l_tmp_image_id);
+       }
+       else
+       {
+         gimp_image_flatten (l_tmp_image_id);
+       }
 
        /* save back the current frame with same name */
        if(save_proc_name == NULL)
@@ -1517,6 +1599,8 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
       break;
     }
 
+check_end_or_advance_to_next_frame:
+
     /* break at last handled frame */
     if(l_cur_frame_nr == l_end)
     {
@@ -1532,11 +1616,12 @@ p_frames_convert(GapAnimInfo *ainfo_ptr,
     }
 
     /* advance to next frame */
-    l_cur_frame_nr += l_step;
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr
+                      , l_step, ainfo_ptr->basename, ainfo_ptr->extension, NULL);
   }
 
-
   return l_rc;
+
 }       /* end p_frames_convert */
 
 
@@ -1605,6 +1690,7 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
   gdouble    l_percentage, l_percentage_step;
   GimpParam     *l_params;
   int         l_rc;
+  gboolean    l_frame_found;
 
   l_rc = 0;
   l_params = NULL;
@@ -1642,7 +1728,8 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
 
   l_cur_frame_nr = l_begin;
 
-  while(1)
+  l_frame_found = TRUE;
+  while(l_frame_found == TRUE)
   {
     /* build the frame name */
     if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
@@ -1650,23 +1737,37 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
                                         l_cur_frame_nr,
                                         ainfo_ptr->extension);
     if(ainfo_ptr->new_filename == NULL)
+    {
        return -1;
+    }
 
-    /* load current frame into temporary image */
-    l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
-    if(l_tmp_image_id < 0)
-       return -1;
+    if (g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
+    {
+      /* load current frame into temporary image */
+      l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
+      if(l_tmp_image_id < 0)
+      {
+         return -1;
+      }
 
-    l_rc = p_image_sizechange(l_tmp_image_id, asiz_mode,
+      l_rc = p_image_sizechange(l_tmp_image_id, asiz_mode,
                               size_x, size_y, offs_x, offs_y);
-    if(l_rc < 0) break;
+      if(l_rc < 0)
+      {
+        break;
+      }
 
-    /* save back the current frame with same name */
-    l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
-    if(l_rc < 0) break;
+      /* save back the current frame with same name */
+      l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
+      if(l_rc < 0)
+      {
+        break;
+      }
 
-    /* destroy the tmp image */
-    gimp_image_delete(l_tmp_image_id);
+      /* destroy the tmp image */
+      gimp_image_delete(l_tmp_image_id);
+    }
+
 
     if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
     {
@@ -1676,8 +1777,16 @@ p_anim_sizechange(GapAnimInfo *ainfo_ptr,
 
     /* advance to next frame */
     if(l_cur_frame_nr == l_end)
+    {
        break;
-    l_cur_frame_nr += l_step;
+    }
+
+    /* advance l_cur_frame_nr to the next available frame number 
+     * (normally to l_cur_frame_nr += l_step; 
+     * sometimes to higher number when frames are missing) 
+     */
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, l_step
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
 
   }   /* end while loop over all frames*/
 
@@ -1773,6 +1882,7 @@ p_frames_layer_del(GapAnimInfo *ainfo_ptr,
   gdouble    l_percentage, l_percentage_step;
   gchar     *l_buff;
   int        l_rc;
+  gboolean   l_frame_found;
 
 
   l_rc = 0;
@@ -1817,7 +1927,8 @@ p_frames_layer_del(GapAnimInfo *ainfo_ptr,
 
 
   l_cur_frame_nr = l_begin;
-  while(1)
+  l_frame_found = TRUE;
+  while(l_frame_found == TRUE)
   {
     /* build the frame name */
     if(ainfo_ptr->new_filename != NULL) g_free(ainfo_ptr->new_filename);
@@ -1825,37 +1936,44 @@ p_frames_layer_del(GapAnimInfo *ainfo_ptr,
                                         l_cur_frame_nr,
                                         ainfo_ptr->extension);
     if(ainfo_ptr->new_filename == NULL)
-       return -1;
-
-    /* load current frame */
-    l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
-    if(l_tmp_image_id < 0)
-       return -1;
-
-    /* remove layer[position] */
-    l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
-    if(l_layers_list != NULL)
     {
-      /* findout layer id of the requestetd position within layerstack */
-      if(position < l_nlayers) l_tmp_layer_id = l_layers_list[position];
-      else                     l_tmp_layer_id = l_layers_list[l_nlayers -1];
-
-      g_free (l_layers_list);
-
-      /* check for last layer (MUST NOT be deleted !) */
-      if(l_nlayers > 1)
-      {
-        /* remove and delete requested layer */
-        gimp_image_remove_layer(l_tmp_image_id, l_tmp_layer_id);
-
-        /* save current frame */
-        l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
-      }
+       return -1;
     }
+   
+    if (g_file_test(ainfo_ptr->new_filename, G_FILE_TEST_EXISTS))
+    {
+      /* load current frame */
+      l_tmp_image_id = gap_lib_load_image(ainfo_ptr->new_filename);
+      if(l_tmp_image_id < 0)
+      {
+        return -1;
+      }
 
-    /* destroy the tmp image */
-    gimp_image_delete(l_tmp_image_id);
+      /* remove layer[position] */
+      l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
+      if(l_layers_list != NULL)
+      {
+        /* findout layer id of the requestetd position within layerstack */
+        if(position < l_nlayers) l_tmp_layer_id = l_layers_list[position];
+        else                     l_tmp_layer_id = l_layers_list[l_nlayers -1];
 
+        g_free (l_layers_list);
+
+        /* check for last layer (MUST NOT be deleted !) */
+        if(l_nlayers > 1)
+        {
+          /* remove and delete requested layer */
+          gimp_image_remove_layer(l_tmp_image_id, l_tmp_layer_id);
+
+          /* save current frame */
+          l_rc = gap_lib_save_named_frame(l_tmp_image_id, ainfo_ptr->new_filename);
+        }
+      }
+
+      /* destroy the tmp image */
+      gimp_image_delete(l_tmp_image_id);
+    }
+    
     if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
     {
       l_percentage += l_percentage_step;
@@ -1864,13 +1982,20 @@ p_frames_layer_del(GapAnimInfo *ainfo_ptr,
 
     /* advance to next frame */
     if((l_cur_frame_nr == l_end) || (l_rc < 0))
+    {
        break;
-    l_cur_frame_nr += l_step;
+    }
 
+    /* advance l_cur_frame_nr to the next available frame number 
+     * (normally to l_cur_frame_nr += l_step; 
+     * sometimes to higher number when frames are missing) 
+     */
+    l_cur_frame_nr = gap_lib_get_next_available_frame_number(l_cur_frame_nr, l_step
+                           , ainfo_ptr->basename, ainfo_ptr->extension, &l_frame_found);
   }
 
-
   return l_rc;
+
 }       /* end p_frames_layer_del */
 
 

@@ -17,8 +17,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -30,6 +30,8 @@
 #include <locale.h>
 #include <errno.h>
 
+#include <glib/gstdio.h>
+
 /* GIMP includes */
 #include "libgimp/gimp.h"
 
@@ -39,7 +41,13 @@
 #include "gap_enc_ffmpeg_main.h"
 #include "gap_enc_ffmpeg_par.h"
 
+#define GAP_FFENC_FILEHEADER_LINE "# GIMP / GAP FFMPEG videoencoder parameter file"
+
+
 extern int gap_debug;
+
+static GapGveFFMpegValues *eppRoot = NULL;
+static gint nextPresetId = GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS;
 
 
 /* --------------------------
@@ -64,6 +72,7 @@ p_set_keyword_bool32(GapValKeyList *keylist, const char *key, void *addr, const 
 static void
 p_set_master_keywords(GapValKeyList *keylist, GapGveFFMpegValues *epp)
 {
+   gap_val_set_keyword(keylist, "(preset_name ",   &epp->presetName[0],  GAP_VAL_STRING, sizeof(epp->presetName), "\0");
 
    gap_val_set_keyword(keylist, "(format_name ",   &epp->format_name[0], GAP_VAL_STRING, sizeof(epp->format_name), "\0");
    gap_val_set_keyword(keylist, "(vcodec_name ",   &epp->vcodec_name[0], GAP_VAL_STRING, sizeof(epp->vcodec_name), "\0");
@@ -75,6 +84,11 @@ p_set_master_keywords(GapValKeyList *keylist, GapGveFFMpegValues *epp)
    gap_val_set_keyword(keylist, "(passlogfile ",   &epp->passlogfile[0], GAP_VAL_STRING, sizeof(epp->passlogfile), "\0");
 
    gap_val_set_keyword(keylist, "(pass ",          &epp->pass_nr,        GAP_VAL_GINT32, 0, "# 1: one pass encoding, 2: for two-pass encoding");
+   gap_val_set_keyword(keylist, "(ntsc_width ",    &epp->ntsc_width,     GAP_VAL_GINT32, 0, "# recommanded width NTSC, 0: not available");
+   gap_val_set_keyword(keylist, "(ntsc_height ",   &epp->ntsc_height,    GAP_VAL_GINT32, 0, "# recommanded height NTSC, 0: not available");
+   gap_val_set_keyword(keylist, "(pal_width ",     &epp->pal_width,      GAP_VAL_GINT32, 0, "# recommanded width PAL, 0: not available");
+   gap_val_set_keyword(keylist, "(pal_height ",    &epp->pal_height,     GAP_VAL_GINT32, 0, "# recommanded height PAL, 0: not available");
+
    gap_val_set_keyword(keylist, "(audio_bitrate ", &epp->audio_bitrate,  GAP_VAL_GINT32, 0, "# audio bitrate in kBit/sec");
    gap_val_set_keyword(keylist, "(video_bitrate ", &epp->video_bitrate,  GAP_VAL_GINT32, 0, "# video bitrate in kBit/sec\0");
    gap_val_set_keyword(keylist, "(gop_size ",      &epp->gop_size,       GAP_VAL_GINT32, 0, "# group of picture size");
@@ -97,8 +111,8 @@ p_set_master_keywords(GapValKeyList *keylist, GapGveFFMpegValues *epp)
    gap_val_set_keyword(keylist, "(dct_algo ",      &epp->dct_algo,       GAP_VAL_GINT32, 0, "# algorithm for DCT (0-6)");
    gap_val_set_keyword(keylist, "(idct_algo ",     &epp->idct_algo,      GAP_VAL_GINT32, 0, "# algorithm for IDCT (0-11)");
    gap_val_set_keyword(keylist, "(strict ",        &epp->strict,         GAP_VAL_GINT32, 0, "# how strictly to follow the standards");
-   gap_val_set_keyword(keylist, "(mb_qmin ",       &epp->mb_qmin,        GAP_VAL_GINT32, 0, "# min macroblock quantiser scale (VBR)");
-   gap_val_set_keyword(keylist, "(mb_qmax ",       &epp->mb_qmax,        GAP_VAL_GINT32, 0, "# max macroblock quantiser scale (VBR)");
+   gap_val_set_keyword(keylist, "(mb_qmin ",       &epp->mb_qmin,        GAP_VAL_GINT32, 0, "# OBSOLETE min macroblock quantiser scale (VBR)");
+   gap_val_set_keyword(keylist, "(mb_qmax ",       &epp->mb_qmax,        GAP_VAL_GINT32, 0, "# OBSOLETE max macroblock quantiser scale (VBR)");
    gap_val_set_keyword(keylist, "(mb_decision ",   &epp->mb_decision,    GAP_VAL_GINT32, 0, "# algorithm for macroblock decision (0-2)");
    gap_val_set_keyword(keylist, "(b_frames ",      &epp->b_frames,       GAP_VAL_GINT32, 0, "# max number of B-frames in sequence");
    gap_val_set_keyword(keylist, "(packet_size ",   &epp->packet_size,    GAP_VAL_GINT32, 0, "\0");
@@ -207,6 +221,28 @@ p_set_master_keywords(GapValKeyList *keylist, GapGveFFMpegValues *epp)
    gap_val_set_keyword(keylist, "(rc_max_available_vbv_use ",  &epp->rc_max_available_vbv_use,   GAP_VAL_GDOUBLE, 0, "# Ratecontrol attempt to use, at maximum, <value> of what can be used without an underflow");
    gap_val_set_keyword(keylist, "(rc_min_vbv_overflow_use ",   &epp->rc_min_vbv_overflow_use,    GAP_VAL_GDOUBLE, 0, "# Ratecontrol attempt to use, at least, <value> times the amount needed to prevent a vbv overflow");
 
+   /* new params (introduced with ffmpeg 0.6) */
+   gap_val_set_keyword(keylist, "(color_primaries ",          &epp->color_primaries,          GAP_VAL_GINT32, 0, "# Chromaticity coordinates of the source primaries.");
+   gap_val_set_keyword(keylist, "(color_trc ",                &epp->color_trc,                GAP_VAL_GINT32, 0, "# Color Transfer Characteristic.");
+   gap_val_set_keyword(keylist, "(colorspace ",               &epp->colorspace,               GAP_VAL_GINT32, 0, "# YUV colorspace type.");
+   gap_val_set_keyword(keylist, "(color_range ",              &epp->color_range,              GAP_VAL_GINT32, 0, "# MPEG vs JPEG YUV range.");
+   gap_val_set_keyword(keylist, "(chroma_sample_location ",   &epp->chroma_sample_location,   GAP_VAL_GINT32, 0, "# This defines the location of chroma samples.");
+   gap_val_set_keyword(keylist, "(weighted_p_pred ",          &epp->weighted_p_pred,          GAP_VAL_GINT32, 0, "# explicit P-frame weighted prediction analysis method 0:off, 1: fast blind weighting, 2:smart weighting (full fade detection analysis)");
+   gap_val_set_keyword(keylist, "(aq_mode ",                  &epp->aq_mode,                  GAP_VAL_GINT32, 0, "# AQ mode");
+   gap_val_set_keyword(keylist, "(aq_strength ",              &epp->aq_strength,              GAP_VAL_GDOUBLE, 0, "# AQ strength, Reduces blocking and blurring in flat and textured areas.");
+   gap_val_set_keyword(keylist, "(psy_rd ",                   &epp->psy_rd,                   GAP_VAL_GDOUBLE, 0, "# PSY RD Strength of psychovisual optimization ");
+   gap_val_set_keyword(keylist, "(psy_trellis ",              &epp->psy_trellis,              GAP_VAL_GDOUBLE, 0, "# PSY trellis Strength of psychovisual optimization");
+   gap_val_set_keyword(keylist, "(rc_lookahead ",             &epp->rc_lookahead,             GAP_VAL_GINT32, 0,  "# Number of frames for frametype and ratecontrol lookahead");
+
+   /* new params (introduced with ffmpeg 0.7.11  2012.01.12) */
+   gap_val_set_keyword(keylist, "(crf_max ",                  &epp->crf_max,               GAP_VAL_GDOUBLE, 0, "# Constant rate factor maximum");
+   gap_val_set_keyword(keylist, "(log_level_offset ",         &epp->log_level_offset,      GAP_VAL_GINT32, 0,  "#");
+   gap_val_set_keyword(keylist, "(slices ",                   &epp->slices,                GAP_VAL_GINT32, 0,  "# Indicates number of picture subdivisions");
+   gap_val_set_keyword(keylist, "(thread_type ",              &epp->thread_type,           GAP_VAL_GINT32, 0,  "# Which multithreading methods to use (FF_THREAD_FRAME 1, FF_THREAD_SLICE 2) ");
+   gap_val_set_keyword(keylist, "(active_thread_type ",       &epp->active_thread_type,    GAP_VAL_GINT32, 0,  "# Which multithreading methods are in use by the codec.");
+   gap_val_set_keyword(keylist, "(thread_safe_callbacks ",    &epp->thread_safe_callbacks, GAP_VAL_GINT32, 0,  "# Set by the client if its custom get_buffer() callback can be called from another thread");
+   gap_val_set_keyword(keylist, "(vbv_delay ",                &epp->vbv_delay,             GAP_VAL_GINT32, 0,  "# VBV delay coded in the last frame (in periods of a 27 MHz clock)");
+   gap_val_set_keyword(keylist, "(audio_service_type ",       &epp->audio_service_type,    GAP_VAL_GINT32, 0,  "# Type of service that the audio stream conveys.");
 
    /* codec flags */
 
@@ -254,8 +290,38 @@ p_set_master_keywords(GapValKeyList *keylist, GapGveFFMpegValues *epp)
    p_set_keyword_bool32(keylist, "(use_non_linear_quant ",    &epp->codec_FLAG2_NON_LINEAR_QUANT,       "# CODEC_FLAG2_NON_LINEAR_QUANT    Use MPEG-2 nonlinear quantizer");
    p_set_keyword_bool32(keylist, "(use_bit_reservoir ",       &epp->codec_FLAG2_BIT_RESERVOIR,          "# CODEC_FLAG2_BIT_RESERVOIR       Use a bit reservoir when encoding if possible");
 
+   /* codec flags new in ffmpeg-0.6 */
+
+   p_set_keyword_bool32(keylist, "(use_bit_mbtree ",          &epp->codec_FLAG2_MBTREE,                 "# CODEC_FLAG2_MBTREE              Use macroblock tree ratecontrol (x264 only)");
+   p_set_keyword_bool32(keylist, "(use_bit_psy ",             &epp->codec_FLAG2_PSY,                    "# CODEC_FLAG2_PSY                 Use psycho visual optimizations.");
+   p_set_keyword_bool32(keylist, "(use_bit_ssim ",            &epp->codec_FLAG2_SSIM,                   "# CODEC_FLAG2_SSIM                Compute SSIM during encoding, error[] values are undefined");
+
+   p_set_keyword_bool32(keylist, "(parti4x4 ",                &epp->partition_X264_PART_I4X4,           "# X264_PART_I4X4  Analyze i4x4");
+   p_set_keyword_bool32(keylist, "(parti8x8 ",                &epp->partition_X264_PART_I8X8,           "# X264_PART_I8X8  Analyze i8x8 (requires 8x8 transform)");
+   p_set_keyword_bool32(keylist, "(partp4x4 ",                &epp->partition_X264_PART_P8X8,           "# X264_PART_P8X8  Analyze p16x8, p8x16 and p8x8");
+   p_set_keyword_bool32(keylist, "(partp8x8 ",                &epp->partition_X264_PART_P4X4,           "# X264_PART_P4X4  Analyze p8x4, p4x8, p4x4");
+   p_set_keyword_bool32(keylist, "(partb8x8 ",                &epp->partition_X264_PART_B8X8,           "# X264_PART_B8X8  Analyze b16x8, b8x16 and b8x8");
+
+   /* codec flags new in ffmpeg-0.7.11 */
+   p_set_keyword_bool32(keylist, "(use_bit_intra_refresh ",   &epp->codec_FLAG2_INTRA_REFRESH,          "# CODEC_FLAG2_INTRA_REFRESH       Use periodic insertion of intra blocks instead of keyframes.");
 
 }  /* end p_set_master_keywords */
+
+
+/* --------------------------------
+ * p_get_partition_flag
+ * --------------------------------
+ */
+static gint32
+p_get_partition_flag(gint32 partitions, gint32 maskbit)
+{
+  if((partitions & maskbit) != 0)
+  {
+    return 1;
+  }
+  return 0;
+
+}  /* end p_get_partition_flag */
 
 
 /* --------------------------
@@ -333,6 +399,7 @@ gap_ffpar_get(const char *filename, GapGveFFMpegValues *epp)
    * (use preset index 0 for the default settings)
    */
   gap_enc_ffmpeg_main_init_preset_params(epp, 0);
+  epp->presetName[0] = '\0';
 
   keylist = gap_val_new_keylist();
   p_set_master_keywords(keylist, epp);
@@ -349,6 +416,28 @@ gap_ffpar_get(const char *filename, GapGveFFMpegValues *epp)
   if (epp->pass_nr == 2)
   {
     epp->twoPassFlag = TRUE;
+  }
+
+  /* The case where all partition flags  are 0 but partitions is not 0
+   * can occure when loading presets from an older preset file
+   * that include the partitions as integer but does not include the (redundant)
+   * flags for each single supported bit.
+   * In this case we must fetch the bits from the integer value.
+   * Note: if all values are present in the preset file, only the single bit representations
+   * are used.
+   */
+  if((epp->partition_X264_PART_I4X4 == 0)
+  && (epp->partition_X264_PART_I8X8 == 0)
+  && (epp->partition_X264_PART_P8X8 == 0)
+  && (epp->partition_X264_PART_P4X4 == 0)
+  && (epp->partition_X264_PART_B8X8 == 0)
+  && (epp->partitions != 0))
+  {
+    epp->partition_X264_PART_I4X4 = p_get_partition_flag(epp->partitions, X264_PART_I4X4);
+    epp->partition_X264_PART_I8X8 = p_get_partition_flag(epp->partitions, X264_PART_I8X8);
+    epp->partition_X264_PART_P8X8 = p_get_partition_flag(epp->partitions, X264_PART_P8X8);
+    epp->partition_X264_PART_P4X4 = p_get_partition_flag(epp->partitions, X264_PART_P4X4);
+    epp->partition_X264_PART_B8X8 = p_get_partition_flag(epp->partitions, X264_PART_B8X8);
   }
 
   if(gap_debug)
@@ -386,8 +475,8 @@ gap_ffpar_set(const char *filename, GapGveFFMpegValues *epp)
   p_set_master_keywords(keylist, epp);
   l_rc = gap_val_rewrite_file(keylist
                           ,filename
-                          ,"# GIMP / GAP FFMPEG videoencoder parameter file"   /*  hdr_text */
-                          ,")"                                                 /* terminate char */
+                          ,GAP_FFENC_FILEHEADER_LINE   /*  hdr_text */
+                          ,")"                         /* terminate char */
                           );
 
   gap_val_free_keylist(keylist);
@@ -406,3 +495,405 @@ gap_ffpar_set(const char *filename, GapGveFFMpegValues *epp)
 
   return(l_rc);
 }  /* end gap_ffpar_set */
+
+
+/* ----------------------------------
+ * p_check_valid_codecs
+ * ----------------------------------
+ * 
+ */
+gboolean
+p_check_valid_codecs(const char *fullPresetFilename)
+{
+  GapGveFFMpegValues *epp;
+  gboolean videoValid;
+  gboolean audioValid;
+  AVCodec *avcodec;
+
+  videoValid = FALSE;
+  audioValid = FALSE;
+  epp = g_new(GapGveFFMpegValues ,1);
+  gap_ffpar_get(fullPresetFilename, epp);
+  epp->next = NULL;
+  
+  if(epp->vcodec_name[0] == '\0')
+  {
+    videoValid = TRUE;
+  }
+  if(epp->acodec_name[0] == '\0')
+  {
+    audioValid = TRUE;
+  }
+
+  for(avcodec = av_codec_next(NULL); avcodec != NULL; avcodec = av_codec_next(avcodec))
+  {
+     char *codecName;
+     codecName = (char *)avcodec->name;
+     
+     /* debug logging */
+     /*  printf("codecName:%s:  Type:%d\n", codecName , (int)avcodec->type);
+      */
+
+     if ((avcodec->encode) && (avcodec->type == AVMEDIA_TYPE_VIDEO))
+     {
+       if(strcmp(codecName, epp->vcodec_name) == 0)
+       {
+         videoValid = TRUE;
+       }
+     }
+     if ((avcodec->encode) && (avcodec->type == AVMEDIA_TYPE_AUDIO))
+     {
+       if(strcmp(codecName, epp->acodec_name) == 0)
+       {
+         audioValid = TRUE;
+       }
+     }
+  }  
+  
+  if(!videoValid)
+  {
+    printf("preset: %s INVALID videoCodec:%s:\n"
+      ,fullPresetFilename
+      ,epp->vcodec_name
+      );
+  }
+  if(!audioValid)
+  {
+    printf("preset: %s INVALID audioCodec:%s:\n"
+      ,fullPresetFilename
+      ,epp->acodec_name
+      );
+  }
+  g_free(epp);
+
+  return(audioValid & videoValid);
+  
+}  /* end p_check_valid_codecs */
+
+
+/* ----------------------------------
+ * gap_ffpar_isValidPresetFile
+ * ----------------------------------
+ * check if specified filename is a preset file.
+ */
+gboolean
+gap_ffpar_isValidPresetFile(const char *fullPresetFilename)
+{
+
+  if (!g_file_test(fullPresetFilename, G_FILE_TEST_IS_DIR))
+  {
+    FILE        *l_fp;
+    char         buffer[500];
+    
+    /* load first few bytes into Buffer */
+    l_fp = g_fopen(fullPresetFilename, "rb");              /* open read */
+    if(l_fp != NULL)
+    {
+      gint relevantLength;
+      
+      relevantLength = MIN(sizeof(buffer) -1, strlen(GAP_FFENC_FILEHEADER_LINE));
+      fread(&buffer[0], 1, relevantLength, l_fp);
+      buffer[relevantLength+1] = '\0';
+      
+      fclose(l_fp);
+
+      if(gap_debug)
+      {
+       printf("HDR:%s\n EXP:%s\n", &buffer[0], GAP_FFENC_FILEHEADER_LINE);
+      }
+      if(memcmp(&buffer[0], GAP_FFENC_FILEHEADER_LINE, relevantLength) == 0)
+      {
+	
+	
+        return(p_check_valid_codecs(fullPresetFilename));
+      }
+    }
+  }
+  if(gap_debug)
+  {
+    printf("** INValidPresetFile: %s", fullPresetFilename);
+  }
+  return(FALSE);
+
+}  /* end gap_ffpar_isValidPresetFile */
+
+
+/* ----------------------------------
+ * p_find_preset_by_filename
+ * ----------------------------------
+ */
+static GapGveFFMpegValues *
+p_find_preset_by_filename(const char *fullPresetFilename)
+{
+  GapGveFFMpegValues *epp;
+
+  for(epp = eppRoot; epp != NULL; epp = epp->next)
+  {
+    if(strcmp(&epp->presetFileName[0], fullPresetFilename) == 0)
+    {
+      return(epp);
+    }
+  }
+  return (NULL);
+  
+}  /* end p_find_preset_by_filename */
+
+
+/* ----------------------------------
+ * p_add_entry_sorted_by_name
+ * ----------------------------------
+ * insert the new element eppNew in the list sorted by presetName
+ * but do not insert before the element referenced by eppStart.
+ * use eppStart value NULL in case insert at any position is desired
+ * or set eppStart to the last element in case appending to the list is
+ * necessary.
+ */
+static void
+p_add_entry_sorted_by_name(GapGveFFMpegValues *eppStart, GapGveFFMpegValues *eppNew)
+{
+   GapGveFFMpegValues *epp;
+   GapGveFFMpegValues *eppPrev;
+   GapGveFFMpegValues *eppNext;
+   gboolean            enableInsert;
+
+   eppNext = NULL;
+   eppPrev = NULL;
+   epp = eppRoot;
+
+   enableInsert = FALSE;
+   if (eppStart == NULL)
+   {
+     enableInsert = TRUE;
+   }
+   
+   if(gap_debug)
+   {
+     printf("SORT: START\n");
+   }
+   
+   while(epp != NULL)
+   {
+     if(gap_debug)
+     {
+       printf("SORT: new:%s list:%s\n"
+         ,eppNew->presetName
+         ,epp->presetName
+         );
+     }
+     if(enableInsert)
+     {
+       if (strcmp(eppNew->presetName, epp->presetName) < 0)
+       {
+         /* found position to insert eppNew entry */
+        eppNext = epp;
+        break;
+       }
+     }
+     eppPrev = epp;
+     if(epp == eppStart)
+     {
+       enableInsert = TRUE;
+     }
+     epp = epp->next;
+   }
+
+
+   eppNew->next = eppNext;
+   if(eppPrev == NULL)
+   {
+     /* have no previos element, create the first entry as root */
+     eppRoot = eppNew;
+   }
+   else
+   {
+     eppPrev->next = eppNew;
+   }
+
+
+
+
+   if(gap_debug)
+   {
+     gint ii;
+     printf("SORT: RESULT\n");
+     
+     
+     ii=0;
+     
+     for(epp = eppRoot; epp != NULL; epp = epp->next)
+     {
+       printf("[%d]:%s: addr:%d next:%d"
+         , (int)ii
+         , epp->presetName
+         ,(int)epp
+         ,(int)epp->next
+         );
+       if(epp == eppRoot)
+       {
+         printf(" eppRoot ");
+       }
+       if(epp == eppStart)
+       {
+         printf(" eppStart ");
+       }
+       if(epp == eppPrev)
+       {
+         printf(" eppPrev ");
+       }
+       printf("\n");
+       ii++;
+       
+       if(ii>30)
+       {
+         printf("ERROR exit\n");
+         exit (-1);
+       }
+     }
+     printf("SORT: END\n");
+   }
+
+}  /* end p_add_entry_sorted_by_name */
+
+
+/* ----------------------------------
+ * p_add_presets_from_directory
+ * ----------------------------------
+ * adds available encoder presets found in the specified presetDir 
+ * to the static list of optional encoder presets.
+ *
+ * the presetId is generated as unique counter value
+ *        (starting with offset to avoid conflicts with the 
+ *         presetId's for the reserved hardcoded presets)
+ * presetName is read from the preset, or derived from filename.
+ */
+static void
+p_add_presets_from_directory(GapGveFFMpegValues *eppStart, const char *presetDir)
+{
+   GapGveFFMpegValues *epp;
+   GDir          *dirPtr;
+   const gchar   *entry;
+
+   dirPtr = g_dir_open( presetDir, 0, NULL );
+   if(dirPtr != NULL)
+   {
+     while ( (entry = g_dir_read_name( dirPtr )) != NULL )
+     {
+       char          *fullPresetFilename;
+       
+       fullPresetFilename = g_build_filename(presetDir, entry, NULL);
+       
+       if(gap_debug)
+       {
+         printf("FILE:%s ENTRY:%s\n", fullPresetFilename, entry);
+       }
+       
+       if(gap_ffpar_isValidPresetFile(fullPresetFilename) == TRUE)
+       {
+         epp = p_find_preset_by_filename(fullPresetFilename);
+         if(epp != NULL)
+         {
+           /* read the parameters form preset file 
+            * to refresh values (that might have changed since last check)
+            * but keep presetId and presetName
+            */
+           gap_ffpar_get(fullPresetFilename, epp);
+         }
+         else
+         {
+           /* create a new entry in the static list of presets */
+           
+           epp = g_new(GapGveFFMpegValues ,1);
+          
+           /* read the parameters form preset file */
+           gap_ffpar_get(fullPresetFilename, epp);
+          
+           /* generate uniqe id (from static counter) */
+           epp->presetId = nextPresetId;
+           
+           /* in case the presetName is not provided in the preset file content
+            * generate name and id (from filename and position in the list) 
+            */
+           epp->presetName[GAP_ENCODER_PRESET_NAME_MAX_LENGTH -1] = '\0';
+           if(epp->presetName[0] == '\0')
+           {
+             g_snprintf(&epp->presetName[0]
+                    , (GAP_ENCODER_PRESET_NAME_MAX_LENGTH -1)
+                    , "%d %s"
+                    , epp->presetId
+                    , entry
+                    );
+           }
+           epp->presetFileName[GAP_ENCODER_PRESET_FILENAME_MAX_LENGTH -1] = '\0';
+           g_snprintf(&epp->presetFileName[0]
+                    , (GAP_ENCODER_PRESET_FILENAME_MAX_LENGTH -1)
+                    , "%s"
+                    , fullPresetFilename
+                    );
+           epp->next = NULL;
+
+           if(gap_debug)
+           {
+            printf("PRESET:%s\n", &epp->presetName[0]);
+           }
+          
+           /* insert new entry sorted by name 
+            * note that sort is limited to the newly added list elements
+            * that are added after eppStart element.
+            * this is done to keep the order for elements that were already
+            * read in previous directory scans and sort
+            * only new elements on refresh of the presets combo box
+            * within the same process.
+            */
+           p_add_entry_sorted_by_name(eppStart, epp);
+           nextPresetId++;
+         }  
+       }
+       g_free(fullPresetFilename);
+     }
+     g_dir_close( dirPtr );
+   }
+
+   
+}  /* end p_add_presets_from_directory */
+
+
+
+/* ----------------------------------
+ * gap_ffpar_getPresetList
+ * ----------------------------------
+ * returns a list of all available encoder presets.
+ * the list includes presets files found in user specific $GIMPDIR/video_encoder_presets
+ * or in systemwide $GIMPDATADIR/video_encoder_presets.
+ *
+ * Note that Hardcoded presetes are not included in the list
+ * but the presetId is generated as unique value > offset for hardcoded presets.
+ */
+GapGveFFMpegValues *
+gap_ffpar_getPresetList()
+{
+   GapGveFFMpegValues *epp;
+   GapGveFFMpegValues *eppPrev;
+   char          *presetDir;
+
+   eppPrev = eppRoot;
+   for(epp = eppRoot; epp != NULL; epp = epp->next)
+   {
+     eppPrev = epp;
+   }
+
+   /* system wide data directory  example: /usr/local/share/gimp/2.0 */
+   presetDir = g_build_filename(gimp_data_directory(), GAP_VIDEO_ENCODER_PRESET_DIR, NULL);
+   p_add_presets_from_directory(eppPrev, presetDir);
+   g_free(presetDir);
+
+   /* user specific directory   example: /home/hof/.gimp-2.6 
+    * (preset names that are already present in previous processed directory
+    * will be overwritten. e.g. user specific variant is preferred)
+    */
+   presetDir = g_build_filename(gimp_directory(), GAP_VIDEO_ENCODER_PRESET_DIR, NULL);
+   p_add_presets_from_directory(eppPrev, presetDir);
+   g_free(presetDir);
+   
+   return(eppRoot);
+  
+}  /* end gap_ffpar_getPresetList */

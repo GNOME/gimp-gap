@@ -19,8 +19,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -193,6 +193,8 @@ p_init_widget_values(GapGveAviGlobalParams *gpp)
                                , epp->APP0_marker);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gpp->raw_vflip_checkbutton)
                                , epp->raw_vflip);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gpp->raw_bgr_checkbutton)
+                               , epp->raw_bgr);
 
   /* set initial value according to codec */
   {
@@ -303,6 +305,8 @@ p_set_codec_dependent_wgt_senistive(GapGveAviGlobalParams *gpp, gint32 idx)
 
   if(gpp->raw_vflip_checkbutton)
     gtk_widget_set_sensitive(gpp->raw_vflip_checkbutton, raw_sensitive);
+  if(gpp->raw_bgr_checkbutton)
+    gtk_widget_set_sensitive(gpp->raw_bgr_checkbutton, raw_sensitive);
 
 }  /* end p_set_codec_dependent_wgt_senistive  */
 
@@ -556,7 +560,9 @@ p_create_shell_window (GapGveAviGlobalParams *gpp)
                    , &epp->APP0_marker);
   gimp_help_set_help_data (checkbutton
                    , _("Write APP0 Marker for each encoded frame."
-                       " (The APP0 marker is evaluated by some windows programs for AVIs)")
+                       " The APP0 marker is evaluated by some windows programs for AVIs"
+                       " but can cause playback with wrong colors on some players"
+                       " (in most cases you should NOT write the APP0 marker)")
                    , NULL);
 
   master_row++;
@@ -884,6 +890,35 @@ p_create_shell_window (GapGveAviGlobalParams *gpp)
                        "or as is (suitable for gmplayer on linux)")
                    , NULL);
 
+  raw_row++;
+
+  /* the BGR label */
+  label = gtk_label_new (_("BGR (rgb):"));
+  gtk_widget_show (label);
+  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_table_attach (GTK_TABLE (table_raw), label, 0, 1, raw_row, raw_row+1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_RIGHT);
+
+
+  /* the bgr checkbutton */
+  checkbutton = gtk_check_button_new_with_label (" ");
+  gpp->raw_bgr_checkbutton = checkbutton;
+  gtk_widget_show (checkbutton);
+  gtk_table_attach (GTK_TABLE (table_raw), checkbutton, 1, 2, raw_row, raw_row+1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+        g_object_set_data (G_OBJECT (checkbutton), "gpp"
+                          , (gpointer)gpp);
+        g_signal_connect (G_OBJECT (checkbutton), "toggled"
+                   , G_CALLBACK (on_checkbutton_toggled)
+                   , &epp->raw_bgr);
+  gimp_help_set_help_data (checkbutton
+                   , _("Check if you want to encode frames in BGR (prefered) or RGB colormodel "
+                       "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
+                       "other players want RGB colromodel for RAW avi data)")
+                   , NULL);
 
 #ifdef ENABLE_LIBXVIDCORE
 
@@ -1199,6 +1234,7 @@ gap_enc_avi_gui_dialog(GapGveAviGlobalParams *gpp)
   gpp->xvid_max_key_interval_spinbutton = NULL;
   gpp->xvid_quality_spinbutton = NULL;
   gpp->raw_vflip_checkbutton = NULL;
+  gpp->raw_bgr_checkbutton = NULL;
 
 
   gpp->shell_window = p_create_shell_window (gpp);

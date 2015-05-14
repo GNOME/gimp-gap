@@ -45,8 +45,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -65,6 +65,12 @@
 //#include <errno.h>
 
 //#include <dirent.h>
+
+
+#ifdef GAP_HAVE_SYSINFO
+#include <sys/sysinfo.h>
+#endif
+
 
 
 #include <glib/gstdio.h>
@@ -89,14 +95,35 @@
 #define GAP_FFETCH_MAX_GVC_CACHE_ELEMENTS 6
 #define GAP_FFETCH_GVA_FRAMES_TO_KEEP_CACHED 36
 
+#define GAP_FFETCH_MAX_IMG_CACHE_ELEMENTS_GIMPRC_KEY     "gap_ffetch_max_img_cache_elements"
+#define GAP_FFETCH_MAX_GVC_CACHE_ELEMENTS_GIMPRC_KEY     "gap_ffetch_max_gvc_cache_elements" 
+#define GAP_FFETCH_GVA_FRAMES_TO_KEEP_CACHED_GIMPRC_KEY  "gap_ffetch_gva_frames_to_keep_cached"
+
+
 /* the lists of cached images and duplicates are implemented via GIMP image parasites,
  * where images are simply loaded by GIMP without adding a display and marked with a non persistent parasite.
- * the GAP_IMAGE_CACHE_PARASITE holds the modification timestamp (mtime) and full filename (inclusive terminating 0)
+ * the GAP_IMAGE_CACHE_PARASITE 
+ *     holds the modification timestamp (mtime), gint32 ffetch_user_id
+ *     gint32 type (GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE or GAP_IMAGE_CACHE_TYPE_PRESCALE_ENABLED)
+ *     gint32 orig_width, gint32 orig_height (the unscaled original size of the image)
+ *     and full filename (inclusive terminating 0)
  * the GAP_IMAGE_DUP_CACHE_PARASITE holds the gint32 ffetch_user_id
  */
 
 #define GAP_IMAGE_CACHE_PARASITE "GAP-IMAGE-CACHE-PARASITE"
 #define GAP_IMAGE_DUP_CACHE_PARASITE "GAP-IMAGE-DUP-CACHE-PARASITE"
+
+#define GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE    0
+#define GAP_IMAGE_CACHE_TYPE_PRESCALE_ENABLED 1
+
+typedef struct GapImageCacheParasitePointers {
+  gint32 *mtime_ptr;
+  gint32 *ffetch_id_ptr;
+  gint32 *type_ptr;
+  gint32 *orig_width_ptr;
+  gint32 *orig_height_ptr;
+  gchar  *filename_ptr;
+} GapImageCacheParasitePointers;
 
 
 typedef struct GapFFetchResourceUserElem
@@ -104,6 +131,15 @@ typedef struct GapFFetchResourceUserElem
    gint32  ffetch_user_id;
    void *next;
 } GapFFetchResourceUserElem;
+
+#define MAX_OLD_IMAGE_IDS 10
+
+typedef struct GapImageChacheInfo  /* nickname: cinf */
+{
+   gint32 old_cached_image_ids[MAX_OLD_IMAGE_IDS];
+   gint32 number_of_old_cached_images;
+   gint32 number_of_cached_images;
+} GapImageChacheInfo;
 
 
 /* -------- types for the video handle cache  ------- */
@@ -137,11 +173,26 @@ static GapFFetchGvahandCache *global_gvcache = NULL;
 
 static GapFFetchResourceUserElem *global_rsource_users = NULL;
 
+
 /*************************************************************
  *         FRAME FETCHER procedures                          *
  *************************************************************
  */
-static gint32         p_load_cache_image(const char* filename, gboolean addToCache);
+static void          p_init_GapImageCacheParasitePointers(GapImageCacheParasitePointers *paraPtr
+                        , guchar *parasite_data
+                        );
+static gint32        p_find_cache_image(const char* filename, gint32 ffetch_user_id
+                         , gint32 cachedImageType
+                         , GapImageChacheInfo *cinf
+                         , gint32 *originalWidthPtr, gint32 *originalHeightPtr
+                         );
+static gint32        p_load_image_and_add_to_cache(const char* filename, gint32 ffetch_user_id
+                         , gboolean addToCache, gint32 cachedImageType
+                         , GapImageChacheInfo *cinf
+                         , gint32 *originalWidthPtr, gint32 *originalHeightPtr
+                         );
+
+static gint32         p_load_cache_image(const char* filename, gint32 ffetch_user_id, gboolean addToCache);
 static void           p_drop_image_cache(void);
 #ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
 static void           p_drop_gvahand_cache_elem1(GapFFetchGvahandCache *gvcache);
@@ -153,35 +204,180 @@ static t_GVA_Handle*  p_ffetch_get_open_gvahand(const char* filename, gint32 sel
 
 static void           p_add_image_to_list_of_duplicated_images(gint32 image_id, gint32 ffetch_user_id);
 
-
+static gint32 p_get_ffetch_max_img_cache_elements();
+static gint32 p_get_ffetch_max_gvc_cache_elements();
+static gint32 ffetch_gva_frames_to_keep_cached();
 
 /* ----------------------------------------------------
- * p_load_cache_image
+ * p_init_GapImageCacheParasitePointers
+ * ----------------------------------------------------
+ * init pointers in the GapImageCacheParasitePointers to access the
+ * parasite data.
+ * Note that the filename_ptr refers to the last entry that has variable size
+ * and is a \0 terminated string.
+ */
+static void
+p_init_GapImageCacheParasitePointers(GapImageCacheParasitePointers *paraPtr, guchar *parasite_data)
+{
+  paraPtr->mtime_ptr =       (gint32 *)parasite_data;
+  paraPtr->ffetch_id_ptr =   (gint32 *)&parasite_data[sizeof(gint32)];
+  paraPtr->type_ptr =        (gint32 *)&parasite_data[2 * sizeof(gint32)];
+  paraPtr->orig_width_ptr =  (gint32 *)&parasite_data[3 * sizeof(gint32)];
+  paraPtr->orig_height_ptr = (gint32 *)&parasite_data[4 * sizeof(gint32)];
+  paraPtr->filename_ptr =    (gchar *) &parasite_data[5 * sizeof(gint32)];
+
+}  /* end p_init_GapImageCacheParasitePointers */
+
+/* ----------------------------------------------------
+ * p_get_ffetch_max_img_cache_elements
  * ----------------------------------------------------
  */
 static gint32
-p_load_cache_image(const char* filename, gboolean addToCache)
+p_get_ffetch_max_img_cache_elements()
+{
+  static gint32 value = -1;
+  static char *gimprc_key = GAP_FFETCH_MAX_IMG_CACHE_ELEMENTS_GIMPRC_KEY;
+  
+  if(value == -1)
+  {
+    if(gap_debug)
+    {
+      printf("get gimprc value for %s\n"
+        , gimprc_key
+        );
+    }
+    value = gap_base_get_gimprc_int_value (gimprc_key
+        , GAP_FFETCH_MAX_IMG_CACHE_ELEMENTS /* default_value*/
+        , 1                                 /* min_value */
+        , 2000                              /* max_value */
+        );
+  }
+  if(gap_debug)
+  {
+    printf("value for %s is:%d\n"
+        , gimprc_key
+        ,(int)value
+        );
+  }
+  return (value);
+}  /* end p_get_ffetch_max_img_cache_elements */
+
+/* ----------------------------------------------------
+ * p_get_ffetch_max_gvc_cache_elements
+ * ----------------------------------------------------
+ */
+static gint32
+p_get_ffetch_max_gvc_cache_elements()
+{
+  static gint32 value = -1;
+  static char *gimprc_key = GAP_FFETCH_MAX_GVC_CACHE_ELEMENTS_GIMPRC_KEY;
+  
+  if(value == -1)
+  {
+    if(gap_debug)
+    {
+      printf("get gimprc value for %s\n"
+        , gimprc_key
+        );
+    }
+    value = gap_base_get_gimprc_int_value (gimprc_key
+        , GAP_FFETCH_MAX_GVC_CACHE_ELEMENTS /* default_value*/
+        , 1                                 /* min_value */
+        , 80                              /* max_value */
+        );
+  }
+  if(gap_debug)
+  {
+    printf("value for %s is:%d\n"
+        , gimprc_key
+        ,(int)value
+        );
+  }
+  return (value);
+}  /* end p_get_ffetch_max_gvc_cache_elements */
+
+/* ----------------------------------------------------
+ * p_get_ffetch_gva_frames_to_keep_cached
+ * ----------------------------------------------------
+ */
+static gint32
+p_get_ffetch_gva_frames_to_keep_cached()
+{
+  static gint32 value = -1;
+  static char *gimprc_key = GAP_FFETCH_GVA_FRAMES_TO_KEEP_CACHED_GIMPRC_KEY;
+  
+  if(value == -1)
+  {
+    if(gap_debug)
+    {
+      printf("get gimprc value for %s\n"
+        , gimprc_key
+        );
+    }
+    value = gap_base_get_gimprc_int_value (gimprc_key
+        , GAP_FFETCH_GVA_FRAMES_TO_KEEP_CACHED /* default_value*/
+        , 1                                 /* min_value */
+        , 1000                              /* max_value */
+        );
+  }
+  if(gap_debug)
+  {
+    printf("value for %s is:%d\n"
+        , gimprc_key
+        ,(int)value
+        );
+  }
+  return (value);
+}  /* end p_get_ffetch_gva_frames_to_keep_cached */
+
+
+/* ----------------------------------------------------
+ * p_find_cache_image
+ * ----------------------------------------------------
+ * find an image with filename and matching cachedImageType 
+ *   GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE or
+ *   GAP_IMAGE_CACHE_TYPE_PRESCALE_ENABLED
+ * in the cache.
+ * returns the imageId of the cached image or -1 if not found in the cache.
+ *
+ * OUT parameters
+ *   first_cached_image_id    .. id of the 1st image in the cache.
+ *   number_of_cached_images  .. total number of cached images (only valid when image was NOT FOUND!)
+ *   originalWidth[Height]Ptr .. the unscaled original size of the image.
+ */
+static gint32
+p_find_cache_image(const char* filename, gint32 ffetch_user_id
+   , gint32 cachedImageType
+   ,  GapImageChacheInfo *cinf
+   , gint32 *originalWidthPtr, gint32 *originalHeightPtr
+   )
 {
   gint32 l_image_id;
-  char *l_filename;
 
   gint32 *images;
   gint    nimages;
   gint    l_idi;
-  gint    l_number_of_cached_images;
-  gint32  l_first_chached_image_id;
   GimpParasite  *l_parasite;
 
-
+  cinf->old_cached_image_ids[0] = -1;
+  cinf->number_of_old_cached_images = 0;
+  cinf->number_of_cached_images = 0;
+  *originalWidthPtr = 0;
+  *originalHeightPtr = 0;
+  if(gap_debug)
+  {
+    printf("p_find_cache_image START cachedImageType:%d %s\n"
+      ,(int)cachedImageType
+      ,filename
+      );
+  }
   if(filename == NULL)
   {
-    printf("p_load_cache_image: ** ERROR cant load filename == NULL! pid:%d\n", (int)gap_base_getpid());
+    printf("p_find_cache_image: ** ERROR cant load filename == NULL! pid:%d\n", (int)gap_base_getpid());
     return -1;
   }
 
   l_image_id = -1;
-  l_first_chached_image_id = -1;
-  l_number_of_cached_images = 0;
   images = gimp_image_list(&nimages);
   for(l_idi=0; l_idi < nimages; l_idi++)
   {
@@ -189,27 +385,32 @@ p_load_cache_image(const char* filename, gboolean addToCache)
 
     if(l_parasite)
     {
-      gint32 *mtime_ptr;
-      gchar  *filename_ptr;
+      GapImageCacheParasitePointers para;
+      GapImageCacheParasitePointers *paraPtr;
       
-      mtime_ptr = (gint32 *) l_parasite->data;
-      filename_ptr = (gchar *)&l_parasite->data[sizeof(gint32)];
+      paraPtr = &para;
+      p_init_GapImageCacheParasitePointers(paraPtr, l_parasite->data);
+
     
-      l_number_of_cached_images++;
-      if (l_first_chached_image_id < 0)
+      cinf->number_of_cached_images++;
+      if (cinf->number_of_old_cached_images < MAX_OLD_IMAGE_IDS)
       {
-        l_first_chached_image_id = images[l_idi];
+        cinf->old_cached_image_ids[cinf->number_of_old_cached_images] = images[l_idi];
+        cinf->number_of_old_cached_images++;
       }
       
-      if(strcmp(filename, filename_ptr) == 0)
+      if ((*(paraPtr->type_ptr) == cachedImageType)
+      && (strcmp(filename, paraPtr->filename_ptr) == 0))
       {
         gint32 mtimefile;
         
         mtimefile = gap_file_get_mtime(filename);
-        if(mtimefile == *mtime_ptr)
+        if(mtimefile == *(paraPtr->mtime_ptr))
         {
           /* image found in cache */
           l_image_id = images[l_idi];
+          *originalWidthPtr = *(paraPtr->orig_width_ptr);
+          *originalHeightPtr = *(paraPtr->orig_height_ptr);
         }
         else
         {
@@ -218,11 +419,12 @@ p_load_cache_image(const char* filename, gboolean addToCache)
            */
           if(gap_debug)
           {
-            printf("FrameFetcher: DELETE because mtime changed : (image_id:%d) name:%s  mtimefile:%d mtimecache:%d  pid:%d\n"
+            printf("FrameFetcher: DELETE because mtime changed : (image_id:%d) ffetchId:%d name:%s  mtimefile:%d mtimecache:%d  pid:%d\n"
                   , (int)images[l_idi]
+                  , (int)*(paraPtr->ffetch_id_ptr)
                   , gimp_image_get_filename(images[l_idi])
                   , (int)mtimefile
-                  , (int)*mtime_ptr
+                  , (int)*(paraPtr->mtime_ptr)
                   , (int)gap_base_getpid()
                   );
           }
@@ -238,14 +440,57 @@ p_load_cache_image(const char* filename, gboolean addToCache)
     g_free(images);
   }
   
+  
   if (l_image_id >= 0)
   {
     if(gap_debug)
     {
-      printf("FrameFetcher: p_load_cache_image CACHE-HIT :%s (image_id:%d) pid:%d\n"
+      printf("FrameFetcher: p_find_cache_image CACHE-HIT :%s (image_id:%d) pid:%d\n"
             , filename, (int)l_image_id, (int)gap_base_getpid());
     }
     return(l_image_id);
+  }
+
+  if(gap_debug)
+  {
+    printf("p_find_cache_image END Not found in cache %s\n"
+      ,filename
+      );
+  }
+  
+  return (-1);  /* indicates image not found in cache */
+
+}  /* end p_find_cache_image */
+
+
+
+
+/* ----------------------------------------------------
+ * p_load_image_and_add_to_cache
+ * ----------------------------------------------------
+ * load the image from file (depends on enableLoad flag)
+ *
+ * in case the flag addToCache is TRUE the loaded image will be automatically added
+ * to the cache after read from file operation.
+ * This will also delete the the first cached imge in case the number_of_cached_images
+ * exceded the configured limit (gimprc paramter "gap_ffetch_max_img_cache_elements")
+ */
+static gint32
+p_load_image_and_add_to_cache(const char* filename, gint32 ffetch_user_id
+   , gboolean addToCache, gint32 cachedImageType
+   , GapImageChacheInfo *cinf
+   , gint32 *originalWidthPtr, gint32 *originalHeightPtr
+   )
+{
+  gint32 l_image_id;
+  char *l_filename;
+
+  GimpParasite  *l_parasite;
+
+  if(filename == NULL)
+  {
+    printf("p_load_image_and_add_to_cache: ** ERROR cant load filename == NULL! pid:%d\n", (int)gap_base_getpid());
+    return -1;
   }
 
   l_filename = g_strdup(filename);
@@ -256,61 +501,146 @@ p_load_cache_image(const char* filename, gboolean addToCache)
       , l_filename, (int)l_image_id, (int)gap_base_getpid());
   }
 
-  if((l_image_id >= 0) && (addToCache == TRUE))
+  if(l_image_id >= 0)
   {
-    guchar *parasite_data;
-    gint32  parasite_size;
-    gint32 *parasite_mtime_ptr;
-    gchar  *parasite_filename_ptr;
-    gint32  len_filename0;           /* filename length including the terminating 0 */
-  
-    if (l_number_of_cached_images > GAP_FFETCH_MAX_IMG_CACHE_ELEMENTS)
+    *originalWidthPtr = gimp_image_width(l_image_id);
+    *originalHeightPtr = gimp_image_height(l_image_id);
+    
+    if(addToCache == TRUE)
     {
-      /* the image cache already has more elements than desired,
-       * drop the 1st cached image
-       */
+      guchar *parasite_data;
+      gint32  parasite_size;
+      gint32  len_filename0;           /* filename length including the terminating 0 */
+      GapImageCacheParasitePointers para;
+      GapImageCacheParasitePointers *paraPtr;
+      gint    ii;
+      
       if(gap_debug)
       {
-        printf("FrameFetcher: DELETE because cache is full: (image_id:%d)  name:%s number_of_cached_images:%d pid:%d\n"
-              , (int)l_first_chached_image_id
-              , gimp_image_get_filename(images[l_idi])
-              , (int)l_number_of_cached_images
-              , (int)gap_base_getpid()
-              );
+         printf("(L2) number_of_cached_images:%d first_cached_image_id:%d\n"
+            , (int)cinf->number_of_cached_images
+            , (int)cinf->old_cached_image_ids[0]
+            );
       }
-      gap_image_delete_immediate(l_first_chached_image_id);
-    }
-
-    /* build parasite data including mtime and full filename with terminating 0 byte */
-    len_filename0 = strlen(filename) + 1;
-    parasite_size = sizeof(gint32) + len_filename0;  
-    parasite_data = g_malloc0(parasite_size);
-    parasite_mtime_ptr = (gint32 *)parasite_data;
-    parasite_filename_ptr = (gchar *)&parasite_data[sizeof(gint32)];
+      
+      ii = 0;
+      while ((cinf->number_of_cached_images >= p_get_ffetch_max_img_cache_elements())
+      && (cinf->old_cached_image_ids[ii] >= 0))
+      {
+        /* the image cache already has more elements than desired,
+         * drop the 1st cached image
+         */
+        if(gap_debug)
+        {
+          printf("FrameFetcher: DELETE because cache is full: (image_id:%d)  name:%s number_of_cached_images:%d pid:%d\n"
+                , (int)cinf->old_cached_image_ids[ii]
+                , gimp_image_get_filename(cinf->old_cached_image_ids[ii])
+                , (int)cinf->number_of_cached_images
+                , (int)gap_base_getpid()
+                );
+        }
+        gap_image_delete_immediate(cinf->old_cached_image_ids[ii]);
+        cinf->number_of_cached_images--;
+        ii++;
+        if((ii >= MAX_OLD_IMAGE_IDS)
+        || (ii >= cinf->number_of_old_cached_images))
+        {
+          break;
+        }
+      }
     
-    *parasite_mtime_ptr = gap_file_get_mtime(filename);
-    memcpy(parasite_filename_ptr, filename, len_filename0);
+      /* build parasite data including mtime and full filename with terminating 0 byte */
+      len_filename0 = strlen(filename) + 1;
+      parasite_size = 5 * sizeof(gint32) + len_filename0;  
+      parasite_data = g_malloc0(parasite_size);
+
+      paraPtr = &para;
+      p_init_GapImageCacheParasitePointers(paraPtr, parasite_data);
+
+      *(paraPtr->mtime_ptr) = gap_file_get_mtime(filename);
+      *(paraPtr->ffetch_id_ptr) = ffetch_user_id;
+      *(paraPtr->type_ptr) = cachedImageType;
+      *(paraPtr->orig_width_ptr) = gimp_image_width(l_image_id);
+      *(paraPtr->orig_height_ptr) = gimp_image_height(l_image_id);
+      memcpy(paraPtr->filename_ptr, filename, len_filename0);
+      
+      /* attach a parasite to mark the image as part of the gap image cache */
+      l_parasite = gimp_parasite_new(GAP_IMAGE_CACHE_PARASITE
+                                     ,0  /* GIMP_PARASITE_PERSISTENT  0 for non persistent */
+                                     ,parasite_size
+                                     ,parasite_data
+                                     );
     
-    /* attach a parasite to mark the image as part of the gap image cache */
-    l_parasite = gimp_parasite_new(GAP_IMAGE_CACHE_PARASITE
-                                   ,0  /* GIMP_PARASITE_PERSISTENT  0 for non persistent */
-                                   ,parasite_size
-                                   ,parasite_data
-                                   );
-
-    if(l_parasite)
-    {
-      gimp_image_parasite_attach(l_image_id, l_parasite);
-      gimp_parasite_free(l_parasite);
+      if(l_parasite)
+      {
+        gimp_image_parasite_attach(l_image_id, l_parasite);
+        gimp_parasite_free(l_parasite);
+      }
+      g_free(parasite_data);
+    
     }
-    g_free(parasite_data);
-
+  
   }
+  
 
   g_free(l_filename);
 
   return(l_image_id);
-}  /* end p_load_cache_image */
+}  /* end p_load_image_and_add_to_cache */
+
+
+
+/* ----------------------------------------------------
+ * p_load_cache_image
+ * ----------------------------------------------------
+ * load an image from cache or from file (in case image is not already cached)
+ * in case the flag addToCache is TRUE the image will be automatically added
+ * to the cache after read from file operation.
+ * Note: this procedure handles only images at original size (GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE)
+ * a prescaled cached variant of the image will be ignored (e.g NOT be found by this procedure)
+ */
+static gint32
+p_load_cache_image(const char* filename, gint32 ffetch_user_id, gboolean addToCache)
+{
+  gint32 retImgageId;
+  gint32 originalWidth;
+  gint32 originalHeight;
+  GapImageChacheInfo  gapImageChacheInfo;
+  if(gap_debug)
+  {
+    printf("p_load_cache_image START %s\n"
+      ,filename
+      );
+  }
+  retImgageId = p_find_cache_image(filename, ffetch_user_id
+     , GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE  /* cachedImageType */
+     , &gapImageChacheInfo
+     , &originalWidth, &originalHeight
+     );
+  if (retImgageId < 0)
+  {
+    retImgageId = p_load_image_and_add_to_cache(filename, ffetch_user_id
+                           , addToCache
+                           , GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE  /* cachedImageType */
+                           , &gapImageChacheInfo
+                           , &originalWidth
+                           , &originalHeight
+                         );
+  }
+
+  if(gap_debug)
+  {
+    printf("p_load_cache_image END id:%d %s\n"
+      ,(int)retImgageId
+      , filename
+      );
+  }
+  
+  return (retImgageId);
+  
+}   /* end p_load_cache_image */
+
+
 
 /* ----------------------------------------------------
  * p_drop_image_cache
@@ -473,7 +803,7 @@ p_ffetch_get_open_gvahand(const char* filename, gint32 seltrack, const char *pre
     /* init the global_image cache */
     global_gvcache = g_malloc0(sizeof(GapFFetchGvahandCache));
     global_gvcache->gvc_list = NULL;
-    global_gvcache->max_vid_cache = GAP_FFETCH_MAX_GVC_CACHE_ELEMENTS;
+    global_gvcache->max_vid_cache = p_get_ffetch_max_gvc_cache_elements();
   }
 
   gvcache = global_gvcache;
@@ -510,7 +840,7 @@ p_ffetch_get_open_gvahand(const char* filename, gint32 seltrack, const char *pre
   
   if(l_gvahand)
   {
-    GVA_set_fcache_size(l_gvahand, GAP_FFETCH_GVA_FRAMES_TO_KEEP_CACHED);
+    GVA_set_fcache_size(l_gvahand, p_get_ffetch_gva_frames_to_keep_cached());
 
     gvc_new = g_malloc0(sizeof(GapFFetchGvahandCacheElem));
     gvc_new->filename = g_strdup(filename);
@@ -529,8 +859,8 @@ p_ffetch_get_open_gvahand(const char* filename, gint32 seltrack, const char *pre
 
     if(l_idx > gvcache->max_vid_cache)
     {
-      /* chache list has more elements than desired,
-       * drop the 1.st (oldest) entry in the chache list
+      /* cache list has more elements than desired,
+       * drop the 1.st (oldest) entry in the cache list
        * (this closes the droped handle)
        */
       p_drop_gvahand_cache_elem1(gvcache);
@@ -634,6 +964,7 @@ gap_frame_fetch_delete_list_of_duplicated_images(gint32 ffetch_user_id)
  * gap_frame_fetch_orig_image
  * ----------------------------
  * returns image_id of the original cached image.
+ *    RESTRICTION: the Caller must NOT not modify that image and shall not open a display for it!
  */
 gint32
 gap_frame_fetch_orig_image(gint32 ffetch_user_id
@@ -641,8 +972,258 @@ gap_frame_fetch_orig_image(gint32 ffetch_user_id
     ,gboolean addToCache             /* enable caching */
     )
 {
-  return (p_load_cache_image(filename, addToCache));
+  return (p_load_cache_image(filename, ffetch_user_id, addToCache));
 }  /* end gap_frame_fetch_orig_image */
+
+
+/* -------------------------------
+ * gap_frame_fetch_image_scale
+ * -------------------------------
+ */
+void
+gap_frame_fetch_image_scale(gint32 imageId, gint32 prescaleWidth, gint32 prescaleHeight)
+{
+  if(gap_debug)
+  {
+    char          *l_filename;
+    l_filename = gimp_image_get_filename(imageId);
+    
+    printf("gap_frame_fetch_image_SCALE id:%d (%dx%d) to newSize ==> (%dx%d) %s\n"
+      ,(int)imageId
+      ,(int)gimp_image_width(imageId)
+      ,(int)gimp_image_height(imageId)
+      ,(int)prescaleWidth
+      ,(int)prescaleHeight
+      ,l_filename
+      );
+
+    if(l_filename != NULL)
+    {
+      g_free(l_filename);
+    }
+  }
+  gimp_image_undo_disable(imageId);
+  gimp_image_scale(imageId, prescaleWidth, prescaleHeight);
+
+}  /* end gap_frame_fetch_image_scale */
+
+/* -------------------------------
+ * gap_frame_fetch_image_duplicate
+ * -------------------------------
+ */
+gint32
+gap_frame_fetch_image_duplicate(gint32 imageId)
+{
+  gint32 dupImageId;
+  if(gap_debug)
+  {
+    char          *l_filename;
+    l_filename = gimp_image_get_filename(imageId);
+    
+    printf("gap_frame_fetch_image_DUPLICATE id:%d (%dx%d) %s\n"
+      ,(int)imageId
+      ,(int)gimp_image_width(imageId)
+      ,(int)gimp_image_height(imageId)
+      ,l_filename
+      );
+
+    if(l_filename != NULL)
+    {
+      g_free(l_filename);
+    }
+  }
+  
+  dupImageId = gimp_image_duplicate(imageId);
+  return (dupImageId);
+}
+
+
+/* -------------------------------
+ * p_duplicate_image_for_prescale
+ * -------------------------------
+ * duplicate the specified image
+ * and mark the duplicate as "prescaleEnabled" 
+ */
+static gint32
+p_duplicate_image_for_prescale(gint32 origsizeImageId)
+{
+  gint32 retImageId;
+  GimpParasite  *l_parasite;
+
+  retImageId = gap_frame_fetch_image_duplicate(origsizeImageId);
+
+  /* change the type information in the image parasite in the copy */
+  l_parasite = gimp_image_parasite_find(retImageId, GAP_IMAGE_CACHE_PARASITE);
+  if (l_parasite)
+  {
+    GapImageCacheParasitePointers para;
+    GapImageCacheParasitePointers *paraPtr;
+
+    paraPtr = &para;
+    p_init_GapImageCacheParasitePointers(paraPtr, l_parasite->data);
+
+    gap_frame_fetch_remove_parasite(retImageId);
+
+    *(paraPtr->type_ptr) = GAP_IMAGE_CACHE_TYPE_PRESCALE_ENABLED;
+    gimp_image_parasite_attach(retImageId, l_parasite);
+
+    gimp_parasite_free(l_parasite);
+  }
+  return (retImageId);
+  
+}  /* end p_duplicate_image_for_prescale */
+
+
+/* -------------------------------
+ * gap_frame_fetch_prescaled_image
+ * -------------------------------
+ * returns image_id of the prescaled cached image.
+ *    RESTRICTION: the Caller must NOT not modify that image and shall not open a display for it!
+ * Note that the returned image can be either the prescaled copy or the cached image at
+ * original size (in case prescale Size not yet known or exactly matching original size.
+ */
+gint32
+gap_frame_fetch_prescaled_image(gint32 ffetch_user_id
+    ,const char *filename            /* full filename of the image */
+    ,gboolean addToCache             /* enable caching on prescaled image */
+    ,gint32 prescaleWidth            /* use 0 in case prescale size is not yet known */
+    ,gint32 prescaleHeight           /* use 0 in case prescale size is not yet known */
+    ,gint32 *originalWidthPtr        /* OUT: width of the unscaled original image file */
+    ,gint32 *originalHeightPtr       /* OUT: width of the unscaled original image file */
+    )
+{
+  GapImageChacheInfo  gapImageChacheInfo;
+  gint32 retImageId = -1;
+  gint32 prescaleImageId = -1;
+  gint32 origsizeImageId = -1;
+
+  if(gap_debug)
+  {
+    printf("gap_frame_fetch_prescaled_image START %s\n"
+      ,filename
+      );
+  }
+  /* search in cache for images marked as "prescaleEnabled" */
+  prescaleImageId = p_find_cache_image(filename, ffetch_user_id
+          , GAP_IMAGE_CACHE_TYPE_PRESCALE_ENABLED  /* cachedImageType */
+          , &gapImageChacheInfo
+          , originalWidthPtr
+          , originalHeightPtr
+          );
+
+  if (prescaleImageId >= 0)
+  {
+     retImageId = prescaleImageId;
+     gint32 pWidth = gimp_image_width(prescaleImageId);
+     gint32 pHeight = gimp_image_height(prescaleImageId);
+
+     /* check width for re-upscale attempt */
+     if ((prescaleWidth > pWidth)
+     &&  (*originalWidthPtr > pWidth))
+     {
+        retImageId = -1;
+     }          
+        
+     /* check height for re-upscale attempt */
+     if ((prescaleHeight > pHeight)
+     &&  (*originalHeightPtr > pHeight))
+     {
+        retImageId = -1;
+     }
+     
+     if (retImageId >= 0)
+     {
+       if ((pWidth != prescaleWidth)
+       ||  (pHeight != prescaleHeight))
+       {
+         if ((prescaleWidth > 0)
+         &&  (prescaleHeight >0))
+         {
+           gap_frame_fetch_image_scale(retImageId, prescaleWidth, prescaleHeight);
+         }
+       }
+       return(retImageId);
+     }
+
+  
+     if(gap_debug)
+     {
+       printf("gap_frame_fetch_prescaled_image DELETE img: %d from cache %s\n"
+         ,(int)prescaleImageId
+         ,filename
+       );
+     }
+     /* remove prescaleImageId from cache.
+      * The current requested prescale size is greater than the available
+      * prescaled image in the cache AND the original is larger than the cached variante.
+      * in this case remove the prescaled image from the cache
+      * (to force re-caching of a larger version and avoid quality loss
+      *  that could be caused by upscaling of an already downscaled image)
+      */
+     gap_image_delete_immediate(prescaleImageId);
+  }
+
+  /* search in cache for non prescaled image at original size (not marked as "prescaleEnabled" */
+  origsizeImageId = p_find_cache_image(filename, ffetch_user_id
+          , GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE  /* cachedImageType */
+          , &gapImageChacheInfo
+          , originalWidthPtr
+          , originalHeightPtr
+          );
+  if (origsizeImageId >= 0)
+  {
+    if ((gimp_image_width(origsizeImageId) == prescaleWidth)
+    &&  (gimp_image_height(origsizeImageId) == prescaleHeight))
+    {
+      return (origsizeImageId);
+    }
+    retImageId = p_duplicate_image_for_prescale(origsizeImageId);
+  }
+
+  if (retImageId < 0)
+  {
+    origsizeImageId = p_load_image_and_add_to_cache(filename, ffetch_user_id
+         , addToCache
+         , GAP_IMAGE_CACHE_TYPE_ORIGINAL_SIZE  /* cachedImageType */
+         , &gapImageChacheInfo
+         , originalWidthPtr
+         , originalHeightPtr
+         );
+    if (origsizeImageId >= 0)
+    {
+      if ((prescaleWidth <= 0)
+      ||  (prescaleHeight <= 0))
+      {
+        return (origsizeImageId);
+      }
+      if ((gimp_image_width(origsizeImageId) == prescaleWidth)
+      &&  (gimp_image_height(origsizeImageId) == prescaleHeight))
+      {
+        return (origsizeImageId);
+      }
+      
+    
+      retImageId = p_duplicate_image_for_prescale(origsizeImageId);
+    }
+  }
+
+  if (retImageId >= 0)
+  {
+     if ((gimp_image_width(retImageId) != prescaleWidth)
+     ||  (gimp_image_height(retImageId) != prescaleHeight))
+     {
+       if ((prescaleWidth > 0)
+       &&  (prescaleHeight >0))
+       {
+         gap_frame_fetch_image_scale(retImageId, prescaleWidth, prescaleHeight);
+       }
+     }
+  }
+
+  return (retImageId);
+  
+
+}  /* end gap_frame_fetch_prescaled_image */
 
 
 
@@ -667,7 +1248,7 @@ gap_frame_fetch_dup_image(gint32 ffetch_user_id
 
   resulting_layer = -1;
   dup_image_id = -1;
-  image_id = p_load_cache_image(filename, addToCache);
+  image_id = p_load_cache_image(filename, ffetch_user_id, addToCache);
   if (image_id < 0)
   {
     return(-1);
@@ -675,7 +1256,9 @@ gap_frame_fetch_dup_image(gint32 ffetch_user_id
   
   if (stackpos < 0)
   {
-    dup_image_id = gimp_image_duplicate(image_id);
+    dup_image_id = gap_frame_fetch_image_duplicate(image_id);
+
+    gap_frame_fetch_remove_parasite(dup_image_id);
     resulting_layer = gap_image_merge_visible_layers(dup_image_id, GIMP_CLIP_TO_IMAGE);
   }
   else
@@ -744,8 +1327,8 @@ gap_frame_fetch_dup_image(gint32 ffetch_user_id
  * gap_frame_fetch_dup_video
  * ----------------------------
  * returns the fetched video frame as gimp layer_id.
- *         the returned layer id is (the only layer) in a temporary image.
- *         note the caller is responsible to delete that temporary image after processing is done.
+ *         the returned layer id is the only layer in a temporary image.
+ *         note that the caller is responsible to delete the temporary image after processing is done.
  *         this can be done by calling gap_frame_fetch_delete_list_of_duplicated_images()
  */
 gint32
@@ -779,7 +1362,7 @@ gap_frame_fetch_dup_video(gint32 ffetch_user_id
     /* if no success, we try explicite read that frame  */
     if(gvahand->current_seek_nr != framenr)
     {
-      if(((gvahand->current_seek_nr + GAP_FFETCH_GVA_FRAMES_TO_KEEP_CACHED) > framenr)
+      if(((gvahand->current_seek_nr + p_get_ffetch_gva_frames_to_keep_cached()) > framenr)
       &&  (gvahand->current_seek_nr < framenr ) )
       {
         /* near forward seek is performed by dummyreads to fill up the 
@@ -895,7 +1478,7 @@ gap_frame_fetch_register_user(const char *caller_name)
  * gap_frame_fetch_unregister_user
  * -------------------------------------------------
  * unregister the specified resource user id.
- + (if there are still registered resource users
+ * (if there are still registered resource users
  *  cached images and videohandles are kept.
  *  until the last resource user calls this procedure.
  *  if there are no more registered users all
@@ -949,3 +1532,286 @@ gap_frame_fetch_unregister_user(gint32 ffetch_user_id)
   }
 
 }  /* end gap_frame_fetch_unregister_user */
+
+
+/* ---------------------------------
+ * gap_frame_fetch_is_image_in_cache
+ * ---------------------------------
+ * checks the image for presence of the parasite that marks the image as member
+ * of the gap frame fetcher cache.
+ * return TRUE if the parasite was found (e.g. image is cache member)
+ */
+gboolean
+gap_frame_fetch_is_image_in_cache(gint32 image_id)
+{
+  GimpParasite  *l_parasite;
+ 
+  l_parasite = gimp_image_parasite_find(image_id, GAP_IMAGE_CACHE_PARASITE);
+
+  if(l_parasite)
+  {
+    gimp_parasite_free(l_parasite);
+    return(TRUE);  /* isCacheMember */
+  }
+  
+  return (FALSE);
+  
+}  /* end gap_frame_fetch_is_image_in_cache */
+
+
+/* -------------------------------
+ * gap_frame_fetch_remove_parasite
+ * -------------------------------
+ * removes the image parasite that marks the image as member
+ * of the gap frame fetcher cache.
+ */
+void
+gap_frame_fetch_remove_parasite(gint32 image_id)
+{
+  GimpParasite  *l_parasite;
+ 
+  l_parasite = gimp_image_parasite_find(image_id, GAP_IMAGE_CACHE_PARASITE);
+
+  if(l_parasite)
+  {
+    gimp_image_parasite_detach(image_id, GAP_IMAGE_CACHE_PARASITE);
+    if(gap_debug)
+    {
+      printf("FrameFetcher: removed parasite from (image_id:%d) pid:%d\n"
+        , (int)image_id, (int)gap_base_getpid());
+    }
+    gimp_parasite_free(l_parasite);
+  }
+
+}  /* end gap_frame_fetch_remove_parasite */
+
+
+
+
+/* ----------------------------------------------------
+ * p_dump_resources_gvahand
+ * ----------------------------------------------------
+ * print videohandle resource usage of cached video handles to stdout.
+ */
+static void
+p_dump_resources_gvahand()
+{
+#ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
+  GapFFetchGvahandCacheElem  *gvc_ptr;
+  GapFFetchGvahandCacheElem  *gvc_last;
+  GapFFetchGvahandCache      *gvcache;
+  gint32                      count;
+
+  count = 0;
+  if(global_gvcache != NULL)
+  {
+    gvcache = global_gvcache;
+    gvc_last = gvcache->gvc_list;
+
+    for(gvc_ptr = gvcache->gvc_list; gvc_ptr != NULL; gvc_ptr = (GapFFetchGvahandCacheElem *)gvc_ptr->next)
+    {
+      t_GVA_Handle *gvahand;
+      
+      gvahand = gvc_ptr->gvahand;
+      
+      count++;
+      printf("FrameFetcher GVA_handle: %s   currFrameNr:%d fcache elemSize:%d byteSize:%d\n"
+        , gvahand->filename
+        , (int) gvahand->current_frame_nr
+        , (int)GVA_get_fcache_size_in_elements(gvahand)
+        , (int)GVA_get_fcache_size_in_bytes(gvahand)
+        );
+
+      gvc_last = gvc_ptr;
+    }
+    printf("FrameFetcher holds %d open GVA_handles limit gap_ffetch_max_gvc_cache_elements:%d (fcache_size:%d)\n"
+       ,(int)count
+       ,(int)p_get_ffetch_max_gvc_cache_elements()
+       ,(int)p_get_ffetch_gva_frames_to_keep_cached
+       );
+    
+  }
+  else
+  {
+    printf("FrameFetcher has no GVA_handle cached\n");
+  }
+#else
+
+  printf("FrameFetcher compiled without GAP_ENABLE_VIDEOAPI_SUPPORT\n");
+
+#endif
+
+}  /* end p_dump_resources_gvahand */
+
+
+
+
+/* ----------------------------------------------------
+ * p_dump_process_resource_usage
+ * ----------------------------------------------------
+ * print memory resources used (in case sysinfo was available on compiletime)
+ *
+ * NOTE: 
+ *   getrusage did not work in 1st test on linux (and is not available on windows)
+ *   while  sysinfo worked on my linux development environment, but was not availabe
+ *   on Windows MinGW environment.
+ *   therefore the configure script cheks for the sysinfo header and
+ *   sets the GAP_HAVE_SYSINFO define constant to 1 when available.
+ *      
+ */
+static void
+p_dump_process_resource_usage()
+{
+#ifdef GAP_HAVE_SYSINFO
+
+  int rc;
+  struct sysinfo info;
+  
+  rc = sysinfo(&info);
+  if(rc == 0)
+  {
+    printf ("FrameFetcher sysinfo memory in bytes:\n"
+            "  memory total size:         %lu\n"
+            "  memory free:               %lu\n"
+            "  shared memory total size:  %lu\n"
+            "  memory used by buffers:    %lu\n"
+            "  swap total size:           %lu\n"
+            "  swap free:                 %lu\n"
+            "  high memory total size:    %lu\n"
+            "  high memory free:          %lu\n"
+      , (info.mem_unit * info.totalram)
+      , (info.mem_unit * info.freeram)
+      , (info.mem_unit * info.sharedram)
+      , (info.mem_unit * info.bufferram)
+      , (info.mem_unit * info.totalswap)
+      , (info.mem_unit * info.freeswap)
+      , (info.mem_unit * info.totalhigh)
+      , (info.mem_unit * info.freehigh)
+      );
+  
+  }
+  else
+  {
+    printf("FrameFetcher sysinfo failed with retcode:%d\n", rc);
+  }
+
+
+#else
+  printf("** WARNING FrameFetcher sysinfo memory resource usage NOT available "
+         " because the FrameFetcher was compiled without sysinfo support (GAP_HAVE_SYSINFO not dfined)\n");
+#endif
+}
+
+/* ----------------------------------------------------
+ * gap_frame_fetch_dump_resources
+ * ----------------------------------------------------
+ * print current resource usage to stdout
+ * this includes information about 
+ *  - ALL images currently loaded
+ *  - all video filehandles with memory cache sizes
+ * 
+ */
+void
+gap_frame_fetch_dump_resources()
+{
+  gint32 *images;
+  gint    nimages;
+  gint    l_idi;
+  gint    l_number_of_cached_images;
+
+
+  printf("gap_frame_fetch_dump_resources: START pid:%d\n", (int)gap_base_getpid());
+
+
+  l_number_of_cached_images = 0;
+  images = gimp_image_list(&nimages);
+  
+  
+  
+  for(l_idi=0; l_idi < nimages; l_idi++)
+  {
+    GimpParasite  *l_parasite;
+    char          *l_filename;
+    char          *l_cacheInfoString;
+    gint32         image_id;
+    
+    
+    image_id = images[l_idi];
+    l_filename = gimp_image_get_filename(image_id);
+    l_parasite = gimp_image_parasite_find(image_id, GAP_IMAGE_CACHE_PARASITE);
+
+    if(l_parasite)
+    {
+      GapImageCacheParasitePointers para;
+      GapImageCacheParasitePointers *paraPtr;
+      
+      paraPtr = &para;
+      p_init_GapImageCacheParasitePointers(paraPtr, l_parasite->data);
+
+    
+      l_number_of_cached_images++;
+
+      l_cacheInfoString = g_strdup_printf("Cache member: mtime:%d ffetchId:%d %s"
+                                         ,*(paraPtr->mtime_ptr)
+                                         ,*(paraPtr->ffetch_id_ptr)
+                                         ,paraPtr->filename_ptr
+                                         );
+      
+      gimp_parasite_free(l_parasite);
+    }
+    else
+    {
+      l_parasite = gimp_image_parasite_find(images[l_idi], GAP_IMAGE_DUP_CACHE_PARASITE);
+      if(l_parasite)
+      {
+        gint32 *ffetch_user_id_ptr;
+        ffetch_user_id_ptr = (gint32 *) l_parasite->data;
+
+        l_number_of_cached_images++;
+  
+        l_cacheInfoString = g_strdup_printf("Cache member (merged duplicate): ffetchId:%d"
+                                         ,*ffetch_user_id_ptr
+                                         );
+        
+        gimp_parasite_free(l_parasite);
+      }
+      else
+      {
+        l_cacheInfoString = g_strdup_printf("Not cached");
+      }
+    }
+
+    
+    printf(" FrameFetcher ImgId:%d (%d x %d) %s %s\n"
+          ,(int)image_id
+          ,(int)gimp_image_width(image_id)
+          ,(int)gimp_image_height(image_id)
+          ,l_filename
+          ,l_cacheInfoString
+          );
+    
+    g_free(l_cacheInfoString);
+    if(l_filename != NULL)
+    {
+      g_free(l_filename);
+    }
+    l_parasite = NULL;
+  }
+  
+  if(images)
+  {
+    g_free(images);
+  }
+  
+  printf(" Number of images currently loaded in gimp total: %d gap_ffetch_max_img_cache_elements:%d marked as cache member:%d\n"
+        ,(int)nimages
+        ,(int)p_get_ffetch_max_img_cache_elements()
+        ,(int)l_number_of_cached_images
+        );
+
+
+  p_dump_resources_gvahand();
+  p_dump_process_resource_usage();
+
+}  /* end gap_frame_fetch_dump_resources */
+

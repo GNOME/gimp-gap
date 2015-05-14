@@ -1,3 +1,124 @@
+Here is a short overview whats new in GIMP-GAP-2.6.1:
+-----------------------------------------------------
+(compared to gimp-gap release 2.6.0)
+
+- Note that GIMP-GAP-2.6.1 is not an official release,
+  but provides features and bug fixes that were done 
+  since gimp-gap release 2.6.0
+  and were still backwards compatible with the outdatd GIMP-2.6.x .
+  
+  There are no plans to support GIMP-2.6 compatible development
+  on GIMP-GAP in the future.
+
+
+- New Plug-Ins added:
+
+  - plug-ins to render animated Water and Fire effects.
+
+  - New colormask plug-in added
+    The colormask filter can apply transparency for pixels matching the colormask image.
+    intended for processing frames where moving objects can be isolated
+    from the non-moving constant background by applying the constant background
+    as colormask on all frames.
+    the colormask feature is also available as new mask anchor mode 
+    when processing stroyboard clips.
+    (anchor modes are: ClipColormask, Clip, Master)
+
+  - Foreground Extraction based on the alpha matting algorithm.
+    This plug-in uses a tri-map provided by the user
+    where pixels are marked as FORGROUND, BACKGROUND or UNDEFINED
+    and renders transpareny and color for all UNDEFINED pixels.
+    
+
+  - support to run gimp_color_balance tool as animated filter 
+    (added wrapper plug-in).
+
+  - new plug-in to apply the MovePath functionality 
+    (transitions and move object along path)
+    in a "process one frame per call" style, intended to be called as filter
+    with the modify frames feature.
+
+  - new plug-in to fill selected (small) areas by blending surrounding
+    colors to cover pixel errors. Intended to fix images and videos
+    shot with a camera that has some defect sensor pixels or dirty lens.
+
+  - new plug-in for tracking a significant detail in frames.
+    This plug-in is integrated in the Playback and can
+    record movents of the detail as XML parameters for the MovePath feature.
+    The recorded movements are useful to compensate unwanted shaking
+    of videos recorder without a stativ.
+ 
+- GIMP-GAP now supports speed control of movements and other transitions
+  via Acceleration characteristic presets. Those presets are available
+  - in the MovePath tool
+  - in Storyboard transitions
+    and Storyboard filtemacro pair calls when applied with varying values.
+  - in animated filter calls with varying values.
+    relevant in Filter All Layers
+    and Modify Frames feature when applying a filter
+    
+    Th GAP dbbrowser now supports acceleration characteristic graph and spinbutton
+    (that replaces the "Apply Varying" button of older GIMP_GAP releases)
+
+
+- The Storyboard now supports rotatation of the processed clips by any angle
+  and more complex transistions similar to the move path feature
+  (based on settings saved with the Movepath dialog as xml parameter file)
+
+- A new storyboard processing feature allows adding external transparency 
+  for clip type movie. This is done via format string that refers to
+  the external frames (typical gray image frames)
+  the format string has placeholder %s (replaced by basename of the video)
+  and %06d (replaced by the currently processed frame number)
+  
+  The format string can be specified in the storyboard master properties dialog
+
+- Added features to the Morph plug-in to support
+  more convenient creation of workpoints and lead to better
+  results (especially for morping tweens of a video)
+  
+  new plug-in "Video/Morph/Morph Workpoint Generator" 
+        Generates workpointfiles for each frame in the specified frame range.
+
+  new feature for the morph plug-in "Video/Morph/Create Tween Frames"
+   that creates a directory with (renumbered) copies of the processed frames
+   and additionally generated tween frames that are rendered via fade or morphing.
+   individual workpointfiles per processed frame are located via
+   name convention (extension .morphpoints) and used for morphing when they exist.
+   (such files can be created with the help of the plug-in "Morph Workpoint Generator").
+
+
+- updated gimp-gap video API and ffmpeg-based video encoder
+  to support the libraries provided with the ffmpeg-0.7.11 release
+  This includes various bugfixes related to video de/encode 
+  (but breaks backwards compatibility when seeking positions by frame number
+  in videofiles that do not start with a keyframe).
+  
+  .. see ChangeLog for details,
+
+- added preset for HD video encoding with H264 codec.
+  (GIMP-GAP must be built with libx264 to use that preset)
+
+- better performance for ffmpeg based video encoder
+  on single and multiprocessor machines.
+
+  
+- Major Bugfixes
+
+  - fixed a bug in the GAP ffmpeg video encoder that resulted in lower quality
+     of the encoded video.
+    (disabled buggy pre conversion to yuv420P colormodel for the ffmpeg encoder.
+     now feeding RGB to the codec or convert with functions of the encoding engine)
+
+  - fixed video encoder crash on 64bit Systems.
+
+  - bugfixes in the storyboard processing now use less memory resources
+    and produces smoother movent.
+    (the old code did run out of memory when processing multiple HD videoclips)
+
+    (See ChangeLog for details on further bugfixes)
+
+
 Here is a short overview whats new in GIMP-GAP-2.6.0:
 -----------------------------------------------------
 (compared to gimp-gap release 2.4.0)
@@ -52,7 +173,7 @@ Here is a short overview whats new in GIMP-GAP-2.6.0:
 - added wrapper for the resynthesizer
   (provides support for animated apply of the 3rd party plug-in resynthesizer)
 
-- external libs for vidoe read and write access
+- external libs for video read and write access
   were updated to ffmpeg-0.5 and libmpeg3-1.8
 
 - bugfixes and updates for the use with GIMP-2.6.x releases.(see ChangeLog for details)

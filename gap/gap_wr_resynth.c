@@ -25,8 +25,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #include "config.h"
@@ -147,6 +147,8 @@ query (void)
     GIMP_LASTVALDEF_GINT32          (GIMP_ITER_TRUE,  glob_vals.seed,                  "seed")
   };
 
+  gimp_plugin_domain_register (GETTEXT_PACKAGE, LOCALEDIR);
+  
   /* registration for last values buffer structure (useful for animated filter apply) */
   gimp_lastval_desc_register(PLUG_IN_PROC,
                              &glob_vals,

@@ -36,6 +36,7 @@
  * ---------------------------------------------
  */
 
+
 /* API access for GIMP-GAP frame sequences needs no external
  * libraries and is always enabled
  * (there is no configuration parameter for this "decoder" implementation)
@@ -45,6 +46,7 @@
 /* ------------------------------------------------
  * revision history
  *
+ * 2010.11.20     (hof)  added multiprocessor support.
  * 2004.04.25     (hof)  integration into gimp-gap, using config.h
  * 2004.02.28     (hof)  added procedures GVA_frame_to_buffer, GVA_delace_frame
  */
@@ -74,8 +76,24 @@
 extern      int gap_debug; /* ==0  ... dont print debug infos */
 
 #include "gap_vid_api.h"
+#include "gap_base.h"
+
+
+static inline void   gva_delace_mix_rows( gint32 width
+                        , gint32 bpp
+                        , gint32 row_bytewidth
+                        , gint32 mix_threshold   /* 0 <= mix_threshold <= 33554432 (256*256*256*2) */
+                        , const guchar *prev_row
+                        , const guchar *next_row
+                        , guchar *mixed_row
+                        );
+static gint32        gva_delace_calculate_mix_threshold(gdouble threshold);
+static gint32        gva_delace_calculate_interpolate_flag(gint32 deinterlace);
+
 #include "gap_vid_api_util.c"
 #include "gap_vid_api_vidindex.c"
+#include "gap_vid_api_mp_util.c"
+#include "gap_libgapbase.h"
 
 t_GVA_DecoderElem  *GVA_global_decoder_list = NULL;
 
@@ -116,6 +134,7 @@ static t_GVA_Handle *            p_gva_worker_open_read(const char *filename, gi
                                     ,const char *preferred_decoder
                                     ,gboolean disable_mmx
                                     );
+
 
 /* ---------------------------
  * GVA_percent_2_frame
@@ -468,8 +487,12 @@ GVA_set_fcache_size(t_GVA_Handle *gvahand
   if ((frames_to_keep_cahed > 0)
   &&  (frames_to_keep_cahed <= GVA_MAX_FCACHE_SIZE))
   {
+      GVA_fcache_mutex_lock (gvahand);
+
       /* re-adjust fcache size as desired by calling program */
       p_build_frame_cache(gvahand, frames_to_keep_cahed);
+
+      GVA_fcache_mutex_unlock (gvahand);
   }
   else
   {
@@ -479,6 +502,54 @@ GVA_set_fcache_size(t_GVA_Handle *gvahand
   }
 }  /* end GVA_set_fcache_size */
 
+
+/* -------------------------------
+ * GVA_get_fcache_size_in_elements
+ * -------------------------------
+ * return internal frame cache allocation size in number of elements (e.g. frames)
+ * note that the fcache is already fully allocated at open time, therefore
+ * the number of actual cached frames may be smaller than the returned number.
+ */
+gint32 
+GVA_get_fcache_size_in_elements(t_GVA_Handle *gvahand)
+{
+  t_GVA_Frame_Cache *fcache;
+  gint32 frame_cache_size;
+  
+  fcache = &gvahand->fcache;
+  frame_cache_size = fcache->frame_cache_size;
+ 
+  return (frame_cache_size);
+
+}  /* end GVA_get_fcache_size_in_elements */
+
+
+/* ------------------------------
+ * GVA_get_fcache_size_in_bytes
+ * ------------------------------
+ * return internal frame cache allocation size in bytes
+ * note that the fcache is already fully allocated at open time, therefore
+ * the returned number is an indicator for memory usage but not for actually cached frames.
+ */
+gint32 
+GVA_get_fcache_size_in_bytes(t_GVA_Handle *gvahand)
+{
+  int wwidth, wheight, bpp;
+  gint32 bytesUsedPerElem;
+  gint32 bytesUsedSummary;
+
+  wwidth  = MAX(gvahand->width, 2);
+  wheight = MAX(gvahand->height, 2);
+  bpp = gvahand->frame_bpp;
+
+  bytesUsedPerElem = (wwidth * wheight * bpp + 4);          /* data size per cache element */
+  bytesUsedPerElem += (sizeof(unsigned char*) * wheight);   /* rowpointers per cache element */
+
+
+  bytesUsedSummary = bytesUsedPerElem * GVA_get_fcache_size_in_elements(gvahand);
+  return(bytesUsedSummary);
+
+}  /* end GVA_get_fcache_size_in_bytes */
 
 
 /* ------------------------------------
@@ -504,13 +575,22 @@ GVA_search_fcache(t_GVA_Handle *gvahand
 {
   t_GVA_Frame_Cache *fcache;
   t_GVA_Frame_Cache_Elem  *fc_ptr;
+  static gint32 funcId = -1;
+  
+  GAP_TIMM_GET_FUNCTION_ID(funcId, "GVA_search_fcache");
 
 
-  if(gap_debug) printf("GVA_search_fcache: search for framenumber: %d\n", (int)framenumber );
+  if(gap_debug)
+  {
+    printf("GVA_search_fcache: search for framenumber: %d\n", (int)framenumber );
+  }
   if(gvahand->fcache.fcache_locked)
   {
     return(GVA_RET_EOF);  /* dont touch the fcache while locked */
   }
+
+  GVA_fcache_mutex_lock (gvahand);
+  GAP_TIMM_START_FUNCTION(funcId);
 
   /* init with framedata of current frame
    * (for the case that framenumber not available in fcache)
@@ -531,6 +611,10 @@ GVA_search_fcache(t_GVA_Handle *gvahand
           gvahand->fc_frame_data = fc_ptr->frame_data;  /* framedata of cached frame */
           gvahand->fc_row_pointers = fc_ptr->row_pointers;
 
+
+          GAP_TIMM_STOP_FUNCTION(funcId);
+          GVA_fcache_mutex_unlock (gvahand);
+
           return(GVA_RET_OK);  /* OK */
         }
       }
@@ -542,14 +626,24 @@ GVA_search_fcache(t_GVA_Handle *gvahand
 
       if(fcache->fc_current == fc_ptr)
       {
+        GAP_TIMM_STOP_FUNCTION(funcId);
+
+        GVA_fcache_mutex_unlock (gvahand);
+
         return (GVA_RET_EOF);  /* STOP, we are back at startpoint of the ringlist */
       }
       if(fc_ptr == NULL)
       {
+        GAP_TIMM_STOP_FUNCTION(funcId);
+        GVA_fcache_mutex_unlock (gvahand);
+
         return (GVA_RET_ERROR);  /* internal error, ringlist is broken */
       }
     }
   }
+
+  GAP_TIMM_STOP_FUNCTION(funcId);
+  GVA_fcache_mutex_unlock (gvahand);
 
   /* ringlist not found */
   return (GVA_RET_ERROR);
@@ -592,6 +686,8 @@ GVA_search_fcache_by_index(t_GVA_Handle *gvahand
     return(GVA_RET_EOF);  /* dont touch the fcache while locked */
   }
 
+  GVA_fcache_mutex_lock (gvahand);
+
   /* init with framedata of current frame
    * (for the case that framenumber not available in fcache)
    */
@@ -612,13 +708,24 @@ GVA_search_fcache_by_index(t_GVA_Handle *gvahand
         *framenumber = fc_ptr->framenumber;
         if(fc_ptr->framenumber < 0)
         {
-          if(gap_debug) printf("GVA_search_fcache_by_index: INDEX: %d  NOT FOUND (fnum < 0) ###########\n", (int)index );
+          if(gap_debug)
+          {
+            printf("GVA_search_fcache_by_index: INDEX: %d  NOT FOUND (fnum < 0) ###########\n", (int)index );
+          }
+
+          GVA_fcache_mutex_unlock (gvahand);
+
           return (GVA_RET_EOF);
         }
         gvahand->fc_frame_data = fc_ptr->frame_data;  /* framedata of cached frame */
         gvahand->fc_row_pointers = fc_ptr->row_pointers;
 
-        if(gap_debug) printf("GVA_search_fcache_by_index: fnum; %d INDEX: %d  FOUND ;;;;;;;;;;;;;;;;;;\n", (int)*framenumber, (int)index );
+        if(gap_debug)
+        {
+          printf("GVA_search_fcache_by_index: fnum; %d INDEX: %d  FOUND ;;;;;;;;;;;;;;;;;;\n", (int)*framenumber, (int)index );
+        }
+        GVA_fcache_mutex_unlock (gvahand);
+
         return(GVA_RET_OK);  /* OK */
       }
 
@@ -629,21 +736,763 @@ GVA_search_fcache_by_index(t_GVA_Handle *gvahand
 
       if(fcache->fc_current == fc_ptr)
       {
-        if(gap_debug) printf("GVA_search_fcache_by_index: INDEX: %d  NOT FOUND (ring done) ************\n", (int)index );
+        if(gap_debug)
+        {
+          printf("GVA_search_fcache_by_index: INDEX: %d  NOT FOUND (ring done) ************\n", (int)index );
+        }
+        GVA_fcache_mutex_unlock (gvahand);
+
         return (GVA_RET_EOF);  /* STOP, we are back at startpoint of the ringlist */
       }
       if(fc_ptr == NULL)
       {
+        GVA_fcache_mutex_unlock (gvahand);
+
         return (GVA_RET_ERROR);  /* internal error, ringlist is broken */
       }
     }
   }
+
+  GVA_fcache_mutex_unlock (gvahand);
 
   /* ringlist not found */
   return (GVA_RET_ERROR);
 
 }  /* end GVA_search_fcache_by_index */
 
+
+
+/* ---------------------------------
+ * p_copyRgbBufferToPixelRegion
+ * ---------------------------------
+ * tile based copy from rgbBuffer to PixelRegion 
+ */
+static inline void
+p_copyRgbBufferToPixelRegion (const GimpPixelRgn *dstPR
+                    ,const GVA_RgbPixelBuffer *srcBuff)
+{
+  guint    row;
+  guchar*  src;
+  guchar*  dest;
+   
+  dest  = dstPR->data;
+  src = srcBuff->data 
+       + (dstPR->y * srcBuff->rowstride)
+       + (dstPR->x * srcBuff->bpp);
+
+  for (row = 0; row < dstPR->h; row++)
+  {
+     memcpy(dest, src, dstPR->rowstride);
+     src  += srcBuff->rowstride;
+     dest += dstPR->rowstride;
+  }
+  
+}  /* end p_copyRgbBufferToPixelRegion */
+
+/* -------------------------------------------------------
+ * GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888    procedure instrumented for PERFTEST
+ * -------------------------------------------------------
+ * search the frame cache for given framenumber
+ * and deliver result into the specified GVA_fcache_fetch_result struct.
+ * The attribute isRgb888Result in the GVA_fcache_fetch_result struct
+ * controls the type of result where 
+ *    isRgb888Result == TRUE   will deliver a uchar buffer (optional deinterlaced) 
+ *                             that is copy of the fcache in RGB888 colormodel
+ *
+ *    isRgb888Result == FALSE  will deliver a gimp layer
+ *                             that is copy of the fcache (optional deinterlaced)
+ *                             and is the only layer in a newly created gimp image ( without display attached).
+ *
+ *
+ * fetchResult->isFrameAvailable == FALSE  indicates that the required framenumber
+ * was not available in the fcache.
+ *
+ * This procedure also set fcache internal rowpointers.
+ *  gvahand->fc_frame_data
+ *  gvahand->fc_row_pointers
+ *
+ *
+ * Notes:
+ * o)  this procedure does not set image aspect for performance reasons.
+ *     in case aspect is required the calling programm has to perform
+ *     the additional call like this:
+ *       GVA_search_fcache_and_get_frame_as_gimp_layer(gvahand, ....);
+ *       GVA_image_set_aspect(gvahand, gimp_drawable_get_image(fetchResult->layer_id));
+ */
+void
+GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888(t_GVA_Handle *gvahand
+                 , gint32   framenumber
+                 , gint32   deinterlace
+                 , gdouble  threshold
+                 , gint32   numProcessors
+                 , GVA_fcache_fetch_result *fetchResult
+                 )
+{
+  t_GVA_Frame_Cache *fcache;
+  t_GVA_Frame_Cache_Elem  *fc_ptr;
+  gint32                   l_threshold;
+  gint32                   l_mix_threshold;
+
+  static gint32 funcId = -1;
+  static gint32 funcIdMemcpy = -1;
+  static gint32 funcIdToDrawableRect = -1;
+  static gint32 funcIdToDrawableTile = -1;
+  static gint32 funcIdDrawableFlush = -1;
+  static gint32 funcIdDrawableDetach = -1;
+  
+  GAP_TIMM_GET_FUNCTION_ID(funcId, "GVA_search_fcache_and_get_frame");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdMemcpy, "GVA_search_fcache_and_get_frame.memcpy");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdToDrawableRect, "GVA_search_fcache_and_get_frame.toDrawable (rgn_set_rect)");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdToDrawableTile, "GVA_search_fcache_and_get_frame.toDrawable (tilebased)");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdDrawableFlush, "GVA_search_fcache_and_get_frame.gimp_drawable_flush");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdDrawableDetach, "GVA_search_fcache_and_get_frame.gimp_drawable_detach");
+
+  fetchResult->isFrameAvailable = FALSE;
+  fetchResult->layer_id = -1;
+  fetchResult->image_id = -1;
+
+  if(gap_debug)
+  {
+    printf("GVA_search_fcache_and_get_frame_as_gimp_layer: search for framenumber: %d\n", (int)framenumber );
+  }
+  if(gvahand->fcache.fcache_locked)
+  {
+    return;  /* dont touch the fcache while locked */
+  }
+
+  GAP_TIMM_START_FUNCTION(funcId);
+
+
+  /* expand threshold range from 0.0-1.0  to 0 - MIX_MAX_THRESHOLD */
+  threshold = CLAMP(threshold, 0.0, 1.0);
+  l_threshold = (gdouble)MIX_MAX_THRESHOLD * (threshold * threshold * threshold);
+  l_mix_threshold = CLAMP((gint32)l_threshold, 0, MIX_MAX_THRESHOLD);
+
+  GVA_fcache_mutex_lock (gvahand);
+
+
+  /* init with framedata of current frame
+   * (for the case that framenumber not available in fcache)
+   */
+  gvahand->fc_frame_data = gvahand->frame_data;
+  gvahand->fc_row_pointers = gvahand->row_pointers;
+
+  fcache = &gvahand->fcache;
+  if(fcache->fc_current)
+  {
+    fc_ptr = (t_GVA_Frame_Cache_Elem  *)fcache->fc_current;
+    while(1 == 1)
+    {
+      if(framenumber == fc_ptr->framenumber)
+      {
+        if(fc_ptr->framenumber >= 0)
+        {
+          /* FCACHE HIT */
+          static gboolean           isPerftestInitialized = FALSE;          
+          static gboolean           isPerftestApiTilesDefault;
+          static gboolean           isPerftestApiTiles;          /* copy tile-by-tile versus gimp_pixel_rgn_set_rect all at once */
+          static gboolean           isPerftestApiMemcpyMP;       /* memcopy versus multithreade memcopy in rowStipres */
+
+          GVA_RgbPixelBuffer  rgbBufferLocal;
+          GVA_RgbPixelBuffer *rgbBuffer;
+          guchar            *frameData;
+          GimpDrawable      *drawable;
+          GimpPixelRgn       pixel_rgn;
+          gboolean           isEarlyUnlockPossible;
+          
+          
+          gvahand->fc_frame_data = fc_ptr->frame_data;  /* framedata of cached frame */
+          gvahand->fc_row_pointers = fc_ptr->row_pointers;
+          
+          
+          if(gvahand->frame_bpp != 3)
+          {
+            /* force fetch as drawable in case video data is not of type rgb888
+             */
+            fetchResult->isRgb888Result = FALSE;
+          }
+          
+          if (fetchResult->isRgb888Result == TRUE)
+          {
+            rgbBuffer = &fetchResult->rgbBuffer;
+          }
+          else
+          {
+            /* in case fetch result is gimp layer, use a local buffer for delace purpose */
+            rgbBuffer = &rgbBufferLocal;
+            rgbBuffer->data = NULL;
+          }
+          
+          rgbBuffer->width = gvahand->width;
+          rgbBuffer->height = gvahand->height;
+          rgbBuffer->bpp = gvahand->frame_bpp;
+          rgbBuffer->rowstride = gvahand->width * gvahand->frame_bpp;     /* bytes per pixel row */
+          rgbBuffer->deinterlace = deinterlace;
+          rgbBuffer->threshold = threshold;
+          frameData = NULL;
+          isEarlyUnlockPossible = TRUE;
+          
+          /* PERFTEST configuration values to test performance of various strategies on multiprocessor machines */
+          if (isPerftestInitialized != TRUE)
+          {
+            isPerftestInitialized = TRUE;
+
+            if(numProcessors > 1)
+            {
+              /* copy full size as one big rectangle gives the gimp core the chance to process with more than one thread */
+              isPerftestApiTilesDefault = FALSE;
+            }
+            else
+            {
+              /* tile based copy was a little bit faster in tests where gimp-core used only one CPU */
+              isPerftestApiTilesDefault = TRUE;
+            }
+            isPerftestApiTiles = gap_base_get_gimprc_gboolean_value("isPerftestApiTiles", isPerftestApiTilesDefault);
+            isPerftestApiMemcpyMP = gap_base_get_gimprc_gboolean_value("isPerftestApiMemcpyMP", TRUE);
+          }
+          
+          
+          if (deinterlace != 0)
+          {
+            if(rgbBuffer->data == NULL)
+            {
+              rgbBuffer->data = g_malloc(rgbBuffer->rowstride * rgbBuffer->height);
+              if(fetchResult->isRgb888Result != TRUE)
+              {
+                frameData = rgbBuffer->data;  /* frameData will be freed after convert to drawable */
+              }
+            }
+            GVA_copy_or_deinterlace_fcache_data_to_rgbBuffer(rgbBuffer
+                                                          , gvahand->fc_frame_data
+                                                          , numProcessors
+                                                          );
+          }
+          else
+          {
+            if (fetchResult->isRgb888Result == TRUE)
+            {
+              /* it is required to make an 1:1 copy of the rgb888 fcache data 
+               * to the rgbBuffer.
+               * allocate the buffer in case the caller has supplied just a NULL data pointer.
+               * otherwise use the supplied buffer.
+               */
+              if(rgbBuffer->data == NULL)
+              {
+                rgbBuffer->data = g_malloc(rgbBuffer->rowstride * rgbBuffer->height);
+              }
+
+              if(isPerftestApiMemcpyMP)
+              {
+                GVA_copy_or_deinterlace_fcache_data_to_rgbBuffer(rgbBuffer
+                                                          , gvahand->fc_frame_data
+                                                          , numProcessors
+                                                          );
+              }
+              else
+              {
+                GAP_TIMM_START_FUNCTION(funcIdMemcpy);
+                
+                memcpy(rgbBuffer->data, gvahand->fc_frame_data, (rgbBuffer->rowstride * rgbBuffer->height));
+                
+                GAP_TIMM_STOP_FUNCTION(funcIdMemcpy);
+              }
+            }
+            else
+            {
+              /* setup rgbBuffer->data to point direct to the fcache frame data
+               * No additional frameData buffer is allocated in this case and no extra memcpy is required,
+               * but the fcache mutex must stay in locked state until data is completely transfered
+               * to the drawable.
+               */
+              rgbBuffer->data = gvahand->fc_frame_data;
+              isEarlyUnlockPossible = FALSE;
+            }
+          }
+          
+          
+          
+          if(isEarlyUnlockPossible == TRUE)
+          {
+           /* at this point the frame data is already copied to the
+            * rgbBuffer or there is no need to convert to drawable at all.
+            * therefore we can already unlock the mutex
+            * so that other threads already can continue using the fcache
+            */
+            GVA_fcache_mutex_unlock (gvahand);
+          }
+          
+          if (fetchResult->isRgb888Result == TRUE)
+          {
+            fetchResult->isFrameAvailable = TRUE; /* OK frame available in fcache and was copied to rgbBuffer */
+            GAP_TIMM_STOP_FUNCTION(funcId);
+            return;
+          }
+          
+          fetchResult->image_id = gimp_image_new (rgbBuffer->width, rgbBuffer->height, GIMP_RGB);
+          if (gimp_image_undo_is_enabled(fetchResult->image_id))
+          {
+            gimp_image_undo_disable(fetchResult->image_id);
+          }
+          
+          if(rgbBuffer->bpp == 4)
+          {
+            fetchResult->layer_id = gimp_layer_new (fetchResult->image_id
+                                            , "layername"
+                                            , rgbBuffer->width
+                                            , rgbBuffer->height
+                                            , GIMP_RGBA_IMAGE
+                                            , 100.0, GIMP_NORMAL_MODE);
+          }
+          else
+          {
+            fetchResult->layer_id = gimp_layer_new (fetchResult->image_id
+                                            , "layername"
+                                            , rgbBuffer->width
+                                            , rgbBuffer->height
+                                            , GIMP_RGB_IMAGE
+                                            , 100.0, GIMP_NORMAL_MODE);
+          }
+
+          drawable = gimp_drawable_get (fetchResult->layer_id);
+          
+          
+          if(isPerftestApiTiles)
+          {
+            gpointer pr;
+            GAP_TIMM_START_FUNCTION(funcIdToDrawableTile);
+
+            gimp_pixel_rgn_init (&pixel_rgn, drawable, 0, 0
+                           , drawable->width, drawable->height
+                           , TRUE      /* dirty */
+                           , FALSE     /* shadow */
+                           );
+
+            for (pr = gimp_pixel_rgns_register (1, &pixel_rgn);
+                 pr != NULL;
+                 pr = gimp_pixel_rgns_process (pr))
+            {
+              p_copyRgbBufferToPixelRegion (&pixel_rgn, rgbBuffer);
+            }
+
+            GAP_TIMM_STOP_FUNCTION(funcIdToDrawableTile);
+          }
+          else
+          {
+            GAP_TIMM_START_FUNCTION(funcIdToDrawableRect);
+
+            gimp_pixel_rgn_init (&pixel_rgn, drawable, 0, 0
+                           , drawable->width, drawable->height
+                           , TRUE      /* dirty */
+                           , FALSE     /* shadow */
+                           );
+            gimp_pixel_rgn_set_rect (&pixel_rgn, rgbBuffer->data
+                           , 0
+                           , 0
+                           , drawable->width
+                           , drawable->height
+                           );
+
+            GAP_TIMM_STOP_FUNCTION(funcIdToDrawableRect);
+          }
+          
+          if(isEarlyUnlockPossible != TRUE)
+          {
+            /* isEarlyUnlockPossible == FALSE indicates the case where the image was directly filled from fcache
+             * in this scenario the mutex must be unlocked at this later time 
+             * after the fcache data is already transfered to the drawable
+             */
+             GVA_fcache_mutex_unlock (gvahand);
+          }
+
+
+          GAP_TIMM_START_FUNCTION(funcIdDrawableFlush);
+          gimp_drawable_flush (drawable);
+          GAP_TIMM_STOP_FUNCTION(funcIdDrawableFlush);
+
+          GAP_TIMM_START_FUNCTION(funcIdDrawableDetach);
+          gimp_drawable_detach(drawable);
+          GAP_TIMM_STOP_FUNCTION(funcIdDrawableDetach);
+
+          /*
+           * gimp_drawable_merge_shadow (drawable->id, TRUE);
+           */
+
+          /* add new layer on top of the layerstack */
+          gimp_image_add_layer (fetchResult->image_id, fetchResult->layer_id, 0);
+          gimp_drawable_set_visible(fetchResult->layer_id, TRUE);
+
+          /* clear undo stack */
+          if (gimp_image_undo_is_enabled(fetchResult->image_id))
+          {
+            gimp_image_undo_disable(fetchResult->image_id);
+          }
+
+          if(frameData != NULL)
+          {
+            g_free(frameData);
+            frameData = NULL;
+          }
+
+          fetchResult->isFrameAvailable = TRUE; /* OK  frame available in fcache and was converted to drawable */
+          GAP_TIMM_STOP_FUNCTION(funcId);
+          return;
+        }
+      }
+
+      /* try to get framedata from fcache ringlist,
+       * by stepping backwards the frames that were read before
+       */
+      fc_ptr = (t_GVA_Frame_Cache_Elem  *)fc_ptr->prev;
+
+      if(fcache->fc_current == fc_ptr)
+      {
+        break;  /* STOP, we are back at startpoint of the ringlist */
+      }
+      if(fc_ptr == NULL)
+      {
+        printf("** ERROR in GVA_search_fcache_and_get_frame_as_gimp_layer ringlist broken \n");
+        break;  /* internal error, ringlist is broken */
+      }
+    }
+  }
+
+  GVA_fcache_mutex_unlock (gvahand);
+  GAP_TIMM_STOP_FUNCTION(funcId);
+
+
+}  /* end GVA_search_fcache_and_get_frame_as_gimp_layer_or_rgb888 */
+
+
+// /* ---------------------------------------------
+//  * GVA_search_fcache_and_get_frame_as_gimp_layer    procedure instrumented for PERFTEST
+//  * ---------------------------------------------
+//  * search the frame cache for given framenumber
+//  * and return a copy (or deinterlaced copy) as gimp layer (in a newly created image)
+//  * in case framenumber was NOT found in the fcache return -1
+//  *
+//  * This procedure also set fcache internal rowpointers.
+//  *  gvahand->fc_frame_data
+//  *  gvahand->fc_row_pointers
+//  *
+//  *
+//  * RETURN: layerId (a positive integer)
+//  *         -1 if framenumber not found in fcache, or errors occured
+//  *
+//  * Notes:
+//  * o)  this procedure does not set image aspect for performance reasons.
+//  *     in case aspect is required the calling programm has to perform
+//  *     the additional call like this:
+//  *       layer_id = GVA_search_fcache_and_get_frame_as_gimp_layer(gvahand, ....);
+//  *       GVA_image_set_aspect(gvahand, gimp_drawable_get_image(layer_id));
+//  */
+// gint32
+// GVA_search_fcache_and_get_frame_as_gimp_layer(t_GVA_Handle *gvahand
+//                  , gint32 framenumber
+//                  , gint32   deinterlace
+//                  , gdouble  threshold
+//                  , gint32   numProcessors
+//                  )
+// {
+//   t_GVA_Frame_Cache *fcache;
+//   t_GVA_Frame_Cache_Elem  *fc_ptr;
+//   gint32                   l_threshold;
+//   gint32                   l_mix_threshold;
+//   gint32                   l_new_layer_id;
+// 
+//   static gint32 funcId = -1;
+//   static gint32 funcIdMemcpy = -1;
+//   static gint32 funcIdToDrawableRect = -1;
+//   static gint32 funcIdToDrawableTile = -1;
+//   static gint32 funcIdDrawableFlush = -1;
+//   static gint32 funcIdDrawableDetach = -1;
+//   
+//   GAP_TIMM_GET_FUNCTION_ID(funcId, "GVA_search_fcache_and_get_frame");
+//   GAP_TIMM_GET_FUNCTION_ID(funcIdMemcpy, "GVA_search_fcache_and_get_frame.memcpy");
+//   GAP_TIMM_GET_FUNCTION_ID(funcIdToDrawableRect, "GVA_search_fcache_and_get_frame.toDrawable (rgn_set_rect)");
+//   GAP_TIMM_GET_FUNCTION_ID(funcIdToDrawableTile, "GVA_search_fcache_and_get_frame.toDrawable (tilebased)");
+//   GAP_TIMM_GET_FUNCTION_ID(funcIdDrawableFlush, "GVA_search_fcache_and_get_frame.gimp_drawable_flush");
+//   GAP_TIMM_GET_FUNCTION_ID(funcIdDrawableDetach, "GVA_search_fcache_and_get_frame.gimp_drawable_detach");
+// 
+//   l_new_layer_id = -1;
+// 
+//   if(gap_debug)
+//   {
+//     printf("GVA_search_fcache_and_get_frame_as_gimp_layer: search for framenumber: %d\n", (int)framenumber );
+//   }
+//   if(gvahand->fcache.fcache_locked)
+//   {
+//     return(l_new_layer_id);  /* dont touch the fcache while locked */
+//   }
+// 
+//   GAP_TIMM_START_FUNCTION(funcId);
+// 
+// 
+//   /* expand threshold range from 0.0-1.0  to 0 - MIX_MAX_THRESHOLD */
+//   threshold = CLAMP(threshold, 0.0, 1.0);
+//   l_threshold = (gdouble)MIX_MAX_THRESHOLD * (threshold * threshold * threshold);
+//   l_mix_threshold = CLAMP((gint32)l_threshold, 0, MIX_MAX_THRESHOLD);
+// 
+//   GVA_fcache_mutex_lock (gvahand);
+// 
+// 
+//   /* init with framedata of current frame
+//    * (for the case that framenumber not available in fcache)
+//    */
+//   gvahand->fc_frame_data = gvahand->frame_data;
+//   gvahand->fc_row_pointers = gvahand->row_pointers;
+// 
+//   fcache = &gvahand->fcache;
+//   if(fcache->fc_current)
+//   {
+//     fc_ptr = (t_GVA_Frame_Cache_Elem  *)fcache->fc_current;
+//     while(1 == 1)
+//     {
+//       if(framenumber == fc_ptr->framenumber)
+//       {
+//         if(fc_ptr->framenumber >= 0)
+//         {
+//           /* FCACHE HIT */
+//           static gboolean           isPerftestInitialized = FALSE;          
+//           static gboolean           isPerftestApiTilesDefault;
+//           static gboolean           isPerftestApiTiles;          /* copy tile-by-tile versus gimp_pixel_rgn_set_rect all at once */
+//           static gboolean           isPerftestApiMemcpyMP;       /* memcopy versus multithreade memcopy in rowStipres */
+//           static gboolean           isPerftestEarlyFcacheUnlock; /* TRUE: 1:1 copy the fcache to frameData buffer even if delace not required 
+//                                                            *       to enable early unlock of the fcache mutex.
+//                                                            *       (prefetch thread in the storyboard processor
+//                                                            *        may benefit from the early unlock
+//                                                            *        and have a chance for better overall performance)
+//                                                            */
+// 
+//           GVA_RgbPixelBuffer rgbBuffer;
+//           guchar            *frameData;
+//           gint32             image_id;
+//           GimpDrawable      *drawable;
+//           GimpPixelRgn       pixel_rgn;
+//           
+//           
+//           gvahand->fc_frame_data = fc_ptr->frame_data;  /* framedata of cached frame */
+//           gvahand->fc_row_pointers = fc_ptr->row_pointers;
+//           
+//           rgbBuffer.width = gvahand->width;
+//           rgbBuffer.height = gvahand->height;
+//           rgbBuffer.bpp = gvahand->frame_bpp;
+//           rgbBuffer.rowstride = gvahand->width * gvahand->frame_bpp;     /* bytes per pixel row */
+//           rgbBuffer.deinterlace = deinterlace;
+//           rgbBuffer.threshold = threshold;
+//           frameData = NULL;
+//           
+//           /* PERFTEST configuration values to test performance of various strategies on multiprocessor machines */
+//           if (isPerftestInitialized != TRUE)
+//           {
+//             isPerftestInitialized = TRUE;
+// 
+//             if(numProcessors > 1)
+//             {
+//               /* copy full size as one big rectangle gives the gimp core the chance to process with more than one thread */
+//               isPerftestApiTilesDefault = FALSE;
+//             }
+//             else
+//             {
+//               /* tile based copy was a little bit faster in tests where gimp-core used only one CPU */
+//               isPerftestApiTilesDefault = TRUE;
+//             }
+//             isPerftestApiTiles = gap_base_get_gimprc_gboolean_value("isPerftestApiTiles", isPerftestApiTilesDefault);
+//             isPerftestApiMemcpyMP = gap_base_get_gimprc_gboolean_value("isPerftestApiMemcpyMP", TRUE);
+//             isPerftestEarlyFcacheUnlock = gap_base_get_gimprc_gboolean_value("isPerftestEarlyFcacheUnlock", FALSE);
+//           }
+//           
+//           if (deinterlace != 0)
+//           {
+//             frameData = g_malloc(rgbBuffer.rowstride * rgbBuffer.height);
+//             rgbBuffer.data = frameData;
+//             GVA_copy_or_deinterlace_fcache_data_to_rgbBuffer(&rgbBuffer
+//                                                           , gvahand->fc_frame_data
+//                                                           , numProcessors
+//                                                           );
+//           }
+//           else
+//           {
+//             if (isPerftestEarlyFcacheUnlock)
+//             {
+//               /* for early unlock startegy it is required to make a copy of the fcache data */
+// 
+//               frameData = g_malloc(rgbBuffer.rowstride * rgbBuffer.height);
+//               rgbBuffer.data = frameData;
+//               if(isPerftestApiMemcpyMP)
+//               {
+//                 GVA_copy_or_deinterlace_fcache_data_to_rgbBuffer(&rgbBuffer
+//                                                           , gvahand->fc_frame_data
+//                                                           , numProcessors
+//                                                           );
+//               }
+//               else
+//               {
+//                 GAP_TIMM_START_FUNCTION(funcIdMemcpy);
+//                 
+//                 memcpy(rgbBuffer.data, gvahand->fc_frame_data, (rgbBuffer.rowstride * rgbBuffer.height));
+//                 
+//                 GAP_TIMM_STOP_FUNCTION(funcIdMemcpy);
+//               }
+//             }
+//             else
+//             {
+//               /* setup rgbBuffer.data to point direct to the fcache frame data
+//                * No additional frameData buffer is allocated in this case and no extra memcpy is required,
+//                * but the fcache mutex must stay in locked state until data is completely transfered
+//                * to the drawable. This can have performance impact on parallel running prefetch threads
+//                */
+//               rgbBuffer.data = gvahand->fc_frame_data;
+//             }
+//           }
+//           
+//           
+//           
+//           if(frameData != TRUE)
+//           {
+//            /* at this point the frame data is already copied to newly allocated
+//             * frameData buffer (that is owned exclusive by the current thread)
+//             * therefore we can already unlock the mutex
+//             * so that other threads already can continue using the fcache
+//             */
+//             GVA_fcache_mutex_unlock (gvahand);
+//           }
+//           
+//          
+//           image_id = gimp_image_new (rgbBuffer.width, rgbBuffer.height, GIMP_RGB);
+//           if (gimp_image_undo_is_enabled(image_id))
+//           {
+//             gimp_image_undo_disable(image_id);
+//           }
+//           
+//           if(rgbBuffer.bpp == 4)
+//           {
+//             l_new_layer_id = gimp_layer_new (image_id
+//                                               , "layername"
+//                                               , rgbBuffer.width
+//                                               , rgbBuffer.height
+//                                               , GIMP_RGBA_IMAGE
+//                                               , 100.0, GIMP_NORMAL_MODE);
+//           }
+//           else
+//           {
+//             l_new_layer_id = gimp_layer_new (image_id
+//                                               , "layername"
+//                                               , rgbBuffer.width
+//                                               , rgbBuffer.height
+//                                               , GIMP_RGB_IMAGE
+//                                               , 100.0, GIMP_NORMAL_MODE);
+//           }
+// 
+// 
+//           
+//           drawable = gimp_drawable_get (l_new_layer_id);
+//           
+//           
+//           if(isPerftestApiTiles)
+//           {
+//             gpointer pr;
+//             GAP_TIMM_START_FUNCTION(funcIdToDrawableTile);
+// 
+//             gimp_pixel_rgn_init (&pixel_rgn, drawable, 0, 0
+//                              , drawable->width, drawable->height
+//                              , TRUE      /* dirty */
+//                              , FALSE     /* shadow */
+//                              );
+// 
+//             for (pr = gimp_pixel_rgns_register (1, &pixel_rgn);
+//                  pr != NULL;
+//                  pr = gimp_pixel_rgns_process (pr))
+//             {
+//               p_copyRgbBufferToPixelRegion (&pixel_rgn, &rgbBuffer);
+//             }
+// 
+//             GAP_TIMM_STOP_FUNCTION(funcIdToDrawableTile);
+//           }
+//           else
+//           {
+//             GAP_TIMM_START_FUNCTION(funcIdToDrawableRect);
+// 
+//             gimp_pixel_rgn_init (&pixel_rgn, drawable, 0, 0
+//                              , drawable->width, drawable->height
+//                              , TRUE      /* dirty */
+//                              , FALSE     /* shadow */
+//                              );
+//             gimp_pixel_rgn_set_rect (&pixel_rgn, rgbBuffer.data
+//                              , 0
+//                              , 0
+//                              , drawable->width
+//                              , drawable->height
+//                              );
+// 
+//             GAP_TIMM_STOP_FUNCTION(funcIdToDrawableRect);
+//           }
+//           
+//           if(frameData == NULL)
+//           {
+//             /* frameData == NULL indicates the case where the image was directly filled from fcache
+//              * in this scenario the mutex must be unlocked at this later time 
+//              * after the fcache data is already transfered to the drawable
+//              */
+//              GVA_fcache_mutex_unlock (gvahand);
+//           }
+// 
+// 
+//           GAP_TIMM_START_FUNCTION(funcIdDrawableFlush);
+//           gimp_drawable_flush (drawable);
+//           GAP_TIMM_STOP_FUNCTION(funcIdDrawableFlush);
+// 
+//           GAP_TIMM_START_FUNCTION(funcIdDrawableDetach);
+//           gimp_drawable_detach(drawable);
+//           GAP_TIMM_STOP_FUNCTION(funcIdDrawableDetach);
+// 
+//           /*
+//            * gimp_drawable_merge_shadow (drawable->id, TRUE);
+//            */
+// 
+//           /* add new layer on top of the layerstack */
+//           gimp_image_add_layer (image_id, l_new_layer_id, 0);
+//           gimp_drawable_set_visible(l_new_layer_id, TRUE);
+// 
+//           /* clear undo stack */
+//           if (gimp_image_undo_is_enabled(image_id))
+//           {
+//             gimp_image_undo_disable(image_id);
+//           }
+// 
+//           if(frameData != NULL)
+//           {
+//             g_free(frameData);
+//             frameData = NULL;
+//           }
+// 
+//           GAP_TIMM_STOP_FUNCTION(funcId);
+//           return (l_new_layer_id); /* OK  frame available in fcache */
+//         }
+//       }
+// 
+//       /* try to get framedata from fcache ringlist,
+//        * by stepping backwards the frames that were read before
+//        */
+//       fc_ptr = (t_GVA_Frame_Cache_Elem  *)fc_ptr->prev;
+// 
+//       if(fcache->fc_current == fc_ptr)
+//       {
+//         break;  /* STOP, we are back at startpoint of the ringlist */
+//       }
+//       if(fc_ptr == NULL)
+//       {
+//         printf("** ERROR in GVA_search_fcache_and_get_frame_as_gimp_layer ringlist broken \n");
+//         break;  /* internal error, ringlist is broken */
+//       }
+//     }
+//   }
+// 
+//   GVA_fcache_mutex_unlock (gvahand);
+//   GAP_TIMM_STOP_FUNCTION(funcId);
+// 
+//   return (l_new_layer_id);
+// 
+// }  /* end GVA_search_fcache_and_get_frame_as_gimp_layer */
 
 
 /* --------------------
@@ -857,15 +1706,39 @@ p_gva_worker_close(t_GVA_Handle  *gvahand)
     t_GVA_DecoderElem *dec_elem;
 
 
+
+
     dec_elem = (t_GVA_DecoderElem *)gvahand->dec_elem;
 
     if(dec_elem)
     {
-      if(gap_debug) printf("GVA: p_gva_worker_close: before CLOSE %s with decoder:%s\n", gvahand->filename,  dec_elem->decoder_name);
+      char *nameMutexLockStats;
+      
+      if(gap_debug)
+      {
+        printf("GVA: gvahand:%d p_gva_worker_close: before CLOSE %s with decoder:%s\n"
+           , (int)gvahand
+           , gvahand->filename
+           , dec_elem->decoder_name
+           );
+      }
 
+      /* log mutex wait statistics (only in case compiled with runtime recording) */
+      nameMutexLockStats = g_strdup_printf("... close gvahand:%d fcacheMutexLockStatistic ", (int)gvahand);
+      GVA_copy_or_delace_print_statistics();
+      GAP_TIMM_PRINT_RECORD(&gvahand->fcacheMutexLockStats, nameMutexLockStats);
+      g_free(nameMutexLockStats);
+      
       (*dec_elem->fptr_close)(gvahand);
 
-      if(gap_debug) printf("GVA: p_gva_worker_close: after CLOSE %s with decoder:%s\n", gvahand->filename,  dec_elem->decoder_name);
+      if(gap_debug)
+      {
+        printf("GVA: gvahand:%d p_gva_worker_close: after CLOSE %s with decoder:%s\n"
+           , (int)gvahand
+           , gvahand->filename
+           , dec_elem->decoder_name
+           );
+      }
 
       if(gvahand->filename)
       {
@@ -908,9 +1781,12 @@ p_gva_worker_get_next_frame(t_GVA_Handle  *gvahand)
       }
 
       fcache = &gvahand->fcache;
+      GVA_fcache_mutex_lock (gvahand);
       fcache->fcache_locked = TRUE;
       if(fcache->fc_current)
       {
+        t_GVA_Frame_Cache_Elem *fc_current;
+
         /* if fcache framenumber is negative, we can reuse
          * that EMPTY element without advance
          */
@@ -922,16 +1798,23 @@ p_gva_worker_get_next_frame(t_GVA_Handle  *gvahand)
           gvahand->frame_data = fcache->fc_current->frame_data;
           gvahand->row_pointers = fcache->fc_current->row_pointers;
         }
+        
+        fc_current = fcache->fc_current;
+
+        GVA_fcache_mutex_unlock (gvahand);
 
         /* CALL decoder specific implementation of GET_NEXT_FRAME procedure */
         l_rc = (*dec_elem->fptr_get_next_frame)(gvahand);
 
+        GVA_fcache_mutex_lock (gvahand);
+
         if (l_rc == GVA_RET_OK)
         {
-          fcache->fc_current->framenumber = gvahand->current_frame_nr;
+          fc_current->framenumber = gvahand->current_frame_nr;
         }
       }
       fcache->fcache_locked = FALSE;
+      GVA_fcache_mutex_unlock (gvahand);
     }
   }
   return(l_rc);
@@ -964,6 +1847,9 @@ p_gva_worker_seek_frame(t_GVA_Handle  *gvahand, gdouble pos, t_GVA_PosUnit pos_u
       }
       fcache = &gvahand->fcache;
       fcache->fcache_locked = TRUE;
+
+      GVA_fcache_mutex_lock (gvahand);
+
       if(fcache->fc_current)
       {
         /* if fcache framenumber is negative, we can reuse
@@ -982,6 +1868,8 @@ p_gva_worker_seek_frame(t_GVA_Handle  *gvahand, gdouble pos, t_GVA_PosUnit pos_u
           gvahand->row_pointers = fcache->fc_current->row_pointers;
         }
       }
+
+      GVA_fcache_mutex_unlock (gvahand);
         
       /* CALL decoder specific implementation of SEEK_FRAME procedure */
       l_rc = (*dec_elem->fptr_seek_frame)(gvahand, pos, pos_unit);
@@ -1266,6 +2154,11 @@ p_gva_worker_open_read(const char *filename, gint32 vid_track, gint32 aud_track
   gvahand->percentage_done = 0.0;
   gvahand->frame_counter = 0;
   gvahand->gva_thread_save = TRUE;  /* default for most decoder libs */
+  gvahand->fcache_mutex = NULL;     /* per default do not use g_mutex_lock / g_mutex_unlock at fcache access */
+  gvahand->user_data = NULL;        /* reserved for user data */
+  
+  GAP_TIMM_INIT_RECORD(&gvahand->fcacheMutexLockStats);
+
 
   if(GVA_global_decoder_list == NULL)
   {
@@ -1422,6 +2315,11 @@ GVA_get_next_frame(t_GVA_Handle  *gvahand)
 {
   t_GVA_RetCode l_rc;
 
+  static gint32 funcId = -1;
+  
+  GAP_TIMM_GET_FUNCTION_ID(funcId, "GVA_get_next_frame");
+  GAP_TIMM_START_FUNCTION(funcId);
+
   if(gap_debug)
   {
     printf("GVA_get_next_frame: START handle:%d\n", (int)gvahand);
@@ -1434,6 +2332,9 @@ GVA_get_next_frame(t_GVA_Handle  *gvahand)
     printf("GVA_get_next_frame: END rc:%d\n", (int)l_rc);
   }
 
+
+  GAP_TIMM_STOP_FUNCTION(funcId);
+
   return(l_rc);
 }
 
@@ -1441,6 +2342,11 @@ t_GVA_RetCode
 GVA_seek_frame(t_GVA_Handle  *gvahand, gdouble pos, t_GVA_PosUnit pos_unit)
 {
   t_GVA_RetCode l_rc;
+
+  static gint32 funcId = -1;
+  
+  GAP_TIMM_GET_FUNCTION_ID(funcId, "GVA_seek_frame");
+  GAP_TIMM_START_FUNCTION(funcId);
 
   if(gap_debug)
   {
@@ -1455,6 +2361,8 @@ GVA_seek_frame(t_GVA_Handle  *gvahand, gdouble pos, t_GVA_PosUnit pos_unit)
     printf("GVA_seek_frame: END rc:%d\n"
       , (int)l_rc);
   }
+
+  GAP_TIMM_STOP_FUNCTION(funcId);
 
   return(l_rc);
 }
@@ -1740,19 +2648,19 @@ p_check_image_is_alive(gint32 image_id)
 
 
 /* ------------------------------------
- * p_mix_rows
+ * gva_delace_mix_rows
  * ------------------------------------
  * mix 2 input pixelrows (prev_row, next_row)
  * to one resulting pixelrow (mixed_row)
  * All pixelrows must have same width and bpp
  */
 static inline void
-p_mix_rows( gint32 width
+gva_delace_mix_rows( gint32 width
           , gint32 bpp
           , gint32 row_bytewidth
           , gint32 mix_threshold   /* 0 <= mix_threshold <= 33554432 (256*256*256*2) */
-          , guchar *prev_row
-          , guchar *next_row
+          , const guchar *prev_row
+          , const guchar *next_row
           , guchar *mixed_row
           )
 {
@@ -1819,16 +2727,16 @@ p_mix_rows( gint32 width
       mixed_row += bpp;
     }
   }
-}  /* end p_mix_rows */
+}  /* end gva_delace_mix_rows */
 
 
 
 /* ------------------------------------
- * p_calculate_mix_threshold
+ * gva_delace_calculate_mix_threshold
  * ------------------------------------
  */
 static gint32
-p_calculate_mix_threshold(gdouble threshold)
+gva_delace_calculate_mix_threshold(gdouble threshold)
 {
   gint32  l_threshold;
   gint32  l_mix_threshold;
@@ -1842,11 +2750,11 @@ p_calculate_mix_threshold(gdouble threshold)
 
 
 /* ------------------------------------
- * p_calculate_interpolate_flag
+ * gva_delace_calculate_interpolate_flag
  * ------------------------------------
  */
 static gint32
-p_calculate_interpolate_flag(gint32 deinterlace)
+gva_delace_calculate_interpolate_flag(gint32 deinterlace)
 {
   gint32  l_interpolate_flag;
  
@@ -1899,8 +2807,8 @@ GVA_delace_frame(t_GVA_Handle *gvahand
   l_framedata_copy = g_malloc(l_row_bytewidth * gvahand->height);
 
 
-  l_interpolate_flag = p_calculate_interpolate_flag(deinterlace);
-  l_mix_threshold = p_calculate_mix_threshold(threshold);
+  l_interpolate_flag = gva_delace_calculate_interpolate_flag(deinterlace);
+  l_mix_threshold = gva_delace_calculate_mix_threshold(threshold);
 
   l_row_ptr_dest = l_framedata_copy;
   for(l_row = 0; l_row < gvahand->height; l_row++)
@@ -1924,7 +2832,7 @@ GVA_delace_frame(t_GVA_Handle *gvahand
           /* we have both prev and next row within valid range
            * and can calculate an interpolated row
            */
-          p_mix_rows ( gvahand->width
+          gva_delace_mix_rows ( gvahand->width
                        , gvahand->frame_bpp
                        , l_row_bytewidth
                        , l_mix_threshold
@@ -1970,8 +2878,8 @@ p_gva_deinterlace_drawable (GimpDrawable *drawable, gint32 deinterlace, gdouble 
   gint32  l_mix_threshold;
 
 
-  l_interpolate_flag = p_calculate_interpolate_flag(deinterlace);
-  l_mix_threshold = p_calculate_mix_threshold(threshold);
+  l_interpolate_flag = gva_delace_calculate_interpolate_flag(deinterlace);
+  l_mix_threshold = gva_delace_calculate_mix_threshold(threshold);
 
   bytes = drawable->bpp;
 
@@ -2005,7 +2913,7 @@ p_gva_deinterlace_drawable (GimpDrawable *drawable, gint32 deinterlace, gdouble 
       gimp_pixel_rgn_get_row (&srcPR, upper, x, row - 1, width);
       gimp_pixel_rgn_get_row (&srcPR, lower, x, row + 1, width);
  
-      p_mix_rows ( width
+      gva_delace_mix_rows ( width
                  , drawable->bpp
                  , l_row_bytewidth
                  , l_mix_threshold
@@ -2191,6 +3099,9 @@ GVA_frame_to_gimp_layer_2(t_GVA_Handle *gvahand
      return (-2);
   }
 
+
+  GVA_fcache_mutex_lock (gvahand);
+
   /* expand threshold range from 0.0-1.0  to 0 - MIX_MAX_THRESHOLD */
   threshold = CLAMP(threshold, 0.0, 1.0);
   l_threshold = (gdouble)MIX_MAX_THRESHOLD * (threshold * threshold * threshold);
@@ -2323,6 +3234,8 @@ GVA_frame_to_gimp_layer_2(t_GVA_Handle *gvahand
     }
   }
 
+  GVA_fcache_mutex_unlock (gvahand);
+
   if (gap_debug)
   {
     printf("DEBUG: after copy data rows (NO SHADOW)\n");
@@ -2413,6 +3326,8 @@ GVA_fcache_to_gimp_image(t_GVA_Handle *gvahand
 
   fcache = &gvahand->fcache;
 
+  GVA_fcache_mutex_lock (gvahand);
+
   /* search the fcache element with smallest positve framenumber */
   fc_minframe = NULL;
   if(fcache->fc_current)
@@ -2457,6 +3372,8 @@ GVA_fcache_to_gimp_image(t_GVA_Handle *gvahand
       &&((fc_ptr->framenumber <= max_framenumber) || (max_framenumber < 0))
       && (fc_ptr->framenumber >= 0))
       {
+          GVA_fcache_mutex_unlock (gvahand);
+
           GVA_frame_to_gimp_layer_2(gvahand
                   , &image_id
                   , layer_id
@@ -2466,6 +3383,8 @@ GVA_fcache_to_gimp_image(t_GVA_Handle *gvahand
                   , threshold
                   );
            delete_mode = FALSE;  /* keep old layers */
+
+           GVA_fcache_mutex_lock (gvahand);
       }
 
       /* step from fc_minframe forward in the fcache ringlist,
@@ -2475,14 +3394,18 @@ GVA_fcache_to_gimp_image(t_GVA_Handle *gvahand
 
       if(fc_minframe == fc_ptr)
       {
+        GVA_fcache_mutex_unlock (gvahand);
         return (image_id);  /* STOP, we are back at startpoint of the ringlist */
       }
       if(fc_ptr == NULL)
       {
+        GVA_fcache_mutex_unlock (gvahand);
         return (image_id);  /* internal error, ringlist is broken */
       }
     }
   }
+
+  GVA_fcache_mutex_unlock (gvahand);
 
   return image_id;
 }  /* end GVA_fcache_to_gimp_image */
@@ -2586,6 +3509,11 @@ GVA_frame_to_buffer(t_GVA_Handle *gvahand
 {
   gint32  frame_size;
   guchar *frame_data;
+  static gint32 funcIdDoScale = -1;
+  static gint32 funcIdNoScale = -1;
+  
+  GAP_TIMM_GET_FUNCTION_ID(funcIdDoScale, "GVA_frame_to_buffer.do_scale");
+  GAP_TIMM_GET_FUNCTION_ID(funcIdNoScale, "GVA_frame_to_buffer.no_scale");
 
   frame_data = NULL;
   
@@ -2604,6 +3532,9 @@ GVA_frame_to_buffer(t_GVA_Handle *gvahand
     gint         row, col;
     gint32       deinterlace_mask;
     gint         *arr_src_col;
+
+
+    GAP_TIMM_START_FUNCTION(funcIdDoScale);
 
     if(gap_debug) printf("GVA_frame_to_buffer: DO_SCALE\n");
     /* for safety: width and height must be set to useful values
@@ -2673,9 +3604,13 @@ GVA_frame_to_buffer(t_GVA_Handle *gvahand
       g_free(arr_src_col);
     }
 
+    GAP_TIMM_STOP_FUNCTION(funcIdDoScale);
+
   }
   else
   {
+    GAP_TIMM_START_FUNCTION(funcIdNoScale);
+
     *bpp = gvahand->frame_bpp;
     *width = gvahand->width;
     *height = gvahand->height;
@@ -2690,6 +3625,7 @@ GVA_frame_to_buffer(t_GVA_Handle *gvahand
       frame_data = g_malloc(frame_size);
       if(frame_data == NULL)
       {
+        GAP_TIMM_STOP_FUNCTION(funcIdNoScale);
         return (NULL);
       }
       memcpy(frame_data, gvahand->fc_frame_data, frame_size);
@@ -2702,6 +3638,7 @@ GVA_frame_to_buffer(t_GVA_Handle *gvahand
                                    );
       if(frame_data == NULL)
       {
+        GAP_TIMM_STOP_FUNCTION(funcIdNoScale);
         return (NULL);
       }
     }
@@ -2722,6 +3659,8 @@ GVA_frame_to_buffer(t_GVA_Handle *gvahand
            frame_data[3+(i*4)] = 255;
         }
     }
+
+    GAP_TIMM_STOP_FUNCTION(funcIdNoScale);
   }
 
   return(frame_data);
@@ -2744,6 +3683,9 @@ GVA_frame_to_buffer(t_GVA_Handle *gvahand
  * IN: do_scale  FALSE: deliver frame at original size (ignore bpp, width and height parameters)
  *               TRUE: deliver frame at size specified by width, height, bpp
  *                     scaling is done fast in low quality 
+ * IN: isBackwards  FALSE: disable prefetch on backwards seek (prefetch typically slows down in case of forward playing clip).
+ *                  TRUE: enable prefetch of some (10) frames that fills up fcache and gives better performance
+ *                        on backwards playing clips
  * IN: framenumber   The wanted framenumber
  *                   return NULL if the wanted framnumber could not be read.
  * IN: deinterlace   0: no deinterlace, 1 pick odd lines, 2 pick even lines
@@ -2761,6 +3703,7 @@ GVA_frame_to_buffer(t_GVA_Handle *gvahand
 guchar *
 GVA_fetch_frame_to_buffer(t_GVA_Handle *gvahand
                 , gboolean do_scale
+                , gboolean isBackwards
                 , gint32 framenumber
                 , gint32 deinterlace
                 , gdouble threshold
@@ -2769,6 +3712,8 @@ GVA_fetch_frame_to_buffer(t_GVA_Handle *gvahand
                 , gint32 *height
                 )
 {
+#define GVA_NEAR_FRAME_DISTANCE 10
+#define GVA_NEAR_FRAME_DISTANCE_BACK 30
   guchar *frame_data;
   t_GVA_RetCode  l_rc;
 
@@ -2792,12 +3737,27 @@ GVA_fetch_frame_to_buffer(t_GVA_Handle *gvahand
     l_delta = framenumber - gvahand->current_frame_nr;
     l_rc = GVA_RET_OK;
 
-    if((l_delta >= 1) && (l_delta <= 10))
+    if((l_delta >= 1) && (l_delta <= GVA_NEAR_FRAME_DISTANCE))
     {
       /* target framenumber is very near to the current_frame_nr
        * in this case positioning via sequential read is faster than seek
        */
       l_readsteps = l_delta;
+    }
+    else if ((l_delta < 0) && (isBackwards))
+    {
+      /* backwards seek is done to a position upto GVA_NEAR_FRAME_DISTANCE_BACK
+       * frames before the wanted framenumber to fill up the fcache
+       */
+      gdouble seekFrameNumber;
+      gdouble prefetchFrames;
+           
+           
+      prefetchFrames = MIN((GVA_get_fcache_size_in_elements(gvahand) -1), GVA_NEAR_FRAME_DISTANCE_BACK) ;
+      seekFrameNumber = MAX((gdouble)framenumber - prefetchFrames, 1);
+      l_readsteps = 1 + (framenumber - seekFrameNumber);
+      GVA_seek_frame(gvahand, seekFrameNumber, GVA_UPOS_FRAMES);
+      
     }
     else
     {
@@ -2809,11 +3769,13 @@ GVA_fetch_frame_to_buffer(t_GVA_Handle *gvahand
       l_rc = GVA_get_next_frame(gvahand);
       if(gap_debug)
       {
-        printf("GVA_fetch_frame_to_buffer: l_readsteps:%d framenumber;%d curr:%d l_rc:%d\n"
+        printf("GVA_fetch_frame_to_buffer: l_readsteps:%d framenumber;%d curr:%d l_rc:%d delta:%d fcacheSize:%d\n"
           , (int)l_readsteps
           , (int)framenumber
           , (int)gvahand->current_frame_nr
           , (int)l_rc
+          , (int)l_delta
+          , (int)GVA_get_fcache_size_in_elements(gvahand)
           );
       }
       l_readsteps--;

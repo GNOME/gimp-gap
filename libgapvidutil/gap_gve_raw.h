@@ -21,8 +21,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 
@@ -37,6 +37,14 @@
 #include "gtk/gtk.h"
 #include "libgimp/gimp.h"
 
+typedef struct GapRgbPixelBuffer
+{
+  guchar       *data;          /* pointer to region data */
+  guint         width;         /* width in pixels */
+  guint         height;        /* height in pixels */
+  guint         bpp;           /* bytes per pixel (always initialized with 3) */
+  guint         rowstride;     /* bytes per pixel row */
+} GapRgbPixelBuffer;
 
 /* ------------------------------------
  *  gap_gve_raw_BGR_drawable_encode
@@ -53,6 +61,15 @@ guchar *
 gap_gve_raw_BGR_drawable_encode(GimpDrawable *drawable, gint32 *RAW_size, gboolean vflip
                         ,guchar *app0_buffer, gint32 app0_length);
 
+
+/* ------------------------------------
+ * gap_gve_raw_RGB_drawable_encode
+ * ------------------------------------
+ * Encode drawable to RAW Buffer (Bytesequence RGB)
+ * NOTE: this implementation shall be used only in case app0 buffer or vflip feature is required
+ *       because it is rather slow due to its row by row processing.
+ *       (for faster implementation of RGB conversions see procedure gap_gve_drawable_to_RgbBuffer)
+ */
 guchar *
 gap_gve_raw_RGB_drawable_encode(GimpDrawable *drawable, gint32 *RAW_size, gboolean vflip
                         ,guchar *app0_buffer, gint32 app0_length);
@@ -114,4 +131,53 @@ guchar *
 gap_gve_raw_YUV420_drawable_encode(GimpDrawable *drawable, gint32 *RAW_size, gboolean vflip
                         ,guchar *app0_buffer, gint32 app0_length);
 
+
+
+/* ------------------------------------
+ * gap_gve_init_GapRgbPixelBuffer
+ * ------------------------------------
+ *
+ */
+void
+gap_gve_init_GapRgbPixelBuffer(GapRgbPixelBuffer *rgbBuffer, guint width, guint height);
+
+/* ------------------------------------
+ * gap_gve_new_GapRgbPixelBuffer
+ * ------------------------------------
+ *
+ */
+GapRgbPixelBuffer *
+gap_gve_new_GapRgbPixelBuffer(guint width, guint height);
+
+
+/* ------------------------------------
+ * gap_gve_free_GapRgbPixelBuffer
+ * ------------------------------------
+ *
+ */
+void
+gap_gve_free_GapRgbPixelBuffer(GapRgbPixelBuffer *rgbBuffer);
+
+
+/* ------------------------------------
+ * gap_gve_drawable_to_RgbBuffer
+ * ------------------------------------
+ * Encode drawable to RGBBuffer (Bytesequence RGB)
+ *
+ */
+void
+gap_gve_drawable_to_RgbBuffer(GimpDrawable *drawable, GapRgbPixelBuffer *rgbBuffer);
+
+/* -----------------------------------------
+ * gap_gve_drawable_to_RgbBuffer_multithread
+ * -----------------------------------------
+ * Encode drawable to RGBBuffer (Bytesequence RGB) on multiprocessor machines.
+ * This implementation uses threads to spread the work to the configured
+ * number of processors by using a thread pool.
+ *
+ */
+void
+gap_gve_drawable_to_RgbBuffer_multithread(GimpDrawable *drawable, GapRgbPixelBuffer *rgbBuffer);
+
 #endif
+

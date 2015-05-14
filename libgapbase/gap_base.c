@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -45,13 +45,13 @@
 #include <unistd.h>
 #endif
 
+
 #include <glib/gstdio.h>
 
 /* GIMP includes */
 #include "gtk/gtk.h"
 #include "libgimp/gimp.h"
-#include <libgimpwidgets/gimpwidgetstypes.h>
-#include <libgimpwidgets/gimphelpui.h>
+#include <libgimpwidgets/gimpwidgets.h>
 
 #ifdef G_OS_WIN32
 #include <io.h>
@@ -65,7 +65,12 @@
 
 
 #ifdef G_OS_WIN32
-#include <process.h>            /* For _getpid() */
+#include <process.h>             /* For _getpid() */
+#else
+#ifdef GAP_HAVE_PTHREAD
+#define USE_PTHREAD_FOR_LINUX_THREAD_ID 1
+#include "pthread.h"             /* for pthread_self() */
+#endif
 #endif
 
 /* GAP includes */
@@ -294,6 +299,32 @@ gap_base_dup_filename_and_replace_extension_by_underscore(const char *filename)
 }  /* end gap_base_dup_filename_and_replace_extension_by_underscore */
 
 
+
+
+/* --------------------------------
+ * gap_base_gdouble_to_ascii_string
+ * --------------------------------
+ * convert the specified gdouble value to ascci string.
+ * (always use "." as decimalpoint, independent of LOCALE language settings)
+ * return the converted string. (the caller is responsible to g_free this string after usage)
+ */
+gchar *
+gap_base_gdouble_to_ascii_string(gdouble value, gint precision_digits)
+{
+  gchar *retValueAsSting;
+  
+  gchar l_dbl_str[G_ASCII_DTOSTR_BUF_SIZE];
+  gchar l_fmt_str[20];
+  gint  l_len;
+
+  g_snprintf(l_fmt_str, sizeof(l_fmt_str), "%%.%df", (int)precision_digits);
+  g_ascii_formatd(l_dbl_str, sizeof(l_dbl_str), l_fmt_str, value);
+
+  retValueAsSting = g_strdup_printf("%s", l_dbl_str);
+  return (retValueAsSting);
+}  /* end gap_base_gdouble_to_ascii_string */
+
+
 /* --------------------------------
  * gap_base_fprintf_gdouble
  * --------------------------------
@@ -321,6 +352,7 @@ gap_base_fprintf_gdouble(FILE *fp, gdouble value, gint digits, gint precision_di
   }
   fprintf(fp, "%s", l_dbl_str);
 }  /* end gap_base_fprintf_gdouble */
+
 
 
 /* ============================================================================
@@ -409,10 +441,48 @@ gap_base_check_tooltips(gboolean *old_state)
 
 
 /* -----------------------------------------
+ * gap_base_get_gimprc_gdouble_value
+ * -----------------------------------------
+ * get gdouble configuration value for the keyname gimprc_option_name from the gimprc file.
+ * returns the configure value in constraint to the specified range 
+ * (between min_value and max_value)
+ * the specified default_value is returned in case the gimprc
+ * has no entry for the specified gimprc_option_name.
+ */
+gdouble
+gap_base_get_gimprc_gdouble_value (const char *gimprc_option_name
+   , gdouble default_value, gdouble min_value, gdouble max_value)
+{
+  char *value_string;
+  gdouble value;
+
+  value = default_value;
+
+  value_string = gimp_gimprc_query(gimprc_option_name);
+  if(value_string)
+  {
+     gchar *endptr;
+     gchar *nptr;
+     gdouble val;
+
+     nptr  = value_string;
+     val = g_ascii_strtod(nptr, &endptr);
+     if(nptr != endptr)
+     {
+       value = val;
+     }
+     g_free(value_string);
+  }
+  return (CLAMP(value, min_value, max_value));
+
+}  /* end gap_base_get_gimprc_gdouble_value */
+
+
+/* -----------------------------------------
  * gap_base_get_gimprc_int_value
  * -----------------------------------------
  * get integer configuration value for the keyname gimprc_option_name from the gimprc file.
- * returns the configure value in constaint to the specified range 
+ * returns the configure value in constraint to the specified range 
  * (between min_value and max_value)
  * the specified default_value is returned in case the gimprc
  * has no entry for the specified gimprc_option_name.
@@ -436,7 +506,6 @@ gap_base_get_gimprc_int_value (const char *gimprc_option_name
 
 }  /* end p_get_gimprc_int_value */
 
-
 /* -----------------------------------------
  * gap_base_get_gimprc_gboolean_value
  * -----------------------------------------
@@ -456,7 +525,7 @@ gap_base_get_gimprc_gboolean_value (const char *gimprc_option_name
      value = FALSE;
      if((*value_string == 'y') || (*value_string == 'Y'))
      {
-       value = FALSE;
+       value = TRUE;
      }
      g_free(value_string);
   }
@@ -520,3 +589,256 @@ gap_base_get_current_time(void)
   return ((gint32)time(0));
 }
 
+
+/* ------------------------------
+ * gap_base_mix_value_exp
+ * ------------------------------
+ *  result is a  for factor 0.0
+ *            b  for factor 1.0
+ *            exponential mix for factors inbetween
+ */
+gdouble 
+gap_base_mix_value_exp(gdouble factor, gdouble a, gdouble b)
+{
+  gdouble minAB;
+  gdouble offset;
+  gdouble value;
+  
+  if((a > 0) && (b > 0))
+  {
+    return ((a) * exp((factor) * log((b) / (a))));
+  }
+
+  if(a == b)
+  {
+    return (a);
+  }
+  
+  /* offset that makes both a and b positve values > 0
+   * to perform the exponential mix calculation
+   */
+  
+  minAB = (a < b ? a : b);
+  offset = 1 - minAB;
+  
+  value = ((a + offset) * exp((factor) * log((b + offset) / (a + offset))));
+
+  /* shift mixed value back to original range */
+  return (value - offset);
+}  /* end gap_base_mix_value_exp */
+
+
+/* ---------------------------------
+ * gap_base_mix_value_exp_and_round
+ * ---------------------------------
+ *  result is a  for factor 0.0
+ *            b  for factor 1.0
+ *            exponential mix for factors inbetween
+ *            and rounded
+ *            (0.5 is rounded to 1.0, -0.5 is rounded to -1.0
+ */
+gdouble 
+gap_base_mix_value_exp_and_round(gdouble factor, gdouble a, gdouble b)
+{
+  return (ROUND(gap_base_mix_value_exp(factor, a, b)));
+}
+
+
+
+/* ---------------------------------
+ * gap_base_get_numProcessors
+ * ---------------------------------
+ * get number of available processors.
+ * This implementation uses the gimprc parameter of the gimp core application.
+ * Therefore the returned number does not reflect hardware information, but
+ * reprents the number of processors that are configured to be used by th gimp.
+ */
+gint
+gap_base_get_numProcessors()
+{
+  gint      numProcessors;
+
+  numProcessors = gap_base_get_gimprc_int_value("num-processors"
+                               , 1  /* default */
+                               , 1  /* min */
+                               , 32 /* max */
+                               );
+  return (numProcessors);
+}
+
+
+/* ---------------------------------
+ * gap_base_thread_init
+ * ---------------------------------
+ * check if thread support and init thread support if true.
+ * returns TRUE on successful initialisation of thread system
+ *         FALSE in case thread support is not available.
+ * Note: multiple calls are tolarated and shall always deliver the same result. 
+ */
+gboolean 
+gap_base_thread_init()
+{
+  static gboolean isFirstCall = TRUE;
+  gboolean isThreadSupportOk;
+  
+  /* check if thread system is already initialized */
+  if(isFirstCall == TRUE)
+  {
+    if(gap_debug)
+    {
+      printf("gap_base_thread_init: CALLING g_thread_init\n");
+    }
+    /* try to init thread system */
+    g_thread_init(NULL);
+
+    isFirstCall = FALSE;
+  }
+
+  isThreadSupportOk = g_thread_supported();
+
+  if(gap_debug)
+  {
+    printf("gap_base_thread_init: isThreadSupportOk:%d\n"
+      ,(int)isThreadSupportOk
+      );
+  }
+
+  return(isThreadSupportOk);
+}
+
+
+/* ---------------------------------
+ * gap_base_get_thread_id
+ * ---------------------------------
+ * get id of the current thread.
+ * gthread does not provide that feature.
+ *
+ * therefore use pthread implementation to get the current thread id.
+ * In case pthread is not available at compiletime this procedure
+ * will always return 0 and runtime.
+ *
+ * WARNING: This procedure shall NOT be used in productive features,
+ * because there is no working variant implemented on other OS than Linux.
+ * The main purpose is for logging and performance measure purposes
+ * while development on Linux
+ */
+gint64
+gap_base_get_thread_id()
+{
+  gint64 threadId = 0;
+  
+//#ifdef HAVE_SYS_TYPES_H
+//  threadId = (gint64)gettid();
+//#endif
+
+#ifdef USE_PTHREAD_FOR_LINUX_THREAD_ID
+  threadId = pthread_self();
+  if(gap_debug)
+  {
+    printf("pthread_self threadId:%lld\n", threadId);
+  }
+#endif
+
+  return (threadId);
+}
+
+
+/* ---------------------------------
+ * gap_base_get_gimp_mutex
+ * ---------------------------------
+ * get the global mutex that is intended to synchronize calls to gimp core function
+ * from within gap plug-ins when running in multithreaded environment.
+ * the returned mutex is a singleton e.g. is the same static mutex at each call.
+ * therefore the caller must not free the returned mutex.
+ */
+GStaticMutex *
+gap_base_get_gimp_mutex()
+{
+  static GStaticMutex gimpMutex = G_STATIC_MUTEX_INIT;
+  
+  return (&gimpMutex);
+
+}
+
+
+
+/* ---------------------------
+ * gap_base_gimp_mutex_trylock 
+ * ---------------------------
+ * lock the static gimpMutex singleton if present (e.g. is NOT NULL)
+ *
+ * return immediate FALSE in case the mutex is locked by another thread
+ * return TRUE in case the mutex was locked successfully (may sleep until other threads unlock the mutex)
+ *        TRUE will be immediatly returned in case
+ *        the thread system is not initialized, e.g g_thread_init was not yet called
+ */
+gboolean
+gap_base_gimp_mutex_trylock(GapTimmRecord  *gimpMutexStats)
+{
+  gboolean isSuccessful;
+
+  GStaticMutex        *gimpMutex;
+
+  gimpMutex = gap_base_get_gimp_mutex();
+  if(gimpMutex)
+  {
+    GAP_TIMM_START_RECORD(gimpMutexStats);
+
+    isSuccessful = g_static_mutex_trylock (gimpMutex);
+
+    GAP_TIMM_STOP_RECORD(gimpMutexStats);
+  }
+  else
+  {
+    isSuccessful = TRUE;
+  }
+
+  return(isSuccessful);
+
+}  /* end gap_base_gimp_mutex_trylock */
+
+
+/* ---------------------------
+ * gap_base_gimp_mutex_lock 
+ * ---------------------------
+ * lock the static gimpMutex singleton if present (e.g. is NOT NULL)
+ */
+void
+gap_base_gimp_mutex_lock(GapTimmRecord  *gimpMutexStats)
+{
+  GStaticMutex        *gimpMutex;
+
+  gimpMutex = gap_base_get_gimp_mutex();
+  if(gimpMutex)
+  {
+    GAP_TIMM_START_RECORD(gimpMutexStats);
+
+    g_static_mutex_lock (gimpMutex);
+
+    GAP_TIMM_STOP_RECORD(gimpMutexStats);
+  }
+
+}  /* end gap_base_gimp_mutex_lock */
+
+
+/* ---------------------------
+ * gap_base_gimp_mutex_unlock 
+ * ---------------------------
+ * lock the static gimpMutex singleton if present (e.g. is NOT NULL)
+ */
+void
+gap_base_gimp_mutex_unlock(GapTimmRecord  *gimpMutexStats)
+{
+  GStaticMutex        *gimpMutex;
+
+  gimpMutex = gap_base_get_gimp_mutex();
+  if(gimpMutex)
+  {
+    GAP_TIMM_START_RECORD(gimpMutexStats);
+    
+    g_static_mutex_unlock (gimpMutex);
+    
+    GAP_TIMM_STOP_RECORD(gimpMutexStats);
+  }
+
+}  /* end gap_base_gimp_mutex_unlock */

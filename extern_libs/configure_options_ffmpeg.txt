@@ -1,4 +1,11 @@
---enable-shared --enable-static --disable-mmx --enable-gpl 
+ --disable-ffmpeg  --disable-ffplay  --disable-ffprobe  --disable-ffserver --disable-shared --enable-static --enable-gpl --enable-mmx --enable-mmx2 --disable-vaapi
+#
+# This file provides configuration options for ffmpeg
+# and is included while GIMP-GAP configure script runs the ffmpeg configuration.
+#
+# Notes:
+#  there is another variant of this file for the Windows MinGW Environment named: configure_options_ffmpeg_win32.txt 
+# 
 # recent ffmpeg releases does no longer support --enable-liba52
 # for audio /mp3 encoding ffmpeg recommands to link with the external libraries.
 #
@@ -6,10 +13,11 @@
 # are installed and adds further options automatically
 #
 #  --enable-libfaac 
-#  --enable-libfaad
+#  --enable-libfaad  (versions after ffmpeg-0.6 have removed this option)
 #  --enable-libmp3lame
 #  --enable-libx264  (old name: --enable-x264)
 #  --enable-libxvid  (old name: --enable-xvid)
-#
+#  --enable-swscale
+#  --enable-nonfree
 # options for the ffmpeg configure
 

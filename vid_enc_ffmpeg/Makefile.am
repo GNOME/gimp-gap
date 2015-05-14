@@ -2,7 +2,20 @@
 
 libexecdir = $(GIMP_PLUGIN_DIR)/plug-ins
 
-scriptdatadir = $(GIMP_DATA_DIR)/scripts
+presetdatadir = $(GIMP_DATA_DIR)/video_encoder_presets
+presetdata_DATA =  \
+        ff_divx_hq.preset \
+        ff_divx_low.preset \
+        ff_divx_standard.preset \
+        ff_divx_win.preset \
+        ff_mpeg1_hq.preset \
+        ff_mpeg1_vcd.preset \
+        ff_mpeg2_dvd.preset \
+        ff_mpeg2_svcd.preset \
+        ff_real_standard.preset \
+        ff_x264_hq.preset
+
+
 
 # we depend on libavformat / ibavcodec to build that encoder
 # (without those libs the ffmpeg encoder can not be built at all)
@@ -24,7 +37,6 @@ INC_LIBGAPVIDUTIL = -I$(top_srcdir)/libgapvidutil
 
 
 libexec_PROGRAMS = gap_vid_enc_ffmpeg
-
 
 gap_vid_enc_ffmpeg_SOURCES = \
 	gap_enc_ffmpeg_main.c		\
@@ -59,5 +71,8 @@ LDADD = $(GIMP_LIBS)
 #       (if those libs appear before LIBGAPVIDUTIL the linker can not resolve those references.
 
 gap_vid_enc_ffmpeg_LDADD = $(LIBGAPVIDUTIL) $(LIBGAPSTORY) $(GAPVIDEOAPI) $(LIBGAPBASE) $(GIMP_LIBS)
+
+
+EXTRA_DIST = $(presetdata_DATA)
 
 endif

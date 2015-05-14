@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -96,7 +96,7 @@ on_ff_response (GtkWidget *widget,
         {
             l_msg = g_strdup_printf("Error:\nWidth (%d) must be an integer multiple of 2",
                                  (int)gpp->val.vid_width);
-           g_message(l_msg);
+           g_message("%s", l_msg);
            g_free(l_msg);
            return;
         }
@@ -104,7 +104,7 @@ on_ff_response (GtkWidget *widget,
         {
             l_msg = g_strdup_printf("Error:\nHeight (%d) must be an integer multiple of 2",
                                (int)gpp->val.vid_height);
-            g_message(l_msg);
+            g_message("%s", l_msg);
             g_free(l_msg);
             return;
         }
@@ -206,6 +206,69 @@ on_ff_gdouble_spinbutton_changed  (GtkWidget *widget,
 }  /* end on_ff_gdouble_spinbutton_changed */
 
 
+/* ---------------------------------
+ * gap_ffcb_set_widget_sensitivity
+ * ---------------------------------
+ * some of the ffmpeg checkbuttons need extra actions (set other widgets sensitiv)
+ * or use other values for TRUE/FALSE representations
+ */
+void
+gap_ffcb_set_widget_sensitivity  (GapGveFFMpegGlobalParams *gpp)
+{
+  gboolean l_sensitive;
+
+
+  if(gpp == NULL)
+  { 
+    return; 
+  }
+
+  if(gpp->evl.intra)
+  {
+    l_sensitive = FALSE;
+  }
+  else
+  {
+    l_sensitive = TRUE;
+  }
+  if(gpp->ff_gop_size_spinbutton)
+  {
+    gtk_widget_set_sensitive(gpp->ff_gop_size_spinbutton, l_sensitive);
+    gtk_widget_set_sensitive(gpp->ff_b_frames_spinbutton, l_sensitive);
+  }
+  
+  
+  if(gpp->evl.set_aspect_ratio)
+  {
+    l_sensitive = TRUE;
+  }
+  else
+  {
+    l_sensitive = FALSE;
+  }
+  if(gpp->ff_aspect_combo)
+  {
+    gtk_widget_set_sensitive(gpp->ff_aspect_combo, l_sensitive);
+  }
+
+
+
+  if(gpp->show_expert_settings)
+  {
+    l_sensitive = TRUE;
+  }
+  else
+  {
+    l_sensitive = FALSE;
+  }
+      
+  if(gpp->main_notebook != NULL) 
+  {
+    gtk_notebook_set_show_tabs(gpp->main_notebook, l_sensitive);
+  }
+ 
+
+}  /* end gap_ffcb_set_widget_sensitivity */
 
 /* ---------------------------------
  * on_ff_gint32_checkbutton_toggled
@@ -228,45 +291,6 @@ on_ff_gint32_checkbutton_toggled  (GtkToggleButton *checkbutton,
     return; 
   }
 
-  gpp = g_object_get_data (G_OBJECT (checkbutton), GAP_ENC_FFGUI_GPP);
-  if(gpp)
-  {
-    if((GtkWidget *)checkbutton ==  gpp->ff_intra_checkbutton)
-    {
-      if(gap_debug) printf("WGT is: gpp->ff_intra_checkbutton\n");
-      if (checkbutton->active)
-      {
-         l_sensitive = FALSE;
-      }
-      else
-      {
-         l_sensitive = TRUE;
-      }
-      if(gpp->ff_gop_size_spinbutton)
-      {
-         gtk_widget_set_sensitive(gpp->ff_gop_size_spinbutton, l_sensitive);
-         gtk_widget_set_sensitive(gpp->ff_b_frames_spinbutton, l_sensitive);
-      }
-    }
-    if((GtkWidget *)checkbutton ==  gpp->ff_aspect_checkbutton)
-    {
-      if(gap_debug) printf("WGT is: gpp->ff_aspect_checkbutton\n");
-      if (checkbutton->active)
-      {
-         l_sensitive = TRUE;
-      }
-      else
-      {
-         l_sensitive = FALSE;
-      }
-      if(gpp->ff_aspect_combo)
-      {
-         gtk_widget_set_sensitive(gpp->ff_aspect_combo, l_sensitive);
-      }
-    }
-
-  }
-
   if (checkbutton->active)
   {
      *dest_value_ptr = TRUE;
@@ -275,6 +299,38 @@ on_ff_gint32_checkbutton_toggled  (GtkToggleButton *checkbutton,
   {
      *dest_value_ptr = FALSE;
   }
+
+  gpp = g_object_get_data (G_OBJECT (checkbutton), GAP_ENC_FFGUI_GPP);
+  if(gpp)
+  {
+    if(((GtkWidget *)checkbutton ==  gpp->ff_intra_checkbutton)
+    || ((GtkWidget *)checkbutton ==  gpp->ff_aspect_checkbutton)
+    || ((GtkWidget *)checkbutton ==  gpp->show_expert_settings_checkbutton))
+    {
+      gap_ffcb_set_widget_sensitivity(gpp);
+    }
+
+    if((GtkWidget *)checkbutton ==  gpp->show_expert_settings_checkbutton)
+    {
+      gap_ffcb_set_widget_sensitivity(gpp);
+      
+      /* persist user decision (for next gimp session) */
+      if(gpp->show_expert_settings)
+      {
+        gimp_gimprc_set(GAP_GVE_FFMPEG_SHOW_EXPERT_SETTINGS, "yes");
+      }
+      else
+      {
+        gimp_gimprc_set(GAP_GVE_FFMPEG_SHOW_EXPERT_SETTINGS, "no");
+        gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (gpp->ff_presets_combo)
+                                     , GAP_GVE_FFMPEG_PRESET_00_NONE
+                                     );
+      }
+    }
+
+
+  }
+
 
 }  /* end on_ff_gint32_checkbutton_toggled */
 
@@ -491,12 +547,11 @@ on_ff_presets_combo  (GtkWidget     *widget,
     printf("CB: on_ff_presets_combo index: %d\n", (int)l_idx);
   }
 
-  if((l_idx <= GAP_GVE_FFMPEG_PRESET_MAX_ELEMENTS) && (l_idx > 0))
+  if(l_idx > 0)
   {
     /* index 0 is used for OOPS do not use preset menu entry and is not a PRESET
-     * menu_index 1  does access presets[0]
      */
-    l_idx--;
+    l_idx;
 
     if(gap_debug)
     {
@@ -504,13 +559,23 @@ on_ff_presets_combo  (GtkWidget     *widget,
     }
     gap_enc_ffmpeg_main_init_preset_params(&gpp->evl, l_idx);
     gap_enc_ffgui_init_main_dialog_widgets(gpp);                /* update all wdgets */
-
+  
     /* switch back to index 0 (OOPS, do not change presets)
      * after presets were loaded.
+     * NOTE this switchback workaround is not needed in case
+     * the expert flags are all hidden where the user can not change
+     * single values in the current preset.
+     * therefore it does not matter when selecting the same preset again
+     * does not trigger reset all values to the the values of the preset.
      */
-    gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (widget), GAP_GVE_FFMPEG_PRESET_00_NONE);
+    if (gpp->show_expert_settings)
+    {
+      gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (widget), GAP_GVE_FFMPEG_PRESET_00_NONE);
+    }
   }
+
 }  /* end on_ff_presets_combo */
+
 
 
 

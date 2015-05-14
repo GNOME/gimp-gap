@@ -1,0 +1,46 @@
+ --disable-ffmpeg  --disable-ffplay  --disable-ffprobe  --disable-ffserver --disable-shared --enable-static --enable-gpl --enable-mmx --enable-mmx2 --disable-vaapi  --disable-devices --disable-pthreads  --disable-altivec  --disable-sse --disable-neon
+#
+# This file provides configuration options for ffmpeg
+# and is included while GIMP-GAP configure scriptruns the ffmpeg configuration on Windows environment.
+#
+# Notes:
+#  there is another variant of this file for Linux and Unix-like Os named: configure_options_ffmpeg.txt
+#
+# Tests on Windows MinGW using the gcc-4.6 compiler showed that special ffmpeg configure options
+# were required to produce working exutables of the ffmpeg based video encoders.
+# The options that were successful in my tests are:
+#
+#  --disable-altivec  --disable-sse --disable-neon
+# 
+# Those option turn off memory aling related optimizations.
+#
+# I also tested alternative variants 
+#  --enable-memalign-hack  as suggested by the ffmpeg configure script
+# this resulted in successful build, but in very unstable exutables
+# that crashed very often on XP (and immediate on Windows7) tests.
+#
+# other configure options (as recommanded in older tutorials)
+# --extra-cflags="--mno-cygwin --mms-bitfields" 
+# --extra-ldflags="-W1,--add-stdcall-alias"
+# were no longer supported by my newer gcc-4.6 compiler 
+#
+# --disable-devices        
+#  configures ffmpeg without video devices that would require latests win32 api version to build on MinGW Win32 Systems.
+#  disabling devices is not critical since GIMP-GAP does not use ffmpeg features that
+#  require other access than plain videofile io.
+# 
+# recent ffmpeg releases does no longer support --enable-liba52
+# for audio /mp3 encoding ffmpeg recommands to link with the external libraries.
+#
+# the gap main configure script checks if some of the external libs for ffmpeg
+# are installed and adds further options automatically
+#
+#  --enable-libfaac 
+#  --enable-libfaad  (versions after ffmpeg-0.6 have removed this option)
+#  --enable-libmp3lame
+#  --enable-libx264  (old name: --enable-x264)
+#  --enable-libxvid  (old name: --enable-xvid)
+#  --enable-swscale
+#  --enable-nonfree
+# options for the ffmpeg configure
+

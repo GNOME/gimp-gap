@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -36,6 +36,11 @@
 
 #include "gap-intl.h"
 #include "gap_arr_dialog.h"
+#include "gap_colordiff.h"
+#include "gap_locate.h"
+#include "gap_edge_detection.h"
+#include "gap_colormask_file.h"
+#include "gap_colormask_exec.h"
 #include "gap_image.h"
 #include "gap_layer_copy.h"
 #include "gap_lib.h"

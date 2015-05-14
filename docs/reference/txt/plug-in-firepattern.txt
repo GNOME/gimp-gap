@@ -1,0 +1,247 @@
+"plug-in-firepattern"
+
+Fire Pattern Filter:
+
+    Start from Menu:
+
+      "<Image>/Video/Layer/Render/Fire Pattern..."
+
+   This Plugin generates an animated fire effect.
+   It can render the animation in one call, where the input drawable is copied n-times to a newly created image.
+   Optional this Plugin can be called to render just one frame/phase of the animated effect.
+   This type of animated call on multiple already existent layers (or frames) with varying shiftPhase parameter
+   is supported by the GIMP-GAP filter all layers or by applying as filter via GIMP-GAP modify frames feature.
+   Note that the render one frame per call style offers more flexibility where you can 
+   apply the flame with varying shape, color and opacity for each rendered frame atomatically.
+
+   Note that this Plugin will create an additional image when the options
+   for creating fire pattern or fire shape are selected. 
+   If you intend to record the Plugin using GIMP-GAP filtermacro feature
+   or want to be able to reproduce the exactly same same results in another GIMP session
+   You have to save this image to disc (using the XCF file format)
+
+  Animation options:
+  
+    Create Image: (checkbutton)
+      
+      ON:  create a new image with n copies of the input drawable
+           and render complete animation effect on those copies.
+      OFF: render only one frame/phase of the animation effect on
+           the input drawable.
+           (This type of call must be selected in case you call this plug-in
+           via the GIMP-GAP filter all layers feature)
+
+
+     N-Frames: (spinbutton)
+           Number of frames to be rendered as layer in the newly created image.
+           In this mode the vertical shift per frame is calculated automatically
+           for each frame varying from 0.0 to Phase Shift value.
+           Select 1.0 (or multiples of 1.0) to create an animation 
+           that can be played in seamless loop.
+           (disabled in case Create Image: OFF is selected)
+           
+     Phase shift: (spinbutton)
+           Vertical phase shift (movement of the fire pattern)
+           where 1.0 refers to image height.
+           
+           In animated calls via (filter all layers) it is recommanded to
+           set Phase shift to value 0.0 for the first and to value 1.0
+           for the last processed frame to create a seamless animation effect
+           when playback of the rendered frame is done in a loop.
+           
+           
+     
+  Pattern options:
+     Widgets to control the fire pattern cloud layer that is used as base
+     for rendering the animated fire effect.
+     
+     Create Pattern:  (checkbutton)
+       ON:  create firepattern cloud layer with tileable solid noise
+            according to options. 
+            (Creating a new pattern should be osed only in case
+            rendering the first frame of an animation sequence.
+            for each further frame it is recomannded to turn this option OFF)
+       OFF: Use external pattern layer.
+            Typically you may select a fire pattern layer that was created
+            for rendering the first frame of the animation.
+
+     Stretch Height (spinbutton)
+            vertical stretch factor for the fire pattern.
+
+     Scale Pattern X/Y:  (2 spinbuttons)
+            Horizontal/Vertical scaling of the random pattern that is
+            created for rendering the fire pattern (cloud layer)
+
+     Seed Pattern:  (spinbutton)
+            Seed for creating random pattern (cloud1 layer) 
+            use 0 for random value.
+     
+     Detail:  (spinbutton)
+            Detail level for creating random solid noise pattern (cloud layer)
+     
+
+     Layer Pattern: (combobox)
+            Select an already existing pattern layer 
+            (typically from previous run, when rendering in one frame per call mode)
+     
+
+  Fireshape options:
+     Widgets to control the fire shape layer that is used to control the affected
+     area where to render the flames.
+
+     Create Fireshape: (checkbutton)
+            ON: create fire shape layer according to options.
+            OFF: Use external fire shape layer. 
+
+     Trapezoid: (checkbutton)
+            ON: Render trapezoid shaped fire.
+            OFF: render fire at full image width.
+
+     Flame Height: (spinbutton)
+            Height of the flame (1.0 refers to full image height)
+
+     Flame Border: (spinbutton)
+            border of the flame (used for horizontally soft fade of the shape at the borders)
+
+     FlameWidth: (2 spinbuttons)
+            width of the flame at base line and
+            width of the flame at flame height 
+            (1.0 for full image width)
+
+     Flame Center: (spinbutton)
+            horizontal offset of the flame center 
+            (0 for center, -0.5 left border +0.5 at right border of the image)
+
+     Fire Shape:
+            Select an already existing fire shape layer 
+            (typically from previous run, when rendering in one frame per call mode)
+            
+  Render options:
+  
+     Create FireLayer: (checkbutton)
+            ON:  Render fire pattern effect as separate layer. 
+            OFF: merge rendered effect onto processed layer.
+                 (it is recommanded to set the Transparent BG
+                 to ON too)
+
+            (In case this filter is called via the filter all layers
+            feature it is recommanded to turn this option OFF)
+            
+     Blend Mode: (radio buttons)
+            Selects the blend mode to be used to combine the fire pattern (cloud)
+            layer with the fire shape layer. Follwing modes are available:
+            "Burn"
+            "Subtract"
+            "Multiply"
+
+     Transparent BG: (checkbutton)
+            ON: Render fire layer with transparent background.
+            OFF: render with black background.
+  
+     Opacity: (spinbutton)
+            The opacity of the rendered flames.
+     
+     Reverse Gradient: (checkbutton)
+             ON: use reverse gradient colors.
+             OFF: use gradient colors.
+     
+     Gradient: (gradient button)
+             Select the gradient that should be used to colorize the rendered flames.
+     
+     
+  Action Buttons:
+
+  Reset
+    Reset all parameters to default values.
+
+  Cancel
+    Close the window without any further action.
+
+  OK
+    Close the window and render the fire effect accoring to the
+    selected options.
+
+
+
+  Usage Examples:
+
+  Rendering fire with varying colors:
+    For this example we use a multilayer image where each layer
+    represents one frame of an animation.
+    (in case this multilayer image was loaded from an animated GIF
+    the mode has to be changed from Indexed to RGB before we continue)
+    
+    From this multilayer image start the menu Filter/filter all Layers.
+    This opens a browser dialog window where the plug-in-firepattern 
+    can be selected in the list of available filters.
+    Set acceleration characteristcs to value 1 for linear varying values
+    with constant speed and press the APPLY button in the browser dialog.
+    
+    This starts the Fire-Pattern dialog window of the selected plug-in-firepattern
+    where you can specifiy the options to be applied for processing the first
+    layer of the multilayer image.
+    
+    1. st dialog step
+    
+    Press the reset button to init all options with default values.
+    Make sure to set Phase Shift to value 0 and
+    Also both the Create Pattern and the Create Fireshape checkbuttons
+    shall be turned on.
+
+    Press OK in the Fire Pattern dialog. This renders the fire on the
+    first (e.g. the background) layer of your multilayer image.
+    
+    After rendering a dialog window with title "Animated Filter Aplly"
+    pops up.
+    Click the "Continue" button in this dialog.
+    
+    2. nd dialog step
+    
+    The Fire-Pattern diaolg window appears again where you can enter
+    the options for the last layer to be processed (the top layer
+    of your multilayer image)
+    
+    Uncheck the "Create Fireshape" checkbutton to use the same
+    Fire Shape in all further frames.
+    
+    Enter the value 1.0 in the Phase shift spinbutton entry widget.
+    Click on the gradient and select another gradient name in
+    the dialog that opens on this click
+    
+    Press OK in the Fire Pattern dialog. This renders the fire on the
+    last (e.g. the top) layer of your multilayer image.
+   
+    After rendering a dialog window with title "Animated Filter Aplly"
+    pops up.
+    Click the "Continue" button in this dialog.
+    
+    This triggers rendering the fire effect for all further layers
+    (between bg and top) of your multilayer image.    
+    
+
+  Rendering fire with varying external shape:
+    In case you want render the fire with another shape (than the built in trapezoid)
+    you can provide the fire shape layer in another image.
+    
+    For varying external shape this other image should be a multilayer image
+    where each layer represents another step of the animated fire outline shape.
+    (typically white at base fading to black until the desired flame height)
+    It is recommanded to use the same number and size for the "external"
+    fireshape multilayer image and for the multilayer image where the
+    fire effect shall be rendered onto.
+    
+    
+    
+
+  
+  How it works:
+
+  This filter generates a fire pattern (cloud) layer with tileable solid noise, and a fire shape layer.
+  The fire effect is made by placing the fire patteren above the fire shape layer using "Burn" (or "subtract")
+  combination mode. The animation is done by vertically shifting the fire pattern upwards slightly
+  on each frame.
+  The flames are built by merging the fire pattern at its shifted state with the fire shape.
+  The resulting (gray flame) layer is colorized with the colors of the selcted gradient.
+  The mapping of the colors (and optional opacity) is done by luminance.
+
+

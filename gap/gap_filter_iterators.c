@@ -50,8 +50,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* Change Log:
@@ -434,83 +434,6 @@ p_delta_drawable(gint32 *val, gint32 val_from, gint32 val_to, gint32 total_steps
   
 }  /* end p_delta_drawable */
 
-/* ------------------------------------
- * p_drawable_is_alive
- * ------------------------------------
- * current implementation checks only for layers and layermasks.
- * TODO check other drawable types such as channels ....
- *
- * return TRUE  if OK (drawable is still valid)
- * return FALSE if drawable is NOT valid
- */
-gboolean
-p_drawable_is_alive(gint32 drawable_id)
-{
-  gint32 *images;
-  gint    nimages;
-  gint    l_idi;
-  gboolean   l_found;
-
-  if(drawable_id < 0)
-  {
-     return FALSE;
-  }
-
-  images = gimp_image_list(&nimages);
-  l_idi = nimages -1;
-  l_found = FALSE;
-  while((l_idi >= 0) && images)
-  {
-    gint    l_nlayers;
-    gint32 *l_layers_list;
-
-    l_layers_list = gimp_image_get_layers(images[l_idi], &l_nlayers);
-    if(l_layers_list != NULL)
-    {
-      gint    l_idx;
-      l_idx = l_nlayers;
-      for(l_idx = 0; l_idx < l_nlayers; l_idx++)
-      {
-         gint32  l_layer_id;
-         gint32  l_layermask_id;
-         
-         l_layer_id = l_layers_list[0];
-         if (l_layer_id == drawable_id)
-         {
-           l_found = TRUE;
-           break;
-         }
-         l_layermask_id = gimp_layer_get_mask(l_layer_id);
-         if (l_layermask_id == drawable_id)
-         {
-           l_found = TRUE;
-           break;
-         }
-      }
-      g_free (l_layers_list);
-    }
-    
-    if (l_found == TRUE)
-    {
-      break;
-    }
-    l_idi--;
-  }
-
-  if(images) g_free(images);
-  if(l_found)
-  {
-    return TRUE;  /* OK */
-  }
-
-  if(gap_debug)
-  {
-    printf("p_drawable_is_alive: drawable_id %d is not VALID\n", (int)drawable_id);
-  }
- 
-  return FALSE ;   /* INVALID image id */
-}  /* end p_drawable_is_alive */
-
 
 /* ---------------------------
  * p_delta_drawable_simple
@@ -538,11 +461,11 @@ p_delta_drawable_simple(gint32 *val, gint32 val_from, gint32 val_to, gint32 tota
   {
     return;
   }
-  if(p_drawable_is_alive(val_from) != TRUE)
+  if(gimp_drawable_is_valid(val_from) != TRUE)
   {
     return;
   }
-  if(p_drawable_is_alive(val_to) != TRUE)
+  if(gimp_drawable_is_valid(val_to) != TRUE)
   {
     return;
   }
@@ -611,10 +534,10 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
       );
   }
 
-  if(p_drawable_is_alive(drawable_id) != TRUE)
+  if(gimp_drawable_is_valid(drawable_id) != TRUE)
   {
     /* drawable is no longer valid and can not be mapped.
-     * This may happen if the layer was removed or the refered image was close
+     * This may happen if the layer was removed or the refered image was closed
      * in the time since the plugin has stored the last values buffer
      * and the time when filtermacro starts recording filtercalls.
      */
@@ -660,7 +583,27 @@ p_capture_image_name_and_assign_pesistent_id(GapFmacContext *fmacContext, gint32
     l_ainfo_ptr = gap_lib_alloc_ainfo(image_id, GIMP_RUN_NONINTERACTIVE);
     if(l_ainfo_ptr != NULL)
     {
-      ainfo_type = l_ainfo_ptr->ainfo_type;
+      /* refere to GAP_AINFO_FRAMES in case the drawable is part of a gimp-gap typical frame image
+       * with a name that ends up in numberpart.extension (something like frame_000006.xcf)
+       * and there is one additional frame in sequence (previous or next number)
+       */
+      if (l_ainfo_ptr->ainfo_type == GAP_AINFO_FRAMES)
+      {
+        gboolean isAnotherFrameExistent;
+	long     has_digits;
+	
+	isAnotherFrameExistent = gap_lib_exists_frame_nr(l_ainfo_ptr, l_ainfo_ptr->curr_frame_nr +1, &has_digits);
+	if (!isAnotherFrameExistent)
+	{
+	  isAnotherFrameExistent = gap_lib_exists_frame_nr(l_ainfo_ptr, l_ainfo_ptr->curr_frame_nr -1, &has_digits);
+	}
+	
+	if((isAnotherFrameExistent) && (has_digits > 1))
+	{
+          ainfo_type = GAP_AINFO_FRAMES;
+	}
+
+      }
       frame_nr = l_ainfo_ptr->frame_nr;
       track = -1;   /* video track (not relevant for frames and single images) */
 

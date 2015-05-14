@@ -18,8 +18,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -151,38 +151,37 @@ static void
 gap_vin_get_all_keylist(GapValKeyList *keylist, GapVinVideoInfo *vin_ptr, char *basename)
 {
   char  *l_vin_filename;
-  GapValTextFileLines *txf_ptr_root;
-  GapVinVideoInfo *l_vin_ptr;
-  
-  l_vin_ptr = g_malloc(sizeof(GapVinVideoInfo));
-  /* init wit defaults (for the case where no video_info file available) */
-  l_vin_ptr->timezoom = 1;
-  l_vin_ptr->framerate = 24.0;
-  l_vin_ptr->active_layer_tracking = GAP_ACTIVE_LAYER_TRACKING_OFF;
-  
-  l_vin_ptr->onionskin_auto_enable = TRUE;
-  l_vin_ptr->auto_replace_after_load = FALSE;
-  l_vin_ptr->auto_delete_before_save = FALSE;
 
-  l_vin_ptr->num_olayers        = 2;
-  l_vin_ptr->ref_delta          = -1;
-  l_vin_ptr->ref_cycle          = FALSE;
-  l_vin_ptr->stack_pos          = 1;
-  l_vin_ptr->stack_top          = FALSE;
-  l_vin_ptr->asc_opacity        = FALSE;
-  l_vin_ptr->opacity            = 80.0;
-  l_vin_ptr->opacity_delta      = 80.0;
-  l_vin_ptr->ignore_botlayers   = 1;
-  l_vin_ptr->select_mode        = 6;     /* GAP_MTCH_ALL_VISIBLE */
-  l_vin_ptr->select_case        = 0;     /* 0 .. ignore case, 1..case sensitve */
-  l_vin_ptr->select_invert      = 0;     /* 0 .. no invert, 1 ..invert */
-  l_vin_ptr->select_string[0] = '\0';
+  if (vin_ptr != NULL)
+  {
+    /* init wit defaults (for the case where no video_info file available) */
+    vin_ptr->timezoom = 1;
+    vin_ptr->framerate = 24.0;
+    vin_ptr->active_layer_tracking = GAP_ACTIVE_LAYER_TRACKING_OFF;
+  
+    vin_ptr->onionskin_auto_enable = TRUE;
+    vin_ptr->auto_replace_after_load = FALSE;
+    vin_ptr->auto_delete_before_save = FALSE;
+
+    vin_ptr->num_olayers        = 2;
+    vin_ptr->ref_delta          = -1;
+    vin_ptr->ref_cycle          = FALSE;
+    vin_ptr->stack_pos          = 1;
+    vin_ptr->stack_top          = FALSE;
+    vin_ptr->asc_opacity        = FALSE;
+    vin_ptr->opacity            = 80.0;
+    vin_ptr->opacity_delta      = 80.0;
+    vin_ptr->ignore_botlayers   = 1;
+    vin_ptr->select_mode        = 6;     /* GAP_MTCH_ALL_VISIBLE */
+    vin_ptr->select_case        = 0;     /* 0 .. ignore case, 1..case sensitve */
+    vin_ptr->select_invert      = 0;     /* 0 .. no invert, 1 ..invert */
+    vin_ptr->select_string[0] = '\0';
+  }
   
   l_vin_filename = gap_vin_alloc_name(basename);
   if(l_vin_filename)
   {
       gap_val_scann_filevalues(keylist, l_vin_filename);
-      txf_ptr_root = gap_val_load_textfile(l_vin_filename);
       g_free(l_vin_filename);
   }
 }  /* end gap_vin_get_all_keylist */

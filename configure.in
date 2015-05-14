@@ -6,10 +6,10 @@ AM_CONFIG_HEADER(config.h)
 
 GAP_MAJOR_VERSION=2
 GAP_MINOR_VERSION=6
-GAP_MICRO_VERSION=0
+GAP_MICRO_VERSION=1
 GAP_VERSION=$GAP_MAJOR_VERSION.$GAP_MINOR_VERSION.$GAP_MICRO_VERSION
 VERSION=$GAP_VERSION
-GAP_VERSION_WITH_DATE="$GAP_VERSION; 2009/05/19"
+GAP_VERSION_WITH_DATE="$GAP_VERSION; 2015/05/14"
 
 AC_SUBST(GAP_MAJOR_VERSION)
 AC_SUBST(GAP_MINOR_VERSION)
@@ -61,6 +61,9 @@ AC_SUBST(GIMP_PLUGIN_DIR)
 
 
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.8.0)
+
+
+
 
 NEW_LINE="
 "
@@ -148,20 +151,68 @@ and OLD mpeg encoders.
 
 AM_CONDITIONAL(GAP_UNIX_FRONTENDS, test "x$enable_unix_frontends" != "xno")
 
+dnl check for sysinfo header (optional for reporting resource usage in developer debug messages)
+dnl see gap_frame_fetcher.c procedure p_dump_process_resource_usage
+dnl the check result has no impact on productive features.
+no_sysinfo=""
+AC_CHECK_HEADER(sys/sysinfo.h,
+          AC_DEFINE(GAP_HAVE_SYSINFO, 1,
+              [Define to 1 if you have the <sys/sysinfo.h> header file.]),
+          no_sysinfo="optional sysinfo header file (sys/sysinfo.h) not found Not critical.")
+
+dnl check for pthread library (required for libmpeg3 and recent versions of the xvid library)
+dnl the check result does not matter unless libmpeg3 or xvid is linked or built later on.
+pthread_err=""
+AC_CHECK_LIB(pthread, pthread_create,
+	[AC_CHECK_HEADER(pthread.h,
+          GAP_PTHREAD_LIB=" -lpthread",
+          pthread_err="pthread header file (pthread.h) not found")],
+	pthread_err="pthread library (libpthread) not found")
+
+  if test "x$pthread_err" = "x"; then
+    AC_DEFINE(GAP_HAVE_PTHREAD, 1,
+              [Define to 1 if you have the <pthread.h> header file.])
+  fi
+
+
+AC_CHECK_LIB(gthread-2.0, g_thread_init)
+
 
 dnl check for bzip2 library (for ffmpeg matroskadec )
 dnl the check result does not matter unless libavformat is linked or built later on.
+dnl note: the procedures (BZ2_bzDecompressInit) of the bzip2 lib have different number
+dnl of parameters when compiled in Windows environment, therefore the check via AC_CHECK_LIB
+dnl fails on MinGW Windows environment, even if libbzip2 is available and proper installed.
+dnl therfore i decided to skip this check on Win32 systems.
 FF_BZIP2=""
 ffbz2_warn=""
 AC_ARG_ENABLE(ff_libbz2,
               [  --disable-ff-libbz2          configure libavformat without libbz2 disables matroskadec bz2 support])
   if test "x$enable_ff_libbz2" != "xno"; then
-    AC_CHECK_LIB(bz2, BZ2_bzDecompressInit,
+    if test "x$os_win32" = "xyes"; then
+      AC_CHECK_HEADER(bzlib.h,
+          FF_BZIP2="-lbz2",
+          ffbz2_warn="$NEW_LINE ** bzip2 header file (bzlib.h) not found (limited support for ffmpeg matroskadec codec )")
+    else
+      AC_CHECK_LIB(bz2, BZ2_bzDecompressInit,
         [AC_CHECK_HEADER(bzlib.h,
           FF_BZIP2="-lbz2",
           ffbz2_warn="$NEW_LINE ** bzip2 header file (bzlib.h) not found (limited support for ffmpeg matroskadec codec )")],
       ffbz2_warn="bzip2 library (libbz2) not found (there will be limited support)")    
+    fi
   fi
+
+
+
+dnl check for the yasm assembler program (recommanded for build of ffmpeg libraries avcodec, avformat,...)
+dnl note that ffmpeg-0.7.11 can be built without yasm when explicte configured with --disable-yasm
+dnl but at least display a warning in this case.
+yasm_warn=""
+AC_CHECK_PROG(HAVE_YASM_ASSEMBLER, yasm, yes, no)
+if test "x$HAVE_YASM_ASSEMBLER" = "xno"; then
+   yasm_warn=" the yasm assembler, recommanded to build libavformat, libavcodec, was not found. "
+fi
+
 
 
 dnl ## libmp3lame lame/lame.h lame_init -lmp3lame -lm
@@ -198,66 +249,117 @@ AC_ARG_ENABLE(ff_libfaac,
 dnl
 
 dnl check for faad library (useful for better ffmpeg audio support)
-dnl FAAC is an open source MPEG-4 and MPEG-2 AAC encoder, it is licensed under the LGPL 
 dnl the check result does not matter unless libavformat is linked or built later on.
 FF_LIBFAAD=""
 faad_warn=""
-AC_ARG_ENABLE(ff_libfaad,
-              [  --disable-ff-libfaad          configure libavformat without libfaad])
-  if test "x$enable_ff_libfaad" != "xno"; then
-    AC_CHECK_LIB(faad, NeAACDecOpen,
-        [AC_CHECK_HEADER(faad.h,
-          FF_LIBFAAD="-lfaad",
-          faad_warn="$NEW_LINE ** faad header file (faad.h) not found (not critical)")],
-      faad_warn="faad library (libfaad) not found (not critical)")    
 
-    dnl additional check for faad1 library (that is also sufficient for building ffmpeg 0.5)
+dnl ffmpeg-0.7.8 has dropped support for faad library
+dnl TODO remove faad specific stuff after succesful integration of ffmpeg-0.7.8
 
-    if test "x$FF_LIBFAAD" = "x"; then
-      AC_CHECK_LIB(faad, faacDecOpen,
-        [AC_CHECK_HEADER(faad.h,
-          FF_LIBFAAD="-lfaad",
-          faad_warn="$NEW_LINE ** faad header file (faad.h) not found (not critical)")],
-        faad_warn="faad library (libfaad) not found (not critical)")    
-    fi
-
-  fi
-dnl
+dnl AC_ARG_ENABLE(ff_libfaad,
+dnl               [  --disable-ff-libfaad          configure libavformat without libfaad])
+dnl   if test "x$enable_ff_libfaad" != "xno"; then
+dnl     AC_CHECK_LIB(faad, NeAACDecOpen,
+dnl         [AC_CHECK_HEADER(faad.h,
+dnl           FF_LIBFAAD="-lfaad",
+dnl           faad_warn="$NEW_LINE ** faad header file (faad.h) not found (not critical)")],
+dnl       faad_warn="faad library (libfaad) not found (not critical)")    
+dnl 
+dnl     dnl additional check for faad1 library (that is also sufficient for building ffmpeg 0.5)
+dnl 
+dnl     if test "x$FF_LIBFAAD" = "x"; then
+dnl       AC_CHECK_LIB(faad, faacDecOpen,
+dnl         [AC_CHECK_HEADER(faad.h,
+dnl           FF_LIBFAAD="-lfaad",
+dnl           faad_warn="$NEW_LINE ** faad header file (faad.h) not found (not critical)")],
+dnl         faad_warn="faad library (libfaad) not found (not critical)")    
+dnl     fi
+dnl 
+dnl   fi
+dnl dnl
 
 
 
 dnl check for x264 library (additional for ffmpeg video codec support)
-dnl ### TODO check are no longer sufficient for recent ffmpeg 2009.01.31.
-dnl ### check shall verify the condition "X264_BUILD >= 65
-dnl ### Note that the missing check it is not critical, since ffmpeg configure script has such a check
-dnl ###      and turns off x264 support when older versions are detected, and prints an error like this:
-dnl ###          ERROR: libx264 version must be >= 0.65.
+dnl ### 
+dnl ### set X264_REQUIRED_VERSION="0.65" to support ffmpeg-0.5 (condition "X264_BUILD >= 65" for ffmpeg-0.5)
+dnl ### set X264_REQUIRED_VERSION="0.85" to support ffmpeg-0.6 (broken mjpeg decoder)
+dnl ### set X264_REQUIRED_VERSION="0.98" to support ffmpeg-2010-09-14 snapshot (for testing)
+dnl ### new libx264 versions (X264_BUILD >= 93)  require to include stdint.h (or inttypes.h)
+dnl ### before including the headerfile x264.h 
+dnl ### therfore we provide this requirement as 4. parameter of the AC_CHECK_HEADER macro.
+dnl ### but AC_CHECK_LIB now fails when checking for procedure x264_encoder_open
+dnl ### because x264_encoder_open is a define constant that refers to x264_encoder_open_<X264_BUILD>
+dnl ### therefore the check was changed to procedure x264_encoder_close
+dnl ### (dont want to AC_CHECK_LIB that works only for one hardcoded version.)
+dnl ### set X264_REQUIRED_VERSION="0.120" to support ffmpeg-0.7.8
+dnl ###   note that ffmpeg configure script says that required libx264 version is >= 0.115
+dnl ###   but with libx264 0.115 version installed on my development system
+dnl ###   the ffmpeg-0.7.8 configure script complained:
+dnl ###   ERROR: libx264 version must be >= 0.115.
+dnl ###   After this test i updated to X264 0.120 and ffmpeg-0.7.8 configure worked fine without complaining...
 dnl the check result does not matter unless libavformat is linked or built later on.
+
+
+X264_REQUIRED_VERSION="0.120"
+X264_REQUIRED_INC='#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif'
+
 FF_LIBX264=""
 x264_warn=""
 AC_ARG_ENABLE(ff_libx264,
               [  --disable-ff-libx264         configure libavformat without optional open source variant of H264 video codec])
+dnl  if test "x$enable_ff_libx264" != "xno"; then
+dnl    AC_CHECK_LIB(x264, x264_encoder_open_93,
+dnl      [AC_CHECK_HEADER(x264.h,
+dnl          FF_LIBX264="-lx264",
+dnl          x264_warn="$NEW_LINE x264 header file (x264.h) not found (not critical, but no open H264 video codec support)",
+dnl          $X264_REQUIRED_INC)],
+dnl      x264_warn="$NEW_LINE x264 library (libx264) not found (not critical, but no open H264 video codec support)")
+dnl  fi
   if test "x$enable_ff_libx264" != "xno"; then
-    AC_CHECK_LIB(x264, x264_encoder_open,
-      [AC_CHECK_HEADER(x264.h,
-          FF_LIBX264="-lx264",
-          x264_warn="$NEW_LINE x264 header file (x264.h) not found (not critical, but no open H264 video codec support)")],
-      x264_warn="$NEW_LINE x264 library (libx264) not found (not critical, but no open H264 video codec support)")   
+    if ! $PKG_CONFIG --atleast-version=$X264_REQUIRED_VERSION x264; then
+        x264_warn="$NEW_LINE x264 library (libx264) required version $X264_REQUIRED_VERSION not found (not critical, but no open H264 video codec support)"
+        FF_LIBX264=""
+    else
+      AC_CHECK_LIB(x264, x264_encoder_close,
+        [AC_CHECK_HEADER(x264.h,
+          FF_LIBX264=`$PKG_CONFIG --libs x264`,
+          x264_warn="$NEW_LINE x264 header file (x264.h) not found (not critical, but no open H264 video codec support)",
+          $X264_REQUIRED_INC)],
+        x264_warn="$NEW_LINE x264 library (libx264) not found (not critical, but no open H264 video codec support)")
+    fi
   fi
 
 
 dnl check for xvid library (additional for ffmpeg open xvid video codec support)
 dnl the check result does not matter unless libavformat is linked or built later on.
+
+XVID_REQUIRED_INC='#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif'
+
 xvid_warn=""
 FF_LIBXVID=""
 AC_ARG_ENABLE(ff_libxvid,
               [  --disable-ff-libxvid         configure libavformat without optional open source variant of xvid video codec])
+dnl  if test "x$enable_ff_libxvid" != "xno"; then
+dnl    AC_CHECK_LIB(xvidcore, xvid_global,
+dnl      [AC_CHECK_HEADER(xvid.h,
+dnl          FF_LIBXVID="-lxvidcore",
+dnl          xvid_warn="$NEW_LINE xvid header file (xvid.h) not found (not critical, but no open xvid video codec support)")],
+dnl      xvid_warn="$NEW_LINE xvid library (libxvidcore) not found (not critical, but no open xvid video codec support)")   
+dnl  fi
   if test "x$enable_ff_libxvid" != "xno"; then
-    AC_CHECK_LIB(xvidcore, xvid_global,
-      [AC_CHECK_HEADER(xvid.h,
+    if test "x$pthread_err" != "x"; then
+       xvid_warn="$NEW_LINE $pthread_err $NEW_LINE xvid disabled because it depends on missing pthread library (not critical, but no open xvid video codec support)"
+    else
+      AC_CHECK_HEADER(xvid.h,
           FF_LIBXVID="-lxvidcore",
-          xvid_warn="$NEW_LINE xvid header file (xvid.h) not found (not critical, but no open xvid video codec support)")],
-      xvid_warn="$NEW_LINE xvid library (libxvidcore) not found (not critical, but no open xvid video codec support)")   
+          xvid_warn="$NEW_LINE xvid header file (xvid.h) not found (not critical, but no open xvid video codec support)",
+          $XVID_REQUIRED_INC)   
+    fi
   fi
 
 
@@ -289,6 +391,8 @@ cd ..
 parent_dir=`pwd`
 cd "$pwd_dir"
 extern_libs_dir="$pwd_dir/extern_libs"
+
+
 
 dnl Test for video libavformat (FFMPEG)
 dnl -----------------------------------
@@ -405,6 +509,11 @@ INFORMATION: old ffmpeg was moved to $FFMPEG_DIR-OLD
       FFMPEG_LIBAVCODEC_A="$FFMPEG_DIR/libavcodec/${LIBPREF}avcodec${LIBSUF}"
       FFMPEG_LIBAVUTIL_A="$FFMPEG_DIR/libavutil/${LIBPREF}avutil${LIBSUF}"
       FFMPEG_LIBAVDEVICE_A="$FFMPEG_DIR/libavdevice/${LIBPREF}avdevice${LIBSUF}"
+      FFMPEG_LIBSWSCALE_A="$FFMPEG_DIR/libswscale/${LIBPREF}swscale${LIBSUF}"
+      dnl
+      dnl libavcore is required for recent development snapshots (such as ffmpeg-2010-09-14 that was used in a compile/link test)
+      dnl
+      FFMPEG_LIBAVCORE_A="$FFMPEG_DIR/libavcore/${LIBPREF}avcore${LIBSUF}"
       dnl
       dnl ffmpeg can be configured to use external codec libs x264, xvid ....
       dnl options for ffmpeg ext libs configuration will be passed to ffmpeg/configure
@@ -415,8 +524,12 @@ INFORMATION: old ffmpeg was moved to $FFMPEG_DIR-OLD
         FFMPEG_EXTLIBS="$FFMPEG_EXTLIBS -lws2_32"
       fi
 
-      GAP_VLIBS_FFMPEG="  $FFMPEG_LIBAVDEVICE_A $FFMPEG_LIBAVFORMAT_A $FFMPEG_LIBAVCODEC_A $FFMPEG_LIBAVUTIL_A $FFMPEG_EXTLIBS "
-      GAP_VINCS_FFMPEG=" -I$FFMPEG_DIR -I$FFMPEG_DIR/libavcodec -I$FFMPEG_DIR/libavformat -I$FFMPEG_DIR/libavutil -I$FFMPEG_DIR/libavdevice "
+      GAP_VLIBS_FFMPEG="  $FFMPEG_LIBAVDEVICE_A $FFMPEG_LIBAVFORMAT_A $FFMPEG_LIBAVCODEC_A $FFMPEG_LIBAVUTIL_A $FFMPEG_LIBSWSCALE_A "
+
+      dnl libavcore is required for recent development snapshots (such as ffmpeg-2010-09-14 that was used in a compile/link test)
+      dnl GAP_VLIBS_FFMPEG=" $GAP_VLIBS_FFMPEG $FFMPEG_LIBAVCORE_A"
+      GAP_VLIBS_FFMPEG=" $GAP_VLIBS_FFMPEG $FFMPEG_EXTLIBS "
+      GAP_VINCS_FFMPEG=" -I$FFMPEG_DIR -I$FFMPEG_DIR/libavcodec -I$FFMPEG_DIR/libavformat -I$FFMPEG_DIR/libavutil -I$FFMPEG_DIR/libavdevice  -I$FFMPEG_DIR/libswscale  -I$FFMPEG_DIR/libavcore"
 
       vid_ffmpeg_warning="
           $x264_warn
@@ -429,7 +542,11 @@ INFORMATION: old ffmpeg was moved to $FFMPEG_DIR-OLD
 
       dnl read configure options for the external lib from a file      
       dnl the current simple implementation requires all options in one line
-      FFMPEG_CONFIGURE_OPTIONS=`cat "$extern_libs_dir/configure_options_ffmpeg.txt" | grep -v '^#'`
+      if  test "x$os_win32" = "xyes"; then
+         FFMPEG_CONFIGURE_OPTIONS=`cat "$extern_libs_dir/configure_options_ffmpeg_win32.txt" | grep -v '^#'`
+      else
+         FFMPEG_CONFIGURE_OPTIONS=`cat "$extern_libs_dir/configure_options_ffmpeg.txt" | grep -v '^#'`
+      fi
       
       ff_pass_through_flags=""
       if test "x$prefix" != "x"; then
@@ -450,9 +567,17 @@ INFORMATION: old ffmpeg was moved to $FFMPEG_DIR-OLD
       	 ff_pass_through_flags=" $ff_pass_through_flags --cc=$CC "
       fi
       
-      FFMPEG_CONFIGURE_OPTIONS=" $ff_pass_through_flags $FFMPEG_CONFIGURE_OPTIONS"
+      FFMPEG_CONFIGURE_OPTIONS=" $ff_pass_through_flags $FFMPEG_CONFIGURE_OPTIONS --enable-swscale"
  
- 
+      FFMPEG_ENABLE_NONFREE=""
+
+
+      dnl ffmpeg-0.7.11 recommands build with yasm assembler, but the
+      dnl configure script fails when yasm is not installed and yasm is not diasbled by explicite configure option.
+      if test "x$HAVE_YASM_ASSEMBLER" = "xno"; then
+      	 FFMPEG_CONFIGURE_OPTIONS="$FFMPEG_CONFIGURE_OPTIONS --disable-yasm"
+      	 yasm_warn="$yasm_warn  ffmpeg congigure option --disable-yasm was used to allow a crippled build. (Installation of yasm is RECOMMANDED)"
+      fi
 
       dnl configure ffmpeg bzip2 usage
       if test "x$FF_BZIP2" != "x"; then
@@ -467,6 +592,7 @@ INFORMATION: old ffmpeg was moved to $FFMPEG_DIR-OLD
       fi
       if test "x$FF_LIBFAAC" != "x"; then
       	 FFMPEG_CONFIGURE_OPTIONS="$FFMPEG_CONFIGURE_OPTIONS --enable-libfaac"
+         FFMPEG_ENABLE_NONFREE="--enable-nonfree"
       fi
       if test "x$FF_LIBFAAD" != "x"; then
       	 FFMPEG_CONFIGURE_OPTIONS="$FFMPEG_CONFIGURE_OPTIONS --enable-libfaad"
@@ -479,16 +605,13 @@ INFORMATION: old ffmpeg was moved to $FFMPEG_DIR-OLD
 
       dnl configure ffmpeg libxvid usage (for optional open xvid codec support via libxvid)
       if test "x$FF_LIBXVID" != "x"; then
+      	 dnl  --enable-pthreads is no longer mandatory when libxvid is enabled
       	 FFMPEG_CONFIGURE_OPTIONS="$FFMPEG_CONFIGURE_OPTIONS --enable-libxvid"
       fi
+
+      dnl in case nonfree libs are used ffmeg 0.6 configure requires --enable-nonfree
+      FFMPEG_CONFIGURE_OPTIONS="$FFMPEG_CONFIGURE_OPTIONS $FFMPEG_ENABLE_NONFREE"
       
-      if  test "x$os_win32" = "xyes"; then
-         dnl here we could check for required win32 api version on MonGW Win32 Systems.
-         dnl for now always disable devices on MinGW (that requires latest win32 api to compile)
-         dnl disabling devices is not critical since GIMP-GAP does not use ffmpeg features that
-         dnl require other access than plain videofile io.
-      	 FFMPEG_CONFIGURE_OPTIONS="$FFMPEG_CONFIGURE_OPTIONS --disable-devices"
-      fi
 
       echo "================================="
       echo "Calling FFMPEG configure script options: $FFMPEG_CONFIGURE_OPTIONS"
@@ -597,16 +720,6 @@ libmpeg3_info_msg="
 
 
 libmpeg3_dependencies_ok="yes"
-
-dnl check for pthread library (required for libmpeg3)
-dnl the check result does not matter unless libmpeg3 is linked or built later on.
-pthread_err=""
-AC_CHECK_LIB(pthread, pthread_create,
-	[AC_CHECK_HEADER(pthread.h,
-          GAP_PTHREAD_LIB=" -lpthread",
-          pthread_err="pthread header file (pthread.h) not found")],
-	pthread_err="pthread library (libpthread) not found")
-
 if test "x$pthread_err" != "x"; then
    libmpeg3_dependencies_ok="no"
 fi
@@ -880,19 +993,27 @@ dnl the xvid codec lib is used in the AVI videoencoder plug-in for
 dnl MPEG4 support xvid should compile on many operating systems,
 dnl including UNIX and WINDOWS systems (ffmpeg has its own builtin
 dnl MPEG4 codec implementation and does not depend on this codec)
-dnl
+xvid_err=""
+if test "x$pthread_err" != "x"; then
+  xvid_err="$pthread_err $NEW_LINE xvid disabled because it depends on missing pthread library"
+fi
 AC_ARG_ENABLE(libxvidcore,
               [  --disable-libxvidcore        don't build with libxvidcore])
   if test "x$enable_libxvidcore" != "xno"; then
     dnl
     dnl check for libxvidcore
     dnl
-    xvid_err=""
-    AC_CHECK_LIB(xvidcore, xvid_encore,
-      [AC_CHECK_HEADER(xvid.h,
+    dnl AC_CHECK_LIB(xvidcore, xvid_encore,
+    dnl   [AC_CHECK_HEADER(xvid.h,
+    dnl     GAP_VLIBS_XVIDCORE=" -lxvidcore",
+    dnl     xvid_err="xvid header file (xvid.h) not found",
+    dnl     $XVID_REQUIRED_INC)],
+    dnl   xvid_err="xvid library (libxvidcore) not found")
+    dnl
+    AC_CHECK_HEADER(xvid.h,
         GAP_VLIBS_XVIDCORE=" -lxvidcore",
-        xvid_err="xvid header file (xvid.h) not found")],
-      xvid_err="xvid library (libxvidcore) not found")
+        xvid_err="xvid header file (xvid.h) not found",
+        $XVID_REQUIRED_INC)
 
     if test "x$xvid_err" = "x"; then
       AC_DEFINE(ENABLE_LIBXVIDCORE, 1,
@@ -934,48 +1055,118 @@ AC_SUBST(FFMPEG_DIR)
 AC_SUBST(FFMPEG_LIBAVFORMAT_A)
 AC_SUBST(FFMPEG_LIBAVCODEC_A)
 AC_SUBST(FFMPEG_LIBAVUTIL_A)
+AC_SUBST(FFMPEG_LIBSWSCALE_A)
 AC_SUBST(LMPEG3_DIR)
 AC_SUBST(LMPEG3_A)
-
-GAPVIDEOAPI_EXTLIBS="\$(GAP_VLIBS_FFMPEG) \$(GAP_VLIBS_MPEG3) -lpng -lz \$(GAP_PTHREAD_LIB) -lm"
-GAPVIDEOAPI_EXTINCS="\$(GAP_VINCS_FFMPEG) \$(GAP_VINCS_MPEG3)"
-AC_SUBST(GAPVIDEOAPI_EXTLIBS)
-AC_SUBST(GAPVIDEOAPI_EXTINCS)
 
 dnl 
 dnl TODO: check for required gthread version, 
 dnl and disable GAP_USE_GTHREAD if not available
 dnl
-GTHREAD_LIBS="-lgthread-2.0"
+GTHREAD_LIBS=`$PKG_CONFIG --libs gthread-2.0`
 AC_SUBST(GTHREAD_LIBS)
+
+pkg_cfg_warning=""
+if test -x "$PKG_CONFIG" ; then
+  dnl pkg_cfg_warning="INFO:pkg-config program is:$PKG_CONFIG"
+  GAP_VLIBS_PNG=`$PKG_CONFIG --libs libpng`
+else
+  pkg_cfg_warning="Error: pkg-config program $PKG_CONFIG could not be executed."
+  GAP_VLIBS_PNG="-lpng14"
+fi
+
+
+GAPVIDEOAPI_EXTLIBS="\$(GAP_VLIBS_FFMPEG) \$(GAP_VLIBS_MPEG3) \$(GAP_VLIBS_PNG) -lz \$(GTHREAD_LIBS) \$(GAP_PTHREAD_LIB) -lm"
+GAPVIDEOAPI_EXTINCS="\$(GAP_VINCS_FFMPEG) \$(GAP_VINCS_MPEG3)"
+AC_SUBST(GAPVIDEOAPI_EXTLIBS)
+AC_SUBST(GAPVIDEOAPI_EXTINCS)
+
 
 
 
 dnl Test for audiosupport
-dnl audiosupport currently is based on wavplay that is available on UNIX systems
-dnl (the wavplay client does not compile on Windows)
+dnl First check for the SDL media library and configure to compile and link
+dnl with the SDL based audioplayer when present.
+dnl (the check for libsdl uses the SDL specific sdl-config when available
+dnl  and uses pkg-config as alternative check when sdl-config was not found.)
 dnl ------------------------
-AC_ARG_ENABLE(audio_support,
-              [  --disable-audio-support      don't build with audio support])
-  if test "x$os_win32" = "xyes"; then
-     enable_audio_support=no
+sdl_audio_err=""
+SDL_CONFIG="sdl-config"
+GAP_AUDIO_SDL_LIBS=""
+GAP_AUDIO_SDL_CFLAGS=""
+AC_ARG_ENABLE(audio_support_sdl,
+              [  --disable-audio-support-sdl      don't build with SDL based audio support])
+  if test "x$enable_audio_support_sdl" != "xno"; then
+
+dnl  -- TODO the AC_CHECK_HEADER  for SDL_audio.h seems not to work 
+dnl    (e.g failed in my development environment even when SDL_audio.h is present
+dnl    at the rellevant directory (that both  pkg-config --cflags sdl    AND sdl-config --cflags 
+dnl    gives as result) 
+dnl    -- therefore skip the check for SDL_audio.h 
+dnl
+dnl
+dnl      AC_CHECK_LIB(SDL, SDL_OpenAudio,
+dnl        [AC_CHECK_HEADER(SDL_audio.h,
+dnl          sdl_audio_err="",
+dnl          sdl_audio_err="$NEW_LINE SDL audio header file (SDL_audio.h) not found (audio playback will be disabled)")],
+dnl        sdl_audio_err="SDL library (libsdl) not found (audio playback will be disabled)")
+
+      AC_CHECK_LIB(SDL, SDL_OpenAudio,
+        sdl_audio_err="",
+        sdl_audio_err="SDL library (libsdl) not found (audio playback will be disabled)")
+        
+      if test "x$sdl_audio_err" != "x"; then
+        enable_audio_support_sdl="no"
+      else
+        enable_audio_support_sdl="yes"
+        AC_CHECK_PROG(SDL_CONFIG, "$SDL_CONFIG", yes, no)
+        if test $SDL_CONFIG = no; then
+          GAP_AUDIO_SDL_CFLAGS=`$PKG_CONFIG --cflags sdl`
+          GAP_AUDIO_SDL_LIBS=`$PKG_CONFIG --libs sdl`
+        else
+          GAP_AUDIO_SDL_CFLAGS=`$SDL_CONFIG --cflags`
+          GAP_AUDIO_SDL_LIBS=`$SDL_CONFIG --libs`
+        fi
+
+        AC_DEFINE(GAP_ENABLE_AUDIO_SUPPORT_SDL, 1,
+              [Define to 1 to enable audio support via SDL media library])
+      fi
   fi
 
-  if test "x$enable_audio_support" != "xno"; then
+AM_CONDITIONAL(GAP_AUDIO_SUPPORT_SDL, test "x$enable_audio_support_sdl" != "xno")
+AC_SUBST(GAP_AUDIO_SDL_CFLAGS)
+AC_SUBST(GAP_AUDIO_SDL_LIBS)
+
+
+dnl further checks for alternative audiosupport, based on wavplay client-server that is available on UNIX systems
+dnl (note that the wavplay client does not compile on Windows)
+dnl ------------------------
+AC_ARG_ENABLE(audio_support_wavplay,
+              [  --disable-audio-support-wavplay      don't build with wavplay based audio support])
+  if test "x$os_win32" = "xyes"; then
+     enable_audio_support_wavplay=no
+  fi
+  if test "x$enable_audio_support_sdl" != "xno"; then
+     if test "x$enable_audio_support_sdl" != "x"; then
+        enable_audio_support_wavplay=no
+     fi;
+  fi
+
+  if test "x$enable_audio_support_wavplay" != "xno"; then
     AC_CHECK_PROG(WAVPLAY_SERVER, wavplay, yes, no)
       if test $WAVPLAY_SERVER = no; then
         audio_warning="
-Audio support will be compiled in but will not work because the wavplay
-executable was not found. For audio support the wavplay audioserver must
+Audio support based on wavplay client-server implementation will be compiled but will not work because the wavplay
+executable was not found. For this kind of audio support the wavplay audioserver must
 be installed at runtime.
 "
       fi
 
-    AC_DEFINE(GAP_ENABLE_AUDIO_SUPPORT, 1,
-              [Define to 1 to enable audio support])
+    AC_DEFINE(GAP_ENABLE_AUDIO_SUPPORT_WAVPLAY, 1,
+              [Define to 1 to enable audio support via wavplay client])
   fi
 
-AM_CONDITIONAL(GAP_AUDIO_SUPPORT, test "x$enable_audio_support" != "xno")
+AM_CONDITIONAL(GAP_AUDIO_SUPPORT_WAVPLAY, test "x$enable_audio_support_wavplay" != "xno")
 
 dnl optional compile preview widget with GDK-pixbuf support
 dnl 
@@ -990,6 +1181,27 @@ AC_ARG_ENABLE(gdkpixbuf_pview,
 
 AM_CONDITIONAL(BUILD_FFMPEG_LIBS, test "x$build_ffmpeg_libs_yesno" != "xno")
 AM_CONDITIONAL(BUILD_LIBMPEG3_LIB, test "x$build_libmpeg3_lib_yesno" != "xno")
+
+dnl
+dnl runtime recording is primary a developers feature 
+dnl for analyse and performance tuning purpose.
+dnl
+AC_ARG_ENABLE(runtime_recording_all,
+              [  --enable-runtime-recording-all      enable runtime recording and logging of all procedures using GAP_TIMM macros (default is no for this debug feature)])
+  if test "x$enable_runtime_recording_all" = "xyes"; then
+    AC_DEFINE(GAP_RUNTIME_RECORDING_LOCK, 1,
+              [use gap runtime recording and logging features (enables locking implementations GAP_TIMM_x_FUNCTION macros)])
+    AC_DEFINE(GAP_RUNTIME_RECORDING_NOLOCK, 1,
+              [use gap runtime recording and logging features (enables non-locking implementations GAP_TIMM_x_RECORD macros)])
+
+  fi
+
+AC_ARG_ENABLE(runtime_recording_nolock,
+              [  --enable-runtime-recording-nolock  enable runtime recording (only non-locking implementations, default is no for this debug feature)])
+  if test "x$enable_runtime_recording_nolock" = "xyes"; then
+    AC_DEFINE(GAP_RUNTIME_RECORDING_NOLOCK, 1,
+              [use gap runtime recording and logging features (enables non-locking implementations GAP_TIMM_x_RECORD macros)])
+  fi
 
 
 GAPLIBDIR=${libdir}/$PACKAGE-$GAP_MAJOR_VERSION.$GAP_MINOR_VERSION
@@ -1067,4 +1279,4 @@ docs/reference/Makefile
 docs/reference/txt/Makefile
 ])
 
-AC_MSG_RESULT($frontends_warning $audio_warning $videoapi_warning $moved_old_ffmpeg_warn $moved_old_libmpeg3_warn $vid_ffmpeg_warning $vid_mpeg3_warning $vid_quicktime_warning $vid_xvidcore_warning)
+AC_MSG_RESULT($frontends_warning $sdl_audio_err $audio_warning $videoapi_warning $moved_old_ffmpeg_warn $moved_old_libmpeg3_warn $vid_ffmpeg_warning $yasm_warn $vid_mpeg3_warning $vid_quicktime_warning $vid_xvidcore_warning $pkg_cfg_warning)

@@ -1,7 +1,7 @@
 #!/bin/sh 
 
 # This script does all the magic calls to automake/autoconf and
-# friends that are needed to configure a cvs checkout.  You need a
+# friends that are needed to configure a git checkout.  You need a
 # couple of extra tools to run this script successfully.
 #
 # If you are compiling from a released tarball you don't need these
@@ -88,7 +88,13 @@ fi
 
 
 echo -n "checking for automake >= $AUTOMAKE_REQUIRED_VERSION ... "
-if (automake-1.11 --version) < /dev/null > /dev/null 2>&1; then
+if (automake-1.13 --version) < /dev/null > /dev/null 2>&1; then
+   AUTOMAKE=automake-1.13
+   ACLOCAL=aclocal-1.13
+elif (automake-1.12 --version) < /dev/null > /dev/null 2>&1; then
+   AUTOMAKE=automake-1.12
+   ACLOCAL=aclocal-1.12
+elif (automake-1.11 --version) < /dev/null > /dev/null 2>&1; then
    AUTOMAKE=automake-1.11
    ACLOCAL=aclocal-1.11
 elif (automake-1.10 --version) < /dev/null > /dev/null 2>&1; then

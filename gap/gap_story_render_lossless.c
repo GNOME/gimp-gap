@@ -21,8 +21,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -320,7 +320,7 @@ p_chunk_fetch_from_single_image(const char *videofile
  * p_check_chunk_fetch_possible
  * ----------------------------------------------------
  * This procedure checks the preconditions for a possible
- * fetch of already compresses frame chunk.
+ * fetch of an already compressed frame chunk.
  * (a frame chunk can be one raw frame chunk fetched from a videofile
  *  or a single image frame file that shall be loaded 1:1 into memory)
  * - there is only 1 videoinput track at this master_frame_nr
@@ -339,32 +339,15 @@ p_check_chunk_fetch_possible(GapStoryRenderVidHandle *vidhand
                     , GapStoryRenderFrameRangeElem **frn_elem  /* OUT: pointer to relevant frame range element */
                     )
 {
-  gint    l_track;
-  gint32    l_track_min;
-  gint32    l_track_max;
+  GapStbFetchData gapStbFetchData;
+  GapStbFetchData *gfd;
+  gint32    l_track;
   gchar  *l_framename;
   gchar  *l_videofile;
-  gdouble l_opacity;
-  gdouble l_scale_x;
-  gdouble l_scale_y;
-  gdouble l_move_x;
-  gdouble l_move_y;
-  GapStoryRenderFrameRangeElem *l_frn_elem_2;
 
-  gint32        l_localframe_index;
-  gint32        l_local_stepcount;
-  gdouble       l_localframe_tween_rest;
-  gboolean      l_keep_proportions;
-  gboolean      l_fit_width;
-  gboolean      l_fit_height;
-  GapStoryRenderFrameType   l_frn_type;
-  char            *l_trak_filtermacro_file;
-  gdouble l_red_f;
-  gdouble l_green_f;
-  gdouble l_blue_f;
-  gdouble l_alpha_f;
   gint    l_cnt_active_tracks;
 
+  gfd = &gapStbFetchData;
 
   *video_frame_nr   = -1;
   *frn_elem = NULL;
@@ -372,77 +355,60 @@ p_check_chunk_fetch_possible(GapStoryRenderVidHandle *vidhand
   l_videofile = NULL;
   l_cnt_active_tracks = 0;
 
-  p_find_min_max_vid_tracknumbers(vidhand->frn_list, &l_track_min, &l_track_max);
-
   /* findout if there is just one input track from type videofile
    * (that possibly could be fetched as comressed videoframe_chunk
    *  and passed 1:1 to the calling encoder)
    */
-  for(l_track = MIN(GAP_STB_MAX_VID_INTERNAL_TRACKS, l_track_max); l_track >= MAX(0, l_track_min); l_track--)
+  for(l_track = vidhand->maxVidTrack; l_track >= vidhand->minVidTrack; l_track--)
   {
     l_framename = p_fetch_framename(vidhand->frn_list
                  , master_frame_nr /* starts at 1 */
                  , l_track
-                 , &l_frn_type
-                 , &l_trak_filtermacro_file
-                 , &l_localframe_index   /* used for ANIMIMAGE and Videoframe Number, -1 for all other types */
-                 , &l_local_stepcount
-                 , &l_localframe_tween_rest
-                 , &l_keep_proportions
-                 , &l_fit_width
-                 , &l_fit_height
-                 , &l_red_f
-                 , &l_green_f
-                 , &l_blue_f
-                 , &l_alpha_f
-                 , &l_opacity       /* output opacity 0.0 upto 1.0 */
-                 , &l_scale_x       /* output 0.0 upto 10.0 where 1.0 is 1:1 */
-                 , &l_scale_y       /* output 0.0 upto 10.0 where 1.0 is 1:1 */
-                 , &l_move_x        /* output -1.0 upto 1.0 where 0.0 is centered */
-                 , &l_move_y        /* output -1.0 upto 1.0 where 0.0 is centered */
-                 , &l_frn_elem_2    /* output selected to the relevant framerange element */
+                 , gfd
                  );
 
      if(gap_debug)
      {
-       printf("l_track:%d  l_frn_type:%d\n", (int)l_track, (int)l_frn_type);
+       printf("l_track:%d  gfd->frn_type:%d\n", (int)l_track, (int)gfd->frn_type);
      }
 
-     if(l_frn_type != GAP_FRN_SILENCE)
+     if(gfd->frn_type != GAP_FRN_SILENCE)
      {
        l_cnt_active_tracks++;
      }
 
-     if((l_framename) || (l_frn_type == GAP_FRN_COLOR))
+     if((l_framename) || (gfd->frn_type == GAP_FRN_COLOR))
      {
        if(l_framename)
        {
-         if((l_frn_type == GAP_FRN_MOVIE)
-         || (l_frn_type == GAP_FRN_IMAGE)
-         || (l_frn_type == GAP_FRN_FRAMES))
+         if((gfd->frn_type == GAP_FRN_MOVIE)
+         || (gfd->frn_type == GAP_FRN_IMAGE)
+         || (gfd->frn_type == GAP_FRN_FRAMES))
          {
            if(l_cnt_active_tracks == 1)
            {
              /* check for transformations */
-             if((l_opacity == 1.0)
-             && (l_scale_x == 1.0)
-             && (l_scale_y == 1.0)
-             && (l_move_x == 0.0)
-             && (l_move_y == 0.0)
-             && (l_fit_width)
-             && (l_fit_height)
-             && (!l_keep_proportions)
-             && (l_frn_elem_2->flip_request == GAP_STB_FLIP_NONE)
-             && (l_frn_elem_2->mask_name == NULL)
-             && (l_trak_filtermacro_file == NULL))
+             if((gfd->opacity == 1.0)
+             && (gfd->rotate == 0.0)
+             && (gfd->scale_x == 1.0)
+             && (gfd->scale_y == 1.0)
+             && (gfd->move_x == 0.0)
+             && (gfd->move_y == 0.0)
+             && (gfd->fit_width)
+             && (gfd->fit_height)
+             && (!gfd->keep_proportions)
+             && (gfd->frn_elem->flip_request == GAP_STB_FLIP_NONE)
+             && (gfd->frn_elem->mask_name == NULL)
+             && (gfd->trak_filtermacro_file == NULL)
+             && (gfd->movepath_file_xml == NULL))
              {
                if(gap_debug)
                {
                  printf("gap_story_render_fetch_composite_image_or_chunk:  video:%s\n", l_framename);
                }
                l_videofile = g_strdup(l_framename);
-               *video_frame_nr = l_localframe_index;
-               *frn_elem = l_frn_elem_2;
+               *video_frame_nr = gfd->localframe_index;
+               *frn_elem = gfd->frn_elem;
              }
              else
              {
@@ -534,61 +500,6 @@ p_check_basic_chunk_fetch_conditions(gint32 check_flags
 }  /* end p_check_basic_chunk_fetch_conditions */
 
 
-/* ----------------------------------------------------
- * p_check_and_open_video_handle
- * ----------------------------------------------------
- *
- */
-static void
-p_check_and_open_video_handle(GapStoryRenderFrameRangeElem *frn_elem
-   , GapStoryRenderVidHandle *vidhand
-   , gint32 master_frame_nr
-   , const gchar *videofile
-   )
-{
-  if(frn_elem->gvahand == NULL)
-  {
-     /* before we open a new GVA videohandle, lets check
-      * if another element has already opened this videofile,
-      * and reuse the already open gvahand handle if possible
-      */
-     frn_elem->gvahand = p_try_to_steal_gvahand(vidhand
-                                                 , master_frame_nr
-                                                 , frn_elem->basename
-                                                 , frn_elem->exact_seek
-                                                 );
-     if(frn_elem->gvahand == NULL)
-     {
-       if(vidhand->preferred_decoder)
-       {
-         frn_elem->gvahand = GVA_open_read_pref(videofile
-                                , frn_elem->seltrack
-                                , 1 /* aud_track */
-                                , vidhand->preferred_decoder
-                                , FALSE  /* use MMX if available (disable_mmx == FALSE) */
-                                );
-       }
-       else
-       {
-         frn_elem->gvahand = GVA_open_read(videofile
-                                           ,frn_elem->seltrack
-                                           ,1 /* aud_track */
-                                           );
-       }
-       if(frn_elem->gvahand)
-       {
-         GVA_set_fcache_size(frn_elem->gvahand, GAP_STB_RENDER_GVA_FRAMES_TO_KEEP_CACHED);
-
-         frn_elem->gvahand->do_gimp_progress = vidhand->do_gimp_progress;
-         if(frn_elem->exact_seek == 1)
-         {
-           /* configure the GVA Procedures for exact (but slow) seek emulaion */
-           frn_elem->gvahand->emulate_seek = TRUE;
-         }
-       }
-     }
-  }
-}  /* end p_check_and_open_video_handle */
 
 
 /* ----------------------------------------------------
@@ -1099,7 +1010,7 @@ p_story_attempt_fetch_chunk(GapStoryRenderVidHandle *vidhand
 
 
 /* ----------------------------------------------------
- * gap_story_render_fetch_composite_image_or_chunk
+ * gap_story_render_fetch_composite_image_or_chunk         DEPRECATED
  * ----------------------------------------------------
  *
  * fetch composite VIDEO Image at a given master_frame_nr
@@ -1130,7 +1041,7 @@ p_story_attempt_fetch_chunk(GapStoryRenderVidHandle *vidhand
  *                                                  (typical for MPEG I frames)
  *      GAP_VID_CHCHK_FLAG_VCODEC_NAME        check for a compatible vcodec_name
  *
- +
+ *
  * RETURN TRUE on success, FALSE on ERRORS
  *    if an already compressed video_frame_chunk was fetched then return the size of the chunk
  *        in the *video_frame_chunk_size OUT Parameter.
@@ -1194,17 +1105,14 @@ gap_story_render_fetch_composite_image_or_chunk(GapStoryRenderVidHandle *vidhand
 
 #ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
 
-  if(filtermacro_file)
+  if(p_isFiltermacroActive(filtermacro_file))
   {
-     if(*filtermacro_file != '\0')
-     {
-       if(gap_debug)
-       {
-         printf("chunk fetch disabled due to filtermacro procesing\n");
-       }
-       /* if a filtermacro_file is force disable chunk fetching */
-       l_enable_chunk_fetch = FALSE;  
-     }
+    if(gap_debug)
+    {
+      printf("chunk fetch disabled due to filtermacro procesing\n");
+    }
+    /* if a filtermacro_file is force disable chunk fetching */
+    l_enable_chunk_fetch = FALSE;  
   }
 
   if (l_enable_chunk_fetch)
@@ -1289,4 +1197,236 @@ gap_story_render_fetch_composite_image_or_chunk(GapStoryRenderVidHandle *vidhand
 
   return(FALSE);
 
-} /* end gap_story_render_fetch_composite_image_or_chunk */
+} /* end gap_story_render_fetch_composite_image_or_chunk DEPRECATED */
+
+
+/* ------------------------------------------------------------------------
+ * gap_story_render_fetch_composite_image_or_buffer_or_chunk (extended API)
+ * ------------------------------------------------------------------------
+ *
+ * fetch composite VIDEO frame at a given master_frame_nr
+ * within a storyboard framerange list.
+ *
+ * on success the result can be delivered in one of those types:
+ *   GAP_STORY_FETCH_RESULT_IS_IMAGE
+ *   GAP_STORY_FETCH_RESULT_IS_RAW_RGB888
+ *   GAP_STORY_FETCH_RESULT_IS_COMPRESSED_CHUNK
+ *
+ * The delivered data type depends on the flags:
+ *   dont_recode_flag
+ *   enable_rgb888_flag
+ *
+ * In case all of those flags are FALSE, the caller can always expect
+ * a gimp image (GAP_STORY_FETCH_RESULT_IS_IMAGE) as result on success.
+ *
+ * Encoders that can handle RGB888 colormdel can set the enable_rgb888_flag
+ *
+ *   If the enable_rgb888_flag is TRUE and the refered frame can be copied
+ *   without render transitions from only one input video clip
+ *   then the render engine is bypassed, and the result will be of type 
+ *   GAP_STORY_FETCH_RESULT_IS_RAW_RGB888 for this frame.
+ *   (this speeds up encoding of simple 1:1 copied video clip frames
+ *   because the converting from rgb88 to gimp drawable and back to rgb88
+ *   can be skipped in this special case)
+ *   
+ *
+ * Encoders that support lossless video cut can set the dont_recode_flag.
+ *
+ *   if the dont_recode_flag is TRUE, the render engine is also bypassed where
+ *   a direct fetch of the (already compressed) Frame chunk from an input videofile
+ *   is possible for the master_frame_nr.
+ *   (in case there are any transitions or mix with other input channels
+ *   or in case the input is not an mpeg encoded video file it is not possible to 
+ *   make a lossless copy of the input frame data)
+ *
+ *   Restriction: current implementation provided lossless cut only for MPEG1 and MPEG2
+ *
+ *
+ * the compressed fetch depends on following conditions:
+ * - dont_recode_flag == TRUE
+ * - there is only 1 videoinput track at this master_frame_nr
+ * - the videodecoder must support a read_video_chunk procedure
+ *   (libmpeg3 has this support, for the libavformat the support is available vie the gap video api)
+ *    TODO: for future releases should also check for the same vcodec_name)
+ * - the videoframe must match 1:1 in size
+ * - there are no transformations (opacity, offsets ....)
+ * - there are no filtermacros to perform on the fetched frame
+ *
+ * check_flags:
+ *   force checks if corresponding bit value is set. Supportet Bit values are:
+ *      GAP_VID_CHCHK_FLAG_SIZE               check if width and height are equal
+ *      GAP_VID_CHCHK_FLAG_MPEG_INTEGRITY     checks for MPEG P an B frames if the sequence of fetched frames
+ *                                                   also includes the refered I frame (before or after the current
+ *                                                   handled frame)
+ *      GAP_VID_CHCHK_FLAG_JPG                check if fetched cunk is a jpeg encoded frame.
+ *                                                  (typical for MPEG I frames)
+ *      GAP_VID_CHCHK_FLAG_VCODEC_NAME        check for a compatible vcodec_name
+ *
+ *
+ * The resulting frame is deliverd into the GapStoryFetchResult struct.
+ *
+ *   Note that the caller of the fetch procedure can already provide
+ *   allocated memory for the buffers  raw_rgb_data and video_frame_chunk_data.
+ *   (in this case the caler is responsible to allocate the buffers large enough
+ *   to hold one uncompressed frame in rgb888 colormodel representation)
+ *
+ *   in case raw_rgb_data or video_frame_chunk_data is NULL the buffer is automatically
+ *   allocated in correct size when needed.
+ */
+void
+gap_story_render_fetch_composite_image_or_buffer_or_chunk(GapStoryRenderVidHandle *vidhand
+                    , gint32 master_frame_nr  /* starts at 1 */
+                    , gint32  vid_width       /* desired Video Width in pixels */
+                    , gint32  vid_height      /* desired Video Height in pixels */
+                    , char *filtermacro_file  /* NULL if no filtermacro is used */
+                    , gboolean dont_recode_flag                /* IN: TRUE try to fetch comressed chunk if possible */
+                    , gboolean enable_rgb888_flag              /* IN: TRUE deliver result already converted to rgb buffer */
+                    , GapCodecNameElem *vcodec_list            /* IN: list of video_codec names that are compatible to the calling encoder program */
+                    , gint32 video_frame_chunk_maxsize         /* IN: sizelimit (larger chunks are not fetched) */
+                    , gdouble master_framerate
+                    , gint32  max_master_frame_nr              /* the number of frames that will be encoded in total */
+                    , gint32  check_flags                      /* IN: combination of GAP_VID_CHCHK_FLAG_* flag values */
+                    , GapStoryFetchResult *gapStoryFetchResult
+                 )
+{
+#define GAP_MPEG_ASSUMED_REFERENCE_DISTANCE 3
+  static char      *last_videofile = NULL;
+  static gboolean   last_fetch_was_compressed_chunk = FALSE;
+
+  gchar  *l_videofile;
+  GapStoryRenderFrameRangeElem *l_frn_elem;
+
+  gboolean      l_enable_chunk_fetch;
+
+  /* init result record */
+  gapStoryFetchResult->resultEnum = GAP_STORY_FETCH_RESULT_IS_ERROR;
+  gapStoryFetchResult->image_id                   = -1;
+  gapStoryFetchResult->layer_id                   = -1;
+  gapStoryFetchResult->force_keyframe             = FALSE;
+  gapStoryFetchResult->video_frame_chunk_size     = 0;
+  gapStoryFetchResult->video_frame_chunk_hdr_size = 0;     /* assume chunk contains no frame header */
+  
+  l_frn_elem        = NULL;
+  l_enable_chunk_fetch = dont_recode_flag;
+  
+  if ((gapStoryFetchResult->video_frame_chunk_data == NULL)
+  && (l_enable_chunk_fetch == TRUE))
+  {
+    gapStoryFetchResult->video_frame_chunk_data = g_malloc(vid_width * vid_height * 4);
+  }
+
+  if(gap_debug)
+  {
+    printf("gap_story_render_fetch_composite_image_or_buffer_or_chunk START  master_frame_nr:%d  %dx%d dont_recode:%d\n"
+                       , (int)master_frame_nr
+                       , (int)vid_width
+                       , (int)vid_height
+                       , (int)dont_recode_flag
+                       );
+  }
+
+  l_videofile = NULL;     /* NULL: also used as flag for "MUST fetch regular uncompressed frame" */
+
+
+#ifdef GAP_ENABLE_VIDEOAPI_SUPPORT
+
+  if(filtermacro_file)
+  {
+     if(*filtermacro_file != '\0')
+     {
+       if(gap_debug)
+       {
+         printf("chunk fetch disabled due to filtermacro procesing\n");
+       }
+       /* if a filtermacro_file is force disable chunk fetching */
+       l_enable_chunk_fetch = FALSE;  
+     }
+  }
+
+  if (l_enable_chunk_fetch)
+  {
+     if(gap_debug)
+     {
+        printf("start check if chunk fetch is possible\n");
+     }
+
+     l_videofile = p_story_attempt_fetch_chunk(vidhand
+                         , master_frame_nr
+                         , vid_width
+                         , vid_height
+                         , vcodec_list
+                         , &gapStoryFetchResult->video_frame_chunk_data
+                         , &gapStoryFetchResult->video_frame_chunk_size
+                         , video_frame_chunk_maxsize
+                         , master_framerate
+                         , max_master_frame_nr
+                         , &gapStoryFetchResult->video_frame_chunk_hdr_size
+                         , check_flags
+     
+                         , &last_fetch_was_compressed_chunk
+                         , last_videofile
+                      );
+  }
+
+  if(last_fetch_was_compressed_chunk)
+  {
+    gapStoryFetchResult->force_keyframe = TRUE;
+  }
+
+  /* keep the videofile name for the next call
+   * (for MPEG INTEGRITY checks that require continous sequence 
+   *  in the same referenced source video
+   */
+  if(last_videofile)
+  {
+      g_free(last_videofile);
+  }
+  last_videofile = l_videofile;
+
+#endif
+
+  if(l_videofile != NULL)
+  {
+     /* chunk fetch was successful */
+     if(gap_debug)
+     {
+        printf("gap_story_render_fetch_composite_image_or_buffer_or_chunk:  CHUNK fetch succsessful\n");
+     }
+     gapStoryFetchResult->resultEnum = GAP_STORY_FETCH_RESULT_IS_COMPRESSED_CHUNK;
+     return;
+  }
+  else
+  {
+    last_fetch_was_compressed_chunk = FALSE;
+    if(last_videofile)
+    {
+      g_free(last_videofile);
+    }
+    last_videofile = l_videofile;
+
+
+
+    gapStoryFetchResult->video_frame_chunk_size = 0;
+ 
+    if(gap_debug)
+    {
+      printf("gap_story_render_fetch_composite_image_or_buffer_or_chunk:  "
+             "CHUNK fetch not possible (doing frame or rgb888 fetch instead) enable_rgb888_flag:%d\n"
+             ,(int)enable_rgb888_flag
+             );
+    }
+      
+    p_story_render_fetch_composite_image_or_buffer(vidhand
+                                                   ,master_frame_nr
+                                                   ,vid_width
+                                                   ,vid_height
+                                                   ,filtermacro_file
+                                                   ,&gapStoryFetchResult->layer_id
+                                                   ,enable_rgb888_flag
+                                                   ,gapStoryFetchResult  /* IN/OUT: fetched data is stored in this struct */
+                                                   );
+  }
+
+
+} /* end gap_story_render_fetch_composite_image_or_buffer_or_chunk */
+

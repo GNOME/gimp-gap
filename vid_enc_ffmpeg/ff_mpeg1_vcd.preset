@@ -1,0 +1,195 @@
+# GIMP / GAP FFMPEG videoencoder parameter file
+(preset_name  "MPEG1 (VCD) preset") 
+(format_name  "vcd") 
+(vcodec_name  "mpeg1video") 
+(acodec_name  "mp2") 
+(title  "") 
+(author  "") 
+(copyright  "") 
+(comment  "") 
+(passlogfile  "ffmpeg2pass") 
+(pass 1) # 1: one pass encoding, 2: for two-pass encoding
+(ntsc_width 352) # recommanded width NTSC, 0: not available
+(ntsc_height 240) # recommanded height NTSC, 0: not available
+(pal_width 352) # recommanded width PAL, 0: not available
+(pal_height 288) # recommanded height PAL, 0: not available
+(audio_bitrate 224) # audio bitrate in kBit/sec
+(video_bitrate 1150) # video bitrate in kBit/sec
+(gop_size 18) # group of picture size
+(qscale 1) # use fixed video quantiser scale (VBR). 0=const bitrate
+(qmin 2) # min video quantiser scale (VBR)
+(qmax 31) # max video quantiser scale (VBR)
+(qdiff 3) # max difference between the quantiser scale (VBR)
+(qblur 0.5) # video quantiser scale blur (VBR)
+(qcomp 0.5) # video quantiser scale compression (VBR)
+(rc_init_cplx 0) # initial complexity for 1-pass encoding
+(b_qfactor 1.25) # qp factor between p and b frames
+(i_qfactor -0.80000001192092896) # qp factor between p and i frames
+(b_qoffset 1.25) # qp offset between p and b frames
+(i_qoffset 0) # qp offset between p and i frames
+(bitrate_tol 1150) # set video bitrate tolerance (in kbit/s)
+(maxrate_tol 1150) # set max video bitrate tolerance (in kbit/s)
+(minrate_tol 1150) # set min video bitrate tolerance (in kbit/s)
+(bufsize 40) # set ratecontrol buffere size (in kbit)
+(motion_estimation 5) # algorithm for motion estimation (1-6)
+(dct_algo 0) # algorithm for DCT (0-6)
+(idct_algo 0) # algorithm for IDCT (0-11)
+(strict 0) # how strictly to follow the standards
+(mb_qmin 2) # OBSOLETE min macroblock quantiser scale (VBR)
+(mb_qmax 31) # OBSOLETE max macroblock quantiser scale (VBR)
+(mb_decision 0) # algorithm for macroblock decision (0-2)
+(b_frames 0) # max number of B-frames in sequence
+(packet_size 0) 
+(intra no) # use only intra frames
+(set_aspect_ratio yes) # store aspectratio information (width/height) in the output video
+(factor_aspect_ratio 0) # the aspect ratio (width/height). 0.0 = auto ratio assuming sqaure pixels
+(dont_recode_flag no) # bypass the video encoder where frames can be copied 1:1
+(thread_count 1) 
+(mb_cmp 0) # macroblock compare function (0-13,255)
+(ildct_cmp 8) # ildct compare function (0-13,255)
+(sub_cmp 0) # subpel compare function (0-13,255)
+(cmp 0) # fullpel compare function (0-13,255)
+(pre_cmp 0) # pre motion estimation compare function (0-13,255)
+(pre_me 0) # pre motion estimation
+(lumi_mask 0) # luminance masking
+(dark_mask 0) # darkness masking
+(scplx_mask 0) # spatial complexity masking
+(tcplx_mask 0) # temporary complexity masking
+(p_mask 0) # p block masking
+(qns 0) # quantization noise shaping
+(video_lmin 236) # min video lagrange factor (VBR) 0-3658
+(video_lmax 3658) # max video lagrange factor (VBR) 0-3658
+(video_lelim 0) # luma elimination threshold
+(video_celim 0) # chroma elimination threshold
+(video_intra_quant_bias 999999) # intra quant bias
+(video_inter_quant_bias 999999) # inter quant bias
+(me_threshold 0) # motion estimaton threshold
+(mb_threshold 0) # macroblock threshold
+(intra_dc_precision 8) # precision of the intra dc coefficient - 8
+(error_rate 0) # simulates errors in the bitstream to test error concealment
+(noise_reduction 0) # noise reduction strength
+(sc_threshold 0) # scene change detection threshold
+(me_range 0) # limit motion vectors range (1023 for DivX player, 0 = no limit)
+(coder 0) # coder type 0=VLC 1=AC
+(context 0) # context model
+(predictor 0) # prediction method (0 LEFT, 1 PLANE, 2 MEDIAN
+(nsse_weight 8) # noise vs. sse weight for the nsse comparsion function.
+(subpel_quality 8) # subpel ME quality
+(strict_gop 0) # strictly enforce GOP size
+(no_output 0) # skip bitstream encoding
+(video_mb_lmin 236) # min macroblock quantiser scale (VBR) 0-3658
+(video_mb_lmax 3658) # max macroblock quantiser scale (VBR) 0-3658
+(video_profile -99) 
+(video_level -99) 
+(frame_skip_threshold 0) # frame skip threshold
+(frame_skip_factor 0) # frame skip factor
+(frame_skip_exp 0) # frame skip exponent
+(frame_skip_cmp 13) # frame skip comparission function
+(mux_rate 1000000) 
+(mux_packet_size 2324) 
+(mux_preload 0.43999999761581421) # set the initial demux-decode delay (secs)
+(mux_max_delay 0.69999998807907104) # set the maximum demux-decode delay (secs)
+(b_frame_strategy 0) # strategy to choose between I/P/B-frames
+(workaround_bugs 1) # 1:FF_BUG_AUTODETECT, 2:FF_BUG_OLD_MSMPEG4 4:FF_BUG_XVID_ILACE 8:FF_BUG_UMP4 1
+(error_recognition 1) # 1:FF_ER_CAREFUL  2:FF_ER_COMPLIANT 3:FF_ER_AGGRESSIVE 4:FF_ER_VERY_AGGRESSIVE
+(mpeg_quant 0) # 0-> h263 quant 1-> mpeg quant
+(rc_qsquish 0) # how to keep quantizer between qmin and qmax (0 = clip, 1 = use differentiable
+(rc_qmod_amp 0) # experimental quantizer modulation
+(rc_qmod_freq 0) # experimental quantizer modulation
+(rc_eq[60]  "") # rate control equation (tex^qComp)
+(rc_buffer_aggressivity 1) # currently useless
+(dia_size 0) # ME diamond size & shape
+(last_predictor_count 0) # amount of previous MV predictors (2a+1 x 2a+1 square)
+(pre_dia_size 0) # ME prepass diamond size & shape
+(inter_threshold 0) 
+(border_masking 0) # increases the quantizer for macroblocks close to borders
+(me_penalty_compensation 256) # motion estimation bitrate penalty compensation (1.0 = 256)
+(bidir_refine 0) # refine the two motion vectors used in bidirectional macroblocks
+(brd_scale 0) # downscales frames for dynamic B-frame decision
+(crf 0) # constant rate factor - quality-based VBR - values ~correspond to qps
+(cqp -1) # constant quantization parameter rate control method
+(keyint_min 25) # minimum GOP size
+(refs 1) # number of reference frames
+(chromaoffset 0) # chroma qp offset from luma
+(bframebias 0) # Influences how often B-frames are used
+(trellis 0) # trellis RD quantization
+(complexityblur 20) # Reduce fluctuations in qp (before curve compression)
+(deblockalpha 0) # in-loop deblocking filter alphac0 parameter. alpha is in the range -6...6
+(deblockbeta 0) # in-loop deblocking filter beta parameter. beta is in the range -6...6
+(partitions 0) # macroblock subpartition sizes to consider - p8x8, p4x4, b8x8, i8x8, i4x4
+(directpred 2) # direct MV prediction mode - 0 (none), 1 (spatial), 2 (temporal), 3 (auto)
+(cutoff 0) # Audio cutoff bandwidth (0 means automatic)
+(scenechange_factor 6) #  Multiplied by qscale for each frame and added to scene_change_score.
+(mv0_threshold 256) # Value depends upon the compare function used for fullpel ME
+(b_sensitivity 40) # Adjusts sensitivity of b_frame_strategy 1
+(compression_level -1) 
+(use_lpc -1) # Sets whether to use LPC mode - used by FLAC encoder
+(lpc_coeff_precision 0) # LPC coefficient precision - used by FLAC encoder
+(min_prediction_order -1) 
+(max_prediction_order -1) 
+(prediction_order_method -1) # search method for selecting prediction order
+(min_partition_order -1) 
+(timecode_frame_start 0) # GOP timecode frame start number, in non drop frame format
+(bits_per_raw_sample 0) # This field is applicable only when sample_fmt is SAMPLE_FMT_S32
+(channel_layout 0) # Audio channel layout
+(rc_max_available_vbv_use 0.33333333333333331) # Ratecontrol attempt to use, at maximum, <value> of what can be used without a
+(rc_min_vbv_overflow_use 3) # Ratecontrol attempt to use, at least, <value> times the amount needed to prev
+(color_primaries 0) # Chromaticity coordinates of the source primaries.
+(color_trc 0) # Color Transfer Characteristic.
+(colorspace 0) # YUV colorspace type.
+(color_range 0) # MPEG vs JPEG YUV range.
+(chroma_sample_location 0) # This defines the location of chroma samples.
+(weighted_p_pred 0) # explicit P-frame weighted prediction analysis method 0:off, 1: fast blind wei
+(aq_mode 0) # AQ mode
+(aq_strength 0) # AQ strength, Reduces blocking and blurring in flat and textured areas.
+(psy_rd 0) # PSY RD Strength of psychovisual optimization 
+(psy_trellis 0) # PSY trellis Strength of psychovisual optimization
+(rc_lookahead 0) # Number of frames for frametype and ratecontrol lookahead
+(bitexact no) # CODEC_FLAG_BITEXACT (for testing, unused in productive version)
+(use_ss no) # CODEC_FLAG_H263P_SLICE_STRUCT enable Slice Structured mode (h263+)
+(use_aiv no) # CODEC_FLAG_H263P_AIV  enable Alternative inter vlc (h263+)
+(use_obmc no) # CODEC_FLAG_OBMC use overlapped block motion compensation (h263+)
+(use_loop no) # CODEC_FLAG_LOOP_FILTER use loop filter (h263+)
+(use_alt_scan no) # CODEC_FLAG_ALT_SCAN enable alternate scantable (MPEG2/MPEG4)
+(use_mv0 no) # CODEC_FLAG_MV0 try to encode each MB with MV=<0,0> and choose the better one 
+(do_normalize_aqp no) # CODEC_FLAG_NORMALIZE_AQP normalize adaptive quantization
+(use_scan_offset no) # CODEC_FLAG_SVCD_SCAN_OFFSET enable SVCD Scan Offset placeholder
+(closed_gop no) # CODEC_FLAG_CLOSED_GOP closed gop
+(use_qpel no) # CODEC_FLAG_QPEL enable 1/4-pel
+(use_qprd no) # CODEC_FLAG_QP_RD use rate distortion optimization for qp selection
+(use_cbprd no) # CODEC_FLAG_CBP_RD use rate distortion optimization for cbp
+(do_interlace_dct no) # CODEC_FLAG_INTERLACED_DCT use interlaced dct
+(do_interlace_me no) # CODEC_FLAG_INTERLACED_ME interlaced motion estimation
+(aic no) # CODEC_FLAG_AC_PRED activate intra frame coding (only h263+ CODEC) 
+(umv no) # CODEC_FLAG_H263P_UMV enable unlimited motion vector (only h263+ CODEC)
+(mv4 no) # CODEC_FLAG_4MV use four motion vector by macroblock (only MPEG-4 CODEC)
+(partitioning no) # CODEC_FLAG_PART use data partitioning (only MPEG-4 CODEC)
+(use_gmc no) # CODEC_FLAG_GMC                  Use GMC
+(input_preserved no) # CODEC_FLAG_INPUT_PRESERVED      
+(use_gray no) # CODEC_FLAG_GRAY                 Only encode grayscale
+(use_emu_edge no) # CODEC_FLAG_EMU_EDGE             Dont draw edges
+(use_truncated no) # CODEC_FLAG_TRUNCATED            Input bitstream might be truncated at a rando
+(use_fast no) # CODEC_FLAG2_FAST                Allow non spec compliant speedup tricks
+(use_local_header no) # CODEC_FLAG2_LOCAL_HEADER        Place global headers at every keyframe instea
+(use_bpyramid no) # CODEC_FLAG2_BPYRAMID            H.264 allow B-frames to be used as references
+(use_wpred no) # CODEC_FLAG2_WPRED               H.264 weighted biprediction for B-frames
+(use_mixed_refs no) # CODEC_FLAG2_MIXED_REFS          H.264 one reference per partition, as opposed
+(use_dct8x8 no) # CODEC_FLAG2_8X8DCT              H.264 high profile 8x8 transform
+(use_fastpskip no) # CODEC_FLAG2_FASTPSKIP           H.264 fast pskip
+(use_aud no) # CODEC_FLAG2_AUD                 H.264 access unit delimiters
+(use_brdo no) # CODEC_FLAG2_BRDO                B-frame rate-distortion optimization
+(use_ivlc no) # CODEC_FLAG2_INTRA_VLC           Use MPEG-2 intra VLC table.
+(use_memc_only no) # CODEC_FLAG2_MEMC_ONLY           Only do ME/MC (I frames -> ref, P frame -> ME
+(use_drop_frame_timecode no) # CODEC_FLAG2_DROP_FRAME_TIMECODE timecode is in drop frame format
+(use_skip_rd no) # CODEC_FLAG2_SKIP_RD             RD optimal MB level residual skipping
+(use_chunks no) # CODEC_FLAG2_CHUNKS              Input bitstream might be truncated at a packe
+(use_non_linear_quant no) # CODEC_FLAG2_NON_LINEAR_QUANT    Use MPEG-2 nonlinear quantizer
+(use_bit_reservoir no) # CODEC_FLAG2_BIT_RESERVOIR       Use a bit reservoir when encoding if possible
+(use_bit_mbtree no) # CODEC_FLAG2_MBTREE              Use macroblock tree ratecontrol (x264 only)
+(use_bit_psy no) # CODEC_FLAG2_PSY                 Use psycho visual optimizations.
+(use_bit_ssim no) # CODEC_FLAG2_SSIM                Compute SSIM during encoding, error[] values 
+(parti4x4 no) # X264_PART_I4X4  Analyze i4x4
+(parti8x8 no) # X264_PART_I8X8  Analyze i8x8 (requires 8x8 transform)
+(partp4x4 no) # X264_PART_P8X8  Analyze p16x8, p8x16 and p8x8
+(partp8x8 no) # X264_PART_P4X4  Analyze p8x4, p4x8, p4x4
+(partb8x8 no) # X264_PART_B8X8  Analyze b16x8, b8x16 and b8x8

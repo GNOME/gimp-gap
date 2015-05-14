@@ -30,8 +30,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* SYTEM (UNIX) includes */
@@ -59,6 +59,7 @@
 #include "gap_dbbrowser_utils.h"
 #include "gap_lastvaldesc.h"
 #include "gap_fmac_context.h"
+#include "gap_accel_char.h"
 
 /* revision history:
  * gimp   1.3.26b;  2004/02/29  hof: bugfix NONINTERACTIVE call did crash
@@ -365,7 +366,7 @@ p_print_and_free_msg(char *msg, GimpRunMode run_mode)
 {
   if(run_mode == GIMP_RUN_INTERACTIVE)
   {
-    g_message(msg);
+    g_message("%s", msg);
   }
   printf("%s\n", msg);
   g_free(msg);
@@ -626,10 +627,11 @@ static gint
 p_fmac_add_filter(const char *filtermacro_file, gint32 image_id)
 {
   GapDbBrowserResult   l_browser_result;
+  l_browser_result.accelCharacteristic = GAP_ACCEL_CHAR_NONE;
 
   if(gap_db_browser_dialog( _("Select Filtercalls of Current GIMP Session")
-                          , NULL            /* dont use the 1.st action button at all */
                           , _("Add Filter")
+                          , FALSE                                /* FALSE disables acceleration characteristic */
                           , p_fmac_pdb_constraint_proc
                           , p_fmac_pdb_constraint_proc_sel1
                           , p_fmac_pdb_constraint_proc_sel2

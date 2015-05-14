@@ -23,8 +23,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -63,7 +63,8 @@ static gint32 global_stb_video_id = 0;
 
 
 static void                    p_debug_print_vthumbs_refering_video_id(
-                                  GapVThumbElem *vthumb_list
+                                  FILE *fp
+                                  , GapVThumbElem *vthumb_list
                                   , gint32 video_id
                                   );
 static gboolean               p_vid_progress_callback(gdouble progress
@@ -85,56 +86,57 @@ static GapVThumbElem *         p_new_vthumb(gint32 video_id
  * to stdout (typical used for logging and debug purpose)
  */
 static void
-p_debug_print_vthumbs_refering_video_id(GapVThumbElem *vthumb_list, gint32 video_id)
+p_debug_print_vthumbs_refering_video_id(FILE *fp, GapVThumbElem *vthumb_list, gint32 video_id)
 {
   GapVThumbElem *vthumb_elem;
 
-  printf("        vthumbs: [");  
+  fprintf(fp, "        vthumbs: [");  
   for(vthumb_elem = vthumb_list; vthumb_elem != NULL; vthumb_elem = vthumb_elem->next)
   {
     if(vthumb_elem->video_id == video_id)
     {
-      printf(" %06d", (int)vthumb_elem->framenr);
+      fprintf(fp, " %06d", (int)vthumb_elem->framenr);
     }
   }
-  printf("]\n");  
+  fprintf(fp, "]\n");  
   
 }  /* end p_debug_print_vthumbs_refering_video_id */
 
+
 /* --------------------------------------
- * gap_story_vthumb_debug_print_videolist
+ * gap_story_vthumb_debug_fprint_videolist
  * --------------------------------------
  * print the list of video elements
  * to stdout (typical used for logging and debug purpose)
  */
 void
-gap_story_vthumb_debug_print_videolist(GapStoryVTResurceElem *video_list, GapVThumbElem *vthumb_list)
+gap_story_vthumb_debug_fprint_videolist(FILE *fp, GapStoryVTResurceElem *video_list, GapVThumbElem *vthumb_list)
 {
   GapStoryVTResurceElem *velem;
   gint ii;
   
-  printf("gap_story_vthumb_debug_print_videolist: START\n");
+  fprintf(fp, "gap_story_vthumb_debug_fprint_videolist: START\n");
   ii = 0;
   for(velem=video_list; velem != NULL; velem = velem->next)
   {
     const char *filename;
     
-    printf(" [%03d] ", (int)ii);
+    fprintf(fp, " [%03d] ", (int)ii);
     switch(velem->vt_type)
     {
       case GAP_STB_VLIST_MOVIE:
-        printf("GAP_STB_VLIST_MOVIE:");
+        fprintf(fp, "GAP_STB_VLIST_MOVIE:");
         break;
       case GAP_STB_VLIST_SECTION:
-        printf("GAP_STB_VLIST_SECTION: section_id:%d"
+        fprintf(fp, "GAP_STB_VLIST_SECTION: section_id:%d"
              , (int)velem->section_id
              );
         break;
       case GAP_STB_VLIST_ANIM_IMAGE:
-        printf("GAP_STB_VLIST_ANIM_IMAGE:");
+        fprintf(fp, "GAP_STB_VLIST_ANIM_IMAGE:");
         break;
       default:
-        printf("** Type Unknown **:");
+        fprintf(fp, "** Type Unknown **:");
         break;
     }
     
@@ -147,7 +149,7 @@ gap_story_vthumb_debug_print_videolist(GapStoryVTResurceElem *video_list, GapVTh
       filename = "(null)";
     }
     
-    printf(" total_frames:%d version:%d video_id:%d name:%s\n"
+    fprintf(fp, " total_frames:%d version:%d video_id:%d name:%s\n"
       , (int)velem->total_frames
       , (int)velem->version
       , (int)velem->video_id
@@ -155,13 +157,13 @@ gap_story_vthumb_debug_print_videolist(GapStoryVTResurceElem *video_list, GapVTh
       );
     if (vthumb_list != NULL)
     {
-      p_debug_print_vthumbs_refering_video_id(vthumb_list, velem->video_id);
+      p_debug_print_vthumbs_refering_video_id(fp, vthumb_list, velem->video_id);
     }
     ii++;
   }
-  printf("gap_story_vthumb_debug_print_videolist: END\n");
+  fprintf(fp, "gap_story_vthumb_debug_fprint_videolist: END\n");
   
-}  /* end gap_story_vthumb_debug_print_videolist */
+}  /* end gap_story_vthumb_debug_fprint_videolist */
 
 
 /* --------------------------------
@@ -658,8 +660,11 @@ gap_story_vthumb_get_velem_no_movie(GapStbMainGlobalParams *sgpp
   velem->section_id = section_id;
   if(stb_elem->record_type == GAP_STBREC_VID_SECTION)
   {
-    velem->total_frames = stb_elem->nframes;
     velem->total_frames = gap_story_count_total_frames_in_section(referenced_section);
+  }
+  else
+  {
+    velem->total_frames = stb_elem->nframes;
   }
 
   velem->next = sgpp->video_list;
@@ -839,7 +844,7 @@ p_story_vthumb_elem_fetch(GapStbMainGlobalParams *sgpp
   {
     if(sgpp->vthumb_prefetch_in_progress != GAP_VTHUMB_PREFETCH_NOT_ACTIVE)
     {
-      /* at this point an implicite cancel of video thumbnail prefetch
+      /* at this point an implicit cancel of video thumbnail prefetch
        * is detected.
        */
       if(gap_debug)
@@ -902,7 +907,7 @@ p_story_vthumb_elem_fetch(GapStbMainGlobalParams *sgpp
     return(NULL);
   }
   
-  /* Videothumbnail not known yet,
+  /* Video thumbnail not known yet,
    * we try to create it now
    */
   switch(velem->vt_type)
@@ -1001,7 +1006,7 @@ gap_story_vthumb_elem_fetch(GapStbMainGlobalParams *sgpp
 /* ------------------------------
  * gap_story_vthumb_fetch_thdata
  * ------------------------------
- * RETURN a copy of the videothumbnail data
+ * RETURN a copy of the video thumbnail data
  *        or NULL if fetch was not successful
  *        the caller is responsible to g_free the returned data
  *        after usage.
@@ -1052,7 +1057,7 @@ gap_story_vthumb_fetch_thdata(GapStbMainGlobalParams *sgpp
 /* --------------------------------------
  * gap_story_vthumb_fetch_thdata_no_store
  * --------------------------------------
- * RETURN a pointer of the videothumbnail data
+ * RETURN a pointer of the video thumbnail data
  *        or thumbnail data read from file (indicated by file_read_flag = TRUE)
  * the caller must g_free the returned data if file_read_flag = TRUE
  * but MUST NOT g_free the returned data if file_read_flag = FALSE
@@ -1124,20 +1129,20 @@ gap_story_vthumb_fetch_thdata_no_store(GapStbMainGlobalParams *sgpp
 
   if(sgpp->vthumb_prefetch_in_progress != GAP_VTHUMB_PREFETCH_NOT_ACTIVE)
   {
-      /* at this point an implicite cancel of video thumbnail prefetch
+      /* at this point an implicit cancel of video thumbnail prefetch
        * is detected.
-       * - one option is to render default icon, and restert the prefetch 
+       * - one option is to render default icon, and restart the prefetch 
        *   via GAP_VTHUMB_PREFETCH_RESTART_REQUEST
        *   (because the storyboard may have changed since prefetch was started
        *    note that prefetch will be very quick for all clips where vthumb is already present
        *    from the cancelled previous prefetch cycle)
-       * - an other (not implemented) option is to cancel prefetch and implicite turn off auto_vthumb mode
+       * - an other (not implemented) option is to cancel prefetch and implicitly turn off auto_vthumb mode
        */
       sgpp->vthumb_prefetch_in_progress = GAP_VTHUMB_PREFETCH_RESTART_REQUEST;
       return (NULL);
   }
 
-  /* Videothumbnail not known yet,
+  /* Video thumbnail not known yet,
    * we try to create it now
    * (but dont add it tho global vthumb list)
    */

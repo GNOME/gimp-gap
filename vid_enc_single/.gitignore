@@ -1,0 +1,6 @@
+/.deps
+/.libs
+/Makefile
+/Makefile.in
+/gap_vid_enc_singleframes
+/*.a

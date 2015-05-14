@@ -20,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -36,5 +36,15 @@
 #include "gap_val_file.h"
 #include "gap_file_util.h"
 #include "gap_base.h"
+#include "gap_timm.h"
+
+
+/* GAP_BASE_MIX_VALUE  0.0 <= factor <= 1.0
+ *  result is a  for factor 0.0
+ *            b  for factor 1.0
+ *            mix for factors inbetween
+ */
+#define GAP_BASE_MIX_VALUE(factor, a, b) ((a * (1.0 - factor)) +  (b * factor))
+
 
 #endif

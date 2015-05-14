@@ -18,26 +18,47 @@ Animated calls of plug-in filters:
   all available plug-ins in a listbox (and informations about
   the selected plug-in on the right side).
 
+
+  Select one of the listed plug-ins, then select acceleration characteristic
+  and press the Apply button to continue with the next dialog step.
+
   Note: The listbox does not show the full PDB, but
         only those plug-ins that are capable to run under control
 	of the "Filter all Layers" plug-in.
   
-  Select one of the listed plug-ins and press one of the buttons:
+        some of them are restricted for apply with a fixed setting
+        on all handled layers. for Those plug-ins the
+        Acceleration Characteristic spnbutton widget is disabled.
+        The other plug-ins are capable to be applied
+        with varying values and enable the spinbutton.
 
-  "Apply Varying":
-      The selected plug-in is called 2 times in interactive mode,
+  
+  "Acceleration Characteristic"
+      can be set with a spinbutton where you can enter a value.
+      A graph next to the spinbutton shows the selected characteristic.
+      The acceleration characteristic can also be changed by
+      clicking on th graph and dragging vertically with the mouse.
+
+      A straight line from left bottom to right top corner of the graph
+      is drawn for value 1 that represents constant speed.
+      (This is the same behavior as the "Apply Varying" button
+      worked in older GIMP-GAP releases 2.6 and earlier)
+      Positive values greater than 1 result in an accelerated
+      change of the settings, negative values result in decelerated
+      change of the settings.
+
+      With Acceleration Characteristic value other than 0
+      the selected plug-in is called 2 times in interactive mode,
       1. for the backround layer
       2. for the top layer.
+      This defines the settings at begin and at end.
       
       For all further layers, the plug-in will work non-interactive
-      with the iterated inbetween values.
-      Therefore the plug-in must have an "_Iterator" or "_Iterator_ALT"
-      procedure, to modify the "last stored values"
-       
-      (GIMP-GAP provides such procedures for more than 50 existing plug-ins)
+      with the iterated inbetween values that were internally stored in memory
+      as settings for begin and end, respecting the acceleration characteristic.
+      (constant speed, acceleration or deceleration) 
       
-      If the iterator procedure is not available, the
-      "Apply Varying" button is set insensitive on the selected procedure.
+      
       
       Note:
             It is possible to iterate values of the type PARAM_DRAWABLE,
@@ -48,11 +69,18 @@ Animated calls of plug-in filters:
             and the inbetween values for the non-interactive filtercalls
             will be the layers between the from and to layerstackindex.
             (an animation sequence as the user might expect)             
-  
-  "Apply Constant":
-      The selected plug-in is called only once in interactive mode,
+
+      
+      
+      With Acceleration Characteristic value 0 varying feature
+      is turned off, and the graph is rendered as empty rectangle.
+      In this case selected plug-in is called only once in interactive mode,
       For all further layers, the plug-in will work non-interactive
       using the last stored values.
+      (This is the same behavior as the "Apply Constant" button
+      worked in older GIMP-GAP releases 2.6 and earlier)
+      
+      
 
 
   The script sel-to-anim-img.scm simplifies the creation of animated
@@ -65,6 +93,33 @@ Animated calls of plug-in filters:
   on the generated new image.
 
   Notes:
+    - when new plug-ins are installed, they are
+      not automatically capable to be applying with varying values,
+      unless the plug-in implements an "_Iterator" procedure,
+      (see docs/howto/HOWTO-write-animated-plug-ins.txt)
+      or registers in the GIMP_GAP configuration file
+      
+        lastval_descriptions.txt 
+      
+      located in the gimp configuration directory
+      in your $HOME (uniX) or Documents and Settings (WindowsXP)
+
+      Here is an example entry for the wideangle 3rd party plug-in:      
+
+
+      # --------------------- 
+      "plug_in_wideangle" #- added manually 
+      STRUCT_BEGIN;0;48;1;
+        gdouble;0;8;1;centre_x
+        gdouble;8;8;1;centre_y
+        gdouble;16;8;1;square_a
+        gdouble;24;8;1;quad_a
+        gdouble;32;8;1;scale_a
+        gdouble;40;8;1;brighten
+      STRUCT_END;0;4;1;
+
+
+
     - Some plug-ins may not work correct or crash when called
       in NON_INTERACTIVE mode. (see TESTPROT_iter_ALT)
 
@@ -84,3 +139,7 @@ Animated calls of plug-in filters:
       In that case you can try to generate the needed _Iterator procedure
       for your plug-ins current interface by yourself.
       (see file: README_devlopers)
+
+
+
+

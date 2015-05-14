@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -39,10 +39,12 @@
 #include <libgimp/gimp.h>
 #include <libgimp/gimpui.h>
 
+#include "gap_base.h"
 #include "gap_story_main.h"
 #include "gap_story_undo.h"
 #include "gap_story_dialog.h"
 #include "gap_story_file.h"
+#include "gap_story_render_processor.h"
 #include "gap_story_att_trans_dlg.h"
 #include "gap_pview_da.h"
 #include "gap_stock.h"
@@ -50,6 +52,9 @@
 #include "gap_vin.h"
 #include "gap_timeconv.h"
 #include "gap_layer_copy.h"
+#include "gap_accel_da.h"
+#include "gap_mov_dialog.h"
+#include "gap_mov_exec.h"
 
 
 #include "gap-intl.h"
@@ -83,6 +88,7 @@
 
 extern int gap_debug;  /* 1 == print debug infos , 0 dont print debug infos */
 
+static gdouble  p_getConvertFactor(gint att_type_idx);
 static void     p_attw_prop_response(GtkWidget *widget
                   , gint       response_id
                   , GapStbAttrWidget *attw
@@ -117,6 +123,7 @@ static void     p_attw_dur_button_clicked_callback(GtkWidget *widget
 static void     p_attw_gdouble_adjustment_callback(GtkObject *obj, gdouble *val);
 static void     p_duration_dependent_refresh(GapStbAttrWidget *attw);
 static void     p_attw_duration_adjustment_callback(GtkObject *obj, gint32 *val);
+static void     p_attw_accel_adjustment_callback(GtkObject *obj, gint32 *val);
 static void     p_attw_enable_toggle_update_callback(GtkWidget *widget, gboolean *val);
 
 static void     p_attw_auto_update_toggle_update_callback(GtkWidget *widget, gboolean *val);
@@ -142,11 +149,27 @@ static gint32   p_create_deco_layer(GapStbAttrWidget *attw, gint32 image_id);
 static void     p_create_gfx_image(GapStbAttrWidget *attw, gint img_idx);
 static void     p_delete_gfx_images(GapStbAttrWidget *attw);
 static void     p_adjust_stackposition(gint32 image_id, gint32 layer_id, gint position);
+
+
+static gboolean p_create_transformed_layer_movepath(gint32 image_id
+                                                  , gint32 origsize_layer_id
+                                                  , gint32 *layer_id_ptr
+                                                  , GapStoryCalcAttr  *calculated
+                                                  , gint32 stackposition, const char *layername
+                                                  , GapStbAttrWidget *attw
+                                                  , gint img_idx
+                                                  );
+
 static void     p_create_transformed_layer(gint32 image_id
                     , gint32 origsize_layer_id
                     , gint32 *layer_id_ptr
                     , GapStoryCalcAttr  *calculated
-                    , gint32 stackposition, const char *layername);
+                    , gint32 stackposition
+                    , const char *layername
+                    , GapStbAttrWidget *attw
+                    , gint img_idx
+                    , gboolean enableMovepath
+                    );
 static gboolean p_calculate_prefetch_visibility(GapStbAttrWidget *attw, gint img_idx);
 
 static void     p_render_gfx(GapStbAttrWidget *attw, gint img_idx);
@@ -193,8 +216,23 @@ static gint32   p_fetch_video_frame_as_layer(GapStbMainGlobalParams *sgpp
 static gint32   p_fetch_imagefile_as_layer (const char *img_filename
                    , gint32 image_id
                    );
+static gint32   p_fetch_layer_from_animimage (const char *img_filename
+                   , gint32 localframe_index, gint32 image_id
+                   );
 
+static void     p_attw_movepath_filesel_pw_ok_cb (GtkWidget *widget
+                   ,GapStbAttrWidget *attw);
+static void     p_attw_movepath_filesel_pw_close_cb ( GtkWidget *widget
+                      , GapStbAttrWidget *attw);
+static void     p_attw_movepath_filesel_button_cb ( GtkWidget *w
+                       , GapStbAttrWidget *attw);
 
+static void     p_create_movepath_edit_resources(GapStbAttrWidget *attw);
+static void     p_edit_movepath_closed_callback(gpointer ptr);
+static void     p_attw_movepath_edit_button_cb ( GtkWidget *w
+                       , GapStbAttrWidget *attw);
+static void     p_attw_movepath_file_validity_check(GapStbAttrWidget *attw);
+static void     p_attw_movepath_file_entry_update_cb(GtkWidget *widget, GapStbAttrWidget *attw);
 static void     p_attw_comment_entry_update_cb(GtkWidget *widget, GapStbAttrWidget *attw);
 
 static void     p_init_layer_info(GapStbAttrLayerInfo *linfo);
@@ -226,7 +264,37 @@ static void     p_create_and_attach_att_arr_widgets(const char *row_title
                  , gdouble    *att_arr_value_to_ptr
                  , const char *dur_tooltip
                  , gint32     *att_arr_value_dur_ptr
+                 , const char *accel_tooltip
+                 , gint32     *att_arr_value_accel_ptr
                  );
+
+
+static gdouble
+p_getConvertFactor(gint att_type_idx)
+{
+  if ((att_type_idx == GAP_STB_ATT_TYPE_ROTATE)
+  ||  (att_type_idx == GAP_STB_ATT_TYPE_MOVEPATH))
+  {
+    return 1.0;
+  }
+  return (CONVERT_TO_100PERCENT);
+}
+
+/* ----------------------------------------------------
+ * p_debug_dup_image
+ * ----------------------------------------------------
+ * Duplicate image, and open a display for the duplicate
+ * (Procedure is used for debug only
+ */
+static void
+p_debug_dup_image(gint32 image_id)
+{
+  gint32 l_dup_image_id;
+
+  l_dup_image_id = gimp_image_duplicate(image_id);
+  gimp_display_new(l_dup_image_id);
+}  /* end p_debug_dup_image */
+
 
 /* ---------------------------------
  * p_attw_prop_response
@@ -259,6 +327,19 @@ p_attw_prop_response(GtkWidget *widget
       dlg = attw->attw_prop_dialog;
       if(dlg)
       {
+        if(attw->movepath_filesel != NULL)
+        {
+          /* force close in case file selection dialog is still open */
+          p_attw_movepath_filesel_pw_close_cb(attw->movepath_filesel, attw);
+        }
+
+        if(attw->movepath_edit_dialog != NULL)
+        {
+          /* force close of the movepath edit dialog that is still open */
+          gtk_widget_destroy(attw->movepath_edit_dialog);
+          attw->movepath_edit_dialog = NULL;
+        }
+
         p_delete_gfx_images(attw);
         if(attw->go_timertag >= 0)
         {
@@ -274,12 +355,13 @@ p_attw_prop_response(GtkWidget *widget
   }
 }  /* end p_attw_prop_response */
 
+
 /* --------------------------------------
  * p_attw_push_undo_and_set_unsaved_changes
  * --------------------------------------
  * this procedure is called in most cases when
  * a transition attribute property has changed.
- * (note that the Undo push implementation filter out
+ * (note that the Undo push implementation filters out
  * multiple attribute property changes on the same object in sequence)
  */
 static void
@@ -289,9 +371,10 @@ p_attw_push_undo_and_set_unsaved_changes(GapStbAttrWidget *attw)
   {
     if((attw->stb_elem_refptr != NULL) && (attw->stb_refptr != NULL))
     {
-      gap_stb_undo_push_clip(attw->tabw
+      gap_stb_undo_push_clip_with_file_snapshot(attw->tabw
           , GAP_STB_FEATURE_PROPERTIES_TRANSITION
           , attw->stb_elem_refptr->story_id
+          , &attw->stb_elem_refptr->att_movepath_file_xml
           );
 
       attw->stb_refptr->unsaved_changes = TRUE;
@@ -323,6 +406,16 @@ p_attw_prop_reset_all(GapStbAttrWidget *attw)
 
       gap_story_elem_copy(attw->stb_elem_refptr, attw->stb_elem_bck);
 
+      if(attw->stb_elem_refptr->att_movepath_file_xml)
+      {
+        gtk_entry_set_text(GTK_ENTRY(attw->movepath_file_entry), attw->stb_elem_refptr->att_movepath_file_xml);
+      }
+      else
+      {
+        gtk_entry_set_text(GTK_ENTRY(attw->movepath_file_entry), "");
+      }
+
+
       comment_set = FALSE;
       if(attw->stb_elem_refptr->comment)
       {
@@ -343,12 +436,16 @@ p_attw_prop_reset_all(GapStbAttrWidget *attw)
                                 , attw->stb_elem_refptr->att_arr_enable[ii]);
 
         gtk_adjustment_set_value(GTK_ADJUSTMENT(attw->att_rows[ii].spinbutton_from_adj)
-                                , attw->stb_elem_refptr->att_arr_value_from[ii] * CONVERT_TO_100PERCENT);
+                                , attw->stb_elem_refptr->att_arr_value_from[ii] *
+                                p_getConvertFactor(ii));
         gtk_adjustment_set_value(GTK_ADJUSTMENT(attw->att_rows[ii].spinbutton_to_adj)
-                                , attw->stb_elem_refptr->att_arr_value_to[ii] * CONVERT_TO_100PERCENT);
+                                , attw->stb_elem_refptr->att_arr_value_to[ii] *
+                                p_getConvertFactor(ii));
         gtk_adjustment_set_value(GTK_ADJUSTMENT(attw->att_rows[ii].spinbutton_dur_adj)
                                 , attw->stb_elem_refptr->att_arr_value_dur[ii]);
 
+        gtk_adjustment_set_value(GTK_ADJUSTMENT(attw->att_rows[ii].spinbutton_accel_adj)
+                                , attw->stb_elem_refptr->att_arr_value_accel[ii]);
       }
       gtk_adjustment_set_value(GTK_ADJUSTMENT(attw->spinbutton_overlap_dur_adj)
                                 , attw->stb_elem_refptr->att_overlap);
@@ -440,7 +537,7 @@ p_attw_timer_job(GapStbAttrWidget *attw)
  * p_attw_update_properties
  * ------------------------------------
  * render graphical view respecting all enabled attributes
- * opacity, move X/Y and Zoom X/Y
+ * rotate, opacity, move X/Y and Zoom X/Y
  */
 static void
 p_attw_update_properties(GapStbAttrWidget *attw)
@@ -463,8 +560,10 @@ p_attw_update_properties(GapStbAttrWidget *attw)
 /* ------------------------------------
  * p_attw_update_sensitivity
  * ------------------------------------
- * set sensitivity of all 5 from/to, dur attribute widgets
+ * set sensitivity of all from/to, dur attribute widgets
  * according to their enable flag.
+ * the row with widget for the movepath settings depends
+ * on the movepath_file_xml_is_valid flag
  */
 static void
 p_attw_update_sensitivity(GapStbAttrWidget *attw)
@@ -484,6 +583,14 @@ p_attw_update_sensitivity(GapStbAttrWidget *attw)
   for(ii=0; ii < GAP_STB_ATT_TYPES_ARRAY_MAX; ii++)
   {
     sensitive = attw->stb_elem_refptr->att_arr_enable[ii];
+    if (ii == GAP_STB_ATT_TYPE_MOVEPATH)
+    {
+      gtk_widget_set_sensitive(attw->att_rows[ii].enable_toggle, attw->movepath_file_xml_is_valid);
+      if(attw->movepath_file_xml_is_valid != TRUE)
+      {
+        sensitive = FALSE;
+      }
+    }
 
     gtk_widget_set_sensitive(attw->att_rows[ii].spinbutton_from, sensitive);
     gtk_widget_set_sensitive(attw->att_rows[ii].spinbutton_to, sensitive);
@@ -491,12 +598,24 @@ p_attw_update_sensitivity(GapStbAttrWidget *attw)
     gtk_widget_set_sensitive(attw->att_rows[ii].button_from, sensitive);
     gtk_widget_set_sensitive(attw->att_rows[ii].button_to, sensitive);
     gtk_widget_set_sensitive(attw->att_rows[ii].button_dur, sensitive);
+    gtk_widget_set_sensitive(attw->att_rows[ii].spinbutton_accel, sensitive);
 
   }
 
   sensitive = ((attw->stb_elem_refptr->att_fit_width == TRUE)
             || (attw->stb_elem_refptr->att_fit_height == TRUE));
   gtk_widget_set_sensitive(attw->keep_proportions_toggle, sensitive);
+
+  sensitive = FALSE;
+  if(attw->stb_elem_refptr->att_movepath_file_xml != NULL)
+  {
+    if(attw->stb_elem_refptr->att_movepath_file_xml[0] != '\0')
+    {
+      sensitive = TRUE;
+    }
+  }
+
+  gtk_widget_set_sensitive(attw->movepath_edit_button, sensitive);
 
 }  /* end p_attw_update_sensitivity */
 
@@ -533,6 +652,10 @@ p_get_default_attribute(GapStbAttrWidget *attw
       {
         return (0.5);  /* 1.0 scale to half size */
       }
+      if (att_type_idx == GAP_STB_ATT_TYPE_ROTATE)
+      {
+        return (180.0);
+      }
       return (0.5);    /* indicates 50% opacity */
     }
 
@@ -547,6 +670,10 @@ p_get_default_attribute(GapStbAttrWidget *attw
       ||  (att_type_idx == GAP_STB_ATT_TYPE_ZOOM_Y))
       {
         return (2.0);  /* 1.0 scale to doble size */
+      }
+      if (att_type_idx == GAP_STB_ATT_TYPE_ROTATE)
+      {
+        return (360.0);
       }
       return (0.75);  /* indicates 75% opacity */
     }
@@ -586,7 +713,7 @@ p_attw_start_button_clicked_callback(GtkWidget *widget
       gdouble attr_value;
 
       p_attw_push_undo_and_set_unsaved_changes(attw);
-      attr_value = CONVERT_TO_100PERCENT * p_get_default_attribute(attw
+      attr_value = p_getConvertFactor(att_type_idx) * p_get_default_attribute(attw
                         , bevent
                         , att_type_idx
                         , TRUE   /* use from value for reset */
@@ -617,7 +744,7 @@ p_attw_end_button_clicked_callback(GtkWidget *widget
       gdouble attr_value;
 
       p_attw_push_undo_and_set_unsaved_changes(attw);
-      attr_value = CONVERT_TO_100PERCENT * p_get_default_attribute(attw
+      attr_value = p_getConvertFactor(att_type_idx) * p_get_default_attribute(attw
                         , bevent
                         , att_type_idx
                         , FALSE   /* use to value for reset */
@@ -721,14 +848,15 @@ p_attw_gdouble_adjustment_callback(GtkObject *obj, gdouble *val)
 {
   GapStbAttrWidget *attw;
   gdouble l_val;
+  gint    att_type_idx;
 
-
+  att_type_idx = (gint) g_object_get_data( G_OBJECT(obj), "att_type_idx" );
   attw = g_object_get_data( G_OBJECT(obj), OBJ_DATA_KEY_ATTW );
   if(attw)
   {
     if(attw->stb_elem_refptr)
     {
-      l_val = (GTK_ADJUSTMENT(obj)->value) / CONVERT_TO_100PERCENT;
+      l_val = (GTK_ADJUSTMENT(obj)->value) / p_getConvertFactor(att_type_idx);
       if(gap_debug)
       {
         printf("gdouble_adjustment_callback: old_val:%f val:%f\n"
@@ -799,6 +927,42 @@ p_attw_duration_adjustment_callback(GtkObject *obj, gint32 *val)
 
 }  /* end p_attw_duration_adjustment_callback */
 
+
+/* -----------------------------------
+ * p_attw_accel_adjustment_callback
+ * -----------------------------------
+ */
+static void
+p_attw_accel_adjustment_callback(GtkObject *obj, gint32 *val)
+{
+  GapStbAttrWidget *attw;
+  gint32 l_val;
+
+
+  attw = g_object_get_data( G_OBJECT(obj), OBJ_DATA_KEY_ATTW );
+  if(attw)
+  {
+    if(attw->stb_elem_refptr)
+    {
+      l_val = RINT (GTK_ADJUSTMENT(obj)->value);
+      if(gap_debug)
+      {
+        printf("accel gint32_adjustment_callback: obj:%d old_val:%d val:%d\n"
+             ,(int)obj
+             ,(int)*val
+             ,(int)l_val
+             );
+      }
+      if(l_val != *val)
+      {
+        p_attw_push_undo_and_set_unsaved_changes(attw);
+        *val = l_val;
+
+      }
+    }
+  }
+
+}  /* end p_attw_accel_adjustment_callback */
 
 /* ------------------------------------
  * p_attw_enable_toggle_update_callback
@@ -876,6 +1040,8 @@ p_attw_preview_events_cb (GtkWidget *widget
   GdkEventButton *bevent;
   GapStbMainGlobalParams  *sgpp;
   gint                     img_idx;
+  gboolean                 enableStoryboardDebugFeatures;
+
 
   if ((attw->stb_elem_refptr == NULL)
   ||  (attw->stb_refptr == NULL))
@@ -900,12 +1066,11 @@ p_attw_preview_events_cb (GtkWidget *widget
       // TODO: define actions when button pressed.
 
       /* debug code to display a copy of the image */
-      if(1==0)
+      enableStoryboardDebugFeatures =
+          gap_base_get_gimprc_gboolean_value(GAP_GIMPRC_ENABLE_STORYBOARD_DEBUG_FEATURES, FALSE);
+      if(enableStoryboardDebugFeatures)
       {
-          gint32 dup_id;
-
-          dup_id = gimp_image_duplicate(attw->gfx_tab[img_idx].image_id);
-          gimp_display_new(dup_id);
+        p_debug_dup_image(attw->gfx_tab[img_idx].image_id);
       }
 
       return FALSE;
@@ -988,6 +1153,7 @@ p_calculate_prefetch_render_attributes(GapStbAttrWidget *attw
     , attw->stb_elem_refptr->att_keep_proportions
     , attw->stb_elem_refptr->att_fit_width
     , attw->stb_elem_refptr->att_fit_height
+    , att_tab [img_idx][GAP_STB_ATT_TYPE_ROTATE]
     , att_tab [img_idx][GAP_STB_ATT_TYPE_OPACITY]
     , att_tab [img_idx][GAP_STB_ATT_TYPE_ZOOM_X]
     , att_tab [img_idx][GAP_STB_ATT_TYPE_ZOOM_Y]
@@ -1053,6 +1219,7 @@ p_calculate_render_attributes(GapStbAttrWidget *attw
     , attw->stb_elem_refptr->att_keep_proportions
     , attw->stb_elem_refptr->att_fit_width
     , attw->stb_elem_refptr->att_fit_height
+    , att_tab [img_idx][GAP_STB_ATT_TYPE_ROTATE]
     , att_tab [img_idx][GAP_STB_ATT_TYPE_OPACITY]
     , att_tab [img_idx][GAP_STB_ATT_TYPE_ZOOM_X]
     , att_tab [img_idx][GAP_STB_ATT_TYPE_ZOOM_Y]
@@ -1345,25 +1512,248 @@ p_adjust_stackposition(gint32 image_id, gint32 layer_id, gint position)
 
 
 /* -----------------------------------------
+ * p_is_width_or_height_fixed
+ * -----------------------------------------
+ * return TRUE in case either width or height is fixed
+ * (e.g. is disabled to be scaled to fit target size)
+ */
+static gboolean
+p_is_width_or_height_fixed(gboolean fit_width, gboolean fit_height, gboolean keep_proportions)
+{
+  if ((fit_width == FALSE) && (fit_height == FALSE))
+  {
+    return (TRUE);
+  }
+
+  if ((fit_width != fit_height) && (keep_proportions == FALSE))
+  {
+    return (TRUE);
+  }
+
+  return (FALSE);
+
+}  /* end p_is_width_or_height_fixed */
+
+
+
+/* -----------------------------------------
+ * p_create_transformed_layer_movepath
+ * -----------------------------------------
+ * create transformed copy of the specified origsize_layer_id,
+ * according to movepath rendering and current transformation settings.
+ */
+static gboolean
+p_create_transformed_layer_movepath(gint32 image_id
+  , gint32 origsize_layer_id
+  , gint32 *layer_id_ptr
+  , GapStoryCalcAttr  *calculated
+  , gint32 stackposition, const char *layername
+  , GapStbAttrWidget *attw
+  , gint img_idx
+  )
+{
+  char    *movepath_file_xml;
+  gboolean keep_proportions;
+  gboolean fit_width;
+  gboolean fit_height;
+  gint     master_width;
+  gint     master_height;
+  gint32   new_layer_id;
+  gint32   mov_obj_image_id;
+  gint32   mov_obj_layer_id;
+  gdouble  att_tab[GAP_STB_ATT_GFX_ARRAY_MAX][GAP_STB_ATT_TYPES_ARRAY_MAX];
+  gint     ii;
+
+  if(attw == NULL)
+  {
+    printf("** INTERNAL ERROR p_create_transformed_layer_movepath called with attw is NULL\n");
+    return (FALSE);
+  }
+  if(attw->stb_refptr == NULL)
+  {
+    printf("** INTERNAL ERROR p_create_transformed_layer_movepath called with stb_refptr is NULL\n");
+    return (FALSE);
+  }
+
+  if(attw->movepath_file_xml_is_valid != TRUE)
+  {
+    return (FALSE);
+  }
+
+  master_width = attw->stb_refptr->master_width;
+  master_height = attw->stb_refptr->master_height;
+  keep_proportions = attw->stb_elem_refptr->att_keep_proportions;
+  fit_width = attw->stb_elem_refptr->att_fit_width;
+  fit_height = attw->stb_elem_refptr->att_fit_height;
+  movepath_file_xml = attw->stb_elem_refptr->att_movepath_file_xml;
+  for(ii=0; ii < GAP_STB_ATT_TYPES_ARRAY_MAX; ii++)
+  {
+    if(attw->stb_elem_refptr->att_arr_enable[ii] == TRUE)
+    {
+      att_tab[0][ii] =  attw->stb_elem_refptr->att_arr_value_from[ii];
+      att_tab[1][ii] =  attw->stb_elem_refptr->att_arr_value_to[ii];
+    }
+    else
+    {
+      att_tab[0][ii] =  gap_story_get_default_attribute(ii);
+      att_tab[1][ii] =  gap_story_get_default_attribute(ii);
+    }
+  }
+
+  if(movepath_file_xml == NULL)
+  {
+    return (FALSE);
+  }
+  if(origsize_layer_id < 0)
+  {
+    return (FALSE);
+  }
+
+
+  /* recreate the current layer at stackposition 2 */
+
+  /* create image with 1:1 copy of the origsize_layer_id */
+  mov_obj_image_id = gimp_image_new( gimp_drawable_width(origsize_layer_id)
+                       , gimp_drawable_height(origsize_layer_id)
+                       , GIMP_RGB
+                       );
+  gimp_image_undo_disable (mov_obj_image_id);
+  mov_obj_layer_id = gimp_layer_new_from_drawable(origsize_layer_id, mov_obj_image_id);
+
+
+  if(mov_obj_layer_id >= 0)
+  {
+    gimp_drawable_set_visible(mov_obj_layer_id, TRUE);
+    if(! gimp_drawable_has_alpha(mov_obj_layer_id))
+    {
+       /* have to add alpha channel */
+       gimp_layer_add_alpha(mov_obj_layer_id);
+    }
+    gimp_image_add_layer(mov_obj_image_id, mov_obj_layer_id, 0);
+    gimp_layer_set_offsets(mov_obj_layer_id, 0, 0);
+  }
+
+  //if(img_idx == 0)
+  //{
+  //  p_debug_dup_image(mov_obj_image_id);
+  //}
+
+  /* prescale to preview size in case fixed witdh or height
+   * (we can skip the prescale in other modes, because the non fixed modes
+   * allow scaling to render size in the movepath render processing)
+   */
+  if (p_is_width_or_height_fixed(fit_width, fit_height, keep_proportions) == TRUE)
+  {
+    gint scaled_width;
+    gint scaled_height;
+
+    scaled_width = gimp_image_width(mov_obj_image_id) * gimp_image_width(image_id) / master_width;
+    scaled_height = gimp_image_height(mov_obj_image_id) * gimp_image_height(image_id) / master_height;
+    gimp_image_scale(mov_obj_image_id, scaled_width, scaled_height);
+  }
+
+  /* call storyboard processor that does movepath and other transformations
+   * (note that processing is done at size of the preview image that is 2 times larger
+   * than the wanted result because
+   */
+  new_layer_id = gap_story_render_transform_with_movepath_processing(image_id
+                              , mov_obj_image_id
+                              , mov_obj_layer_id
+                              , keep_proportions
+                              , fit_width
+                              , fit_height
+                              , att_tab [img_idx][GAP_STB_ATT_TYPE_ROTATE]   /* rotation in degree */
+                              , att_tab [img_idx][GAP_STB_ATT_TYPE_OPACITY]   /* 0.0 upto 1.0 */
+                              , att_tab [img_idx][GAP_STB_ATT_TYPE_ZOOM_X]    /* 0.0 upto 10.0 where 1.0 = 1:1 */
+                              , att_tab [img_idx][GAP_STB_ATT_TYPE_ZOOM_Y]    /* 0.0 upto 10.0 where 1.0 = 1:1 */
+                              , att_tab [img_idx][GAP_STB_ATT_TYPE_MOVE_X]    /* -1.0 upto +1.0 where 0 = no move, -1 is left outside */
+                              , att_tab [img_idx][GAP_STB_ATT_TYPE_MOVE_Y]     /* -1.0 upto +1.0 where 0 = no move, -1 is top outside */
+                              , movepath_file_xml
+                              , att_tab [img_idx][GAP_STB_ATT_TYPE_MOVEPATH]    /* movepath_framePhase */
+                           );
+
+  gimp_layer_resize_to_image_size(new_layer_id);
+
+  gimp_layer_scale(new_layer_id
+                  , gimp_drawable_width(new_layer_id) * PVIEW_TO_MASTER_SCALE
+                  , gimp_drawable_height(new_layer_id) * PVIEW_TO_MASTER_SCALE
+                  , TRUE  /*  TRUE: centered local on layer */
+                  );
+
+
+  if(gap_debug)
+  {
+    printf("p_create_transformed_layer_movepath: "
+      "new_layer_id:%d new_layers_image_id:%d  mov_obj_image_id:%d (preview)image_id:%d\n"
+      ,(int)new_layer_id
+      ,(int)gimp_drawable_get_image(new_layer_id)
+      ,(int)mov_obj_image_id
+      ,(int)image_id
+      );
+  }
+  if(mov_obj_image_id >= 0)
+  {
+    gap_image_delete_immediate(mov_obj_image_id);
+  }
+
+
+  gimp_drawable_set_visible(new_layer_id, TRUE);
+
+  p_adjust_stackposition(image_id, new_layer_id, stackposition);
+
+  gimp_layer_set_opacity(new_layer_id
+                        , calculated->opacity
+                        );
+  *layer_id_ptr = new_layer_id;
+
+  return (TRUE);
+
+}  /* end p_create_transformed_layer_movepath */
+
+
+/* -----------------------------------------
  * p_create_transformed_layer
  * -----------------------------------------
  * create transformed copy of the specified origsize_layer_id,
  * according to calculated transformation settings.
+ *
  */
 static void
 p_create_transformed_layer(gint32 image_id
   , gint32 origsize_layer_id
   , gint32 *layer_id_ptr
   , GapStoryCalcAttr  *calculated
-  , gint32 stackposition, const char *layername)
+  , gint32 stackposition
+  , const char *layername
+  , GapStbAttrWidget *attw
+  , gint img_idx
+  , gboolean enableMovepath
+  )
 {
-  /* if size is not equal calculated size remove curr layer
+  char    *movepath_file_xml;
+
+  movepath_file_xml = NULL;
+  if((attw != NULL)
+  && (enableMovepath))
+  {
+    if(attw->stb_elem_refptr != NULL)
+    {
+      if (attw->stb_elem_refptr->att_arr_enable[GAP_STB_ATT_TYPE_MOVEPATH] == TRUE)
+      {
+        movepath_file_xml = attw->stb_elem_refptr->att_movepath_file_xml;
+      }
+    }
+  }
+
+  /* if size is not equal calculated size
+   * or movepath rendering necessary then remove curr layer
    * to force recreation in desired size
    */
   if (*layer_id_ptr >= 0)
   {
      if ((gimp_drawable_width(*layer_id_ptr)  != calculated->width)
-     ||  (gimp_drawable_height(*layer_id_ptr) != calculated->height))
+     ||  (gimp_drawable_height(*layer_id_ptr) != calculated->height)
+     ||  (movepath_file_xml != NULL))
      {
         gimp_image_remove_layer( image_id
                                , *layer_id_ptr);
@@ -1376,11 +1766,34 @@ p_create_transformed_layer(gint32 image_id
   {
     gint32 new_layer_id;
 
+    if(movepath_file_xml != NULL)
+    {
+      gboolean movepathOk;
+
+      movepathOk = p_create_transformed_layer_movepath(image_id
+                 , origsize_layer_id
+                 , layer_id_ptr
+                 , calculated
+                 , stackposition
+                 , layername
+                 , attw
+                 , img_idx
+                 );
+      if(movepathOk == TRUE)
+      {
+        return;
+      }
+      /* else fallback to rendering without movepath transformations */
+    }
 
     new_layer_id = gimp_layer_copy(origsize_layer_id);
     gimp_image_add_layer (image_id, new_layer_id, stackposition);
     gimp_drawable_set_name(new_layer_id, layername);
+
     gimp_layer_scale(new_layer_id, calculated->width, calculated->height, 0);
+
+
+
     gimp_drawable_set_visible(new_layer_id, TRUE);
 
     *layer_id_ptr = new_layer_id;
@@ -1393,6 +1806,9 @@ p_create_transformed_layer(gint32 image_id
                         , calculated->x_offs
                         , calculated->y_offs
                         );
+
+  gap_story_transform_rotate_layer(image_id, *layer_id_ptr, calculated->rotate);
+
   gimp_layer_set_opacity(*layer_id_ptr
                         , calculated->opacity
                         );
@@ -1462,6 +1878,9 @@ p_render_gfx(GapStbAttrWidget *attw, gint img_idx)
       , &calculate_pref_attributes
       , LAYERSTACK_PREF
       , LAYERNAME_PREF
+      , attw
+      , img_idx
+      , FALSE     /* do not enableMovepath */
       );
 
 
@@ -1476,6 +1895,9 @@ p_render_gfx(GapStbAttrWidget *attw, gint img_idx)
       , &calculate_curr_attributes
       , LAYERSTACK_CURR
       , LAYERNAME_CURR
+      , attw
+      , img_idx
+      , TRUE     /* enableMovepath */
       );
 
   prefetch_visible = p_calculate_prefetch_visibility(attw, img_idx);
@@ -1613,8 +2035,7 @@ p_stb_req_equals_layer_info(GapStbAttrLayerInfo *linfo
                          , GapStoryLocateRet *stb_ret
                          , const char *filename)
 {
-  if (stb_ret->stb_elem->record_type
-  != linfo->layer_record_type)
+  if (stb_ret->stb_elem->record_type != linfo->layer_record_type)
   {
     return(FALSE);
   }
@@ -1748,7 +2169,6 @@ p_orig_layer_frame_fetcher(GapStbAttrWidget *attw
    l_layer_id = -1;
    l_filename = NULL;
 
-
    {
      GapStoryLocateRet *stb_ret;
      GapStorySection   *section;
@@ -1765,9 +2185,10 @@ p_orig_layer_frame_fetcher(GapStbAttrWidget *attw
        {
          gboolean is_up_to_date;
 
-         l_filename = gap_story_get_filename_from_elem_nr(stb_ret->stb_elem
+         l_filename = gap_story_get_filename_from_elem_nr_anim(stb_ret->stb_elem
                                                 , stb_ret->ret_framenr
                                                );
+
          is_up_to_date = p_check_orig_layer_up_to_date(image_id
                              ,orig_layer_id_ptr
                              ,derived_layer_id_ptr
@@ -1775,6 +2196,7 @@ p_orig_layer_frame_fetcher(GapStbAttrWidget *attw
                              ,stb_ret
                              ,l_filename
                              );
+
          if(is_up_to_date)
          {
            g_free(stb_ret);
@@ -1782,6 +2204,7 @@ p_orig_layer_frame_fetcher(GapStbAttrWidget *attw
            {
              g_free(l_filename);
            }
+
            return;  /* orig_layer is still up to date, done */
          }
 
@@ -1814,10 +2237,67 @@ p_orig_layer_frame_fetcher(GapStbAttrWidget *attw
              }
            }
          }
+         else if(stb_ret->stb_elem->record_type == GAP_STBREC_VID_COLOR)
+         {
+           l_layer_id = gimp_layer_new(image_id, "color"
+                                 ,gimp_image_width(image_id)
+                                 ,gimp_image_height(image_id)
+                                 ,GIMP_RGBA_IMAGE
+                                 ,100.0     /* Opacity */
+                                 ,GIMP_NORMAL_MODE
+                                 );
+           gimp_image_add_layer(image_id, l_layer_id, LAYERSTACK_TOP);
+           gap_layer_clear_to_color(l_layer_id
+                                   , stb_ret->stb_elem->color_red
+                                   , stb_ret->stb_elem->color_green
+                                   , stb_ret->stb_elem->color_blue
+                                   , stb_ret->stb_elem->color_alpha
+                                   );
+
+           linfo->layer_record_type = stb_ret->stb_elem->record_type;
+           linfo->layer_local_framenr = 0;
+           linfo->layer_seltrack = 1;
+           if (linfo->layer_filename != NULL)
+           {
+             g_free(linfo->layer_filename);
+             linfo->layer_filename = NULL;
+           }
+
+         }
+         else if(stb_ret->stb_elem->record_type == GAP_STBREC_VID_ANIMIMAGE)
+         {
+           if(gap_debug)
+           {
+             printf("GAP_STBREC_VID_ANIMIMAGE: l_filename:%s ret_framenr:%d\n"
+                 , l_filename
+                 , stb_ret->ret_framenr
+                 );
+           }
+           if(l_filename)
+           {
+             /* fetch_full_sized_frame */
+             l_layer_id = p_fetch_layer_from_animimage(l_filename
+                ,stb_ret->ret_framenr
+                ,image_id
+                );
+             if(l_layer_id > 0)
+             {
+                l_layer_id = gap_layer_flip(l_layer_id, stb_ret->stb_elem->flip_request);
+
+                linfo->layer_record_type = stb_ret->stb_elem->record_type;
+                linfo->layer_local_framenr = stb_ret->ret_framenr;
+                linfo->layer_seltrack = 1;
+                if (linfo->layer_filename != NULL)
+                {
+                  g_free(linfo->layer_filename);
+                  linfo->layer_filename = g_strdup(l_filename);
+                }
+             }
+           }
+         }
          else
          {
            /* record type is IMAGE or FRAME, fetch full size image
-            * TODO: anim frame and COLOR not handled
             */
            l_layer_id = p_fetch_imagefile_as_layer(l_filename
                             ,image_id
@@ -2072,14 +2552,16 @@ p_fetch_video_frame_as_layer(GapStbMainGlobalParams *sgpp
                           , img_width
                           , img_height);
 
-    if(! gimp_drawable_has_alpha (l_new_layer_id))
-    {
-      /* implicite add an alpha channel before we try to raise */
-      gimp_layer_add_alpha(l_new_layer_id);
-    }
 
     gimp_drawable_flush (drawable);
     gimp_drawable_detach(drawable);
+
+    if(! gimp_drawable_has_alpha (l_new_layer_id))
+    {
+      /* implicitly add an alpha channel before we try to raise */
+      gimp_layer_add_alpha(l_new_layer_id);
+    }
+
     gimp_image_add_layer (image_id,l_new_layer_id, LAYERSTACK_TOP);
   }
 
@@ -2091,6 +2573,8 @@ p_fetch_video_frame_as_layer(GapStbMainGlobalParams *sgpp
 /* ---------------------------------
  * p_fetch_imagefile_as_layer
  * ---------------------------------
+ * add the specified image filename as new layer on top of layerstack in the specified image_id.
+ * The newly added layer is a copy of the composite view (e.g. a merge of its visible layers)
  */
 static gint32
 p_fetch_imagefile_as_layer (const char *img_filename
@@ -2115,20 +2599,13 @@ p_fetch_imagefile_as_layer (const char *img_filename
     gint    l_src_offset_x, l_src_offset_y;
 
     gimp_image_undo_disable (l_tmp_image_id);
-    l_layer_id = gimp_image_flatten(l_tmp_image_id);
-    if(l_layer_id < 0)
+    l_layer_id = gap_image_merge_visible_layers(l_tmp_image_id, GIMP_CLIP_TO_IMAGE);
+
+    if(!gimp_drawable_has_alpha(l_layer_id))
     {
-      l_layer_id = gimp_layer_new(l_tmp_image_id, LAYERNAME_ORIG,
-                             1,
-                             1,
-                             ((gint)(gimp_image_base_type(l_tmp_image_id)) * 2),
-                             100.0,     /* Opacity full opaque */
-                             0);        /* NORMAL */
-      gimp_image_add_layer(l_tmp_image_id, l_layer_id, LAYERSTACK_TOP);
-      gimp_layer_set_offsets(l_layer_id, -1, -1);
-      l_layer_id = gimp_image_flatten(l_tmp_image_id);
+      gimp_layer_add_alpha(l_layer_id);
     }
-    gimp_layer_add_alpha(l_layer_id);
+    gimp_layer_resize_to_image_size(l_layer_id);
 
     /* copy the layer from the temp image to the preview multilayer image */
     l_new_layer_id = gap_layer_copy_to_dest_image(image_id,
@@ -2145,11 +2622,452 @@ p_fetch_imagefile_as_layer (const char *img_filename
     gimp_image_delete(l_tmp_image_id);
   }
 
-
   return(l_new_layer_id);
+
 }  /* end p_fetch_imagefile_as_layer */
 
 
+/* ---------------------------------
+ * p_fetch_layer_from_animimage
+ * ---------------------------------
+ * pick layer at specified localframe_index (e.g. layerstack_position) from specified
+ * multilayer animimage on disk (specified via filename)
+ * and add a copy of this layer as new layer on top of layerstack in the specified image_id.
+ */
+static gint32
+p_fetch_layer_from_animimage (const char *img_filename
+                   , gint32 localframe_index, gint32 image_id
+                   )
+{
+  gint32 l_tmp_image_id;
+  gint32 l_new_layer_id;
+
+  l_new_layer_id  = -1;
+
+  if(gap_debug)
+  {
+    printf("p_fetch_layer_from_animimage START localframe_index:%d img_filename:%s\n"
+         ,(int)localframe_index
+         ,img_filename
+       );
+  }
+
+
+
+  {
+    char  *l_filename;
+    l_filename = g_strdup(img_filename);
+    l_tmp_image_id = gap_lib_load_image(l_filename);
+    g_free(l_filename);
+  }
+
+  if(l_tmp_image_id >= 0)
+  {
+    gint    l_src_offset_x, l_src_offset_y;
+    gint          l_nlayers;
+    gint32       *l_layers_list;
+
+    gimp_image_undo_disable (l_tmp_image_id);
+
+    l_layers_list = gimp_image_get_layers(l_tmp_image_id, &l_nlayers);
+
+    if(gap_debug)
+    {
+      printf("p_fetch_layer_from_animimage l_nlayers:%d localframe_index:%d img_filename:%s\n"
+         ,(int)l_nlayers
+         ,(int)localframe_index
+         ,img_filename
+         );
+    }
+
+
+    if(l_layers_list != NULL)
+    {
+       if((localframe_index < l_nlayers)
+       && (localframe_index >= 0))
+       {
+          gimp_drawable_set_visible(l_layers_list[localframe_index], TRUE);
+          if (0 != gimp_layer_get_apply_mask(l_layers_list[localframe_index]))
+          {
+            /* the layer has an active mask, apply the mask now
+             * because copying from the layer ignores the mask
+             */
+            gimp_layer_remove_mask(l_layers_list[localframe_index], GIMP_MASK_APPLY);
+          }
+          gimp_layer_resize_to_image_size(l_layers_list[localframe_index]);
+
+          /* copy the picked layer from the temp image to the preview multilayer image */
+          l_new_layer_id = gap_layer_copy_to_dest_image(image_id,
+                                   l_layers_list[localframe_index],
+                                   100.0,       /* opacity full */
+                                   0,           /* NORMAL */
+                                   &l_src_offset_x,
+                                   &l_src_offset_y
+                                   );
+
+          gimp_image_add_layer (image_id, l_new_layer_id, LAYERSTACK_TOP);
+
+       }
+       g_free (l_layers_list);
+    }
+
+    /* destroy the tmp image */
+    gimp_image_delete(l_tmp_image_id);
+  }
+
+
+  return(l_new_layer_id);
+}  /* end p_fetch_layer_from_animimage */
+
+
+/* ==================================================== START MOVEPATH FILESEL stuff ======  */
+/* --------------------------------
+ * p_attw_movepath_filesel_pw_ok_cb
+ * --------------------------------
+ */
+static void
+p_attw_movepath_filesel_pw_ok_cb (GtkWidget *widget
+                   ,GapStbAttrWidget *attw)
+{
+  const gchar *movepathFilename;
+  gchar *dup_movepathFilename;
+
+  if(attw == NULL) return;
+  if(attw->movepath_filesel == NULL) return;
+
+  dup_movepathFilename = NULL;
+  movepathFilename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (attw->movepath_filesel));
+  if(movepathFilename)
+  {
+    dup_movepathFilename = g_strdup(movepathFilename);
+  }
+
+  gtk_widget_destroy(GTK_WIDGET(attw->movepath_filesel));
+
+  if(dup_movepathFilename)
+  {
+    gtk_entry_set_text(GTK_ENTRY(attw->movepath_file_entry), dup_movepathFilename);
+    g_free(dup_movepathFilename);
+  }
+
+  attw->movepath_filesel = NULL;
+}  /* end p_attw_movepath_filesel_pw_ok_cb */
+
+
+/* -----------------------------------
+ * p_attw_movepath_filesel_pw_close_cb
+ * -----------------------------------
+ */
+static void
+p_attw_movepath_filesel_pw_close_cb ( GtkWidget *widget
+                      , GapStbAttrWidget *attw)
+{
+  if(attw->movepath_filesel == NULL) return;
+
+  gtk_widget_destroy(GTK_WIDGET(attw->movepath_filesel));
+  attw->movepath_filesel = NULL;   /* indicate that filesel is closed */
+
+}  /* end p_attw_movepath_filesel_pw_close_cb */
+
+
+
+/* ---------------------------------
+ * p_attw_movepath_filesel_button_cb
+ * ---------------------------------
+ */
+static void
+p_attw_movepath_filesel_button_cb ( GtkWidget *w
+                       , GapStbAttrWidget *attw)
+{
+  GtkWidget *filesel = NULL;
+
+  if(attw->attw_prop_dialog == NULL)
+  {
+     return;
+  }
+
+  if(attw->movepath_filesel != NULL)
+  {
+     gtk_window_present(GTK_WINDOW(attw->movepath_filesel));
+     return;   /* filesel is already open */
+  }
+  if(attw->movepath_edit_dialog != NULL)
+  {
+     gtk_window_present(GTK_WINDOW(attw->movepath_edit_dialog));
+     return;   /* edit dialog is already open */
+  }
+  if(attw->stb_elem_refptr == NULL)
+  {
+    return;
+  }
+
+  filesel = gtk_file_selection_new ( _("Set Movepath Parameterfile (XML)"));
+  attw->movepath_filesel = filesel;
+
+  gtk_window_set_position (GTK_WINDOW (filesel), GTK_WIN_POS_MOUSE);
+  g_signal_connect (GTK_FILE_SELECTION (filesel)->ok_button,
+                    "clicked", G_CALLBACK (p_attw_movepath_filesel_pw_ok_cb),
+                    attw);
+  g_signal_connect (GTK_FILE_SELECTION (filesel)->cancel_button,
+                    "clicked", G_CALLBACK (p_attw_movepath_filesel_pw_close_cb),
+                    attw);
+  g_signal_connect (filesel, "destroy",
+                    G_CALLBACK (p_attw_movepath_filesel_pw_close_cb),
+                    attw);
+
+
+  if(attw->stb_elem_refptr->att_movepath_file_xml)
+  {
+    gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel),
+                                     attw->stb_elem_refptr->att_movepath_file_xml);
+  }
+  gtk_widget_show (filesel);
+
+}  /* end p_attw_movepath_filesel_button_cb */
+
+
+/* ==================================================== END MOVEPATH FILESEL stuff ======  */
+
+/* -----------------------------------------
+ * p_create_movepath_edit_resources
+ * -----------------------------------------
+ * create frame_image, moving object image
+ * ainfo and pvals resources that are used
+ * to call the movepath edit dialog.
+ */
+static void
+p_create_movepath_edit_resources(GapStbAttrWidget *attw)
+{
+  gint32   image_id;
+  gint32   bg_layer_id;
+  gint32   origsize_layer_id;
+
+  /* create the frame image */
+  image_id = gimp_image_new(attw->stb_refptr->master_width
+                           ,attw->stb_refptr->master_height
+                           ,GIMP_RGB
+                           );
+  attw->movepath_frame_image_id = image_id;
+  gimp_image_undo_disable (image_id);
+
+  /* add a transparent layer */
+  bg_layer_id = gimp_layer_new(image_id
+                  , "background"
+                  , gimp_image_width(image_id)
+                  , gimp_image_height(image_id)
+                  , GIMP_RGBA_IMAGE
+                  , 100.0   /* opacity */
+                  , 0       /* normal mode */
+                  );
+  gimp_image_add_layer (image_id, bg_layer_id, 0);
+  gap_layer_clear_to_color(bg_layer_id, 0.0, 0.0, 0.0, 0.0);
+  gimp_drawable_set_visible(bg_layer_id, TRUE);
+
+  // TODO: in case the storyboard has more tracks
+  // the frame image should be rendered by the storyboard processor at master size
+  // based on a modified storyboard that contains only tracks that render behind the current track
+
+
+  /* create an image that holds the moving object layer */
+  origsize_layer_id = attw->gfx_tab[0].orig_layer_id;
+  attw->movepath_obj_image_id = gimp_image_new( gimp_drawable_width(origsize_layer_id)
+                       , gimp_drawable_height(origsize_layer_id)
+                       , GIMP_RGB
+                       );
+  gimp_image_undo_disable (attw->movepath_obj_image_id);
+  attw->movepath_obj_layer_id = gimp_layer_new_from_drawable(origsize_layer_id, attw->movepath_obj_image_id);
+  gimp_image_add_layer (attw->movepath_obj_image_id, attw->movepath_obj_layer_id, 0);
+  gimp_drawable_set_visible(attw->movepath_obj_layer_id, TRUE);
+
+
+  /* create default values for movepath
+   * (will be overwritten in case xml_paramfile contains already valid settings)
+   */
+  attw->pvals = gap_mov_exec_new_GapMovValues();
+  attw->pvals->dst_image_id = attw->movepath_frame_image_id;
+
+  attw->ainfo_ptr = gap_lib_alloc_ainfo_unsaved_image(attw->movepath_frame_image_id);
+
+}  /* end p_create_movepath_edit_resources */
+
+
+/* -----------------------------------------
+ * p_edit_movepath_closed_callback
+ * -----------------------------------------
+ * is called on close of the movepath edit dialog
+ */
+static void
+p_edit_movepath_closed_callback(gpointer ptr)
+{
+  GapStbAttrWidget *attw;
+
+  attw = (GapStbAttrWidget *)ptr;
+
+  if(attw != NULL)
+  {
+    if(gap_debug)
+    {
+      printf("p_edit_movepath_closed_callback frame_image_id:%d obj_image_id:%d\n"
+        ,(int)attw->movepath_frame_image_id
+        ,(int)attw->movepath_obj_image_id
+        );
+    }
+    attw->movepath_edit_dialog = NULL;
+
+    if(attw->pvals != NULL)
+    {
+      g_free(attw->pvals);
+      attw->pvals = NULL;
+    }
+
+    if(attw->ainfo_ptr != NULL)
+    {
+      gap_lib_free_ainfo(&attw->ainfo_ptr);
+      attw->ainfo_ptr = NULL;
+    }
+
+    if(attw->movepath_frame_image_id >= 0)
+    {
+      gimp_image_delete(attw->movepath_frame_image_id);
+      attw->movepath_frame_image_id = -1;
+    }
+
+    if(attw->movepath_obj_image_id >= 0)
+    {
+      gimp_image_delete(attw->movepath_obj_image_id);
+      attw->movepath_obj_image_id = -1;
+    }
+    p_attw_movepath_file_validity_check(attw);
+    p_update_full_preview_gfx(attw);
+
+    /* make attributes dialog sensitive again (after movepath edit dialog was closed) */
+    gtk_widget_set_sensitive(attw->attw_prop_dialog, TRUE);
+
+  }
+
+}  /* end p_edit_movepath_closed_callback */
+
+
+
+/* ---------------------------------
+ * p_attw_movepath_edit_button_cb
+ * ---------------------------------
+ * invoke the movepath editor dialog window
+ * (in case it is not yet open
+ * and the file selection dialog is not open)
+ */
+static void
+p_attw_movepath_edit_button_cb ( GtkWidget *w
+                       , GapStbAttrWidget *attw)
+{
+  gint32 nframes;
+
+  if(attw->attw_prop_dialog == NULL)
+  {
+     return;
+  }
+
+  if(attw->movepath_filesel != NULL)
+  {
+     gtk_window_present(GTK_WINDOW(attw->movepath_filesel));
+     return;   /* filesel is already open */
+  }
+  if(attw->stb_elem_refptr == NULL)
+  {
+    return;
+  }
+
+  if(attw->movepath_edit_dialog != NULL)
+  {
+     gtk_window_present(GTK_WINDOW(attw->movepath_edit_dialog));
+     return;   /* edit dialog is already open */
+  }
+
+  if(attw->stb_elem_refptr->att_movepath_file_xml == NULL)
+  {
+    return;
+  }
+  if(attw->stb_elem_refptr->att_movepath_file_xml[0] == '\0')
+  {
+    return;
+  }
+
+  p_attw_push_undo_and_set_unsaved_changes(attw);
+  p_create_movepath_edit_resources(attw);
+
+  if(gap_debug)
+  {
+      printf("p_attw_movepath_edit_button_cb frame_image_id:%d obj_image_id:%d obj_layer_id:%d attw:%d\n"
+        ,(int)attw->movepath_frame_image_id
+        ,(int)attw->movepath_obj_image_id
+        ,(int)attw->movepath_obj_layer_id
+        ,(int)attw
+        );
+  }
+
+
+  /* make attributes dialog insensitive (while movepath edit dialog is open) */
+  gtk_widget_set_sensitive(attw->attw_prop_dialog, FALSE);
+
+  nframes = MAX(attw->stb_elem_refptr->att_arr_value_to[GAP_STB_ATT_TYPE_MOVEPATH]
+               ,attw->stb_elem_refptr->att_arr_value_from[GAP_STB_ATT_TYPE_MOVEPATH]);
+
+  attw->movepath_edit_dialog = gap_mov_dlg_edit_movepath_dialog(
+                                   attw->movepath_frame_image_id
+                                 , attw->movepath_obj_layer_id
+                                 , attw->stb_elem_refptr->att_movepath_file_xml
+                                 , attw->ainfo_ptr
+                                 , attw->pvals
+                                 , p_edit_movepath_closed_callback
+                                 ,(gpointer)attw
+                                 , nframes
+                                 );
+
+}  /* end p_attw_movepath_edit_button_cb */
+
+
+/* ------------------------------------
+ * p_attw_movepath_file_validity_check
+ * ------------------------------------
+ */
+static void
+p_attw_movepath_file_validity_check(GapStbAttrWidget *attw)
+{
+  if(attw == NULL) { return; }
+  attw->movepath_file_xml_is_valid = FALSE;
+
+  if(attw->stb_elem_refptr == NULL) { return; }
+
+
+  attw->movepath_file_xml_is_valid = gap_mov_exec_check_valid_xml_paramfile(attw->stb_elem_refptr->att_movepath_file_xml);
+
+  p_attw_update_sensitivity(attw);
+  p_attw_update_properties(attw);
+
+}  /* end p_attw_movepath_file_validity_check */
+
+
+/* ------------------------------------
+ * p_attw_movepath_file_entry_update_cb
+ * ------------------------------------
+ */
+static void
+p_attw_movepath_file_entry_update_cb(GtkWidget *widget, GapStbAttrWidget *attw)
+{
+  if(attw == NULL) { return; }
+  if(attw->stb_elem_refptr == NULL) { return; }
+
+  p_attw_push_undo_and_set_unsaved_changes(attw);
+
+  if(attw->stb_elem_refptr->att_movepath_file_xml)
+  {
+    g_free(attw->stb_elem_refptr->att_movepath_file_xml);
+  }
+  attw->stb_elem_refptr->att_movepath_file_xml = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
+
+  p_attw_movepath_file_validity_check(attw);
+
+}  /* end p_attw_movepath_file_entry_update_cb */
 
 
 /* ------------------------------
@@ -2161,10 +3079,8 @@ p_attw_comment_entry_update_cb(GtkWidget *widget, GapStbAttrWidget *attw)
 {
   if(attw == NULL) { return; }
   if(attw->stb_elem_refptr == NULL) { return; }
-  if(attw->stb_refptr)
-  {
-    attw->stb_refptr->unsaved_changes = TRUE;
-  }
+
+  p_attw_push_undo_and_set_unsaved_changes(attw);
 
   if(attw->stb_elem_refptr->comment == NULL)
   {
@@ -2180,6 +3096,7 @@ p_attw_comment_entry_update_cb(GtkWidget *widget, GapStbAttrWidget *attw)
     attw->stb_elem_refptr->comment->orig_src_line = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
   }
 }  /* end p_attw_comment_entry_update_cb */
+
 
 /* ---------------------------------------
  * p_init_layer_info
@@ -2357,6 +3274,8 @@ p_create_and_attach_att_arr_widgets(const char *row_title
    , gdouble    *att_arr_value_to_ptr
    , const char *dur_tooltip
    , gint32     *att_arr_value_dur_ptr
+   , const char *accel_tooltip
+   , gint32     *att_arr_value_accel_ptr
   )
 {
   GtkWidget *label;
@@ -2365,9 +3284,10 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   GtkObject *adj;
   GtkWidget *spinbutton;
   gint      col;
+  gdouble   convertFactor;
 
   col = column;
-
+  convertFactor = p_getConvertFactor(att_type_idx);
   /* enable label */
   label = gtk_label_new(row_title);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -2413,7 +3333,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   col++;
 
   /* From (Start value of transition) button */
-  adj = gtk_adjustment_new ( *att_arr_value_from_ptr * CONVERT_TO_100PERCENT
+  adj = gtk_adjustment_new ( *att_arr_value_from_ptr * convertFactor
                            , lower_constraint
                            , upper_constraint
                            , step_increment
@@ -2431,6 +3351,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   gtk_widget_set_size_request (spinbutton, 80, -1);
   gimp_help_set_help_data (spinbutton, from_tooltip, NULL);
 
+  g_object_set_data(G_OBJECT(adj), "att_type_idx", (gpointer)att_type_idx);
   g_object_set_data(G_OBJECT(adj), OBJ_DATA_KEY_ATTW, attw);
   g_signal_connect (G_OBJECT (adj), "value_changed",
                       G_CALLBACK (p_attw_gdouble_adjustment_callback),
@@ -2455,7 +3376,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   col++;
 
   /* the To value spinbutton */
-  adj = gtk_adjustment_new ( *att_arr_value_to_ptr * CONVERT_TO_100PERCENT
+  adj = gtk_adjustment_new ( *att_arr_value_to_ptr * convertFactor
                            , lower_constraint
                            , upper_constraint
                            , step_increment
@@ -2473,6 +3394,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   gtk_widget_set_size_request (spinbutton, 80, -1);
   gimp_help_set_help_data (spinbutton, to_tooltip, NULL);
 
+  g_object_set_data(G_OBJECT(adj), "att_type_idx", (gpointer)att_type_idx);
   g_object_set_data(G_OBJECT(adj), OBJ_DATA_KEY_ATTW, attw);
   g_signal_connect (G_OBJECT (adj), "value_changed",
                       G_CALLBACK (p_attw_gdouble_adjustment_callback),
@@ -2511,7 +3433,7 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   gtk_table_attach (GTK_TABLE (table), spinbutton, col, col+1, row, row+1,
                     (GtkAttachOptions) (0),
                     (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_set_size_request (spinbutton, 80, -1);
+  gtk_widget_set_size_request (spinbutton, 60, -1);
   gimp_help_set_help_data (spinbutton, _("Number of frames (duration of transition from start to end value)"), NULL);
 
   g_object_set_data(G_OBJECT(adj), OBJ_DATA_KEY_ATTW, attw);
@@ -2527,6 +3449,51 @@ p_create_and_attach_att_arr_widgets(const char *row_title
   gtk_table_attach_defaults (GTK_TABLE(table), label, col, col+1, row, row+1);
   gtk_widget_show (label);
   attw->att_rows[att_type_idx].dur_time_label = label;
+
+  col++;
+
+
+  /* the acceleration characteristic graph display widget */
+  {
+#define ACC_WGT_WIDTH 32
+#define ACC_WGT_HEIGHT 22
+
+    gint32           accelerationCharacteristic;
+    GapAccelWidget  *accel_wgt;
+
+    accelerationCharacteristic = *att_arr_value_accel_ptr;
+    accel_wgt = gap_accel_new(ACC_WGT_WIDTH, ACC_WGT_HEIGHT, accelerationCharacteristic);
+
+    /* the Acceleration characteristic value spinbutton */
+    adj = accel_wgt->adj;
+
+    spinbutton = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 1, 0);
+    attw->att_rows[att_type_idx].spinbutton_accel_adj = adj;
+    attw->att_rows[att_type_idx].spinbutton_accel = spinbutton;
+
+    gtk_widget_show (spinbutton);
+    gtk_table_attach (GTK_TABLE (table), spinbutton, col+1, col+2, row, row+1,
+                    (GtkAttachOptions) (0),
+                    (GtkAttachOptions) (0), 0, 0);
+    gtk_widget_set_size_request (spinbutton, 50, -1);
+    gimp_help_set_help_data (spinbutton, accel_tooltip, NULL);
+
+    g_object_set_data(G_OBJECT(adj), OBJ_DATA_KEY_ATTW, attw);
+
+    gtk_table_attach( GTK_TABLE(table), accel_wgt->da_widget, col, col+1, row, row+1,
+                        GTK_FILL, 0, 4, 0 );
+    gtk_widget_show (accel_wgt->da_widget);
+
+
+
+    g_signal_connect (G_OBJECT (adj), "value_changed",
+                      G_CALLBACK (p_attw_accel_adjustment_callback),
+                      att_arr_value_accel_ptr);
+
+  }
+
+
+
 
 }  /* end p_create_and_attach_att_arr_widgets */
 
@@ -2554,6 +3521,14 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
   tabw = (GapStbTabWidgets *)attw->tabw;
   if(tabw == NULL) { return (NULL); }
 
+  attw->movepath_filesel = NULL;
+  attw->movepath_edit_dialog = NULL;
+  attw->ainfo_ptr = NULL;
+  attw->pvals = NULL;
+  attw->movepath_frame_image_id = -1;
+  attw->movepath_obj_image_id = -1;
+  attw->movepath_obj_layer_id = -1;
+
   if(attw->stb_elem_bck)
   {
     dlg = gimp_dialog_new (_("Transition Attributes"), "gap_story_attr_properties"
@@ -2575,6 +3550,7 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
                          ,GTK_STOCK_CLOSE,  GTK_RESPONSE_CLOSE
                          ,NULL);
   }
+  gtk_window_set_type_hint (dlg, GDK_WINDOW_TYPE_HINT_NORMAL);
 
   attw->attw_prop_dialog = dlg;
 
@@ -2709,7 +3685,7 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
     gtk_table_attach (GTK_TABLE (table), spinbutton, 7, 8, row, row+1,
                       (GtkAttachOptions) (0),
                       (GtkAttachOptions) (0), 0, 0);
-    gtk_widget_set_size_request (spinbutton, 80, -1);
+    gtk_widget_set_size_request (spinbutton, 60, -1);
     gimp_help_set_help_data (spinbutton, _("Number of overlapping frames within this track"), NULL);
 
     g_object_set_data(G_OBJECT(adj), OBJ_DATA_KEY_ATTW, attw);
@@ -2724,6 +3700,33 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
     gint att_type_idx;
     gint col = 0;
 
+
+    att_type_idx = GAP_STB_ATT_TYPE_ROTATE;
+    p_create_and_attach_att_arr_widgets(_("Rotate:")
+      , attw
+      , table
+      , row
+      , col
+      , att_type_idx
+      , -36000.0    /* lower constraint for the from/to values */
+      ,  36000.0    /* upper constraint for the from/to values */
+      , 1.0        /* step increment   for the from/to values  */
+      , 45.0       /* page increment   for the from/to values */
+      , 0.0        /* page size        for the from/to values */
+      , 1          /* digits for the from/to values */
+      , _("ON: Enable rotation settings")
+      , &attw->stb_elem_refptr->att_arr_enable[att_type_idx]
+      , _("rotation value in degree for the first handled frame ")
+      , &attw->stb_elem_refptr->att_arr_value_from[att_type_idx]
+      , _("rotation value in degree for the last handled frame ")
+      , &attw->stb_elem_refptr->att_arr_value_to[att_type_idx]
+      , _("number of frames")
+      , &attw->stb_elem_refptr->att_arr_value_dur[att_type_idx]
+      , _("acceleration characteristic for rotation (1 for constant speed, positive: acceleration, negative: deceleration)")
+      , &attw->stb_elem_refptr->att_arr_value_accel[att_type_idx]
+      );
+
+    row++;
     att_type_idx = GAP_STB_ATT_TYPE_OPACITY;
     p_create_and_attach_att_arr_widgets(_("Opacity:")
       , attw
@@ -2747,7 +3750,10 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
       , &attw->stb_elem_refptr->att_arr_value_to[att_type_idx]
       , _("number of frames")
       , &attw->stb_elem_refptr->att_arr_value_dur[att_type_idx]
+      , _("acceleration characteristic for opacity (1 for constant speed, positive: acceleration, negative: deceleration)")
+      , &attw->stb_elem_refptr->att_arr_value_accel[att_type_idx]
       );
+
 
     row++;
     att_type_idx = GAP_STB_ATT_TYPE_MOVE_X;
@@ -2766,13 +3772,15 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
       , _("ON: Enable move horizontal settings")
       , &attw->stb_elem_refptr->att_arr_enable[att_type_idx]
       , _("move horizontal value for the first handled frame "
-          " where 0.0 is centered, 100.0 is outside right, -100.0 is outside left)")
+          "where 0.0 is centered, 100.0 is outside right, -100.0 is outside left")
       , &attw->stb_elem_refptr->att_arr_value_from[att_type_idx]
       , _("move horizontal value for the last handled frame "
-          " where 0.0 is centered, 100.0 is outside right, -100.0 is outside left)")
+          "where 0.0 is centered, 100.0 is outside right, -100.0 is outside left")
       , &attw->stb_elem_refptr->att_arr_value_to[att_type_idx]
       , _("number of frames")
       , &attw->stb_elem_refptr->att_arr_value_dur[att_type_idx]
+      , _("acceleration characteristic for horizontal move (1 for constant speed, positive: acceleration, negative: deceleration)")
+      , &attw->stb_elem_refptr->att_arr_value_accel[att_type_idx]
       );
 
 
@@ -2793,13 +3801,15 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
       , _("ON: Enable move vertical settings")
       , &attw->stb_elem_refptr->att_arr_enable[att_type_idx]
       , _("move vertical value for the first handled frame "
-          " where 0.0 is centered, 100.0 is outside at bottom, -100.0 is outside at top)")
+          "where 0.0 is centered, 100.0 is outside at bottom, -100.0 is outside at top")
       , &attw->stb_elem_refptr->att_arr_value_from[att_type_idx]
       , _("move vertical value for the last handled frame "
-          " where 0.0 is centered, 100.0 is outside at bottom, -100.0 is outside at top)")
+          "where 0.0 is centered, 100.0 is outside at bottom, -100.0 is outside at top")
       , &attw->stb_elem_refptr->att_arr_value_to[att_type_idx]
       , _("number of frames")
       , &attw->stb_elem_refptr->att_arr_value_dur[att_type_idx]
+      , _("acceleration characteristic for vertical move (1 for constant speed, positive: acceleration, negative: deceleration)")
+      , &attw->stb_elem_refptr->att_arr_value_accel[att_type_idx]
       );
 
     row++;
@@ -2826,6 +3836,8 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
       , &attw->stb_elem_refptr->att_arr_value_to[att_type_idx]
       , _("number of frames")
       , &attw->stb_elem_refptr->att_arr_value_dur[att_type_idx]
+      , _("acceleration characteristic for scale width (1 for constant speed, positive: acceleration, negative: deceleration)")
+      , &attw->stb_elem_refptr->att_arr_value_accel[att_type_idx]
       );
 
     row++;
@@ -2852,6 +3864,38 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
       , &attw->stb_elem_refptr->att_arr_value_to[att_type_idx]
       , _("number of frames")
       , &attw->stb_elem_refptr->att_arr_value_dur[att_type_idx]
+      , _("acceleration characteristic for scale height (1 for constant speed, positive: acceleration, negative: deceleration)")
+      , &attw->stb_elem_refptr->att_arr_value_accel[att_type_idx]
+      );
+
+    row++;
+    att_type_idx = GAP_STB_ATT_TYPE_MOVEPATH;
+    p_create_and_attach_att_arr_widgets(_("Move Path:")
+      , attw
+      , table
+      , row
+      , col
+      , att_type_idx
+      ,  1.0       /* lower constraint for the from/to values */
+      ,  10000.0   /* upper constraint for the from/to values */
+      , 1.0        /* step increment   for the from/to values  */
+      , 10.0       /* page increment   for the from/to values */
+      , 0.0        /* page size        for the from/to values */
+      , 0          /* digits for the from/to values */
+      , _("ON: Enable move path transistions using settings provided via a movepath parameter file")
+      , &attw->stb_elem_refptr->att_arr_enable[att_type_idx]
+      , _("frame number (phase) of the movement/transition along path for the first handled frame"
+          " where 1 is the begin of the path using settings of the 1st controlpoint"
+          " in the movepath parameter file")
+      , &attw->stb_elem_refptr->att_arr_value_from[att_type_idx]
+      , _("frame number (phase) of the movement/transition along path for the last handled frame."
+          " note that frame numbers higher than (or equal to) total frames in the movepath parameter file"
+          " uses settings of the last controlpoint in this file.")
+      , &attw->stb_elem_refptr->att_arr_value_to[att_type_idx]
+      , _("number of frames")
+      , &attw->stb_elem_refptr->att_arr_value_dur[att_type_idx]
+      , _("acceleration characteristic (currently ignored)")
+      , &attw->stb_elem_refptr->att_arr_value_accel[att_type_idx]
       );
 
   }
@@ -2888,6 +3932,56 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
       );
   }
 
+  row++;
+
+
+  {
+    GtkWidget *button;
+
+
+    /* the movepath label */
+    label = gtk_label_new (_("Movepath File:"));
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_table_attach_defaults (GTK_TABLE(table), label, 0, 1, row, row+1);
+    gtk_widget_show (label);
+
+
+    /* the movepath entry */
+    entry = gtk_entry_new ();
+    gtk_widget_set_size_request(entry, ATTW_COMMENT_WIDTH, -1);
+    if(attw->stb_elem_refptr)
+    {
+      if(attw->stb_elem_refptr->att_movepath_file_xml)
+      {
+        gtk_entry_set_text(GTK_ENTRY(entry), attw->stb_elem_refptr->att_movepath_file_xml);
+      }
+    }
+    gtk_table_attach_defaults (GTK_TABLE(table), entry, 1, 8, row, row+1);
+    g_signal_connect(G_OBJECT(entry), "changed",
+                     G_CALLBACK(p_attw_movepath_file_entry_update_cb),
+                     attw);
+    gtk_widget_show (entry);
+    attw->movepath_file_entry = entry;
+
+    /* the filesel invoker button */
+    button = gtk_button_new_with_label ("...");
+    gtk_table_attach_defaults (GTK_TABLE(table), button, 8, 10, row, row+1);
+    g_signal_connect(G_OBJECT(button), "clicked",
+                     G_CALLBACK(p_attw_movepath_filesel_button_cb),
+                     attw);
+    gtk_widget_show (button);
+
+
+    /* the movepath record/edit dialog invoker button */
+    button = gtk_button_new_with_label ("edit");
+    attw->movepath_edit_button = button;
+    gtk_table_attach_defaults (GTK_TABLE(table), button, 10, 11, row, row+1);
+    g_signal_connect(G_OBJECT(button), "clicked",
+                     G_CALLBACK(p_attw_movepath_edit_button_cb),
+                     attw);
+    gtk_widget_show (button);
+
+  }
 
   row++;
 
@@ -2919,7 +4013,7 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
   gtk_widget_show (entry);
   attw->comment_entry = entry;
 
-
+  p_attw_movepath_file_validity_check(attw);
   p_attw_update_sensitivity(attw);
 
   /*  Show the main containers  */
@@ -3042,6 +4136,3 @@ gap_story_att_fw_properties_dialog (GapStbFrameWidget *fw)
     gap_story_att_stb_elem_properties_dialog(tabw, fw->stb_elem_refptr, fw->stb_refptr);
   }
 }  /* end gap_story_att_fw_properties_dialog */
-
-
-

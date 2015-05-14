@@ -25,8 +25,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -87,6 +87,8 @@ static void        on_mw__combo_preferred_decoder  (GtkWidget     *widget,
                                                    GapVexMainGlobalParams *gpp);
 static void        on_mw__combo_deinterlace  (GtkWidget     *widget,
                                               GapVexMainGlobalParams *gpp);
+static void        on_mw__combo_mode_multilayer  (GtkWidget     *widget,
+                                              GapVexMainGlobalParams *gpp);
 
 static void        on_mw__checkbutton_bluebox_toggled (GtkToggleButton *togglebutton,
                                         GapVexMainGlobalParams *gpp);
@@ -115,8 +117,6 @@ static void        on_mw__spinbutton_basenum_changed      (GtkEditable     *edit
 static void        on_mw__entry_audiofile_changed         (GtkEditable     *editable,
                                         GapVexMainGlobalParams *gpp);
 static void        on_mw__button_audiofile_clicked        (GtkButton       *button,
-                                        GapVexMainGlobalParams *gpp);
-static void        on_mw__checkbutton_multilayer_toggled  (GtkToggleButton *togglebutton,
                                         GapVexMainGlobalParams *gpp);
 static void        on_mw__button_vrange_dialog_clicked    (GtkButton       *button,
                                         GdkEventButton  *bevent,
@@ -164,7 +164,8 @@ static GtkWidget* create_fsa__fileselection (GapVexMainGlobalParams *gpp);
 
 
 
-
+#define DEFAULT_BASENAME "frame_"
+#define DEFAULT_STORYBASENAME "STORYBOARD.txt"
 
 /* ------------------------
  * gap_vex_dlg_init_gpp
@@ -178,7 +179,7 @@ gap_vex_dlg_init_gpp (GapVexMainGlobalParams *gpp)
  /* set initial values in val */
 
  g_snprintf(gpp->val.videoname, sizeof(gpp->val.videoname), "TEST.MPG");
- g_snprintf(gpp->val.basename, sizeof(gpp->val.basename), "frame_");
+ g_snprintf(gpp->val.basename, sizeof(gpp->val.basename), DEFAULT_BASENAME);
  g_snprintf(gpp->val.extension, sizeof(gpp->val.extension), ".xcf");
  g_snprintf(gpp->val.audiofile, sizeof(gpp->val.audiofile), "frame.wav");
  gpp->val.basenum = 0;
@@ -392,7 +393,7 @@ p_update_wgt_sensitivity(GapVexMainGlobalParams *gpp)
 
   gtk_widget_set_sensitive(gpp->mw__spinbutton_basenum, sensitive);
   gtk_widget_set_sensitive(gpp->mw__combo_deinterlace, sensitive);
-  gtk_widget_set_sensitive(gpp->mw__checkbutton_multilayer, sensitive);
+  gtk_widget_set_sensitive(gpp->mw__combo_mode_multilayer, sensitive);
 
   gtk_widget_set_sensitive(gpp->mw__checkbutton_generate_alpha_via_bluebox, sensitive);
   if(gpp->val.generate_alpha_via_bluebox != TRUE)
@@ -405,6 +406,12 @@ p_update_wgt_sensitivity(GapVexMainGlobalParams *gpp)
   if((gpp->val.multilayer == 0) && (sensitive_vid))
   {
       sensitive = TRUE;  /* we want to extract to frame files on disc */
+
+      if((gpp->mw__entry_basename)
+      && (strcmp(gpp->val.basename, DEFAULT_STORYBASENAME) == 0))
+      {
+        gtk_entry_set_text(GTK_ENTRY(gpp->mw__entry_basename), DEFAULT_BASENAME);
+      }
   }
   else
   {
@@ -414,6 +421,20 @@ p_update_wgt_sensitivity(GapVexMainGlobalParams *gpp)
   gtk_widget_set_sensitive(gpp->mw__button_basename, sensitive);
   gtk_widget_set_sensitive(gpp->mw__spinbutton_fn_digits, sensitive);
   gtk_widget_set_sensitive(gpp->mw__entry_extension, sensitive);
+
+  if((gpp->val.multilayer == 2) && (sensitive_vid))
+  {
+    sensitive = TRUE;  /* we want to extract to frame files on disc */
+    gtk_widget_set_sensitive(gpp->mw__entry_basename, sensitive);
+    gtk_widget_set_sensitive(gpp->mw__button_basename, sensitive);
+    
+    if((gpp->mw__entry_basename)
+    && (strcmp(gpp->val.basename, DEFAULT_BASENAME) == 0))
+    {
+      gtk_entry_set_text(GTK_ENTRY(gpp->mw__entry_basename), DEFAULT_STORYBASENAME);
+    }
+  }
+
 
 
   if((gpp->val.audiotrack > 0)
@@ -491,11 +512,6 @@ p_init_mw__main_window_widgets (GapVexMainGlobalParams *gpp)
 
  entry = GTK_ENTRY(gpp->mw__entry_preferred_decoder);
  gtk_entry_set_text(entry, gpp->val.preferred_decoder);
-
-
- wgt = gpp->mw__checkbutton_multilayer;
- gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (wgt),
-                               gpp->val.multilayer );
 
  wgt = gpp->mw__checkbutton_disable_mmx;
  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (wgt),
@@ -696,30 +712,6 @@ p_call_player_widget(GapVexMainGlobalParams *gpp
 
 
 /* -------------------
- * p_check_aspect
- * -------------------
- */
-gboolean
-p_check_aspect(gdouble aspect_ratio, gint width, gint height)
-{
-  gdouble w_div_h;
-
-  if(height)
-  {
-    w_div_h = (gdouble)width / (gdouble)height;
-
-    if ((aspect_ratio <=  w_div_h + 0.001)
-    &&  (aspect_ratio >=  w_div_h - 0.001))
-    {
-      return(TRUE);
-    }
-  }
-
-  return (FALSE);
-}  /* end p_check_aspect */
-
-
-/* -------------------
  * p_check_videofile
  * -------------------
  * check videofile compatibility
@@ -912,7 +904,7 @@ on_mw__combo_preferred_decoder  (GtkWidget     *widget,
      break;
  }
  g_snprintf(gpp->val.preferred_decoder, sizeof(gpp->val.preferred_decoder)
-               , preferred_decoder
+            , "%s", preferred_decoder
                );
  entry = GTK_ENTRY(gpp->mw__entry_preferred_decoder);
  if(entry)
@@ -961,6 +953,34 @@ on_mw__combo_deinterlace  (GtkWidget     *widget,
   }
 
 }  /* end on_mw__combo_deinterlace */
+
+
+/* ------------------------------
+ * on_mw__combo_mode_multilayer
+ * ------------------------------
+ */
+static void
+on_mw__combo_mode_multilayer  (GtkWidget     *widget,
+                           GapVexMainGlobalParams *gpp)
+{
+  gint       l_idx;
+  gint       value;
+  gboolean   sensitive;
+
+  if(gap_debug) printf("CB: on_mw__combo_mode_multilayer\n");
+
+  if(gpp == NULL) return;
+
+  gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
+  l_idx = value;
+
+  if(gap_debug) printf("CB: on_mw__combo_mode_multilayer index: %d\n", (int)l_idx);
+
+  gpp->val.multilayer = l_idx;
+
+  p_update_wgt_sensitivity(gpp);
+
+}  /* end on_mw__combo_mode_multilayer */
 
 
 /* --------------------------------
@@ -1366,32 +1386,6 @@ on_mw__button_audiofile_clicked        (GtkButton       *button,
  {
    gtk_window_present(GTK_WINDOW(gpp->fsa__fileselection));
  }
-}
-
-/* --------------------------------
- * on_mw__checkbutton_multilayer_toggled
- * --------------------------------
- */
-static void
-on_mw__checkbutton_multilayer_toggled  (GtkToggleButton *togglebutton,
-                                        GapVexMainGlobalParams *gpp)
-{
- GtkWidget *wgt;
-
- if(gap_debug) printf("CB: on_mw__checkbutton_multilayer_toggled\n");
- if(gpp == NULL) return;
-
- wgt = gpp->mw__checkbutton_multilayer;
-
- if (GTK_TOGGLE_BUTTON (wgt)->active)
- {
-    gpp->val.multilayer = TRUE;
- }
- else
- {
-    gpp->val.multilayer = FALSE;
- }
- p_update_wgt_sensitivity(gpp);
 }
 
 
@@ -1993,7 +1987,7 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
   GtkWidget *mw__label_audifile;
   GtkWidget *mw__entry_audiofile;
   GtkWidget *mw__button_audiofile;
-  GtkWidget *mw__checkbutton_multilayer;
+  GtkWidget *mw__combo_mode_multilayer;
   GtkWidget *mw__combo_deinterlace;
   GtkObject *mw__spinbutton_delace_threshold_adj;
   GtkWidget *mw__spinbutton_delace_threshold;
@@ -2337,11 +2331,7 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
                                 "libavformat",           GAP_VEX_DECODER_LIBAVFORMAT,
                                 "quicktime4linux",       GAP_VEX_DECODER_QUICKTIME,
                               NULL);
-
-  gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (mw__combo_preferred_decoder),
-                             GAP_VEX_DECODER_NONE,   /* initial value */
-                             G_CALLBACK (on_mw__combo_preferred_decoder),
-                             gpp);
+  gpp->mw__combo_preferred_decoder = mw__combo_preferred_decoder;
 
   gtk_widget_show (mw__combo_preferred_decoder);
   wgt_array[wgt_idx] = mw__combo_preferred_decoder;
@@ -2443,16 +2433,20 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
-  /* the multilayer checkbox (decide if extract writes to frames on disc or to one image) */
-  mw__checkbutton_multilayer = gtk_check_button_new_with_label (_("Create only one multilayer Image"));
-  gtk_widget_show (mw__checkbutton_multilayer);
-  gtk_table_attach (GTK_TABLE (mw__table_out), mw__checkbutton_multilayer, 1, 2, out_row, out_row+1,
+  /* the multilayer combo box (decide if extract writes to frames on disc or to one image or storyboard) */
+  mw__combo_mode_multilayer =
+    gimp_int_combo_box_new (_("extracted frames are written to frame files on disc"),  0,
+                            _("extracted frames are stored in one multilayer image"),  1,
+                            _("create a storyboard from selected video clip"),         2,
+                           NULL);
+    gpp->mw__combo_mode_multilayer = mw__combo_mode_multilayer;
+
+
+
+  gtk_widget_show (mw__combo_mode_multilayer);
+  gtk_table_attach (GTK_TABLE (mw__table_out), mw__combo_mode_multilayer, 1, 2, out_row, out_row+1,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
-  gimp_help_set_help_data (mw__checkbutton_multilayer
-                          , _("On: extracted frames are stored in one multilayer image\n"
-                              "Off: extracted frames are written to frame files on disc")
-                          , NULL);
 
 
   out_row++;
@@ -2533,7 +2527,7 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
   gtk_box_pack_start (GTK_BOX (hbox2), checkbutton, TRUE, TRUE, 0);
   gimp_help_set_help_data (checkbutton
                           , _("On: extract grayscale mask (generated by bluebox)\n"
-                              "Off: extract color frames 1.1")
+                              "Off: extract color frames 1:1")
                           , NULL);
   g_signal_connect (G_OBJECT (checkbutton), "toggled",
                       G_CALLBACK (on_mw__checkbutton_graymask_toggled),
@@ -2668,11 +2662,7 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
                               _("deinterlace frames x 2 (odd 1st)"),  GAP_VEX_DELACE_ODD_X2,
                               _("deinterlace frames x 2 (even 1st)"), GAP_VEX_DELACE_EVEN_X2,
                               NULL);
-
-  gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (mw__combo_deinterlace),
-                             GAP_VEX_DELACE_NONE,   /* initial value */
-                             G_CALLBACK (on_mw__combo_deinterlace),
-                             gpp);
+  gpp->mw__combo_deinterlace = mw__combo_deinterlace;
 
 
   gtk_widget_show (mw__combo_deinterlace);
@@ -2726,6 +2716,41 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
   p_align_widget_columns(wgt_array, wgt_idx);
 
 
+  /* copy widget pointers to global parameter
+   * (for use in callbacks outside of this procedure)
+   */
+  gpp->mw__checkbutton_disable_mmx             = mw__checkbutton_disable_mmx;
+  gpp->mw__entry_video                         = mw__entry_video;
+  gpp->mw__button_vrange_dialog                = mw__button_vrange_dialog;
+  gpp->mw__button_vrange_docked                = mw__button_vrange_docked;
+  gpp->mw__button_video                        = mw__button_video;
+  gpp->mw__label_active_decoder                = mw__label_active_decoder;
+  gpp->mw__label_aspect_ratio                  = mw__label_aspect_ratio;
+  gpp->mw__entry_preferred_decoder             = mw__entry_preferred_decoder;
+  gpp->mw__spinbutton_audiotrack_adj           = mw__spinbutton_audiotrack_adj;
+  gpp->mw__spinbutton_audiotrack               = mw__spinbutton_audiotrack;
+  gpp->mw__spinbutton_videotrack_adj           = mw__spinbutton_videotrack_adj;
+  gpp->mw__spinbutton_videotrack               = mw__spinbutton_videotrack;
+  gpp->mw__spinbutton_end_frame_adj            = mw__spinbutton_end_frame_adj;
+  gpp->mw__spinbutton_end_frame                = mw__spinbutton_end_frame;
+  gpp->mw__spinbutton_begin_frame_adj          = mw__spinbutton_begin_frame_adj;
+  gpp->mw__spinbutton_begin_frame              = mw__spinbutton_begin_frame;
+  gpp->mw__checkbutton_exact_seek              = mw__checkbutton_exact_seek;
+  gpp->mw__entry_extension                     = mw__entry_extension;
+  gpp->mw__entry_basename                      = mw__entry_basename;
+  gpp->mw__button_basename                     = mw__button_basename;
+  gpp->mw__spinbutton_basenum_adj              = mw__spinbutton_basenum_adj;
+  gpp->mw__spinbutton_basenum                  = mw__spinbutton_basenum;
+  gpp->mw__entry_audiofile                     = mw__entry_audiofile;
+  gpp->mw__button_audiofile                    = mw__button_audiofile;
+  gpp->mw__spinbutton_delace_threshold_adj     = mw__spinbutton_delace_threshold_adj;
+  gpp->mw__spinbutton_delace_threshold         = mw__spinbutton_delace_threshold;
+  gpp->mw__spinbutton_fn_digits_adj            = mw__spinbutton_fn_digits_adj;
+  gpp->mw__spinbutton_fn_digits                = mw__spinbutton_fn_digits;
+  gpp->mw__button_OK                           = mw__button_OK;
+  gpp->mw__player_frame                        = mw__player_frame;
+
+
   g_signal_connect (G_OBJECT (mw__checkbutton_disable_mmx), "toggled",
                       G_CALLBACK (on_mw__checkbutton_disable_mmx_toggled),
                       gpp);
@@ -2774,9 +2799,6 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
   g_signal_connect (G_OBJECT (mw__button_audiofile), "clicked",
                       G_CALLBACK (on_mw__button_audiofile_clicked),
                       gpp);
-  g_signal_connect (G_OBJECT (mw__checkbutton_multilayer), "toggled",
-                      G_CALLBACK (on_mw__checkbutton_multilayer_toggled),
-                      gpp);
   g_signal_connect (G_OBJECT (mw__spinbutton_delace_threshold), "value_changed",
                       G_CALLBACK (on_mw__spinbutton_delace_threshold_changed),
                       gpp);
@@ -2787,43 +2809,22 @@ gap_vex_dlg_create_mw__main_window (GapVexMainGlobalParams *gpp)
                       G_CALLBACK (on_mw__spinbutton_fn_digits_changed),
                       gpp);
 
+  gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (mw__combo_preferred_decoder),
+                             GAP_VEX_DECODER_NONE,   /* initial value */
+                             G_CALLBACK (on_mw__combo_preferred_decoder),
+                             gpp);
 
-  /* copy widget pointers to global parameter
-   * (for use in callbacks outside of this procedure)
-   */
-  gpp->mw__checkbutton_disable_mmx             = mw__checkbutton_disable_mmx;
-  gpp->mw__entry_video                         = mw__entry_video;
-  gpp->mw__button_vrange_dialog                = mw__button_vrange_dialog;
-  gpp->mw__button_vrange_docked                = mw__button_vrange_docked;
-  gpp->mw__button_video                        = mw__button_video;
-  gpp->mw__combo_preferred_decoder             = mw__combo_preferred_decoder;
-  gpp->mw__label_active_decoder                = mw__label_active_decoder;
-  gpp->mw__label_aspect_ratio                  = mw__label_aspect_ratio;
-  gpp->mw__entry_preferred_decoder             = mw__entry_preferred_decoder;
-  gpp->mw__spinbutton_audiotrack_adj           = mw__spinbutton_audiotrack_adj;
-  gpp->mw__spinbutton_audiotrack               = mw__spinbutton_audiotrack;
-  gpp->mw__spinbutton_videotrack_adj           = mw__spinbutton_videotrack_adj;
-  gpp->mw__spinbutton_videotrack               = mw__spinbutton_videotrack;
-  gpp->mw__spinbutton_end_frame_adj            = mw__spinbutton_end_frame_adj;
-  gpp->mw__spinbutton_end_frame                = mw__spinbutton_end_frame;
-  gpp->mw__spinbutton_begin_frame_adj          = mw__spinbutton_begin_frame_adj;
-  gpp->mw__spinbutton_begin_frame              = mw__spinbutton_begin_frame;
-  gpp->mw__checkbutton_exact_seek              = mw__checkbutton_exact_seek;
-  gpp->mw__entry_extension                     = mw__entry_extension;
-  gpp->mw__entry_basename                      = mw__entry_basename;
-  gpp->mw__button_basename                     = mw__button_basename;
-  gpp->mw__spinbutton_basenum_adj              = mw__spinbutton_basenum_adj;
-  gpp->mw__spinbutton_basenum                  = mw__spinbutton_basenum;
-  gpp->mw__entry_audiofile                     = mw__entry_audiofile;
-  gpp->mw__button_audiofile                    = mw__button_audiofile;
-  gpp->mw__checkbutton_multilayer              = mw__checkbutton_multilayer;
-  gpp->mw__combo_deinterlace                   = mw__combo_deinterlace;
-  gpp->mw__spinbutton_delace_threshold_adj     = mw__spinbutton_delace_threshold_adj;
-  gpp->mw__spinbutton_delace_threshold         = mw__spinbutton_delace_threshold;
-  gpp->mw__spinbutton_fn_digits_adj            = mw__spinbutton_fn_digits_adj;
-  gpp->mw__spinbutton_fn_digits                = mw__spinbutton_fn_digits;
-  gpp->mw__button_OK                           = mw__button_OK;
-  gpp->mw__player_frame                        = mw__player_frame;
+  gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (mw__combo_deinterlace),
+                             GAP_VEX_DELACE_NONE,   /* initial value */
+                             G_CALLBACK (on_mw__combo_deinterlace),
+                             gpp);
+
+  gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (mw__combo_mode_multilayer),
+                               CLAMP(gpp->val.multilayer, 0, 2),   /* initial value */
+                               G_CALLBACK (on_mw__combo_mode_multilayer),
+                               gpp);
+
+
   p_init_mw__main_window_widgets(gpp);
 
 /* endif GAP_ENABLE_VIDEOAPI_SUPPORT (2) */

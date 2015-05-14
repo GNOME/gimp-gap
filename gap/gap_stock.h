@@ -16,8 +16,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __GAP_STOCK_H__
@@ -49,7 +49,11 @@
 #define GAP_STOCK_SET_RANGE_START    "gap-set-range-start"
 #define GAP_STOCK_SPEED              "gap-speed"
 
-void  gap_stock_init (void);
 
+#include <gtk/gtk.h>
+
+void  gap_stock_init (void);
+GtkWidget *  gap_stock_button_new(const char *stock_id);
+GtkWidget *  gap_stock_button_new_with_label(const char *stock_id, const char *optional_label);
 
 #endif /* __GAP_STOCK_H__ */

@@ -18,8 +18,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see
+ * <http://www.gnu.org/licenses/>.
  */
 
 /* revision history:
@@ -272,12 +272,16 @@ p_create_syntax_list(void)
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_MASTER_FRAME_ASPECT
-           ,"width"
+               ,"width"
                ,"height"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_PREFERRED_DECODER
                ,"decoder"
+               ,NULL
+               );
+  p_add_keyword(GAP_STBKEY_VID_MASTER_INSERT_ALPHA
+               ,"format"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_MASTER_INSERT_AREA
@@ -306,6 +310,8 @@ p_create_syntax_list(void)
                ,"mask_stepsize"
                ,"mask_disable"
                ,"macsteps"
+               ,"macaccel"
+               ,"colormask_file"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_PLAY_BLACKSECTION
@@ -323,6 +329,8 @@ p_create_syntax_list(void)
                ,"mask_stepsize"
                ,"mask_disable"
                ,"macsteps"
+               ,"macaccel"
+               ,"colormask_file"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_PLAY_MOVIE
@@ -344,6 +352,8 @@ p_create_syntax_list(void)
                ,"mask_stepsize"
                ,"mask_disable"
                ,"macsteps"
+               ,"macaccel"
+               ,"colormask_file"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_PLAY_FRAMES
@@ -362,6 +372,8 @@ p_create_syntax_list(void)
                ,"mask_stepsize"
                ,"mask_disable"
                ,"macsteps"
+               ,"macaccel"
+               ,"colormask_file"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_PLAY_ANIMIMAGE
@@ -379,6 +391,8 @@ p_create_syntax_list(void)
                ,"mask_stepsize"
                ,"mask_disable"
                ,"macsteps"
+               ,"macaccel"
+               ,"colormask_file"
                ,NULL
                );
 
@@ -393,6 +407,8 @@ p_create_syntax_list(void)
                ,"mask_stepsize"
                ,"mask_disable"
                ,"macsteps"
+               ,"macaccel"
+               ,"colormask_file"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_PLAY_COLOR
@@ -409,6 +425,8 @@ p_create_syntax_list(void)
                ,"mask_stepsize"
                ,"mask_disable"
                ,"macsteps"
+               ,"macaccel"
+               ,"colormask_file"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_SILENCE
@@ -417,11 +435,20 @@ p_create_syntax_list(void)
                ,"wait_until_sec"
                ,NULL
                );
+  p_add_keyword(GAP_STBKEY_VID_ROTATE
+               ,"track"
+               ,"rotate_from"
+               ,"rotate_to"
+               ,"nframes"
+               ,"accel"
+               ,NULL
+               );
   p_add_keyword(GAP_STBKEY_VID_OPACITY
                ,"track"
                ,"opacity_from"
                ,"opacity_to"
                ,"nframes"
+               ,"accel"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_ZOOM_X
@@ -429,6 +456,7 @@ p_create_syntax_list(void)
                ,"zoom_x_from"
                ,"zoom_x_to"
                ,"nframes"
+               ,"accel"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_ZOOM_Y
@@ -436,6 +464,7 @@ p_create_syntax_list(void)
                ,"zoom_y_from"
                ,"zoom_y_to"
                ,"nframes"
+               ,"accel"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_MOVE_X
@@ -443,6 +472,7 @@ p_create_syntax_list(void)
                ,"move_x_from"
                ,"move_x_to"
                ,"nframes"
+               ,"accel"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_MOVE_Y
@@ -450,6 +480,7 @@ p_create_syntax_list(void)
                ,"move_y_from"
                ,"move_y_to"
                ,"nframes"
+               ,"accel"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_VID_FIT_SIZE
@@ -461,6 +492,15 @@ p_create_syntax_list(void)
   p_add_keyword(GAP_STBKEY_VID_OVERLAP
                ,"track"
                ,"nframes"
+               ,NULL
+               );
+  p_add_keyword(GAP_STBKEY_VID_MOVEPATH
+               ,"track"
+               ,"frame_from"
+               ,"frame_to"
+               ,"nframes"
+               ,"accel"
+               ,"xml_paramfile"
                ,NULL
                );
   p_add_keyword(GAP_STBKEY_MASK_MOVIE

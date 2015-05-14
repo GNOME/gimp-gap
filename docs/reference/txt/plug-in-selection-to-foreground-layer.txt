@@ -1,0 +1,74 @@
+"plug-in-selection-to-foreground-layer"
+
+Filter for Foreground Extraction based on Selection
+
+    Start from Menu:
+       <Image>/Layer/Transparency/Foreground Extract Via Selection
+
+How to use:
+  
+   Have an image with a foreground object loaded in GIMP
+     (for instance a person) that shall be
+     separated from the background.
+     The image shall be of RGB color
+
+   Draw a selection (for instance by using the freehand
+      selection tool)
+      The selection will be used as base for the foreground extraction
+      where the opacity and optional color of pixels near 
+      the border will be trimmed automatically.
+
+   Start the script from <Image>/Layer/Duplicate Selected Foreground.
+      This creates a new layer with the extracted foreground object
+      where the selection is automatically trimmed according
+      to matching colors.
+      It also creates a tri map (that is attached as layermask
+      to the input layer) that is internally used by the alpha matting
+      algorithm.
+   
+   
+   When your selection is drawn all inside the object,
+   you shall use inner radius 0 and set outer radius to
+   the desired width where the selection shall be trimmed.
+   
+   When your selection is drawn all outside the object,
+   you shall use outer radius 0 and set outer radius to
+   the desired width where the selection shall be trimmed.
+
+   Note:
+   If this filter is called without having a slection
+   it uses the alpha channel as implicite selection.
+   
+
+   
+Options:
+
+   InnerRadius
+      Specifies how many pixels inside the borderline of the selection
+      are considered as undefined area.
+
+   OuterRadius
+      Specifies how many pixels outside the borderline of the selection
+      are considered as undefined area.
+
+   Create Layermask
+      ON:  Render opacity by creating a new layer mask for the resulting layer
+      OFF: Apply rendered opacity to the alpha channel
+
+   Lock Colors
+      ON:  Keep RGB channels of the input layer
+      OFF: Allow Background color removal in processed undefined regions
+
+How it Works:
+   A tri-map is generated based on the current selection by setting the
+   pixels that are near the selection border to UNDEFINED state.
+   Pixels that are inside the selection and far (distance is > inner radius)
+   from the border are considered as FOREGROUND.
+   Pixels that are far (distance is > outer radius) outside the selection
+   are considered as BACKGROUND.
+   The generatated tri map is attached as layermask to the input layer.
+   This generated tri map is used to perform a foreground extraction
+   based on the alpha matting algorithm (# see plug-in-foreground-extract-matting)
+   The foreground extraction renders a new layer where transparency (and optionally color)
+   is calculated for the UNDEFINED area, FOREGROUND is rendered fully opaque
+   and BACKGROUND is rendered fully transparent.
