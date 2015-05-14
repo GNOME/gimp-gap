@@ -1,4 +1,11 @@
 2015-05-14 Wolfgang Hofer <hof@gimp.org>
+
+- fixed bug when loading Movepath from XML file
+  (the FromFrames value was set incorrect with the toFrames value)
+  
+ * gap_mov_dialog.c
+
+2015-05-14 Wolfgang Hofer <hof@gimp.org>
  - applied (just the missing parts) provided by patch attached to bugreport #749290
    to fix the map object iterator for use with GIMP-2.8.x releases
 

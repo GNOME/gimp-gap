@@ -3633,7 +3633,7 @@ p_load_points(char *filename, t_mov_gui_stuff *mgp)
                                     , mgp->ainfo_ptr->first_frame_nr
                                     , mgp->ainfo_ptr->last_frame_nr
                                     );
-          pvals->dst_range_start = CLAMP(pvals->dst_range_end
+          pvals->dst_range_start = CLAMP(pvals->dst_range_start
                                     , mgp->ainfo_ptr->first_frame_nr
                                     , mgp->ainfo_ptr->last_frame_nr
                                     );
