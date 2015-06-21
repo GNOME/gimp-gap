@@ -263,7 +263,7 @@ msgstr "Número:"
 
 #: ../gap/gap_base_ops.c:1086
 msgid "Go to this frame number"
-msgstr "Ves a aquest número de fotograma"
+msgstr "Vés a aquest número de fotograma"
 
 #: ../gap/gap_base_ops.c:1136
 #, c-format
@@ -1406,7 +1406,7 @@ msgid ""
 "(that is required for mplayer frame export)"
 msgstr ""
 "no s'ha pogut crear el directori %s\n"
-"(que és necessita per a la exportació de fotogrames mplayer)"
+"(que és necessita per a l'exportació de fotogrames mplayer)"
 
 #: ../gap/gap_decode_mplayer.c:1553 ../gap/gap_decode_xanim.c:1133
 msgid "Extracting frames..."
@@ -1453,9 +1453,9 @@ msgid ""
 "must be installed somewhere in your PATH\n"
 "you can get xanim exporting edition at:\n"
 msgstr ""
-"La edició d'exportació xanim 2.80.0 (la versió de loki)\n"
+"L'edició d'exportació xanim 2.80.0 (la versió de loki)\n"
 "s'ha d'instal·lar en algun lloc del vostre camí\n"
-"Podeu obtenir la edició d'exportació xanim en:\n"
+"Podeu obtenir l'edició d'exportació xanim en:\n"
 
 #: ../gap/gap_decode_xanim.c:173
 msgid ""
@@ -2010,7 +2010,7 @@ msgstr "Inverteix la seqüència de fotogrames..."
 
 #: ../gap/gap_main.c:1028
 msgid "Frames Renumber..."
-msgstr "Reanumera els fotogrames..."
+msgstr "Torna a numerar els fotogrames..."
 
 #: ../gap/gap_main.c:1040
 msgid "Frames Modify..."
@@ -3332,7 +3332,7 @@ msgstr "Velocitat dels fotogrames:"
 #: ../gap/gap_mov_dialog.c:1053
 msgid "Framerate to use in the animated preview in frames/sec"
 msgstr ""
-"Velocitat del fotograma a usar en las visualitzacions prèvies animades en "
+"Velocitat del fotograma a usar en les visualitzacions prèvies animades en "
 "fotogrames/s"
 
 #: ../gap/gap_mov_dialog.c:1069
@@ -3738,7 +3738,7 @@ msgstr "Opacitat del traç 2:"
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:3071
 msgid "Descending opacity of the trace layer"
-msgstr "Està minvant la opacitat en la capa de traçat"
+msgstr "Està minvant l'opacitat en la capa de traçat"
 
 #  TweenSteps
 #  table col, row
@@ -5038,7 +5038,7 @@ msgid ""
 msgstr ""
 "Reprodueix\n"
 "Maj converteix els fotogrames seleccionats en una imatge temporal i "
-"reprodueix la animació de capa en la imatge temporal"
+"reprodueix l'animació de capa en la imatge temporal"
 
 #: ../gap/gap_navigator_dialog.c:446
 msgid ""
@@ -5581,7 +5581,7 @@ msgid ""
 msgstr ""
 "Ha fallat l'inici del servidor wavplay.\n"
 "Comproveu que es pugui executar la comanda 'wavplay'.\n"
-"Si teniu instal·lat l'executable wavplay enlloc\n"
+"Si teniu instal·lat l'executable wavplay en lloc\n"
 "podeu establir la variable d'entorn WAVPLAYPATH abans d'iniciar el Gimp\n"
 
 #: ../gap/gap_player_dialog.c:633
@@ -6044,7 +6044,7 @@ msgstr "Opcions d'àudio"
 msgid ""
 "Click: go to frame, Ctrl-Click: set 'From Frame', Alt-Click: set 'To Frame'"
 msgstr ""
-"Clic: ves al fotograma, Ctrl+clic: defineix 'Des del fotograma', Alt-Clic: "
+"Clic: vés al fotograma, Ctrl+clic: defineix 'Des del fotograma', Alt-Clic: "
 "defineix 'Al fotograma'"
 
 #: ../gap/gap_player_dialog.c:7519 ../gap/gap_player_dialog.c:7652
@@ -6424,7 +6424,7 @@ msgid ""
 "multiple layers and other things. Some fileformats may require converting to "
 "another imagetype and/or flattening the frames."
 msgstr ""
-"La extensió dels fotogrames resultants també s'utilitza per a definir el "
+"L'extensió dels fotogrames resultants també s'utilitza per a definir el "
 "format de fitxer. Fixeu-vos que els formats de fitxer difereixen en "
 "capacitat d'emmagatzemar informacions de capes múltiples i altres coses. "
 "Alguns formats de fitxer requereixen convertir-se a altres tipus d'imatge i/"
@@ -6441,7 +6441,7 @@ msgid ""
 "handle RGB and requires convert to indexed imagetype."
 msgstr ""
 "Converteix a un altre tipus d'imatge, o manté el tipus d'imatge tal com és. "
-"La majoria del formats de fitxer no poden gestionar tots els tipus i "
+"La majoria dels formats de fitxer no poden gestionar tots els tipus i "
 "requereixen una conversió. Exemple: GIF no pot gestionar RGB i requereix "
 "convertir a tipus d'imatge indexada."
 
@@ -6841,7 +6841,7 @@ msgstr ""
 #: ../gap/gap_split.c:496
 msgid "How many digits to use for the framenumber filename part"
 msgstr ""
-"Quant dígits s'utilitzaran en la part del nom de fitxer del número de "
+"Quants dígits s'utilitzaran en la part del nom de fitxer del número de "
 "fotograma"
 
 #: ../gap/gap_split.c:512
@@ -7486,7 +7486,7 @@ msgstr "Retalla un clip"
 
 #: ../gap/gap_story_dialog.c:7748
 msgid "Copy a clip"
-msgstr "Copia una clip"
+msgstr "Copia un clip"
 
 #: ../gap/gap_story_dialog.c:7760
 msgid "Paste a clip after last (selected) element"
@@ -7554,7 +7554,7 @@ msgstr "Cancel·la"
 msgid ""
 "Cancel video access if in progress and disable automatic videothumbnails"
 msgstr ""
-"Cancel·la l'accés al vídeo si està en progrés i s'ha deshabilitat les "
+"Cancel·la l'accés al vídeo si està en progrés i inhabilita les "
 "miniatures de vídeo automàtiques"
 
 #: ../gap/gap_story_dialog.c:8489
@@ -7708,7 +7708,7 @@ msgid ""
 msgstr ""
 "Selecciona la relació d'aspecte del fotograma de vídeo; escriviu un text com "
 "«4:3» o «16:9» per a especificar la relació d'aspecte. Escriviu «none» o deixeu-"
-"ho buit si no voleu emprar una relació d'aspecte en concret (en tal cas les "
+"ho buit si no voleu emprar una relació d'aspecte en concret (en tal cas els "
 "fotogrames de vídeo utilitzaran la mida de píxel mestra 1:1 per a mostrar "
 "els fotogrames de vídeo)"
 
@@ -8977,7 +8977,7 @@ msgstr ""
 #: ../gap/gap_video_index_creator.c:957
 msgid "Create video index based on the specified decoder library"
 msgstr ""
-"Crea un índex de vídeo basat en una biblioteca de decodificació específica"
+"Crea un índex de vídeo basat en una biblioteca de descodificació específica"
 
 #: ../gap/gap_video_index_creator.c:971
 msgid "Select video track"
@@ -9067,7 +9067,7 @@ msgid ""
 "with\n"
 " --disable-videoapi-support"
 msgstr ""
-"La extracció de vídeo no està disponible perquè el GIMP-GAP ha estat "
+"L'extracció de vídeo no està disponible perquè el GIMP-GAP ha estat "
 "configurat i compilat amb\n"
 "el suport videoapi deshabilitat"
 
@@ -9415,7 +9415,7 @@ msgid ""
 msgstr ""
 "Els Guions il·lustrats són fitxers de text utilitzats per a\n"
 "crear un vídeo a partir d'una llista d'imatges,\n"
-"fragments de vídeo, vídeoclips, animacions gif o fitxers d'àudio.\n"
+"fragments de vídeo, videoclips, animacions gif o fitxers d'àudio.\n"
 "Els fotogrames s'organitzen en pistes,\n"
 "i permeten les operacions d'esvair,\n"
 "escalar i moure entre les pistes. \n"
@@ -9594,7 +9594,7 @@ msgstr "S'està analitzant el fitxer del guió il·lustrat"
 
 #: ../vid_common/gap_cme_gui.c:1955
 msgid "Go for checking storyboard file"
-msgstr "Ves a verificar el fitxer storyboard"
+msgstr "Vés a verificar el fitxer storyboard"
 
 #: ../vid_common/gap_cme_gui.c:1957 ../vid_common/gap_cme_gui.c:1958
 msgid "Storyboardfile Check"
@@ -9720,7 +9720,7 @@ msgstr "Fotogrames"
 
 #: ../vid_common/gap_cme_gui.c:2469
 msgid "Input is a sequence of frame images"
-msgstr "La entrada és una seqüència d'imatges de fotograma"
+msgstr "L'entrada és una seqüència d'imatges de fotograma"
 
 #  radio button Layers input_mode
 #. radio button Layers input_mode
@@ -9737,7 +9737,7 @@ msgid ""
 "Input is videoclips and frames, defined via storyboard file. (specify the "
 "storyboard filename in the extras tab)"
 msgstr ""
-"La entrada són els videoclips i els fotogrames, definits via fitxer guió "
+"L'entrada són els videoclips i els fotogrames, definits via fitxer guió "
 "il·lustrat. (especifiqueu el nom del fitxer guió il·lustrat en la pestanya "
 "Extres)"
 
@@ -9878,7 +9878,7 @@ msgid ""
 "(see STORYBOARD_FILE_DOC.txt for details)"
 msgstr ""
 "Els fitxers de guió il·lustrat són fitxers de text utilitzats\n"
-"per a crear un vídeo des d'un llistat de imatges simples,\n"
+"per a crear un vídeo des d'un llistat d'imatges simples,\n"
 "fragments de fotograma, vídeoclips, animacions gif o fitxers d'àudio.\n"
 "(Per a més informació, mireu STORYBOARD_FILE_DOC.txt)"
 
@@ -10259,7 +10259,7 @@ msgstr "S'ha codificat el vídeo per a %d fotogrames d'un total de %d"
 
 #: ../vid_common/gap_cme_gui.c:4110
 msgid "ENCODER process has terminated"
-msgstr "Els procés de codificació ha acabat"
+msgstr "El procés de codificació ha acabat"
 
 #: ../vid_common/gap_cme_main.c:147
 msgid "This plugin is the master dialog for video + audio encoding"
@@ -10557,7 +10557,7 @@ msgstr "distància màxima entre els fotogrames clau (fotogrames-I)"
 #: ../vid_enc_avi/gap_enc_avi_gui.c:1154
 msgid "XVID codec algoritm presets where 0==low quality(fast) 6==best(slow)"
 msgstr ""
-"Predefinició del algorisme del còdec Xvid, on 0==baixa qualitat (ràpid) "
+"Predefinició de l'algorisme del còdec Xvid, on 0==baixa qualitat (ràpid) "
 "6==millor qualitat (lent)"
 
 #: ../vid_enc_avi/gap_enc_avi_main.c:207
@@ -10890,7 +10890,7 @@ msgstr "4 phods"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:1628
 msgid "5 epzs (recommended)"
-msgstr "5 epzs (recomamat)"
+msgstr "5 epzs (recomanat)"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:1629
 msgid "6 x1"
@@ -11262,7 +11262,7 @@ msgstr "Força la mida GOP estricte"
 #. the Use slice struct checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2248
 msgid "Use slice struct"
-msgstr "Utilitza la estructura de llesques"
+msgstr "Utilitza l'estructura de llesques"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2254
 msgid "Enable slice structured mode (only h263+ CODEC)"
@@ -11286,7 +11286,7 @@ msgstr "Utilitza l'em entrellaçada:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2285
 msgid "Enable interlaced motion estimation"
-msgstr "Habilita l'estimació de moviment entrallaçada"
+msgstr "Habilita l'estimació de moviment entrellaçat"
 
 #. the Use AIV checkbutton
 #. the use_dct8x8 checkbutton
@@ -11452,7 +11452,7 @@ msgstr "Capçalera local"
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2581
 msgid "Place global headers at every keyframe instead of in extradata"
 msgstr ""
-"Posa a cada fotograma clau les capçaleres globals, enlloc de fer-ho a les "
+"Posa a cada fotograma clau les capçaleres globals, en lloc de fer-ho a les "
 "dades extra"
 
 #. the use_wpred checkbutton
@@ -11550,7 +11550,7 @@ msgid ""
 "Input bitstream might be truncated at a packet boundaries instead of only at "
 "frame boundaries"
 msgstr ""
-"El flux de bits d'entrada pot ser escapçat als límits d'un paquet enlloc de "
+"El flux de bits d'entrada pot ser escapçat als límits d'un paquet en lloc de "
 "fer-ho als límits d'un fotograma"
 
 #. the use_non_linear_quant checkbutton
@@ -11612,7 +11612,7 @@ msgid ""
 "Input bitstream might be truncated at a random location instead of only at "
 "frame boundaries"
 msgstr ""
-"El flux de bits d'entrada pot ser escapçat a una ubicació aleatòria enlloc "
+"El flux de bits d'entrada pot ser escapçat a una ubicació aleatòria en lloc "
 "de fer-ho als límits d'un fotograma"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2890
@@ -12209,7 +12209,7 @@ msgid ""
 "automatic if videofile has no number part) audiodata is ignored. A  call of\""
 msgstr ""
 "Aquest connector té un codificador de vídeo API però escriu una série de "
-"fotogrames simples en lloc de un fitxer de vídeo. El tipus de fitxer dels "
+"fotogrames simples en lloc d'un fitxer de vídeo. El tipus de fitxer dels "
 "fotogrames de sortida és derivat de l'extensió. La extensió és part del "
 "sufixe del paràmetre \"videofile\". Els noms dels fotogrames de sortida són "
 "els mateixos que el paràmetre \"videofile\", però la part del número de "
