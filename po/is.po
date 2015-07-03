@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap.gap-2-8.is\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap"
-"&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-25 06:36+0000\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
+"gap&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-05-14 13:11+0000\n"
 "PO-Revision-Date: 2015-04-29 14:19+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
@@ -12355,5 +12355,3 @@ msgstr ""
 #: ../vid_enc_single/gap_enc_singleframes_main.c:512
 msgid "the Singleframe Encoder has no encoder specific parameters"
 msgstr ""
-
-
