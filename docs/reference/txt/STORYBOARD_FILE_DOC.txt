@@ -25,12 +25,12 @@ on your input videoclips.
 
 The built in audio processing has support for
 uncompressed audio in the RIFF WAVE format,
-but you can use any other Auidoformat if you
+but you can use any other Audioformat if you
 have installed an external converter tool.
 
 sox and lame are configured as default
 converter tools, so it is possible
-to use many differnt audio formats
+to use many different audio formats
 (including mp3). Recoding and resampling
 is done automatically where needed.
 
@@ -41,7 +41,7 @@ is done automatically where needed.
 Syntax:
 -------
 The STORYBOARD_FILE is organized in textlines with blank
-seprated items. The 1.st item is a Keyword that describes
+separated items. The 1.st item is a Keyword that describes
 the RECORD Type of the line.
 The other items depend on the RECORD Type.
 Lines starting with # are Comments, Blanklines are allowed and will be ignored.
@@ -198,12 +198,12 @@ STORYBOARDFILE
 
 VID_MASTER_FRAME_ASPECT
   Specifies the relation of width / height for playback of the resulting
-  video output. This may result in automatical scaling to the specified
+  video output. This may result in automatic scaling to the specified
   aspect on playback.
   If nothing is specified, or one of the values width or height is 0,
   then playback will be done at the aspect derived from the original
   pixelsize.
-  You can encode a video at 720 x 576 pixels, but specifiy aspect
+  You can encode a video at 720 x 576 pixels, but specify aspect
   16:9
   Note: not all video encoders do support aspect settings.
 
@@ -233,7 +233,7 @@ VID_MASTER_LAYERSTACK   track1:[Top | Background]
                             of the composite frame image.
                             If track1 is placed on Top of the layerstack
                             it appears in foreground. higher video track numbers
-                            appears behind track1, and the highst video track
+                            appears behind track1, and the highest video track
                             builds the background.
                             Background tracks are only visible when all other tracks
                             in the foreground have transparent areas,
@@ -247,7 +247,7 @@ VID_MASTER_LAYERSTACK   track1:[Top | Background]
 
 
 VID_MASTER_INSERT_ALPHA
-  Specifies a format string that referes to an image or to a series of frame images
+  Specifies a format string that refers to an image or to a series of frame images
   to provide transparency for the corresponding video frame.
   This format string shall contain placeholders
      %s    for the basename of videoclips and 
@@ -321,7 +321,7 @@ VID_PLAY_MOVIE
                             DEFAULT: "normal"
   [7] nloops            ... optional integer of Range repetitions
                             DEFAULT: 1
-  [8] seltrack          ... Select input videotrack (for videos with more viedeotracks.
+  [8] seltrack          ... Select input videotrack (for videos with more videotracks.
                             use 1 for the first track, or if the video has only one videotrack)
                             DEFAULT: 1
   [9] exactseek         ... 0 .. use faster videoindex based seek ops for Videoframe reads
@@ -330,13 +330,13 @@ VID_PLAY_MOVIE
 			         in the Video Read API (GVA) even if videoindex is available.
                                  In larger videos this will be very very slow.
                             DEFAULT: 0
- [10] deinterlace       ... 0.0 (upto 0.99)  read videoframes 1:1 without deinterlacing
-                            1.0 upto 1.99  deinterlace videoframes keeping odd rows
+ [10] deinterlace       ... 0.0 (up to 0.99)  read videoframes 1:1 without deinterlacing
+                            1.0 up to 1.99  deinterlace videoframes keeping odd rows
                                 where 1.0 does not interpolate the even rows (hard) 
                                 and   1.99 does soft interpolation for the even rows.
-                            2.0 upto 2.99    deinterlace videoframes keeping even rows
+                            2.0 up to 2.99    deinterlace videoframes keeping even rows
                             DEFAULT: 0.0
- [11] stepsize          ... 0.125 (upto 8.0) step size for fetching input frames
+ [11] stepsize          ... 0.125 (up to 8.0) step size for fetching input frames
                             a value of 0.5 does fetch each input frame twice
 			    a value of 2.0 does skip every 2.nd input frame
 			    use a value of 1.0 to fetch all input frames step by step
@@ -375,7 +375,7 @@ VID_PLAY_MOVIE
                                    where it is attached to.
                                    (default)
                             "master" scale mask to master frame size and apply layer
-                                   after clippng the layer to master frame image.
+                                   after clipping the layer to master frame image.
                                    In this mode the mask is fixed to the master frame.
                                    and does not follow transformations and movements
                                    of the input frame.
@@ -397,7 +397,7 @@ VID_PLAY_MOVIE
  [19] macsteps:         ... an integer value greater or equal than 1.
                             Defines the (maximal) duration in number of frames
                             for applying filtermacros with varying values.
- [20] macaccel:         ... an integer value specifiying acceleration characteristic
+ [20] macaccel:         ... an integer value specifying acceleration characteristic
                             for applying filtermacros with varying values.
                             where 1 changes filtersettings with constant speed.
                             other positive values result in increasing speed, negative values
@@ -408,7 +408,7 @@ VID_PLAY_MOVIE
                             the colormask filter makes pixels of the processed frame
                             transparent when they are equal or similar to the corresponding
                             pixel in the colormask.
-                            typically the colormask represents the non-moving backround
+                            typically the colormask represents the non-moving background
                             that can be set transparent while moving objects are opaque.
 
 
@@ -429,7 +429,7 @@ VID_PLAY_ANIMIMAGE
                             DEFAULT: "normal"
   [7] nloops            ... optional integer of Range repetitions
                             DEFAULT: 1
-  [8] stepsize          ... 0.125 (upto 8.0) step size for fetching input frames
+  [8] stepsize          ... 0.125 (up to 8.0) step size for fetching input frames
                             a value of 0.5 does fetch each input layer twice
 			    a value of 2.0 does skip every 2.nd input layer
 			    use a value of 1.0 to fetch all input layers step by step
@@ -466,7 +466,7 @@ VID_PLAY_FRAMES
                             DEFAULT: "normal"
   [8] nloops            ... optional integer of Range repetitions
                             DEFAULT: 1
-  [9] stepsize          ... 0.125 (upto 8.0) step size for fetching input frames
+  [9] stepsize          ... 0.125 (up to 8.0) step size for fetching input frames
                             a value of 0.5 does fetch each input frame twice
 			    a value of 2.0 does skip every 2.nd input frame
 			    use a value of 1.0 to fetch all input frames step by step
@@ -487,7 +487,7 @@ VID_PLAY_IMAGE
   to playback all the layers separately)
   
   (1) Record Key        ... VID_PLAY_IMAGE
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) file              ... filename of the image.
   [4] nloops            ... optional duration in number of frames (integer) or seconds (float)
                             DEFAULT: 1
@@ -507,11 +507,11 @@ VID_PLAY_COLOR
   create unicolored frame.
   
   (1) Record Key        ... VID_PLAY_COLOR
-  (2) track             ... integer tracknumer
-  (3) red               ... 0.0 upto 1.0 
-  (4) green             ... 0.0 upto 1.0 
-  (5) blue              ... 0.0 upto 1.0 
-  (6) alpha             ... 0.0 upto 1.0  alphachannel 
+  (2) track             ... integer tracknumber
+  (3) red               ... 0.0 up to 1.0 
+  (4) green             ... 0.0 up to 1.0 
+  (5) blue              ... 0.0 up to 1.0 
+  (6) alpha             ... 0.0 up to 1.0  alphachannel 
                             (where 0.0 is full transparent and 1.0 is full opaque) 
   [7] nloops            ... duration in number of frames (integer) or seconds (float)
                             DEFAULT: 1
@@ -529,7 +529,7 @@ VID_SILENCE
   This record is used to define Pauses in a videotrack. 
   
   (1) Record Key        ... VID_SILENCE
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   [3] nloops            ... duration of the silent pause in number of frames (integer) 
                             or seconds (float)
                             DEFAULT: 1
@@ -544,7 +544,7 @@ VID_ROTATE
   to another.
   
   (1) Record Key        ... VID_ROTATE
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) rotate_from       ... Start rotation with this value
                             where 0.0 is and 360.0 is one full rotation
   [4] rotate_to         ... Change rotation to this value
@@ -553,7 +553,7 @@ VID_ROTATE
                             in number of frames (integer) or seconds (float) 
                             The duration Value 0 applies the TO value immediate.
                             DEFAULT: 0
-  [6] accel             ... an integer value specifiying acceleration characteristic
+  [6] accel             ... an integer value specifying acceleration characteristic
                             for speed behavior of rotation changes.
                             where 1 (and 0) rotates the object with constant speed.
                             other positive values result in increasing rotation speed, negative values
@@ -566,7 +566,7 @@ VID_OPACITY
   to another.
   
   (1) Record Key        ... VID_OPACITY
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) opacity_from      ... Start opacity with this value
                             where 0.0 is full transparent and 1.0 is full opaque
   [4] opacity_to        ... Change opacity to this value
@@ -575,7 +575,7 @@ VID_OPACITY
                             in number of frames (integer) or seconds (float) 
                             The duration Value 0 applies the TO value immediate.
                             DEFAULT: 0
-  [6] accel             ... an integer value specifiying acceleration characteristic
+  [6] accel             ... an integer value specifying acceleration characteristic
                             for speed behavior of opacity changes.
                             where 1 (and 0) changes opacity with constant speed.
                             other positive values result in increasing speed, negative values
@@ -586,11 +586,11 @@ VID_OPACITY
 VID_ZOOM_X and VID_ZOOM_Y
   These records are used to define Zooming Effects
   by scaling the Videotrack slightly from one value
-  to another. Zooming can be defined independet for Width (VID_ZOOM_X)
+  to another. Zooming can be defined independent for Width (VID_ZOOM_X)
   and Height (VID_ZOOM_Y).
   
   (1) Record Key        ... VID_ZOOM_X  (or VID_ZOOM_Y)
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) zoom_from         ... Start zoom with this value
                             where 0.0 is 1x1 Pixel, 1.0 is fit videosize, 2.0 is double videosize
   [4] zoom_to           ... Change zoom to this value
@@ -599,7 +599,7 @@ VID_ZOOM_X and VID_ZOOM_Y
                             in number of frames (integer 10) or seconds (float) 
                             The duration Value 0 applies the TO value immediate.
                             DEFAULT: 0
-  [6] accel             ... an integer value specifiying acceleration characteristic
+  [6] accel             ... an integer value specifying acceleration characteristic
                             for speed behavior of zoom changes.
                             where 1 (and 0) changes size with constant speed.
                             other positive values result in increasing speed, negative values
@@ -610,11 +610,11 @@ VID_ZOOM_X and VID_ZOOM_Y
 VID_MOVE_X and VID_MOVE_Y
   These records are used to define Scroll Effects
   by changing the Offset(s) of the Videotrack slightly from one value
-  to another. Scrolling can be defined independet for X (VID_MOVE_X)
+  to another. Scrolling can be defined independent for X (VID_MOVE_X)
   and Y Directions (VID_MOVE_Y).
   
   (1) Record Key        ... VID_MOVE_X  (or VID_MOVE_Y)
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) move_x_from       ... Start move with this value
                             where -1.0 is left (or up) outside,
                                    0.0 is centered,
@@ -625,8 +625,8 @@ VID_MOVE_X and VID_MOVE_Y
                             in number of frames (integer 10) or seconds (float) 
                             The duration Value 0 applies the TO value immediate.
                             DEFAULT: 0
-  [6] accel             ... an integer value specifiying acceleration characteristic
-                            for speed behavior of movents.
+  [6] accel             ... an integer value specifying acceleration characteristic
+                            for speed behavior of movements.
                             where 1 (and 0) changes positions with constant speed.
                             other positive values result in increasing speed, negative values
                             result in decreasing speed.
@@ -641,7 +641,7 @@ VID_MOVE_X and VID_MOVE_Y
                 			+-----------+
 
     We use VID_ZOOM_X settings with a value of 2.0, 
-    (also assume that automatical fit to master size is turned OFF
+    (also assume that automatic fit to master size is turned OFF
     using VID_FIT_SIZE  mode=none)
     
     The source is an image 400 x 200 that is scaled to 800 x 200
@@ -752,7 +752,7 @@ VID_FIT_SIZE
   until the next VID_FIT_SIZE record (or until end of file if there is none)
   
   (1) Record Key        ... VID_FIT_SIZE
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   [3] mode              ... One of the Keywords "width" "height" "none" or "both"
                             width:  Scale that only width does exactly
                                     fit to the resulting video,
@@ -933,7 +933,7 @@ VID_FIT_SIZE
   o) VID_FIT_SIZE mode=none
    
     No automatic scaling is done to fit into video size.
-    (the proportions seting is not relevant in this case)
+    (the proportions setting is not relevant in this case)
  
     +-------------------------------------+
     |                                     |  scaled copy of input frame:   400 x 400
@@ -963,7 +963,7 @@ VID_OVERLAP
 
 
   (1) Record Key        ... VID_OVERLAP
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) nframes           ... Number of overlapping frames.
 
   The main use case is smooth blending from one scene to another.
@@ -974,7 +974,7 @@ VID_OVERLAP
 
   Example: overlap specified with nframes:5.
   In this case the next 5 frames fetched from the
-  following clip ("B.mpg" 1 upto 5) 
+  following clip ("B.mpg" 1 up to 5) 
   in the same track 1 will not create a new frame in the resulting video,
   but will be placed as additional layer in the 5 previous frames.
 
@@ -1014,7 +1014,7 @@ VID_MOVE_PATH
   to another.
   
   (1) Record Key        ... VID_MOVE_PATH
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) frame_from        ... Start frame number specifies the phase
                             where to start in the move path (typically start at 1)
   (4) frame_to          ... End frame number  specifies the phase
@@ -1024,10 +1024,10 @@ VID_MOVE_PATH
                             In case nframes is greater than total_frames
                             the transitions of the end
                             The duration Value 0 disables move transitions.
-  (6) accel             ... an integer value specifiying acceleration characteristic
+  (6) accel             ... an integer value specifying acceleration characteristic
                             DEFAULT: 0  ** other values are currently ignored 
                             
-  (7) xml_paramfile     ... name of the paramterfile for the move path plugin.
+  (7) xml_paramfile     ... name of the parameterfile for the move path plugin.
 
 
 
@@ -1037,7 +1037,7 @@ AUD_PLAY_SOUND
   are mixed to one composite audiotrack.
 
   (1) Record Key        ... AUD_PLAY_SOUND
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) file              ... filename of soundfile (.WAV and other types).
   (4) start_sec         ... start playback range at offest in seconds (float)
   (5) end_sec           ... end playback range at offest in seconds (float)
@@ -1080,7 +1080,7 @@ AUD_PLAY_MOVIE
   are mixed to one composite audiotrack.
 
   (1) Record Key        ... AUD_PLAY_MOVIE
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   (3) file              ... filename of a video (must contain the audiotrack).
   (4) start_sec         ... start playback range at offest in seconds (float)
   (5) end_sec           ... end playback range at offest in seconds (float)
@@ -1122,7 +1122,7 @@ AUD_SILENCE
   This record is used to define Pauses in an audiotrack. 
   
   (1) Record Key        ... AUD_SILENCE
-  (2) track             ... integer tracknumer
+  (2) track             ... integer tracknumber
   [3] duration_sec      ... duration of the silent pause in seconds (float)
                             DEFAULT: 1
   [4] wait_until_sec    ... wait silently until this timestamp is reached,
@@ -1156,7 +1156,7 @@ Filenames:
 ----------
   Filenames can be prefixed by absolute pathnames,
   or by relative pathnames. Relative pathnames are relative
-  to the loacation of the storyboard_file.
+  to the location of the storyboard_file.
 
   Both / and \ are treated as directory Separator.
 
@@ -1189,12 +1189,12 @@ Videotracks:
      can be specified via VID_MASTER_LAYERSTACK
    - You can add a layermask to Input frames by using
      masks. (If the original frame already has an alpha channel
-     only those pixels are visible that are euogh opaque in both the mask
+     only those pixels are visible that are enough opaque in both the mask
      and the original alpha channel)
    - video tracknumber 0 is reserved used for mask definitions.
      Clips with tracknumber 0 therefore are not placed
      as layers in the composite frame image.
-     Those Mask clips can be refered in Video Clips (via mask_name)
+     Those Mask clips can be referred in Video Clips (via mask_name)
      for adding a layermask to provide individual transparency areas.
 
 Sections:
@@ -1203,7 +1203,7 @@ Sections:
   by the Record Key MAIN_SECTION and can have additional sub sections.
 
   For the output video rendering only the clips in the main section are processed.
-  Sub sections are definitions of clip sequences that can be refered
+  Sub sections are definitions of clip sequences that can be referred
   from the main section via VID_PLAY_SECTION as if the were a simple clip.
   
   Note that Clips in a SUB_SECTION not rendered in the output
@@ -1227,7 +1227,7 @@ Sections:
 
   A sub section starts with the Record Key SUB_SECTION.
   If there are no Records with Record Keys SUB_SECTION 
-  or MAIN_SECTION all clips are implicite placed in the main section.
+  or MAIN_SECTION all clips are implicitly placed in the main section.
 
   
   Mask definitions have global scope for all sections.
@@ -1291,7 +1291,7 @@ Macrofiles:
   values defined in the 1st set to their final alternate value
   as defined in the 2nd macrofile.
   
-  The 2nd macrofile is implicite referenced by naming convetion
+  The 2nd macrofile is implicitly referenced by naming convention
   via the keyword .VARYING (as suffix or before the extension)
   
   example:
@@ -1300,23 +1300,23 @@ Macrofiles:
               macsteps:200 \
               macaccel:10
               
-  This example implicite referes to a second macrofile:
+  This example implicite refers to a second macrofile:
   
              "/vol1/fmac/my_blur_macro.VARYING.fmac"
   
   If such a file exists, it is used as provider of alternate
   parameter sets for correlating filtercalls.
   Filtercalls in the alternate (2nd) macrofile where filtername
-  and occurance count matches to filtername and occourance count in 
+  and occurrence count matches to filtername and occurrence count in 
   the first macrofile are correlating and will be used to build
   a mix of the iterable parameters.
-  Procesing for frame 000001 of the input video clip A.mpg 
+  Processing for frame 000001 of the input video clip A.mpg 
   will apply the parameter values of the 1st macrofile.
   As processing continues, the influence of
   the values defined in the 2nd macrofile grows.
   At fame 000200 (macsteps:200) the final value, as defined in the 2nd macrofile
   is reached, and will be used for all further frames of this video clip too
-  (201 upto 500).
+  (201 up to 500).
   The speed of the change from settings in the 1st and the 2nd
   macrofile depends on the specified acceleration characteristic
   (macaccel:10) where 10 defines increasing speed.
@@ -1324,7 +1324,7 @@ Macrofiles:
   
   Filtercalls in the 2nd macrofile that have no correlating pendent
   in the 1st macrofile are ignored. Filtercalls of the 1st
-  macrofile that have no pendent in the 2,nd macrofile are executed
+  macrofile that have no pendent in the 2nd macrofile are executed
   with constant parameter values in all processed frames.
 
   example:
@@ -1351,19 +1351,19 @@ Macrofiles:
   RESTRICTION:
    - Applying filters (e.g plug-ins) with varying values is restricted
      to filters that provide the capability to access
-     the filter specific prameter settings (typically stored as last values buffer in memory)
+     the filter specific parameter settings (typically stored as last values buffer in memory)
      by either implementing an iterator procedure or registering
      the structure of this last values buffer in the
      configuration file lastval_descriptions.txt
      
-     This allows GIMP-GAP to handles the mix of filter specific prameter values.
+     This allows GIMP-GAP to handles the mix of filter specific parameter values.
      (see also Filter->Filter all Layers)
      
   
   
   Macrofiles for global usage:
   ---------------------------
-  Another methode allows performing of a macro with global scope
+  Another method allows performing of a macro with global scope
   (e.g. affecting all frames).
   This can be done by specifying the macro directly in the 
   "Master Encoder" dialog.
@@ -1376,7 +1376,7 @@ Macrofiles:
   --------------------------------------------
   GAP Filtermacro_files
        include a user defineable list of filtercalls,
-       where each filtercall defines a set of filter specific parmeters.
+       where each filtercall defines a set of filter specific parameters.
        
        You can Record any GIMP Filter Plug-In that works on a single
        drawable and is able to run with LAST VALUES in a

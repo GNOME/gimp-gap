@@ -33,7 +33,7 @@ Video Options:
 
     - Pause button (||)
         Stop playback,
-        or go to fist frame of the selcted frame range if not playing.
+        or go to fist frame of the selected frame range if not playing.
         Go to the end of selected frame range if right mousebutton was used.
         or go to the active framenr if the middle mouse button was used.
         (the active framenumber is the one that is currently
@@ -79,7 +79,7 @@ Video Options:
 	right to those buttons.
 
         The timepos: mm:ss:sec displays below shows the same current 
-	position as Minutes:Secons:Microseconds
+	position as Minutes:Seconds:Microseconds
 
         (The time calculation is always based on the original speed.
          This is the framerate of your animation as found in the _vin.gap file.
@@ -138,7 +138,7 @@ Video Options:
             "normal" 128 Pixels
             "large"  256 Pixels
          this button toggles between both sizes.
-         If you hold the SHIFT key wihle clicking the size button,
+         If you hold the SHIFT key while clicking the size button,
          the preview is scaled to 1:1 original framesize.
 
 
@@ -188,7 +188,7 @@ Video Options:
          as exact as possible. if your machine
          is not fast enough one or more frames
          of the sequence are not displayed (dropped)
-         and the next frame is diplayed in time.
+         and the next frame is displayed in time.
 
          if this checkbutton is OFF
          all frames are displayed.
@@ -219,7 +219,7 @@ Creating a snapshot image:
       "Play" (>) or "PlayReverse" (<) button.
 
       Warning:
-	It is recommanded to turn on the "Play selection only" checkbutton,
+	It is recommended to turn on the "Play selection only" checkbutton,
 	and to turn off both the "Loop" checkbutton and the 
 	"Exact timing" checkbutton in that case.
 	
@@ -248,7 +248,7 @@ Audio Options:
 
     - Offset
         Here you can shift the audiostart against the video startframe.
-	An offset value 0 will start auduio at the first frame.
+	An offset value 0 will start audio at the first frame.
 	Negative offsets will start audio with a delay of n frames.
 	Positive offsets will skip the beginning of the audiofile.
 	The skipped duration is equal to the time it takes to play n frames
@@ -262,10 +262,10 @@ Audio Options:
 	in unit frames where frames are played at the original
 	framerate of the video frames.
 
-	The ohter labels show informations about the audiofile.
+	The other labels show information about the audiofile.
 	- Nuber of Samples
 	- Samplerate  (in Samples / Sec)
-	- Channles    (usual 2 for stereo)
+	- Channels    (usual 2 for stereo)
 	- Bits/Sample
 
 	If no valid audiofile was specified, all values are filled with 0.
@@ -310,7 +310,7 @@ Some notes on the audiosupport:
       If videoframes are played at the original speed, audio is played
       at the normal samplerate.
       If video speed is too fast audio may not follow synchron.
-    - If the "Excact Timing" checkbox is off (unchecked) video and audio
+    - If the "Exact Timing" checkbox is off (unchecked) video and audio
       will not play synchron !
 
 

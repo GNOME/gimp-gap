@@ -5,7 +5,7 @@ Frame Sequence Reverse
     Start from Menu:
         <Image>/Video/Frame Sequence Reverse
 
-    This feature reverses the specified sequencew of frames
+    This feature reverses the specified sequence of frames
     in the affected range.
     The affected range is specified with "From Frame"
     and "To Frame".
@@ -13,7 +13,7 @@ Frame Sequence Reverse
     
 Example:
     
-    Assume tere are 10 frames:
+    Assume there are 10 frames:
       pic_000001.xcf
       pic_000002.xcf
    

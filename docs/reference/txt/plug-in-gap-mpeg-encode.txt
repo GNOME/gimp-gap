@@ -51,7 +51,7 @@ MPEG1 Encode
    PQSCALE
    BQSCALE
      Quality scale for I-frames, P-frames and B-frames
-     where 0 is best quality, 31 high compressin low quality)
+     where 0 is best quality, 31 high compression low quality)
    
    P-Search
      Select algorithm for P-frame calculation.

@@ -10,12 +10,12 @@ Animated calls of plug-in filters:
   First of all, you need a multilayered Image.
   You can use "<Image>/Video/Frames to Image"
   to create one from a series of frames,
-  or duplicate the backround layer of a single layered image
+  or duplicate the background layer of a single layered image
   (Press Ctrl-C within the layers dialog window N-times)
 
-  Then call "Filter all Layers" from wihin the multilayer image.
+  Then call "Filter all Layers" from within the multilayer image.
   You'll get a window similar to the PDB-Browser, that shows
-  all available plug-ins in a listbox (and informations about
+  all available plug-ins in a listbox (and information about
   the selected plug-in on the right side).
 
 
@@ -28,7 +28,7 @@ Animated calls of plug-in filters:
   
         some of them are restricted for apply with a fixed setting
         on all handled layers. for Those plug-ins the
-        Acceleration Characteristic spnbutton widget is disabled.
+        Acceleration Characteristic spinbutton widget is disabled.
         The other plug-ins are capable to be applied
         with varying values and enable the spinbutton.
 
@@ -37,7 +37,7 @@ Animated calls of plug-in filters:
       can be set with a spinbutton where you can enter a value.
       A graph next to the spinbutton shows the selected characteristic.
       The acceleration characteristic can also be changed by
-      clicking on th graph and dragging vertically with the mouse.
+      clicking on the graph and dragging vertically with the mouse.
 
       A straight line from left bottom to right top corner of the graph
       is drawn for value 1 that represents constant speed.
@@ -49,7 +49,7 @@ Animated calls of plug-in filters:
 
       With Acceleration Characteristic value other than 0
       the selected plug-in is called 2 times in interactive mode,
-      1. for the backround layer
+      1. for the background layer
       2. for the top layer.
       This defines the settings at begin and at end.
       

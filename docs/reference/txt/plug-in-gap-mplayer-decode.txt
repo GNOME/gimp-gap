@@ -21,7 +21,7 @@ MPLayer based extract
     
     
     MPlayer does support many videofileformats amd codecs and offers
-    access to more vidoefiles than the other GIMP-GAP video extract
+    access to more videofiles than the other GIMP-GAP video extract
     features. But it does not provide frame exact positioning.
        
 
@@ -72,11 +72,11 @@ MPLayer based extract
       XCF
       
     Note: XCF fileformat is not directly supported by mplayer.
-          In this case the ectracted frames are created in PNG
+          In this case the extracted frames are created in PNG
 	  imagefileformat and converted to the GIMP's native 
 	  XCF fileformat automatically.
 	  You should use Png Compression 0 in that case
-	  for faster opration.
+	  for faster operation.
   
   Png Compression:
     Compression for extracted PNG frames
@@ -100,7 +100,7 @@ MPLayer based extract
     
   Silent:
     ON: tell mplayer to ignore video audio when no track
-        is selcted.
+        is selected.
     OFF: mplayer plays unselected video /audio (where track is 0)
         on standard devices.
 	E.g. if audiotrack is 0, you will hear the audio track,

@@ -58,11 +58,11 @@ Transition Attributes (Storyboard)
 
     Acceleration Characteristic:
       A Spinbutton and a graph widget
-      is available to enter and display the acceleration characteristc value
+      is available to enter and display the acceleration characteristic value
       in each row (for Opacity, MoveX, MoveY, ScaleWidht and ScaleHeight)
       The graph next to the spinbutton shows the selected acceleration characteristic curve.
       The acceleration characteristic can also be changed by
-      clicking on th graph and dragging vertically with the mouse.
+      clicking on the graph and dragging vertically with the mouse.
       	
       A straight line from left bottom to right top corner of the graph
       is drawn for value 1 that represents constant speed.

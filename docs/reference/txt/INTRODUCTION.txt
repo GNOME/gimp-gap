@@ -45,7 +45,7 @@ General:
 	so that each frame can have more layers.
 
 	Sound is not supported in this concept, but will be handled
-	as sperate audiofiles at encoding time or in the playback module.
+	as separate audiofiles at encoding time or in the playback module.
 	The playback framerate and other common information about the animation
 	are stored in an extra videoinfo textfile
 	         film_vin.gap
@@ -58,7 +58,7 @@ General:
 	(gzip has to be installed on your system to do that)
 	If you can accept lossy compression you may also use 
 	the xjt fileformat to store your frames on jpeg based compression.
-	The curent implementation of the xjt fileformat
+	The current implementation of the xjt fileformat
 	is restricted to UNIX operating systems.
 
 Input from videofile:
@@ -86,10 +86,10 @@ Input from videofile:
 	## refere to (plug-in-gap-mplayer-decode.txt) ##
 	## refere to (plug-in-gap-xanim-decode.txt) ##
 
-	The other methode can read the frames from one or more
+	The other method can read the frames from one or more
 	videofiles and pass them to one of the GIMP-GAP video encoders
 	without the need to store the frames separately.
-	This methode requires a storyboard file.
+	This method requires a storyboard file.
 	The storyboard file describes
 	how to assemble videoclips, images and audiofiles
 	to one resulting output video.
@@ -106,7 +106,7 @@ Output to videofile:
         a series of numbered frame images or storyboard files
         as input (encoding on the fly).
         	
-	Another option is to convert the frames to one multilayerd image
+	Another option is to convert the frames to one multilayered image
 	that can be saved as MNG animation, animated-GIF
 	(or, in the future in other animation formats 
 	when other load/save modules were added to the GIMP)
@@ -120,7 +120,7 @@ Output to videofile:
 	On UNIX Platforms GIMP-GAP provides frontend dialog interfaces for
 	external software MPEG video encoder programs.
 	(mpeg_encode and mpeg2encode)
-	This methode and both encoders are old.
+	This method and both encoders are old.
 	External encoders can NOT directly encode storyboard files,
 	and typically want input as series of single frames in PPM format.
 	This need much diskspace and extra time for converting
@@ -176,7 +176,7 @@ How to use
 	Then duplicate your image (<Image>/Video/Duplicate)
 	You'll be asked how much copies you need.
 	(Note: all copies are stored on disk immediate
-               without explicite save)
+               without explicit save)
 
     - from an existing layeranimated multilayer image
 	use
@@ -202,7 +202,7 @@ How to use
 
 - Navigation (Goto)
 - ------------------
-      It is recommanded to define some accelerator keys for quick
+      It is recommended to define some accelerator keys for quick
       walk through the frames.
       Here are my settings (excerpt from my $HOME/.gimp/menurc )
 
@@ -226,7 +226,7 @@ How to use
 ----------------------
 
  GIMP-GAP provides features for rendering moving objects
- and for automated modifying of multilple frames.
+ and for automated modifying of multiple frames.
 
  ## refere to (plug-in-gap-move-path.txt) ##
  ## refere to (plug-in-gap-modify.txt) ##
@@ -255,7 +255,7 @@ How to use
 
    If you cancel a running GIMP-GAP plug-in with the cancel button
    in the progress window,
-   or kill it from your operating sytem the lock may remain.
+   or kill it from your operating system the lock may remain.
    (This should only happen to WINDOWS users, for UNIX users
     locks are checked for dead process ids)
 
@@ -264,7 +264,7 @@ How to use
    (or quit and restart the GIMP)
 
   WARNING:
-  It is not recommanded to open more than one frame of
+  It is not recommended to open more than one frame of
   an animation at the same time.
   (menu: File/Open "img_000001.xcf"
    menu: File/Open "img_000002.xcf")
@@ -279,7 +279,7 @@ How to use
      then  
      call from "img_000002.xcf" Video/Goto First
             the img_000002.xcf (its old content) is saved,
-                             overwiting wht was img_000004.xcf before.
+                             overwriting wht was img_000004.xcf before.
   If you make the 2.nd call while the 1.st one is in progress,
   you may trash your frames (2 writers on one file) and/or crash
   your GIMP session.

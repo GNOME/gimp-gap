@@ -14,7 +14,7 @@ Delete Layers in Frames
     
     
     Note:
-    The "Frames Modify" feature provides a more sophisticetd
+    The "Frames Modify" feature provides a more sophisticated
     way to pick and delete layers in a specified framerange.
     
     ## refere to (plug-in-gap-modify.txt)

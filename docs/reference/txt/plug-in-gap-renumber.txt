@@ -15,7 +15,7 @@ Renumber Frames
  
   Digits:
     Here you can enter how many digits (1 up to 8) to use for your frame
-    numbers. Framenumbers are fileld up with leading zeros to the
+    numbers. Framenumbers are filled up with leading zeros to the
     specified number of digits.
     Framenumbers that are greater than the specified number of digits
     will use more digits than specified, but are built without leading zeroes.
@@ -23,9 +23,9 @@ Renumber Frames
     any leading zeroes at all.
 
 
-  If the frames are numbered in a non-continous way, you can
-  make them continous with this plug-ins.
-  (Most other GIMP-GAP features do not accept non-continous numbered frames)
+  If the frames are numbered in a non-continuous way, you can
+  make them continuous with this plug-ins.
+  (Most other GIMP-GAP features do not accept non-continuous numbered frames)
 
   Example:
     you have the frames:

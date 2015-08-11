@@ -14,12 +14,12 @@ Modify Frames
       
       The layers can be selected by (parts of) their name, or by their
       layerstack numbers.
-      The selection is contolled via the LayerPattern entry,
+      The selection is controlled via the LayerPattern entry,
       the case sensitivity toggle and the radio buttons.
       
       The toggle button "Invert Layer Selection" inverts the selection.
       
-      Some of the available funtions affect the image
+      Some of the available functions affect the image
       and do not allow layer selection.
 
 
@@ -108,13 +108,13 @@ Modify Frames
        "Copy layermask from layer below"
 
       create Layermasks in the selected layer(s) in all handled frames by copying from the 
-      neigbour layer above (or below) the specified layer(s).
-      If there is no such neigbour layer, a black (full transparent) layermask
-      will be created for the slected layer(s).
-      If the neigbour layer has no layermask, the mask will be create as black and white copy
-      of the neigbour layer.
+      neighbour layer above (or below) the specified layer(s).
+      If there is no such neighbour layer, a black (full transparent) layermask
+      will be created for the selected layer(s).
+      If the neighbour layer has no layermask, the mask will be create as black and white copy
+      of the neighbour layer.
       The layermask is placed at the center of the selected (destination) layer.
-      If the neigbour layer is smaller than the selected layer,
+      If the neighbour layer is smaller than the selected layer,
       the uncovered border of the created layermask is created full transparent.
 
     The Functions:
@@ -170,7 +170,7 @@ Modify Frames
     your frames. Another hint is that you assign useful names to
     your layers. that should be done consequent for all frames.
     
-    Example 1 (useful Layertack structure/names)
+    Example 1 (useful Layerstack structure/names)
     
     
                     film_000001.xcf    film_000002.xcf  ....  film_000010.xcf       
@@ -183,7 +183,7 @@ Modify Frames
     
 
     
-    Example 2 (not recommanded)
+    Example 2 (not recommended)
     
     
                     film_000001.xcf    film_000002.xcf  ....  film_000010.xcf       

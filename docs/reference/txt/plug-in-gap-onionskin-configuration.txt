@@ -22,7 +22,7 @@ Onionskin Layers:
   By default they are built by merging the visible 
   layers of the previous frame but without the BG-Layer 
   (and without other onionlayers).
-  Onionskin layers are usually placed above the backroundlayer
+  Onionskin layers are usually placed above the backgroundlayer
   in the layerstack of the current frame.  
   
   Onion Layers are normally used for display of the previous
@@ -43,19 +43,19 @@ Configuration:
       NORMAL             /* default */
          The Frame Reference Parameter is used as delta
 	 in just one direction.
-	 Negative values refere to previous frames only,
-	 positive values refere to next frames only.
-      BIDRIECTIONAL_SINGLE
+	 Negative values refer to previous frames only,
+	 positive values refer to next frames only.
+      BIDIRECTIONAL_SINGLE
          The Frame Reference Parameter is used as 
 	 bidirectional delta in both directions
-	 With an inital Frame Reference offset -1
+	 With an initial Frame Reference offset -1
 	 the reference sequence is
 	 -1, +2, -3, +4, -5, +6, ...
 	 
-      BIDRIECTIONAL_DOUBLE
+      BIDIRECTIONAL_DOUBLE
          The Frame Reference Parameter is used as 
 	 bidirectional delta in both directions
-	 With an inital Frame Reference offset -1
+	 With an initial Frame Reference offset -1
 	 the reference sequence is
 	 -1, +1 -2, +2, -3, +3, ...
     
@@ -91,7 +91,7 @@ Configuration:
 
   Opacity:
      The 1.st onionlayer is created with this
-     opacity seting (100 is full opaque, 0 is full transparent)
+     opacity setting (100 is full opaque, 0 is full transparent)
 
   Opacity Delta:
      100 : The 2.nd onionlayer is created with same
@@ -151,7 +151,7 @@ Configuration:
 
   DELETE:
     The delete button removes onion layers in the selected range
-    of frames and sets the values for the handled Animaton.
+    of frames and sets the values for the handled Animation.
     
 
   CLOSE:
@@ -173,9 +173,9 @@ Configuration:
 Restrictions:
 
    - The Onionskin automatic does NOT work if you load a frame
-     via the File Menu, or othe implicite file load/save operations.
+     via the File Menu, or other implicit file load/save operations.
    
-   - Onionskin Layers are restricted to Imagefortmats that can store
+   - Onionskin Layers are restricted to Imageformats that can store
      multiple layers, layer parasites and tattoos.
 
      GIMP's native format XCF is rcommanded.
@@ -186,7 +186,7 @@ Onionskin Functions:
 
   The other functions in the Video/OnionskinLayer menu
   do not open dialog windows. 
-  They are intended for quick use, and it is recommanded
+  They are intended for quick use, and it is recommended
   to assign key-shortcuts if you want to use them
   frequently.
   ### here we should refere to gimp docs howto assign key-shortcuts ###
@@ -220,7 +220,7 @@ Tips:  Cross-Fading Example
    
    As 1.st step you need to duplicate all the frames in a way like this:
    
-   01  02  03  04 ...            original squence
+   01  02  03  04 ...            original sequence
    
    01  02 03   04 05 06   07 08 09   10 11 12 ....   new numbers
    01  01 01   02 02 02   03 03 03   04 04 04 ....   (old original numbers)

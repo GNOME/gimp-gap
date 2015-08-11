@@ -25,7 +25,7 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 (wavplay_prog "/usr/X11R6/bin/wavplay")
 
 
-# there are 2 Values to define direcory and basename
+# there are 2 Values to define directory and basename
 # for Video Copy/Cut/Paste operations      
 (video-paste-dir "/home/hof/gap_video_paste_dir")
 (video-paste-basename "gap_video_paste_")
@@ -102,7 +102,7 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # workaround for a libmpeg decoder specific bug that sometimes 
 # causes crashes when MPEG1 videos are closed.
 # The workaround is implemented for UNIX OS only and 
-# forks a child process with its own sgnal handler.
+# forks a child process with its own signal handler.
 # the child process tries open/close. Crashes are then caught
 # in the signal handler of the child process to tell the parent
 # process (via retcode) that this videofile cant be handled safe by libmpeg3.
@@ -127,7 +127,7 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 (audioconvert_program "/usr/local/bin/my_private_audioconverter")
 
 
-# Configure GIMP-GAP for explicite use of the UFRaw 3rd party plug-in
+# Configure GIMP-GAP for explicit use of the UFRaw 3rd party plug-in
 # for non-interactive loading of frame files from raw filetypes.
 #  configuration (gap-load-ufraw-%s "yes")
 # Use this when the generical gimp-file-load fails to load Canon .cr2
@@ -155,15 +155,15 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # such as jpg, tif, cr2,....
 # possible configuration values are:
 #  "overwrite"
-#    automaticaly overwrite the discfile image that corresponds 
+#    automatically overwrite the discfile image that corresponds 
 #    to the current frame (which is opened in the gimp session)
-#    on frame exchange opertions (such as go to next/previous frame)
+#    on frame exchange operations (such as go to next/previous frame)
 #    where the file save plug-in is called with the backround layer as active layer.
 #    
 #  "overwrite_flattened"
-#    automaticaly overwrite the discfile image that corresponds 
+#    automatically overwrite the discfile image that corresponds 
 #    to the current frame (which is opened in the gimp session)
-#    on frame exchange opertions (such as go to next/previous frame)
+#    on frame exchange operations (such as go to next/previous frame)
 #    where the current frame is flattened before calling the file save plug-in.
 #
 #  "readonly"
@@ -178,7 +178,7 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 #    but discards unsaved changes without any notice on frame exchange.
 #    USE THIS ONLY WHEN YOU KONW WHAT YOUR DIONG ON YOUR OWN RISK !
 #
-# Here are recommanded gimprc configuration settings
+# Here are recommended gimprc configuration settings
 # for some common used fileformats:
 (video-save-mode-for-jpg "overwrite_flattened")
 (video-save-mode-for-jpeg "overwrite_flattened")
@@ -223,7 +223,7 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 
 # force storyboard clip playbacks to the aspect defined
 # in the storyboard file properties.
-# if turned off plaback clips according to their original pixelsize.
+# if turned off playback clips according to their original pixelsize.
 (video-storyboard-force-aspect-playback "yes")
 
 # maximal number of open videofiles for storyboard render
@@ -253,7 +253,7 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # (in the player widget that is embedded in the storyboard dialog)
 # the value "no" picks the minimum of current preview size and storyboard size
 # for rendering.
-# Note that preview renderig is forced to full size (regardless
+# Note that preview rendering is forced to full size (regardless
 # to the setting of this parameter) in case the storyboard
 # includes at least one clip with fixed width or height.
 # (e.g. the storyboard records of the following types:
@@ -315,8 +315,8 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # by the seek operation.
 # If you get trashed frames after seek operations you may
 # increase the video-libavformat-seek-gopsize parameter
-# (values upto 128 can make sense). Note that a high value
-# increases the chance to pre-read the releated keyframe and fixes
+# (values up to 128 can make sense). Note that a high value
+# increases the chance to pre-read the related keyframe and fixes
 # the problem with trashed frames, but makes seek significantly slower.
 #
 # libavformat native seek operates timecode based while gimp-gap
@@ -325,13 +325,13 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # per frame. For frame exact operation on such (rare) videofiles
 # you should disable native seek by setting the video-libavformat-seek-gopsize
 # parameter to 0 and let gimp-gap create a videoindex.
-# (videoindex creation requires an initial full scann of the video,
+# (videoindex creation requires an initial full scan of the video,
 # but offers exact positioning.
-# positioning via vidoeindex is slower than native seek)
+# positioning via videoindex is slower than native seek)
 # 
 # an internal default value of 8 is used if no other value is configured.
 # (this should be OK for most videofiles, if you work with mpeg2 dvd stuff
-# .vob files, a value of 4 shall be enough and give optimal positioning performace)
+# .vob files, a value of 4 shall be enough and give optimal positioning performance)
 #
 (video-libavformat-seek-gopsize "8")
 
@@ -369,7 +369,7 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 # 
 #
 # Setting this parameter to value "no" ignores
-# anaylse results files (even if they are still valid)
+# analyse results files (even if they are still valid)
 # 
 (video-gva-libavformat-video-analyse-persistent "yes")
 
@@ -434,7 +434,7 @@ If you edit gimprc files by hand, you must do this before you startup GIMP.
 (video-move-path-log-render-params "no")
 
 # Move Path rotation threshold is a float number between 0.0 and 1.0
-# This threshold vaule allows Move path render engine to skip the time consuming
+# This threshold value allows Move path render engine to skip the time consuming
 # rotate transformations on very small angles.
 # default is 0.0125 degree
 (video-move-path-rotate-threshold "0.0125")

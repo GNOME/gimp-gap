@@ -44,7 +44,7 @@ Split Image into Frames
       OFF: keep layers 1:1 as they are in the original image.
       
     Only Visible:
-      ON: affect only the visible layers and ignore invisble layers.
+      ON: affect only the visible layers and ignore invisible layers.
       OFF: affect all layers.
       
     Digits:

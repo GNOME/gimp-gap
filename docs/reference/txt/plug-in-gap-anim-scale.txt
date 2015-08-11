@@ -20,7 +20,7 @@ Scale Video Frames
     new height values are reset to current values.
     
     With X/Y ratio values you can specify new size as factor,
-    A value of 2.0 results in double saize while 0.5 sacles down
+    A value of 2.0 results in double size while 0.5 scales down
     to half size.
     
     The chain button keeps image proportions constant when active.
@@ -30,7 +30,7 @@ Scale Video Frames
  
     Note:
     GIMP provides different methods for scaling images.
-    You can configure the desired methode in the GIMP
+    You can configure the desired method in the GIMP
     Preferences dialog at "Tool Options"
     where you can select different methods for scaling.
 
@@ -38,6 +38,6 @@ Scale Video Frames
       - Linear
       - Cubic (best)
     
-    This plug-in uses the configured methode from the
+    This plug-in uses the configured method from the
     preferences menu.
     

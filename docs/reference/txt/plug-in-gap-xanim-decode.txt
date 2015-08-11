@@ -50,7 +50,7 @@ XANIM based extract
       XCF
       
     Note: XCF fileformat is not directly supported by xanim.
-          In this case the ectracted frames are created in PPM
+          In this case the extracted frames are created in PPM
 	  imagefileformat and converted to the GIMP's native 
 	  XCF fileformat automatically.
 

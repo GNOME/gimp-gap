@@ -7,7 +7,7 @@ Filtermacro Script:
       "<Image>/Filters/Filtermacro"
 
     WARNINGS:
-    - fltermacro scripts are a temporary solution. Support may be removed
+    - filtermacro scripts are a temporary solution. Support may be removed
       in future releases of gimp-gap. 
     - filtermacros are restricted to plug-ins that are able to run with LAST_VALUES.
     - filtermacro scriptfiles are machine dependent, plug-in version dependent, 
@@ -67,7 +67,7 @@ Filtermacro Script:
     within the same GIMP-session
     (by click on the GAP Playback dialog preview) 
     the type 5: GAP_AINFO_MOVIE is recorded.
-    Such layers are marked (with a non-persitent layer parasite)
+    Such layers are marked (with a non-persistent layer parasite)
     at extraction time to provide videofilename and position in the video.
   
   - In case the drawable is a layer in an image with GIMP-GAP typical number part
@@ -79,8 +79,8 @@ Filtermacro Script:
   Restrictions:
   -------------
   - Note that persistent drawable references will NOT work or give unexpected
-    results in case the image that contains the refered drawable
-    was not saved, or was changed and saved after the filtermacro was recored.
+    results in case the image that contains the referred drawable
+    was not saved, or was changed and saved after the filtermacro was recorded.
   - Furthermore the filter must use the GIMP-GAP standard iterator implementation
     that supports the recording of persistent drawable id's for its additional
     drawable parameters.
@@ -93,7 +93,7 @@ Filtermacro Script:
     'Filter All Layers'  and the 
     'Frames Modify 
   features of gimp-gap. This way you can apply a set of filtercalls
-  on all layers of a multilyer image
+  on all layers of a multilayer image
   (or on all selected layers in multiple frames) with one call.
   
   Filtermacro file execution is also available in Storyboard scripts.

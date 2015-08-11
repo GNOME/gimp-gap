@@ -117,7 +117,7 @@ Output:
     a huge amount of frames)
     
     In the other mode (OFF) the extracted frames
-    are written as sequence of numered frame
+    are written as sequence of numbered frame
     images in GIMP-GAP typical style.
     
     The Name of those frame images is controlled
@@ -147,7 +147,7 @@ Output:
     build the other half picture.
     The deinterlace filter builds the extracted frame
     by picking only the lines of one of the half pictures
-    and replaceng the lines of the other half picture
+    and replacing the lines of the other half picture
     by more or less smooth mixing the upper and lower neighbour lines.
     The mix is controlled with the spinbutton value
     where 1.0 is a smooth mix, and 0.0 takes just one of the

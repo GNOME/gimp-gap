@@ -8,24 +8,24 @@ Foreground Extract Filter
 
 How to use:
   
-   Have a image with a forground object loaded in GIMP
+   Have a image with a foreground object loaded in GIMP
      (for instance a person) that shall be
      separated from the background.
      The image shall be of RGB color
 
    Add a layermask to the layer that shall be processed
-     and fill the layermask whith a medium Gray color
+     and fill the layermask with a medium Gray color
      now the complete layer looks semi-transparent.
      
    Paint on the layermask with WHITE color to mark foreground areas.
      the painted areas appear fully opaque.
    
-   Paint on the layermask with BLACK color to mark backround areas.
+   Paint on the layermask with BLACK color to mark background areas.
      the painted areas disappear, e.g get fully transparent.
      
    Take care that you DO NOT mark background areas as foreground 
      and vice versa. (e.g. your brush strokes
-     shall not overlap the borders of the forground object.
+     shall not overlap the borders of the foreground object.
      
    When finished with that (rough) selection call the 
    Foreground Extract Filter
@@ -51,7 +51,7 @@ How to use:
    and run the filter again.
    
    For good results approximately 70% of the area shall be marked
-   as either FORGROUND or BACKGROUND. Further note that processing time
+   as either FOREGROUND or BACKGROUND. Further note that processing time
    depends on the size of the UNDEFINED areas.
    
    
@@ -74,7 +74,7 @@ How it Works:
     UNDEFINED areas in the corresponding layer.
     Typically a layermask will be used as TRI-MAP. 
     Optionally you may select another layer (with same size) as TRI-MAP input.
-    Note that RGB TR-MAP input is implicite converted to GRAYSCALE representation
+    Note that RGB TR-MAP input is implicitly converted to GRAYSCALE representation
     where values >= 240 are considered as FOREGROUND, value 0 marks BACKGROUND and all other
     values are considered as UNDEFINED.
     
@@ -94,7 +94,7 @@ How it Works:
    has the main problem that it generates only a binary alpha matte. 
    The problems with that is that you can have severe "color bleeding" of the background color 
    into the foreground at borders. For example, fine black hair on a green background gets darkish green. 
-   Also, you don't have any transparancy or antialiasing at borders, each pixel is either foreground or background.
+   Also, you don't have any transparency or antialiasing at borders, each pixel is either foreground or background.
 
    The new algorithm, on the other hand, tries to find out the foreground AND the background color of each pixel, 
    and with that, it can calculate a semitransparent alpha value. 

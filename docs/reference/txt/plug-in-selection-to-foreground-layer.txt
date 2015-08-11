@@ -36,8 +36,8 @@ How to use:
    the desired width where the selection shall be trimmed.
 
    Note:
-   If this filter is called without having a slection
-   it uses the alpha channel as implicite selection.
+   If this filter is called without having a selection
+   it uses the alpha channel as implicit selection.
    
 
    
@@ -66,7 +66,7 @@ How it Works:
    from the border are considered as FOREGROUND.
    Pixels that are far (distance is > outer radius) outside the selection
    are considered as BACKGROUND.
-   The generatated tri map is attached as layermask to the input layer.
+   The generated tri map is attached as layermask to the input layer.
    This generated tri map is used to perform a foreground extraction
    based on the alpha matting algorithm (# see plug-in-foreground-extract-matting)
    The foreground extraction renders a new layer where transparency (and optionally color)

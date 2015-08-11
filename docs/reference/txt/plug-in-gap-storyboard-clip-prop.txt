@@ -12,7 +12,7 @@ Clip Properties (Storyboard)
     ## (plug-in-gap-storyboard-edit.txt)
 
     File:
-      Clips use a filename to refere to a videofile or to 
+      Clips use a filename to refer to a videofile or to 
       a frame imagefile on disk.
       The button "..." opens a filebrowser dialog window
       where you can select the filename.
@@ -25,7 +25,7 @@ Clip Properties (Storyboard)
     From:
     To:
       Here you can enter the selected frame range for the clip.
-      (those widgets are disabled when file referes to a single image)
+      (those widgets are disabled when file refers to a single image)
       
     Loops:
       Here you can specify the number of loops, where a value of 2
@@ -66,7 +66,7 @@ Clip Properties (Storyboard)
       build the other half picture.
       The deinterlace filter builds the extracted frame
       by picking only the lines of one of the half pictures
-      and replaceng the lines of the other half picture
+      and replacing the lines of the other half picture
       by more or less smooth mixing the upper and lower neighbour lines.
       The mix is controlled with the spinbutton value
       where 1.0 is a smooth mix, and 0.0 takes just one of the
@@ -116,7 +116,7 @@ Clip Properties (Storyboard)
 
 
     Mask:
-      Individual transparency foreach frame of the clip
+      Individual transparency for each frame of the clip
       can be added by selecting a mask.
       Important:
       You must define (at least one) Mask clip in the Mask Section of the Storyboard
@@ -135,7 +135,7 @@ Clip Properties (Storyboard)
 
 
       Mask Stepsize:
-        In case the assigned mask clip is an animation (and not a sinle image),
+        In case the assigned mask clip is an animation (and not a single image),
         the mask stepsize controls how to advance to the next mask frame.
         Where a value of 2.0 speeds up the mask effect (by skipping
         every 2nd frame in the assigned mask clip)
@@ -170,7 +170,7 @@ Clip Properties (Storyboard)
        For applying filtermacros with varing values you need a 2nd
        filtermacro file.
        The 2nd filtermacro file is automatically identified via naming convention
-       and can NOT be specified explicite. Its name is diplayed read only
+       and can NOT be specified explicite. Its name is displayed read only
        when such a file is available, and prefixed with "ON" when active
        or "OFF" when disabled (e.g duration of 1 frame is specified)
        
@@ -180,10 +180,10 @@ Clip Properties (Storyboard)
 
        Acceleration Characteristic for applying filtermacro with varying values:
        A Spinbutton and a graph widget
-       is available to enter and display the acceleration characteristc value
+       is available to enter and display the acceleration characteristic value
        The graph next to the spinbutton shows the selected acceleration characteristic curve.
        The acceleration characteristic can also be changed by
-       clicking on th graph and dragging vertically with the mouse.
+       clicking on the graph and dragging vertically with the mouse.
       	
        A straight line from left bottom to right top corner of the graph
        is drawn for value 1 that represents constant speed.
@@ -203,7 +203,7 @@ Find Scene End
     and sets the "To" value to the first detected scene change.
     
 Auto Scene Split
-    The button "Auto Scene Split" will scann all the frames 
+    The button "Auto Scene Split" will scan all the frames 
     in the selected range and create new clips on every significant
     scene change. The new clips are added at end of the storyboard.
     (or cliplist)

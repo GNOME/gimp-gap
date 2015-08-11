@@ -5,7 +5,7 @@ Resize Video Frames
     Start from Menu:
              <Image>/Video/Frames Resize
 	     
-    With the video rezize feature you can change the canvas size for 
+    With the video resize feature you can change the canvas size for 
     all frame images in a sequence of numbered frames.
     Load one of the frames and invoke this plug-in from the loaded frame,
     adjust the settings as you like and the plug-in will

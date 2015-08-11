@@ -19,7 +19,7 @@ Make Duplicates of Frame Range
 Example:
     when the current frame is 2 out of 5 frames
     and we apply the settings:
-      From Farem: 2
+      From Frame: 2
       To Frame:   4
       N times:    2
     

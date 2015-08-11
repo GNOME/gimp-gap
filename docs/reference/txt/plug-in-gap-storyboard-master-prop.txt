@@ -12,7 +12,7 @@ Master Properties (Storyboard)
     ## (plug-in-gap-storyboard-edit.txt)
 
     File:
-      The name of the stroyboard file.
+      The name of the storyboard file.
       If the dialog was opened via menu "properties" 
       the filename is read only information.
       If invoked via "new" you can specify the filename 
@@ -59,7 +59,7 @@ Master Properties (Storyboard)
       (with the risk of producing noise on overflow)
       
     AreaFormat:
-      This format string triggers automatical logo insertation
+      This format string triggers automatic logo insertion
       for all handled clips of type MOVIE. 
       The area format string shall contain the placeholder %s
       that is replaced by the basename of the currently processed
@@ -74,8 +74,8 @@ Master Properties (Storyboard)
       Frame specific Example:
         AreaFormat: /logo_frames/%s/logo_frame_%06d.xcf
       
-        Procesing of frame 7 of movie clip /videos/MY_VIDEO.AVI
+        Processing of frame 7 of movie clip /videos/MY_VIDEO.AVI
         will paste logo image /logo_frames/MY_VIDEO.AVI/logo_frame_000007.xcf
 
-        Procesing of frame 22 of movie clip /videos/YOUR_VIDEO.MPEG
+        Processing of frame 22 of movie clip /videos/YOUR_VIDEO.MPEG
         will paste logo image /logo_frames/YOUR_VIDEO.MPEG/logo_frame_000022.xcf
