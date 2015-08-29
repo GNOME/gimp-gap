@@ -1213,7 +1213,7 @@ do_dialog (WaterPatternDialog *wcd, waterpattern_val_t *cuvals)
   checkbutton = gtk_check_button_new_with_label (" ");
   g_object_set_data (G_OBJECT (checkbutton), "wcd", wcd);
   wcd->patternCheckbutton = checkbutton;
-  gimp_help_set_help_data (checkbutton, _("ON: create waterpattern cloud layers according options. OFF: Use external pattern layers. "), NULL);
+  gimp_help_set_help_data (checkbutton, _("ON: create waterpattern cloud layers according to options. OFF: Use external pattern layers. "), NULL);
   gtk_widget_show (checkbutton);
   gtk_table_attach( GTK_TABLE(table1), checkbutton, 1, 2, row, row+1,
                     GTK_FILL, 0, 0, 0 );

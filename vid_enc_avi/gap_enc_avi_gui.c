@@ -918,9 +918,9 @@ p_create_shell_window (GapGveAviGlobalParams *gpp)
                    , G_CALLBACK (on_checkbutton_toggled)
                    , &epp->raw_bgr);
   gimp_help_set_help_data (checkbutton
-                   , _("Check if you want to encode frames in BGR (prefered) or RGB colormodel "
+                   , _("Check if you want to encode frames in BGR (preferred) or RGB colormodel "
                        "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
-                       "other players want RGB colromodel for RAW avi data)")
+                       "other players want RGB colormodel for RAW avi data)")
                    , NULL);
 
 #ifdef ENABLE_LIBXVIDCORE

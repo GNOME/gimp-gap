@@ -87,7 +87,7 @@ int global_nargs_avi_enc_par;
 
 static void query(void);
 static void  run (const gchar *name,          /* name of plugin */
-     gint nparams,               /* number of in-paramters */
+     gint nparams,               /* number of in-parameters */
      const GimpParam * param,    /* in-parameters */
      gint *nreturn_vals,         /* number of out-parameters */
      GimpParam ** return_vals);  /* out-parameters */
@@ -211,7 +211,7 @@ query ()
                          " .wav files can be mono (1) or stereo (2channels) audiodata must be 16bit uncompressed."
                          " IMPORTANT:  you should first call "
                          "\"" GAP_PLUGIN_NAME_AVI_PARAMS  "\""
-                         " to set encoder specific paramters, then set the use_rest parameter to 1 to use them."),
+                         " to set encoder specific parameters, then set the use_rest parameter to 1 to use them."),
                          "Wolfgang Hofer (hof@gimp.org)",
                          "Wolfgang Hofer",
                          GAP_VERSION_WITH_DATE,

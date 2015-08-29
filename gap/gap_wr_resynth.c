@@ -161,16 +161,16 @@ query (void)
                           N_("Smart selection eraser."),
                           "Remove an object from an image by extending surrounding texture to cover it. "
                           "The object can be represented by the current selection  "
-                          "or by an alternative selction (provided as parameter alt_selection) "
-                          "If the image, that is refered by the alt_selction drawable_id has a selction "
-                          "then the refred selection is used to identify the object. "
+                          "or by an alternative selection (provided as parameter alt_selection) "
+                          "If the image, that is referred by the alt_selection drawable_id has a selection "
+                          "then the referred selection is used to identify the object. "
                           "otherwise a grayscale copy of the alt_selection drawable_id will be used "
                           "to identify the object that shall be replaced. "
                           "alt_selection value -1 indicates that the selection of the input image shall be used. "
                           "Requires resynthesizer plug-in. (available in the gimp plug-in registry) "
                           "The smart selection eraser wrapper provides ability to run in GIMP_GAP filtermacros "
                           "when processing video frames (typically for removing unwanted logos from video frames)."
-                          "(using the same seed value for all frames is recommanded) ",
+                          "(using the same seed value for all frames is recommended) ",
                           "Wolfgang Hofer",
                           "Wolfgang Hofer",
                           PLUG_IN_VERSION,

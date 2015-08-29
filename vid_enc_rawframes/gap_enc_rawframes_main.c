@@ -189,7 +189,7 @@ query ()
                          " but the framenumber part is replaced by the current framenumber"
                          " (or added automatic if videofile has no number part)"
                          " audiodata is ignored."
-                         "WARNINGS: for proper operation, the handled frames shall refere to single"
+                         " WARNINGS: for proper operation, the handled frames shall refer to single"
                          " video file without any transitions. this allows fetching frames"
                          " as raw data chunks. The chunks are 1:1 written to disc as framefiles."
                          " The resulting raw data frames on disc may be unusable if the raw chunk data"

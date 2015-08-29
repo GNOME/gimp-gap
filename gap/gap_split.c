@@ -477,14 +477,14 @@ p_split_dialog(GapAnimInfo *ainfo_ptr, split_vals_t *valPtr)
   gap_arr_arg_init(&argv[4], GAP_ARR_WGT_TOGGLE);
   argv[4].label_txt = _("Only Visible:");
   argv[4].help_txt  = _("ON: Handle only visible layers.\n"
-                        "OFF: handle all layers and force visibiblity");
+                        "OFF: handle all layers and force visibility");
   argv[4].int_ret   = valPtr->only_visible;
   argv[4].has_default = TRUE;
   argv[4].int_default = 0;
 
   gap_arr_arg_init(&argv[5], GAP_ARR_WGT_TOGGLE);
   argv[5].label_txt = _("Copy properties:");
-  argv[5].help_txt  = _("ON: Copy all image properties (channels, pathes, guides) to all frame images.\n"
+  argv[5].help_txt  = _("ON: Copy all image properties (channels, paths, guides) to all frame images.\n"
                         "OFF: copy only layers without image properties to frame images");
   argv[5].int_ret   = valPtr->copy_properties;
   argv[5].has_default = TRUE;

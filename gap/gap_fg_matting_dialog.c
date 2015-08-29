@@ -445,7 +445,7 @@ do_dialog (FgExtractDialogGuiStuff *guiStuffPtr, GapFgExtractValues *cuvals)
                          " provides a rough user selection "
                          " where WHITE pixels in the tri map defines FOREGROUND (i.e. opaque result) "
                          " BLACK pixels define BACKGROUND (i.e. transparent result)"
-                         " GRAY pixels (value 1 upto 240) are marked as Undefined "
+                         " GRAY pixels (value 1 up to 240) are marked as Undefined "
                          " (i.e. opacity to be processed by this filter.) )")
                        , NULL);
 

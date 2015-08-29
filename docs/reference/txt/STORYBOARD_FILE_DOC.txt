@@ -697,7 +697,7 @@ VID_MOVE_X and VID_MOVE_Y
 VID_FIT_SIZE
   Define how to match input framesize with the target size.
   The target size is typically the size of the resulting video (VID_MASTER_SIZE).
-  except in scenarios where a movepath transistion is active.
+  except in scenarios where a movepath transition is active.
   In this special case the input frame is processed as moving object
   of this transition and the target size refers to the scaled size 
   (preScaleWidth, preScaleHeight) of the recorded moving object.
@@ -710,7 +710,7 @@ VID_FIT_SIZE
   - Zooming may cause additional Scaling. The VID_FIT_SIZE record
     describes the normal Size (where zoom is set to 1.0)
 
-  - In case the input Frame is processed by a movepath transistion
+  - In case the input Frame is processed by a movepath transition
     the target size depends on the size of the moving object and the framesize
     in the xml_paramfile and on the VID_MASTER_SIZE.
     (see VID_MOVE_PATH below)
@@ -1022,7 +1022,7 @@ VID_MOVE_PATH
   (5) nframes           ... duration of the effect
                             in number of frames (integer)
                             In case nframes is greater than total_frames
-                            the transistions of the end
+                            the transitions of the end
                             The duration Value 0 disables move transitions.
   (6) accel             ... an integer value specifiying acceleration characteristic
                             DEFAULT: 0  ** other values are currently ignored 

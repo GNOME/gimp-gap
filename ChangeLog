@@ -1,3 +1,54 @@
+2015-05-29 Wolfgang Hofer <hof@gimp.org>
+
+merged fixes and new move path merge feature from gap-2-8 branch
+  move path merge down features, 
+  fixes for 
+    #699207 (automake version check), 
+    #732837 (typos)
+  
+ * autogen.sh  
+ * docs/reference/txt/plug-in-gap-onionskin-configuration.txt  
+ * docs/reference/txt/STORYBOARD_FILE_DOC.txt  
+ * gap/gap_apcl_lib.h  
+ * gap/gap_blend_fill_main.c  
+ * gap/gap_colormask_dialog.c  
+ * gap/gap_decode_mplayer.c  
+ * gap/gap_detail_align_exec.c  
+ * gap/gap_detail_tracking_main.c  
+ * gap/gap_fg_matting_dialog.c  
+ * gap/gap_filter_foreach.c  
+ * gap/gap_image.c  
+ * gap/gap_image.h  
+ * gap/gap_layer_copy.c  
+ * gap/gap_layer_copy.h  
+ * gap/gap_lib.c  
+ * gap/gap_main.c  
+ * gap/gap_morph_dialog.c  
+ * gap/gap_morph_tween_dialog.c  
+ * gap/gap_mov_dialog.c  
+ * gap/gap_mov_dialog.h  
+ * gap/gap_mov_exec.c  
+ * gap/gap_mov_xml_par.c  
+ * gap/gap_mpege.c  
+ * gap/gap_onion_dialog.c  
+ * gap/gap_onion_main.c  
+ * gap/gap_range_ops.c  
+ * gap/gap_split.c  
+ * gap/gap_story_att_trans_dlg.c  
+ * gap/gap_story_dialog.c  
+ * gap/gap_story_file.c  
+ * gap/gap_story_properties.c  
+ * gap/gap_story_render_processor.c  
+ * gap/gap_video_index_creator.c  
+ * gap/gap_water_pattern.c  
+ * gap/gap_wr_resynth.c  
+ * vid_common/gap_cme_main.c  
+ * vid_enc_avi/gap_enc_avi_gui.c  
+ * vid_enc_avi/gap_enc_avi_main.c  
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c  
+ * vid_enc_rawframes/gap_enc_rawframes_main.c  
+
+
 2015-05-14 Wolfgang Hofer <hof@gimp.org>
 
 imported all GIMP-2.8 related changes

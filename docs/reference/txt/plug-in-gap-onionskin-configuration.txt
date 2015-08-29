@@ -198,7 +198,7 @@ Onionskin Functions:
        (see above)
   
   Toggle Visibility:
-       Turn visibilty on (or off) for all onionlayers.
+       Turn visibility on (or off) for all onionlayers.
 
   Delete Onion Layers:
        Remove all onionlayers from the current frame.

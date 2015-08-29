@@ -64,6 +64,77 @@ check_version ()
     fi
 }
 
+# Usage:
+#     compare_versions MIN_VERSION ACTUAL_VERSION
+# returns true if ACTUAL_VERSION >= MIN_VERSION
+compare_versions() {
+    ch_min_version=$1
+    ch_actual_version=$2
+    ch_status=0
+    IFS="${IFS=	 }"; ch_save_IFS="$IFS"; IFS="."
+    set $ch_actual_version
+    for ch_min in $ch_min_version; do
+        ch_cur=`echo $1 | sed 's/[^0-9].*$//'`; shift # remove letter suffixes
+        if [ -z "$ch_min" ]; then break; fi
+        if [ -z "$ch_cur" ]; then ch_status=1; break; fi
+        if [ $ch_cur -gt $ch_min ]; then break; fi
+        if [ $ch_cur -lt $ch_min ]; then ch_status=1; break; fi
+    done
+    IFS="$ch_save_IFS"
+    return $ch_status
+}
+
+# Usage:
+#     version_check PACKAGE VARIABLE CHECKPROGS MIN_VERSION SOURCE
+# checks to see if the package is available
+version_check() {
+    vc_package=$1
+    vc_variable=$2
+    vc_checkprogs=$3
+    vc_min_version=$4
+    vc_source=$5
+    vc_status=1
+    local ${vc_variable}_VERSION
+
+    vc_checkprog=`eval echo "\\$$vc_variable"`
+    if [ -n "$vc_checkprog" ]; then
+	echo "using $vc_checkprog for $vc_package"
+	return 0
+    fi
+
+    echo "checking for $vc_package >= $vc_min_version..."
+    for vc_checkprog in $vc_checkprogs; do
+	echo $ECHO_N "  testing $vc_checkprog... " $ECHO_C
+	if $vc_checkprog --version < /dev/null > /dev/null 2>&1; then
+	    vc_actual_version=`$vc_checkprog --version | head -n 1 | \
+                               sed 's/^.*[ 	]\([0-9.]*[a-z]*\).*$/\1/'`
+	    if compare_versions $vc_min_version $vc_actual_version; then
+		echo "found $vc_actual_version"
+		# set variables
+		eval "$vc_variable=$vc_checkprog; \
+			${vc_variable}_VERSION=$vc_actual_version"
+		vc_status=0
+		break
+	    else
+		echo "too old (found version $vc_actual_version)"
+	    fi
+	else
+	    echo "not found."
+	fi
+    done
+    if [ "$vc_status" != 0 ]; then
+	echo "***Error***: You must have $vc_package >= $vc_min_version installed"
+	echo "  to build $PKG_NAME.  Download the appropriate package for"
+	echo "  from your distribution or get the source tarball at"
+        echo "    $vc_source"
+	echo
+	## exit $vc_status
+        DIE=1
+    fi
+    return $vc_status
+}
+
+
 echo
 echo "I am testing that you have the required versions of autoconf,"
 echo "automake and glib-gettextize and intltoolize."
@@ -87,36 +158,16 @@ else
 fi
 
 
+
 echo -n "checking for automake >= $AUTOMAKE_REQUIRED_VERSION ... "
-if (automake-1.13 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.13
-   ACLOCAL=aclocal-1.13
-elif (automake-1.12 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.12
-   ACLOCAL=aclocal-1.12
-elif (automake-1.11 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.11
-   ACLOCAL=aclocal-1.11
-elif (automake-1.10 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.10
-   ACLOCAL=aclocal-1.10
-elif (automake-1.9 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.9
-   ACLOCAL=aclocal-1.9
-elif (automake-1.8 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.8
-   ACLOCAL=aclocal-1.8
-elif (automake-1.7 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.7
-   ACLOCAL=aclocal-1.7
-else
-    echo
-    echo "  You must have automake 1.7 or newer installed to compile $PROJECT."
-    echo "  Download the appropriate package for your distribution,"
-    echo "  or get the source tarball at ftp://ftp.gnu.org/pub/gnu/automake/"
-    echo
-    DIE=1
-fi
+
+version_check automake AUTOMAKE automake $AUTOMAKE_REQUIRED_VERSION \
+    "http://ftp.gnu.org/pub/gnu/automake/automake-$AUTOMAKE_REQUIRED_VERSION.tar.xz"
+
+# aclocal required version must be the same as automake required version
+version_check aclocal ACLOCAL aclocal $AUTOMAKE_REQUIRED_VERSION \
+    "http://ftp.gnu.org/pub/gnu/automake/automake-$AUTOMAKE_REQUIRED_VERSION.tar.xz"
+
 
 if test x$AUTOMAKE != x; then
     VER=`$AUTOMAKE --version \

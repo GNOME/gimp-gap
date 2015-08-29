@@ -232,7 +232,7 @@ p_visibilty_restore(gint32 image_id, gint nlayers, int *visible_tab, char *plugi
   }
   else
   {
-    g_message(_("Error: Plugin %s has changed the number of layers from %d to %d\ncould not restore Layer visibilty.\n"),
+    g_message(_("Error: Plugin %s has changed the number of layers from %d to %d\ncould not restore Layer visibility.\n"),
             plugin_name, (int)nlayers, (int)l_nlayers2);
   }
 

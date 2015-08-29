@@ -731,7 +731,7 @@ gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr, GapMorp
                               _("Num Workpoints:"), SCALE_WIDTH, 7,
                               mgpp->numWorkpoints, 1, 5000, 1.0, 10.0, 0,
                               TRUE, 0, 0,
-                              _("Number of workpoints to be generated par processed frame"),
+                              _("Number of workpoints to be generated per processed frame"),
                               NULL);
   g_signal_connect (adj, "value-changed",
                     G_CALLBACK (gimp_int_adjustment_update),
@@ -788,7 +788,7 @@ gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr, GapMorp
                               mgpp->gravity_intensity, 0.0, 5.0, 0.1, 0.1, 1,
                               TRUE, 0, 0,
                               _("INTENSITY attribute value to be written to the generated workpoint file. "
-                                "value 0 turns off intensity desceding deformation, "
+                                "value 0 turns off intensity descending deformation, "
                                 "morph processing will use linear deform action inside the deform radius"),
                               NULL);
   g_signal_connect (adj, "value-changed",
@@ -1299,7 +1299,7 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
       gtk_entry_set_text(GTK_ENTRY(entry), &mgpp->tween_subdir[0]);
     }
     gtk_table_attach(GTK_TABLE(table), entry, 1, 2, row, row + 1, GTK_FILL, GTK_FILL | GTK_EXPAND, 4, 0);
-    gimp_help_set_help_data(entry, _("Name of a (Sub)directoy to save copies of processed frames "
+    gimp_help_set_help_data(entry, _("Name of a (Sub)directory to save copies of processed frames "
                                      "and generated tweens. "
                                      "Note that tweens are created via simple fade operations "
                                      "when no workpointfile for the processed frame is available. "
@@ -1335,7 +1335,7 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
   /* the master progress bar */
 
   /* master progress */
-  label = gtk_label_new (_("Create Tweenfame(s):"));
+  label = gtk_label_new (_("Create Tweenframe(s):"));
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
                     GTK_FILL, GTK_FILL, 4, 0);

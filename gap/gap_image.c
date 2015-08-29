@@ -332,10 +332,10 @@ gap_image_merge_to_specified_layer(gint32 ref_layer_id, GimpMergeType mergemode)
  * -------------------------------------------------------
  * create a selection in the specified image_id.
  * The selection is a scaled copy of the selection in another image,
- * refered by ref_drawable_id, or a Grayscale copy of the specified ref_drawable_id
- * (in case the refered image has no selection or the flag force_from_drawable is TRUE)
+ * referred by ref_drawable_id, or a Grayscale copy of the specified ref_drawable_id
+ * (in case the referred image has no selection or the flag force_from_drawable is TRUE)
  *
- *  - operates on a duplicate of the image refered by ref_drawable_id.
+ *  - operates on a duplicate of the image referred by ref_drawable_id.
  *  - this duplicate is scaled to same size as specified image_id
  *
  * return TRUE in case the selection was successfully created .
@@ -360,7 +360,7 @@ gap_image_set_selection_from_selection_or_drawable(gint32 image_id, gint32 ref_d
 
   if (ref_image_id < 0)
   {
-    printf("ref_drawable_id does not refere to a valid image layer_id:%d\n", (int)ref_drawable_id);
+    printf("ref_drawable_id does not refer to a valid image layer_id:%d\n", (int)ref_drawable_id);
     return (FALSE);
   }
 
@@ -369,7 +369,7 @@ gap_image_set_selection_from_selection_or_drawable(gint32 image_id, gint32 ref_d
   dup_image_id = gimp_image_duplicate(ref_image_id);
   if (dup_image_id < 0)
   {
-    printf("duplicating of image failed, refered souce image_id:%d\n", (int)ref_image_id);
+    printf("duplicating of image failed, referred souce image_id:%d\n", (int)ref_image_id);
     return (FALSE);
   }
   /* clear undo stack */
@@ -391,7 +391,7 @@ gap_image_set_selection_from_selection_or_drawable(gint32 image_id, gint32 ref_d
   has_selection  = gimp_selection_bounds(ref_image_id, &non_empty, &x1, &y1, &x2, &y2);
   if ((has_selection) && (non_empty) && (force_from_drawable != TRUE))
   {
-    /* use scaled copy of the already exisating selection in the refered image */
+    /* use scaled copy of the already exisating selection in the referred image */
     work_drawable_id = gimp_image_get_selection(dup_image_id);
   }
   else
@@ -988,7 +988,7 @@ gap_image_find_or_create_group_layer(gint32 image_id
           if(gap_debug)
           {
             printf("ERROR: gap_image_find_or_create_group_layer the path\n  %s\n"
-                   "  refers to an already exsiting item that is NOT a GROUP\n"
+                   "  refers to an already existing item that is NOT a GROUP\n"
                    , group_name_path_string
                    );
           }
@@ -1285,7 +1285,7 @@ gap_image_get_parentpositions_as_int_stringlist(gint32 drawable_id)
  *    otherwise return the list of layers of the nested group
  *    where  parentpositions specifies a list of integer stackpositions
  *    from toplevel to the deepest nested group delimited by "/"
- *    note that all specified parentpositions MUST refere to group layers.
+ *    note that all specified parentpositions MUST refer to group layers.
  * return NULL in case no matching layerstack was found in the image.
  */
 gint32 *
@@ -1390,3 +1390,66 @@ gap_image_get_layers_at_parentpositions(gint32 image_id, gint *nlayers, const ch
 
 
 } /* end gap_image_get_layers_at_parentpositions */
+
+
+/* -----------------------------
+ * gap_image_get_the_layer_below
+ * -----------------------------
+ * returns the id of the layer below the specified layerId
+ *
+ * returns -1 in case there is no layer below the specified layerId
+ *            Note that -1 is alse returned 
+ *            a) in case the specified layerId is not a valid layer (or not attached to an image)
+ *            b) in case the specified layerId is on bottom of a layergroup
+ *            c) in case the specified layerId is on bottom of the toplevel layerstack
+ */
+gint32
+gap_image_get_the_layer_below(gint32 layerId)
+{
+  gint32        lowerLayerId;
+  gint32        l_parent_id;
+  gint          l_nlayers;
+  gint32       *l_layers_list;
+  gint          l_ii;
+
+  lowerLayerId = -1;
+  l_parent_id = 0;
+  if (layerId >= 0)
+  {
+    l_parent_id = gimp_item_get_parent(layerId);
+  }
+  
+  if (l_parent_id > 0)
+  {
+    l_layers_list = gimp_item_get_children(l_parent_id, &l_nlayers);
+  }
+  else
+  {
+    /* use toplevel layers list of the image */
+    l_layers_list = gimp_image_get_layers(gimp_item_get_image(layerId), &l_nlayers);
+  }
+
+
+  if (l_layers_list == NULL)
+  {
+    return (-1);
+  }
+
+  for(l_ii = 0; l_ii < l_nlayers; l_ii++)
+  {
+    if (l_layers_list[l_ii] == layerId)
+    {
+      gint l_pos_below = l_ii + 1;
+      if (l_pos_below < l_nlayers)
+      {
+        lowerLayerId = l_layers_list[l_pos_below];
+        break;
+      }
+    }
+  }
+  g_free(l_layers_list);
+  
+  
+  return (lowerLayerId);
+  
+}  /* end gap_image_get_the_layer_below */

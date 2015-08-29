@@ -3952,7 +3952,7 @@ gap_morph_create_dialog(GapMorphGUIParams *mgup)
   gtk_widget_set_size_request (spinbutton, 80, -1);
   gimp_help_set_help_data (spinbutton, _("Locate Shaperadius in pixels."
                                          " Defines shape size as area around workpoint to be compared "
-                                         " when loacting corresponding coordinate"
+                                         " when locating corresponding coordinate"
                                          "(Not relevant for rendering)")
                                          , NULL);
   g_signal_connect (G_OBJECT (adj), "value_changed"

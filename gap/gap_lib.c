@@ -2166,8 +2166,8 @@ gap_lib_save_non_xcf_dialog(char *key_gimprc, char *lower_extension)
   argv[0].label_txt = g_strdup_printf(_("You are using another file format than xcf.\n"
                         "This dialog configures how to handle exchanges of\n"
                         "the current frame image (for frames with extension %s)\n"
-                        "Note that automatical save on frame change just works with XCF\n"
-                        "but automatical overwrite (via export) to other formats\n"
+                        "Note that automatic save on frame change just works with XCF\n"
+                        "but automatic overwrite (via export) to other formats\n"
                         "typically results in loss of layers and other information.")
                         , lower_extension);
 

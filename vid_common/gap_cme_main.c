@@ -153,7 +153,7 @@ query ()
                          " The videoformat is defined with vid_enc_plugin parameter. The specified plugin "
                          " is called with the parameters specified in the dialog. for noninteractive calls"
                          " default values will be used. (you may call the desired plugin directly if you"
-                         " want to specify non-interacive parameters"),
+                         " want to specify non-interactive parameters"),
                          "Wolfgang Hofer (hof@gimp.org)",
                          "Wolfgang Hofer",
                          GAP_VERSION_WITH_DATE,

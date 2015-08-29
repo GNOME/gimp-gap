@@ -2498,7 +2498,7 @@ p_pw_colormask_file_filesel_button_cb ( GtkWidget *w
   }
   if(pw->stb_elem_refptr == NULL) { return; }
 
-  filesel = gtk_file_selection_new ( _("Set Colormark Parmeter Filename"));
+  filesel = gtk_file_selection_new ( _("Set Colormask Parameter Filename"));
   pw->pw_colormask_file_filesel = filesel;
 
   gtk_window_set_position (GTK_WINDOW (filesel), GTK_WIN_POS_MOUSE);

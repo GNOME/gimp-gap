@@ -9513,7 +9513,7 @@ p_tabw_master_prop_dialog(GapStbTabWidgets *tabw, gboolean new_flag)
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_OPT_ENTRY);
   argv[l_ii].label_txt = _("Decoder:");
   argv[l_ii].help_txt  = _("Select preferred video decoder library, "
-                       "or leave empty for automatic selection."
+                       "or leave empty for automatic selection. "
                        "The decoder setting is only relevant if "
                        "videoclips are used (but not for frames "
                        "that are imagefiles)");

@@ -148,6 +148,11 @@
 #define GAP_MOVPATH_XML_TOKEN_ACC_PERSPECTIVE        "acc_perspective"
 #define GAP_MOVPATH_XML_TOKEN_ACC_SEL_FEATHER_RADIUS "acc_sel_feather_radius"
 
+#define GAP_MOVPATH_XML_TOKEN_MERGE_OPTIONS                 "merge_options"
+#define GAP_MOVPATH_XML_TOKEN_MERGE_MODE_OBJECT             "merge_mode_object"
+#define GAP_MOVPATH_XML_TOKEN_MERGE_MODE_TWEEN_LAYER        "merge_mode_tween"
+#define GAP_MOVPATH_XML_TOKEN_MERGE_MODE_TRACE_LAYER        "merge_mode_trace"
+#define GAP_MOVPATH_XML_TOKEN_MERGE_TARGET                  "merge_target"
 
 
 
@@ -192,6 +197,11 @@ static void  p_xml_parse_element_trace(const gchar         *element_name,
     GapMovXmlUserData   *userDataPtr,
     gint                 count);
 static void  p_xml_parse_element_moving_object(const gchar         *element_name,
+    const gchar        **attribute_names,
+    const gchar        **attribute_values,
+    GapMovXmlUserData   *userDataPtr,
+    gint                 count);
+static void  p_xml_parse_element_merge_options(const gchar         *element_name,
     const gchar        **attribute_names,
     const gchar        **attribute_values,
     GapMovXmlUserData   *userDataPtr,
@@ -248,6 +258,7 @@ static  JmpTableElement    jmpTableElement[] = {
  ,{0, FALSE, GAP_MOVPATH_XML_TOKEN_BLUEBOX_PARAMETERS,      p_xml_parse_element_bluebox_parameters }
  ,{0, TRUE,  GAP_MOVPATH_XML_TOKEN_CONTROLPOINTS,           p_xml_parse_element_controlpoints }
  ,{0, TRUE,  GAP_MOVPATH_XML_TOKEN_CONTROLPOINT,            p_xml_parse_element_controlpoint }
+ ,{0, FALSE, GAP_MOVPATH_XML_TOKEN_MERGE_OPTIONS,           p_xml_parse_element_merge_options }
  ,{0, FALSE, NULL,                                          NULL }
 };
 
@@ -327,7 +338,23 @@ static const GEnumValue valuesGapBlueboxThresMode[] =
   { 0,                             NULL, NULL }
 };
 
+static const GEnumValue valuesGapMovMergePostProcessingMode[] =
+{
+  { GAP_MPP_MODE_KEEP,            "GAP_MPP_MODE_KEEP", NULL },
+  { GAP_MPP_MODE_MERGE_DOWN,      "GAP_MPP_MODE_MERGE_DOWN", NULL },
+  { GAP_MPP_MODE_DELETE,          "GAP_MPP_MODE_DELETE", NULL },
+  { 0,                             NULL, NULL }
+};
 
+static const GEnumValue valuesGapMovMergePostProcessingTargetMode[] =
+{
+  { GAP_MPP_TARGET_NEW_LAYER,                       "GAP_MPP_TARGET_NEW_LAYER", NULL },
+  { GAP_MPP_TARGET_LOWER_LAYER,                     "GAP_MPP_TARGET_LOWER_LAYER", NULL },
+  { GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_BLACK, "GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_BLACK", NULL },
+  { GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_WHITE, "GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_WHITE", NULL },
+  { GAP_MPP_TARGET_LOWER_LAYERS_MASK_ADD,           "GAP_MPP_TARGET_LOWER_LAYERS_MASK_ADD", NULL },
+  { 0,                                              NULL, NULL }
+};
 
 /*
  * XML PARSER procedures
@@ -436,6 +463,43 @@ p_xml_parse_value_GapBlueboxThresMode(const gchar *attribute_value, GapBlueboxTh
 }  /* end p_xml_parse_value_GapBlueboxThresMode */
 
 
+/* -----------------------------------------------
+ * p_xml_parse_value_GapMovMergePostProcessingMode
+ * -----------------------------------------------
+ */
+static gboolean
+p_xml_parse_value_GapMovMergePostProcessingMode(const gchar *attribute_value, GapMovMergePostProcessingMode *valDestPtr)
+{
+  gboolean isOk;
+  gint     value;
+
+  isOk = gap_xml_parse_EnumValue_as_gint(attribute_value, &value, &valuesGapMovMergePostProcessingMode[0]);
+  if(isOk)
+  {
+    *valDestPtr = value;
+  }
+  return (isOk);
+
+}  /* end p_xml_parse_value_GapMovMergePostProcessingMode */
+
+/* -----------------------------------------------------
+ * p_xml_parse_value_GapMovMergePostProcessingTargetMode
+ * -----------------------------------------------------
+ */
+static gboolean
+p_xml_parse_value_GapMovMergePostProcessingTargetMode(const gchar *attribute_value, GapMovMergePostProcessingTargetMode *valDestPtr)
+{
+  gboolean isOk;
+  gint     value;
+
+  isOk = gap_xml_parse_EnumValue_as_gint(attribute_value, &value, &valuesGapMovMergePostProcessingTargetMode[0]);
+  if(isOk)
+  {
+    *valDestPtr = value;
+  }
+  return (isOk);
+
+}  /* end p_xml_parse_value_GapMovMergePostProcessingTargetMode */
 
 
 /* --------------------------------------
@@ -696,6 +760,49 @@ p_xml_parse_element_moving_object(const gchar         *element_name,
   }
 }   /* end  p_xml_parse_element_moving_object */
 
+
+/* --------------------------------------
+ * p_xml_parse_element_merge_options
+ * --------------------------------------
+ */
+static void
+p_xml_parse_element_merge_options(const gchar         *element_name,
+    const gchar        **attribute_names,
+    const gchar        **attribute_values,
+    GapMovXmlUserData   *userDataPtr,
+    gint                 count)
+{
+  const gchar **name_cursor = attribute_names;
+  const gchar **value_cursor = attribute_values;
+
+  if(count > 0)
+  {
+    userDataPtr->isParseOk = FALSE;
+  }
+
+  while ((*name_cursor) && (userDataPtr->isParseOk))
+  {
+    if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_MERGE_MODE_OBJECT) == 0)
+    {
+      userDataPtr->isParseOk = p_xml_parse_value_GapMovMergePostProcessingMode(*value_cursor, &userDataPtr->pvals->mergeModeRenderedObject);
+    }
+    else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_MERGE_MODE_TWEEN_LAYER) == 0)
+    {
+      userDataPtr->isParseOk = p_xml_parse_value_GapMovMergePostProcessingMode(*value_cursor, &userDataPtr->pvals->mergeModeRenderedTweenLayer);
+    }
+    else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_MERGE_MODE_TRACE_LAYER) == 0)
+    {
+      userDataPtr->isParseOk = p_xml_parse_value_GapMovMergePostProcessingMode(*value_cursor, &userDataPtr->pvals->mergeModeRenderedTraceLayer);
+    }
+    else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_MERGE_TARGET) == 0)
+    {
+      userDataPtr->isParseOk = p_xml_parse_value_GapMovMergePostProcessingTargetMode(*value_cursor, &userDataPtr->pvals->mergeTarget);
+    }
+
+    name_cursor++;
+    value_cursor++;
+  }
+}   /* end  p_xml_parse_element_merge_options */
 
 /* --------------------------------------
  * p_xml_parse_element_bluebox_parameters
@@ -1499,6 +1606,7 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       gap_xml_write_gint_as_gboolean_value(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_FORCE_VISIBLE, pvals->src_force_visible);
       gap_xml_write_gint_as_gboolean_value(l_fp, GAP_MOVPATH_XML_TOKEN_CLIP_TO_IMG, pvals->clip_to_img);
       gap_xml_write_gint_as_gboolean_value(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_APPLY_BLUEBOX, pvals->src_apply_bluebox);
+
       fprintf(l_fp, "\n");
 
       /* attributes for applying bluebox transparency processing */
@@ -1541,6 +1649,20 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
     }
 
     fprintf(l_fp, "\n");
+
+
+    fprintf(l_fp, "  <%s ", GAP_MOVPATH_XML_TOKEN_MERGE_OPTIONS);
+    /* write merge postprocessing options */
+    gap_xml_write_EnumValue(l_fp, GAP_MOVPATH_XML_TOKEN_MERGE_MODE_OBJECT, pvals->mergeModeRenderedObject, &valuesGapMovMergePostProcessingMode[0]);
+    gap_xml_write_EnumValue(l_fp, GAP_MOVPATH_XML_TOKEN_MERGE_MODE_TWEEN_LAYER, pvals->mergeModeRenderedTweenLayer, &valuesGapMovMergePostProcessingMode[0]);
+    gap_xml_write_EnumValue(l_fp, GAP_MOVPATH_XML_TOKEN_MERGE_MODE_TRACE_LAYER, pvals->mergeModeRenderedTraceLayer, &valuesGapMovMergePostProcessingMode[0]);
+    fprintf(l_fp, "\n    ");
+    gap_xml_write_EnumValue(l_fp, GAP_MOVPATH_XML_TOKEN_MERGE_TARGET, pvals->mergeTarget, &valuesGapMovMergePostProcessingTargetMode[0]);
+    fprintf(l_fp, "\n");
+    fprintf(l_fp, "    >\n");
+    fprintf(l_fp, "  </%s>\n", GAP_MOVPATH_XML_TOKEN_MERGE_OPTIONS);
+    fprintf(l_fp, "\n");
+
 
     /* controlpoints */
 

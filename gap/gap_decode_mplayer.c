@@ -541,7 +541,7 @@ p_mplayer_dialog   (GapMPlayerParams *gpp)
   ii++; ii_jpg_optimize = ii;
   gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_INT);
   argv[ii].label_txt = _("Jpeg Optimize:");
-  argv[ii].help_txt  = _("optimization factor"
+  argv[ii].help_txt  = _("Optimization factor "
                         "(is ignored when other formats are used)");
   argv[ii].constraint = TRUE;
   argv[ii].int_min    = 0;
@@ -552,7 +552,7 @@ p_mplayer_dialog   (GapMPlayerParams *gpp)
   ii++; ii_jpg_smooth = ii;
   gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_INT);
   argv[ii].label_txt = _("Jpeg Smooth:");
-  argv[ii].help_txt  = _("Smooth factor"
+  argv[ii].help_txt  = _("Smooth factor "
                         "(is ignored when other formats are used)");
   argv[ii].constraint = TRUE;
   argv[ii].int_min    = 0;
@@ -563,14 +563,14 @@ p_mplayer_dialog   (GapMPlayerParams *gpp)
   ii++; ii_jpg_progressive = ii;
   gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_TOGGLE);
   argv[ii].label_txt = _("Jpeg Progressive:");
-  argv[ii].help_txt  = _("Enable progressive jpeg encoding"
+  argv[ii].help_txt  = _("Enable progressive jpeg encoding "
                         "(is ignored when other formats are used)");
   argv[ii].int_ret   = gpp->jpg_progressive;
 
   ii++; ii_jpg_baseline = ii;
   gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_TOGGLE);
   argv[ii].label_txt = _("Jpeg Baseline:");
-  argv[ii].help_txt  = _("Enable baseline jpeg encoding"
+  argv[ii].help_txt  = _("Enable baseline jpeg encoding "
                         "(is ignored when other formats are used)");
   argv[ii].int_ret   = gpp->jpg_baseline;
 

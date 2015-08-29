@@ -219,8 +219,8 @@ static void query (void)
                           "Fill selected area by blending surrounding colors to cover it. "
                           "The fill area can be represented by the current selection  "
                           "or by an alternative selction (provided as parameter altSelection) "
-                          "If the image, that is refered by the altSelection drawable_id has a selection "
-                          "then the refered selection is used to identify the fill area. "
+                          "If the image, that is referred by the altSelection drawable_id has a selection "
+                          "then the referred selection is used to identify the fill area. "
                           "otherwise a grayscale copy of the altSelection drawable_id will be used "
                           "to identify the area that shall be filled. "
                           "altSelection value -1 indicates that the current selection of the input image shall be used. "
@@ -1485,7 +1485,7 @@ p_check_exec_condition_and_set_ok_sesitivity(GuiStuff *guiStuffPtr)
       else
       {
         gtk_label_set_text(GTK_LABEL(guiStuffPtr->msg_label)
-                        , _("SVG file does not exist (use Save Pats button to create)."));
+                        , _("SVG file does not exist (use Save Paths button to create)."));
       }
     }
     else
