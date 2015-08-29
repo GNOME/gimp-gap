@@ -2713,7 +2713,7 @@ p_scan_gint32(char *ptr, gint32 min, gint32 max, GapStoryBoard *stb)
 
       if(stb)
       {
-        l_errtxt = g_strdup_printf(_("illegal number: %s (valid range is %d upto %d)\n")
+        l_errtxt = g_strdup_printf(_("illegal number: %s (valid range is %d up to %d)\n")
                                   , ptr, (int)min, (int)max);
         p_set_stb_error(stb, l_errtxt);
         g_free(l_errtxt);
@@ -2752,7 +2752,7 @@ p_scan_gdouble(char *ptr, gdouble min, gdouble max, GapStoryBoard *stb)
 
       if(stb)
       {
-        l_errtxt = g_strdup_printf(_("illegal number: %s (valid range is %.3f upto %.3f)")
+        l_errtxt = g_strdup_printf(_("illegal number: %s (valid range is %.3f up to %.3f)")
                                   , ptr, (float)min, (float)max);
         p_set_stb_error(stb, l_errtxt);
         g_free(l_errtxt);

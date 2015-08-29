@@ -922,10 +922,10 @@ p_vindex_dialog(VindexValues *val_ptr)
   static char *radio_modes[VR_DECODERS_SIZE]  = {"libavformat", "libmpeg3" };
   static char *mode_args[MODE_SIZE]    = { "QUICK", "SMART", "FULLSCAN" };
   static char *mode_help[MODE_SIZE]    = { N_("Conditional video index creation, "
-                                              " based on a few quick timcode probereads.\n"
+                                              " based on a few quick timecode probereads.\n"
                                               "Skip index creation if native seek seems possible\n"
                                               "\nWARNING: positioning via native seek may not work exact in case critical "
-                                              "timecode steps were not detected in the quick test)")
+                                              "timecode steps were not detected in the quick test.")
                                          , N_("Conditional video index creation, "
                                               "based on probereads for the specified percentage of frames.\n"
                                               "Skip index creation if native seek seems possible "
@@ -991,7 +991,7 @@ p_vindex_dialog(VindexValues *val_ptr)
   ii++; gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_FLT); ii_percentage_smart_mode = ii;
   argv[ii].constraint = TRUE;
   argv[ii].label_txt = _("Percentage:");
-  argv[ii].help_txt  = _("stop scan after percentage reached and no unplausible timecode was detected so far (only relevant in smart mode)");
+  argv[ii].help_txt  = _("stop scan after percentage reached and no implausible timecode was detected so far (only relevant in smart mode)");
   argv[ii].flt_min   =  1.0;
   argv[ii].flt_max   = (gint)100.0;
   argv[ii].flt_step  =  1.0;

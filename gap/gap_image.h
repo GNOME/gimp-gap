@@ -99,6 +99,7 @@ gint32  gap_image_merge_group_layer(gint32 image_id,
 char *   gap_image_get_parentpositions_as_int_stringlist(gint32 drawable_id);
 gint32 * gap_image_get_layers_at_parentpositions(gint32 image_id, gint *nlayers, const char *parentpositions);
 
+gint32   gap_image_get_the_layer_below(gint32 layerId);
 
 #endif
 

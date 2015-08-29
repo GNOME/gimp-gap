@@ -3426,7 +3426,7 @@ p_framerange_list_from_storyboard(const char *storyboard_file
     *frame_count = 0;
     sterr->currline = "(eof)";
 
-    p_set_stb_error(sterr, _("No Frames or Images found ...."));
+    p_set_stb_error(sterr, _("No Frames or Images found ..."));
     /* note: this can occure if there are non empty sub sections
      *       but the MAIN section is empty.
      *       (in such a case nothing will be rendered).

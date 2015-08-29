@@ -266,7 +266,7 @@ static void query (void)
 
   /* the  installation of the xml based aligner plugin */
   gimp_install_procedure (GAP_DETAIL_TRACKING_XML_ALIGNER_PLUG_IN_NAME,
-                          "Exact Align Layer via transformation according to current phase of detail tracking (recorded in XML file) .",
+                          "Exact Align Layer via transformation according to current phase of detail tracking (recorded in XML file).",
                           "This filter tranforms the specified layer. "
                           "It uses the relevant controlpoint (that matches the framePhase parameter) in the recorded XML file as input.  "
                           "and calculates offsts, scaling and rotation to transform the layer in a way that the points p1x p1y p2x p2y "

@@ -1173,7 +1173,7 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gimp_help_set_help_data(oni__spinbutton_opacity_delta
-                         , _("Descending opacity for 2.nd onionskin layer")
+                         , _("Descending opacity for 2nd onionskin layer")
                          , NULL);
 
   tab1_row++;

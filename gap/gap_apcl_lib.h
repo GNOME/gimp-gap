@@ -99,9 +99,9 @@ static int apcl_have_memory_playback(void) { return (1); }
 
 /* static dummy implementations for (newer) features that are NOT supported by wavplay */
 static  int apcl_have_memory_playback(void) { return (0); }
-static  int apcl_bits(int flags, PCL_ErrFunc erf,int bits) { return (1); }
-static  int apcl_memory_buffer(char *buffer, long buffer_len, PCL_ErrFunc erf)  { return (1); }
-static  int apcl_channels(int flags, PCL_ErrFunc erf, int channels) { return (1); }
+static  int apcl_bits(int flags, APCL_ErrFunc erf,int bits) { return (1); }
+static  int apcl_memory_buffer(char *buffer, long buffer_len, APCL_ErrFunc erf)  { return (1); }
+static  int apcl_channels(int flags, APCL_ErrFunc erf, int channels) { return (1); }
 
 /* apcl_volume: volume must be a value between 0.0 and 1.0 */
 extern int   apcl_volume(double volume, int flags,APCL_ErrFunc erf);

@@ -1276,7 +1276,7 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
   {
     if (advals.pointOrder == POINT_ORDER_MODE_31_42)
     {
-      g_message(_("This filter requires a current path with 4 points,"
+      g_message(_("This filter requires a current path with 4 points, "
                 "where point 1 and 2 mark reference positions "
                 "and point 3 and 4 mark positions in the target layer."
                 "It transforms the target layer in a way that "
@@ -1287,7 +1287,7 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
     }
     else
     {
-      g_message(_("This filter requires a current path with 4 points,"
+      g_message(_("This filter requires a current path with 4 points, "
                 "where point 1 and 3 mark reference positions "
                 "and point 2 and 4 mark positions in the target layer."
                 "It transforms the target layer in a way that "

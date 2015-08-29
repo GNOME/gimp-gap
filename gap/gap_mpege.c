@@ -432,7 +432,7 @@ int p_mpege_dialog(GapAnimInfo *ainfo_ptr, t_mpg_par *mp_ptr, GapMpegEncoderType
 
      gap_arr_arg_init(&argv[10], GAP_ARR_WGT_OPTIONMENU);
      argv[10].label_txt = _("P-Search:");
-     argv[10].help_txt  = _("Search algorithmus used for P-frames");
+     argv[10].help_txt  = _("Search algorithm used for P-frames");
      argv[10].radio_argc = 3;
      argv[10].radio_argv = psearch_args;
      argv[10].radio_ret  = 1;
@@ -441,7 +441,7 @@ int p_mpege_dialog(GapAnimInfo *ainfo_ptr, t_mpg_par *mp_ptr, GapMpegEncoderType
 
      gap_arr_arg_init(&argv[11], GAP_ARR_WGT_OPTIONMENU);
      argv[11].label_txt = _("B-Search:");
-     argv[11].help_txt  = _("Search algorithmus used for B-frames");
+     argv[11].help_txt  = _("Search algorithm used for B-frames");
      argv[11].radio_argc = 3;
      argv[11].radio_argv = bsearch_args;
      argv[11].radio_ret  = 1;

@@ -572,7 +572,7 @@ p_convert_dialog(GapAnimInfo *ainfo_ptr,
   gap_arr_arg_init(&argv[5], GAP_ARR_WGT_OPTIONMENU);
   argv[5].label_txt = _("Imagetype:");
   argv[5].help_txt  = _("Convert to another imagetype, or keep imagetype as it is. "
-                        "Most fileformats can't handle all types and may require a conversion."
+                        "Most fileformats can't handle all types and may require a conversion. "
                         "Example: GIF can not handle RGB and requires convert to indexed imagetype.");
   argv[5].radio_argc  = 4;
   argv[5].radio_argv = radio_args;
@@ -775,7 +775,7 @@ p_range_to_multilayer_dialog(GapAnimInfo *ainfo_ptr,
   gap_arr_arg_init(&argv[5], GAP_ARR_WGT_TOGGLE);
   argv[5].label_txt = _("Exclude BG-Layer:");
   argv[5].help_txt  = _("Exclude the background layer in all handled frames, "
-                        "regardless to the other settings of layer selection.");
+                        "regardless of the other settings of layer selection.");
   argv[5].int_ret   = 0;   /* 1: exclude BG Layer from all selections */
 
 

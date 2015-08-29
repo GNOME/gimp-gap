@@ -26,6 +26,7 @@
  */
 
 /* revision history:
+ * gimp    2.8.14;  2015/08/24  hof: support merge down postprocessing
  * gimp    2.8.10;  2014/05/07  hof: support unlimited number of controlpoints.
  * gimp    2.1.0b;  2004/11/04  hof: replaced deprecated option_menu by combo box
  * gimp    2.1.0b;  2004/08/14  hof: feature: point navigation + SHIFT ==> mov_follow_keyframe
@@ -340,6 +341,11 @@ typedef struct
   GtkWidget            *dstGroupPathEntry;
   GtkWidget            *dstGroupDelimiterEntry;
 
+  GtkWidget     *objmerge_mode_combo;
+  GtkWidget     *tweenmerge_mode_combo;
+  GtkWidget     *tracemerge_mode_combo;
+  GtkWidget     *merge_target_combo;
+
 } t_mov_gui_stuff;
 
 
@@ -384,6 +390,7 @@ static void        mov_path_prevw_create ( GimpDrawable *drawable,
 static void        mov_refresh_src_layer_menu(t_mov_gui_stuff *mgp);
 static GtkWidget * mov_src_sel_create (t_mov_gui_stuff *mgp);
 static GtkWidget * mov_advanced_tab_create(t_mov_gui_stuff *mgp);
+static GtkWidget * mov_merge_tab_create(t_mov_gui_stuff *mgp);
 static GtkWidget * mov_edit_button_box_create (t_mov_gui_stuff *mgp);
 static GtkWidget * mov_path_framerange_box_create(t_mov_gui_stuff *mgp,
                                                   gboolean vertical_layout
@@ -454,6 +461,10 @@ static void mov_imglayer_menu_callback  (GtkWidget *, t_mov_gui_stuff *mgp);
 static void mov_paintmode_menu_callback (GtkWidget *, t_mov_gui_stuff *mgp);
 static void mov_handmode_menu_callback  (GtkWidget *, t_mov_gui_stuff *mgp);
 static void mov_stepmode_menu_callback  (GtkWidget *, t_mov_gui_stuff *mgp);
+static void mov_objmerge_mode_menu_callback (GtkWidget *widget,  t_mov_gui_stuff *mgp);
+static void mov_tweenmerge_mode_menu_callback (GtkWidget *widget,  t_mov_gui_stuff *mgp);
+static void mov_tracemerge_mode_menu_callback (GtkWidget *widget,  t_mov_gui_stuff *mgp);
+static void mov_merge_target_menu_callback (GtkWidget *widget,  t_mov_gui_stuff *mgp);
 static void mov_tweenlayer_sensitivity(t_mov_gui_stuff *mgp);
 static void mov_tracelayer_sensitivity(t_mov_gui_stuff *mgp);
 static void mov_gint_toggle_callback    (GtkWidget *, gpointer);
@@ -769,7 +780,10 @@ p_gap_mov_dlg_move_dialog(t_mov_gui_stuff *mgp
   mgp->handlemode_combo = NULL;
   mgp->src_selmode_combo = NULL;
   mgp->src_layer_combo = NULL;
-
+  mgp->objmerge_mode_combo = NULL;
+  mgp->tweenmerge_mode_combo = NULL;
+  mgp->tracemerge_mode_combo = NULL;
+  mgp->merge_target_combo = NULL;
 
   pvals = mov_ptr->val_ptr;
 
@@ -973,6 +987,7 @@ mov_dialog ( GimpDrawable *drawable, t_mov_gui_stuff *mgp,
   GtkWidget *label;
   GtkWidget *src_sel_frame;
   GtkWidget *advanced_frame;
+  GtkWidget *merge_frame;
   GtkWidget *framerange_table;
   gboolean  vertical_layout;
 
@@ -1118,6 +1133,17 @@ mov_dialog ( GimpDrawable *drawable, t_mov_gui_stuff *mgp,
                              , gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 1)
                              , label
                              );
+
+  /* the merge frame */
+  merge_frame = mov_merge_tab_create(mgp);
+  gtk_container_add (GTK_CONTAINER (notebook), merge_frame);
+  label = gtk_label_new(_("Merge Settings"));
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook)
+                             , gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 2)
+                             , label
+                             );
+
+
   gtk_widget_show (notebook);
 
   /* the path preview frame (with all the controlpoint widgets) */
@@ -2510,7 +2536,7 @@ mov_psave_callback (GtkWidget *widget,
  *    may no longer exist at load time)
  *
  * Note that not render relvant widgets are not
- * included in the xml paramter file and are not refreshed here.
+ * included in the xml parameter file and are not refreshed here.
  */
 static void
 p_refresh_widgets_after_load(t_mov_gui_stuff *mgp)
@@ -2538,6 +2564,24 @@ p_refresh_widgets_after_load(t_mov_gui_stuff *mgp)
   {
     gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (mgp->src_selmode_combo), pvals->src_selmode);
   }
+
+  if (mgp->objmerge_mode_combo != NULL)
+  {
+    gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (mgp->objmerge_mode_combo), pvals->mergeModeRenderedObject);
+  }
+  if (mgp->tweenmerge_mode_combo != NULL)
+  {
+    gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (mgp->tweenmerge_mode_combo), pvals->mergeModeRenderedTweenLayer);
+  }
+  if (mgp->tracemerge_mode_combo != NULL)
+  {
+    gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (mgp->tracemerge_mode_combo), pvals->mergeModeRenderedTraceLayer);
+  }
+  if (mgp->merge_target_combo != NULL)
+  {
+    gimp_int_combo_box_set_active (GIMP_INT_COMBO_BOX (mgp->merge_target_combo), pvals->mergeTarget);
+  }
+
 
   if(mgp->step_speed_factor_adj != NULL)
   {
@@ -2960,6 +3004,56 @@ mov_stepmode_menu_callback (GtkWidget *widget, t_mov_gui_stuff *mgp)
   mov_set_instant_apply_request(mgp);
 
 }  /* end mov_stepmode_menu_callback */
+
+
+static void
+mov_objmerge_mode_menu_callback (GtkWidget *widget,  t_mov_gui_stuff *mgp)
+{
+  gint value;
+
+  gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
+  pvals->mergeModeRenderedObject = value;
+  if(mgp == NULL) return;
+
+  mov_set_instant_apply_request(mgp);
+}
+
+
+static void
+mov_tweenmerge_mode_menu_callback (GtkWidget *widget,  t_mov_gui_stuff *mgp)
+{
+  gint value;
+
+  gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
+  pvals->mergeModeRenderedTweenLayer = value;
+  if(mgp == NULL) return;
+
+  mov_set_instant_apply_request(mgp);
+}
+
+static void
+mov_tracemerge_mode_menu_callback (GtkWidget *widget,  t_mov_gui_stuff *mgp)
+{
+  gint value;
+
+  gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
+  pvals->mergeModeRenderedTraceLayer = value;
+  if(mgp == NULL) return;
+
+  mov_set_instant_apply_request(mgp);
+}
+
+static void
+mov_merge_target_menu_callback (GtkWidget *widget,  t_mov_gui_stuff *mgp)
+{
+  gint value;
+
+  gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
+  pvals->mergeTarget = value;
+  if(mgp == NULL) return;
+
+  mov_set_instant_apply_request(mgp);
+}
 
 
 static void
@@ -4226,6 +4320,214 @@ mov_advanced_tab_create(t_mov_gui_stuff *mgp)
 
   return table;
 }       /* end mov_advanced_tab_create */
+
+/* ============================================================================
+ * Create set of widgets for the merge postprocessing Move Path features
+ *   A frame that contains:
+ *   in the 1.st row
+ *   - 3x combo option menu: postrocessing merge options for movingObject, tween and trace layer
+ *   in the 2.nd row
+ *   - 1x combo option menu: postprocessing merge target selection.
+ * ============================================================================
+ */
+static GtkWidget *
+mov_merge_tab_create(t_mov_gui_stuff *mgp)
+{
+  GtkWidget      *table;
+  GtkWidget      *label;
+  GtkWidget      *combo;
+  guint          row;
+  guint          col;
+
+
+  /* the table (2 rows) */
+  table = gtk_table_new (2, 8, FALSE);
+  gtk_container_set_border_width (GTK_CONTAINER (table), 2);
+  gtk_table_set_row_spacings (GTK_TABLE (table), 2);
+  gtk_table_set_col_spacings (GTK_TABLE (table), 4);
+
+
+  row = 0;
+  col = 0;
+
+  /* the merge option menu for the moving object */
+  combo = gimp_int_combo_box_new (_("Keep Rendered Object as Layer"),     GAP_MPP_MODE_KEEP,
+                                  _("Merge Down Rendered Object"),        GAP_MPP_MODE_MERGE_DOWN,
+                                  _("Delete Rendered Object"),            GAP_MPP_MODE_DELETE,
+                                  NULL);
+
+
+  {
+    gint initialValue;
+
+    initialValue = GAP_MPP_MODE_KEEP;
+    if(pvals)
+    {
+      switch(pvals->mergeModeRenderedObject)
+      {
+        case GAP_MPP_MODE_KEEP:
+        case GAP_MPP_MODE_MERGE_DOWN:
+        case GAP_MPP_MODE_DELETE:
+          initialValue = pvals->mergeModeRenderedObject;
+          break;
+      }
+    }
+
+    gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (combo),
+                              initialValue,
+                              G_CALLBACK (mov_objmerge_mode_menu_callback),
+                              mgp);
+  }
+
+  gtk_table_attach(GTK_TABLE(table), combo, col+0, col+1, row, row+1,
+                   GTK_EXPAND | GTK_FILL, 0, 0, 0);
+  gimp_help_set_help_data(combo,
+                       _("Postprocessing mode for the rendered moving object layer")
+                       , NULL);
+  gtk_widget_show(combo);
+  mgp->objmerge_mode_combo = combo;
+
+
+
+  col++;
+  
+  /* the merge option menu for the tween layer */
+  combo = gimp_int_combo_box_new (_("Keep TweenLayer"),              GAP_MPP_MODE_KEEP,
+                                  _("Merge Down TweenLayer"),        GAP_MPP_MODE_MERGE_DOWN,
+                                  _("Delete TweenLayer"),            GAP_MPP_MODE_DELETE,
+                                  NULL);
+
+
+  {
+    gint initialValue;
+
+    initialValue = GAP_MPP_MODE_KEEP;
+    if(pvals)
+    {
+      switch(pvals->mergeModeRenderedTweenLayer)
+      {
+        case GAP_MPP_MODE_KEEP:
+        case GAP_MPP_MODE_MERGE_DOWN:
+        case GAP_MPP_MODE_DELETE:
+          initialValue = pvals->mergeModeRenderedTweenLayer;
+          break;
+      }
+    }
+
+    gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (combo),
+                              initialValue,
+                              G_CALLBACK (mov_tweenmerge_mode_menu_callback),
+                              mgp);
+  }
+
+  gtk_table_attach(GTK_TABLE(table), combo, col+0, col+1, row, row+1,
+                   GTK_EXPAND | GTK_FILL, 0, 0, 0);
+  gimp_help_set_help_data(combo,
+                       _("Postprocessing mode for the tween layer (is ignored when not present)")
+                       , NULL);
+  gtk_widget_show(combo);
+  mgp->tweenmerge_mode_combo = combo;
+
+
+  col++;
+  
+  /* the merge option menu for the trace layer */
+  combo = gimp_int_combo_box_new (_("Keep TraceLayer"),          GAP_MPP_MODE_KEEP,
+                                  _("Merge Down TraceLayer"),    GAP_MPP_MODE_MERGE_DOWN,
+                                  _("Delete TraceLayer"),        GAP_MPP_MODE_DELETE,
+                                  NULL);
+
+
+  {
+    gint initialValue;
+
+    initialValue = GAP_MPP_MODE_KEEP;
+    if(pvals)
+    {
+      switch(pvals->mergeModeRenderedTraceLayer)
+      {
+        case GAP_MPP_MODE_KEEP:
+        case GAP_MPP_MODE_MERGE_DOWN:
+        case GAP_MPP_MODE_DELETE:
+          initialValue = pvals->mergeModeRenderedTraceLayer;
+          break;
+      }
+    }
+
+    gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (combo),
+                              initialValue,
+                              G_CALLBACK (mov_tracemerge_mode_menu_callback),
+                              mgp);
+  }
+
+  gtk_table_attach(GTK_TABLE(table), combo, col+0, col+1, row, row+1,
+                   GTK_EXPAND | GTK_FILL, 0, 0, 0);
+  gimp_help_set_help_data(combo,
+                       _("Postprocessing mode for the trace layer (is ignored when not present)")
+                       , NULL);
+  gtk_widget_show(combo);
+  mgp->tracemerge_mode_combo = combo;
+
+
+  col = 0;
+  row = 1;
+
+  /* the merge target option menu widgets */
+
+  label = gtk_label_new( _("Merge Target:"));
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_table_attach(GTK_TABLE(table), label, col, col+1, row, row+1, GTK_FILL, 0, 4, 0);
+  gtk_widget_show(label);
+
+  combo = gimp_int_combo_box_new (_("New Layer"),                               GAP_MPP_TARGET_NEW_LAYER,
+                                  _("Merge to Layer below"),                    GAP_MPP_TARGET_LOWER_LAYER,
+                                  _("Merge to new Black Mask at Layer below"),  GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_BLACK,
+                                  _("Merge to new White Mask at Layer below"),  GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_WHITE,
+                                  _("Merge to existing Mask at Layer below"),   GAP_MPP_TARGET_LOWER_LAYERS_MASK_ADD,
+                                  NULL);
+
+
+  {
+    gint initialValue;
+
+    initialValue = GAP_MPP_TARGET_NEW_LAYER;
+    if(pvals)
+    {
+      switch(pvals->mergeTarget)
+      {
+        case GAP_MPP_TARGET_NEW_LAYER:
+        case GAP_MPP_TARGET_LOWER_LAYER:
+        case GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_BLACK:
+        case GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_WHITE:
+        case GAP_MPP_TARGET_LOWER_LAYERS_MASK_ADD:
+          initialValue = pvals->mergeTarget;
+          break;
+      }
+    }
+
+    gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (combo),
+                              initialValue,
+                              G_CALLBACK (mov_merge_target_menu_callback),
+                              mgp);
+  }
+
+  gtk_table_attach(GTK_TABLE(table), combo, col+1, col+2, row, row+1,
+                   GTK_EXPAND | GTK_FILL, 0, 0, 0);
+  gimp_help_set_help_data(combo,
+                       _("merge target provides options "
+                          "how to postprocess layers rendered by MovePath.")
+                       , NULL);
+  gtk_widget_show(combo);
+  mgp->merge_target_combo = combo;
+
+
+
+  gtk_widget_show( table );
+
+  return table;
+}       /* end mov_merge_tab_create */
+
+
 
 /* ============================================================================
  * Create new EditCtrlPoint Frame
@@ -6986,7 +7288,7 @@ gap_mov_dlg_move_dialog_singleframe(GapMovSingleFrame *singleFramePtr)
   gap_arr_arg_init(&argv[l_ii], GAP_ARR_WGT_FILESEL);
   argv[l_ii].label_txt = _("MovePath xmlfile:");
   argv[l_ii].entry_width = 400;
-  argv[l_ii].help_txt  = _("Name of the file containing move path paramters and controlpoints in XML format");
+  argv[l_ii].help_txt  = _("Name of the file containing move path parameters and controlpoints in XML format");
   argv[l_ii].text_buf_len = sizeof(singleFramePtr->xml_paramfile);
   argv[l_ii].text_buf_ret = singleFramePtr->xml_paramfile;
 

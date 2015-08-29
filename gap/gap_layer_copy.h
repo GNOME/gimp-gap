@@ -95,4 +95,6 @@ gint32  gap_layer_create_layer_from_alpha(gint32 src_layer_id, gint32 image_id
 
 gint32  gap_layer_find_by_name(gint32 image_id, const char *name);
 
+gint32  gap_layer_new_same_size_and_offsets(gint32 image_id, gint32 origLayerId, gboolean imageSize);
+
 #endif

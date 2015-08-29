@@ -78,7 +78,9 @@
 
 extern      int gap_debug; /* ==0  ... dont print debug infos */
 
-static void p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *cur_ptr);
+static void p_add_tween_and_trace_and_postprocessing(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *cur_ptr);
+static void p_mov_merge_postprocessor(gint32 dest_image_id, GapMovValues *val_ptr,
+              gint32 theMovingObjectLayer, gint32 theTweenLayerId, gint32 theTraceLayerId, gint32 theLayerBelow);
 static gint p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layerstack);
 static void p_mov_advance_src_layer(GapMovCurrent *cur_ptr, GapMovValues  *pvals);
 static long p_mov_advance_src_frame_no_fetch(GapMovCurrent *cur_ptr, GapMovValues  *pvals);
@@ -229,34 +231,49 @@ gap_mov_exec_set_iteration_relevant_src_layers(GapMovCurrent *cur_ptr, gint32 sr
 
 
 /* ============================================================================
- * p_add_tween_and_trace
+ * p_add_tween_and_trace_and_postprocessing
  * ============================================================================
+ *
+ * copy the trace_layer to the dest_image (if there is one)
+ *
  * if there are tween_layers add them to the dest_image
  * and remove them from the tween_image.
  *
- * copy the trace_layer to the dest_image (if there is one)
+ * call postprocessing to perform merge options on the dest_image_id
  */
 
 void
-p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *cur_ptr)
+p_add_tween_and_trace_and_postprocessing(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *cur_ptr)
 {
   GimpMergeType l_mergemode;
-  gint32  l_new_layer_id;
   gint    l_src_offset_x, l_src_offset_y;
   gint32  l_layer_id;
+  gint32  l_parent_id;
+  gint32  theMovingObjectLayer;
+  gint32  theTweenLayerId;
+  gint32  theTraceLayerId;
+  gint32  theLayerBelow;
 
   l_mergemode = GIMP_EXPAND_AS_NECESSARY;
   if(mov_ptr->val_ptr->clip_to_img)
   {
     l_mergemode = GIMP_CLIP_TO_IMAGE;
   }
+  
+  l_parent_id = -1;
+  theMovingObjectLayer = cur_ptr->processedLayerId;
+  theTweenLayerId = -1;
+  theTraceLayerId = -1;
+  theLayerBelow = gap_image_get_the_layer_below(theMovingObjectLayer);
+
+  theMovingObjectLayer = cur_ptr->processedLayerId;
 
   /* add Trace_layer */
   if((mov_ptr->val_ptr->trace_image_id >= 0)
   && (mov_ptr->val_ptr->trace_layer_id >= 0))
   {
     /* copy the layer from the temp image to the anim preview multilayer image */
-    l_new_layer_id = gap_layer_copy_to_dest_image(dest_image_id,
+    theTraceLayerId = gap_layer_copy_to_dest_image(dest_image_id,
                                    mov_ptr->val_ptr->trace_layer_id,
                                    100.0,       /* opacity full */
                                    0,           /* NORMAL */
@@ -265,7 +282,14 @@ p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *
                                    );
 
     /* add the layer to the destination image */
-    gimp_image_insert_layer (dest_image_id, l_new_layer_id, 0, mov_ptr->val_ptr->dst_layerstack +1);
+    l_parent_id = gap_image_find_or_create_group_layer(dest_image_id
+                           , mov_ptr->val_ptr->dst_group_name_path_string
+                           , mov_ptr->val_ptr->dst_group_name_delimiter
+                           , mov_ptr->val_ptr->dst_layerstack     /* stackposition for the group in case it is created at toplvel */
+                           , FALSE  /* enableCreate */
+                           );
+
+    gimp_image_insert_layer (dest_image_id, theTraceLayerId, l_parent_id, mov_ptr->val_ptr->dst_layerstack +1);
 
     /* keep the trace_layer for all further move path processing steps */
   }
@@ -287,7 +311,7 @@ p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *
     l_layer_id = gap_image_merge_visible_layers(mov_ptr->val_ptr->tween_image_id, l_mergemode);
 
     /* copy the layer from the temp image to the anim preview multilayer image */
-    l_new_layer_id = gap_layer_copy_to_dest_image(dest_image_id,
+    theTweenLayerId = gap_layer_copy_to_dest_image(dest_image_id,
                                    l_layer_id,
                                    100.0,       /* opacity full */
                                    0,           /* NORMAL */
@@ -296,7 +320,16 @@ p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *
                                    );
 
     /* add the layer to the destination image */
-    gimp_image_insert_layer (dest_image_id, l_new_layer_id, 0, mov_ptr->val_ptr->dst_layerstack +1);
+    if (l_parent_id < 0)
+    {
+      l_parent_id = gap_image_find_or_create_group_layer(dest_image_id
+                           , mov_ptr->val_ptr->dst_group_name_path_string
+                           , mov_ptr->val_ptr->dst_group_name_delimiter
+                           , mov_ptr->val_ptr->dst_layerstack     /* stackposition for the group in case it is created at toplvel */
+                           , FALSE  /* enableCreate */
+                           );
+    }
+    gimp_image_insert_layer (dest_image_id, theTweenLayerId, l_parent_id, mov_ptr->val_ptr->dst_layerstack +1);
 
     if((mov_ptr->val_ptr->trace_image_id >= 0)
     && (mov_ptr->val_ptr->trace_layer_id >= 0))
@@ -305,7 +338,7 @@ p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *
        * in this case the tween_layer is set invisible
        *
        */
-       gimp_item_set_visible(l_new_layer_id, FALSE);
+       gimp_item_set_visible(theTweenLayerId, FALSE);
     }
 
     /* remove tween layers from the tween_image after usage */
@@ -315,8 +348,277 @@ p_add_tween_and_trace(gint32 dest_image_id, GapMovData *mov_ptr, GapMovCurrent *
     gimp_image_delete(mov_ptr->val_ptr->tween_image_id);
     mov_ptr->val_ptr->tween_image_id = l_new_tween_image_id;
   }
+  
+  
+  /* postprocessing for optional merge / delete layers rendered by this move path call */
+  p_mov_merge_postprocessor(dest_image_id, mov_ptr->val_ptr
+     , theMovingObjectLayer
+     , theTweenLayerId 
+     , theTraceLayerId
+     , theLayerBelow
+     );
 
-}  /* end p_add_tween_and_trace */
+}  /* end p_add_tween_and_trace_and_postprocessing */
+
+
+/* --------------------------------------
+ * p_mov_merge_postprocessor
+ * --------------------------------------
+ * Handle Merging and removal of layers in the currently processed frame image.
+ * The (optional) merge affects layers that were created / rendered by MovePath render processing
+ * it the following Stackposition order.
+ *     MovingObjectLayer  renderedObjectLayerId  
+ *     Tweenlayer         tweenLayerId   (optionally present when tween layer feature is active)
+ *     Tracelayer         traceLayerId   (optionally present when trace layer feature is active)
+ *     a layer below      existingLayerBelowId (may not be present when inserting on bottom of layertack or group)
+ *
+ * Notes:
+ * - in case any merge action is required
+ *   a working layer is created at image size.
+ *   The work layer will be fully transparent (in case the merge taget is NOT a Lyermask)
+ *   or may be BLACK opaque, WHITE opaque and optionally copied from an already existing layer mask
+ *   (in case the merge target is a layermask)
+ *   The renderedObject, Tween and Trace layer(s) will be merged down to the newly created worklayer.
+ *   and the merged working layer is then either:
+ *   o) copied into the layermask (and removed)  ... for mergeTarget types GAP_MPP_TARGET_LOWER_LAYERS_MASK_*
+ *   o) mereged down to the existing Layer Below ... for mergeTarget type GAP_MPP_TARGET_LOWER_LAYER
+ *   o) kept as final render result              ... for mergeTarget type GAP_MPP_TARGET_NEW_LAYER
+ *
+ */
+static void
+p_mov_merge_postprocessor(gint32 dest_image_id, GapMovValues *val_ptr,
+  gint32 theMovingObjectLayer, gint32 theTweenLayerId, gint32 theTraceLayerId, gint32 theLayerBelow)
+{
+  gint32 renderedObjectLayerId = -1;
+  gint32 tweenLayerId = -1;
+  gint32 traceLayerId = -1;
+  gint32 existingLayerBelowId = -1;
+  gint32 workLayerId = -1;
+  gint   mergemode;
+  
+  
+  mergemode = GIMP_EXPAND_AS_NECESSARY;
+  
+  renderedObjectLayerId = theMovingObjectLayer;
+  tweenLayerId = theTweenLayerId;
+  traceLayerId = theTraceLayerId;
+  existingLayerBelowId = theLayerBelow;
+  
+  if ((val_ptr->mergeModeRenderedObject == GAP_MPP_MODE_MERGE_DOWN)
+  || (val_ptr->mergeModeRenderedTweenLayer == GAP_MPP_MODE_MERGE_DOWN)
+  || (val_ptr->mergeModeRenderedTraceLayer == GAP_MPP_MODE_MERGE_DOWN))
+  {
+    /* if any merge is to be done, create a worklayer
+     * below the rendered layers but above the 
+     * layer that already existed before the move path operation.
+     * The worklayer is fully transparent 
+     *   (in case of layer mask as merge target it is BLACK, WHITE or filled with 
+     *    already existing layermask content)
+     * It is the base for all merge down
+     * postprocessing in this procedure.
+     */
+    gboolean imageSize;
+    gint32   refLayer;
+    
+    imageSize = TRUE;
+    if (existingLayerBelowId >= 0)
+    {
+      /* worklayer position above the existing Layer */
+      workLayerId = gap_layer_new_same_size_and_offsets(dest_image_id, existingLayerBelowId, imageSize);
+    }
+    else
+    {
+      workLayerId = gap_layer_new_same_size_and_offsets(dest_image_id, renderedObjectLayerId, imageSize);
+      gimp_image_lower_item(dest_image_id, workLayerId);
+      if (tweenLayerId >= 0)
+      {
+        gimp_image_lower_item(dest_image_id, workLayerId);
+      }
+      if (traceLayerId >= 0)
+      {
+        gimp_image_lower_item(dest_image_id, workLayerId);
+      }
+      /* now layerstack shall look like this:
+       *   renderedObjectLayerId (foreground)
+       *   [ tweenLayerId ]      (optional) 
+       *   [ traceLayerId ]      (optional)
+       *   workLayerId
+       */
+    }
+    if (!gimp_drawable_has_alpha(workLayerId))
+    {
+      gimp_layer_add_alpha(workLayerId);
+    }
+    
+    if ((existingLayerBelowId >= 0) && (val_ptr->mergeTarget == GAP_MPP_TARGET_LOWER_LAYERS_MASK_ADD))
+    {
+      gint32 l_layermask_id;
+                  
+      
+      l_layermask_id = gimp_layer_get_mask(existingLayerBelowId);
+      if (l_layermask_id >= 0) 
+      {
+         /* fill workLayerId (BLACK fully TRANSPARENT) */
+         gap_layer_clear_to_color(workLayerId
+                                    ,0.0 /* red */
+                                    ,0.0 /* green */
+                                    ,0.0 /* blue */
+                                    ,0.0 /* alpha */
+                              );
+         /* the existingLayerBelowId already HAS a Layermask 
+          * Copy from this Layermask into the worklayer
+          */
+         gimp_image_select_item(dest_image_id, GIMP_CHANNEL_OP_REPLACE, existingLayerBelowId);
+	 gap_layer_copy_paste_drawable(-1  /* image_id -1 indicates to keep existing selection */
+	                               , workLayerId  /* destination drawable */
+	                               , l_layermask_id     /* source drawable */
+	                               );
+      }
+      else
+      {
+         /* fill workLayerId (BLACK fully opaque) */
+         gap_layer_clear_to_color(workLayerId
+                                    ,0.0 /* red */
+                                    ,0.0 /* green */
+                                    ,0.0 /* blue */
+                                    ,1.0 /* alpha */
+                              );
+      }
+    }
+    else if ((existingLayerBelowId >= 0) && (val_ptr->mergeTarget == GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_BLACK))
+    {
+      /* fill workLayerId (BLACK fully opaque) */
+      gap_layer_clear_to_color(workLayerId
+                                    ,0.0 /* red */
+                                    ,0.0 /* green */
+                                    ,0.0 /* blue */
+                                    ,1.0 /* alpha */
+                              );
+    }
+    else if ((existingLayerBelowId >= 0) && (val_ptr->mergeTarget == GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_WHITE))
+    {
+      /* fill workLayerId (WHITE fully opaque) */
+      gap_layer_clear_to_color(workLayerId
+                                    ,1.0 /* red */
+                                    ,1.0 /* green */
+                                    ,1.0 /* blue */
+                                    ,1.0 /* alpha */
+                              );
+    }
+    else
+    {
+      /* fill workLayerId (BLACK fully TRANSPARENT) */
+      gap_layer_clear_to_color(workLayerId
+                                    ,0.0 /* red */
+                                    ,0.0 /* green */
+                                    ,0.0 /* blue */
+                                    ,0.0 /* alpha */
+                              );
+    }
+  }
+  
+  if (traceLayerId >= 0)
+  {
+    if (val_ptr->mergeModeRenderedTraceLayer == GAP_MPP_MODE_DELETE)
+    {
+       gimp_image_remove_layer(dest_image_id, traceLayerId);
+       traceLayerId = -1;
+    } else if (val_ptr->mergeModeRenderedTraceLayer == GAP_MPP_MODE_MERGE_DOWN) {
+       /* merge trace layer down to worklayer, merged result is the new worklayer */
+       gimp_item_set_visible(traceLayerId, TRUE); /* force visibility to ensure included in the merge down */
+       workLayerId = gimp_image_merge_down(dest_image_id, traceLayerId, mergemode);
+       traceLayerId = -1;
+    }
+    /* else Keep the trace layer */
+  }
+  
+  if (tweenLayerId >= 0)
+  {
+    if (val_ptr->mergeModeRenderedTweenLayer == GAP_MPP_MODE_DELETE)
+    {
+       gimp_image_remove_layer(dest_image_id, tweenLayerId);
+       tweenLayerId = -1;
+    } else if (val_ptr->mergeModeRenderedTweenLayer == GAP_MPP_MODE_MERGE_DOWN) {
+       if (traceLayerId >= 0)
+       {
+         /* lower the tweenLayerId below the still existing traceLayerId 
+          * (that shall be kept and protectect from merge down)
+          */
+         gimp_image_lower_item(dest_image_id, tweenLayerId);
+       }
+       /* merge tween layer down to worklayer, merged result is the new worklayer */
+       gimp_item_set_visible(tweenLayerId, TRUE); /* force visibility to ensure included in the merge down */
+       workLayerId = gimp_image_merge_down(dest_image_id, tweenLayerId, mergemode);
+       tweenLayerId = -1;
+    }
+    /* else Keep the tween layer */
+  }
+
+
+  if (renderedObjectLayerId >= 0)
+  {
+    if (val_ptr->mergeModeRenderedObject == GAP_MPP_MODE_DELETE)
+    {
+       gimp_image_remove_layer(dest_image_id, renderedObjectLayerId);
+       renderedObjectLayerId = -1;
+    } else if (val_ptr->mergeModeRenderedObject == GAP_MPP_MODE_MERGE_DOWN) {
+       if (tweenLayerId >= 0)
+       {
+         /* lower the renderedObjectLayerId below the still existing tweenLayerId 
+          * (that shall be kept and protectect from merge down)
+          */
+         gimp_image_lower_item(dest_image_id, renderedObjectLayerId);
+       }
+       if (traceLayerId >= 0)
+       {
+         /* lower the tweenLayerId below the still existing traceLayerId 
+          * (that shall be kept and protectect from merge down)
+          */
+         gimp_image_lower_item(dest_image_id, renderedObjectLayerId);
+       }
+       /* merge tween layer down to worklayer, merged result is the new worklayer */
+       gimp_item_set_visible(renderedObjectLayerId, TRUE); /* force visibility to ensure included in the merge down */
+       workLayerId = gimp_image_merge_down(dest_image_id, renderedObjectLayerId, mergemode);
+       renderedObjectLayerId = -1;
+    }
+    /* else Keep the rendered Object Layer  */
+  }
+  
+  if ((existingLayerBelowId >= 0) && (workLayerId >= 0))
+  {
+    if (val_ptr->mergeTarget == GAP_MPP_TARGET_LOWER_LAYER)
+    {
+       workLayerId = gimp_image_merge_down(dest_image_id, workLayerId, mergemode);
+       existingLayerBelowId = -1;
+    }
+    else if ((val_ptr->mergeTarget == GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_BLACK)
+         ||  (val_ptr->mergeTarget == GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_WHITE)
+         ||  (val_ptr->mergeTarget == GAP_MPP_TARGET_LOWER_LAYERS_MASK_ADD))
+    {
+      gint32 l_layermask_id;
+              
+      l_layermask_id = gimp_layer_get_mask(existingLayerBelowId);
+      if (l_layermask_id >= 0) 
+      {
+        gimp_layer_remove_mask (existingLayerBelowId, GIMP_MASK_DISCARD);
+      }
+      l_layermask_id = gimp_layer_create_mask(existingLayerBelowId, GIMP_ADD_BLACK_MASK);
+      gimp_layer_add_mask(existingLayerBelowId, l_layermask_id);
+
+      /* copy workLayerId into the layermask of existingLayerBelowId */
+      gimp_image_select_item(dest_image_id, GIMP_CHANNEL_OP_REPLACE, existingLayerBelowId);
+      gap_layer_copy_paste_drawable(-1  /* image_id -1 indicates to keep existing selection */
+                                    , l_layermask_id  /* destination drawable */
+                                    , workLayerId     /* source drawable */
+                                    );
+      gimp_image_remove_layer(dest_image_id, workLayerId);  /* remove workLayerId after copying */
+
+    }
+  }
+
+ 
+}  /* end p_mov_merge_postprocessor */
+
 
 
 /* ============================================================================
@@ -471,7 +773,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
         /* check if we have tween_layer and/or trace_layer
          * and add them to the temp image
          */
-        p_add_tween_and_trace(l_tmp_image_id, mov_ptr, cur_ptr);
+        p_add_tween_and_trace_and_postprocessing(l_tmp_image_id, mov_ptr, cur_ptr);
 
         if(singleFramePtr == NULL)
         {
@@ -546,7 +848,7 @@ p_mov_call_render(GapMovData *mov_ptr, GapMovCurrent *cur_ptr, gint apv_layersta
         /* check if we have tween_layer and/or trace_layer
          * and add them to the temp image
          */
-        p_add_tween_and_trace(l_tmp_image_id, mov_ptr, cur_ptr);
+        p_add_tween_and_trace_and_postprocessing(l_tmp_image_id, mov_ptr, cur_ptr);
 
         /* flatten the rendered frame */
         l_layer_id = gimp_image_flatten(l_tmp_image_id);
@@ -4386,6 +4688,11 @@ GapMovValues *gap_mov_exec_new_GapMovValues()
   pvals->point_table_size = 0;
   pvals->point = NULL;
   gap_mov_exec_dim_point_table(pvals, GAP_MOV_POINT_INITIAL_SIZE);
+  
+  pvals->mergeModeRenderedObject = GAP_MPP_MODE_KEEP;
+  pvals->mergeModeRenderedTweenLayer = GAP_MPP_MODE_KEEP;
+  pvals->mergeModeRenderedTraceLayer = GAP_MPP_MODE_KEEP;
+  pvals->mergeTarget = GAP_MPP_TARGET_NEW_LAYER;
 
 
   return(pvals);
@@ -4484,6 +4791,10 @@ void gap_mov_exec_copy_xml_GapMovValues(GapMovValues *dstValues, GapMovValues *s
   dstValues->tracelayer_enable = srcValues->tracelayer_enable;
   dstValues->tween_steps = srcValues->tween_steps;
 
+  dstValues->mergeModeRenderedObject = srcValues->mergeModeRenderedObject;
+  dstValues->mergeModeRenderedTweenLayer = srcValues->mergeModeRenderedTweenLayer;
+  dstValues->mergeModeRenderedTraceLayer = srcValues->mergeModeRenderedTraceLayer;
+  dstValues->mergeTarget = srcValues->mergeTarget;
 
   dstValues->point_idx = srcValues->point_idx;
   dstValues->point_idx_max = srcValues->point_idx_max;

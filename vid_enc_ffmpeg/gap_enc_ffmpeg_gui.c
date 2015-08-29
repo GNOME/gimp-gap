@@ -499,7 +499,7 @@ gap_enc_ffgui_set_default_codecs(GapGveFFMpegGlobalParams *gpp, gboolean set_cod
          if (gpp->evl.ntsc_height != gpp->evl.pal_height)
          {
            recomand_size = g_strdup_printf("   %s : %d x %d (PAL)  %d x %d (NTSC)"
-                                          ,_("Recommanded Framesize")
+                                          ,_("Recommended Framesize")
                                           ,(int)gpp->evl.pal_width
                                           ,(int)gpp->evl.pal_height
                                           ,(int)gpp->evl.ntsc_width
@@ -515,7 +515,7 @@ gap_enc_ffgui_set_default_codecs(GapGveFFMpegGlobalParams *gpp, gboolean set_cod
            recHeight = MAX(gpp->evl.ntsc_height, gpp->evl.pal_height);
            
            recomand_size = g_strdup_printf("   %s : %d x %d"
-                                          ,_("Recommanded Framesize")
+                                          ,_("Recommended Framesize")
                                           ,(int)recWidth
                                           ,(int)recHeight
                                           );
@@ -527,8 +527,8 @@ gap_enc_ffgui_set_default_codecs(GapGveFFMpegGlobalParams *gpp, gboolean set_cod
          recomand_size = g_strdup_printf(" ");
        }
        detailInfo = g_strdup_printf(_("Selected Fileformat : [%s] %s\n"
-                                  "Recommanded Video CODEC : %s\n"
-                                  "Recommanded Audio CODEC : %s\n"
+                                  "Recommended Video CODEC : %s\n"
+                                  "Recommended Audio CODEC : %s\n"
                                   "Extension(s): %s %s"
                                  )
                                , ofmt->name
@@ -2475,8 +2475,8 @@ p_create_expert_flags_frame (GapGveFFMpegGlobalParams *gpp)
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gimp_help_set_help_data (checkbutton
-                        , _("Bypass the FFMPEG Vidoencoder where inputframes can "
-                            "be copied 1:1 from an input MPEG videofile."
+                        , _("Bypass the FFMPEG Videoencoder where inputframes can "
+                            "be copied 1:1 from an input MPEG videofile. "
                             "This experimental feature provides lossless MPEG "
                             "video cut, but works only for the MPEG Fileformats.")
                         , NULL);

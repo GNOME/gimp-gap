@@ -27,6 +27,7 @@
 #define _GAP_MOV_DIALOG_H
 
 /* revision history:
+ * gimp    2.8.14;  2015/08/24  hof: support merge down postprocessing
  * gimp    2.8.10;  2014/05/07  hof: support unlimited number of controlpoints.
  * gimp    1.3.20d; 2003/10/14  hof: added bluebox stuff
  * gimp    1.3.20d; 2003/10/05  hof: added tweenindex (twix)
@@ -44,7 +45,7 @@
 
 #define GAP_MOV_KEEP_SRC_PAINTMODE 4444
 
-#define GAP_MOV_INT_VERSION 2
+#define GAP_MOV_INT_VERSION 3
 
 #define   GAP_MOVPATH_XML_FILENAME_MAX_LENGTH     1024
 #define   GAP_MOVEPATH_GIMPRC_LOG_RENDER_PARAMS "video-move-path-log-render-params"
@@ -92,6 +93,22 @@ typedef enum
   GAP_MOV_SEL_INITIAL         = 1,
   GAP_MOV_SEL_FRAME_SPECIFIC  = 2
 } GapMovSelMode;
+
+typedef enum
+{
+  GAP_MPP_MODE_KEEP        = 0,
+  GAP_MPP_MODE_MERGE_DOWN  = 1,
+  GAP_MPP_MODE_DELETE      = 2
+} GapMovMergePostProcessingMode;
+
+typedef enum
+{
+  GAP_MPP_TARGET_NEW_LAYER                        = 0,
+  GAP_MPP_TARGET_LOWER_LAYER                      = 1,
+  GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_BLACK  = 2,
+  GAP_MPP_TARGET_LOWER_LAYERS_MASK_REPLACE_WHITE  = 3,
+  GAP_MPP_TARGET_LOWER_LAYERS_MASK_ADD            = 4
+} GapMovMergePostProcessingTargetMode;
 
 typedef struct {
         gint32  dst_frame_nr;        /* current destination frame_nr */
@@ -275,6 +292,13 @@ typedef struct {
 
         gchar  *dst_group_name_path_string;
         gchar  *dst_group_name_delimiter;
+        
+        /* for merge down postprocessing options */
+        GapMovMergePostProcessingMode  mergeModeRenderedObject;
+        GapMovMergePostProcessingMode  mergeModeRenderedTweenLayer;
+        GapMovMergePostProcessingMode  mergeModeRenderedTraceLayer;
+        GapMovMergePostProcessingTargetMode  mergeTarget;
+
 
 } GapMovValues;
 

@@ -3882,7 +3882,7 @@ gap_story_attw_properties_dialog (GapStbAttrWidget *attw)
       , 10.0       /* page increment   for the from/to values */
       , 0.0        /* page size        for the from/to values */
       , 0          /* digits for the from/to values */
-      , _("ON: Enable move path transistions using settings provided via a movepath parameter file")
+      , _("ON: Enable move path transitions using settings provided via a movepath parameter file")
       , &attw->stb_elem_refptr->att_arr_enable[att_type_idx]
       , _("frame number (phase) of the movement/transition along path for the first handled frame"
           " where 1 is the begin of the path using settings of the 1st controlpoint"

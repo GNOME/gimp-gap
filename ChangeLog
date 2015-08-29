@@ -1,3 +1,77 @@
+2015-08-29 Wolfgang Hofer <hof@gimp.org>
+
+- use generic checks for required automake aclocal version
+  as suggested in #699207
+
+
+  * autogen.sh
+
+2015-08-24 Wolfgang Hofer <hof@gimp.org>
+
+- MovePath new Merge features for merging the layer(s) 
+   created by MovePath down to an existing layer or into its layermask.
+ 
+ * gap/gap_mov_main.c  
+ * gap/gap_mov_dialog.c [.h]
+ * gap/gap_mov_exec.c
+ * gap/gap_mov_xml_par.c
+ * gap/gap_layer_copy.c [.h]
+ * gap/gap_image.c [.h]
+ 
+
+
+- Fixed typos reported at #732837 by Anders Jonsson
+
+ * gap/gap_blend_fill_main.c
+ * gap/gap_colormask_dialog.c
+ * gap/gap_decode_mplayer.c
+ * gap/gap_detail_align_exec.c
+ * gap/gap_detail_tracking_main.c
+ * gap/gap_fg_matting_dialog.c
+ * gap/gap_filter_foreach.c 
+ * gap/gap_image.c
+ * gap/gap_lib.c
+ * gap/gap_main.c
+ * gap/gap_morph_dialog.c
+ * gap/gap_morph_tween_dialog.c
+ * gap/gap_mov_dialog.c
+ * gap/gap_mpege.c
+ * gap/gap_onion_dialog.c
+ * gap/gap_onion_main.c
+ * gap/gap_range_ops.c
+ * gap/gap_split.c
+ * gap/gap_story_att_trans_dlg.c
+ * gap/gap_story_dialog.c
+ * gap/gap_story_file.c
+ * gap/gap_story_properties.c
+ * gap/gap_story_render_processor.c
+ * gap/gap_video_index_creator.c
+ * gap/gap_water_pattern.c
+ * gap/gap_wr_resynth.c
+ 
+ * vid_common/gap_cme_main.c
+ * vid_enc_avi/gap_enc_avi_gui.c
+ * vid_enc_avi/gap_enc_avi_main.c
+ * vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c
+ * vid_enc_rawframes/gap_enc_rawframes_main.c
+ 
+ * docs/reference/txt/STORYBOARD_FILE_DOC.txt
+ * docs/reference/txt/plug-in-gap-onionskin-configuration.txt
+ 
+
+- Applied patch provided  at #753294 by Anders Jonsson
+  that shall fix build problems when building without SDL based audio client
+  (build for the old wavplay client failed on unkown typ PCL_Errfunc, must use APCL_ErrFunc)
+
+ * gap/gap_apcl_lib.h
+
+
+
+
+
+
+
+
 2015-05-14 Wolfgang Hofer <hof@gimp.org>
 
 added options for ffmpeg windows crosscompiliation 

@@ -812,7 +812,7 @@ p_create_debug_options(GapColormaskValues *cmaskvals, GtkWidget *preview)
 
   /* colorSensitivity  */
   adj = gimp_scale_entry_new (GTK_TABLE (table), 0, row++,
-                              _("DiffSensitvity:"), SCALE_WIDTH, 6,
+                              _("DiffSensitivity:"), SCALE_WIDTH, 6,
                               cmaskvals->colorSensitivity, 1.0, 2.0, 0.01, 0.1, 4,
                               TRUE, 0, 0,
                               NULL, NULL);

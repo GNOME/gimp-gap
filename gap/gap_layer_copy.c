@@ -684,7 +684,7 @@ gap_layer_flip(gint32 layer_id, gint32 flip_request)
 /* -----------------------------
  * gap_layer_copy_paste_drawable
  * -----------------------------
- * copy specified dst_drawable into src_drawable using
+ * copy specified src_drawable into dst_drawable using
  * gimp copy paste procedures.
  * The selection in the specified image will be removed
  * (and therefore is ignored for copying)
@@ -700,10 +700,13 @@ gap_layer_copy_paste_drawable(gint32 image_id, gint32 dst_drawable_id, gint32 sr
   {
     gimp_selection_none(image_id);
   }
-        gimp_edit_copy(src_drawable_id);
-  l_fsel_layer_id = gimp_edit_paste(dst_drawable_id, FALSE);
-  gimp_floating_sel_anchor(l_fsel_layer_id);
+  if (TRUE == gimp_edit_copy(src_drawable_id))
+  {
+    l_fsel_layer_id = gimp_edit_paste(dst_drawable_id, FALSE);
+    gimp_floating_sel_anchor(l_fsel_layer_id);
+  }
 }  /* end gap_layer_copy_paste_drawable */
+
 
 
 /* ---------------------------------
@@ -954,3 +957,76 @@ gap_layer_find_by_name(gint32 image_id, const char *name)
   return (l_layer_id);
 
 }  /* end gap_layer_find_by_name */
+
+/* --------------------------------------
+ * gap_layer_new_same_size_and_offsets
+ * --------------------------------------
+ * creates a new layer with name "worklayer" above the specified origLayer with same size
+ * as the specified imageId (when imageSize == true) or same size as
+ * the origLayerId (when imageSize == false)
+ * and attached to the specified image_id at same offsets.
+ *
+ * In case the origLayer is a valid layer in the same image, the newly created layer
+ * is placed in the same layergroup one stackposition above.
+ *
+ * otherwise the position will be above the active layer.
+ *
+ * Note that the created layer is not yet initialized.
+ *   initialize can be done with:
+ *   gimp_drawable_fill(workLayerId, GIMP_TRANSPARENT_FILL);
+ *
+ */
+gint32
+gap_layer_new_same_size_and_offsets(gint32 image_id, gint32 origLayerId, gboolean imageSize)
+{
+ gint32 l_new_layer_id;
+ gint32 l_parent_id;
+ gint32 l_position;
+ gint src_offset_x;
+ gint src_offset_y;
+ 
+ gint l_width;
+ gint l_height;
+ 
+ l_parent_id = 0;
+ l_position = -1;  /* -1 specifies position avove the active layer,  where 0 is on top (in the foreground) */
+ 
+ if (origLayerId >= 0)
+ {
+   if (image_id == gimp_item_get_image(origLayerId))
+   {
+     l_position = gimp_image_get_item_position (image_id, origLayerId);
+     l_parent_id = gimp_item_get_parent(origLayerId);
+     if (l_parent_id < 0)
+     {
+       l_parent_id = 0;
+     }
+   }
+   l_width = gimp_drawable_width(origLayerId);
+   l_height = gimp_drawable_height(origLayerId);
+
+   gimp_drawable_offsets(origLayerId, &src_offset_x, &src_offset_y );
+
+ }
+ else
+ {
+   l_width = gimp_image_width(image_id);
+   l_height = gimp_image_height(image_id);
+   src_offset_x = 0;
+   src_offset_y = 0;
+ }
+ 
+ l_new_layer_id = gimp_layer_new(image_id, "worklayer",
+                                 l_width,
+                                 l_height,
+                                 ((gint)(gimp_image_base_type(image_id)) * 2),
+                                 100.0,     /* Opacity full opaque */
+                                 0);        /* NORMAL */
+  gimp_image_insert_layer(image_id, l_new_layer_id, l_parent_id, l_position);
+  gimp_layer_set_offsets(l_new_layer_id, src_offset_x, src_offset_y);
+  
+
+  gimp_item_set_visible(l_new_layer_id, TRUE);
+  return (l_new_layer_id);
+          
+}  /* end gap_layer_new_same_size_and_offsets */

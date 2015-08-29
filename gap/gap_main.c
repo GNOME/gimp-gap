@@ -663,8 +663,8 @@ query ()
 
   gimp_install_procedure(PLUGIN_NAME_GAP_DENSITY,
                          "This plugin changes the number of frames (density) on disk to match a"
-                         " new target framerate that is densty_factor times higher"
-                         " than the origianl framerate."
+                         " new target framerate that is density_factor times higher"
+                         " than the original framerate."
                          " (or 1/density_factor lower if density_grow is FALSE)"
                          " changing of density results in duplicating (or deleting)"
                          " of frames on disk",

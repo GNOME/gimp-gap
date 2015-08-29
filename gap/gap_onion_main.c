@@ -137,7 +137,7 @@ query ()
   gimp_plugin_domain_register (GETTEXT_PACKAGE, LOCALEDIR);
 
   gimp_install_procedure(GAP_PLUGIN_NAME_ONION_CFG,
-                         "This plugin sets Configuration for Onion Layers in Videofames",
+                         "This plugin sets Configuration for Onion Layers in Videoframes",
                          "This plugin is the configuration GUI for Onion layers."
                          " Onion Layer(s) usually do show previous and/ or next frame(s)"
                          " of the video in the current frame, depending on ref_mode parameter"
