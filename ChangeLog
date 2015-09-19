@@ -1,3 +1,13 @@
+2015-09-19 Wolfgang Hofer <hof@gimp.org>
+
+- Fix for resize problems of the MovePath Dialog window
+  by fast rendering of a black preview while the user is resizing the window,
+  and do the final rendering just once (200 ms after a series of multiple resize events in sequence)
+  (Multiple time consuming render operations often caused freeze of the dialog window 
+   in Windows7 environment)
+
+* gap/gap_mov_dialog.c
+
 2015-08-29 Wolfgang Hofer <hof@gimp.org>
 
 - use generic checks for required automake aclocal version
