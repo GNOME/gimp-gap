@@ -146,14 +146,14 @@ extern      int gap_debug; /* ==0  ... dont print debug infos */
 #define ENTRY_GROUP_PATH_WIDTH 200
 
 
-/* instant apply is implemented via timer, configured to fire 10 times per second (100 msec)
+/* instant apply is implemented via timer, configured to fire 5 times per second (200 msec)
  * this collects instant_apply_requests set by other widget callbacks and events
  * and then update only once.
  * The timer is completely removed, when instant_apply is OFF
  * instant_apply requires much CPU and IO power especially on big images
  * and images with many layers
  */
-#define INSTANT_TIMERINTERVAL_MILLISEC  100
+#define INSTANT_TIMERINTERVAL_MILLISEC  200
 
 
 #ifdef MOVE_PATH_LAYOUT_BIG_PREVIEW
@@ -7243,11 +7243,27 @@ mov_pview_size_allocate_callback(GtkWidget *widget
                       );
   }
 
+  mov_remove_timer(mgp);  /* remove instant apply timer (when already running) 
+                           * to prevent rendering for the next interval of millisecs 
+                           * (because typical many resize events will occure as long as the user
+                           * drags the mouse to adjust windowsize.
+                           * while resize is still going on, full time consuming rendering shall be suspended
+                           * and a black preview is displayed
+                           * until no further resize events in fast sequence are detected.
+                           * (Then rendering shall be done )
+                           */
+  mov_install_timer(mgp); /* restart instant apply timer to trigger rendering just once for the final wanted size.
+                           * note that the instant apply timer may fire only once in case instant apply flag is OFF. 
+                           */
+
   if(((pheight / 6) == (mgp->pheight / 6))
   && ((pwidth / 6)  == (mgp->pwidth / 6)))
   {
     /* skip resize if equal size or no significant change (< 6 pixel) */
-    if(gap_debug) printf("RET\n");
+    if(gap_debug)
+    { 
+      printf("RET (ignore minimal resize)\n");
+    }
     return;
   }
 
@@ -7259,14 +7275,31 @@ mov_pview_size_allocate_callback(GtkWidget *widget
                   , mgp->pheight
                   , actual_check_size
                   );
-  mov_upvw_callback (NULL, mgp);
+  /* mov_upvw_callback (NULL, mgp); */
 
   if(fit_initial)
   {
     mov_fit_initial_shell_window(mgp);
   }
+  
+  /* render a black preview at new desired size */
+  gap_pview_render_from_buf (mgp->pv_ptr
+                 , NULL           /* *src_data NULL clears the preview to black */
+                 , mgp->pwidth    /* src_width */
+                 , mgp->pheight   /* src_height */
+                 , 3              /* src_bpp */
+                 , FALSE          /* do NOT allow_grab_src_data */
+                 );
+
+  /* set render request that triggers call to 
+   *     mov_upvw_callback (NULL, mgp); 
+   * after timer delay is done (and no further resize event occured so far.)
+   */
+  mov_set_instant_apply_request(mgp);
+
 
 }  /* end mov_pview_size_allocate_callback */
+
 
 
 

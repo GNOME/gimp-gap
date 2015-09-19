@@ -1,3 +1,9 @@
+2015-19-19 Wolfgang Hofer <hof@gimp.org>
+
+Merged MovePath dialog resize fix from gap-2.8 branch to master.
+
+ * gap/gap_mov_dialog.c  
+
 2015-05-29 Wolfgang Hofer <hof@gimp.org>
 
 merged fixes and new move path merge feature from gap-2-8 branch
