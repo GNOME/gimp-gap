@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: 2.6\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-08-30 05:39+0000\n"
-"PO-Revision-Date: 2015-08-30 11:33+0100\n"
+"POT-Creation-Date: 2015-09-20 17:44+0000\n"
+"PO-Revision-Date: 2015-09-21 06:23+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
@@ -543,7 +543,6 @@ msgid "No Path Vectors available."
 msgstr "Sem vetores de caminho disponíveis."
 
 #: ../gap/gap_blend_fill_main.c:1488
-#| msgid "SVG file does not exist (use Save Pats button to create)."
 msgid "SVG file does not exist (use Save Paths button to create)."
 msgstr "Ficheiro SVG não existe (use o botão Gravar caminhos para criar)."
 
@@ -1170,7 +1169,6 @@ msgid "DEBUG Options"
 msgstr "Opções de depuração"
 
 #: ../gap/gap_colormask_dialog.c:815
-#| msgid "DiffSensitvity:"
 msgid "DiffSensitivity:"
 msgstr "Sensibilidade de diferenças:"
 
@@ -1497,7 +1495,6 @@ msgid "Jpeg Optimize:"
 msgstr "Otimização Jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:544
-#| msgid "optimization factor(is ignored when other formats are used)"
 msgid "Optimization factor (is ignored when other formats are used)"
 msgstr "Fator de otimização (é ignorado ao usar outros formatos)"
 
@@ -1506,7 +1503,6 @@ msgid "Jpeg Smooth:"
 msgstr "Jpeg suave:"
 
 #: ../gap/gap_decode_mplayer.c:555
-#| msgid "Smooth factor(is ignored when other formats are used)"
 msgid "Smooth factor (is ignored when other formats are used)"
 msgstr "Fator de suavização (é ignorado ao usar outros formatos)"
 
@@ -1515,8 +1511,6 @@ msgid "Jpeg Progressive:"
 msgstr "Jpeg progressivo:"
 
 #: ../gap/gap_decode_mplayer.c:566
-#| msgid ""
-#| "Enable progressive jpeg encoding(is ignored when other formats are used)"
 msgid ""
 "Enable progressive jpeg encoding (is ignored when other formats are used)"
 msgstr ""
@@ -1527,8 +1521,6 @@ msgid "Jpeg Baseline:"
 msgstr "Linha base Jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:573
-#| msgid ""
-#| "Enable baseline jpeg encoding(is ignored when other formats are used)"
 msgid "Enable baseline jpeg encoding (is ignored when other formats are used)"
 msgstr ""
 "Ativar codificação de linha base jpeg (é ignorada ao usar outros formatos)"
@@ -2033,14 +2025,6 @@ msgstr ""
 "Destino marcado pelos pontos 1&2 "
 
 #: ../gap/gap_detail_align_exec.c:1279
-#| msgid ""
-#| "This filter requires a current path with 4 points,where point 1 and 2 "
-#| "mark reference positions and point 3 and 4 mark positions in the target "
-#| "layer.It transforms the target layer in a way that point3 is moved to "
-#| "point1 and point4 moves to point2.(this may include rotate and scale "
-#| "transformation).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
@@ -2058,14 +2042,6 @@ msgstr ""
 "(via operação de mover simples, sem rotação nem dimensionamento)"
 
 #: ../gap/gap_detail_align_exec.c:1290
-#| msgid ""
-#| "This filter requires a current path with 4 points,where point 1 and 3 "
-#| "mark reference positions and point 2 and 4 mark positions in the target "
-#| "layer.It transforms the target layer in a way that point2 is moved to "
-#| "point1 and point4 moves to point3.(this may include rotate and scale "
-#| "transformation).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
@@ -2243,6 +2219,11 @@ msgstr "Alinhamento exato via caminho de 4 pontos."
 msgid "<Image>/Layer/Transform/"
 msgstr "<Imagem>/Camada/Transformação/"
 
+#: ../gap/gap-dup-continue.scm:38
+#| msgid "<Image>/Video/Duplicate Frames..."
+msgid "<Image>/Video/Duplicate Continue"
+msgstr "<Imagem>/Vídeo/Duplicar continuar..."
+
 #. The dialog1 and main vbox
 #: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
 msgid "Foreground-Extract"
@@ -2315,13 +2296,6 @@ msgid "Tri-Map:"
 msgstr "Trimapa:"
 
 #: ../gap/gap_fg_matting_dialog.c:443
-#| msgid ""
-#| "Select the tri_map layer (or layermask).  the tri-map shall be of same "
-#| "size as the input layer and  provides a rough user selection  where WHITE "
-#| "pixels in the tri map defines FOREGROUND (i.e. opaque result)  BLACK "
-#| "pixels define BACKGROUND (i.e. transparent result) GRAY pixels (value 1 "
-#| "upto 240) are marked as Undefined  (i.e. opacity to be processed by this "
-#| "filter.) )"
 msgid ""
 "Select the tri_map layer (or layermask).  the tri-map shall be of same size "
 "as the input layer and  provides a rough user selection  where WHITE pixels "
@@ -2426,9 +2400,6 @@ msgstr "Aplicar filtro animado"
 
 #: ../gap/gap_filter_foreach.c:235
 #, c-format
-#| msgid ""
-#| "Error: Plugin %s has changed the number of layers from %d to %d\n"
-#| "could not restore Layer visibilty.\n"
 msgid ""
 "Error: Plugin %s has changed the number of layers from %d to %d\n"
 "could not restore Layer visibility.\n"
@@ -2956,13 +2927,6 @@ msgstr "descartar alterações"
 
 #: ../gap/gap_lib.c:2166
 #, c-format
-#| msgid ""
-#| "You are using another file format than xcf.\n"
-#| "This dialog configures how to handle exchanges of\n"
-#| "the current frame image (for frames with extension %s)\n"
-#| "Note that automatical save on frame change just works with XCF\n"
-#| "but automatical overwrite (via export) to other formats\n"
-#| "typically results in loss of layers and other information."
 msgid ""
 "You are using another file format than xcf.\n"
 "This dialog configures how to handle exchanges of\n"
@@ -4165,10 +4129,6 @@ msgstr ""
 "relevante para desenhar)"
 
 #: ../gap/gap_morph_dialog.c:3953
-#| msgid ""
-#| "Locate Shaperadius in pixels. Defines shape size as area around workpoint "
-#| "to be compared  when loacting corresponding coordinate(Not relevant for "
-#| "rendering)"
 msgid ""
 "Locate Shaperadius in pixels. Defines shape size as area around workpoint to "
 "be compared  when locating corresponding coordinate(Not relevant for "
@@ -4420,7 +4380,6 @@ msgid "Num Workpoints:"
 msgstr "Nº de pontos de controlo:"
 
 #: ../gap/gap_morph_tween_dialog.c:734
-#| msgid "Number of workpoints to be generated par processed frame"
 msgid "Number of workpoints to be generated per processed frame"
 msgstr "Número de pontos de controlo a gerar por moldura processada"
 
@@ -4455,10 +4414,6 @@ msgid ""
 msgstr "Valor do atributo AFFECT-RADIUS a ser escrito no ficheiro gerado."
 
 #: ../gap/gap_morph_tween_dialog.c:790
-#| msgid ""
-#| "INTENSITY attribute value to be written to the generated workpoint file. "
-#| "value 0 turns off intensity desceding deformation, morph processing will "
-#| "use linear deform action inside the deform radius"
 msgid ""
 "INTENSITY attribute value to be written to the generated workpoint file. "
 "value 0 turns off intensity descending deformation, morph processing will "
@@ -4609,11 +4564,6 @@ msgid "Subdirectory:"
 msgstr "Subpasta:"
 
 #: ../gap/gap_morph_tween_dialog.c:1302
-#| msgid ""
-#| "Name of a (Sub)directoy to save copies of processed frames and generated "
-#| "tweens. Note that tweens are created via simple fade operations when no "
-#| "workpointfile for the processed frame is available. (individual "
-#| "workpointfiles per frame are referred by extension .morphpoints)"
 msgid ""
 "Name of a (Sub)directory to save copies of processed frames and generated "
 "tweens. Note that tweens are created via simple fade operations when no "
@@ -4636,7 +4586,6 @@ msgstr ""
 #. the master progress bar
 #. master progress
 #: ../gap/gap_morph_tween_dialog.c:1338
-#| msgid "Create Tweenfame(s):"
 msgid "Create Tweenframe(s):"
 msgstr "Criar molduras gémeas:"
 
@@ -4675,7 +4624,6 @@ msgid "Advanced Settings"
 msgstr "Configurações avançadas"
 
 #: ../gap/gap_mov_dialog.c:1140
-#| msgid "Render Settings"
 msgid "Merge Settings"
 msgstr "Definições de união"
 
@@ -5182,17 +5130,14 @@ msgstr ""
 
 #. the merge option menu for the tween layer
 #: ../gap/gap_mov_dialog.c:4395
-#| msgid "Tweenlayer"
 msgid "Keep TweenLayer"
 msgstr "Manter camada gémea"
 
 #: ../gap/gap_mov_dialog.c:4396
-#| msgid "Merge Layers"
 msgid "Merge Down TweenLayer"
 msgstr "Unir abaixo camada gémea"
 
 #: ../gap/gap_mov_dialog.c:4397
-#| msgid "Delete layer(s)"
 msgid "Delete TweenLayer"
 msgstr "Eliminar camada gémea"
 
@@ -5204,17 +5149,14 @@ msgstr ""
 
 #. the merge option menu for the trace layer
 #: ../gap/gap_mov_dialog.c:4435
-#| msgid "Tracelayer"
 msgid "Keep TraceLayer"
 msgstr "Manter camada de rastreio"
 
 #: ../gap/gap_mov_dialog.c:4436
-#| msgid "Merge Layers"
 msgid "Merge Down TraceLayer"
 msgstr "Unir abaixo camada de rastreio"
 
 #: ../gap/gap_mov_dialog.c:4437
-#| msgid "Delete layer(s)"
 msgid "Delete TraceLayer"
 msgstr "Eliminar camada de rastreio"
 
@@ -5226,17 +5168,14 @@ msgstr ""
 
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4477
-#| msgid "Merge Layers:"
 msgid "Merge Target:"
 msgstr "Unir destino:"
 
 #: ../gap/gap_mov_dialog.c:4482
-#| msgid "New Layer Name"
 msgid "New Layer"
 msgstr "Nova camada"
 
 #: ../gap/gap_mov_dialog.c:4483
-#| msgid "Merged Layer Name"
 msgid "Merge to Layer below"
 msgstr "Unir com a camada abaixo"
 
@@ -5955,14 +5894,11 @@ msgstr ""
 "Lista de erros:\n"
 "%s"
 
-#: ../gap/gap_mov_dialog.c:7289
+#: ../gap/gap_mov_dialog.c:7322
 msgid "MovePath xmlfile:"
 msgstr "Ficheiro xml de caminho de movimento:"
 
-#: ../gap/gap_mov_dialog.c:7291
-#| msgid ""
-#| "Name of the file containing move path paramters and controlpoints in XML "
-#| "format"
+#: ../gap/gap_mov_dialog.c:7324
 msgid ""
 "Name of the file containing move path parameters and controlpoints in XML "
 "format"
@@ -5970,27 +5906,27 @@ msgstr ""
 "Nome do ficheiro contendo parâmetros do caminho de movimento e pontos de "
 "controlo em formato XML"
 
-#: ../gap/gap_mov_dialog.c:7299 ../vid_common/gap_cme_gui.c:2895
+#: ../gap/gap_mov_dialog.c:7332 ../vid_common/gap_cme_gui.c:2895
 msgid "Total Frames:"
 msgstr "Total de molduras:"
 
-#: ../gap/gap_mov_dialog.c:7300
+#: ../gap/gap_mov_dialog.c:7333
 msgid "Total number of frames"
 msgstr "Número total de molduras"
 
-#: ../gap/gap_mov_dialog.c:7311
+#: ../gap/gap_mov_dialog.c:7344
 msgid "Current Frame:"
 msgstr "Moldura atual:"
 
-#: ../gap/gap_mov_dialog.c:7312
+#: ../gap/gap_mov_dialog.c:7345
 msgid "Current Frame number (i.e. current phase) of total number of frames"
 msgstr "Número de moldura atual (i.e. fase atual) do número total de molduras"
 
-#: ../gap/gap_mov_dialog.c:7320
+#: ../gap/gap_mov_dialog.c:7353
 msgid "Movepath rendering for a single frame"
 msgstr "Desenho de caminho de movimento para uma moldura única"
 
-#: ../gap/gap_mov_dialog.c:7321 ../gap/gap_player_dialog.c:491
+#: ../gap/gap_mov_dialog.c:7354 ../gap/gap_player_dialog.c:491
 #: ../gap/gap_story_dialog.c:5311 ../gap/gap_story_dialog.c:9169
 #: ../gap/gap_story_dialog.c:9619
 msgid "Settings"
@@ -6271,7 +6207,6 @@ msgid "P-Search:"
 msgstr "Procura P:"
 
 #: ../gap/gap_mpege.c:435
-#| msgid "Search algorithmus used for P-frames"
 msgid "Search algorithm used for P-frames"
 msgstr "Algoritmos de procura utilizados para molduras P"
 
@@ -6280,7 +6215,6 @@ msgid "B-Search:"
 msgstr "Procura B:"
 
 #: ../gap/gap_mpege.c:444
-#| msgid "Search algorithmus used for B-frames"
 msgid "Search algorithm used for B-frames"
 msgstr "Algoritmos de procura utilizados para molduras B"
 
@@ -6716,7 +6650,6 @@ msgstr ""
 "Opacidade da 1ª camada PeleDeCebola (0 é transparente, 100 é opaco completo)"
 
 #: ../gap/gap_onion_dialog.c:1176
-#| msgid "Descending opacity for 2.nd onionskin layer"
 msgid "Descending opacity for 2nd onionskin layer"
 msgstr "Opacidade descendente para a 2ª camada PeleDeCebola"
 
@@ -7874,10 +7807,6 @@ msgid "Imagetype:"
 msgstr "Tipo de imagem:"
 
 #: ../gap/gap_range_ops.c:574
-#| msgid ""
-#| "Convert to another imagetype, or keep imagetype as it is. Most "
-#| "fileformats can't handle all types and may require a conversion.Example: "
-#| "GIF can not handle RGB and requires convert to indexed imagetype."
 msgid ""
 "Convert to another imagetype, or keep imagetype as it is. Most fileformats "
 "can't handle all types and may require a conversion. Example: GIF can not "
@@ -8020,9 +7949,6 @@ msgid "Exclude BG-Layer:"
 msgstr "Excluir camada F:"
 
 #: ../gap/gap_range_ops.c:777
-#| msgid ""
-#| "Exclude the background layer in all handled frames, regardless to the "
-#| "other settings of layer selection."
 msgid ""
 "Exclude the background layer in all handled frames, regardless of the other "
 "settings of layer selection."
@@ -8246,9 +8172,6 @@ msgid "Only Visible:"
 msgstr "Só visível:"
 
 #: ../gap/gap_split.c:479
-#| msgid ""
-#| "ON: Handle only visible layers.\n"
-#| "OFF: handle all layers and force visibiblity"
 msgid ""
 "ON: Handle only visible layers.\n"
 "OFF: handle all layers and force visibility"
@@ -8261,10 +8184,6 @@ msgid "Copy properties:"
 msgstr "Cópia de propriedades:"
 
 #: ../gap/gap_split.c:487
-#| msgid ""
-#| "ON: Copy all image properties (channels, pathes, guides) to all frame "
-#| "images.\n"
-#| "OFF: copy only layers without image properties to frame images"
 msgid ""
 "ON: Copy all image properties (channels, paths, guides) to all frame "
 "images.\n"
@@ -8651,9 +8570,6 @@ msgstr "Caminho de movimento:"
 #. page size        for the from/to values
 #. digits for the from/to values
 #: ../gap/gap_story_att_trans_dlg.c:3885
-#| msgid ""
-#| "ON: Enable move path transistions using settings provided via a movepath "
-#| "parameter file"
 msgid ""
 "ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
@@ -9332,10 +9248,6 @@ msgid "Decoder:"
 msgstr "Descodificador:"
 
 #: ../gap/gap_story_dialog.c:9515
-#| msgid ""
-#| "Select preferred video decoder library, or leave empty for automatic "
-#| "selection.The decoder setting is only relevant if videoclips are used "
-#| "(but not for frames that are imagefiles)"
 msgid ""
 "Select preferred video decoder library, or leave empty for automatic "
 "selection. The decoder setting is only relevant if videoclips are used (but "
@@ -9361,16 +9273,21 @@ msgstr "Formato de transparência externa:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
 #, c-format
+#| msgid ""
+#| "Format string to provide external transparency in movie clips. (i.e. "
+#| "automatic alpha channel insertion via external frames)this string shall "
+#| "contain \\%s as placeholder for the basename of a videoclip and optional "
+#| "\\%06d as placeholder for the framenumber."
 msgid ""
 "Format string to provide external transparency in movie clips. (i.e. "
 "automatic alpha channel insertion via external frames)this string shall "
-"contain \\%s as placeholder for the basename of a videoclip and optional \\"
-"%06d as placeholder for the framenumber."
+"contain %s as placeholder for the basename of a videoclip and optional %06d "
+"as placeholder for the framenumber."
 msgstr ""
 "Cadeia de formatação para fornecer transparência externa em clips de filme "
 "(i.e. inserção automática de canal alfa via molduras externas). Esta cadeia "
-"deve conter \\%s como marcador de posição do nome base do clip vídeo e um "
-"marcador opcional \\%06d para o número da moldura"
+"deve conter %s como marcador de posição do nome base do clip vídeo e um "
+"marcador opcional %06d para o número da moldura"
 
 #: ../gap/gap_story_dialog.c:9595
 msgid "AreaFormat:"
@@ -9379,14 +9296,19 @@ msgstr "Formato da área:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
 #, c-format
+#| msgid ""
+#| "Format string for area replacement in movie clips. (for example automatic "
+#| "logo insert)this string shall contain \\%s as placeholder for the "
+#| "basename of a videoclip and optional \\%06d as placeholder for the "
+#| "framenumber."
 msgid ""
 "Format string for area replacement in movie clips. (for example automatic "
-"logo insert)this string shall contain \\%s as placeholder for the basename "
-"of a videoclip and optional \\%06d as placeholder for the framenumber."
+"logo insert)this string shall contain %s as placeholder for the basename of "
+"a videoclip and optional %06d as placeholder for the framenumber."
 msgstr ""
 "Cadeia de formatação para substituição de áreas em clips de filme (por "
-"exemplo, inserção automática de logótipo). Esta cadeia deve conter \\%s como "
-"marcador de posição para o nome base do clip vídeo e um marcador opcional \\"
+"exemplo, inserção automática de logótipo). Esta cadeia deve conter %s como "
+"marcador de posição para o nome base do clip vídeo e um marcador opcional "
 "%06d para o número da moldura."
 
 #. should use GIMP_STOCK_RESET if possible
@@ -9413,13 +9335,11 @@ msgstr "secção_%02d"
 
 #: ../gap/gap_story_file.c:2716
 #, c-format
-#| msgid "illegal number: %s (valid range is %d upto %d)\n"
 msgid "illegal number: %s (valid range is %d up to %d)\n"
 msgstr "número ilegal: %s (intervalo válido é %d até %d)\n"
 
 #: ../gap/gap_story_file.c:2755
 #, c-format
-#| msgid "illegal number: %s (valid range is %.3f upto %.3f)"
 msgid "illegal number: %s (valid range is %.3f up to %.3f)"
 msgstr "número ilegal: %s (intervalo válido é %.3f até %.3f)"
 
@@ -9526,7 +9446,6 @@ msgid "Set Image or Frame Filename"
 msgstr "Definir nome de ficheiro de imagem ou moldura"
 
 #: ../gap/gap_story_properties.c:2501
-#| msgid "Set Colormark Parmeter Filename"
 msgid "Set Colormask Parameter Filename"
 msgstr "Definir nome de ficheiro de parâmetros de máscara de cor"
 
@@ -9977,7 +9896,6 @@ msgid "analyze line %d (out of %d)"
 msgstr "analisar linha %d (de %d)"
 
 #: ../gap/gap_story_render_processor.c:3429
-#| msgid "No Frames or Images found ...."
 msgid "No Frames or Images found ..."
 msgstr "Molduras ou imagens não encontradas..."
 
@@ -10451,13 +10369,6 @@ msgid "  %s (%d of %d)"
 msgstr "  %s (%d de %d)"
 
 #: ../gap/gap_video_index_creator.c:924
-#| msgid ""
-#| "Conditional video index creation,  based on a few quick timcode "
-#| "probereads.\n"
-#| "Skip index creation if native seek seems possible\n"
-#| "\n"
-#| "WARNING: positioning via native seek may not work exact in case critical "
-#| "timecode steps were not detected in the quick test)"
 msgid ""
 "Conditional video index creation,  based on a few quick timecode "
 "probereads.\n"
@@ -10533,9 +10444,6 @@ msgid "Percentage:"
 msgstr "Percentagem:"
 
 #: ../gap/gap_video_index_creator.c:994
-#| msgid ""
-#| "stop scan after percentage reached and no unplausible timecode was "
-#| "detected so far (only relevant in smart mode)"
 msgid ""
 "stop scan after percentage reached and no implausible timecode was detected "
 "so far (only relevant in smart mode)"
@@ -10615,9 +10523,6 @@ msgid "Horizontal shift phase where 1.0 refers to image width"
 msgstr "Desvio horizontal da fase, onde 1,0 se refere à largura da imagem"
 
 #: ../gap/gap_water_pattern.c:1216
-#| msgid ""
-#| "ON: create waterpattern cloud layers according options. OFF: Use external "
-#| "pattern layers. "
 msgid ""
 "ON: create waterpattern cloud layers according to options. OFF: Use external "
 "pattern layers. "
@@ -10990,6 +10895,24 @@ msgstr "<Imagem>/Vídeo/Camada/Transformar/"
 #: ../gap/gap_wr_trans.c:654
 msgid "Rotate angle:"
 msgstr "Ângulo de rotação:"
+
+#: ../gap/sel-to-anim-img.scm:115
+msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
+msgstr "<Imagem>/Script-Fu/Animadores/Seleção para AnimImage..."
+
+#: ../gap/sel-to-anim-img.scm:123
+#| msgid "Number of Colors"
+msgid "Number of Copies"
+msgstr "Número de cópias"
+
+#: ../gap/sel-to-anim-img.scm:124
+#| msgid "Select By Color"
+msgid "Fill with BG Color"
+msgstr "Encher com cor de FD"
+
+#: ../gap/sel-to-anim-img.scm:125
+msgid "Anim-Filter for all Copies"
+msgstr "Anim-Filter para todas as cópias"
 
 #: ../libgapvidapi/gap_vid_api_mpeg3.c:843
 #, c-format
@@ -11904,17 +11827,6 @@ msgid "This plugin is the master dialog for video + audio encoding"
 msgstr "Esta extensão é o diálogo mestre para codificação vídeo + áudio"
 
 #: ../vid_common/gap_cme_main.c:148
-#| msgid ""
-#| "This plugin is a common GUI for all available video + audio encoding "
-#| "plugins it operates on a selected range of animframes or storyboard "
-#| "files. The (optional) audio inputdata (param: audfile) is transformed to "
-#| "RIFF WAVE format (16Bit PCM) and passed to the selected videoencoder plug-"
-#| "in as temporary file. (or direct if format and samplerate already matches "
-#| "the desired target samplerate). The videoformat is defined with "
-#| "vid_enc_plugin parameter. The specified plugin  is called with the "
-#| "parameters specified in the dialog. for noninteractive calls default "
-#| "values will be used. (you may call the desired plugin directly if you "
-#| "want to specify non-interacive parameters"
 msgid ""
 "This plugin is a common GUI for all available video + audio encoding plugins "
 "it operates on a selected range of animframes or storyboard files. The "
@@ -12113,10 +12025,6 @@ msgid "BGR (rgb):"
 msgstr "BGR (rgb):"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:921
-#| msgid ""
-#| "Check if you want to encode frames in BGR (prefered) or RGB colormodel "
-#| "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
-#| "other players want RGB colromodel for RAW avi data)"
 msgid ""
 "Check if you want to encode frames in BGR (preferred) or RGB colormodel "
 "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
@@ -12335,17 +12243,11 @@ msgstr "Predefinição selecionada: %s"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:502
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:518
-#| msgid "Recommanded Framesize"
 msgid "Recommended Framesize"
 msgstr "Tamanho de moldura recomendado"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:529
 #, c-format
-#| msgid ""
-#| "Selected Fileformat : [%s] %s\n"
-#| "Recommanded Video CODEC : %s\n"
-#| "Recommanded Audio CODEC : %s\n"
-#| "Extension(s): %s %s"
 msgid ""
 "Selected Fileformat : [%s] %s\n"
 "Recommended Video CODEC : %s\n"
@@ -12993,10 +12895,6 @@ msgid "Dont Recode"
 msgstr "Não recodificar"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2478
-#| msgid ""
-#| "Bypass the FFMPEG Vidoencoder where inputframes can be copied 1:1 from an "
-#| "input MPEG videofile.This experimental feature provides lossless MPEG "
-#| "video cut, but works only for the MPEG Fileformats."
 msgid ""
 "Bypass the FFMPEG Videoencoder where inputframes can be copied 1:1 from an "
 "input MPEG videofile. This experimental feature provides lossless MPEG video "
@@ -13767,19 +13665,6 @@ msgid "rawframes video encoding for anim frames. Menu: @rawframeS@"
 msgstr "Codificação vídeo rawframes para molduras animadas. Menu: @rawframeS@"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:184
-#| msgid ""
-#| "This plugin has a video encoder API but writes a series of single raw "
-#| "frames instead of one videofile. the filetype of the output frames is "
-#| "derived from the extension. the extension is the suffix part of the "
-#| "parameter \"videofile\". the names of the output frame(s) are same as the "
-#| "parameter \"videofile\" but the framenumber part is replaced by the "
-#| "current framenumber (or added automatic if videofile has no number part) "
-#| "audiodata is ignored.WARNINGS: for proper operation, the handled frames "
-#| "shall refere to single video file without any transitions. this allows "
-#| "fetching frames as raw data chunks. The chunks are 1:1 written to disc as "
-#| "framefiles. The resulting raw data frames on disc may be unusable if the "
-#| "raw chunk data is not compatible to any image fileformat. MPEG I frames, "
-#| "and MJPG files may be extractable to the JPEG fileformat. A  call of\""
 msgid ""
 "This plugin has a video encoder API but writes a series of single raw frames "
 "instead of one videofile. the filetype of the output frames is derived from "
@@ -13991,9 +13876,6 @@ msgstr ""
 
 #~ msgid "<Image>/Video/Go To/Any Frame..."
 #~ msgstr "<Image>/Vídeo/Ir Para/Qualquer Frame..."
-
-#~ msgid "<Image>/Video/Duplicate Frames..."
-#~ msgstr "<Image>/Vídeo/Duplicar Frames..."
 
 #~ msgid "<Image>/Video/Frames Density..."
 #~ msgstr "<Image>/Vídeo/Densidade Frames..."
