@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gimp-plugins 1.0\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-08-29 11:21+0000\n"
-"PO-Revision-Date: 2015-09-14 12:33+0300\n"
+"POT-Creation-Date: 2015-09-19 16:13+0000\n"
+"PO-Revision-Date: 2015-09-30 09:36+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
@@ -554,7 +554,6 @@ msgid "No Path Vectors available."
 msgstr "Χωρίς διαθέσιμα διανύσματα μονοπατιού."
 
 #: ../gap/gap_blend_fill_main.c:1488
-#| msgid "SVG file does not exist (use Save Pats button to create)."
 msgid "SVG file does not exist (use Save Paths button to create)."
 msgstr ""
 "Δεν υπάρχει αρχείο SVG (χρησιμοποιήστε το πλήκτρο αποθήκευση διαδρομών για "
@@ -1203,7 +1202,6 @@ msgid "DEBUG Options"
 msgstr "Επιλογές ΑΠΟΣΦΑΛΜΑΤΩΣΗΣ"
 
 #: ../gap/gap_colormask_dialog.c:815
-#| msgid "DiffSensitvity:"
 msgid "DiffSensitivity:"
 msgstr "Ευαισθησία διαφοράς:"
 
@@ -1536,7 +1534,6 @@ msgid "Jpeg Optimize:"
 msgstr "Βελτιστοποίηση jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:544
-#| msgid "optimization factor(is ignored when other formats are used)"
 msgid "Optimization factor (is ignored when other formats are used)"
 msgstr ""
 "Συντελεστής βελτιστοποίησης (αγνοείται όταν χρησιμοποιούνται άλλες μορφές)"
@@ -1546,7 +1543,6 @@ msgid "Jpeg Smooth:"
 msgstr "Εξομάλυνση jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:555
-#| msgid "Smooth factor(is ignored when other formats are used)"
 msgid "Smooth factor (is ignored when other formats are used)"
 msgstr "Συντελεστής εξομάλυνσης (αγνοείται όταν χρησιμοποιούνται άλλες μορφές)"
 
@@ -1555,8 +1551,6 @@ msgid "Jpeg Progressive:"
 msgstr "Σταδιακό Jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:566
-#| msgid ""
-#| "Enable progressive jpeg encoding(is ignored when other formats are used)"
 msgid ""
 "Enable progressive jpeg encoding (is ignored when other formats are used)"
 msgstr ""
@@ -1568,8 +1562,6 @@ msgid "Jpeg Baseline:"
 msgstr "Γραμμή βάσης Jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:573
-#| msgid ""
-#| "Enable baseline jpeg encoding(is ignored when other formats are used)"
 msgid "Enable baseline jpeg encoding (is ignored when other formats are used)"
 msgstr ""
 "Ενεργοποίηση κωδικοποίησης γραμμής βάσης jpeg (αγνοείται όταν "
@@ -2081,14 +2073,6 @@ msgstr ""
 "Ο στόχος σημειώνεται από τα σημεία 1&2 "
 
 #: ../gap/gap_detail_align_exec.c:1279
-#| msgid ""
-#| "This filter requires a current path with 4 points,where point 1 and 2 "
-#| "mark reference positions and point 3 and 4 mark positions in the target "
-#| "layer.It transforms the target layer in a way that point3 is moved to "
-#| "point1 and point4 moves to point2.(this may include rotate and scale "
-#| "transformation).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
@@ -2107,14 +2091,6 @@ msgstr ""
 "και κλιμάκωση)"
 
 #: ../gap/gap_detail_align_exec.c:1290
-#| msgid ""
-#| "This filter requires a current path with 4 points,where point 1 and 3 "
-#| "mark reference positions and point 2 and 4 mark positions in the target "
-#| "layer.It transforms the target layer in a way that point2 is moved to "
-#| "point1 and point4 moves to point3.(this may include rotate and scale "
-#| "transformation).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
@@ -2124,8 +2100,8 @@ msgid ""
 "operation without rotate and scale)"
 msgstr ""
 "Αυτό το φίλτρο απαιτεί ένα τρέχον μονοπάτι με 4 σημεία, όπου τα σημεία 1 και "
-"3 σημειώνουν θέσεις αναφοράς και σημεία 2 και 4 σημειώνουν θέσεις στη "
-"στρώση στόχου. Μετασχηματίζει τη στρώση στόχου κατά τρόπο που το σημείο2 "
+"3 σημειώνουν θέσεις αναφοράς και σημεία 2 και 4 σημειώνουν θέσεις στη στρώση "
+"στόχου. Μετασχηματίζει τη στρώση στόχου κατά τρόπο που το σημείο2 "
 "μετακινείται στο σημείο1 και το σημείο4 μετακινείται στο σημείο3. (αυτό "
 "μπορεί να συμπεριλάβει μετασχηματισμό περιστροφής και κλιμάκωσης).\n"
 "Ένα μονοπάτι με 2 σημεία μπορεί να χρησιμοποιηθεί για μετακίνηση του "
@@ -2301,6 +2277,11 @@ msgstr "Ακριβής στοίχιση μέσω μονοπατιού 4 σημε
 msgid "<Image>/Layer/Transform/"
 msgstr "<Image>/Στρώση/Μετασχηματισμός/"
 
+#: ../gap/gap-dup-continue.scm:38
+#| msgid "<Image>/Video/Onionskin/"
+msgid "<Image>/Video/Duplicate Continue"
+msgstr "<Image>/Βίντεο/Διπλότυπο συνέχεια"
+
 #. The dialog1 and main vbox
 #: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
 msgid "Foreground-Extract"
@@ -2375,13 +2356,6 @@ msgid "Tri-Map:"
 msgstr "Τριπλός χάρτης:"
 
 #: ../gap/gap_fg_matting_dialog.c:443
-#| msgid ""
-#| "Select the tri_map layer (or layermask).  the tri-map shall be of same "
-#| "size as the input layer and  provides a rough user selection  where WHITE "
-#| "pixels in the tri map defines FOREGROUND (i.e. opaque result)  BLACK "
-#| "pixels define BACKGROUND (i.e. transparent result) GRAY pixels (value 1 "
-#| "upto 240) are marked as Undefined  (i.e. opacity to be processed by this "
-#| "filter.) )"
 msgid ""
 "Select the tri_map layer (or layermask).  the tri-map shall be of same size "
 "as the input layer and  provides a rough user selection  where WHITE pixels "
@@ -2490,9 +2464,6 @@ msgstr "Εφαρμογή φίλτρου κίνησης"
 
 #: ../gap/gap_filter_foreach.c:235
 #, c-format
-#| msgid ""
-#| "Error: Plugin %s has changed the number of layers from %d to %d\n"
-#| "could not restore Layer visibilty.\n"
 msgid ""
 "Error: Plugin %s has changed the number of layers from %d to %d\n"
 "could not restore Layer visibility.\n"
@@ -3039,13 +3010,6 @@ msgstr "Απόρριψη αλλαγών"
 
 #: ../gap/gap_lib.c:2166
 #, c-format
-#| msgid ""
-#| "You are using another file format than xcf.\n"
-#| "This dialog configures how to handle exchanges of\n"
-#| "the current frame image (for frames with extension %s)\n"
-#| "Note that automatical save on frame change just works with XCF\n"
-#| "but automatical overwrite (via export) to other formats\n"
-#| "typically results in loss of layers and other information."
 msgid ""
 "You are using another file format than xcf.\n"
 "This dialog configures how to handle exchanges of\n"
@@ -4292,10 +4256,6 @@ msgstr ""
 "εργασίας. (Ακατάλληλο για απόδοση)"
 
 #: ../gap/gap_morph_dialog.c:3953
-#| msgid ""
-#| "Locate Shaperadius in pixels. Defines shape size as area around workpoint "
-#| "to be compared  when loacting corresponding coordinate(Not relevant for "
-#| "rendering)"
 msgid ""
 "Locate Shaperadius in pixels. Defines shape size as area around workpoint to "
 "be compared  when locating corresponding coordinate(Not relevant for "
@@ -4557,7 +4517,6 @@ msgid "Num Workpoints:"
 msgstr "Αριθμός σημείων εργασίας:"
 
 #: ../gap/gap_morph_tween_dialog.c:734
-#| msgid "Number of workpoints to be generated par processed frame"
 msgid "Number of workpoints to be generated per processed frame"
 msgstr "Αριθμός σημείων εργασίας για δημιουργία από το επεξεργασμένο πλαίσιο"
 
@@ -4596,10 +4555,6 @@ msgstr ""
 "σημείου εργασίας."
 
 #: ../gap/gap_morph_tween_dialog.c:790
-#| msgid ""
-#| "INTENSITY attribute value to be written to the generated workpoint file. "
-#| "value 0 turns off intensity desceding deformation, morph processing will "
-#| "use linear deform action inside the deform radius"
 msgid ""
 "INTENSITY attribute value to be written to the generated workpoint file. "
 "value 0 turns off intensity descending deformation, morph processing will "
@@ -4757,11 +4712,6 @@ msgid "Subdirectory:"
 msgstr "Υποκατάλογος:"
 
 #: ../gap/gap_morph_tween_dialog.c:1302
-#| msgid ""
-#| "Name of a (Sub)directoy to save copies of processed frames and generated "
-#| "tweens. Note that tweens are created via simple fade operations when no "
-#| "workpointfile for the processed frame is available. (individual "
-#| "workpointfiles per frame are referred by extension .morphpoints)"
 msgid ""
 "Name of a (Sub)directory to save copies of processed frames and generated "
 "tweens. Note that tweens are created via simple fade operations when no "
@@ -4772,8 +4722,7 @@ msgstr ""
 "και δημιουργημένων ενδιάμεσων στρώσεων. Σημειώστε ότι οι ενδιάμεσες στρώσεις "
 "δημιουργούνται μέσω απλών λειτουργιών ξεθωριάσματος, όταν κανένα αρχείο "
 "σημείου εργασίας για το επεξεργασμένο πλαίσιο δεν είναι διαθέσιμο. (ατομικά "
-"αρχεία σημείων εργασίας ανά πλαίσιο αναφέρονται με την επέκταση "
-".morphpoints)"
+"αρχεία σημείων εργασίας ανά πλαίσιο αναφέρονται με την επέκταση .morphpoints)"
 
 #: ../gap/gap_morph_tween_dialog.c:1326
 msgid ""
@@ -4786,7 +4735,6 @@ msgstr ""
 #. the master progress bar
 #. master progress
 #: ../gap/gap_morph_tween_dialog.c:1338
-#| msgid "Create Tweenfame(s):"
 msgid "Create Tweenframe(s):"
 msgstr "Δημιουργία ενδιάμεσων πλαισίων:"
 
@@ -4825,7 +4773,6 @@ msgid "Advanced Settings"
 msgstr "Προχωρημένες ρυθμίσεις"
 
 #: ../gap/gap_mov_dialog.c:1140
-#| msgid "Render Settings"
 msgid "Merge Settings"
 msgstr "Συγχώνευση ρυθμίσεων"
 
@@ -5355,18 +5302,15 @@ msgstr ""
 
 #. the merge option menu for the tween layer
 #: ../gap/gap_mov_dialog.c:4395
-#| msgid "Tweenlayer"
 msgid "Keep TweenLayer"
 msgstr "Διατήρηση ενδιάμεσης στρώσης"
 
 #
 #: ../gap/gap_mov_dialog.c:4396
-#| msgid "Merge Layers"
 msgid "Merge Down TweenLayer"
 msgstr "Συγχώνευση με την από κάτω ενδιάμεση στρώση"
 
 #: ../gap/gap_mov_dialog.c:4397
-#| msgid "Delete layer(s)"
 msgid "Delete TweenLayer"
 msgstr "Διαγραφή ενδιάμεσης στρώσης"
 
@@ -5378,18 +5322,15 @@ msgstr ""
 
 #. the merge option menu for the trace layer
 #: ../gap/gap_mov_dialog.c:4435
-#| msgid "Tracelayer"
 msgid "Keep TraceLayer"
 msgstr "Διατήρηση στρώσης ανίχνευσης"
 
 #
 #: ../gap/gap_mov_dialog.c:4436
-#| msgid "Merge Layers"
 msgid "Merge Down TraceLayer"
 msgstr "Συγχώνευση με την από κάτω στρώση ανίχνευσης"
 
 #: ../gap/gap_mov_dialog.c:4437
-#| msgid "Delete layer(s)"
 msgid "Delete TraceLayer"
 msgstr "Διαγραφή στρώσης ανίχνευσης"
 
@@ -5402,17 +5343,14 @@ msgstr ""
 #
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4477
-#| msgid "Merge Layers:"
 msgid "Merge Target:"
 msgstr "Συγχώνευση προορισμού:"
 
 #: ../gap/gap_mov_dialog.c:4482
-#| msgid "New Layer Name"
 msgid "New Layer"
 msgstr "Νέα στρώση"
 
 #: ../gap/gap_mov_dialog.c:4483
-#| msgid "Merged Layer Name"
 msgid "Merge to Layer below"
 msgstr "Συγχώνευση με την παρακάτω στρώση"
 
@@ -6149,14 +6087,11 @@ msgstr ""
 "Λίστα σφάλματος:\n"
 "%s"
 
-#: ../gap/gap_mov_dialog.c:7289
+#: ../gap/gap_mov_dialog.c:7322
 msgid "MovePath xmlfile:"
 msgstr "Μονοπάτι μετακίνησης αρχείου xml:"
 
-#: ../gap/gap_mov_dialog.c:7291
-#| msgid ""
-#| "Name of the file containing move path paramters and controlpoints in XML "
-#| "format"
+#: ../gap/gap_mov_dialog.c:7324
 msgid ""
 "Name of the file containing move path parameters and controlpoints in XML "
 "format"
@@ -6164,30 +6099,30 @@ msgstr ""
 "Όνομα του αρχείου που περιέχει τις παραμέτρους και τα σημεία ελέγχου του "
 "μονοπατιού μετακίνησης σε μορφή XML"
 
-#: ../gap/gap_mov_dialog.c:7299 ../vid_common/gap_cme_gui.c:2895
+#: ../gap/gap_mov_dialog.c:7332 ../vid_common/gap_cme_gui.c:2895
 msgid "Total Frames:"
 msgstr "Συνολικά πλαίσια:"
 
 #
-#: ../gap/gap_mov_dialog.c:7300
+#: ../gap/gap_mov_dialog.c:7333
 msgid "Total number of frames"
 msgstr "Συνολικός αριθμός πλαισίων"
 
-#: ../gap/gap_mov_dialog.c:7311
+#: ../gap/gap_mov_dialog.c:7344
 msgid "Current Frame:"
 msgstr "Τρέχον πλαίσιο:"
 
-#: ../gap/gap_mov_dialog.c:7312
+#: ../gap/gap_mov_dialog.c:7345
 msgid "Current Frame number (i.e. current phase) of total number of frames"
 msgstr ""
 "Τρέχον αριθμός πλαισίων (δηλ. τρέχουσα φάση) του συνολικού αριθμού πλαισίων"
 
-#: ../gap/gap_mov_dialog.c:7320
+#: ../gap/gap_mov_dialog.c:7353
 msgid "Movepath rendering for a single frame"
 msgstr "Απόδοση του μονοπατιού μετακίνησης για ένα μοναδικό πλαίσιο"
 
 #
-#: ../gap/gap_mov_dialog.c:7321 ../gap/gap_player_dialog.c:491
+#: ../gap/gap_mov_dialog.c:7354 ../gap/gap_player_dialog.c:491
 #: ../gap/gap_story_dialog.c:5311 ../gap/gap_story_dialog.c:9169
 #: ../gap/gap_story_dialog.c:9619
 msgid "Settings"
@@ -6470,7 +6405,6 @@ msgid "P-Search:"
 msgstr "Αναζήτηση P:"
 
 #: ../gap/gap_mpege.c:435
-#| msgid "Search algorithmus used for P-frames"
 msgid "Search algorithm used for P-frames"
 msgstr "Ο χρησιμοποιούμενος αλγόριθμος αναζήτησης για πλαίσια P"
 
@@ -6479,7 +6413,6 @@ msgid "B-Search:"
 msgstr "Αναζήτηση B:"
 
 #: ../gap/gap_mpege.c:444
-#| msgid "Search algorithmus used for B-frames"
 msgid "Search algorithm used for B-frames"
 msgstr "Ο χρησιμοποιούμενος αλγόριθμος αναζήτησης για πλαίσια B"
 
@@ -6928,7 +6861,6 @@ msgstr ""
 "πλήρως αδιαφανές)"
 
 #: ../gap/gap_onion_dialog.c:1176
-#| msgid "Descending opacity for 2.nd onionskin layer"
 msgid "Descending opacity for 2nd onionskin layer"
 msgstr "Φθίνουσα αδιαφάνεια για τη δεύτερη στρώση θέματος κρεμμυδιού"
 
@@ -8116,10 +8048,6 @@ msgid "Imagetype:"
 msgstr "Τύπος εικόνας:"
 
 #: ../gap/gap_range_ops.c:574
-#| msgid ""
-#| "Convert to another imagetype, or keep imagetype as it is. Most "
-#| "fileformats can't handle all types and may require a conversion.Example: "
-#| "GIF can not handle RGB and requires convert to indexed imagetype."
 msgid ""
 "Convert to another imagetype, or keep imagetype as it is. Most fileformats "
 "can't handle all types and may require a conversion. Example: GIF can not "
@@ -8264,9 +8192,6 @@ msgid "Exclude BG-Layer:"
 msgstr "Αποκλεισμός στρώσης παρασκηνίου:"
 
 #: ../gap/gap_range_ops.c:777
-#| msgid ""
-#| "Exclude the background layer in all handled frames, regardless to the "
-#| "other settings of layer selection."
 msgid ""
 "Exclude the background layer in all handled frames, regardless of the other "
 "settings of layer selection."
@@ -8493,9 +8418,6 @@ msgid "Only Visible:"
 msgstr "Μόνο ορατό:"
 
 #: ../gap/gap_split.c:479
-#| msgid ""
-#| "ON: Handle only visible layers.\n"
-#| "OFF: handle all layers and force visibiblity"
 msgid ""
 "ON: Handle only visible layers.\n"
 "OFF: handle all layers and force visibility"
@@ -8508,10 +8430,6 @@ msgid "Copy properties:"
 msgstr "Ιδιότητες αντίγραφου:"
 
 #: ../gap/gap_split.c:487
-#| msgid ""
-#| "ON: Copy all image properties (channels, pathes, guides) to all frame "
-#| "images.\n"
-#| "OFF: copy only layers without image properties to frame images"
 msgid ""
 "ON: Copy all image properties (channels, paths, guides) to all frame "
 "images.\n"
@@ -8638,8 +8556,7 @@ msgstr "Γνωρίσματα μετάβασης"
 #. the frame
 #: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
-#: ../gap/gap_story_properties.c:4040
-#: ../gap/gap_story_section_properties.c:784
+#: ../gap/gap_story_properties.c:4040 ../gap/gap_story_section_properties.c:784
 msgid "Properties"
 msgstr "Ιδιότητες"
 
@@ -8905,9 +8822,6 @@ msgstr "Μετακίνηση μονοπατιού:"
 #. page size        for the from/to values
 #. digits for the from/to values
 #: ../gap/gap_story_att_trans_dlg.c:3885
-#| msgid ""
-#| "ON: Enable move path transistions using settings provided via a movepath "
-#| "parameter file"
 msgid ""
 "ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
@@ -9606,10 +9520,6 @@ msgid "Decoder:"
 msgstr "Αποκωδικοποιητής:"
 
 #: ../gap/gap_story_dialog.c:9515
-#| msgid ""
-#| "Select preferred video decoder library, or leave empty for automatic "
-#| "selection.The decoder setting is only relevant if videoclips are used "
-#| "(but not for frames that are imagefiles)"
 msgid ""
 "Select preferred video decoder library, or leave empty for automatic "
 "selection. The decoder setting is only relevant if videoclips are used (but "
@@ -9637,16 +9547,21 @@ msgstr "Μορφή εξωτερικής διαφάνειας:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
 #, c-format
+#| msgid ""
+#| "Format string to provide external transparency in movie clips. (i.e. "
+#| "automatic alpha channel insertion via external frames)this string shall "
+#| "contain \\%s as placeholder for the basename of a videoclip and optional "
+#| "\\%06d as placeholder for the framenumber."
 msgid ""
 "Format string to provide external transparency in movie clips. (i.e. "
 "automatic alpha channel insertion via external frames)this string shall "
-"contain \\%s as placeholder for the basename of a videoclip and optional \\"
-"%06d as placeholder for the framenumber."
+"contain %s as placeholder for the basename of a videoclip and optional %06d "
+"as placeholder for the framenumber."
 msgstr ""
 "Συμβολοσειρά μορφής για παροχή εξωτερικής διαφάνειας σε αποσπάσματα ταινίας. "
 "(δηλ. εισαγωγή αυτόματου καναλιού άλφα μέσα από εξωτερικά πλαίσια). Αυτό το "
-"αλφαριθμητικό θα περιέχει \\%s ως δεσμευτικό χώρου για το όνομα βάσης ενός "
-"αποσπάσματος βίντεο και προαιρετικά \\%06d ως δεσμευτικό χώρου για τον "
+"αλφαριθμητικό θα περιέχει το %s ως δεσμευτικό χώρου για το όνομα βάσης ενός "
+"αποσπάσματος βίντεο και προαιρετικά το %06d ως δεσμευτικό χώρου για τον "
 "αριθμό πλαισίου."
 
 #: ../gap/gap_story_dialog.c:9595
@@ -9656,15 +9571,20 @@ msgstr "Μορφή περιοχής:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
 #, c-format
+#| msgid ""
+#| "Format string for area replacement in movie clips. (for example automatic "
+#| "logo insert)this string shall contain \\%s as placeholder for the "
+#| "basename of a videoclip and optional \\%06d as placeholder for the "
+#| "framenumber."
 msgid ""
 "Format string for area replacement in movie clips. (for example automatic "
-"logo insert)this string shall contain \\%s as placeholder for the basename "
-"of a videoclip and optional \\%06d as placeholder for the framenumber."
+"logo insert)this string shall contain %s as placeholder for the basename of "
+"a videoclip and optional %06d as placeholder for the framenumber."
 msgstr ""
 "Συμβολοσειρά μορφής για αντικατάσταση περιοχής σε αποσπάσματα ταινίας (π.χ. "
-"εισαγωγή αυτόματου λογότυπου). Αυτό το αλφαριθμητικό θα περιέχει \\%s ως "
+"εισαγωγή αυτόματου λογότυπου). Αυτό το αλφαριθμητικό θα περιέχει το %s ως "
 "δεσμευτικό χώρου για το όνομα βάσης ενός αποσπάσματος βίντεο και προαιρετικά "
-"\\%06d ως δεσμευτικό χώρου για τον αριθμό πλαισίου."
+"το %06d ως δεσμευτικό χώρου για τον αριθμό πλαισίου."
 
 #. should use GIMP_STOCK_RESET if possible
 #: ../gap/gap_story_dialog.c:9607
@@ -9690,13 +9610,11 @@ msgstr "section_%02d"
 
 #: ../gap/gap_story_file.c:2716
 #, c-format
-#| msgid "illegal number: %s (valid range is %d upto %d)\n"
 msgid "illegal number: %s (valid range is %d up to %d)\n"
 msgstr "απαράδεκτος αριθμός: %s (η έγκυρη περιοχή είναι από %d μέχρι %d)\n"
 
 #: ../gap/gap_story_file.c:2755
 #, c-format
-#| msgid "illegal number: %s (valid range is %.3f upto %.3f)"
 msgid "illegal number: %s (valid range is %.3f up to %.3f)"
 msgstr "απαράδεκτος αριθμός: %s (η έγκυρη περιοχή είναι από %.3f μέχρι%.3f )"
 
@@ -9807,7 +9725,6 @@ msgid "Set Image or Frame Filename"
 msgstr "Ορισμός ονόματος αρχείου εικόνας ή πλαισίου"
 
 #: ../gap/gap_story_properties.c:2501
-#| msgid "Set Colormark Parmeter Filename"
 msgid "Set Colormask Parameter Filename"
 msgstr "Ορισμός ονόματος αρχείου παραμέτρου μάσκας χρώματος"
 
@@ -9855,8 +9772,7 @@ msgstr "ΣΧΟΛΙΟ"
 msgid "** UNKNOWN **"
 msgstr "**ΑΓΝΩΣΤΟ**"
 
-#: ../gap/gap_story_properties.c:2800
-#: ../gap/gap_story_section_properties.c:599
+#: ../gap/gap_story_properties.c:2800 ../gap/gap_story_section_properties.c:599
 #, c-format
 msgid "%d (frames)"
 msgstr "%d (πλαίσια)"
@@ -9900,8 +9816,7 @@ msgid "Clip Type:"
 msgstr "Τύπος αποσπάσματος:"
 
 #. the duration label
-#: ../gap/gap_story_properties.c:4100
-#: ../gap/gap_story_section_properties.c:830
+#: ../gap/gap_story_properties.c:4100 ../gap/gap_story_section_properties.c:830
 msgid "Duration:"
 msgstr "Διάρκεια:"
 
@@ -10266,7 +10181,6 @@ msgid "analyze line %d (out of %d)"
 msgstr "ανάλυση γραμμής %d (από %d)"
 
 #: ../gap/gap_story_render_processor.c:3429
-#| msgid "No Frames or Images found ...."
 msgid "No Frames or Images found ..."
 msgstr "Δεν βρέθηκαν πλαίσια ή εικόνες..."
 
@@ -10750,13 +10664,6 @@ msgid "  %s (%d of %d)"
 msgstr "  %s (%d από %d)"
 
 #: ../gap/gap_video_index_creator.c:924
-#| msgid ""
-#| "Conditional video index creation,  based on a few quick timcode "
-#| "probereads.\n"
-#| "Skip index creation if native seek seems possible\n"
-#| "\n"
-#| "WARNING: positioning via native seek may not work exact in case critical "
-#| "timecode steps were not detected in the quick test)"
 msgid ""
 "Conditional video index creation,  based on a few quick timecode "
 "probereads.\n"
@@ -10838,9 +10745,6 @@ msgid "Percentage:"
 msgstr "Ποσοστό:"
 
 #: ../gap/gap_video_index_creator.c:994
-#| msgid ""
-#| "stop scan after percentage reached and no unplausible timecode was "
-#| "detected so far (only relevant in smart mode)"
 msgid ""
 "stop scan after percentage reached and no implausible timecode was detected "
 "so far (only relevant in smart mode)"
@@ -10920,9 +10824,6 @@ msgid "Horizontal shift phase where 1.0 refers to image width"
 msgstr "Φάση οριζόντιας μετατόπισης όπου 1,0 αναφέρεται στο πλάτος της εικόνας"
 
 #: ../gap/gap_water_pattern.c:1216
-#| msgid ""
-#| "ON: create waterpattern cloud layers according options. OFF: Use external "
-#| "pattern layers. "
 msgid ""
 "ON: create waterpattern cloud layers according to options. OFF: Use external "
 "pattern layers. "
@@ -11301,6 +11202,24 @@ msgstr "<Image>/Βίντεο/Στρώση/Μετασχηματισμός/"
 #: ../gap/gap_wr_trans.c:654
 msgid "Rotate angle:"
 msgstr "Γωνία περιστροφής:"
+
+#: ../gap/sel-to-anim-img.scm:115
+msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
+msgstr "<Image>/Script-Fu/Σχεδιαστές/Επιλογή ΕικόναςΚίνησης..."
+
+#: ../gap/sel-to-anim-img.scm:123
+#| msgid "Number of Colors"
+msgid "Number of Copies"
+msgstr "Αριθμός αντιγράφων"
+
+#: ../gap/sel-to-anim-img.scm:124
+#| msgid "Select By Color"
+msgid "Fill with BG Color"
+msgstr "Γέμισμα με χρώμα παρασκηνίου"
+
+#: ../gap/sel-to-anim-img.scm:125
+msgid "Anim-Filter for all Copies"
+msgstr "Φίλτρο κίνησης για όλα τα αντίγραφα"
 
 #: ../libgapvidapi/gap_vid_api_mpeg3.c:843
 #, c-format
@@ -12234,17 +12153,6 @@ msgstr ""
 "Αυτό το πρόσθετο είναι ο κύριος διάλογος για κωδικοποίηση βίντεο + ήχου"
 
 #: ../vid_common/gap_cme_main.c:148
-#| msgid ""
-#| "This plugin is a common GUI for all available video + audio encoding "
-#| "plugins it operates on a selected range of animframes or storyboard "
-#| "files. The (optional) audio inputdata (param: audfile) is transformed to "
-#| "RIFF WAVE format (16Bit PCM) and passed to the selected videoencoder plug-"
-#| "in as temporary file. (or direct if format and samplerate already matches "
-#| "the desired target samplerate). The videoformat is defined with "
-#| "vid_enc_plugin parameter. The specified plugin  is called with the "
-#| "parameters specified in the dialog. for noninteractive calls default "
-#| "values will be used. (you may call the desired plugin directly if you "
-#| "want to specify non-interacive parameters"
 msgid ""
 "This plugin is a common GUI for all available video + audio encoding plugins "
 "it operates on a selected range of animframes or storyboard files. The "
@@ -12449,10 +12357,6 @@ msgid "BGR (rgb):"
 msgstr "Παρασκήνιο (rgb):"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:921
-#| msgid ""
-#| "Check if you want to encode frames in BGR (prefered) or RGB colormodel "
-#| "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
-#| "other players want RGB colromodel for RAW avi data)"
 msgid ""
 "Check if you want to encode frames in BGR (preferred) or RGB colormodel "
 "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
@@ -12679,17 +12583,11 @@ msgstr "Επιλεγμένες προρυθμίσεις : %s"
 #
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:502
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:518
-#| msgid "Recommanded Framesize"
 msgid "Recommended Framesize"
 msgstr "Συνιστώμενο μέγεθος πλαισίου"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:529
 #, c-format
-#| msgid ""
-#| "Selected Fileformat : [%s] %s\n"
-#| "Recommanded Video CODEC : %s\n"
-#| "Recommanded Audio CODEC : %s\n"
-#| "Extension(s): %s %s"
 msgid ""
 "Selected Fileformat : [%s] %s\n"
 "Recommended Video CODEC : %s\n"
@@ -13358,10 +13256,6 @@ msgid "Dont Recode"
 msgstr "Όχι επανακωδικοποίηση"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2478
-#| msgid ""
-#| "Bypass the FFMPEG Vidoencoder where inputframes can be copied 1:1 from an "
-#| "input MPEG videofile.This experimental feature provides lossless MPEG "
-#| "video cut, but works only for the MPEG Fileformats."
 msgid ""
 "Bypass the FFMPEG Videoencoder where inputframes can be copied 1:1 from an "
 "input MPEG videofile. This experimental feature provides lossless MPEG video "
@@ -14158,19 +14052,6 @@ msgstr ""
 "@rawframeS@"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:184
-#| msgid ""
-#| "This plugin has a video encoder API but writes a series of single raw "
-#| "frames instead of one videofile. the filetype of the output frames is "
-#| "derived from the extension. the extension is the suffix part of the "
-#| "parameter \"videofile\". the names of the output frame(s) are same as the "
-#| "parameter \"videofile\" but the framenumber part is replaced by the "
-#| "current framenumber (or added automatic if videofile has no number part) "
-#| "audiodata is ignored.WARNINGS: for proper operation, the handled frames "
-#| "shall refere to single video file without any transitions. this allows "
-#| "fetching frames as raw data chunks. The chunks are 1:1 written to disc as "
-#| "framefiles. The resulting raw data frames on disc may be unusable if the "
-#| "raw chunk data is not compatible to any image fileformat. MPEG I frames, "
-#| "and MJPG files may be extractable to the JPEG fileformat. A  call of\""
 msgid ""
 "This plugin has a video encoder API but writes a series of single raw frames "
 "instead of one videofile. the filetype of the output frames is derived from "
@@ -14198,8 +14079,8 @@ msgstr ""
 "1:1 γραμμένα σε δίσκο ως αρχεία πλαισίου. Τα τελικά πλαίσια ακατέργαστων "
 "δεδομένων στον δίσκο μπορεί να είναι άχρηστα, εάν τα δεδομένα ακατέργαστου "
 "κομματιού δεν είναι συμβατά με κανέναν τύπο αρχείου εικόνας. Πλαίσια MPEG I "
-"και αρχεία MJPG μπορεί να είναι εξαγώγιμα σε τύπο αρχείου JPEG. Μια κλήση "
-"του\""
+"και αρχεία MJPG μπορεί να είναι εξαγώγιμα σε τύπο αρχείου JPEG. Μια κλήση του"
+"\""
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:214
 msgid "Set parameters for GAP rawframes video encoder Plugins"
