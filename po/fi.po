@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-19 16:00+0000\n"
-"PO-Revision-Date: 2015-11-01 11:44+0200\n"
+"POT-Creation-Date: 2015-11-01 09:46+0000\n"
+"PO-Revision-Date: 2015-11-01 11:47+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -526,7 +526,6 @@ msgstr ""
 #. Menu names
 #: ../gap/gap_blend_fill_main.c:247 ../gap/gap_detail_tracking_main.c:312
 #: ../gap/gap_wr_resynth.c:185
-#| msgid "<Image>/Video/Layer/"
 msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Video/Taso/Paranna/"
 
@@ -1325,7 +1324,6 @@ msgstr "Sovella tason maskia"
 #. Menu names
 #: ../gap/gap_colormask_main.c:266 ../gap/gap_wr_layermode.c:140
 #: ../gap/gap_wr_opacity.c:150
-#| msgid "<Image>/Video/Layer/Colors/"
 msgid "<Image>/Video/Layer/Attributes/"
 msgstr "<Image>/Video/Taso/Attribuutit/"
 
@@ -1335,7 +1333,6 @@ msgstr "Et_si:"
 
 #. Layer Group handling mode the label
 #: ../gap/gap_dbbrowser_utils.c:362
-#| msgid "Layer:"
 msgid "Layer Group:"
 msgstr "Tasoryhmä:"
 
@@ -1804,7 +1801,7 @@ msgstr "<Image>/Video/Jaa video ruutuihin/"
 #: ../gap/gap_decode_mplayer_main.c:133 ../gap/gap_frontends_main.c:189
 #: ../gap/gap_vex_main.c:204
 msgid "<Toolbox>/Xtns/Split Video into Frames/"
-msgstr "<Työkalulaatikko>/Xtns/Jaa video ruutuihin/"
+msgstr "<Toolbox>/Xtns/Jaa video ruutuihin/"
 
 #: ../gap/gap_decode_xanim.c:138
 msgid "Requirements to run the xanim based video split"
@@ -2005,7 +2002,6 @@ msgid "Frame number (phase) to be rendered."
 msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:648
-#| msgid "Macrofile:"
 msgid "XML file:"
 msgstr "XML-tiedosto:"
 
@@ -2256,7 +2252,6 @@ msgid "Exact Align via 4-Point Path."
 msgstr ""
 
 #: ../gap/gap_detail_tracking_main.c:313
-#| msgid "<Image>/Video/Layer/Transform/"
 msgid "<Image>/Layer/Transform/"
 msgstr "<Image>/Taso/Muunna/"
 
@@ -2385,7 +2380,6 @@ msgstr ""
 
 #. Menu names
 #: ../gap/gap_fg_matting_main.c:213
-#| msgid "<Image>/Video/Layer/Transform/"
 msgid "<Image>/Layer/Transparency/"
 msgstr "<Image>/Taso/Läpinäkyvyys/"
 
@@ -2785,7 +2779,6 @@ msgstr "Yhdistä ruudut..."
 #. Menu names
 #: ../gap/gap_fire_pattern.c:2539 ../gap/gap_name2layer_main.c:176
 #: ../gap/gap_water_pattern.c:1668
-#| msgid "<Image>/Video/Layer/"
 msgid "<Image>/Video/Layer/Render/"
 msgstr "<Image>/Video/Taso/Renderöinti/"
 
@@ -4374,13 +4367,11 @@ msgstr ""
 
 #. layer combo_box (source)
 #: ../gap/gap_morph_tween_dialog.c:490
-#| msgid "Create Layer:"
 msgid "Source Layer:"
 msgstr "Lähdetaso:"
 
 #. layer combo_box (source)
 #: ../gap/gap_morph_tween_dialog.c:511
-#| msgid "Destination"
 msgid "Destination Layer:"
 msgstr "Kohdetaso:"
 
@@ -5168,7 +5159,6 @@ msgid "Merge Target:"
 msgstr "Yhdistä tasot"
 
 #: ../gap/gap_mov_dialog.c:4482
-#| msgid "New Layer Name"
 msgid "New Layer"
 msgstr "Uusi taso"
 
@@ -11760,7 +11750,6 @@ msgid "PNG Codec Options"
 msgstr "JPEG-koodekin asetukset"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:728
-#| msgid "JPEG Options"
 msgid "PNG Options"
 msgstr "PNG-valinnat"
 
