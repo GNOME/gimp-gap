@@ -3,26 +3,27 @@
 # Distributed under the same licence as the gimp-gap package
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2003, 2004
 # Filipe Maia <fmaia@gmx.net>, 2002
-#
-# Baseados na versão brasileira de 
-# Marcia Norie Nakaza <norie@conectiva.com.br>, 2000.
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
+#
+# Baseados na versão brasileira de
+# Marcia Norie Nakaza <norie@conectiva.com.br>, 2000.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.6\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
-"gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-21 05:42+0000\n"
-"PO-Revision-Date: 2015-09-21 06:45+0100\n"
-"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-11-01 09:48+0000\n"
+"PO-Revision-Date: 2015-11-14 08:53+0000\n"
+"Last-Translator: <>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Language: pt_PT\n"
+"X-Source-Language: C\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -187,7 +188,7 @@ msgstr ""
 "O ficheiro %s\n"
 "tem conteúdo inesperado que será ignorado.\n"
 "Deve especificar um ficheiro áudio no formato RIFF WAVE,\n"
-"ou um ficheiro de texto contendo os nomes desses ficheiros áudio."
+"ou um ficheiro de texto contendo os nomes desses ficheiros áudio"
 
 #: ../gap/gap_audio_wav.c:626
 #, c-format
@@ -211,7 +212,7 @@ msgstr ""
 "O ficheiro %s\n"
 "está na lista de reprodução mas contém referências a ficheiros áudio\n"
 "que não correspondem à taxa de %d Hz desejada\n"
-"ou não têm 16 bits por amostra."
+"ou não têm 16 bits por amostra"
 
 #: ../gap/gap_base_ops.c:93
 msgid "Decreasing density by deleting frames..."
@@ -524,7 +525,7 @@ msgstr "Encher misturado..."
 #: ../gap/gap_blend_fill_main.c:247 ../gap/gap_detail_tracking_main.c:312
 #: ../gap/gap_wr_resynth.c:185
 msgid "<Image>/Video/Layer/Enhance/"
-msgstr "<Imagem>/Vídeo/Camada/Melhorar/"
+msgstr "<Image>/Vídeo/Camada/Melhorar/"
 
 #: ../gap/gap_blend_fill_main.c:313 ../gap/gap_blend_fill_main.c:1982
 msgid "selection.svg"
@@ -573,7 +574,7 @@ msgid ""
 msgstr ""
 "Enche a seleção misturando cores de contornos opostas fora da seleção para "
 "cobrir a área selecionada.\n"
-"Destinado a reparar pequenos erros de pixels."
+"Destinado a reparar pequenos erros de pixels"
 
 #. horizontalBlendFlag checkbutton
 #: ../gap/gap_blend_fill_main.c:1856
@@ -696,7 +697,7 @@ msgid ""
 msgstr ""
 "Seleção precisa de pixels por cor com 0.0. Valores maiores do que 0 originam "
 "seleções com mais ou menos valor alfa variável, dependendo da diferença para "
-"a cor chave"
+"a cor chave."
 
 #: ../gap/gap_bluebox.c:337
 msgid "Source Alpha:"
@@ -967,7 +968,7 @@ msgstr "CaixaAzul..."
 #: ../gap/gap_player_main.c:299 ../gap/gap_story_main.c:215
 #: ../vid_common/gap_cme_main.c:168
 msgid "<Image>/Video/"
-msgstr "<Imagem>/Vídeo/"
+msgstr "<Image>/Vídeo/"
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:212
@@ -1103,8 +1104,7 @@ msgstr ""
 
 #. the frame
 #. the notebook page label for expert encoder options
-#: ../gap/gap_colormask_dialog.c:539
-#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4209
+#: ../gap/gap_colormask_dialog.c:539 ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4209
 msgid "Expert Options"
 msgstr "Opções de perito"
 
@@ -1253,7 +1253,7 @@ msgstr "Aplicar máscara de cor..."
 #: ../gap/gap_colormask_main.c:266 ../gap/gap_wr_layermode.c:140
 #: ../gap/gap_wr_opacity.c:150
 msgid "<Image>/Video/Layer/Attributes/"
-msgstr "<Imagem>/Vídeo/Camada/Atributos/"
+msgstr "<Image>/Vídeo/Camada/Atributos/"
 
 #: ../gap/gap_dbbrowser_utils.c:261
 msgid "_Search:"
@@ -1716,12 +1716,12 @@ msgstr "Extração baseada em xanim..."
 #: ../gap/gap_decode_mplayer_main.c:132 ../gap/gap_frontends_main.c:188
 #: ../gap/gap_vex_main.c:203
 msgid "<Image>/Video/Split Video into Frames/"
-msgstr "<Imagem>/Vídeo/Dividir imagem em molduras/"
+msgstr "<Image>/Vídeo/Dividir imagem em molduras/"
 
 #: ../gap/gap_decode_mplayer_main.c:133 ../gap/gap_frontends_main.c:189
 #: ../gap/gap_vex_main.c:204
 msgid "<Toolbox>/Xtns/Split Video into Frames/"
-msgstr "<Ferramentas>/Xtns/Dividir vídeo em molduras/"
+msgstr "<Toolbox>/Xtns/Dividir vídeo em molduras/"
 
 #: ../gap/gap_decode_xanim.c:138
 msgid "Requirements to run the xanim based video split"
@@ -2218,12 +2218,11 @@ msgstr "Alinhamento exato via caminho de 4 pontos."
 
 #: ../gap/gap_detail_tracking_main.c:313
 msgid "<Image>/Layer/Transform/"
-msgstr "<Imagem>/Camada/Transformação/"
+msgstr "<Image>/Camada/Transformação/"
 
 #: ../gap/gap-dup-continue.scm:38
-#| msgid "<Image>/Video/Duplicate Frames..."
 msgid "<Image>/Video/Duplicate Continue"
-msgstr "<Imagem>/Vídeo/Duplicar continuar..."
+msgstr "<Image>/Vídeo/Duplicar continuar..."
 
 #. The dialog1 and main vbox
 #: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
@@ -2344,7 +2343,7 @@ msgstr "Extração de 1º plano via seleção..."
 #. Menu names
 #: ../gap/gap_fg_matting_main.c:213
 msgid "<Image>/Layer/Transparency/"
-msgstr "<Imagem>/Camada/Transparência/"
+msgstr "<Image>/Camada/Transparência/"
 
 #: ../gap/gap_filter_foreach.c:143 ../gap/gap_mod_layer.c:125
 msgid "do not show this dialog again"
@@ -2427,7 +2426,7 @@ msgstr "Filtrar todas as camadas..."
 #. ------------------ ALTernative Iterators ------------------------------
 #: ../gap/gap_filter_main.c:159 ../gap/gap_fmac_main.c:219
 msgid "<Image>/Filters/"
-msgstr "<Imagem>/Filtros/"
+msgstr "<Image>/Filtros/"
 
 #: ../gap/gap_fire_pattern.c:1043 ../gap/gap_water_pattern.c:430
 #, c-format
@@ -2732,7 +2731,7 @@ msgstr "Padrão do fogo..."
 #: ../gap/gap_fire_pattern.c:2539 ../gap/gap_name2layer_main.c:176
 #: ../gap/gap_water_pattern.c:1668
 msgid "<Image>/Video/Layer/Render/"
-msgstr "<Imagem>/Vídeo/Camada/Desenhar/"
+msgstr "<Image>/Vídeo/Camada/Desenhar/"
 
 #: ../gap/gap_fmac_base.c:205
 #, c-format
@@ -2900,7 +2899,7 @@ msgstr "MPEG2..."
 #. Menu names
 #: ../gap/gap_frontends_main.c:187
 msgid "<Image>/Video/Encode/"
-msgstr "<Imagem>/Vídeo/Codificar/"
+msgstr "<Image>/Vídeo/Codificar/"
 
 #: ../gap/gap_lib.c:2016
 msgid ""
@@ -3068,7 +3067,7 @@ msgstr "Modificar molduras..."
 
 #: ../gap/gap_main.c:937
 msgid "<Image>/Video/Go To/"
-msgstr "<Imagem>/Vídeo/Ir Para/"
+msgstr "<Image>/Vídeo/Ir Para/"
 
 #: ../gap/gap_mod_layer.c:153
 #, c-format
@@ -3666,8 +3665,8 @@ msgstr "Inverter seleção de camada"
 
 #: ../gap/gap_mod_layer_dialog.c:1540
 msgid ""
-"Perform actions on all unselected layers at same level in the layers tree (i."
-"e. in the same group)"
+"Perform actions on all unselected layers at same level in the layers tree "
+"(i.e. in the same group)"
 msgstr ""
 "Executar ações em todas as camadas não selecionadas ao mesmo nível da árvore "
 "de camadas (i.e. no mesmo grupo)"
@@ -3729,8 +3728,8 @@ msgid ""
 "Select all visible layers at same level in the layers tree (i.e. in the same "
 "group)"
 msgstr ""
-"Selecionar todas as camadas visíveis ao mesmo nível na árvore de camadas (i."
-"e no mesmo grupo)"
+"Selecionar todas as camadas visíveis ao mesmo nível na árvore de camadas "
+"(i.e no mesmo grupo)"
 
 #: ../gap/gap_mod_layer_dialog.c:1681
 msgid ""
@@ -4295,7 +4294,7 @@ msgstr "Gerador de pontos de controlo de Formar..."
 #. Menu names
 #: ../gap/gap_morph_main.c:298
 msgid "<Image>/Video/Morphing/"
-msgstr "<Imagem>/Vídeo/Formando/"
+msgstr "<Image>/Vídeo/Formando/"
 
 #: ../gap/gap_morph_shape.c:224
 #, c-format
@@ -6808,7 +6807,7 @@ msgstr "Alternar visibilidade"
 #. Menu names
 #: ../gap/gap_onion_main.c:205
 msgid "<Image>/Video/Onionskin/"
-msgstr "<Imagem>/Vídeo/PeleDeCebola/"
+msgstr "<Image>/Vídeo/PeleDeCebola/"
 
 #: ../gap/gap_onion_worker.c:368
 msgid "Creating onionskin layers..."
@@ -7397,8 +7396,8 @@ msgstr ""
 #: ../gap/gap_player_dialog.c:8102
 msgid "Set current framenr as selection range start 'From Frame'"
 msgstr ""
-"Definir nº de moldura atual como início do intervalo de seleção \"De moldura"
-"\""
+"Definir nº de moldura atual como início do intervalo de seleção \"De "
+"moldura\""
 
 #: ../gap/gap_player_dialog.c:8118
 msgid ""
@@ -7547,8 +7546,8 @@ msgstr "Pausa"
 
 #: ../gap/gap_player_dialog.c:8547
 msgid ""
-"Pause if playing (any mousebutton). Go to selection start/active/end (left/"
-"middle/right mousebutton) if not playing"
+"Pause if playing (any mousebutton). Go to selection start/active/end "
+"(left/middle/right mousebutton) if not playing"
 msgstr ""
 "Pausa se a reproduzir (qualquer botão do rato). Ir para início/atual/final "
 "da seleção (botão esquerdo/meio/direito) se não estiver a reproduzir"
@@ -8307,8 +8306,7 @@ msgstr "Atributos da transição"
 #. the frame
 #: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
-#: ../gap/gap_story_properties.c:4040
-#: ../gap/gap_story_section_properties.c:784
+#: ../gap/gap_story_properties.c:4040 ../gap/gap_story_section_properties.c:784
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -9274,11 +9272,6 @@ msgstr "Formato de transparência externa:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
 #, c-format
-#| msgid ""
-#| "Format string to provide external transparency in movie clips. (i.e. "
-#| "automatic alpha channel insertion via external frames)this string shall "
-#| "contain \\%s as placeholder for the basename of a videoclip and optional "
-#| "\\%06d as placeholder for the framenumber."
 msgid ""
 "Format string to provide external transparency in movie clips. (i.e. "
 "automatic alpha channel insertion via external frames)this string shall "
@@ -9297,11 +9290,6 @@ msgstr "Formato da área:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
 #, c-format
-#| msgid ""
-#| "Format string for area replacement in movie clips. (for example automatic "
-#| "logo insert)this string shall contain \\%s as placeholder for the "
-#| "basename of a videoclip and optional \\%06d as placeholder for the "
-#| "framenumber."
 msgid ""
 "Format string for area replacement in movie clips. (for example automatic "
 "logo insert)this string shall contain %s as placeholder for the basename of "
@@ -9494,8 +9482,7 @@ msgstr "COMENTÁRIO"
 msgid "** UNKNOWN **"
 msgstr "**DESCONHECIDO**"
 
-#: ../gap/gap_story_properties.c:2800
-#: ../gap/gap_story_section_properties.c:599
+#: ../gap/gap_story_properties.c:2800 ../gap/gap_story_section_properties.c:599
 #, c-format
 msgid "%d (frames)"
 msgstr "%d (molduras)"
@@ -9539,8 +9526,7 @@ msgid "Clip Type:"
 msgstr "Tipo de clip:"
 
 #. the duration label
-#: ../gap/gap_story_properties.c:4100
-#: ../gap/gap_story_section_properties.c:830
+#: ../gap/gap_story_properties.c:4100 ../gap/gap_story_section_properties.c:830
 msgid "Duration:"
 msgstr "Duração:"
 
@@ -9808,8 +9794,8 @@ msgstr "Macro de filtros:"
 #: ../gap/gap_story_properties.c:4919
 msgid ""
 "filter macro to be performed when frames of this clips are rendered. A 2nd "
-"macrofile is implicitly referenced by naming convention via the keyword ."
-"VARYING (as suffix or before the extension)"
+"macrofile is implicitly referenced by naming convention via the keyword "
+".VARYING (as suffix or before the extension)"
 msgstr ""
 "Macro de filtros a executar quando as molduras do clip são desenhadas. Um 2º "
 "ficheiro de macro é implicitamente referenciado por convenção de nome via "
@@ -10332,7 +10318,7 @@ msgstr "Criação de índice vídeo..."
 #. Menu names
 #: ../gap/gap_video_index_creator.c:218
 msgid "<Toolbox>/Xtns/"
-msgstr "<caixa de ferramentas>/Xtns/"
+msgstr "<Toolbox>/Xtns/"
 
 #: ../gap/gap_video_index_creator.c:496
 msgid "NO vindex created (QUICK)"
@@ -10611,7 +10597,7 @@ msgstr "Equilíbrio de cores..."
 #: ../gap/gap_wr_color_balance.c:259 ../gap/gap_wr_color_curve.c:1368
 #: ../gap/gap_wr_color_huesat.c:287 ../gap/gap_wr_color_levels.c:295
 msgid "<Image>/Video/Layer/Colors/"
-msgstr "<Imagem>/Vídeo/Camada/Cores/"
+msgstr "<Image>/Vídeo/Camada/Cores/"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_wr_color_balance.c:564
@@ -10891,7 +10877,7 @@ msgstr "Rodar qualquer ângulo"
 #. Menu names
 #: ../gap/gap_wr_trans.c:280
 msgid "<Image>/Video/Layer/Transform/"
-msgstr "<Imagem>/Vídeo/Camada/Transformar/"
+msgstr "<Image>/Vídeo/Camada/Transformar/"
 
 #: ../gap/gap_wr_trans.c:654
 msgid "Rotate angle:"
@@ -10899,15 +10885,13 @@ msgstr "Ângulo de rotação:"
 
 #: ../gap/sel-to-anim-img.scm:115
 msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
-msgstr "<Imagem>/Script-Fu/Animadores/Seleção para AnimImage..."
+msgstr "<Image>/Script-Fu/Animadores/Seleção para AnimImage..."
 
 #: ../gap/sel-to-anim-img.scm:123
-#| msgid "Number of Colors"
 msgid "Number of Copies"
 msgstr "Número de cópias"
 
 #: ../gap/sel-to-anim-img.scm:124
-#| msgid "Select By Color"
 msgid "Fill with BG Color"
 msgstr "Encher com cor de FD"
 
@@ -13527,8 +13511,8 @@ msgstr "Codificação vídeo ffmpeg para molduras animadas. Menu @FFMPEG@"
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:475
 msgid ""
 "This plugin does video encoding of animframes based on libavformat. (also "
-"known as FFMPEG encoder). The (optional) audiodata must be RIFF WAVEfmt (."
-"wav) file. .wav files can be mono (1) or stereo (2channels) audiodata and "
+"known as FFMPEG encoder). The (optional) audiodata must be RIFF WAVEfmt "
+"(.wav) file. .wav files can be mono (1) or stereo (2channels) audiodata and "
 "must be 16bit uncompressed. IMPORTANT:  Non-interactive callers should first "
 "call \""
 msgstr ""
@@ -13658,8 +13642,8 @@ msgstr ""
 #, c-format
 msgid "Could not save ffmpeg video encoder parameterfile:'%s'%s"
 msgstr ""
-"Impossível gravar ficheiro de parâmetros do codificador vídeo ffmpeg: \"%s"
-"\"%s"
+"Impossível gravar ficheiro de parâmetros do codificador vídeo ffmpeg: "
+"\"%s\"%s"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:183
 msgid "rawframes video encoding for anim frames. Menu: @rawframeS@"
@@ -13669,16 +13653,16 @@ msgstr "Codificação vídeo rawframes para molduras animadas. Menu: @rawframeS@
 msgid ""
 "This plugin has a video encoder API but writes a series of single raw frames "
 "instead of one videofile. the filetype of the output frames is derived from "
-"the extension. the extension is the suffix part of the parameter \"videofile"
-"\". the names of the output frame(s) are same as the parameter \"videofile\" "
-"but the framenumber part is replaced by the current framenumber (or added "
-"automatic if videofile has no number part) audiodata is ignored. WARNINGS: "
-"for proper operation, the handled frames shall refer to single video file "
-"without any transitions. this allows fetching frames as raw data chunks. The "
-"chunks are 1:1 written to disc as framefiles. The resulting raw data frames "
-"on disc may be unusable if the raw chunk data is not compatible to any image "
-"fileformat. MPEG I frames, and MJPG files may be extractable to the JPEG "
-"fileformat. A  call of\""
+"the extension. the extension is the suffix part of the parameter "
+"\"videofile\". the names of the output frame(s) are same as the parameter "
+"\"videofile\" but the framenumber part is replaced by the current "
+"framenumber (or added automatic if videofile has no number part) audiodata "
+"is ignored. WARNINGS: for proper operation, the handled frames shall refer "
+"to single video file without any transitions. this allows fetching frames as "
+"raw data chunks. The chunks are 1:1 written to disc as framefiles. The "
+"resulting raw data frames on disc may be unusable if the raw chunk data is "
+"not compatible to any image fileformat. MPEG I frames, and MJPG files may be "
+"extractable to the JPEG fileformat. A  call of\""
 msgstr ""
 "Esta extensão tem uma API de codificação de vídeo mas escreve uma série de "
 "molduras simples brutas em vez de um ficheiro vídeo. O tipo de ficheiro das "
@@ -13754,10 +13738,11 @@ msgstr ""
 msgid ""
 "This plugin has a video encoder API but writes a series of single frames "
 "instead of one videofile. the filetype of the output frames is derived from "
-"the extension. the extension is the suffix part of the parameter \"videofile"
-"\". the names of the output frame(s) are same as the parameter \"videofile\" "
-"but the framenumber part is replaced by the current framenumber (or added "
-"automatic if videofile has no number part) audiodata is ignored. A  call of\""
+"the extension. the extension is the suffix part of the parameter "
+"\"videofile\". the names of the output frame(s) are same as the parameter "
+"\"videofile\" but the framenumber part is replaced by the current "
+"framenumber (or added automatic if videofile has no number part) audiodata "
+"is ignored. A  call of\""
 msgstr ""
 "Esta extensão tem uma API de codificação de vídeo mas escreve uma série de "
 "molduras únicas em vez de um ficheiro vídeo. O tipo de ficheiro das molduras "
@@ -13964,8 +13949,8 @@ msgstr ""
 
 #~ msgid "Can't operate with current controlpoint or keyframe settings"
 #~ msgstr ""
-#~ "Incapaz de operar com ponto de controlo actual ou definições de frame-"
-#~ "chave"
+#~ "Incapaz de operar com ponto de controlo actual ou definições de "
+#~ "frame-chave"
 
 #~ msgid "Reset Keyframes"
 #~ msgstr "Repor Frames-chave"
@@ -14129,14 +14114,15 @@ msgstr ""
 #~ "This plugin is the configuration GUI for Onion layers. Onion Layer(s) "
 #~ "usually do show previous (or next) frame(s) of the video in the current "
 #~ "frame. Onion Layers are not created automatically. You have to create or "
-#~ "delete them manually using the menu Video/OnionSkin/make or Video/"
-#~ "OnionSkin/delete or call the Procedures "
+#~ "delete them manually using the menu Video/OnionSkin/make or "
+#~ "Video/OnionSkin/delete or call the Procedures "
 #~ msgstr ""
 #~ "Este plugin é o interface de configuração de camadas Onion. Camada(s) "
 #~ "Onion normalmente apresenta a(s) frame(s) anterior(es) ou seguinte(s) do "
 #~ "vídeo na frame actual. Camadas Onion não são criadas automaticamente. Tem "
-#~ "de cria-las ou remove-las manualmente utilizando o menu Vídeo/Onionskin/"
-#~ "criar ou Vídeo/Onionskin/remover ou invocar os Procedimentos "
+#~ "de cria-las ou remove-las manualmente utilizando o menu "
+#~ "Vídeo/Onionskin/criar ou Vídeo/Onionskin/remover ou invocar os "
+#~ "Procedimentos "
 
 #~ msgid "  The configuration can be saved in the gimprc parameter file."
 #~ msgstr "  A configuração pode ser gravada no ficheiro de parâmetros gimprc."
