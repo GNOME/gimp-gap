@@ -7,15 +7,16 @@
 # Christian Kirbach <Christian.Kirbach@gmail.com>, 2010, 2012, 2013.
 # Daniel Winzen <d@winzen4.de>, 2013.
 # Benjamin Steinwender <b@stbe.at>, 2014.
+# Wolfgang Stöggl <c72578@yahoo.de>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-05 19:14+0000\n"
-"PO-Revision-Date: 2015-11-08 09:13+0100\n"
-"Last-Translator: Wolfgang Stoeggl <c72578@yahoo.de>\n"
+"POT-Creation-Date: 2015-12-30 07:16+0000\n"
+"PO-Revision-Date: 2016-01-03 13:08+0100\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -555,8 +556,6 @@ msgid "No Path Vectors available."
 msgstr "Keine Pfadvektoren verfügbar."
 
 #: ../gap/gap_blend_fill_main.c:1488
-#, fuzzy
-#| msgid "SVG file does not exist (use Save Pats button to create)."
 msgid "SVG file does not exist (use Save Paths button to create)."
 msgstr ""
 "Die SVG-Datei ist nicht vorhanden (verwenden Sie den Knopf »Pfade "
@@ -576,7 +575,6 @@ msgid "Failed to write SVG file: %s"
 msgstr "SVG-Datei konnte nicht geschrieben werden: %s"
 
 #: ../gap/gap_blend_fill_main.c:1810
-#, fuzzy
 msgid "Blend Fill Selection"
 msgstr "Auswahl mit einem Farbverlauf füllen"
 
@@ -1064,18 +1062,13 @@ msgid "Isle Area:"
 msgstr "Insel-Fläche:"
 
 #: ../gap/gap_colormask_dialog.c:392
-#, fuzzy
-#| msgid ""
-#| "Isle Area size in pixels. small isolated opaque or transparent pixel "
-#| "areas below that size are removed (e.g toggled from opaque to transparent "
-#| "and vice versa)"
 msgid ""
 "Isle Area size in pixels. small isolated opaque or transparent pixel areas "
 "below that size are removed (i.e. toggled from opaque to transparent and "
 "vice versa)"
 msgstr ""
-"Insel-Fläche in Pixel. Kleine eigenständige deckende oder transparente "
-"Pixelgebiete kleiner als diese Größe werden entfernt (sie wechseln z. B. von "
+"Inselfläche in Pixeln. Kleine eigenständige deckende oder transparente "
+"Pixelgebiete kleiner als diese Größe werden entfernt (sie wechseln z.B. von "
 "deckend auf transparent oder umgekehrt)"
 
 #: ../gap/gap_colormask_dialog.c:410
@@ -1528,19 +1521,15 @@ msgid "Jpeg Optimize:"
 msgstr "JPEG-Optimierung:"
 
 #: ../gap/gap_decode_mplayer.c:544
-#, fuzzy
-#| msgid "optimization factor(is ignored when other formats are used)"
 msgid "Optimization factor (is ignored when other formats are used)"
 msgstr ""
-"Optimierungsfaktor (wird ignoriert falls andere Formate verwendet werden)"
+"Optimierungsfaktor (wird ignoriert wenn andere Formate verwendet werden)"
 
 #: ../gap/gap_decode_mplayer.c:554
 msgid "Jpeg Smooth:"
 msgstr "JPEG-Weichzeichnen:"
 
 #: ../gap/gap_decode_mplayer.c:555
-#, fuzzy
-#| msgid "Smooth factor(is ignored when other formats are used)"
 msgid "Smooth factor (is ignored when other formats are used)"
 msgstr ""
 "Glättungsfaktor (wird ignoriert, falls andere Formate verwendet werden)"
@@ -1550,13 +1539,10 @@ msgid "Jpeg Progressive:"
 msgstr "JPEG-Progressiv:"
 
 #: ../gap/gap_decode_mplayer.c:566
-#, fuzzy
-#| msgid ""
-#| "Enable progressive jpeg encoding(is ignored when other formats are used)"
 msgid ""
 "Enable progressive jpeg encoding (is ignored when other formats are used)"
 msgstr ""
-"Progressive JPEG-Enkodierung aktivieren (wird ignoriert falls andere Formate "
+"Progressive JPEG-Kodierung aktivieren (wird ignoriert falls andere Formate "
 "verwendet werden)"
 
 #: ../gap/gap_decode_mplayer.c:572
@@ -1564,12 +1550,9 @@ msgid "Jpeg Baseline:"
 msgstr "JPEG-Baseline:"
 
 #: ../gap/gap_decode_mplayer.c:573
-#, fuzzy
-#| msgid ""
-#| "Enable baseline jpeg encoding(is ignored when other formats are used)"
 msgid "Enable baseline jpeg encoding (is ignored when other formats are used)"
 msgstr ""
-"jpeg-baseline-Codierung aktivieren (wird ignoriert, falls andere Formate "
+"jpeg-baseline-Kodierung aktivieren (wird ignoriert, falls andere Formate "
 "verwendet werden)"
 
 #: ../gap/gap_decode_mplayer.c:584
@@ -2987,7 +2970,8 @@ msgid ""
 "typically results in loss of layers and other information."
 msgstr ""
 "Sie verwenden ein anderes Dateiformat als xcf.\n"
-"Speichern kann einen Verlust der Ebeneninformationen zur Folge haben.\n"
+"Dieser Dialog stellt ein, wie ? des Speichern kann einen Verlust der "
+"Ebeneninformationen zur Folge haben.\n"
 "\n"
 "Um Zusammenfügen für dieses Dateiformat (permanent\n"
 "für alle zukünftigen Sitzungen) einzustellen, fügen Sie bitte die Zeile\n"
@@ -4484,11 +4468,6 @@ msgstr ""
 "geschrieben werden soll."
 
 #: ../gap/gap_morph_tween_dialog.c:790
-#, fuzzy
-#| msgid ""
-#| "INTENSITY attribute value to be written to the generated workpoint file. "
-#| "value 0 turns off intensity desceding deformation, morph processing will "
-#| "use linear deform action inside the deform radius"
 msgid ""
 "INTENSITY attribute value to be written to the generated workpoint file. "
 "value 0 turns off intensity descending deformation, morph processing will "
@@ -4496,7 +4475,7 @@ msgid ""
 msgstr ""
 "Das Attribut INTENSITY, dessen Wert in die erstellte Arbeitspunktdatei "
 "geschrieben werden soll. Der Wert 0 schaltet die absteigende Deformation "
-"nach Intensität aus, Die Morph-bearbeitung verwendet lineare "
+"nach Intensität aus, Die Morph-Bearbeitung verwendet lineare "
 "Deformationsausführung innerhalb des Deformationsradius"
 
 #: ../gap/gap_morph_tween_dialog.c:805
@@ -4520,12 +4499,6 @@ msgid "Edge Threshold:"
 msgstr "Kanten-Schwellenwert:"
 
 #: ../gap/gap_morph_tween_dialog.c:838
-#, fuzzy
-#| msgid ""
-#| "Edge detection threshold. Workpoints are generated on detected edges. "
-#| "Edges are detected on pixels where color or opacity differs significant "
-#| "from the neighbor pixel.(e.g. more than the specified edge detection "
-#| "threshold)."
 msgid ""
 "Edge detection threshold. Workpoints are generated on detected edges. Edges "
 "are detected on pixels where color or opacity differs significantly from the "
@@ -4533,7 +4506,7 @@ msgid ""
 msgstr ""
 "Schwellenwert der Kantenerkennung. Arbeitspunkte werden für erkannte Kanten "
 "erstellt. Kanten werden bei Pixeln erkannt, die sich in Farbe oder Deckkraft "
-"signifikant vom Nachbarpixel unterscheiden. (z. B. mehr als der angegebene "
+"signifikant vom Nachbarpixel unterscheiden. (d.h. mehr als der angegebene "
 "Schwellenwert der Kantenerkennung)"
 
 #: ../gap/gap_morph_tween_dialog.c:853
@@ -4616,11 +4589,6 @@ msgid "Number of Tweens:"
 msgstr "Anzahl der Zwischenbilder:"
 
 #: ../gap/gap_morph_tween_dialog.c:1260
-#, fuzzy
-#| msgid ""
-#| "Number of tweens to be inserted between 2 frames. Value 0 renderes "
-#| "missing frames (via morphing or fade) but does not create tweens where "
-#| "the next frame number is equal to the current processed frame number +1"
 msgid ""
 "Number of tweens to be inserted between 2 frames. Value 0 renders missing "
 "frames (via morphing or fade) but does not create tweens where the next "
@@ -5244,23 +5212,17 @@ msgstr ""
 
 #. the merge option menu for the trace layer
 #: ../gap/gap_mov_dialog.c:4435
-#, fuzzy
-#| msgid "Tracelayer"
 msgid "Keep TraceLayer"
-msgstr "Spurebene"
+msgstr "Spurebene behalten"
 
 # TODO, lange version?
 #: ../gap/gap_mov_dialog.c:4436
-#, fuzzy
-#| msgid "Merge Layers"
 msgid "Merge Down TraceLayer"
-msgstr "Ebenen vereinen"
+msgstr "Spurebene nach unten vereinen"
 
 #: ../gap/gap_mov_dialog.c:4437
-#, fuzzy
-#| msgid "Delete layer(s)"
 msgid "Delete TraceLayer"
-msgstr "Ebene(n) entfernen"
+msgstr "Spurebene entfernen"
 
 #: ../gap/gap_mov_dialog.c:4466
 msgid "Postprocessing mode for the trace layer (is ignored when not present)"
@@ -5269,20 +5231,16 @@ msgstr ""
 # TODO, lange version?
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4477
-#, fuzzy
-#| msgid "Merge Layers:"
 msgid "Merge Target:"
-msgstr "Ebenen vereinen:"
+msgstr "Vereinigungsziel:"
 
 #: ../gap/gap_mov_dialog.c:4482
 msgid "New Layer"
 msgstr "Neue Ebene"
 
 #: ../gap/gap_mov_dialog.c:4483
-#, fuzzy
-#| msgid "Merged Layer Name"
 msgid "Merge to Layer below"
-msgstr "Name der zusammengeführten Ebene"
+msgstr "Mit darunter liegender Ebene vereinen"
 
 #: ../gap/gap_mov_dialog.c:4484
 msgid "Merge to new Black Mask at Layer below"
@@ -5373,10 +5331,6 @@ msgstr ""
 "des letzten Punktes in alle anderen dazwischenliegenden Punkte zu verteilen."
 
 #: ../gap/gap_mov_dialog.c:4719
-#, fuzzy
-#| msgid ""
-#| "Set rotation for all controlpoints to follow the shape of the path. Hold "
-#| "down the shift key to use rotation of contolpoint 1 as offset."
 msgid ""
 "Set rotation for all controlpoints to follow the shape of the path. Hold "
 "down the shift key to use rotation of controlpoint 1 as offset."
@@ -6001,15 +5955,11 @@ msgid "MovePath xmlfile:"
 msgstr "XML-Datei des Bewegungspfads:"
 
 #: ../gap/gap_mov_dialog.c:7324
-#, fuzzy
-#| msgid ""
-#| "Name of the file containing move path paramters and controlpoints in XML "
-#| "format"
 msgid ""
 "Name of the file containing move path parameters and controlpoints in XML "
 "format"
 msgstr ""
-"Der Name der Datei, welche die Parameter der Bewegungspfads und "
+"Der Name der Datei, welche die Parameter des Bewegungspfads und "
 "Kontrollpunkte im XML-Format enthält"
 
 #: ../gap/gap_mov_dialog.c:7332 ../vid_common/gap_cme_gui.c:2895
@@ -6558,9 +6508,8 @@ msgstr ""
 
 #. the active layer tracking label
 #: ../gap/gap_navigator_dialog.c:3984
-#, fuzzy
 msgid "AL-Tracking:"
-msgstr "Detailverfolgung:"
+msgstr "Verfolgung der aktiven Ebene:"
 
 #. radio button active layer tracking OFF
 #: ../gap/gap_navigator_dialog.c:3994
@@ -6764,8 +6713,6 @@ msgstr ""
 "Deckkraft der ersten Zwiebelhaut-Ebene (0 ist transparent, 100 ist deckend)"
 
 #: ../gap/gap_onion_dialog.c:1176
-#, fuzzy
-#| msgid "Descending opacity for 2.nd onionskin layer"
 msgid "Descending opacity for 2nd onionskin layer"
 msgstr "Abnehmende Deckkraft der zweiten Zwiebelhaut-Ebene"
 
@@ -7092,8 +7039,6 @@ msgid "Ready"
 msgstr "Bereit"
 
 #: ../gap/gap_player_dialog.c:2499
-#, fuzzy
-#| msgid "cheking audiotrack"
 msgid "checking audiotrack"
 msgstr "Audiospur wird überprüft"
 
@@ -7936,20 +7881,15 @@ msgid "Imagetype:"
 msgstr "Bildtyp:"
 
 #: ../gap/gap_range_ops.c:574
-#, fuzzy
-#| msgid ""
-#| "Convert to another imagetype, or keep imagetype as it is. Most "
-#| "fileformats can't handle all types and may require a conversion.Example: "
-#| "GIF can not handle RGB and requires convert to indexed imagetype."
 msgid ""
 "Convert to another imagetype, or keep imagetype as it is. Most fileformats "
 "can't handle all types and may require a conversion. Example: GIF can not "
 "handle RGB and requires convert to indexed imagetype."
 msgstr ""
 "Umwandlung in ein anderes Grafikformat oder Erhalten des aktuellen Formats. "
-"Die meisten Dateiformate können nicht mit allen Grafikformaten und machen "
-"eine Umwandlung notwendig. Beispiel: GIF kann nicht mit RGB umgehen und "
-"erfordert die Umwandlung in einen indizierten Grafiktyp."
+"Die meisten Dateiformate können nicht mit allen Grafikformaten umgehen und "
+"machen eine Umwandlung notwendig. Beispiel: GIF kann nicht mit RGB umgehen "
+"und erfordert die Umwandlung in einen indizierten Grafiktyp."
 
 # TODO, lange version?
 #: ../gap/gap_range_ops.c:582
@@ -8085,16 +8025,12 @@ msgid "Exclude BG-Layer:"
 msgstr "Hintergrundebene ausschließen:"
 
 #: ../gap/gap_range_ops.c:777
-#, fuzzy
-#| msgid ""
-#| "Exclude the background layer in all handled frames, regardless to the "
-#| "other settings of layer selection."
 msgid ""
 "Exclude the background layer in all handled frames, regardless of the other "
 "settings of layer selection."
 msgstr ""
 "Hintergrundebenen in allen bearbeiteten Einzelbildern ausschließen (Auswahl "
-"wird nicht beachtet)"
+"wird nicht beachtet)."
 
 #: ../gap/gap_range_ops.c:784
 msgid "Layer Selection:"
@@ -8127,10 +8063,6 @@ msgid "Pixel Selection:"
 msgstr "Pixelauswahl:"
 
 #: ../gap/gap_range_ops.c:829
-#, fuzzy
-#| msgid ""
-#| "You are using INDEXED frames. please note that the result will be an RGB "
-#| "image"
 msgid ""
 "You are using INDEXED frames. Please note that the result will be an RGB "
 "image"
@@ -8251,11 +8183,6 @@ msgid "Splitting image into frames..."
 msgstr "Bild in Einzelbilder aufteilen …"
 
 #: ../gap/gap_split.c:365
-#, fuzzy
-#| msgid ""
-#| "Split Frames: Save operation failed.\n"
-#| "desired save plugin can't handle type\n"
-#| "or desired save plugin not available."
 msgid ""
 "Split Frames: Save operation failed.\n"
 "Desired save plugin can't handle type\n"
@@ -8937,18 +8864,13 @@ msgid "Resource Loginterval:"
 msgstr "Intervall für Ressourcenprotokoll:"
 
 #: ../gap/gap_story_dialog.c:5598
-#, fuzzy
-#| msgid ""
-#| "Value 0 turns off resource logging to stdout. Value n logs current "
-#| "resource usage afte each n processed frames to stdout (this includes the "
-#| "list of cached images and opened videofiles)"
 msgid ""
 "Value 0 turns off resource logging to stdout. Value n logs current resource "
 "usage after each n processed frames to stdout (this includes the list of "
 "cached images and opened videofiles)"
 msgstr ""
-"Wert 0 schaltet die Protokollierung der Ressource in die Standardausgabe ab. "
-"Wert »n« protokolliert die Ressourcennutzung nach »n« verarbeiteten "
+"Wert 0 schaltet die Protokollierung der Ressourcen in die Standardausgabe "
+"ab. Wert »n« protokolliert die Ressourcennutzung nach »n« verarbeiteten "
 "Einzelbildern in die Standardausgabe (schließt die Liste der "
 "zwischengespeicherten Bilder und geöffneten Videodateien ein)"
 
@@ -9986,8 +9908,6 @@ msgid "analyze line %d (out of %d)"
 msgstr "Zeile %d (von %d) analysieren"
 
 #: ../gap/gap_story_render_processor.c:3429
-#, fuzzy
-#| msgid "No Frames or Images found ...."
 msgid "No Frames or Images found ..."
 msgstr "Keine Einzelbilder oder Bilder gefunden …"
 
@@ -10396,11 +10316,8 @@ msgstr ""
 "»%s«"
 
 #: ../gap/gap_vex_main.c:274
-#, fuzzy
 msgid "MAIN_TST"
-msgstr ""
-"-\n"
-"optionen"
+msgstr "MAIN_TST"
 
 #: ../gap/gap_vex_main.c:398
 msgid ""
@@ -10597,16 +10514,12 @@ msgid "Horizontal shift phase where 1.0 refers to image width"
 msgstr "Horizontale Phasenverschiebung. 1.0 bezieht sich auf die Bildbreite"
 
 #: ../gap/gap_water_pattern.c:1216
-#, fuzzy
-#| msgid ""
-#| "ON: create waterpattern cloud layers according options. OFF: Use external "
-#| "pattern layers. "
 msgid ""
 "ON: create waterpattern cloud layers according to options. OFF: Use external "
 "pattern layers. "
 msgstr ""
-"EIN: Wassermuster-Wolkenebene entsprechend der Einstellungen erstellen. AUS: "
-"Externe Musterebene verwenden."
+"EIN: Wassermuster-Wolkenebenen entsprechend den Einstellungen erstellen. "
+"AUS: Externe Musterebenen verwenden. "
 
 #. pattern
 #: ../gap/gap_water_pattern.c:1227
@@ -12851,11 +12764,11 @@ msgstr "Alternatives Inter-vlc freischalten (nur H263+ CODEC)"
 #. the interlace dct checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2328
 msgid "Interlace DCT"
-msgstr ""
+msgstr "DCT-Verflechtung"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2334
 msgid "Use interlaced dct"
-msgstr ""
+msgstr "DCT-Verflechtung verwenden"
 
 #. the Use OBMC checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2342
@@ -13184,7 +13097,7 @@ msgstr "SSIM berechnen"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2917
 msgid "Compute SSIM during encoding, error[] values are undefined."
-msgstr ""
+msgstr "SSIM während Kodierung berechnen. Fehlerwerte[] sind nicht definiert."
 
 #. the use_gmc checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2928
@@ -13751,6 +13664,11 @@ msgid ""
 "extension of the video name, frames are named\n"
 "video name plus 6-digit number + extension"
 msgstr ""
+"Der Rohbild-Kodierer\n"
+"schreibt Einzelbilder anstatt einer Videodatei. Das \n"
+"Dateiformat der Einzelbilder wird von der Erweiterung \n"
+"des Videonamens abgeleitet. Einzelbilder werden nach\n"
+"dem Schema »Videoname + 6 Ziffern + Erweiterung« benannt"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:527
 msgid "the rawframe encoder has no encoder specific parameters"
