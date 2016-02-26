@@ -12,6 +12,7 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 # Francisco Vila <francisco.vila@hispalinux.es>, 2011, 2012.
 # 
+# Edilzar Cisneros Ancheyta <edy.cisneros1893@gmail,com>, 2016.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015., 2016.
 #
 msgid ""
@@ -19,8 +20,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-22 19:16+0000\n"
-"PO-Revision-Date: 2016-02-23 09:08+0100\n"
+"POT-Creation-Date: 2016-02-25 19:18+0000\n"
+"PO-Revision-Date: 2016-02-26 08:49+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -281,7 +282,7 @@ msgstr "Ir al fotograma nº"
 msgid ""
 "Frames %d - %d will be deleted. There will be no undo for this operation."
 msgstr ""
-"Los fotogramas %d - %d se borrarán.No habrá posibilidad de DESHACER esta "
+"Los fotogramas %d - %d se eliminarán.No habrá posibilidad de DESHACER esta "
 "operación"
 
 #. title_txt
@@ -293,20 +294,20 @@ msgstr "Confirmar borrado de fotograma"
 #: ../gap/gap_base_ops.c:1283
 #, c-format
 msgid "Delete Frames (%ld/%ld)"
-msgstr "Borrar fotogramas (%ld/%ld)"
+msgstr "Eliminar fotogramas (%ld/%ld)"
 
 #: ../gap/gap_base_ops.c:1286
 #, c-format
 msgid "Delete frames from %ld to (number)"
-msgstr "Borrar fotogramas desde %ld hasta (nº)"
+msgstr "Eliminar fotogramas desde %ld hasta (nº)"
 
 #: ../gap/gap_base_ops.c:1299
 #, c-format
 msgid ""
 "Delete frames starting at current number %d up to this number (inclusive)"
 msgstr ""
-"Borrar fotogramas comenzando en el número actual %d hasta este número "
-"(incluido)"
+"Eliminar fotogramas comenzando en el número actual %d hasta este número "
+"(incluído)"
 
 #: ../gap/gap_base_ops.c:1380
 #, c-format
@@ -401,7 +402,7 @@ msgid ""
 msgstr ""
 "Activado: Duplicar fotogramas para obtener una tasa objetivo que sea "
 "«densidad * Tasa_original»\n"
-"Desactivado: Borrar fotogramas para obtener una tasa objetivo que sea "
+"Desactivado: eliminar fotogramas para obtener una tasa objetivo que sea "
 "«tasa_original/densidad»"
 
 #: ../gap/gap_base_ops.c:1474
@@ -1539,7 +1540,6 @@ msgid "Jpeg Optimize:"
 msgstr "Optimizar JPEG:"
 
 #: ../gap/gap_decode_mplayer.c:544
-#| msgid "optimization factor(is ignored when other formats are used)"
 msgid "Optimization factor (is ignored when other formats are used)"
 msgstr "factor de optimización (se ignora cuando se usan otros formatos)"
 
@@ -1548,7 +1548,6 @@ msgid "Jpeg Smooth:"
 msgstr "Suavizado JPEG:"
 
 #: ../gap/gap_decode_mplayer.c:555
-#| msgid "Smooth factor(is ignored when other formats are used)"
 msgid "Smooth factor (is ignored when other formats are used)"
 msgstr "Factor de suavizado (se ignora cuando se usan otros formatos)"
 
@@ -1557,8 +1556,6 @@ msgid "Jpeg Progressive:"
 msgstr "JPEG progresivo:"
 
 #: ../gap/gap_decode_mplayer.c:566
-#| msgid ""
-#| "Enable progressive jpeg encoding(is ignored when other formats are used)"
 msgid ""
 "Enable progressive jpeg encoding (is ignored when other formats are used)"
 msgstr ""
@@ -1570,8 +1567,6 @@ msgid "Jpeg Baseline:"
 msgstr "Línea de base JPEG:"
 
 #: ../gap/gap_decode_mplayer.c:573
-#| msgid ""
-#| "Enable baseline jpeg encoding(is ignored when other formats are used)"
 msgid "Enable baseline jpeg encoding (is ignored when other formats are used)"
 msgstr ""
 "Activar codificación de línea de base JPEG (se ignora cuando se usan otros "
@@ -2298,7 +2293,6 @@ msgid "<Image>/Layer/Transform/"
 msgstr "<Image>/Capa/Transformar/"
 
 #: ../gap/gap-dup-continue.scm:38
-#| msgid "<Image>/Video/Onionskin/"
 msgid "<Image>/Video/Duplicate Continue"
 msgstr "<Image>/Vídeo/Duplicar Continuar/"
 
@@ -2491,9 +2485,7 @@ msgid "Animated Filter Apply"
 msgstr "Aplicar filtro en animación"
 
 #: ../gap/gap_filter_foreach.c:235
-#| msgid ""
-#| "Error: Plugin %s has changed the number of layers from %d to %d\n"
-#| "could not restore Layer visibilty.\n"
+#, c-format
 msgid ""
 "Error: Plugin %s has changed the number of layers from %d to %d\n"
 "could not restore Layer visibility.\n"
@@ -2927,22 +2919,22 @@ msgstr "Mostrar la página de ayuda"
 #. Button Delete All
 #: ../gap/gap_fmac_main.c:1113
 msgid "Delete All"
-msgstr "Borrar todo"
+msgstr "Eliminar todo"
 
 #: ../gap/gap_fmac_main.c:1117
 msgid "Delete the filtermacro scriptfile"
-msgstr "Borrar el script de macro de filtrado"
+msgstr "Eliminar el script de macro de filtrado"
 
 #. Button Delete
 #. radio button DELETE
 #: ../gap/gap_fmac_main.c:1126 ../gap/gap_morph_dialog.c:2977
 #: ../gap/gap_onion_main.c:185
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Eliminar"
 
 #: ../gap/gap_fmac_main.c:1130
 msgid "Delete the selected filtercall"
-msgstr "Borrar la llamada del filtro seleccionada"
+msgstr "Eliminar la llamada del filtro seleccionada"
 
 #. Button Add
 #: ../gap/gap_fmac_main.c:1139
@@ -3116,7 +3108,7 @@ msgstr "Cualquier fotograma…"
 
 #: ../gap/gap_main.c:646
 msgid "Delete Frames..."
-msgstr "Borrar fotogramas…"
+msgstr "Eliminar fotogramas…"
 
 #: ../gap/gap_main.c:658
 msgid "Duplicate Frames..."
@@ -3140,7 +3132,7 @@ msgstr "Aplanar fotogramas…"
 
 #: ../gap/gap_main.c:724
 msgid "Frames Layer Delete..."
-msgstr "Borrar capas de fotogramas…"
+msgstr "Eliminar capas de fotogramas…"
 
 #: ../gap/gap_main.c:748
 msgid "Frames Convert..."
@@ -3566,7 +3558,7 @@ msgstr "Cargar selección desde el canal (individualmente por fotograma)"
 
 #: ../gap/gap_mod_layer_dialog.c:935
 msgid "Delete channel (by name)"
-msgstr "Borrar canal (por nombre)"
+msgstr "Eliminar canal (por nombre)"
 
 #. the LayerMask sub menu
 #: ../gap/gap_mod_layer_dialog.c:955
@@ -3607,7 +3599,7 @@ msgstr "Aplicar filtro en máscara(s) de capa(s)"
 
 #: ../gap/gap_mod_layer_dialog.c:1010
 msgid "Delete layermask"
-msgstr "Borrar máscara de capa"
+msgstr "Eliminar máscara de capa"
 
 #: ../gap/gap_mod_layer_dialog.c:1016
 msgid "Apply layermask"
@@ -3651,7 +3643,7 @@ msgstr "Duplicar capa(s)"
 
 #: ../gap/gap_mod_layer_dialog.c:1077
 msgid "Delete layer(s)"
-msgstr "Borrar capa(s)"
+msgstr "Eliminar capa(s)"
 
 #: ../gap/gap_mod_layer_dialog.c:1083
 msgid "Rename layer(s)"
@@ -4507,7 +4499,6 @@ msgid "Num Workpoints:"
 msgstr "Número de puntos de trabajo:"
 
 #: ../gap/gap_morph_tween_dialog.c:734
-#| msgid "Number of workpoints to be generated par processed frame"
 msgid "Number of workpoints to be generated per processed frame"
 msgstr "Número de puntos de trabajo que generar por cada fotograma procesado"
 
@@ -4546,10 +4537,6 @@ msgstr ""
 "trabajo generado."
 
 #: ../gap/gap_morph_tween_dialog.c:790
-#| msgid ""
-#| "INTENSITY attribute value to be written to the generated workpoint file. "
-#| "value 0 turns off intensity desceding deformation, morph processing will "
-#| "use linear deform action inside the deform radius"
 msgid ""
 "INTENSITY attribute value to be written to the generated workpoint file. "
 "value 0 turns off intensity descending deformation, morph processing will "
@@ -4652,13 +4639,6 @@ msgstr[1] ""
 "esta operación genera %d fotogramas perdidos entre los fotogramas %d y %d"
 
 #: ../gap/gap_morph_tween_dialog.c:1182
-#| msgid ""
-#| "This operation creates copies of all frames in the specified range\n"
-#| "and the specifed number of tweens as additional tween frames\n"
-#| "between all the processed frames in the specified subdirectory.\n"
-#| "Provide workpointfiles (one per frame) for morphing based tween "
-#| "rendering\n"
-#| "(this can be done with the Morph Workpoint Generator)"
 msgid ""
 "This operation creates copies of all frames in the specified range\n"
 "and the specified number of tweens as additional tween frames\n"
@@ -4682,10 +4662,6 @@ msgid "Number of Tweens:"
 msgstr "Número de tweens:"
 
 #: ../gap/gap_morph_tween_dialog.c:1260
-#| msgid ""
-#| "Number of tweens to be inserted between 2 frames. Value 0 renderes "
-#| "missing frames (via morphing or fade) but does not create tweens where "
-#| "the next frame number is equal to the current processed frame number +1"
 msgid ""
 "Number of tweens to be inserted between 2 frames. Value 0 renders missing "
 "frames (via morphing or fade) but does not create tweens where the next "
@@ -4716,11 +4692,6 @@ msgid "Subdirectory:"
 msgstr "Subcarpeta:"
 
 #: ../gap/gap_morph_tween_dialog.c:1302
-#| msgid ""
-#| "Name of a (Sub)directoy to save copies of processed frames and generated "
-#| "tweens. Note that tweens are created via simple fade operations when no "
-#| "workpointfile for the processed frame is available. (individual "
-#| "workpointfiles per frame are refered by extension .morphpoints)"
 msgid ""
 "Name of a (Sub)directory to save copies of processed frames and generated "
 "tweens. Note that tweens are created via simple fade operations when no "
@@ -4784,7 +4755,6 @@ msgid "Advanced Settings"
 msgstr "Configuración avanzada"
 
 #: ../gap/gap_mov_dialog.c:1140
-#| msgid "Render Settings"
 msgid "Merge Settings"
 msgstr "Configuración de la mezcla"
 
@@ -5276,19 +5246,20 @@ msgstr "Opacidad descendiente de la capa tween"
 #. the merge option menu for the moving object
 #: ../gap/gap_mov_dialog.c:4354
 msgid "Keep Rendered Object as Layer"
-msgstr ""
+msgstr "Mantener objeto renderizado como capa"
 
 #: ../gap/gap_mov_dialog.c:4355
 msgid "Merge Down Rendered Object"
-msgstr ""
+msgstr "Mezclar objeto renderizado"
 
 #: ../gap/gap_mov_dialog.c:4356
 msgid "Delete Rendered Object"
-msgstr ""
+msgstr "Eliminar objeto renderizado"
 
 #: ../gap/gap_mov_dialog.c:4385
 msgid "Postprocessing mode for the rendered moving object layer"
 msgstr ""
+"Modo de postprocesamiento para renderizar la capa de objetos en movimiento"
 
 #. the merge option menu for the tween layer
 #: ../gap/gap_mov_dialog.c:4395
@@ -5312,6 +5283,8 @@ msgstr "Borrar capa(s)"
 #: ../gap/gap_mov_dialog.c:4426
 msgid "Postprocessing mode for the tween layer (is ignored when not present)"
 msgstr ""
+"Modo de postprocesamiento para la capa tween (se ignora cuando no está "
+"presente)"
 
 #. the merge option menu for the trace layer
 #: ../gap/gap_mov_dialog.c:4435
@@ -5335,6 +5308,8 @@ msgstr "Borrar capa(s)"
 #: ../gap/gap_mov_dialog.c:4466
 msgid "Postprocessing mode for the trace layer (is ignored when not present)"
 msgstr ""
+"Modo de postprocesamiento para la capa de traza (se ignora cuando no está "
+"presente)"
 
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4477
@@ -5357,20 +5332,22 @@ msgstr "Nombre de la capa mezclada"
 
 #: ../gap/gap_mov_dialog.c:4484
 msgid "Merge to new Black Mask at Layer below"
-msgstr ""
+msgstr "Mezclar en una nueva máscara negra de la capa inferior"
 
 #: ../gap/gap_mov_dialog.c:4485
 msgid "Merge to new White Mask at Layer below"
-msgstr ""
+msgstr "Mezclar en una nueva máscara blanca de la capa inferior"
 
 #: ../gap/gap_mov_dialog.c:4486
 msgid "Merge to existing Mask at Layer below"
-msgstr ""
+msgstr "Combinar una máscara existente en la capa inferior"
 
 #: ../gap/gap_mov_dialog.c:4517
 msgid ""
 "merge target provides options how to postprocess layers rendered by MovePath."
 msgstr ""
+"mezclar capas proporciona opciones de cómo postprocesar capas renderizadas "
+"por MovePath."
 
 #. the frame
 #: ../gap/gap_mov_dialog.c:4551
@@ -5388,7 +5365,7 @@ msgid ""
 "down the Shift key to create controlpoints for each handled frame, following "
 "the Bezier path."
 msgstr ""
-"Borrar todos los puntos de control y reemplazarlos con una copia de todos "
+"Eliminar todos los puntos de control y reemplazarlos con una copia de todos "
 "los puntos de anclaje en la ruta actual, desde la imagen en la que se invocó "
 "«MovePath». Mantenga presionada la tecla «Mayús.» para crear puntos de "
 "control para cada fotograma manipulado, siguiendo la trayectoria bezier."
@@ -5399,7 +5376,7 @@ msgstr "Insertar punto de control (se duplica el punto actual)."
 
 #: ../gap/gap_mov_dialog.c:4614
 msgid "Delete current controlpoint"
-msgstr "Borrar punto de control actual"
+msgstr "Eliminar punto de control actual"
 
 #: ../gap/gap_mov_dialog.c:4629
 msgid ""
@@ -5458,7 +5435,7 @@ msgstr ""
 
 #: ../gap/gap_mov_dialog.c:4734
 msgid "Delete all controlpoints"
-msgstr "Borrar todos los puntos de control"
+msgstr "Eliminar todos los puntos de control"
 
 #: ../gap/gap_mov_dialog.c:4750
 msgid "Load controlpoints from file"
@@ -6118,7 +6095,7 @@ msgstr ""
 
 #: ../gap/gap_mov_dialog.c:7353
 msgid "Movepath rendering for a single frame"
-msgstr ""
+msgstr "Renderizado de rutas de movimiento para un solo fotograma"
 
 #: ../gap/gap_mov_dialog.c:7354 ../gap/gap_player_dialog.c:491
 #: ../gap/gap_story_dialog.c:5311 ../gap/gap_story_dialog.c:9169
@@ -6576,7 +6553,7 @@ msgstr "Duplicar fotogramas seleccionados"
 
 #: ../gap/gap_navigator_dialog.c:456
 msgid "Delete selected frames"
-msgstr "Borrar fotogramas seleccionados"
+msgstr "Eliminar fotogramas seleccionados"
 
 #: ../gap/gap_navigator_dialog.c:465
 msgid "Goto first frame"
@@ -6616,7 +6593,7 @@ msgid ""
 "The selected %d frame(s) will be deleted.\n"
 "There will be no undo for this operation\n"
 msgstr ""
-"Los %d fotogramas seleccionados se borrarán\n"
+"Los %d fotogramas seleccionados se eliminarán\n"
 "No habrá posibilidad de deshacer esta acción\n"
 
 #: ../gap/gap_navigator_dialog.c:803
@@ -6981,7 +6958,7 @@ msgid ""
 "Close window without creating or deleting any onionskin layers\n"
 "but store current Settings"
 msgstr ""
-"Cerrar ventana sin crear o borrar ninguna de las capas de papel cebolla\n"
+"Cerrar ventana sin crear o eliminar ninguna de las capas de papel cebolla\n"
 "pero almacenando los ajustes actuales"
 
 #: ../gap/gap_onion_dialog.c:1402
@@ -8275,7 +8252,7 @@ msgstr "Quitando capa (pos:%ld) de fotogramas…"
 
 #: ../gap/gap_range_ops.c:2021
 msgid "Delete Layers in Frames"
-msgstr "Borrar capas en fotogramas"
+msgstr "Eliminar capas en fotogramas"
 
 #: ../gap/gap_range_ops.c:2022
 msgid "Select Frame Range & Stack Position"
@@ -8460,11 +8437,11 @@ msgstr "Vista previa de animación"
 
 #: ../gap/gap_stock.c:46
 msgid "Delete All Points"
-msgstr "Borrar todos los puntos"
+msgstr "Eliminar todos los puntos"
 
 #: ../gap/gap_stock.c:47
 msgid "Delete Point"
-msgstr "Borrar punto"
+msgstr "Eliminar punto"
 
 #: ../gap/gap_stock.c:48
 msgid "First Point"
@@ -10227,7 +10204,7 @@ msgid ""
 "Could not delete current subsection because it is still used as Clip in the "
 "MAIN section"
 msgstr ""
-"No se pudo borrar la subsección actual porque aún está en uso como Clip en "
+"No se pudo eliminar la subsección actual porque aún está en uso como Clip en "
 "la sección PRINCIPAL"
 
 #: ../gap/gap_story_section_properties.c:648
@@ -10274,7 +10251,7 @@ msgstr "Tipo:"
 
 #: ../gap/gap_story_section_properties.c:877
 msgid "Delete storyboard section"
-msgstr "Borrar sección de «storyboard»"
+msgstr "Eliminar sección de «storyboard»"
 
 #. the info label
 #: ../gap/gap_story_section_properties.c:888
@@ -11218,7 +11195,7 @@ msgstr "Rotar ángulo:"
 
 #: ../gap/sel-to-anim-img.scm:115
 msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
-msgstr ""
+msgstr "<Image>/Script-Fu/Animadores/Selección a AnimImage..."
 
 #: ../gap/sel-to-anim-img.scm:123
 #, fuzzy
@@ -11234,7 +11211,7 @@ msgstr "Seleccionar por color"
 
 #: ../gap/sel-to-anim-img.scm:125
 msgid "Anim-Filter for all Copies"
-msgstr ""
+msgstr "Filtro de animación para todas las copias"
 
 #: ../libgapvidapi/gap_vid_api_mpeg3.c:843
 #, c-format
