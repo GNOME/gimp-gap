@@ -12,7 +12,7 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 # Francisco Vila <francisco.vila@hispalinux.es>, 2011, 2012.
 # 
-# Edilzar Cisneros Ancheyta <edy.cisneros1893@gmail,com>, 2016.
+# Edilzar Cisneros Ancheyta <edy.cisneros1893@gmail,com>,com>, 2016.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015., 2016.
 #
 msgid ""
@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-25 19:18+0000\n"
-"PO-Revision-Date: 2016-02-26 08:49+0100\n"
+"POT-Creation-Date: 2016-02-28 19:15+0000\n"
+"PO-Revision-Date: 2016-03-04 08:41+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -5313,22 +5313,19 @@ msgstr ""
 
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4477
-#, fuzzy
 #| msgid "Merge Layers:"
 msgid "Merge Target:"
-msgstr "Mezclar capas:"
+msgstr "Mezclar destino:"
 
 #: ../gap/gap_mov_dialog.c:4482
-#, fuzzy
 #| msgid "New Layer Name"
 msgid "New Layer"
-msgstr "Nombre de la capa nueva"
+msgstr "Capa nueva"
 
 #: ../gap/gap_mov_dialog.c:4483
-#, fuzzy
 #| msgid "Merged Layer Name"
 msgid "Merge to Layer below"
-msgstr "Nombre de la capa mezclada"
+msgstr "Combinar en capa inferior"
 
 #: ../gap/gap_mov_dialog.c:4484
 msgid "Merge to new Black Mask at Layer below"
@@ -8154,7 +8151,6 @@ msgid "Exclude BG-Layer:"
 msgstr "Excluir capa de fondo:"
 
 #: ../gap/gap_range_ops.c:777
-#, fuzzy
 #| msgid ""
 #| "Exclude the background layer in all handled frames, regardless to the "
 #| "other settings of layer selection."
@@ -8162,8 +8158,8 @@ msgid ""
 "Exclude the background layer in all handled frames, regardless of the other "
 "settings of layer selection."
 msgstr ""
-"Excluir las capas de fondo en todos los fotogramas manipulados a pesar de la "
-"selección"
+"Excluir las capas de fondo en todos los fotogramas, independientemente de "
+"los otros ajustes de seleecion de capas."
 
 #: ../gap/gap_range_ops.c:784
 msgid "Layer Selection:"
@@ -9492,7 +9488,6 @@ msgid "Decoder:"
 msgstr "Decodificador:"
 
 #: ../gap/gap_story_dialog.c:9515
-#, fuzzy
 #| msgid ""
 #| "Select preferred video decoder library, or leave empty for automatic "
 #| "selection.The decoder setting is only relevant if videoclips are used "
@@ -9503,9 +9498,9 @@ msgid ""
 "not for frames that are imagefiles)"
 msgstr ""
 "Seleccione la biblioteca de decodificación de vídeo preferida, o déjelo "
-"vacio para selección automática. Las opciones del decodificador son sólo "
-"relevantes si se usan videoclips (pero no con fotogramas que sean archivos "
-"de imagen)"
+"vacio para selección automática. La opción del decodificador es sólo "
+"relevante si se usan videoclips (pero no con fotogramas que sean archivos de "
+"imagen)"
 
 #: ../gap/gap_story_dialog.c:9533
 msgid "Master audio samplerate for the resulting video in samples/sec."
@@ -9523,7 +9518,7 @@ msgstr "Formato de transparencia externa:"
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Format string to provide external transparency in movie clips. (i.e. "
 #| "automatic alpha channel insertion via external frames)this string shall "
@@ -9536,10 +9531,10 @@ msgid ""
 "as placeholder for the framenumber."
 msgstr ""
 "Cadena de formato para proporcionar transparencia externa en clips de vídeo "
-"(ej. inserción automática de un canal alfa mediante fotogramas externos). "
-"Esta cadena debe contener \\%s como marcador de posición para el nombre base "
-"de un clip de vídeo y un \\%06d opcional como marcador de posición para el "
-"número de fotograma."
+"(es decir inserción automática de un canal alfa mediante fotogramas "
+"externos). Esta cadena debe contener %s como marcador de posición para el "
+"nombre base de un clip de vídeo y un %06d opcional como marcador de posición "
+"para el número de fotograma."
 
 #: ../gap/gap_story_dialog.c:9595
 msgid "AreaFormat:"
@@ -9547,7 +9542,7 @@ msgstr "ÁreaFormato:"
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Format string for area replacement in movie clips. (for example automatic "
 #| "logo insert)this string shall contain \\%s as placeholder for the "
@@ -9558,10 +9553,10 @@ msgid ""
 "logo insert)this string shall contain %s as placeholder for the basename of "
 "a videoclip and optional %06d as placeholder for the framenumber."
 msgstr ""
-"Formatear cadena para el reemplazo del área en clips de vídeo. (ej. "
-"inserción automática de un logotipo) esta cadena debe contener \\%s como "
-"marcador de posición para el nombre de un videoclip y un \\%06d opcional "
-"como marcador de posición para el número de fotograma."
+"Formatear cadena para el reemplazo del área en clips de vídeo. (por ejemplo "
+"inserción automática de un logotipo) esta cadena debe contener %s como "
+"marcador de posición para el nombre de un videoclip y un %06d opcional como "
+"marcador de posición para el número de fotograma."
 
 #. should use GIMP_STOCK_RESET if possible
 #: ../gap/gap_story_dialog.c:9607
@@ -9586,16 +9581,16 @@ msgid "section_%02d"
 msgstr "sección_%02d"
 
 #: ../gap/gap_story_file.c:2716
-#, fuzzy, c-format
+#, c-format
 #| msgid "illegal number: %s (valid range is %d upto %d)\n"
 msgid "illegal number: %s (valid range is %d up to %d)\n"
-msgstr "número ilegal: %s (rango válido entre %d y %d)\n"
+msgstr "número ilegal: %s (el rango válido es de %d hasta %d)\n"
 
 #: ../gap/gap_story_file.c:2755
-#, fuzzy, c-format
+#, c-format
 #| msgid "illegal number: %s (valid range is %.3f upto %.3f)"
 msgid "illegal number: %s (valid range is %.3f up to %.3f)"
-msgstr "número ilegal: %s (rango válido entre %.3f y %.3f)"
+msgstr "número ilegal: %s (el rango válido es de %.3f hasta %.3f)"
 
 #: ../gap/gap_story_file.c:2797
 #, c-format
@@ -10645,7 +10640,6 @@ msgid "  %s (%d of %d)"
 msgstr "  %s (%d de %d)"
 
 #: ../gap/gap_video_index_creator.c:924
-#, fuzzy
 #| msgid ""
 #| "Conditional video index creation,  based on a few quick timcode "
 #| "probereads.\n"
@@ -10666,7 +10660,7 @@ msgstr ""
 "Omita la creación del índice si una búsqueda nativa parece posible.\n"
 "\n"
 "ADVERTENCIA: el posicionamiento por búsqueda nativa puede no ser exacto en "
-"caso de que algún paso crucial de código de tiempo no se detectase en el "
+"caso de que algún paso crítico de código de tiempo no se detecte en el "
 "sondeo rápido"
 
 #: ../gap/gap_video_index_creator.c:929
@@ -10731,7 +10725,6 @@ msgid "Percentage:"
 msgstr "Porcentaje:"
 
 #: ../gap/gap_video_index_creator.c:994
-#, fuzzy
 #| msgid ""
 #| "stop scan after percentage reached and no unplausible timecode was "
 #| "detected so far (only relevant in smart mode)"
@@ -10739,9 +10732,8 @@ msgid ""
 "stop scan after percentage reached and no implausible timecode was detected "
 "so far (only relevant in smart mode)"
 msgstr ""
-"dejar de analizar tras alcanzar el porcentaje y tras no detectar ningún "
-"código de tiempo inverosímil en la exploración (solamente útil en el modo "
-"inteligente)"
+"dejar de analizar tras alcanzar el porcentaje y no detectar ningún código de "
+"tiempo inverosímil en la exploración (sólo relevante en el modo inteligente))"
 
 #: ../gap/gap_video_index_creator.c:1012
 msgid "Video Index Creation"
@@ -11198,16 +11190,14 @@ msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
 msgstr "<Image>/Script-Fu/Animadores/Selección a AnimImage..."
 
 #: ../gap/sel-to-anim-img.scm:123
-#, fuzzy
 #| msgid "Number of Colors"
 msgid "Number of Copies"
-msgstr "Número de colores"
+msgstr "Número de copias"
 
 #: ../gap/sel-to-anim-img.scm:124
-#, fuzzy
 #| msgid "Select By Color"
 msgid "Fill with BG Color"
-msgstr "Seleccionar por color"
+msgstr "Seleccionar por color de fondo"
 
 #: ../gap/sel-to-anim-img.scm:125
 msgid "Anim-Filter for all Copies"
@@ -12344,7 +12334,6 @@ msgid "BGR (rgb):"
 msgstr "BGR (rgb):"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:921
-#, fuzzy
 #| msgid ""
 #| "Check if you want to encode frames in BGR (prefered) or RGB colormodel "
 #| "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
@@ -12354,7 +12343,7 @@ msgid ""
 "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
 "other players want RGB colormodel for RAW avi data)"
 msgstr ""
-"Determine si quiere codificar los fotogramas en el modelo de color BGR "
+"Compruebe si quiere codificar los fotogramas en el modelo de color BGR "
 "(preferido) o RGB (la mayor parte de los reproductores como WinDvD o VLC-"
 "player prefieren el modelo de color BGR para datos RAW; otros reproductores "
 "prefieren el modelo de color RGB para datos avi RAW)"
@@ -12574,7 +12563,6 @@ msgstr "Ajuste predeterminado seleccionado: %s"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:502
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:518
-#, fuzzy
 #| msgid "Recommanded Framesize"
 msgid "Recommended Framesize"
 msgstr "Tamaño de fotograma recomendado"
