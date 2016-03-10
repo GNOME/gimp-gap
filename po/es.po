@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-28 19:15+0000\n"
-"PO-Revision-Date: 2016-03-04 08:41+0100\n"
+"POT-Creation-Date: 2016-03-06 19:18+0000\n"
+"PO-Revision-Date: 2016-03-10 11:30+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -220,7 +220,7 @@ msgstr ""
 "El archivo: %s\n"
 "es una lista de reproducción musical, pero contiene referencias\n"
 "a archivos de sonido que o no coinciden con la frecuencia de\n"
-"muestreo deseada de %d Hz o no tienen 16 bits por muestra"
+"muestreo requerida de %d Hz o no tienen 16 bits por muestra"
 
 #: ../gap/gap_base_ops.c:93
 msgid "Decreasing density by deleting frames..."
@@ -1206,7 +1206,6 @@ msgid "DEBUG Options"
 msgstr "Opciones de DEBUG"
 
 #: ../gap/gap_colormask_dialog.c:815
-#, fuzzy
 #| msgid "DiffSensitvity:"
 msgid "DiffSensitivity:"
 msgstr "Sensibilidad de la diferencia:"
@@ -1829,8 +1828,8 @@ msgid ""
 "Fileformat for the extracted video frames. (xcf is extracted as ppm and "
 "converted to xcf)"
 msgstr ""
-"Formato de archivo para los fotogramas extraídos. (xcf es extraído como ppm "
-"y convertido a xcf)"
+"Formato de archivo para los fotogramas extraídos. (xcf se extráe como ppm y "
+"se convierte a xcf)"
 
 #: ../gap/gap_decode_xanim.c:283
 msgid "Extract Frames"
@@ -1869,8 +1868,8 @@ msgid ""
 "Run xanim asynchronously and delete unwanted frames (out of the specified "
 "range) while xanim is still running"
 msgstr ""
-"Ejecuta XAnim asíncronamente y borra los fotogramas no deseados (fuera del "
-"rango especificado) mientras XAnim sigue ejecutándose"
+"Ejecuta XAnim asíncronamente y elimina los fotogramas no requeridos (fuera "
+"del rango especificado) mientras XAnim sigue ejecutándose"
 
 #: ../gap/gap_decode_xanim.c:317
 msgid ""
@@ -2075,7 +2074,6 @@ msgstr ""
 "El objetivo está marcado por los puntos 1 y 2"
 
 #: ../gap/gap_detail_align_exec.c:1279
-#, fuzzy
 #| msgid ""
 #| "This filter requires a current path with 4 points,where point 1 and 2 "
 #| "mark reference positions and point 3 and 4 mark postions in the target "
@@ -2095,13 +2093,12 @@ msgstr ""
 "Este filtro requiere una ruta actual con 4 puntos, de los cuales el 1 y el 2 "
 "marcan posiciones de referencia y el 3 y el 4 marcan posiciones en la capa "
 "de destino. Transforma la capa de destino de manera que el punto 3 se mueve "
-"al punto 1 y el punto 4 se mueve al punto 2 (lo que puede incluir "
-"transformaciones de rotación y escalado).\n"
+"al punto 1 y el punto 4 se mueve al punto 2 (puede incluir transformaciones "
+"de rotación y escalado).\n"
 "Se puede usar una ruta con 2 puntos para mover el punto 2 al punto 1 (por "
-"medio de una operación de traslación simple sin rotación ni escalado)"
+"medio de una operación de traslación simple sin rotación y escalado)"
 
 #: ../gap/gap_detail_align_exec.c:1290
-#, fuzzy
 #| msgid ""
 #| "This filter requires a current path with 4 points,where point 1 and 3 "
 #| "mark reference positions and point 2 and 4 mark postions in the target "
@@ -2121,10 +2118,10 @@ msgstr ""
 "Este filtro requiere una ruta actual con 4 puntos, de los cuales el 1 y el 3 "
 "marcan posiciones de referencia y el 2 y el 4 marcan posiciones en la capa "
 "de destino. Transforma la capa de destino de manera que el punto 2 se mueve "
-"al punto 1 y el punto 4 se mueve al punto 3 (lo que puede incluir "
-"transformaciones de rotación y escalado).\n"
+"al punto 1 y el punto 4 se mueve al punto 3 (puede incluir transformaciones "
+"de rotación y escalado).\n"
 "Se puede usar una ruta con 2 puntos para mover el punto 2 al punto 1 (por "
-"medio de una operación de traslación simple sin rotación ni escalado)"
+"medio de una operación de traslación simple sin rotación y escalado)"
 
 #: ../gap/gap_detail_tracking_exec.c:1198
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
@@ -2371,7 +2368,6 @@ msgid "Tri-Map:"
 msgstr "Mapa triple:"
 
 #: ../gap/gap_fg_matting_dialog.c:443
-#, fuzzy
 #| msgid ""
 #| "Select the tri_map layer (or layermask).  the tri-map shall be of same "
 #| "size as the input layer and  provides a rough user selection  where WHITE "
@@ -2389,10 +2385,10 @@ msgstr ""
 "Seleccionar la capa (o máscara de capa) tri_map. El tri-map (mapa triple) "
 "deberá ser del mismo tamaño que la capa de entrada y proporciona una "
 "selección aproximada del usuario en la que los píxeles BLANCOS del mapa "
-"triple definen el PRIMER PLANO (resultado opaco), los píxeles NEGROS definen "
-"el plano de FONDO (resultado transparente) y los píxeles de color GRIS "
-"(valor de 1 a 240) se marcan como indefinidos (la opacidad la procesará este "
-"filtro)."
+"triple definen el PRIMER PLANO (es decir, resultado opaco), los píxeles "
+"NEGROS definen el plano de FONDO (es decir, resultado transparente) y los "
+"píxeles de color GRIS (valor de 1 a 240) se marcan como indefinidos (es "
+"decir,la opacidad la procesará este filtro)."
 
 #: ../gap/gap_fg_matting_dialog.c:467
 msgid "Layermask"
@@ -3022,7 +3018,7 @@ msgid "discard changes"
 msgstr "descartar cambios"
 
 #: ../gap/gap_lib.c:2166
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "You are using another file format than xcf.\n"
 #| "This dialog configures how to handle exchanges of\n"
@@ -3041,10 +3037,10 @@ msgstr ""
 "Está usando un formato de archivo que no es xcf.\n"
 "Este diálogo configura cómo gestionar los cambios del\n"
 "marco de la imagen actual (o marcos con extensión %s).\n"
-"Tenga en cuenta que el guardado automático al cambiar el\n"
-"marco sólo funciona con XCF, pero sobrescribe automáticamente\n"
-"otros formatos (ej. exportar), perdiendo generalmente capas\n"
-"u otra información."
+"Tenga en cuenta que el guardado automático al cambiar el marco sólo funciona "
+"con XCF\n"
+"pero sobrescribe automáticamente otros formatos (ej. exportar)\n"
+"perdiendo generalmente capas y otra información."
 
 #: ../gap/gap_lib.c:2176
 msgid "Save my decision:"
@@ -5263,22 +5259,19 @@ msgstr ""
 
 #. the merge option menu for the tween layer
 #: ../gap/gap_mov_dialog.c:4395
-#, fuzzy
 #| msgid "Tweenlayer"
 msgid "Keep TweenLayer"
-msgstr "Capa tween"
+msgstr "Mantener capa tween"
 
 #: ../gap/gap_mov_dialog.c:4396
-#, fuzzy
 #| msgid "Merge Layers"
 msgid "Merge Down TweenLayer"
-msgstr "Mezclar capas"
+msgstr "Mezclar capa tween"
 
 #: ../gap/gap_mov_dialog.c:4397
-#, fuzzy
 #| msgid "Delete layer(s)"
 msgid "Delete TweenLayer"
-msgstr "Borrar capa(s)"
+msgstr "Eliminar capa tween"
 
 #: ../gap/gap_mov_dialog.c:4426
 msgid "Postprocessing mode for the tween layer (is ignored when not present)"
@@ -5288,22 +5281,19 @@ msgstr ""
 
 #. the merge option menu for the trace layer
 #: ../gap/gap_mov_dialog.c:4435
-#, fuzzy
 #| msgid "Tracelayer"
 msgid "Keep TraceLayer"
-msgstr "Trazador de capas"
+msgstr "Mantener trazador de capas"
 
 #: ../gap/gap_mov_dialog.c:4436
-#, fuzzy
 #| msgid "Merge Layers"
 msgid "Merge Down TraceLayer"
-msgstr "Mezclar capas"
+msgstr "Mezclar trazador de capas"
 
 #: ../gap/gap_mov_dialog.c:4437
-#, fuzzy
 #| msgid "Delete layer(s)"
 msgid "Delete TraceLayer"
-msgstr "Borrar capa(s)"
+msgstr "Eliminar trazador de capas"
 
 #: ../gap/gap_mov_dialog.c:4466
 msgid "Postprocessing mode for the trace layer (is ignored when not present)"
@@ -5313,17 +5303,14 @@ msgstr ""
 
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4477
-#| msgid "Merge Layers:"
 msgid "Merge Target:"
 msgstr "Mezclar destino:"
 
 #: ../gap/gap_mov_dialog.c:4482
-#| msgid "New Layer Name"
 msgid "New Layer"
 msgstr "Capa nueva"
 
 #: ../gap/gap_mov_dialog.c:4483
-#| msgid "Merged Layer Name"
 msgid "Merge to Layer below"
 msgstr "Combinar en capa inferior"
 
@@ -6379,20 +6366,18 @@ msgid "P-Search:"
 msgstr "Búsqueda P:"
 
 #: ../gap/gap_mpege.c:435
-#, fuzzy
 #| msgid "Search algorithmus used for P-frames"
 msgid "Search algorithm used for P-frames"
-msgstr "Algoritmos de búsqueda de P-frames"
+msgstr "Algoritmos de búsqueda usado para P-frames"
 
 #: ../gap/gap_mpege.c:443
 msgid "B-Search:"
 msgstr "Búsqueda B:"
 
 #: ../gap/gap_mpege.c:444
-#, fuzzy
 #| msgid "Search algorithmus used for B-frames"
 msgid "Search algorithm used for B-frames"
-msgstr "Algoritmos de búsqueda de B-frames"
+msgstr "Algoritmos de búsqueda usado para B-frames"
 
 #: ../gap/gap_mpege.c:451
 msgid "Gen MPEG_ENCODE Parameters"
@@ -6519,8 +6504,8 @@ msgid ""
 "ON: Create a new layer.\n"
 "OFF: Render on active drawable."
 msgstr ""
-"Activado: Crea una capa nueva.\n"
-"Desactivado: Renderiza en la Dibujable activa"
+"Activado: crea una capa nueva.\n"
+"Desactivado: renderiza en la superficie dibujable activa"
 
 #: ../gap/gap_name2layer_main.c:535
 msgid "Render Filename to Layer"
@@ -6533,7 +6518,7 @@ msgid ""
 "layeranimation playback on it."
 msgstr ""
 "Reproducción\n"
-"<Mayúsculas> convierte los fotogramas seleccionados en una imagen temporal y "
+"Mayús convierte los fotogramas seleccionados en una imagen temporal y "
 "reproducir capa de animación en la imagen temporal."
 
 #: ../gap/gap_navigator_dialog.c:447
@@ -6542,7 +6527,7 @@ msgid ""
 "SHIFT forces thumbnail update for all frames"
 msgstr ""
 "Actualización inteligente de miniaturas\n"
-"<Mayúsculas> fuerza la actualización para todos los fotogramas"
+"Mayús fuerza la actualización para todos los fotogramas"
 
 #: ../gap/gap_navigator_dialog.c:452
 msgid "Duplicate selected frames"
@@ -6562,7 +6547,7 @@ msgid ""
 "SHIFT use timezoom stepsize"
 msgstr ""
 "Ir al fotograma anterior\n"
-"<Mayúsculas> Usar tamaño de paso como zoom de tiempo"
+"Mayús Usar tamaño de paso como zoom de tiempo"
 
 #: ../gap/gap_navigator_dialog.c:474
 msgid ""
@@ -6570,7 +6555,7 @@ msgid ""
 "SHIFT use timezoom stepsize"
 msgstr ""
 "Ir al fotograma siguiente\n"
-"<Mayúsculas> Usar tamaño de paso como zoom de tiempo"
+"Mayús Usar tamaño de paso como zoom de tiempo"
 
 #: ../gap/gap_navigator_dialog.c:479
 msgid "Goto last frame"
@@ -6803,7 +6788,7 @@ msgstr "Cíclico"
 
 #: ../gap/gap_onion_dialog.c:1095
 msgid "ON: Next frame of last is first and vice versa."
-msgstr "Activado: El siguiente fotograma del último es el primero y viceversa."
+msgstr "Activado: el siguiente fotograma del último es el primero y viceversa."
 
 #: ../gap/gap_onion_dialog.c:1100
 msgid "Stackposition:"
@@ -6832,10 +6817,9 @@ msgstr ""
 "completamente opaco)"
 
 #: ../gap/gap_onion_dialog.c:1176
-#, fuzzy
 #| msgid "Descending opacity for 2.nd onionskin layer"
 msgid "Descending opacity for 2nd onionskin layer"
-msgstr "Opacidad descendiente para la 2ª capa de papel cebolla"
+msgstr "Opacidad descendiente para la segunda capa de papel cebolla"
 
 #: ../gap/gap_onion_dialog.c:1193
 msgid "Ignore BG-layer(s):"
@@ -8003,7 +7987,6 @@ msgid "Imagetype:"
 msgstr "Tipo de imagen:"
 
 #: ../gap/gap_range_ops.c:574
-#, fuzzy
 #| msgid ""
 #| "Convert to another imagetype, or keep imagetype as it is. Most "
 #| "fileformats can't handle all types and may require a conversion.Example: "
@@ -8015,7 +7998,7 @@ msgid ""
 msgstr ""
 "Convertir a otro tipo de imagen, o mantener el tipo de imagen como está. La "
 "mayoría de los formatos de archivo no pueden manipular todos los tipos y "
-"pueden requerir una conversión. Por ejemplo: GIF no puede manipular RGB y "
+"pueden requerir una conversión. Ejemplo: GIF no puede manipular RGB y "
 "requiere convertirse a un tipo de imagen indexada."
 
 #: ../gap/gap_range_ops.c:582
@@ -8151,9 +8134,6 @@ msgid "Exclude BG-Layer:"
 msgstr "Excluir capa de fondo:"
 
 #: ../gap/gap_range_ops.c:777
-#| msgid ""
-#| "Exclude the background layer in all handled frames, regardless to the "
-#| "other settings of layer selection."
 msgid ""
 "Exclude the background layer in all handled frames, regardless of the other "
 "settings of layer selection."
@@ -8221,7 +8201,7 @@ msgid ""
 "or desired save plugin not available."
 msgstr ""
 "Convertir fotogramas: Falló la operación guardar. \n"
-"El complemento de guardar deseado no trabaja con \n"
+"El complemento de guardar requerido no trabaja con \n"
 "ese tipo de imagen, o bien dicho complemento no \n"
 "está disponible."
 
@@ -8378,7 +8358,6 @@ msgid "Only Visible:"
 msgstr "Sólo visible:"
 
 #: ../gap/gap_split.c:479
-#, fuzzy
 #| msgid ""
 #| "ON: Handle only visible layers.\n"
 #| "OFF: handle all layers and force visibiblity"
@@ -8386,15 +8365,14 @@ msgid ""
 "ON: Handle only visible layers.\n"
 "OFF: handle all layers and force visibility"
 msgstr ""
-"Activado: Manejar sólo las capas visibles.\n"
-"Desactivado: Manejar todas las capas y forzar visibilidad"
+"ACTIVADO: Manejar sólo las capas visibles.\n"
+"DESACTIVADO: Manejar todas las capas y forzar visibilidad"
 
 #: ../gap/gap_split.c:486
 msgid "Copy properties:"
 msgstr "Propiedades del clip:"
 
 #: ../gap/gap_split.c:487
-#, fuzzy
 #| msgid ""
 #| "ON: Copy all image properties (channels, pathes, guides) to all frame "
 #| "images.\n"
@@ -8404,10 +8382,9 @@ msgid ""
 "images.\n"
 "OFF: copy only layers without image properties to frame images"
 msgstr ""
-"Activado: Copia todas las propiedades de imagen (capas, rutas, guía) a todos "
-"los fotogramas\n"
-"Desactivado: Copia solo las capas sin propiedades de imagen a las imágenes "
-"de fotograma"
+"ACTIVADO: Copia todas las propiedades de imagen (canales, rutas, guía) a "
+"todos los fotogramas\n"
+"DESACTIVADO: Copia solo las capas sin propiedades de imagen a los fotogramas"
 
 #: ../gap/gap_split.c:496
 msgid "How many digits to use for the framenumber filename part"
@@ -8792,7 +8769,6 @@ msgstr "Ruta de movimiento:"
 #. page size        for the from/to values
 #. digits for the from/to values
 #: ../gap/gap_story_att_trans_dlg.c:3885
-#, fuzzy
 #| msgid ""
 #| "ON: Enable move path transistions using settings provided via a movepath "
 #| "parameter file"
@@ -8800,7 +8776,7 @@ msgid ""
 "ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
 msgstr ""
-"ACTIVADO: activar las transiciones de ruta de movimiento utilizando ajustes "
+"ACTIVADO: Activar las transiciones de ruta de movimiento utilizando ajustes "
 "proporcionados a través de un archivo de parámetros de rutas de movimiento"
 
 #: ../gap/gap_story_att_trans_dlg.c:3887
@@ -9488,10 +9464,6 @@ msgid "Decoder:"
 msgstr "Decodificador:"
 
 #: ../gap/gap_story_dialog.c:9515
-#| msgid ""
-#| "Select preferred video decoder library, or leave empty for automatic "
-#| "selection.The decoder setting is only relevant if videoclips are used "
-#| "(but not for frames that are imagefiles)"
 msgid ""
 "Select preferred video decoder library, or leave empty for automatic "
 "selection. The decoder setting is only relevant if videoclips are used (but "
@@ -9519,11 +9491,6 @@ msgstr "Formato de transparencia externa:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
 #, c-format
-#| msgid ""
-#| "Format string to provide external transparency in movie clips. (i.e. "
-#| "automatic alpha channel insertion via external frames)this string shall "
-#| "contain \\%s as placeholder for the basename of a videoclip and optional "
-#| "\\%06d as placeholder for the framenumber."
 msgid ""
 "Format string to provide external transparency in movie clips. (i.e. "
 "automatic alpha channel insertion via external frames)this string shall "
@@ -9543,11 +9510,6 @@ msgstr "ÁreaFormato:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
 #, c-format
-#| msgid ""
-#| "Format string for area replacement in movie clips. (for example automatic "
-#| "logo insert)this string shall contain \\%s as placeholder for the "
-#| "basename of a videoclip and optional \\%06d as placeholder for the "
-#| "framenumber."
 msgid ""
 "Format string for area replacement in movie clips. (for example automatic "
 "logo insert)this string shall contain %s as placeholder for the basename of "
@@ -9582,13 +9544,11 @@ msgstr "sección_%02d"
 
 #: ../gap/gap_story_file.c:2716
 #, c-format
-#| msgid "illegal number: %s (valid range is %d upto %d)\n"
 msgid "illegal number: %s (valid range is %d up to %d)\n"
 msgstr "número ilegal: %s (el rango válido es de %d hasta %d)\n"
 
 #: ../gap/gap_story_file.c:2755
 #, c-format
-#| msgid "illegal number: %s (valid range is %.3f upto %.3f)"
 msgid "illegal number: %s (valid range is %.3f up to %.3f)"
 msgstr "número ilegal: %s (el rango válido es de %.3f hasta %.3f)"
 
@@ -9700,10 +9660,9 @@ msgid "Set Image or Frame Filename"
 msgstr "Establecer imagen o nombre del fotograma"
 
 #: ../gap/gap_story_properties.c:2501
-#, fuzzy
 #| msgid "Set Colormark Parmeter Filename"
 msgid "Set Colormask Parameter Filename"
-msgstr "Establecer nombre del archivo de parámetros de marcas de color"
+msgstr "Establecer nombre del archivo de parámetros de marcas de color "
 
 #: ../gap/gap_story_properties.c:2601
 msgid "Set Filtermacro Filename"
@@ -10161,7 +10120,6 @@ msgid "analyze line %d (out of %d)"
 msgstr "analizada línea %d (de %d)"
 
 #: ../gap/gap_story_render_processor.c:3429
-#, fuzzy
 #| msgid "No Frames or Images found ...."
 msgid "No Frames or Images found ..."
 msgstr "No se encontraron fotogramas o imágenes…"
@@ -10640,13 +10598,6 @@ msgid "  %s (%d of %d)"
 msgstr "  %s (%d de %d)"
 
 #: ../gap/gap_video_index_creator.c:924
-#| msgid ""
-#| "Conditional video index creation,  based on a few quick timcode "
-#| "probereads.\n"
-#| "Skip index creation if native seek seems possible\n"
-#| "\n"
-#| "WARNING: positioning via native seek may not work exact in case critical "
-#| "timecode steps were not detected in the quick test)"
 msgid ""
 "Conditional video index creation,  based on a few quick timecode "
 "probereads.\n"
@@ -10725,9 +10676,6 @@ msgid "Percentage:"
 msgstr "Porcentaje:"
 
 #: ../gap/gap_video_index_creator.c:994
-#| msgid ""
-#| "stop scan after percentage reached and no unplausible timecode was "
-#| "detected so far (only relevant in smart mode)"
 msgid ""
 "stop scan after percentage reached and no implausible timecode was detected "
 "so far (only relevant in smart mode)"
@@ -10809,7 +10757,6 @@ msgstr ""
 "imagen"
 
 #: ../gap/gap_water_pattern.c:1216
-#, fuzzy
 #| msgid ""
 #| "ON: create waterpattern cloud layers according options. OFF: Use external "
 #| "pattern layers. "
@@ -11190,12 +11137,10 @@ msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
 msgstr "<Image>/Script-Fu/Animadores/Selección a AnimImage..."
 
 #: ../gap/sel-to-anim-img.scm:123
-#| msgid "Number of Colors"
 msgid "Number of Copies"
 msgstr "Número de copias"
 
 #: ../gap/sel-to-anim-img.scm:124
-#| msgid "Select By Color"
 msgid "Fill with BG Color"
 msgstr "Seleccionar por color de fondo"
 
@@ -11814,7 +11759,7 @@ msgstr ""
 "\n"
 "Esta utilidad se llama para conversiones de sonido si\n"
 "a) el archivo de entrada no está en formato WAV16Bit\n"
-"b) la tasa de muestreo deseada no coincide con\n"
+"b) la tasa de muestreo requerida no coincide con\n"
 "     la tasa del archivo .wav"
 
 #. the Save button
@@ -12123,7 +12068,6 @@ msgstr ""
 "Este complemento es la interfaz principal de codificación de vídeo y sonido"
 
 #: ../vid_common/gap_cme_main.c:148
-#, fuzzy
 #| msgid ""
 #| "This plugin is a common GUI for all available video + audio encoding "
 #| "plugins it operates on a selected range of animframes or storyboard "
@@ -12152,12 +12096,12 @@ msgstr ""
 "fotogramas o de archivos de «storyboard». La entrada (param: audfile) de "
 "sonido (opcional) se transforma a formato RIFF WAVE (PCM de 16 bit) y se "
 "pasa al codificador de vídeo seleccionado como archivo temporal (o "
-"directamente si el formato y tasa de muestreo coinciden con las deseadas). "
-"El formato de vídeo se define con el parámetro vid_enc_plugin. El "
-"complemento elegido se invoca con los parámetros establecidos en el diálogo. "
-"Para invocaciones no interactivas se usarán los valores predeterminados "
-"(puede invocar directamente el complemento deseado si quiere especificar "
-"parámetros no interactivos)."
+"directamente si el formato y tasa de muestreo coinciden con la tasa de "
+"muestreo requerida). El formato de vídeo se define con el parámetro "
+"vid_enc_plugin. El complemento elegido se invoca con los parámetros "
+"establecidos en el diálogo. Para invocaciones no interactivas se usarán los "
+"valores predeterminados. (puede invocar directamente el complemento "
+"requerido si quiere especificar parámetros no interactivos)."
 
 #: ../vid_common/gap_cme_main.c:160
 msgid "Master Videoencoder..."
@@ -12334,10 +12278,6 @@ msgid "BGR (rgb):"
 msgstr "BGR (rgb):"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:921
-#| msgid ""
-#| "Check if you want to encode frames in BGR (prefered) or RGB colormodel "
-#| "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
-#| "other players want RGB colromodel for RAW avi data)"
 msgid ""
 "Check if you want to encode frames in BGR (preferred) or RGB colormodel "
 "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
@@ -12563,12 +12503,11 @@ msgstr "Ajuste predeterminado seleccionado: %s"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:502
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:518
-#| msgid "Recommanded Framesize"
 msgid "Recommended Framesize"
 msgstr "Tamaño de fotograma recomendado"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:529
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Selected Fileformat : [%s] %s\n"
 #| "Recommanded Video CODEC : %s\n"
@@ -14016,7 +13955,6 @@ msgstr ""
 "@rawframeS@"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:184
-#, fuzzy
 #| msgid ""
 #| "This plugin has a video encoder API but writes a series of single raw "
 #| "frames instead of one videofile. the filetype of the output frames is "
@@ -14050,8 +13988,16 @@ msgstr ""
 "es la parte sufijo del parámetro \"videofile\". Los nombres de los "
 "fotogramas generados son el mismo que el parámetro \"videofile\" pero la "
 "parte número_de_fotograma se reemplaza con el número_de_fotograma actual (o "
-"se añade automáticamente si el archivo de vídeo no tiene parte numérica). "
-"Los datos de sonido se ignoran. Una invocación de\""
+"se añade automáticamente si el archivo de vídeo no tiene parte numérica) los "
+"datos de sonido se ignoran.\n"
+"ADVERTENCIAS: para su correcto funcionamiento, el fotograma manipulado se "
+"referirá a un solo archivo de video sin transiciones. Esto permite ir a "
+"buscar fotogramas como trozos de datos sin procesar. Los trozos son 1:1 "
+"escritos en el disco como fotogramas. Los datos sin procesar resultantes en "
+"disco pueden ser inutilizables si los trozos de datos sin procesar no son "
+"compatibles con cualquier formato de archivo de imagen. Fotogramas MPEG I, y "
+"archivos MJPG pueden ser extraidos al formato de archivo JPEG. Una llamada de"
+"\""
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:214
 msgid "Set parameters for GAP rawframes video encoder Plugins"
