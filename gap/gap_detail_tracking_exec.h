@@ -55,10 +55,19 @@
 #define GAP_DETAIL_FRAME_HISTORY_INFO     "GAP_DETAIL_FRAME_HISTORY_INFO"
 #define GAP_DETAIL_TRACKING_PLUG_IN_NAME  "gap-detail-tracking"
 
+#define VECTORS_NAME_TRACKING_POINTS          "TrackingPoints"
+#define VECTORS_NAME_REFERENCE_POINTS         "ReferencePoints"
+#define VECTORS_NAME_START_REFERENCE_POINTS   "StartReferencePoints"
+
+
 typedef struct FilterValues {
    gint32     refShapeRadius;
    gint32     targetMoveRadius;
    gdouble    loacteColodiffThreshold;
+   gint32     numPointsSelect;     /* 1,2 or 4 maximum number of recorded controlpoints 
+                                    * (the best n points out of all available will be selected for 
+                                    * logging and camera shake compensation)
+                                    */
 
    gboolean   coordsRelToFrame1;   /* subtract coords of frame 1 when logging coords */
    gint32     offsX;               /* add this value when logging coords */
@@ -75,22 +84,31 @@ typedef struct PixelCoords
   gboolean  valid;
   gint32  px;
   gint32  py;
+  gdouble   avgColorDiff;    // 0 = best quality, 1 = worst quality
 } PixelCoords;
+
+#define MAX_PIXEL_COORDS_ARRAY 32
+
+typedef struct PixelCoordsArray
+{
+  PixelCoords  pixCoord[MAX_PIXEL_COORDS_ARRAY];
+  int          numberOfCoords;           /* number of used pixelCoord elements in the array */
+  gint32       numValidOffsets;          /* number of valid coords involved in average Offset calculation */
+  gdouble      avgOffsX;                 /* average horizontal movement vektor (extreme values are not included) */ 
+  gdouble      avgOffsY;                 /* average vertical movement vektor (extreme values are not included) */ 
+} PixelCoordsArray;
 
 
 typedef struct FrameHistInfo
 {
   gint32       workImageId;
   gint32       frameNr;      /* last handled frameNr */
-  PixelCoords  startCoords;  /* coords of first processed frame */
-  PixelCoords  startCoords2; /* 2nd detail coords of first processed frame */
+  PixelCoordsArray startCoordsArray;  /* coords of first processed frame */
+  PixelCoordsArray prevCoordsArray;   /* coords of the previous processed frame */
 
-  PixelCoords  prevCoords;   /* coords of the previous processed frame */
-  PixelCoords  prevCoords2;  /* 2nd detail coords of the previous processed frame */
-
-  gint32       lostTraceCount;
+  gint32       lostTraceCount;        /* count frames where the required number of detailspoints could not be located */
+  gint32       trackedFramesCount;
 } FrameHistInfo;
-
 
 
 /* -----------------------------------

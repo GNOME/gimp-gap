@@ -42,6 +42,7 @@ extern int gap_debug;
 
 #include "gap_base.h"
 #include "gap_libgapbase.h"
+#include "gap_lib.h"
 #include "gap_locate.h"
 #include "gap_locate2.h"
 #include "gap_colordiff.h"
@@ -61,6 +62,46 @@ extern int gap_debug;
 #define DEFAULT_enableScaling             TRUE
 #define DEFAULT_removeMidlayers           TRUE
 #define DEFAULT_bgLayerIsReference        TRUE
+
+#define NUMBER_OF_COORDS 12
+
+static gdouble   p_calculate_angle_in_degree(gint p1x, gint p1y, gint p2x, gint p2y);
+static gdouble   p_calculate_scale_factor(gint p1x, gint p1y, gint p2x, gint p2y
+                       , gint p3x, gint p3y, gint p4x, gint p4y);
+static gdouble   p_calculateSqrDist(PixelCoords *coordA, PixelCoords *coordB);
+static gdouble   p_getPixelCoordsQuality(PixelCoords *coords);
+static void      p_capture_n_vector_points(gint32 imageId, PixelCoordsArray *pixelCoordsArray, gint ncoordsToCapture, gchar *vectorsName);
+static void      p_copy_src_to_dst_coords(PixelCoords *srcCoords, PixelCoords *dstCoords);
+static void      p_copy_src_to_dst_coords_array(PixelCoordsArray *srcCoordsArray, PixelCoordsArray *dstCoordsArray);
+static void      p_locate_target(gint32 refLayerId, PixelCoords *refCoords
+                    , gint32 targetLayerId, PixelCoords *targetCoords
+                    , gint32 locateOffsetX, gint32 locateOffsetY
+                    , FilterValues *valPtr);
+static void      p_write_xml_header(FILE *l_fp, gboolean center, gint width, gint height, gint numFrames);
+static void      p_write_xml_footer(FILE *l_fp);
+static gboolean  p_log_to_file(const char *filename, const char *logString
+                    , gint32 frameNr, gboolean center, gint width, gint height);
+static void      p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoords2
+                    , PixelCoords *startCoords, PixelCoords *startCoords2, FilterValues *valPtr
+                    , gint32 imageId
+                    );
+static void     p_select_best_coords(gint32 frameNr, PixelCoordsArray *currCoordsArray
+                   , PixelCoordsArray *startCoordsArray, FilterValues *valPtr
+                   , gint32 *bestIdx1
+                   , gint32 *bestIdx2
+                   );
+static gint32  p_selective_coords_logging(gint32 frameNr 
+                    , PixelCoordsArray *currCoordsArray
+                    , PixelCoordsArray *startCoordsArray
+                    , FilterValues *valPtr
+                    , gint32 imageId
+                    );
+static gint32    p_parse_frame_nr_from_layer_name(gint32 layerId);
+static void      p_get_frameHistInfo(FrameHistInfo *frameHistInfo);
+static void      p_set_frameHistInfo(FrameHistInfo *frameHistInfo);
+static void      p_set_n_vector_points(gint32 imageId, PixelCoordsArray *targetCoordsArray, gchar *vectorsName
+                    , gboolean setVisible, gboolean setGuides, gint32 guideIdx);
+
 
 /* -----------------------------------
  * p_calculate_angle_in_degree
@@ -146,26 +187,99 @@ p_calculate_scale_factor(gint p1x, gint p1y, gint p2x, gint p2y
 
 
 
+/* ----------------------------
+ * p_calculateSqrDist
+ * ----------------------------
+ * returns the square distance between coordA and coordB
+ *
+ */
+static gdouble
+p_calculateSqrDist(PixelCoords *coordA, PixelCoords *coordB)
+{
+  gdouble lenX;
+  gdouble lenY;
+  gdouble sqrDist;
+  
+  lenX = coordA->px - coordB->px;
+  lenY = coordA->py - coordB->py;
+  
+  sqrDist = (lenX * lenX) + (lenY * lenY);
+  return sqrDist;
+
+} /* end p_calculateSqrDist */
+
+/* ----------------------------
+ * p_getPixelCoordsQuality
+ * ----------------------------
+ * log the best 2 coordinates to stdout
+ * or to move-path controlpoint XML file.
+ *
+ * weight depends on average colordiff (while locating the coordinate)
+ * and distance (the longer the better for good precision 
+ *  while calcualting rotation angle and scaling)
+ */
+static gdouble
+p_getPixelCoordsQuality(PixelCoords *coords) 
+{
+  gdouble qaulity;
+  if (coords->valid)
+  {
+    qaulity = CLAMP((1.0 - coords->avgColorDiff), 0.0, 1.0);
+  }
+  else
+  {
+    qaulity = 0.0; 
+  }
+  return qaulity;
+
+}  /* end p_getPixelCoordsQuality */
+
+
+
+
 
 /* ------------------------------------------
- * p_capture_2_vector_points
+ * p_capture_n_vector_points
  * ------------------------------------------
- * capture the first 2 points of the 1st stroke in the active path vectors
+ * capture the first n coords of the 1st stroke in the named path vectors
+ *  (or active path vectors when vectorsName is null or not found)
  */
 static void
-p_capture_2_vector_points(gint32 imageId, PixelCoords *coordPtr, PixelCoords *coordPtr2) {
+p_capture_n_vector_points(gint32 imageId, PixelCoordsArray *pixelCoordsArray, gint ncoordsToCapture, gchar *vectorsName)
+{
+  gint nCoords;
+  gint idx;
   gint32  activeVectorsId;
   gint32  gx1;
   gint32  gy1;
-  gint32  gx2;
-  gint32  gy2;
+  PixelCoords *coordPtr;
 
   gx1 = -1;
   gy1 = -1;
-  gx2 = -1;
-  gy2 = -1;
+  
+  nCoords = CLAMP(ncoordsToCapture, 0, MAX_PIXEL_COORDS_ARRAY);
+  pixelCoordsArray->numberOfCoords = 0;
+  for(idx = 0; idx < nCoords; idx++) 
+  {
+     coordPtr = &pixelCoordsArray->pixCoord[idx];
+     coordPtr->valid = FALSE;
+     coordPtr->avgColorDiff = 1.0;  /* worst for invalid coords */
+  }
 
-  activeVectorsId = gimp_image_get_active_vectors(imageId);
+  activeVectorsId = -1;
+  if (vectorsName != NULL)
+  {
+    if (*vectorsName != '\0')
+    {
+       activeVectorsId = gimp_image_get_vectors_by_name(imageId, vectorsName);
+    }
+  }
+  if (activeVectorsId < 0)
+  {
+    activeVectorsId = gimp_image_get_active_vectors(imageId);
+  }
+
+
   if(activeVectorsId >= 0)
   {
     gint num_strokes;
@@ -196,16 +310,39 @@ p_capture_2_vector_points(gint32 imageId, PixelCoords *coordPtr, PixelCoords *co
 
         if (type == GIMP_VECTORS_STROKE_TYPE_BEZIER)
         {
-          if(num_points >= 6)
+          /* attempt to pick the first nCoords from the vectors path */
+          for(idx = 0; idx < nCoords; idx++)
           {
-            gx1 = points[0];
-            gy1 = points[1];
+            /* for GIMP_VECTORS_STROKE_TYPE_BEZIER there are 6 points per coordinate
+             * where 
+             *   point[0] is the x coordinate of the 1st pathpoint,  point[6] holds x coordinate of the 2nd pathpoint
+             *   point[1] is the y coordinate of the 1st pathpoint,  point[7] holds y coordinate of the 2nd pathpoint
+             *   point[2] [3] [4] [5] contain other information that is not used here.
+             */
+            if(num_points > idx * 6) 
+            {
+              gint idxOffset;
+              
+              idxOffset = idx *6;
+              gx1 = points[0 + idxOffset];
+              gy1 = points[1 + idxOffset];
+              if((gx1 >= 0) && (gy1 >= 0))
+              {
+                coordPtr = &pixelCoordsArray->pixCoord[idx];
+                coordPtr->px = gx1;
+                coordPtr->py = gy1;
+                coordPtr->valid = TRUE;
+                coordPtr->avgColorDiff = 0.0;     /* best for reference coords */
+                pixelCoordsArray->numberOfCoords++;
+              }
+              else
+              {
+                break;  /* stop at the first invalid point */
+              }
+            }
+            
           }
-          if(num_points >= 12)
-          {
-            gx2 = points[6];
-            gy2 = points[7];
-          }
+          
         }
         if(points)
         {
@@ -219,38 +356,24 @@ p_capture_2_vector_points(gint32 imageId, PixelCoords *coordPtr, PixelCoords *co
   }
 
 
-  coordPtr->valid = FALSE;
-  coordPtr2->valid = FALSE;
-
-  if((gx1 >= 0) && (gy1 >= 0))
+  if(gap_debug)
   {
-    if(gap_debug)
-    {
-      printf("\nPathPoints: x1=%d; y1=%d x2=%d; y2=%d\n"
-          , gx1
-          , gy1
-          , gx2
-          , gy2
+     printf("\np_capture_n_vector_points  PathPoints: %d\n", pixelCoordsArray->numberOfCoords);
+     for(idx = 0; idx < pixelCoordsArray->numberOfCoords; idx++)
+     {
+       coordPtr = &pixelCoordsArray->pixCoord[idx];
+       printf("x[%d]=%d; y[%d]=%d\n"
+          , idx
+          , coordPtr->px 
+          , idx
+          , coordPtr->py
           );
-    }
-
-    coordPtr->px = gx1;
-    coordPtr->py = gy1;
-    coordPtr->valid = TRUE;
-
-    if((gx2 != gx1) || (gy2 != gy1))
-    {
-      if ((gx2 >= 0) && (gy2 >= 0))
-      {
-        coordPtr2->px = gx2;
-        coordPtr2->py = gy2;
-        coordPtr2->valid = TRUE;
-      }
-    }
-
+     }
+     printf("  numberOfCoords:%d\n", pixelCoordsArray->numberOfCoords);
   }
 
-}  /* end p_capture_2_vector_points */
+
+}  /* end p_capture_n_vector_points */
 
 
 /* ------------------------------------
@@ -261,9 +384,34 @@ static void
 p_copy_src_to_dst_coords(PixelCoords *srcCoords, PixelCoords *dstCoords)
 {
   dstCoords->valid = srcCoords->valid;
+  dstCoords->avgColorDiff = srcCoords->avgColorDiff;
   dstCoords->px = srcCoords->px;
   dstCoords->py = srcCoords->py;
 }
+
+
+/* ------------------------------------
+ * p_copy_src_to_dst_coords_array
+ * ------------------------------------
+ */
+static void
+p_copy_src_to_dst_coords_array(PixelCoordsArray *srcCoordsArray, PixelCoordsArray *dstCoordsArray)
+{
+  gint idx;
+  gint numberOfCoords;
+  
+  numberOfCoords = CLAMP(srcCoordsArray->numberOfCoords, 0, MAX_PIXEL_COORDS_ARRAY);
+  dstCoordsArray->numberOfCoords = numberOfCoords;
+  
+  for(idx = 0; idx < numberOfCoords; idx++)
+  {
+    p_copy_src_to_dst_coords(&srcCoordsArray->pixCoord[idx]
+                            ,&dstCoordsArray->pixCoord[idx]
+                            );
+  }
+}
+
+
 
 /* ------------------------------------
  * p_locate_target
@@ -273,7 +421,7 @@ static void
 p_locate_target(gint32 refLayerId, PixelCoords *refCoords
    , gint32 targetLayerId, PixelCoords *targetCoords
    , gint32 locateOffsetX, gint32 locateOffsetY
-   , FilterValues *valPtr, gint32 *lostTraceCount)
+   , FilterValues *valPtr)
 {
   gdouble colordiffLocate;
   gint          ref_offset_x;
@@ -291,6 +439,7 @@ p_locate_target(gint32 refLayerId, PixelCoords *refCoords
   gimp_drawable_offsets (targetLayerId, &target_offset_x, &target_offset_y);
 
   targetCoords->valid = FALSE;
+
   refX = refCoords->px - ref_offset_x;
   refY = refCoords->py - ref_offset_y;
   colordiffLocate =
@@ -305,6 +454,7 @@ p_locate_target(gint32 refLayerId, PixelCoords *refCoords
                                     , locateOffsetX
                                     , locateOffsetY
                                     );
+  targetCoords->avgColorDiff = colordiffLocate;  /* 0.0 indicates the best. 1.0 the worst locating quality of the target coordinate */
 
   targetCoords->px = targetX + target_offset_x;
   targetCoords->py = targetY + target_offset_y;
@@ -317,12 +467,8 @@ p_locate_target(gint32 refLayerId, PixelCoords *refCoords
      */
     targetCoords->valid = TRUE;
   }
-  else
-  {
-    (*lostTraceCount) += 1;
-  }
 
-  if(gap_debug)
+  //if(gap_debug)
   {
     printf("p_locate_target: refX:%d refY:%d locateOffsetX:%d locateOffsetY:%d\n"
             "                targetX:%d targetY:%d targetCoords->px:%d py:%d  avgColodiff:%.5f valid:%d\n"
@@ -334,7 +480,7 @@ p_locate_target(gint32 refLayerId, PixelCoords *refCoords
         ,(int)targetY
         ,(int)targetCoords->px
         ,(int)targetCoords->py
-        ,(float)colordiffLocate
+        ,(float)targetCoords->avgColorDiff
         , targetCoords->valid
         );
   }
@@ -609,6 +755,7 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
   py = py1 + valPtr->offsY;
 
   if ((valPtr->coordsRelToFrame1)
+  &&  (valPtr->numPointsSelect > 1)
   &&  (startCoords2->valid == TRUE))
   {
     px2 = startCoords2->px -px2;
@@ -617,6 +764,7 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
   }
 
   if((currCoords2->valid  == TRUE)
+  &&  (valPtr->numPointsSelect > 1)
   && (startCoords2->valid == TRUE)
   && (startCoords->valid  == TRUE))
   {
@@ -663,7 +811,8 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
 
   logString = NULL;
 
-  if(currCoords2->valid == TRUE)
+  if((currCoords2->valid == TRUE)
+  && (valPtr->numPointsSelect > 1))
   {
     /* double point detail coordinate tracking (allows calculation of rotate and scale factors) */
     gchar *scaleValueAsString;
@@ -676,7 +825,7 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
 
     if(valPtr->enableScaling == TRUE)
     {
-      logString = g_strdup_printf("    <controlpoint px=\"%04d\" py=\"%04d\" rotation=\"%s\" width_resize=\"%s\" height_resize=\"%s\" keyframe_abs=\"%d\" p1x=\"%04d\"  p1y=\"%04d\"  p2x=\"%04d\" p2y=\"%04d\"/>"
+      logString = g_strdup_printf("    <controlpoint px=\"%04d\" py=\"%04d\" rotation=\"%s\" width_resize=\"%s\" height_resize=\"%s\" keyframe_abs=\"%d\" p1x=\"%04d\"  p1y=\"%04d\"  p2x=\"%04d\" p2y=\"%04d\" s1x=\"%04d\" s1y=\"%04d\" s2x=\"%04d\" s2y=\"%04d\"/>"
        , px
        , py
        , rotValueAsString
@@ -687,11 +836,15 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
        , currCoords->py
        , currCoords2->px
        , currCoords2->py
+       , startCoords->px
+       , startCoords->py
+       , startCoords2->px
+       , startCoords2->py
        );
     }
     else
     {
-      logString = g_strdup_printf("    <controlpoint px=\"%04d\" py=\"%04d\" rotation=\"%s\" keyframe_abs=\"%d\" p1x=\"%04d\"  p1y=\"%04d\"  p2x=\"%04d\" p2y=\"%04d\"/>"
+      logString = g_strdup_printf("    <controlpoint px=\"%04d\" py=\"%04d\" rotation=\"%s\" keyframe_abs=\"%d\" p1x=\"%04d\"  p1y=\"%04d\"  p2x=\"%04d\" p2y=\"%04d\" s1x=\"%04d\" s1y=\"%04d\" s2x=\"%04d\" s2y=\"%04d\"/>"
        , px
        , py
        , rotValueAsString
@@ -700,6 +853,10 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
        , currCoords->py
        , currCoords2->px
        , currCoords2->py
+       , startCoords->px
+       , startCoords->py
+       , startCoords2->px
+       , startCoords2->py
        );
     }
 
@@ -712,12 +869,15 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
     /* single point detail coordinate tracking */
     if (valPtr->offsRotate == 0.0)
     {
-      logString = g_strdup_printf("    <controlpoint px=\"%04d\" py=\"%04d\"  keyframe_abs=\"%d\" p1x=\"%04d\"  p1y=\"%04d\"/>"
+      logString = g_strdup_printf("    <controlpoint px=\"%04d\" py=\"%04d\"  keyframe_abs=\"%d\" p1x=\"%04d\"  p1y=\"%04d\" s1x=\"%04d\"  s1y=\"%04d\"/>"
          , px
          , py
          , frameNr
          , currCoords->px
          , currCoords->py
+       
+         , startCoords->px
+         , startCoords->py
          );
     }
     else
@@ -725,13 +885,15 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
       rotValueAsString = gap_base_gdouble_to_ascii_string(valPtr->offsRotate, precision_digits);
       precision_digits = 7;
 
-      logString = g_strdup_printf("    <controlpoint px=\"%04d\" py=\"%04d\"  rotation=\"%s\" keyframe_abs=\"%d\" p1x=\"%04d\"  p1y=\"%04d\"/>"
+      logString = g_strdup_printf("    <controlpoint px=\"%04d\" py=\"%04d\"  rotation=\"%s\" keyframe_abs=\"%d\" p1x=\"%04d\"  p1y=\"%04d\" s1x=\"%04d\"  s1y=\"%04d\"/>"
          , px
          , py
          , rotValueAsString
          , frameNr
          , currCoords->px
          , currCoords->py
+         , startCoords->px
+         , startCoords->py
          );
       g_free(rotValueAsString);
     }
@@ -762,13 +924,363 @@ p_coords_logging(gint32 frameNr, PixelCoords *currCoords,  PixelCoords *currCoor
 }  /* end p_coords_logging */
 
 
+/* ----------------------------
+ * p_select_best_coords
+ * ----------------------------
+ * pick the two best matching coordinates.
+ *
+ * weight depends on average colordiff (while locating the coordinate)
+ * and distance (the longer the better for good precision 
+ *  while calcualting rotation angle and scaling)
+ */
+static void
+p_select_best_coords(gint32 frameNr, PixelCoordsArray *currCoordsArray
+  , PixelCoordsArray *startCoordsArray, FilterValues *valPtr
+  , gint32 *bestIdx1
+  , gint32 *bestIdx2
+  )
+{
+#define MAX_AVG_LOOPS 4
+  gint idx1;
+  gint idx2;
+  gint soloPickIdx1;
+  gint pickIdx1;
+  gint pickIdx2;
+  gint numPoints;
+  gdouble sqrDistance;
+  gdouble quality;          /* 1.0 is best 0.0 is worst quality */
+  gdouble soloQuality;      /* 1.0 is best 0.0 is worst quality */
+  gdouble weight;
+  gdouble maxWeight;
+  gdouble maxSoloQuality;
+  gint32 sumOffsX;
+  gint32 sumOffsY;
+  gint32 numValidOffsets;
+  gdouble avgOffsX;
+  gdouble avgOffsY;
+  gint32 numValidOffsets1;
+  gdouble avgOffsX1;
+  gdouble avgOffsY1;
+  gint32  pixelMovementTolerance;
+  PixelCoords  *currCoords;
+  PixelCoords  *startCoords;
+  gint32 moveOffsetX;
+  gint32 moveOffsetY;
+  gint32 validPointsCount;
+        
+  maxWeight = 0.0;
+  maxSoloQuality = 0.0;
+  
+  soloPickIdx1 = 0;
+  pickIdx1 = 0;
+  pickIdx2 = 1;
+  numPoints = MIN(currCoordsArray->numberOfCoords , startCoordsArray->numberOfCoords);
 
-/* -------------------------------
- * p_parse_frame_nr_from_layerId
- * -------------------------------
+  /* calculate average offsets (movemnet of x and y axis) 
+   * in the 2nd and further outer loops eliminate extreme values
+   */
+  pixelMovementTolerance = MAX(5, valPtr->targetMoveRadius / 8);
+  avgOffsX = 0.0;
+  avgOffsY = 0.0;
+  for(idx2 = 0; idx2 < MAX_AVG_LOOPS; idx2++)
+  {
+    sumOffsX = 0;
+    sumOffsY = 0;
+    numValidOffsets = 0;
+    validPointsCount = 0;
+    for(idx1 = 0; idx1 < numPoints; idx1++)
+    {
+
+      currCoords = &currCoordsArray->pixCoord[idx1];
+      startCoords = &startCoordsArray->pixCoord[idx1];
+      if (startCoords->valid)
+      {
+        if(currCoords->valid)
+        {
+          gboolean isPlausible;
+          moveOffsetX = currCoords->px - startCoords->px;
+          moveOffsetY = currCoords->py - startCoords->py;
+          
+          validPointsCount++;
+          isPlausible = FALSE;
+          if (idx2 == 0) 
+          {
+            /* in the 1st outer loop all valid coords are plausible
+             * for calculation of an an initial average value
+             */
+            isPlausible = TRUE; 
+          }
+          else if ( (abs(moveOffsetX - avgOffsX) < pixelMovementTolerance)
+               &&   (abs(moveOffsetY - avgOffsY) < pixelMovementTolerance))
+          {
+            /* only coordinates that have similar movement vektors as the average
+             * are part of the final average calculation (that eliminates extreme values)
+             */
+            isPlausible = TRUE; 
+          }
+        
+          if (isPlausible)
+          {
+            sumOffsX += moveOffsetX;
+            sumOffsY += moveOffsetY;
+            numValidOffsets++;
+          }
+        }
+      }  
+    }
+    if (numValidOffsets > 0)
+    {
+      avgOffsX = (gdouble)sumOffsX / (gdouble)numValidOffsets;
+      avgOffsY = (gdouble)sumOffsY / (gdouble)numValidOffsets;
+      
+      if (idx2 == 0)
+      {
+        avgOffsX1 = avgOffsX;
+        avgOffsY1 = avgOffsY;
+        numValidOffsets1 = numValidOffsets;
+      }
+      else if (numValidOffsets > 2)
+      {
+        /* we have average X/Y values based on more than 2 points
+         * that shall be sufficient to detect points with extreme movement
+         */
+        break;
+      }
+      else if (idx2 == MAX_AVG_LOOPS -1)
+      {
+        /* no more attempts planed, therefore keep the current pixelMovementTolerance */
+        break;
+      }
+      else
+      {
+        /* the average offsets is based on just one or two points.
+         * which is not a good base for detection of extreme movement values.
+         * in this case try another loop with increased tolerance
+         * to get more points involved in the average calculation.
+         */
+        pixelMovementTolerance += (pixelMovementTolerance /2);
+      }
+    }
+    else
+    {
+      /* no points are available for average movement calculation */
+      if (validPointsCount > 1)
+      {
+         /* none of the valid points has movement vektor near the average value
+          * therefore try another loop with increased tolerance
+          */
+        pixelMovementTolerance += (pixelMovementTolerance /2);
+      }
+      else
+      {
+        break;  /* escape from loop because less than 2 valid point are available */
+      }
+    }
+  }
+
+  currCoordsArray->numValidOffsets = numValidOffsets;
+  currCoordsArray->avgOffsX = avgOffsX;
+  currCoordsArray->avgOffsY = avgOffsY;
+  
+  /* weight calculation loops to select best matching coordinates */
+  for(idx1 = 0; idx1 < numPoints; idx1++)
+  {
+  
+    soloQuality = p_getPixelCoordsQuality(&currCoordsArray->pixCoord[idx1])
+                * p_getPixelCoordsQuality(&startCoordsArray->pixCoord[idx1]);
+    if (soloQuality <= 0.0)
+    {
+      continue;
+    }
+
+    if (numValidOffsets > 1)
+    {
+      /* there are 2 or more valid coords available
+       * in this case eliminate coords with extreme different movement vektors
+       */
+      currCoords = &currCoordsArray->pixCoord[idx1];
+      startCoords = &startCoordsArray->pixCoord[idx1];
+      moveOffsetX = currCoords->px - startCoords->px;
+      moveOffsetY = currCoords->py - startCoords->py;
+      if ( (abs(moveOffsetX - avgOffsX) > pixelMovementTolerance)
+      ||   (abs(moveOffsetY - avgOffsY) > pixelMovementTolerance))
+      {
+        continue;
+      }
+    }
+
+
+
+    if (soloQuality > maxSoloQuality) 
+    {
+      maxSoloQuality = soloQuality;
+      soloPickIdx1 = idx1;
+    }
+    
+    if (currCoordsArray->pixCoord[idx1].valid != TRUE)
+    {
+      continue;  /* skip further weight checks when invalid points are involved */
+    }
+
+    for(idx2 = idx1 + 1; idx2 < numPoints; idx2++)
+    {
+       if (currCoordsArray->pixCoord[idx2].valid)
+       {
+         if (numValidOffsets > 1)
+         {
+           /* there are 2 or more valid coords available
+            * in this case eliminate coords with extreme different movement vektors
+            */
+           currCoords = &currCoordsArray->pixCoord[idx2];
+           startCoords = &startCoordsArray->pixCoord[idx2];
+           moveOffsetX = currCoords->px - startCoords->px;
+           moveOffsetY = currCoords->py - startCoords->py;
+           if ( (abs(moveOffsetX - avgOffsX) > pixelMovementTolerance)
+           ||   (abs(moveOffsetY - avgOffsY) > pixelMovementTolerance))
+           {
+             continue;
+           }
+         }
+
+
+
+         quality = soloQuality * p_getPixelCoordsQuality(&currCoordsArray->pixCoord[idx2])
+               * p_getPixelCoordsQuality(&startCoordsArray->pixCoord[idx2]);
+         sqrDistance = p_calculateSqrDist(&currCoordsArray->pixCoord[idx1], &currCoordsArray->pixCoord[idx2]);
+       
+         /* operate with the square distance for performance reason
+          * therfore also use square quality to compensate..
+          */
+         weight = sqrDistance * quality * quality;
+         if (weight > maxWeight)
+         {
+           maxWeight = weight;
+           pickIdx1 = idx1;
+           pickIdx2 = idx2;
+         }
+       }
+    }
+  }
+  
+  if (maxWeight <= 0.0)
+  {
+    pickIdx1 = soloPickIdx1;
+  }
+  
+
+  *bestIdx1 = pickIdx1;
+  *bestIdx2 = pickIdx2;
+
+  // if(gap_debug)
+  {
+    for(idx1 = 0; idx1 < numPoints; idx1++)
+    {
+      gdouble qp1;
+      gdouble qs1;
+      qp1 = p_getPixelCoordsQuality(&currCoordsArray->pixCoord[idx1]);
+      qs1 = p_getPixelCoordsQuality(&startCoordsArray->pixCoord[idx1]);
+           
+      currCoords = &currCoordsArray->pixCoord[idx1];
+      startCoords = &startCoordsArray->pixCoord[idx1];
+      moveOffsetX = currCoords->px - startCoords->px;
+      moveOffsetY = currCoords->py - startCoords->py;
+
+      printf("p_select_best_coords [%d] curr[].px:%d curr[].py:%d curr[].quality:%.4f "
+             "  start[].px:%d start[].py:%d start[].quality:%.4f mvX:%d mvY:%d"
+        , (int) idx1
+        , currCoordsArray->pixCoord[idx1].px
+        , currCoordsArray->pixCoord[idx1].py
+        , (float)qp1
+        , startCoordsArray->pixCoord[idx1].px
+        , startCoordsArray->pixCoord[idx1].py
+        , (float)qs1
+        , (int)moveOffsetX
+        , (int)moveOffsetY
+        );
+      
+      if ((qp1 <= 0.0) || (qs1 <= 0.0))
+      {
+        printf("\n");
+      }
+      else if ( (abs(moveOffsetX - avgOffsX) > pixelMovementTolerance)
+      ||   (abs(moveOffsetY - avgOffsY) > pixelMovementTolerance))
+      {
+        printf("(Movement extremeValue > Tolerance: %d) \n"
+          ,(int)pixelMovementTolerance
+          );
+      }
+      else
+      {
+        printf("(Movement typical) \n");
+      }
+
+    }
+    
+    printf("p_select_best_coords: frameNr:%d bestIdx1:%d bestIdx2:%d maxWeight:%.4f avgOffst1 X:%.4f Y:%.4f numValidOffsets:%d avgOffst X:%.4f Y:%.4f\n"
+      , (int)frameNr
+      , (int)pickIdx1
+      , (int)pickIdx2
+      , (float)maxWeight
+      , (float)avgOffsX1
+      , (float)avgOffsY1
+      , (int)numValidOffsets
+      , (float)avgOffsX
+      , (float)avgOffsY
+      );
+  }
+  
+}  /* end p_select_best_coords */
+
+
+/* ----------------------------
+ * p_selective_coords_logging
+ * ----------------------------
+ * log the best 2 coordinates to stdout
+ * or to move-path controlpoint XML file.
+ *
+ * weight depends on average colordiff (while locating the coordinate)
+ * and distance (the longer the better for good precision 
+ *  while calcualting rotation angle and scaling)
  */
 static gint32
-p_parse_frame_nr_from_layerId(gint32 layerId)
+p_selective_coords_logging(gint32 frameNr 
+  , PixelCoordsArray *currCoordsArray
+  , PixelCoordsArray *startCoordsArray
+  , FilterValues *valPtr
+  , gint32 imageId
+  )
+{
+  gint32 bestIdx1;
+  gint32 bestIdx2;
+
+  p_select_best_coords(frameNr
+  , currCoordsArray
+  , startCoordsArray
+  , valPtr
+  , &bestIdx1
+  , &bestIdx2
+  );
+
+  p_coords_logging(frameNr
+                  , &currCoordsArray->pixCoord[bestIdx1]
+                  , &currCoordsArray->pixCoord[bestIdx2]
+                  , &startCoordsArray->pixCoord[bestIdx1]
+                  , &startCoordsArray->pixCoord[bestIdx2]
+                  , valPtr
+                  , imageId
+                  );
+  
+  return (bestIdx1);
+  
+}  /* end p_selective_coords_logging */
+
+
+/* --------------------------------
+ * p_parse_frame_nr_from_layer_name
+ * --------------------------------
+ */
+static gint32
+p_parse_frame_nr_from_layer_name(gint32 layerId)
 {
   char     *layername;
   gint32    frameNr;
@@ -798,7 +1310,7 @@ p_parse_frame_nr_from_layerId(gint32 layerId)
 
   return (frameNr);
 
-}  /* end p_parse_frame_nr_from_layerId */
+}  /* end p_parse_frame_nr_from_layer_name */
 
 
 /* -------------------------------
@@ -809,13 +1321,19 @@ static void
 p_get_frameHistInfo(FrameHistInfo *frameHistInfo)
 {
   int l_len;
+  PixelCoords *startCoords;
+  
 
   frameHistInfo->workImageId = -1;
   frameHistInfo->frameNr = 0;
-  frameHistInfo->startCoords.valid = FALSE;
-  frameHistInfo->startCoords.px = 0;
-  frameHistInfo->startCoords.py = 0;
+  frameHistInfo->trackedFramesCount = 0;
   frameHistInfo->lostTraceCount = 0;
+  frameHistInfo->startCoordsArray.numberOfCoords = 0;
+
+  startCoords = &frameHistInfo->startCoordsArray.pixCoord[0];
+  startCoords->valid = FALSE;
+  startCoords->px = 0;
+  startCoords->py = 0;
 
   l_len = gimp_get_data_size (GAP_DETAIL_FRAME_HISTORY_INFO);
 
@@ -834,19 +1352,25 @@ p_get_frameHistInfo(FrameHistInfo *frameHistInfo)
 
     gimp_get_data(GAP_DETAIL_FRAME_HISTORY_INFO, frameHistInfo);
 
-    if(gap_debug)
+    //if(gap_debug)
     {
+      PixelCoords *prevCoords;
+      
+      startCoords = &frameHistInfo->startCoordsArray.pixCoord[0];
+      prevCoords  = &frameHistInfo->prevCoordsArray.pixCoord[0];
+
       printf("p_get_frameHistInfo: %s  frameNr:%d px:%d py:%d valid:%d\n"
-             "                     prevPx:%d prevPy:%d prevValid:%d lostTraceCount:%d\n"
+             "                     prevPx:%d prevPy:%d prevValid:%d lostTraceCount:%d  trackedFramesCount:%d\n"
         , GAP_DETAIL_FRAME_HISTORY_INFO
         , (int)frameHistInfo->frameNr
-        , (int)frameHistInfo->startCoords.px
-        , (int)frameHistInfo->startCoords.py
-        , (int)frameHistInfo->startCoords.valid
-        , (int)frameHistInfo->prevCoords.px
-        , (int)frameHistInfo->prevCoords.py
-        , (int)frameHistInfo->prevCoords.valid
+        , (int)startCoords->px
+        , (int)startCoords->py
+        , (int)startCoords->valid
+        , (int)prevCoords->px
+        , (int)prevCoords->py
+        , (int)prevCoords->valid
         , (int)frameHistInfo->lostTraceCount
+        , (int)frameHistInfo->trackedFramesCount
         );
     }
 
@@ -866,15 +1390,21 @@ p_set_frameHistInfo(FrameHistInfo *frameHistInfo)
 {
   if(gap_debug)
   {
+      PixelCoords *startCoords;
+      PixelCoords *prevCoords;
+      
+      startCoords = &frameHistInfo->startCoordsArray.pixCoord[0];
+      prevCoords  = &frameHistInfo->prevCoordsArray.pixCoord[0];
+      
       printf("p_SET_frameHistInfo: %s  frameNr:%d px:%d py:%d valid:%d  prevPx:%d prevPy:%d prevValid:%d\n\n"
         , GAP_DETAIL_FRAME_HISTORY_INFO
         , (int)frameHistInfo->frameNr
-        , (int)frameHistInfo->startCoords.px
-        , (int)frameHistInfo->startCoords.py
-        , (int)frameHistInfo->startCoords.valid
-        , (int)frameHistInfo->prevCoords.px
-        , (int)frameHistInfo->prevCoords.py
-        , (int)frameHistInfo->prevCoords.valid
+        , (int)startCoords->px
+        , (int)startCoords->py
+        , (int)startCoords->valid
+        , (int)prevCoords->px
+        , (int)prevCoords->py
+        , (int)prevCoords->valid
 
         );
   }
@@ -886,88 +1416,155 @@ p_set_frameHistInfo(FrameHistInfo *frameHistInfo)
 
 
 /* -------------------------------
- * p_set_2_vector_points
+ * p_set_n_vector_points
  * -------------------------------
- * remove all strokes from the active path vectors
- * and set a new stroke containing targetCoords (one or 2 depend on the valid flag)
- * For better visualisation set guide lines crossing at the first target coords.
+ * if the image already contains a vectors object with the specified vectorsName
+ * then  remove all strokes from the vectors object and replace it with the 
+ * points in the targetCoordsArray.
+ * 
+ * in case there is no vectors object with the specified vectorsName create it and add it to the image.
+ *
+ * if setGuides is TRUE
+ * then set guide lines crossing at the target coords[guideIdx] for better visualisation.
+ *  (note that path vectors will be not visible in case the path contains just one single point)
  */
 static void
-p_set_2_vector_points(gint32 imageId, PixelCoords *targetCoords, PixelCoords *targetCoords2)
+p_set_n_vector_points(gint32 imageId, PixelCoordsArray *targetCoordsArray, gchar *vectorsName
+   , gboolean setVisible, gboolean setGuides, gint32 guideIdx)
 {
-  gint32  activeVectorsId;
+  gint32  vectorsId;
   /* gint    newStrokeId; */
 
+  gint32    showGuideIdx;
   gdouble  *points;
   gint      num_points;
+  gint      l_idx;
   gboolean  closed;
   GimpVectorsStrokeType type;
+  PixelCoords *targetCoords;
+  
+ 
+  showGuideIdx = CLAMP(guideIdx, 0, targetCoordsArray->numberOfCoords -1);
+  targetCoords  = &targetCoordsArray->pixCoord[showGuideIdx];
 
-
-  gimp_image_add_hguide(imageId, targetCoords->py);
-  gimp_image_add_vguide(imageId, targetCoords->px);
-
-
-  activeVectorsId = gimp_image_get_active_vectors(imageId);
-  if(activeVectorsId >= 0)
+  if(setGuides == TRUE)
   {
-    gint num_strokes;
-    gint *strokes;
+    gimp_image_add_hguide(imageId, targetCoords->py);
+    gimp_image_add_vguide(imageId, targetCoords->px);
+  }
 
-    strokes = gimp_vectors_get_strokes (activeVectorsId, &num_strokes);
-    if(strokes)
+
+  //if(gap_debug)
+  if(setGuides)
+  {
+    printf("\np_set_n_vector_points vectorsName:%s\n  numberOfCoords:%d  guideIdx:%d showGuideIdx:%d\n"
+        , vectorsName
+        , (int)targetCoordsArray->numberOfCoords
+        , (int)guideIdx
+        , (int)showGuideIdx
+        );
+    for(l_idx = 0; l_idx < targetCoordsArray->numberOfCoords; l_idx++)
     {
-      if(num_strokes > 0)
+      gdouble pdx;
+      gdouble pdy;
+      targetCoords  = &targetCoordsArray->pixCoord[l_idx];
+      if (targetCoords->valid)
       {
-        gint ii;
-        for(ii=0; ii < num_strokes; ii++)
-        {
-          gimp_vectors_remove_stroke(activeVectorsId, strokes[ii]);
-        }
+         pdx = targetCoords->px;
+         pdy = targetCoords->py;
       }
-      g_free(strokes);
+      else
+      {
+         pdx = 0;
+         pdy = 0;
+      }
+      
+      printf("pdx[%d] : %.2f  pdy[%d] : %.2f\n"
+        , l_idx
+        , (float)pdx
+        , l_idx
+        , (float)pdy
+        );
+    
+    }
+  }
 
+  vectorsId = gimp_image_get_vectors_by_name(imageId, vectorsName);
+  if(vectorsId >= 0)
+  {
+//     gint num_strokes;
+//     gint *strokes;
+// 
+//     strokes = gimp_vectors_get_strokes (vectorsId, &num_strokes);
+//     if(strokes)
+//     {
+//       if(num_strokes > 0)
+//       {
+//         gint ii;
+//         for(ii=0; ii < num_strokes; ii++)
+//         {
+//           gimp_vectors_remove_stroke(vectorsId, strokes[ii]);
+//         }
+//       }
+//       g_free(strokes);
+// 
+//     }
+    gimp_image_remove_vectors(imageId, vectorsId);
+  } 
+
+  /* create new vectors path */
+  vectorsId = gimp_vectors_new(imageId, vectorsName);
+
+  
+  if(vectorsId >= 0)  
+  {
+    num_points = 6 * targetCoordsArray->numberOfCoords;
+    points = g_new (gdouble, num_points);
+    
+    for(l_idx = 0; l_idx < targetCoordsArray->numberOfCoords; l_idx++)
+    {
+      gdouble pdx;
+      gdouble pdy;
+      gint    offset;
+      
+      offset = l_idx * 6;
+      targetCoords  = &targetCoordsArray->pixCoord[l_idx];
+      if (targetCoords->valid)
+      {
+         pdx = targetCoords->px;
+         pdy = targetCoords->py;
+      }
+      else
+      {
+         pdx = 0;
+         pdy = 0;
+      }
+      points[0 + offset] = pdx;
+      points[1 + offset] = pdy;
+      points[2 + offset] = pdx;
+      points[3 + offset] = pdy;
+      points[4 + offset] = pdx;
+      points[5 + offset] = pdy;
     }
 
-    if (targetCoords->valid)
-    {
-      closed = FALSE;
-      num_points = 6;
-      if (targetCoords2->valid)
-      {
-        num_points = 12;
-      }
-      points = g_new (gdouble, num_points);
-      points[0] = targetCoords->px;
-      points[1] = targetCoords->py;
-      points[2] = targetCoords->px;
-      points[3] = targetCoords->py;
-      points[4] = targetCoords->px;
-      points[5] = targetCoords->py;
-      if(targetCoords2->valid)
-      {
-        points[6] = targetCoords2->px;
-        points[7] = targetCoords2->py;
-        points[8] = targetCoords2->px;
-        points[9] = targetCoords2->py;
-        points[10] = targetCoords2->px;
-        points[11] = targetCoords2->py;
-      }
-
-      type = GIMP_VECTORS_STROKE_TYPE_BEZIER;
-      /* newStrokeId = */ gimp_vectors_stroke_new_from_points (activeVectorsId
+    
+    closed = FALSE;
+    type = GIMP_VECTORS_STROKE_TYPE_BEZIER;
+    /* newStrokeId = */ gimp_vectors_stroke_new_from_points (vectorsId
                                      , type
                                      , num_points
                                      , points
                                      , closed
                                      );
-      g_free(points);
-    }
-
+    g_free(points);
+    
+    gimp_image_insert_vectors(imageId, vectorsId, -1, 0);
+    gimp_vectors_set_visible(vectorsId, setVisible);
 
   }
 
-}  /* end p_set_2_vector_points */
+}  /* end p_set_n_vector_points */
+
 
 
 /* -----------------------------------
@@ -978,34 +1575,53 @@ p_set_2_vector_points(gint32 imageId, PixelCoords *targetCoords, PixelCoords *ta
  * This image has one layer at the first snapshot
  * and each further snapshot adds one layer on top of the layerstack.
  *
- * The start is detected when the image has only one layer.
+ * The start is detected when frameHistInfo->trackedFramesCount == 0
+ * or whenever the imageId has changed ( frameHistInfo->workImageId )
+ * or whenever the image has exactly one layer. (typical at 1st snapshot or when the user has deleted other layers)
+ *
  * optionally the numer of layers can be limted
- * to 2 (or more) layers.
+ * to 2 (or 3) layers.
+ *
+ * Detail tracking output depends on the specified vlPtr->moveLogFile
+ * o) output coordinates offests and rotation information 
+ *    is written in XML format to the moveLogFile 
+ *       if filename is present and has not .xcf extension
+ * o) XML output is written to stdout  
+ *       if moveLogFile is empty or starts with the '-' character.
+ * o) is rendered as vectors path (with the name "TrackingPoints") 
+ *       and saved as frame image 
+ *       if the specified moveLogFile has .xcf extension
  */
 gint32
 gap_track_detail_on_top_layers(gint32 imageId, gboolean doProgress, FilterValues *valPtr)
 {
+  gint      l_idx;
   gint      l_nlayers;
   gint32   *l_layers_list;
 
   FrameHistInfo  frameHistInfoData;
   FrameHistInfo *frameHistInfo;
-  PixelCoords  currCoords;
-  PixelCoords  currCoords2;
-  PixelCoords  targetCoords;
-  PixelCoords  targetCoords2;
-  gint32       locateOffsetX;
-  gint32       locateOffsetY;
-  gint32       locateOffsetX2;
-  gint32       locateOffsetY2;
-  gint32       lostTraceCount;
+  PixelCoordsArray currCoordsArray;
+  PixelCoordsArray targetCoordsArray;
+  gint32       locateOffsetX[MAX_PIXEL_COORDS_ARRAY];
+  gint32       locateOffsetY[MAX_PIXEL_COORDS_ARRAY];
+  gint32       successfulTracedPointsCount;
+  gint32       previousLostTraceCount;
+  gint32       currFrameNr;
+  gchar       *l_extension;
+  gboolean     isTrackingToFrameImage;
+  gint32       bestIdx1;
+  
+  
+  
 
-  if(gap_debug)
+  //if(gap_debug)
   {
-      printf("gap_track_detail_on_top_layers: START\n"
-             "  refShapeRadius:%d targetMoveRadius:%d locateColordiff:%.4f\n"
+      printf("\ngap_track_detail_on_top_layers: START\n"
+             "  numPointsSelect:%d refShapeRadius:%d targetMoveRadius:%d locateColordiff:%.4f\n"
              "  coordsRelToFrame1:%d  offsX:%d offsY:%d removeMidlayers:%d bgLayerIsReference:%d\n"
              "  moveLogFile:%s\n"
+            , (int)valPtr->numPointsSelect 
             , (int)valPtr->refShapeRadius
             , (int)valPtr->targetMoveRadius
             , (float)valPtr->loacteColodiffThreshold
@@ -1020,84 +1636,158 @@ gap_track_detail_on_top_layers(gint32 imageId, gboolean doProgress, FilterValues
 
   frameHistInfo = &frameHistInfoData;
 
-  currCoords.valid = FALSE;
-  targetCoords.valid = FALSE;
+  successfulTracedPointsCount = 0;
+  previousLostTraceCount = 0;
+  bestIdx1 = 0;
+  currCoordsArray.numberOfCoords = 0;
+  currCoordsArray.numValidOffsets = 0;
+  targetCoordsArray.numValidOffsets = 0;
+  for (l_idx = 0; l_idx < MAX_PIXEL_COORDS_ARRAY; l_idx++)
+  {
+    currCoordsArray.pixCoord[l_idx].valid = FALSE;
+    targetCoordsArray.pixCoord[l_idx].valid = FALSE;
+    locateOffsetX[l_idx] = 0;
+    locateOffsetY[l_idx] = 0;
+  }
+  
+  /* check if detail tracking output is logged to an XML file valPtr->moveLogFile
+   * or is written as vectors path and saved as frame image to an .XCF file (if extension .XCF is specified)
+   */
+  isTrackingToFrameImage = FALSE;
+  l_extension = NULL;
+  if (valPtr->moveLogFile[0] != '\0')
+  {
+    l_extension = gap_lib_alloc_extension(&valPtr->moveLogFile[0]);
+  }
+  if(l_extension != NULL) 
+  {
+    if ((strcmp(".xcf", l_extension) == 0)
+    ||  (strcmp(".XCF", l_extension) == 0))
+    {
+      isTrackingToFrameImage = TRUE;
+    }
+    g_free(l_extension);
+    l_extension = NULL;
+  }  
+
+
+  p_capture_n_vector_points(imageId, &currCoordsArray, NUMBER_OF_COORDS, VECTORS_NAME_START_REFERENCE_POINTS);
+  if (currCoordsArray.numberOfCoords == 0)
+  {
+    //if(gap_debug)
+    {
+       printf("gap_track_detail_on_top_layers  NO tracking possible because No vectors path was found\n");
+    }  
+    return (imageId);
+  } 
+  
 
   l_layers_list = gimp_image_get_layers(imageId, &l_nlayers);
   if((l_layers_list != NULL)
   && (l_nlayers > 0))
   {
     gint32 topLayerId;
+    gint32 refLayerId;
 
     topLayerId = l_layers_list[0];
 
-    frameHistInfo->frameNr += 1;
+    refLayerId = l_layers_list[1];
+    if (valPtr->bgLayerIsReference == TRUE)
+    {
+      refLayerId = l_layers_list[l_nlayers -1];
+    }
+
+    /// frameHistInfo->frameNr += 1;
 
     p_get_frameHistInfo(frameHistInfo);
-    locateOffsetX = 0;
-    locateOffsetY = 0;
-    locateOffsetX2 = 0;
-    locateOffsetY2 = 0;
 
-    if (l_nlayers == 1)
+
+    if ((frameHistInfo->trackedFramesCount == 0)
+    || (frameHistInfo->workImageId != imageId)
+    || (l_nlayers == 1))
     {
-      p_capture_2_vector_points(imageId, &currCoords, &currCoords2);
-
+      //if(gap_debug)
+      {
+        printf("(A) gap_track_detail_on_top_layers  BEGIN tracking l_nlayers:%d\n"
+               ,(int)l_nlayers
+               );
+      }  
+      /* start of detail tracking when no frame history available and whenever a new workImage was created */
       frameHistInfo->lostTraceCount = 0;
-      p_copy_src_to_dst_coords(&currCoords,  &frameHistInfo->startCoords);
-      p_copy_src_to_dst_coords(&currCoords2, &frameHistInfo->startCoords2);
-      p_copy_src_to_dst_coords(&currCoords,  &frameHistInfo->prevCoords);
-      p_copy_src_to_dst_coords(&currCoords2, &frameHistInfo->prevCoords2);
+      frameHistInfo->trackedFramesCount = 0;
+      p_copy_src_to_dst_coords_array(&currCoordsArray,  &frameHistInfo->startCoordsArray);
+      p_copy_src_to_dst_coords_array(&currCoordsArray,  &frameHistInfo->prevCoordsArray);
+
+      /* create (or replace) reference vectors objects */
+      p_set_n_vector_points(imageId, &currCoordsArray, VECTORS_NAME_START_REFERENCE_POINTS, FALSE, FALSE, 0);
+      p_set_n_vector_points(imageId, &currCoordsArray, VECTORS_NAME_REFERENCE_POINTS, TRUE, FALSE, 0);
+
 
       frameHistInfo->frameNr = 1;
-      p_coords_logging(frameHistInfo->frameNr
-                      , &currCoords
-                      , &currCoords2
-                      , &frameHistInfo->startCoords
-                      , &frameHistInfo->startCoords2
+      frameHistInfo->workImageId = imageId;
+      if (isTrackingToFrameImage != TRUE)
+      {
+        bestIdx1 = p_selective_coords_logging(frameHistInfo->frameNr
+                      , &currCoordsArray
+                      , &frameHistInfo->startCoordsArray
                       , valPtr
                       , imageId
                       );
+      }
     }
     else
     {
-      gint32 refLayerId;
 
-      refLayerId = l_layers_list[1];
-      if (valPtr->bgLayerIsReference == TRUE)
+      //if(gap_debug)
       {
-        refLayerId = l_layers_list[l_nlayers -1];
-      }
+        printf("(B) gap_track_detail_on_top_layers  CONTINUE tracking l_nlayers:%d\n"
+               ,(int)l_nlayers
+               );
+      }  
 
 
-      if(frameHistInfo->startCoords.valid != TRUE)
+
+      /* (re)inital capture vector points if the start coords of first processed frame are not valid 
+       *  TODO detecting by valid startCoordsArray [0] is no longer sufficient
+       *       for now re-init is hercoded disabled (not sure if that is needed ...)
+       */
+      if(FALSE) //// if (frameHistInfo->startCoordsArray.pixCoord[0].valid != TRUE)
       {
-        p_capture_2_vector_points(imageId, &currCoords, &currCoords2);
+        p_capture_n_vector_points(imageId, &currCoordsArray, NUMBER_OF_COORDS, VECTORS_NAME_START_REFERENCE_POINTS);
 
         frameHistInfo->lostTraceCount = 0;
-        p_copy_src_to_dst_coords(&currCoords,  &frameHistInfo->startCoords);
-        p_copy_src_to_dst_coords(&currCoords2, &frameHistInfo->startCoords2);
-        p_copy_src_to_dst_coords(&currCoords,  &frameHistInfo->prevCoords);
-        p_copy_src_to_dst_coords(&currCoords2, &frameHistInfo->prevCoords2);
+        p_copy_src_to_dst_coords_array(&currCoordsArray,  &frameHistInfo->startCoordsArray);
+        p_copy_src_to_dst_coords_array(&currCoordsArray,  &frameHistInfo->prevCoordsArray);
 
-        frameHistInfo->frameNr = p_parse_frame_nr_from_layerId(refLayerId);
-        p_coords_logging(frameHistInfo->frameNr
-                      , &currCoords
-                      , &currCoords2
-                      , &frameHistInfo->startCoords
-                      , &frameHistInfo->startCoords2
+        frameHistInfo->frameNr = p_parse_frame_nr_from_layer_name(refLayerId);
+        if (isTrackingToFrameImage != TRUE)
+        {
+          bestIdx1 = p_selective_coords_logging(frameHistInfo->frameNr
+                      , &currCoordsArray
+                      , &frameHistInfo->startCoordsArray
                       , valPtr
                       , imageId
                       );
+        }
       }
       else if (valPtr->bgLayerIsReference == TRUE)
       {
+        gint32 sumOffsX;
+        gint32 sumOffsY;
+        gint32 numValidOffsets;
+
+        //if(gap_debug)
+        {
+          printf("(Bb) gap_track_detail_on_top_layers  CONTINUE BG is referenence  l_nlayers:%d\n"
+                ,(int)l_nlayers
+                );
+        }  
+        
         /* when all trackings refere to initial BG layer (that is always kept as reference
-         * for all further frames), we do not capture currCoords
+         * for all further frames), we do not capture currCoordsArray
          * but copy the initial start values.
          */
-        p_copy_src_to_dst_coords(&frameHistInfo->startCoords, &currCoords);
-        p_copy_src_to_dst_coords(&frameHistInfo->startCoords2, &currCoords2);
+        p_copy_src_to_dst_coords_array(&frameHistInfo->startCoordsArray, &currCoordsArray);
 
         /* locate shall start investigations at matching coordinates of the previous processed frame
          * because the chance to find the detail near this postion is much greater than near
@@ -1106,77 +1796,163 @@ gap_track_detail_on_top_layers(gint32 imageId, gboolean doProgress, FilterValues
          * but without the locateOffsets we might loose track of the detail when it moves outside the targetRadius
          * and increasing the targetRadius would also result in siginificant longer processing time)
          */
-        if (frameHistInfo->prevCoords.valid)
+        sumOffsX = 0;
+	sumOffsY = 0;
+        numValidOffsets = 0;
+        for (l_idx = 0; l_idx < frameHistInfo->prevCoordsArray.numberOfCoords; l_idx++)
         {
-          locateOffsetX = frameHistInfo->prevCoords.px - frameHistInfo->startCoords.px;
-          locateOffsetY = frameHistInfo->prevCoords.py - frameHistInfo->startCoords.py;
-	    }
-        if (frameHistInfo->prevCoords2.valid)
+          PixelCoords  *prevCoords;
+          PixelCoords  *startCoords;
+          
+          prevCoords = &frameHistInfo->prevCoordsArray.pixCoord[l_idx];
+          startCoords = &frameHistInfo->startCoordsArray.pixCoord[l_idx];
+          if (startCoords->valid)
+          {
+            if(prevCoords->valid)
+            {
+              locateOffsetX[l_idx] = prevCoords->px - startCoords->px;
+              locateOffsetY[l_idx] = prevCoords->py - startCoords->py;
+              
+              sumOffsX += locateOffsetX[l_idx];
+              sumOffsY += locateOffsetY[l_idx];
+              numValidOffsets++;
+            }
+          }
+        }
+        if ((frameHistInfo->prevCoordsArray.numberOfCoords > numValidOffsets)
+        &&  (numValidOffsets > 0))
         {
-          locateOffsetX2 = frameHistInfo->prevCoords2.px - frameHistInfo->startCoords2.px;
-          locateOffsetY2 = frameHistInfo->prevCoords2.py - frameHistInfo->startCoords2.py;
-	    }
+          /* for invalid coordinates use the average offests of all valid points
+           * as guess. This shall increase the chances to pick up a coordinate
+           * that has lost trace some frames ago.
+           * (Another option would be to increase the search radius in such cases
+           * but this would also significant increase the processing time)
+           */
+          for (l_idx = 0; l_idx < frameHistInfo->prevCoordsArray.numberOfCoords; l_idx++)
+          {
+            PixelCoords  *prevCoords;
+            PixelCoords  *startCoords;
+          
+            prevCoords = &frameHistInfo->prevCoordsArray.pixCoord[l_idx];
+            startCoords = &frameHistInfo->startCoordsArray.pixCoord[l_idx];
+            if (startCoords->valid)
+            {
+              if(!prevCoords->valid)
+              {
+                locateOffsetX[l_idx] = sumOffsX / numValidOffsets;
+                locateOffsetY[l_idx] = sumOffsY / numValidOffsets;
+              }
+            }
+          }
+
+        }
+         
       }
       else
       {
-	    /* tracking is done with reference to the previous layer
-	     * therefore refresh capture. (currCoords are set to the targetCoords
-	     * that were calculated in previous processing step)
-	     */
-        p_capture_2_vector_points(imageId, &currCoords, &currCoords2);
-      }
+        //if(gap_debug)
+        {
+          printf("(Bp) gap_track_detail_on_top_layers  CONTINUE Previous Layer is referenence l_nlayers:%d\n"
+                ,(int)l_nlayers
+                );
+        }  
+        /* tracking is done with reference to the previous layer
+         * therefore refresh capture. (currCoordsArray are set to the targetCoordsArray
+         * that were calculated in previous processing step)
+         */
+        p_capture_n_vector_points(imageId, &currCoordsArray, NUMBER_OF_COORDS, VECTORS_NAME_REFERENCE_POINTS);
 
-      lostTraceCount = frameHistInfo->lostTraceCount;
-
-      if (currCoords.valid == TRUE)
-      {
-        p_locate_target(refLayerId
-                           , &currCoords
-                           , topLayerId
-                           , &targetCoords
-                           , locateOffsetX
-                           , locateOffsetY
-                           , valPtr
-                           , &frameHistInfo->lostTraceCount
-                           );
       }
-
-      if (currCoords2.valid == TRUE)
-      {
-        p_locate_target(refLayerId
-                           , &currCoords2
-                           , topLayerId
-                           , &targetCoords2
-                           , locateOffsetX2
-                           , locateOffsetY2
-                           , valPtr
-                           , &frameHistInfo->lostTraceCount
-                           );
-      }
+   
 
 
     }
 
+    /* ----  tracking requires at least 2 layers -------- */
 
-
-    if (targetCoords.valid == TRUE)
+    if (l_nlayers > 1)
     {
-      gap_image_remove_all_guides(imageId);
-      p_set_2_vector_points(imageId, &targetCoords, &targetCoords2);
+      previousLostTraceCount = frameHistInfo->lostTraceCount;
+      targetCoordsArray.numberOfCoords = currCoordsArray.numberOfCoords;
+      
+      //if(gap_debug)
+      {
+        printf("DetailTrack before locating %d coordinates\n", currCoordsArray.numberOfCoords);
+      }
+      
+      for (l_idx = 0; l_idx < currCoordsArray.numberOfCoords; l_idx++)
+      {
+        PixelCoords  *currCoordsPtr;
+        PixelCoords  *targetCoordsPtr;
+        
+        currCoordsPtr = &currCoordsArray.pixCoord[l_idx];
+        targetCoordsPtr = &targetCoordsArray.pixCoord[l_idx];
+        targetCoordsPtr->valid = FALSE;
+        targetCoordsPtr->px = 0;
+        targetCoordsPtr->py = 0;
+         
+        if (currCoordsPtr->valid == TRUE)
+        {
+          p_locate_target(refLayerId
+                           , currCoordsPtr
+                           , topLayerId
+                           , targetCoordsPtr
+                           , locateOffsetX[l_idx]
+                           , locateOffsetY[l_idx]
+                           , valPtr
+                           );
+          if (targetCoordsPtr->valid == TRUE)
+          {
+            successfulTracedPointsCount++;
+          }
+        }
 
-      p_copy_src_to_dst_coords(&targetCoords,  &frameHistInfo->prevCoords);
-      p_copy_src_to_dst_coords(&targetCoords2, &frameHistInfo->prevCoords2);
+      }
+      if (successfulTracedPointsCount < valPtr->numPointsSelect)
+      {
+        /* the required number of successful traces was not detected
+         * therefore increase the lostTraceCount in the frame history
+         */
+        frameHistInfo->lostTraceCount += 1;
+      }
+    }
 
-      frameHistInfo->frameNr = p_parse_frame_nr_from_layerId(topLayerId);
-      p_coords_logging(frameHistInfo->frameNr
-                      , &targetCoords
-                      , &targetCoords2
-                      , &frameHistInfo->startCoords
-                      , &frameHistInfo->startCoords2
+    gap_image_remove_all_guides(imageId);
+    currFrameNr = p_parse_frame_nr_from_layer_name(topLayerId);
+    
+    /* here we could check if at least one points could be successfully located,
+     * but continue setting vectors and logging on the ivalid result may help
+     * analysis what went wrong when the xml includes the unusables results too.
+     * if ((successfulTracedPointsCount > 0) 
+     *  || (frameHistInfo->trackedFramesCount == 0))
+     */
+    if(TRUE)
+    {
+      p_copy_src_to_dst_coords_array(&targetCoordsArray,  &frameHistInfo->prevCoordsArray);
+
+      frameHistInfo->frameNr = currFrameNr;
+      
+      if (isTrackingToFrameImage != TRUE)
+      {
+        bestIdx1 = p_selective_coords_logging(frameHistInfo->frameNr
+                      , &targetCoordsArray
+                      , &frameHistInfo->startCoordsArray
                       , valPtr
                       , imageId
                       );
-
+      }
+      else
+      {
+        gint32 bestIdx2;
+        p_select_best_coords(frameHistInfo->frameNr
+	  , &targetCoordsArray
+	  , &frameHistInfo->startCoordsArray
+	  , valPtr
+	  , &bestIdx1
+	  , &bestIdx2
+        );
+      }
+      p_set_n_vector_points(imageId, &targetCoordsArray, VECTORS_NAME_TRACKING_POINTS, TRUE, TRUE, bestIdx1);
     }
 
     if (valPtr->removeMidlayers == TRUE)
@@ -1187,18 +1963,66 @@ gap_track_detail_on_top_layers(gint32 imageId, gboolean doProgress, FilterValues
                             );
     }
 
+
+    /* optional save image_id as frame */
+    if (isTrackingToFrameImage == TRUE)
+    {
+      l_extension = gap_lib_alloc_extension(&valPtr->moveLogFile[0]);
+      if (l_extension != NULL)
+      {
+        gchar *frame_filename;
+        gchar *basename;
+        long   number;
+        gint   l_rc;
+
+        basename = gap_lib_alloc_basename(&valPtr->moveLogFile[0], &number);
+        frame_filename = gap_lib_alloc_fname_fixed_digits(basename, currFrameNr, l_extension, 6 /* digits*/ );
+    
+        l_rc = gap_lib_save_named_frame(imageId, frame_filename);
+    
+        g_free(basename);
+        g_free(frame_filename);
+        
+      }
+      g_free(l_extension);
+      l_extension = NULL;
+
+    }
+
+    
+    if((valPtr->bgLayerIsReference != TRUE)
+    && (successfulTracedPointsCount >= valPtr->numPointsSelect))
+    {
+      /* after save image as frame set current target vectors
+       * as reference for processing of the next frame (next call of this procedure)
+       */
+      p_set_n_vector_points(imageId, &targetCoordsArray, VECTORS_NAME_REFERENCE_POINTS, TRUE, FALSE, 0);
+    }
+    
+    frameHistInfo->trackedFramesCount++;
     p_set_frameHistInfo(frameHistInfo);
     g_free(l_layers_list);
 
-    if ((lostTraceCount == 0)
-    &&  (frameHistInfo->lostTraceCount > 0))
+    if ((successfulTracedPointsCount < valPtr->numPointsSelect)
+    &&  (frameHistInfo->trackedFramesCount > 1)
+    &&  (previousLostTraceCount == 0))
     {
+      // if (gap_debug)
+      {
+        printf("Detail Tracking Stopped at frameNr:%d previousLostTraceCount:%d successfulTracedPointsCount:%d (required %d)\n"
+          , (int)frameHistInfo->frameNr
+          , (int)previousLostTraceCount
+          , (int)successfulTracedPointsCount
+          , (int)valPtr->numPointsSelect
+          );
+      }
       /* trace lost the 1st time, display warning */
       gap_arr_msg_popup(GIMP_RUN_INTERACTIVE
                        , _("Detail Tracking Stopped. (could not find corresponding detail)"));;
     }
   }
 
+ 
   return(imageId);
 
 }  /* end gap_track_detail_on_top_layers */
@@ -1313,10 +2137,11 @@ gboolean
 gap_detail_tracking_dialog(FilterValues *fiVals)
 {
 #define SPINBUTTON_ENTRY_WIDTH 80
-#define DETAIL_TRACKING_DIALOG_ARGC 12
+#define DETAIL_TRACKING_DIALOG_ARGC 13
 
   static GapArrArg  argv[DETAIL_TRACKING_DIALOG_ARGC];
   gint ii;
+  gint ii_numPointsSelect;
   gint ii_loacteColodiffThreshold;
   gint ii_refShapeRadius;
   gint ii_targetMoveRadius;
@@ -1332,6 +2157,22 @@ gap_detail_tracking_dialog(FilterValues *fiVals)
   ii=0; gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_LABEL);
   argv[0].label_txt = _("This filter requires a current path with one or 2 anchor points\n"
                         "to mark coordinate(s) to be tracked in the target frame(s)");
+
+
+  ii++; gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_INT_PAIR); ii_numPointsSelect = ii;
+  argv[ii].label_txt = _("Select Points:");
+  argv[ii].help_txt  = _("1: select only the best path point for movement detection, "
+                         "2: select the best 2 points for movement,scale and rotation detection.");
+  argv[ii].constraint = FALSE;
+  argv[ii].int_min   = 1;
+  argv[ii].int_max   = 4;
+  argv[ii].umin      = 1;
+  argv[ii].umax      = 4;
+  argv[ii].int_ret   = fiVals->numPointsSelect;
+  argv[ii].entry_width = SPINBUTTON_ENTRY_WIDTH;
+  argv[ii].has_default = TRUE;
+  argv[ii].int_default = 2;
+
 
 
   ii++; gap_arr_arg_init(&argv[ii], GAP_ARR_WGT_FLT_PAIR); ii_loacteColodiffThreshold = ii;
@@ -1478,6 +2319,7 @@ gap_detail_tracking_dialog(FilterValues *fiVals)
                             _("Settings :"),
                             DETAIL_TRACKING_DIALOG_ARGC, argv))
   {
+      fiVals->numPointsSelect          = (gint32)(argv[ii_numPointsSelect].int_ret); 
       fiVals->refShapeRadius           = (gint32)(argv[ii_refShapeRadius].int_ret);
       fiVals->targetMoveRadius         = (gint32)(argv[ii_targetMoveRadius].int_ret);
       fiVals->loacteColodiffThreshold  = (gdouble)(argv[ii_loacteColodiffThreshold].flt_ret);

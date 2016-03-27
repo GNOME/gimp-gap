@@ -1,4 +1,43 @@
-2015-19-19 Wolfgang Hofer <hof@gimp.org>
+2016-03-27 Wolfgang Hofer <hof@gimp.org>
+
+- Fixed issues from test with GIMP-2.9.2 
+  Replaced explicite pdb call to "gimp_xcf_save" procedure by
+  by  gimp_file_save that shall do the same (since .xcf extension is used)
+  Note that gimp-2.9.2 now performs checks for a valid drawale_id provided to the save procedure
+  (even in case saving to XCF that should ignore the drawable_id as gimp-2.8.x did)
+  that behavior caused GIMP-GAP automatic save to XCF fail ....
+  The implented fix now picks the active layer (or the layer on stackposition 0 in case there is no active layer)
+  for the gimp_file_save call and makes GIMP-GAP automatic save now work both with gimp-2.8.x and 2.9.x
+  (but still fails in gimp-2.9.x when the image has no layer at all)
+   
+
+
+- DetailTracking now provides the option to track more details
+  (up to 12 points are captured from the active path) 
+   and the best matching one (or two) points are picked for logging to the XML file
+
+  DetailTracking configure dialog supports the new parameter numPointsSelect
+  that can be set to 1 (for simple movement x/y compensation)
+  or set to 2 (for movemnet, scale and rotation compensation)
+
+- Detail Tracking renders reference and tracked points as vectors object path 
+  Hidden experimental feature to save tracked frames as sequence of frame images
+  (using the extension .XCF instead of .xml for the xml logging file triggers this feature)
+
+- DetailAlign filter extended for parsing additional XML attributes 
+  recorded by DetailTracking.
+  
+ 
+ * gap/gap_detail_align_exec.c
+ * gap/gap_detail_tracking_exec.c [.h]
+ * gap/gap_detail_tracking_main.c
+ * gap/gap_filter_foreach.c
+ * gap/gap_filter_pdb.c [.h]
+ * gap/gap_lib.c
+ * gap/gap_locate2.c
+
+
+2015-09-19 Wolfgang Hofer <hof@gimp.org>
 
 Merged MovePath dialog resize fix from gap-2.8 branch to master.
 

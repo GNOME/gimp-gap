@@ -40,7 +40,6 @@ typedef enum
  */
 
 gint gap_filt_pdb_call_plugin(char *plugin_name, gint32 image_id, gint32 layer_id, GimpRunMode run_mode);
-int  gap_filt_pdb_save_xcf(gint32 image_id, char *sav_name);
 gint gap_filt_pdb_get_data(char *key);
 void gap_filt_pdb_set_data(char *key, gint plugin_data_len);
 gint gap_filt_pdb_procedure_available(char  *proc_name, GapFiltPdbProcType ptype);

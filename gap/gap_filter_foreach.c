@@ -654,7 +654,12 @@ p_foreach_multilayer2(GimpRunMode run_mode, gint32 image_id,
              {
                printf ("Saving image to backupfile:%s step = %d\n",
                        l_step_backup_file, (int)l_idx);
-               gap_filt_pdb_save_xcf(image_id, l_step_backup_file);
+               gimp_file_save(GIMP_RUN_NONINTERACTIVE
+                             , image_id
+                             , gap_image_get_any_layer(image_id)
+                             , l_step_backup_file
+                             , l_step_backup_file
+                             );
              }
           }
 
