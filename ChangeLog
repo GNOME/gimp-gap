@@ -1,3 +1,13 @@
+2016-03-28 Wolfgang Hofer <hof@gimp.org>
+
+- added the changes on file gap/gap_detail_align_exec.c
+  (that were missing in my previous commit)
+  DetailAlign filter extended for parsing additional XML attributes 
+  recorded by DetailTracking.
+
+ * gap/gap_detail_align_exec.c
+
+
 2016-03-27 Wolfgang Hofer <hof@gimp.org>
 
 - Fixed issues from test with GIMP-2.9.2 
