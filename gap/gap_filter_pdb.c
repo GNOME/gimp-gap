@@ -234,40 +234,6 @@ gap_filt_pdb_call_plugin(char *plugin_name, gint32 image_id, gint32 layer_id, Gi
 
 
 /* ------------------------
- * gap_filt_pdb_save_xcf
- * ------------------------
- */
-int
-gap_filt_pdb_save_xcf(gint32 image_id, char *sav_name)
-{
-  GimpParam* l_params;
-  gint   l_retvals;
-  gint   l_rc;
-
-    /* save current image as xcf file
-     * xcf_save does operate on the complete image,
-     * the drawable is ignored. (we can supply a dummy value)
-     */
-    l_params = gimp_run_procedure ("gimp_xcf_save",
-                                 &l_retvals,
-                                 GIMP_PDB_INT32,    GIMP_RUN_NONINTERACTIVE,
-                                 GIMP_PDB_IMAGE,    image_id,
-                                 GIMP_PDB_DRAWABLE, 0,
-                                 GIMP_PDB_STRING, sav_name,
-                                 GIMP_PDB_STRING, sav_name, /* raw name ? */
-                                 GIMP_PDB_END);
-    l_rc = -1;
-    if (l_params[0].data.d_status == GIMP_PDB_SUCCESS) 
-    {
-      l_rc = 0;  /* OK */
-    }
-    gimp_destroy_params (l_params, l_retvals);
-    
-    return (l_rc);
-}  /* end gap_filt_pdb_save_xcf */
-
-
-/* ------------------------
  * gap_filt_pdb_get_data
  * ------------------------
  * gap_filt_pdb_get_data

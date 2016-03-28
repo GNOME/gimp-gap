@@ -97,6 +97,24 @@ typedef struct ParseContext {
 
 #define DEFAULT_framePhase 1
 
+static gboolean     p_parse_value_gint32(ParseContext *parseCtx, gint32 *valDestPtr, gint *itemCount);
+static gboolean     p_parse_coords_p1_and_p2(ParseContext *parseCtx, PixelCoords *p1, PixelCoords *p2, gint32 *frameNrPtr
+                      , PixelCoords *s1, PixelCoords *s2);
+static gboolean     p_parse_xml_controlpoint_coords(ParseContext *parseCtx);
+static gboolean     p_parse_xml_controlpoint_coords_from_file(const char *filename, gint32 frameNr, AlingCoords *alingCoords);
+static gint32       p_set_drawable_offsets(gint32 activeDrawableId, AlingCoords *alingCoords);
+static gint32       p_exact_align_drawable(gint32 activeDrawableId, AlingCoords *alingCoords);
+
+/* internal procedures for GUI purpose */
+static void         p_save_gimprc_gint32_value(const char *gimprc_option_name, gint32 value);
+static void         p_exact_align_calculate_4point_values(AlingCoords *alingCoords
+                      , gdouble *angleDeg, gdouble *scalePercent, gdouble *moveDx, gdouble *moveDy);
+static void         p_refresh_and_update_infoLabel(GtkWidget *widgetDummy, AlignDialogVals *advPtr);
+static void         on_exact_align_response (GtkWidget *widget,
+                      gint       response_id, AlignDialogVals *advPtr);
+static void         on_order_mode_radio_callback(GtkWidget *wgt, gpointer user_data);
+static void         p_align_dialog(AlignDialogVals *advPtr);
+
 
 /* --------------------------------------
  * p_parse_value_gint32
@@ -108,15 +126,30 @@ p_parse_value_gint32(ParseContext *parseCtx, gint32 *valDestPtr, gint *itemCount
   gint64 value64;
   gchar *endptr;
   
+  if(gap_debug)
+  {
+    printf("p_parse_value_gint32  parsePtr:%.200s\n" 
+        ,parseCtx->parsePtr 
+        );
+  }
+  
+  
   value64 = g_ascii_strtoll(parseCtx->parsePtr, &endptr, 10);
   if(parseCtx->parsePtr == endptr)
   {
     /* pointer was not advanced (no int number could be scanned */
     return (FALSE);
   }
-  *valDestPtr = value64;
+  if (valDestPtr != NULL)
+  {
+    *valDestPtr = value64;
+  }
   parseCtx->parsePtr = endptr;
-  *itemCount +=1;
+  
+  if(itemCount != NULL)
+  {
+    *itemCount +=1;
+  }
   return (TRUE);
 
 }  /* end p_parse_value_gint32 */
@@ -125,13 +158,23 @@ p_parse_value_gint32(ParseContext *parseCtx, gint32 *valDestPtr, gint *itemCount
 /* --------------------------------
  * p_parse_coords_p1_and_p2
  * --------------------------------
- * parse p1x, p1y, p2x, p2y values into p1 (mandatory) and p2 (ptional) coordinates
+ * parse p1x, p1y, p2x, p2y values into p1 (mandatory) and p2 (optional) coordinates
  * and parse keyframe_abs value int *frameNrPtr (optional if present)
  * multiple occurances are not tolerated.
  * return TRUE on success.
+ * Optional parse s1x, s1y, s2x, s2y values into s1 and s2
+ *   Note that Detail tracking is now capable to track more than 2 points and does select
+ *   the 2 best matching results p1 and p2 out of a list of n points. 
+ *   therefore p1 at frame[n] may not correspond to p1 at frame [n-1] as it was in older versions..
+ *   as consequence the startpoints s1 (corresponds to p1) and s2 (corresponds to p1)
+ *   were added to the xml file, to provide all required information for the current frame 
+ *   in the current controlpoint structure.
+ *   In case s1 and s2 are not provided in the xml file -- still supported older format --
+ *   keep the values unchanged as parsed in the initial call
  */
 static gboolean
-p_parse_coords_p1_and_p2(ParseContext *parseCtx, PixelCoords *p1, PixelCoords *p2, gint32 *frameNrPtr)
+p_parse_coords_p1_and_p2(ParseContext *parseCtx, PixelCoords *p1, PixelCoords *p2, gint32 *frameNrPtr
+   , PixelCoords *sn1, PixelCoords *sn2)
 {
   gboolean ok;
   gint     px1Count;
@@ -139,6 +182,13 @@ p_parse_coords_p1_and_p2(ParseContext *parseCtx, PixelCoords *p1, PixelCoords *p
   gint     px2Count;
   gint     py2Count;
   gint     frCount;
+  gint     sx1Count;
+  gint     sy1Count;
+  gint     sx2Count;
+  gint     sy2Count;
+  PixelCoords  dummyCoords;
+  PixelCoords *s1;
+  PixelCoords *s2;
   
   ok = TRUE;
   px1Count = 0;
@@ -146,6 +196,23 @@ p_parse_coords_p1_and_p2(ParseContext *parseCtx, PixelCoords *p1, PixelCoords *p
   px2Count = 0;
   py2Count = 0;
   frCount  = 0;
+  sx1Count = 0;
+  sy1Count = 0;
+  sx2Count = 0;
+  sy2Count = 0;
+  
+  s1 = &dummyCoords;
+  s2 = &dummyCoords;
+  if(sn1 != NULL)
+  {
+    s1 = sn1;
+  }
+  if(sn2 != NULL)
+  {
+    s2 = sn2;
+  }
+  
+  
   while(*parseCtx->parsePtr != '\0')
   {
     if (strncmp(parseCtx->parsePtr, "keyframe_abs=\"", strlen("keyframe_abs=\"")) == 0)
@@ -173,6 +240,27 @@ p_parse_coords_p1_and_p2(ParseContext *parseCtx, PixelCoords *p1, PixelCoords *p
       parseCtx->parsePtr += strlen("p2y=\"");
       ok = p_parse_value_gint32(parseCtx, &p2->py, &py2Count);
     }
+    /* ------------ startcoordinates ------------------- */
+    else if (strncmp(parseCtx->parsePtr, "s1x=\"", strlen("s1x=\"")) == 0)
+    {
+      parseCtx->parsePtr += strlen("s1x=\"");
+      ok = p_parse_value_gint32(parseCtx, &s1->px, &sx1Count);
+    }
+    else if (strncmp(parseCtx->parsePtr, "s1y=\"", strlen("s1y=\"")) == 0)
+    {
+      parseCtx->parsePtr += strlen("s1y=\"");
+      ok = p_parse_value_gint32(parseCtx, &s1->py, &sy1Count);
+    }
+    else if (strncmp(parseCtx->parsePtr, "s2x=\"", strlen("s2x=\"")) == 0)
+    {
+      parseCtx->parsePtr += strlen("s2x=\"");
+      ok = p_parse_value_gint32(parseCtx, &s2->px, &sx2Count);
+    }
+    else if (strncmp(parseCtx->parsePtr, "s2y=\"", strlen("s2y=\"")) == 0)
+    {
+      parseCtx->parsePtr += strlen("s2y=\"");
+      ok = p_parse_value_gint32(parseCtx, &s2->py, &sy2Count);
+    }
     else if (strncmp(parseCtx->parsePtr, "/>", strlen("/>")) == 0)
     {
       /* stop evaluate when current controlpoint ends */
@@ -198,6 +286,8 @@ p_parse_coords_p1_and_p2(ParseContext *parseCtx, PixelCoords *p1, PixelCoords *p
   if ((ok == TRUE)
   && (px1Count == 1)
   && (py1Count == 1)
+  && (sx1Count <= 1)
+  && (sy1Count <= 1)
   && (frCount <= 1))
   {
     p1->valid = TRUE;
@@ -206,6 +296,21 @@ p_parse_coords_p1_and_p2(ParseContext *parseCtx, PixelCoords *p1, PixelCoords *p
     {
       p2->valid = TRUE;
     }
+
+    if ((sx1Count == 1)
+    && (sy1Count == 1)
+    && (s1 != NULL))
+    {
+      s1->valid = TRUE;
+    }
+    if ((sx2Count == 1)
+    && (sy2Count == 1)
+    && (s2 != NULL))
+    {
+      s2->valid = TRUE;
+    }
+
+
 
     return (TRUE);
   }
@@ -279,6 +384,8 @@ p_parse_xml_controlpoint_coords(ParseContext *parseCtx)
                                , &parseCtx->alingCoords->startCoords
                                , &parseCtx->alingCoords->startCoords2
                                , &frameNr
+                               , NULL
+                               , NULL
                                );
       }
       else
@@ -287,6 +394,8 @@ p_parse_xml_controlpoint_coords(ParseContext *parseCtx)
                                , &parseCtx->alingCoords->currCoords
                                , &parseCtx->alingCoords->currCoords2
                                , &frameNr
+                               , &parseCtx->alingCoords->startCoords
+                               , &parseCtx->alingCoords->startCoords2
                                );
       }
 
@@ -690,7 +799,7 @@ gap_detail_xml_align_dialog(XmlAlignValues *xaVals)
  * ------------------------------------------
  * capture the first 4 points of the 1st stroke in the active path vectors
  * pointOrder POINT_ORDER_MODE_31_42 : order 0,1,2,3  compatible with the exactAligner script
- *            POINT_ORDER_MODE_21_43 : order 0,2,1,3  
+ *            POINT_ORDER_MODE_21_43 : order 0,2,1,3  alternative point order.
  */
 static gint
 p_capture_4_vector_points(gint32 imageId, AlingCoords *alingCoords, gint32 pointOrder)

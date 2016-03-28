@@ -277,7 +277,6 @@ gap_lib_layer_tracking(gint32 image_id
 
 }  /* end gap_lib_layer_tracking */
 
-
 /* ---------------------------------
  * p_set_or_pick_active_layer_by_pos
  * ---------------------------------
@@ -2868,19 +2867,17 @@ gap_lib_save_named_image(gint32 image_id, const char *sav_name, GimpRunMode run_
 int
 gap_lib_save_named_frame(gint32 image_id, char *sav_name)
 {
-  GimpParam *l_params;
   gchar     *l_ext;
   gchar     *l_lowerExt;
   char      *l_tmpname;
-  gint       l_retvals;
-  int        l_gzip;
-  int        l_xcf;
+  gboolean   isGzip;
+  gboolean   isXcf;
   int        l_rc;
 
   l_tmpname = NULL;
   l_rc   = -1;
-  l_gzip = 0;          /* dont zip */
-  l_xcf  = 0;          /* assume no xcf format (1==xcf, 0==any other) */
+  isGzip = FALSE;          /* dont zip */
+  isXcf  = FALSE;          /* assume no xcf format (1==xcf, 0==any other) */
 
   /* check extension to decide if saved file will be zipped */
   l_ext = gap_lib_alloc_extension(sav_name);
@@ -2897,16 +2894,16 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
 
   if(0 == strcmp(l_lowerExt, ".xcf"))
   {
-    l_xcf  = 1;
+    isXcf  = TRUE;
   }
   else if(0 == strcmp(l_lowerExt, ".xcfgz"))
   {
-    l_gzip = 1;          /* zip it */
-    l_xcf  = 1;
+    isGzip = TRUE;          /* zip it */
+    isXcf  = TRUE;
   }
   else if(0 == strcmp(l_lowerExt, ".gz"))
   {
-    l_gzip = 1;          /* zip it */
+    isGzip = TRUE;          /* zip it */
   }
 
   /* find a temp name
@@ -2937,37 +2934,38 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
   }
 
 
-  if(l_xcf != 0)
+  if(isXcf == TRUE)
   {
+    gboolean isSaveOk;
     if(gap_debug)
     {
-      printf("DEBUG: gap_lib_save_named_frame before gimp_xcf_save on file: '%s'\n"
+      printf("DEBUG: gap_lib_save_named_frame before XCF gimp_file_save on file: '%s'\n"
             , l_tmpname
             );
     }
 
     /* save current frame as xcf image
      * xcf_save does operate on the complete image,
-     * the drawable is ignored. (we can supply a dummy value)
+     * the drawable was is ignored in gimp-2.8.x 
+     * but is now checked for a valid id in gimp-2.9.2
+     * (we can't supply a dummy value but must provide a vaild id now!
+     *  therefore gap automatic save will fail for images without any layer with gimp-2.9.x)
      */
-    l_params = gimp_run_procedure ("gimp_xcf_save",
-                                 &l_retvals,
-                                 GIMP_PDB_INT32,    GIMP_RUN_NONINTERACTIVE,
-                                 GIMP_PDB_IMAGE,    image_id,
-                                 GIMP_PDB_DRAWABLE, 0,
-                                 GIMP_PDB_STRING, l_tmpname,
-                                 GIMP_PDB_STRING, l_tmpname, /* raw name ? */
-                                 GIMP_PDB_END);
+    isSaveOk = gimp_file_save(GIMP_RUN_NONINTERACTIVE
+                             , image_id
+                             , gap_image_get_any_layer(image_id)
+                             , l_tmpname
+                             , l_tmpname
+                             );
     if(gap_debug)
     {
       printf("DEBUG: after   xcf  gap_lib_save_named_frame: '%s'\n", l_tmpname);
     }
 
-    if (l_params[0].data.d_status == GIMP_PDB_SUCCESS)
+    if (isSaveOk == TRUE)
     {
        l_rc = image_id;
     }
-    gimp_destroy_params (l_params, l_retvals);
   }
   else
   {
@@ -3001,14 +2999,14 @@ gap_lib_save_named_frame(gint32 image_id, char *sav_name)
   {
      g_remove(l_tmpname);
      g_free(l_tmpname);  /* free temporary name */
-     if((l_xcf == 0) && (l_rc == SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES))
+     if((isXcf != TRUE) && (l_rc == SAVE_NON_XCF_FAKE_OK_FOR_READ_ONLY_TYPES))
      {
        return (0); /* FAKE save OK  */
      }
      return l_rc;
   }
 
-  if(l_gzip == 0)
+  if(isGzip != TRUE)
   {
      /* remove sav_name, then rename tmpname ==> sav_name */
      g_remove(sav_name);
