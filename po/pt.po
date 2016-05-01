@@ -4,6 +4,7 @@
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2003, 2004
 # Filipe Maia <fmaia@gmx.net>, 2002
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
+# Tiago Santos <tiagofsantos81@sapo.pt>, 2015, 2016.
 #
 # Baseados na versão brasileira de
 # Marcia Norie Nakaza <norie@conectiva.com.br>, 2000.
@@ -11,10 +12,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.6\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-01 09:48+0000\n"
-"PO-Revision-Date: 2015-11-14 08:53+0000\n"
-"Last-Translator: <>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
+"gap&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-05-01 06:28+0000\n"
+"PO-Revision-Date: 2016-05-01 15:59+0100\n"
+"Last-Translator: Tiago Santos <tiagofsantos81@sapo.pt>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +45,7 @@ msgstr "Valor:"
 msgid "Press Button"
 msgstr "Prima botão"
 
-#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2187
+#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2186
 msgid "Select"
 msgstr "Selecionar"
 
@@ -237,7 +239,7 @@ msgstr "Erro: impossível gravar moldura %s"
 #: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
 #: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
 #: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
-#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3847
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3845
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Erro: impossível renomear moldura %ld para %ld"
@@ -403,7 +405,7 @@ msgstr "Alterar densidade das molduras"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2039
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2038
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -1104,7 +1106,8 @@ msgstr ""
 
 #. the frame
 #. the notebook page label for expert encoder options
-#: ../gap/gap_colormask_dialog.c:539 ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4209
+#: ../gap/gap_colormask_dialog.c:539
+#: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:4209
 msgid "Expert Options"
 msgstr "Opções de perito"
 
@@ -1150,11 +1153,11 @@ msgstr "Raio de Sig:"
 
 #: ../gap/gap_colormask_dialog.c:710
 msgid "_Edge Colordiff threshold:"
-msgstr "Limite de diferença de cor da _Margem:"
+msgstr "Limite de diferença de cor da _margem:"
 
 #: ../gap/gap_colormask_dialog.c:725
 msgid "_Area Colordiff threshold:"
-msgstr "Limite de diferença de _Cor da área:"
+msgstr "Limite de diferença de _cor da área:"
 
 #: ../gap/gap_colormask_dialog.c:740
 msgid "Small Area Diagonal:"
@@ -1911,19 +1914,19 @@ msgstr ""
 "impossível encontrar molduras extraídas,\n"
 "xanim falhou ou foi cancelado"
 
-#: ../gap/gap_detail_align_exec.c:634
+#: ../gap/gap_detail_align_exec.c:743
 msgid "Frame Phase:"
 msgstr "Fase da moldura:"
 
-#: ../gap/gap_detail_align_exec.c:635
+#: ../gap/gap_detail_align_exec.c:744
 msgid "Frame number (phase) to be rendered."
 msgstr "Número de moldura (fase) a ser desenhado."
 
-#: ../gap/gap_detail_align_exec.c:648
+#: ../gap/gap_detail_align_exec.c:757
 msgid "XML file:"
 msgstr "Ficheiro XML:"
 
-#: ../gap/gap_detail_align_exec.c:649
+#: ../gap/gap_detail_align_exec.c:758
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
@@ -1932,7 +1935,7 @@ msgstr ""
 "com a funcionalidade de rastreio de detalhes)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:658 ../gap/gap_detail_tracking_exec.c:1474
+#: ../gap/gap_detail_align_exec.c:767 ../gap/gap_detail_tracking_exec.c:2315
 #: ../gap/gap_mov_dialog.c:1596 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:529 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5307 ../gap/gap_story_dialog.c:5664
@@ -1941,24 +1944,24 @@ msgstr ""
 msgid "Default"
 msgstr "Predefinição"
 
-#: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1475
+#: ../gap/gap_detail_align_exec.c:768 ../gap/gap_detail_tracking_exec.c:2316
 #: ../gap/gap_mov_dialog.c:1597 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:530 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Repor todos os parâmetros nos valores predefinidos"
 
-#: ../gap/gap_detail_align_exec.c:661
+#: ../gap/gap_detail_align_exec.c:770
 msgid "Detail Align via XML"
 msgstr "Alinhamento dos detalhes via XML"
 
-#: ../gap/gap_detail_align_exec.c:662 ../gap/gap_detail_tracking_exec.c:1478
+#: ../gap/gap_detail_align_exec.c:771 ../gap/gap_detail_tracking_exec.c:2319
 #: ../gap/gap_name2layer_main.c:536 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Definições:"
 
-#: ../gap/gap_detail_align_exec.c:946
+#: ../gap/gap_detail_align_exec.c:1055
 #, c-format
 msgid ""
 "Current path with 4 point triggers transformations:\n"
@@ -1978,7 +1981,7 @@ msgstr ""
 "de forma a que o ponto3 se mova para o ponto1 e o ponto4 se mova para o "
 "ponto2"
 
-#: ../gap/gap_detail_align_exec.c:967
+#: ../gap/gap_detail_align_exec.c:1076
 #, c-format
 msgid ""
 "Current path with 2 points triggers simple move:\n"
@@ -1993,7 +1996,7 @@ msgstr ""
 "Clique em Aceitar para mover a camada\n"
 "de forma a que o ponto2 se mova para o ponto1"
 
-#: ../gap/gap_detail_align_exec.c:983
+#: ../gap/gap_detail_align_exec.c:1092
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
@@ -2005,19 +2008,19 @@ msgstr ""
 "coordenadas desse caminho.\n"
 "Por favor, crie um caminho e clique em Atualizar."
 
-#: ../gap/gap_detail_align_exec.c:1090
+#: ../gap/gap_detail_align_exec.c:1199
 msgid "Transform Layer via 4 (or 2) point Alignment"
 msgstr "Transformar camada via alinhamento de 4 (ou 2) pontos"
 
 #. pointOrder radiobutton
 #. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
 #.
-#: ../gap/gap_detail_align_exec.c:1143
+#: ../gap/gap_detail_align_exec.c:1252
 msgid "Path Point Order:"
 msgstr "Ordem dos pontos do caminho:"
 
 #. Order Mode the radio buttons
-#: ../gap/gap_detail_align_exec.c:1161
+#: ../gap/gap_detail_align_exec.c:1270
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Target is marked by points 1&2 "
@@ -2025,7 +2028,7 @@ msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Destino marcado pelos pontos 1&2 "
 
-#: ../gap/gap_detail_align_exec.c:1279
+#: ../gap/gap_detail_align_exec.c:1388
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
@@ -2042,7 +2045,7 @@ msgstr ""
 "Pode ser usado um caminho com dois pontos para mover o ponto2 para o ponto1 "
 "(via operação de mover simples, sem rotação nem dimensionamento)"
 
-#: ../gap/gap_detail_align_exec.c:1290
+#: ../gap/gap_detail_align_exec.c:1399
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
@@ -2059,12 +2062,12 @@ msgstr ""
 "Pode ser usado um caminho com 2 pontos para mover o ponto2 para o ponto1 "
 "(via operação de mover simples, sem rotação nem dimensionamento)"
 
-#: ../gap/gap_detail_tracking_exec.c:1198
+#: ../gap/gap_detail_tracking_exec.c:2021
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
 msgstr ""
 "Rastreio de detalhes parado (impossível encontrar o detalhe correspondente)"
 
-#: ../gap/gap_detail_tracking_exec.c:1333
+#: ../gap/gap_detail_tracking_exec.c:2158
 msgid ""
 "This filter requires a current path with one or 2 anchor points\n"
 "to mark coordinate(s) to be tracked in the target frame(s)"
@@ -2072,11 +2075,23 @@ msgstr ""
 "Este filtro requer um caminho atual com um ou dois pontos de ancoragem\n"
 "para marcar coordenadas a seguir nas molduras destino"
 
-#: ../gap/gap_detail_tracking_exec.c:1339
+#: ../gap/gap_detail_tracking_exec.c:2163
+#, fuzzy
+#| msgid "Delete Point"
+msgid "Select Points:"
+msgstr "Eliminar ponto"
+
+#: ../gap/gap_detail_tracking_exec.c:2164
+msgid ""
+"1: select only the best path point for movement detection, 2: select the "
+"best 2 points for movement,scale and rotation detection."
+msgstr ""
+
+#: ../gap/gap_detail_tracking_exec.c:2180
 msgid "Locate colordiff Thres:"
 msgstr "Limite de diferença de cores"
 
-#: ../gap/gap_detail_tracking_exec.c:1340
+#: ../gap/gap_detail_tracking_exec.c:2181
 msgid ""
 "Colordiff threshold value. Locate fails when average color difference is "
 "below this value."
@@ -2084,11 +2099,11 @@ msgstr ""
 "Localiza o valor do limite de diferença de cores. A localização falha quando "
 "a média de diferença de cores está abaixo deste valor."
 
-#: ../gap/gap_detail_tracking_exec.c:1352 ../gap/gap_morph_tween_dialog.c:819
+#: ../gap/gap_detail_tracking_exec.c:2193 ../gap/gap_morph_tween_dialog.c:819
 msgid "Locate Shape Radius:"
 msgstr "Raio da forma:"
 
-#: ../gap/gap_detail_tracking_exec.c:1353
+#: ../gap/gap_detail_tracking_exec.c:2194
 msgid ""
 "The quadratic area surrounding a marked detail coordinate +- this radius is "
 "considered as reference shape, to be tracked in the target frame(s)."
@@ -2096,19 +2111,19 @@ msgstr ""
 "A área quadrada à volta de uma coordenada de detalhe marcada +- este raio é "
 "considerada uma forma referência, a ser seguida na(s) moldura(s) destino."
 
-#: ../gap/gap_detail_tracking_exec.c:1366
+#: ../gap/gap_detail_tracking_exec.c:2207
 msgid "Locate Target Move Radius:"
 msgstr "Raio de movimento destino:"
 
-#: ../gap/gap_detail_tracking_exec.c:1367
+#: ../gap/gap_detail_tracking_exec.c:2208
 msgid "Limits attempts to locate the Detail within this radius."
 msgstr "Limita as tentativas de localização do detalhe ao interior deste raio."
 
-#: ../gap/gap_detail_tracking_exec.c:1381
+#: ../gap/gap_detail_tracking_exec.c:2222
 msgid "Log Relative Coords:"
 msgstr "Registo de coordenadas:"
 
-#: ../gap/gap_detail_tracking_exec.c:1382
+#: ../gap/gap_detail_tracking_exec.c:2223
 msgid ""
 "ON: Coordinates are logged relative to the first coordinate.\n"
 "OFF: Coordinates are logged as absolute pixel coordinate values."
@@ -2117,11 +2132,11 @@ msgstr ""
 "DESLIGADO: as coordenadas são registadas como coordenadas de valor de pixel "
 "absoluto."
 
-#: ../gap/gap_detail_tracking_exec.c:1391
+#: ../gap/gap_detail_tracking_exec.c:2232
 msgid "Log Scaling:"
 msgstr "Registo de escala:"
 
-#: ../gap/gap_detail_tracking_exec.c:1392
+#: ../gap/gap_detail_tracking_exec.c:2233
 msgid ""
 "ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
 "OFF: Calculate only rotation and keep original size."
@@ -2129,11 +2144,11 @@ msgstr ""
 "LIGADO: calcula escala e rotação quando 2 coordenadas são seguidas.\n"
 "DESLIGADO: calcula só rotação e mantém o tamanho original."
 
-#: ../gap/gap_detail_tracking_exec.c:1402
+#: ../gap/gap_detail_tracking_exec.c:2243
 msgid "BG is Reference:"
 msgstr "F é referência:"
 
-#: ../gap/gap_detail_tracking_exec.c:1403
+#: ../gap/gap_detail_tracking_exec.c:2244
 msgid ""
 "ON: Use background layer as reference and foreground layer as target for "
 "tracking.\n"
@@ -2146,11 +2161,11 @@ msgstr ""
 "referência\n"
 "."
 
-#: ../gap/gap_detail_tracking_exec.c:1411
+#: ../gap/gap_detail_tracking_exec.c:2252
 msgid "Remove Middle Layers:"
 msgstr "Remover camadas intermédias:"
 
-#: ../gap/gap_detail_tracking_exec.c:1412
+#: ../gap/gap_detail_tracking_exec.c:2253
 msgid ""
 "ON: removes layers (except BG and 2 Layer on top) that are not relevant for "
 "detail tracking.\n"
@@ -2160,35 +2175,35 @@ msgstr ""
 "rastreio de detalhes.\n"
 "DESLIGADO: mantém todas as camadas."
 
-#: ../gap/gap_detail_tracking_exec.c:1423
+#: ../gap/gap_detail_tracking_exec.c:2264
 msgid "Const X Offset:"
 msgstr "Desvio X constante:"
 
-#: ../gap/gap_detail_tracking_exec.c:1424
+#: ../gap/gap_detail_tracking_exec.c:2265
 msgid "This value is added when logging captured X coordinates."
 msgstr "Este valor é adicionado ao registar coordenadas x capturadas."
 
-#: ../gap/gap_detail_tracking_exec.c:1437
+#: ../gap/gap_detail_tracking_exec.c:2278
 msgid "Const Y Offset:"
 msgstr "Desvio Y constante:"
 
-#: ../gap/gap_detail_tracking_exec.c:1438
+#: ../gap/gap_detail_tracking_exec.c:2279
 msgid "This value is added when logging captured Y coordinates."
 msgstr "Este valor é adicionado ao registar coordenadas y capturadas."
 
-#: ../gap/gap_detail_tracking_exec.c:1451
+#: ../gap/gap_detail_tracking_exec.c:2292
 msgid "Const Rotate Offset:"
 msgstr "Desvio de rotação constante:"
 
-#: ../gap/gap_detail_tracking_exec.c:1452
+#: ../gap/gap_detail_tracking_exec.c:2293
 msgid "This value is added when logging rotation values."
 msgstr "Este valor é adicionado ao registar valores de rotação."
 
-#: ../gap/gap_detail_tracking_exec.c:1464
+#: ../gap/gap_detail_tracking_exec.c:2305
 msgid "MovePath XML file:"
 msgstr "Ficheiro XML MovePath:"
 
-#: ../gap/gap_detail_tracking_exec.c:1465
+#: ../gap/gap_detail_tracking_exec.c:2306
 msgid ""
 "Name of the file to log the tracked detail coordinates  as XML parameterfile "
 "for later use in the MovePath plug-in."
@@ -2196,7 +2211,7 @@ msgstr ""
 "Nome do ficheiro para registar as coordenadas do detalhe seguido, como "
 "ficheiro de parâmetros para uso posterior na extensão MovePath."
 
-#: ../gap/gap_detail_tracking_exec.c:1477
+#: ../gap/gap_detail_tracking_exec.c:2318
 msgid "Detail Tracking"
 msgstr "Rastreio de detalhes"
 
@@ -2303,7 +2318,7 @@ msgid ""
 "BACKGROUND (i.e. transparent result) GRAY pixels (value 1 up to 240) are "
 "marked as Undefined  (i.e. opacity to be processed by this filter.) )"
 msgstr ""
-"Selecione a camada trimapa (ou máscara de camada). O trimapa será do mesmo "
+"Selecione a camada tri_mapa (ou máscara de camada). O trimapa será do mesmo "
 "tamanho que a camada de entrada e fornece uma seleção bruta de utilizador "
 "onde os pixels BRANCOS no trimapa definem o 1º plano (i.e. resultado opaco), "
 "os PRETOS definem o fundo (i.e. resultado transparente) e os CINZENTOS "
@@ -2411,11 +2426,11 @@ msgstr ""
 msgid "Applying filter to all layers..."
 msgstr "A aplicar filtro a todas as camadas..."
 
-#: ../gap/gap_filter_foreach.c:702
+#: ../gap/gap_filter_foreach.c:707
 msgid "Select Filter for Animated Apply"
 msgstr "Selecionar filtro para aplicação animada"
 
-#: ../gap/gap_filter_foreach.c:703 ../gap/gap_mod_layer.c:1451
+#: ../gap/gap_filter_foreach.c:708 ../gap/gap_mod_layer.c:1451
 msgid "Apply"
 msgstr "Aplicar"
 
@@ -2901,7 +2916,7 @@ msgstr "MPEG2..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Vídeo/Codificar/"
 
-#: ../gap/gap_lib.c:2016
+#: ../gap/gap_lib.c:2015
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2909,23 +2924,23 @@ msgstr ""
 "Operação cancelada.\n"
 "Moldura atual alterada enquanto o diálogo estava aberto."
 
-#: ../gap/gap_lib.c:2155
+#: ../gap/gap_lib.c:2154
 msgid "overwrite flattened"
 msgstr "sobrescrever aplanado"
 
-#: ../gap/gap_lib.c:2157
+#: ../gap/gap_lib.c:2156
 msgid "overwrite"
 msgstr "Sobrescrever"
 
-#: ../gap/gap_lib.c:2159
+#: ../gap/gap_lib.c:2158
 msgid "read only"
 msgstr "só de leitura"
 
-#: ../gap/gap_lib.c:2161
+#: ../gap/gap_lib.c:2160
 msgid "discard changes"
 msgstr "descartar alterações"
 
-#: ../gap/gap_lib.c:2166
+#: ../gap/gap_lib.c:2165
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -2942,11 +2957,11 @@ msgstr ""
 "mas a sobrescrição automática (via exportação) de outros formatos\n"
 "resulta tipicamente em perdas de camadas e outra informação."
 
-#: ../gap/gap_lib.c:2176
+#: ../gap/gap_lib.c:2175
 msgid "Save my decision:"
 msgstr "Gravar a minha decisão:"
 
-#: ../gap/gap_lib.c:2177
+#: ../gap/gap_lib.c:2176
 #, c-format
 msgid ""
 "Save decision for this fileformat for further gimp sessions.\n"
@@ -2955,11 +2970,11 @@ msgstr ""
 "Gravar decisão para este formato de ficheiro para futuras sessões do GIMP.\n"
 "Isto cria uma entrada no sue ficheiro gimprc com a chave: %s"
 
-#: ../gap/gap_lib.c:2186
+#: ../gap/gap_lib.c:2185
 msgid "Fileformat Warning"
 msgstr "Aviso de formato de ficheiro"
 
-#: ../gap/gap_lib.c:2453
+#: ../gap/gap_lib.c:2452
 #, c-format
 msgid ""
 "Frame operation blocked\n"
@@ -3665,8 +3680,8 @@ msgstr "Inverter seleção de camada"
 
 #: ../gap/gap_mod_layer_dialog.c:1540
 msgid ""
-"Perform actions on all unselected layers at same level in the layers tree "
-"(i.e. in the same group)"
+"Perform actions on all unselected layers at same level in the layers tree (i."
+"e. in the same group)"
 msgstr ""
 "Executar ações em todas as camadas não selecionadas ao mesmo nível da árvore "
 "de camadas (i.e. no mesmo grupo)"
@@ -3728,8 +3743,8 @@ msgid ""
 "Select all visible layers at same level in the layers tree (i.e. in the same "
 "group)"
 msgstr ""
-"Selecionar todas as camadas visíveis ao mesmo nível na árvore de camadas "
-"(i.e no mesmo grupo)"
+"Selecionar todas as camadas visíveis ao mesmo nível na árvore de camadas (i."
+"e no mesmo grupo)"
 
 #: ../gap/gap_mod_layer_dialog.c:1681
 msgid ""
@@ -7396,8 +7411,8 @@ msgstr ""
 #: ../gap/gap_player_dialog.c:8102
 msgid "Set current framenr as selection range start 'From Frame'"
 msgstr ""
-"Definir nº de moldura atual como início do intervalo de seleção \"De "
-"moldura\""
+"Definir nº de moldura atual como início do intervalo de seleção \"De moldura"
+"\""
 
 #: ../gap/gap_player_dialog.c:8118
 msgid ""
@@ -7546,8 +7561,8 @@ msgstr "Pausa"
 
 #: ../gap/gap_player_dialog.c:8547
 msgid ""
-"Pause if playing (any mousebutton). Go to selection start/active/end "
-"(left/middle/right mousebutton) if not playing"
+"Pause if playing (any mousebutton). Go to selection start/active/end (left/"
+"middle/right mousebutton) if not playing"
 msgstr ""
 "Pausa se a reproduzir (qualquer botão do rato). Ir para início/atual/final "
 "da seleção (botão esquerdo/meio/direito) se não estiver a reproduzir"
@@ -8306,7 +8321,8 @@ msgstr "Atributos da transição"
 #. the frame
 #: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
-#: ../gap/gap_story_properties.c:4040 ../gap/gap_story_section_properties.c:784
+#: ../gap/gap_story_properties.c:4040
+#: ../gap/gap_story_section_properties.c:784
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -9311,7 +9327,7 @@ msgstr "Propriedades mestras"
 
 #: ../gap/gap_story_dialog.c:10151
 msgid "STORY_new.txt"
-msgstr "Histori_nova.txt"
+msgstr "Historia_nova.txt"
 
 #: ../gap/gap_story_file.c:576 ../gap/gap_story_file.c:621
 msgid "internal error"
@@ -9482,7 +9498,8 @@ msgstr "COMENTÁRIO"
 msgid "** UNKNOWN **"
 msgstr "**DESCONHECIDO**"
 
-#: ../gap/gap_story_properties.c:2800 ../gap/gap_story_section_properties.c:599
+#: ../gap/gap_story_properties.c:2800
+#: ../gap/gap_story_section_properties.c:599
 #, c-format
 msgid "%d (frames)"
 msgstr "%d (molduras)"
@@ -9526,7 +9543,8 @@ msgid "Clip Type:"
 msgstr "Tipo de clip:"
 
 #. the duration label
-#: ../gap/gap_story_properties.c:4100 ../gap/gap_story_section_properties.c:830
+#: ../gap/gap_story_properties.c:4100
+#: ../gap/gap_story_section_properties.c:830
 msgid "Duration:"
 msgstr "Duração:"
 
@@ -9794,8 +9812,8 @@ msgstr "Macro de filtros:"
 #: ../gap/gap_story_properties.c:4919
 msgid ""
 "filter macro to be performed when frames of this clips are rendered. A 2nd "
-"macrofile is implicitly referenced by naming convention via the keyword "
-".VARYING (as suffix or before the extension)"
+"macrofile is implicitly referenced by naming convention via the keyword ."
+"VARYING (as suffix or before the extension)"
 msgstr ""
 "Macro de filtros a executar quando as molduras do clip são desenhadas. Um 2º "
 "ficheiro de macro é implicitamente referenciado por convenção de nome via "
@@ -13511,8 +13529,8 @@ msgstr "Codificação vídeo ffmpeg para molduras animadas. Menu @FFMPEG@"
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:475
 msgid ""
 "This plugin does video encoding of animframes based on libavformat. (also "
-"known as FFMPEG encoder). The (optional) audiodata must be RIFF WAVEfmt "
-"(.wav) file. .wav files can be mono (1) or stereo (2channels) audiodata and "
+"known as FFMPEG encoder). The (optional) audiodata must be RIFF WAVEfmt (."
+"wav) file. .wav files can be mono (1) or stereo (2channels) audiodata and "
 "must be 16bit uncompressed. IMPORTANT:  Non-interactive callers should first "
 "call \""
 msgstr ""
@@ -13642,8 +13660,8 @@ msgstr ""
 #, c-format
 msgid "Could not save ffmpeg video encoder parameterfile:'%s'%s"
 msgstr ""
-"Impossível gravar ficheiro de parâmetros do codificador vídeo ffmpeg: "
-"\"%s\"%s"
+"Impossível gravar ficheiro de parâmetros do codificador vídeo ffmpeg: \"%s"
+"\"%s"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:183
 msgid "rawframes video encoding for anim frames. Menu: @rawframeS@"
@@ -13653,16 +13671,16 @@ msgstr "Codificação vídeo rawframes para molduras animadas. Menu: @rawframeS@
 msgid ""
 "This plugin has a video encoder API but writes a series of single raw frames "
 "instead of one videofile. the filetype of the output frames is derived from "
-"the extension. the extension is the suffix part of the parameter "
-"\"videofile\". the names of the output frame(s) are same as the parameter "
-"\"videofile\" but the framenumber part is replaced by the current "
-"framenumber (or added automatic if videofile has no number part) audiodata "
-"is ignored. WARNINGS: for proper operation, the handled frames shall refer "
-"to single video file without any transitions. this allows fetching frames as "
-"raw data chunks. The chunks are 1:1 written to disc as framefiles. The "
-"resulting raw data frames on disc may be unusable if the raw chunk data is "
-"not compatible to any image fileformat. MPEG I frames, and MJPG files may be "
-"extractable to the JPEG fileformat. A  call of\""
+"the extension. the extension is the suffix part of the parameter \"videofile"
+"\". the names of the output frame(s) are same as the parameter \"videofile\" "
+"but the framenumber part is replaced by the current framenumber (or added "
+"automatic if videofile has no number part) audiodata is ignored. WARNINGS: "
+"for proper operation, the handled frames shall refer to single video file "
+"without any transitions. this allows fetching frames as raw data chunks. The "
+"chunks are 1:1 written to disc as framefiles. The resulting raw data frames "
+"on disc may be unusable if the raw chunk data is not compatible to any image "
+"fileformat. MPEG I frames, and MJPG files may be extractable to the JPEG "
+"fileformat. A  call of\""
 msgstr ""
 "Esta extensão tem uma API de codificação de vídeo mas escreve uma série de "
 "molduras simples brutas em vez de um ficheiro vídeo. O tipo de ficheiro das "
@@ -13738,11 +13756,10 @@ msgstr ""
 msgid ""
 "This plugin has a video encoder API but writes a series of single frames "
 "instead of one videofile. the filetype of the output frames is derived from "
-"the extension. the extension is the suffix part of the parameter "
-"\"videofile\". the names of the output frame(s) are same as the parameter "
-"\"videofile\" but the framenumber part is replaced by the current "
-"framenumber (or added automatic if videofile has no number part) audiodata "
-"is ignored. A  call of\""
+"the extension. the extension is the suffix part of the parameter \"videofile"
+"\". the names of the output frame(s) are same as the parameter \"videofile\" "
+"but the framenumber part is replaced by the current framenumber (or added "
+"automatic if videofile has no number part) audiodata is ignored. A  call of\""
 msgstr ""
 "Esta extensão tem uma API de codificação de vídeo mas escreve uma série de "
 "molduras únicas em vez de um ficheiro vídeo. O tipo de ficheiro das molduras "
@@ -13949,8 +13966,8 @@ msgstr ""
 
 #~ msgid "Can't operate with current controlpoint or keyframe settings"
 #~ msgstr ""
-#~ "Incapaz de operar com ponto de controlo actual ou definições de "
-#~ "frame-chave"
+#~ "Incapaz de operar com ponto de controlo actual ou definições de frame-"
+#~ "chave"
 
 #~ msgid "Reset Keyframes"
 #~ msgstr "Repor Frames-chave"
@@ -14114,15 +14131,14 @@ msgstr ""
 #~ "This plugin is the configuration GUI for Onion layers. Onion Layer(s) "
 #~ "usually do show previous (or next) frame(s) of the video in the current "
 #~ "frame. Onion Layers are not created automatically. You have to create or "
-#~ "delete them manually using the menu Video/OnionSkin/make or "
-#~ "Video/OnionSkin/delete or call the Procedures "
+#~ "delete them manually using the menu Video/OnionSkin/make or Video/"
+#~ "OnionSkin/delete or call the Procedures "
 #~ msgstr ""
 #~ "Este plugin é o interface de configuração de camadas Onion. Camada(s) "
 #~ "Onion normalmente apresenta a(s) frame(s) anterior(es) ou seguinte(s) do "
 #~ "vídeo na frame actual. Camadas Onion não são criadas automaticamente. Tem "
-#~ "de cria-las ou remove-las manualmente utilizando o menu "
-#~ "Vídeo/Onionskin/criar ou Vídeo/Onionskin/remover ou invocar os "
-#~ "Procedimentos "
+#~ "de cria-las ou remove-las manualmente utilizando o menu Vídeo/Onionskin/"
+#~ "criar ou Vídeo/Onionskin/remover ou invocar os Procedimentos "
 
 #~ msgid "  The configuration can be saved in the gimprc parameter file."
 #~ msgstr "  A configuração pode ser gravada no ficheiro de parâmetros gimprc."
