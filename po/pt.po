@@ -1,10 +1,11 @@
 # gimp-gap's Portuguese translation
 # Copyright © 2003, 2004 gimp-gap
 # Distributed under the same licence as the gimp-gap package
+#
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2003, 2004
 # Filipe Maia <fmaia@gmx.net>, 2002
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
-# Tiago Santos <tiagofsantos81@sapo.pt>, 2015, 2016.
+# Tiago Santos <tiagofsantos81@sapo.pt>, 2014 - 2016.
 #
 # Baseados na versão brasileira de
 # Marcia Norie Nakaza <norie@conectiva.com.br>, 2000.
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: 2.6\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-05-01 06:28+0000\n"
-"PO-Revision-Date: 2016-05-01 15:59+0100\n"
+"POT-Creation-Date: 2016-05-10 06:28+0000\n"
+"PO-Revision-Date: 2016-05-10 17:17+0100\n"
 "Last-Translator: Tiago Santos <tiagofsantos81@sapo.pt>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
@@ -2076,16 +2077,18 @@ msgstr ""
 "para marcar coordenadas a seguir nas molduras destino"
 
 #: ../gap/gap_detail_tracking_exec.c:2163
-#, fuzzy
 #| msgid "Delete Point"
 msgid "Select Points:"
-msgstr "Eliminar ponto"
+msgstr "Selecionar pontos:"
 
 #: ../gap/gap_detail_tracking_exec.c:2164
 msgid ""
 "1: select only the best path point for movement detection, 2: select the "
 "best 2 points for movement,scale and rotation detection."
 msgstr ""
+"1: selecione apenas o melhor ponto do caminho para deteção de movimento, 2: "
+"selecione os dois melhores pontos para deteção de movimento, escala e "
+"rotação."
 
 #: ../gap/gap_detail_tracking_exec.c:2180
 msgid "Locate colordiff Thres:"
