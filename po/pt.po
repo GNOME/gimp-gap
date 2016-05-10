@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-05-10 06:28+0000\n"
-"PO-Revision-Date: 2016-05-10 17:12+0100\n"
+"PO-Revision-Date: 2016-05-10 17:19+0100\n"
 "Last-Translator: Tiago Santos <tiagofsantos81@sapo.pt>\n"
 "Language-Team: Português Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language: pt\n"
@@ -2076,7 +2076,7 @@ msgstr ""
 #: ../gap/gap_detail_tracking_exec.c:2163
 #| msgid "Delete Point"
 msgid "Select Points:"
-msgstr "Eliminar pontos:"
+msgstr "Selecionar pontos:"
 
 #: ../gap/gap_detail_tracking_exec.c:2164
 msgid ""
