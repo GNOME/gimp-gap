@@ -1,3 +1,14 @@
+2016-05-28 Wolfgang Hofer <hof@gimp.org>
+
+- replaced deprecated procedure calls: 
+    gimp_image_scale_full
+    gimp_rect_select       (calling gimp_image_select_rectangle  instead)
+
+
+ * gap/gap_image.c
+ * gap/gap_story_att_trans_dlg.c
+ * gap/gap_story_render_processor.c
+ 
 2016-03-28 Wolfgang Hofer <hof@gimp.org>
 
 - Merged DetailTracking fixes from master

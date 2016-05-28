@@ -65,8 +65,14 @@ gap_image_delete_immediate (gint32 image_id)
     }
 
     gimp_image_undo_disable(image_id);
+    
+    //gimp_image_scale_full(image_id, 2, 2, 0 /*INTERPOLATION_NONE*/);
 
-    gimp_image_scale_full(image_id, 2, 2, 0 /*INTERPOLATION_NONE*/);
+    gimp_context_push();
+    gimp_context_set_interpolation(0);
+    gimp_image_scale(image_id, 2, 2);
+    gimp_context_pop();
+
 
     gimp_image_undo_enable(image_id); /* clear undo stack */
   }

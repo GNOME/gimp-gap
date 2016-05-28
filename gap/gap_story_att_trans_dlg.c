@@ -1346,6 +1346,10 @@ p_create_color_layer(GapStbAttrWidget *attw, gint32 image_id
   ofs_x = ((gdouble)gimp_image_width(image_id) - pv_master_width) / 2.0;
   ofs_y = ((gdouble)gimp_image_height(image_id) - pv_master_height) / 2.0;
 
+  gimp_context_push();
+  gimp_context_set_feather(FALSE);
+  gimp_context_set_feather_radius(0.0, 0.0);
+
   /* green border */
   {
     GimpRGB  color;
@@ -1356,15 +1360,14 @@ p_create_color_layer(GapStbAttrWidget *attw, gint32 image_id
     color.b = 0.17;
     color.a = 1.0;
 
+
     /* selection for green rectangle (2 pixels border around master size) */
-    gimp_rect_select(image_id
+    gimp_image_select_rectangle(image_id
+                  , GIMP_CHANNEL_OP_REPLACE
                   , ofs_x -2
                   , ofs_y -2
                   , pv_master_width +4
                   , pv_master_height +4
-                  , GIMP_CHANNEL_OP_REPLACE
-                  , 0       /* gint32 feather */
-                  , 0.0     /* gdouble feather radius */
                   );
 
     gimp_context_get_background(&bck_color);
@@ -1377,19 +1380,18 @@ p_create_color_layer(GapStbAttrWidget *attw, gint32 image_id
     gimp_context_set_background(&bck_color);
   }
 
-  gimp_rect_select(image_id
+  gimp_image_select_rectangle(image_id
+                  , GIMP_CHANNEL_OP_REPLACE
                   , ofs_x
                   , ofs_y
                   , pv_master_width
                   , pv_master_height
-                  , GIMP_CHANNEL_OP_REPLACE
-                  , 0       /* gint32 feather */
-                  , 0.0     /* gdouble feather radius */
                   );
 
   gimp_edit_clear(layer_id);
   gimp_selection_none(image_id);
 
+  gimp_context_pop();
 
   return (layer_id);
 }  /* end p_create_color_layer */

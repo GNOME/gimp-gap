@@ -5625,13 +5625,16 @@ p_transform_and_add_layer( gint32 comp_image_id
              );
         }
 
-        gimp_rect_select(l_tmp_image_id
+        gimp_context_push();
+        gimp_context_set_feather(FALSE);
+        gimp_context_set_feather_radius(0.0, 0.0);
+
+        gimp_image_select_rectangle(l_tmp_image_id
+                      , GIMP_CHANNEL_OP_REPLACE
                       , sx, sy
                       , swidth, sheight
-                      , GIMP_CHANNEL_OP_REPLACE
-                      , FALSE  /* feather flag */
-                      , 0.0    /* feather_radius */
                       );
+        gimp_context_pop();
       }
 
       gimp_edit_copy(layer_id);
