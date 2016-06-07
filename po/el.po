@@ -1,16 +1,16 @@
 # Greek translation for gimp-plugins.
 # Copyright (C) 2001 Free Software Foundation.
 # Simos Xenitellis <simos@hellug.gr>, 2001.
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2011-2015.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2011-2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-plugins 1.0\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-19 16:13+0000\n"
-"PO-Revision-Date: 2015-09-30 09:36+0300\n"
+"POT-Creation-Date: 2016-05-28 14:38+0000\n"
+"PO-Revision-Date: 2016-06-04 16:38+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
-"Language-Team: team@lists.gnome.gr\n"
+"Language-Team: www.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +40,7 @@ msgid "Press Button"
 msgstr "Πίεση κουμπιού"
 
 #
-#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2187
+#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2186
 msgid "Select"
 msgstr "Επιλογή"
 
@@ -238,7 +238,7 @@ msgstr "Σφάλμα: Αδυναμία αποθήκευσης πλαισίου %
 #: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
 #: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
 #: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
-#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3847
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3845
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Σφάλμα: αδυναμία νέας ονομασίας πλαισίου %ld σε %ld"
@@ -404,7 +404,7 @@ msgstr "Αλλαγή πυκνότητας πλαισίων"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2039
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2038
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -1438,8 +1438,8 @@ msgstr ""
 
 #. Frames Duration button
 #. Frames Overlap duration button
-#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3407
-#: ../gap/gap_story_att_trans_dlg.c:3661
+#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3409
+#: ../gap/gap_story_att_trans_dlg.c:3663
 msgid "Frames:"
 msgstr "Πλαίσια:"
 
@@ -1957,19 +1957,19 @@ msgstr ""
 "αδυναμία εύρεσης οποιωνδήποτε εξαχθέντων πλαισίων,\n"
 "το xanim απέτυχε ή ακυρώθηκε"
 
-#: ../gap/gap_detail_align_exec.c:634
+#: ../gap/gap_detail_align_exec.c:743
 msgid "Frame Phase:"
 msgstr "Φάση πλαισίου:"
 
-#: ../gap/gap_detail_align_exec.c:635
+#: ../gap/gap_detail_align_exec.c:744
 msgid "Frame number (phase) to be rendered."
 msgstr "Αριθμός πλαισίου (φάση) για απόδοση."
 
-#: ../gap/gap_detail_align_exec.c:648
+#: ../gap/gap_detail_align_exec.c:757
 msgid "XML file:"
 msgstr "Αρχείο XML:"
 
-#: ../gap/gap_detail_align_exec.c:649
+#: ../gap/gap_detail_align_exec.c:758
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
@@ -1978,7 +1978,7 @@ msgstr ""
 "συντεταγμένες. (καταχωρούμενες με τη ιδιότητα παρακολούθησης λεπτομέρειας)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:658 ../gap/gap_detail_tracking_exec.c:1474
+#: ../gap/gap_detail_align_exec.c:767 ../gap/gap_detail_tracking_exec.c:2315
 #: ../gap/gap_mov_dialog.c:1596 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:529 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5307 ../gap/gap_story_dialog.c:5664
@@ -1987,25 +1987,25 @@ msgstr ""
 msgid "Default"
 msgstr "Προεπιλογή"
 
-#: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1475
+#: ../gap/gap_detail_align_exec.c:768 ../gap/gap_detail_tracking_exec.c:2316
 #: ../gap/gap_mov_dialog.c:1597 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:530 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Επαναφορά όλων των παραμέτρων στις προεπιλεγμένες τιμές"
 
-#: ../gap/gap_detail_align_exec.c:661
+#: ../gap/gap_detail_align_exec.c:770
 msgid "Detail Align via XML"
 msgstr "Στοίχιση λεπτομέρειας μέσω XML"
 
 #
-#: ../gap/gap_detail_align_exec.c:662 ../gap/gap_detail_tracking_exec.c:1478
+#: ../gap/gap_detail_align_exec.c:771 ../gap/gap_detail_tracking_exec.c:2319
 #: ../gap/gap_name2layer_main.c:536 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Ρυθμίσεις:"
 
-#: ../gap/gap_detail_align_exec.c:946
+#: ../gap/gap_detail_align_exec.c:1055
 #, c-format
 msgid ""
 "Current path with 4 point triggers transformations:\n"
@@ -2025,7 +2025,7 @@ msgstr ""
 "έτσι ώστε το σημείο3 να μετακινηθεί στο σημείο1 και το σημείο4 να "
 "μετακινηθεί στο σημείο2"
 
-#: ../gap/gap_detail_align_exec.c:967
+#: ../gap/gap_detail_align_exec.c:1076
 #, c-format
 msgid ""
 "Current path with 2 points triggers simple move:\n"
@@ -2040,7 +2040,7 @@ msgstr ""
 "Πατήστε το πλήκτρο Εντάξει για μετακίνηση της στρώσης\n"
 "έτσι ώστε το σημείο2 να μετακινηθεί στο σημείο1"
 
-#: ../gap/gap_detail_align_exec.c:983
+#: ../gap/gap_detail_align_exec.c:1092
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
@@ -2052,19 +2052,19 @@ msgstr ""
 "τέτοια σημεία συντεταγμένης μονοπατιού.\n"
 "Παρακαλώ δημιουργήστε ένα μονοπάτι και πατήστε το πλήκτρο ανανέωση."
 
-#: ../gap/gap_detail_align_exec.c:1090
+#: ../gap/gap_detail_align_exec.c:1199
 msgid "Transform Layer via 4 (or 2) point Alignment"
 msgstr "Μετασχηματισμός στρώσης μέσω 4 (ή 2) σημείων στοίχισης"
 
 #. pointOrder radiobutton
 #. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
 #.
-#: ../gap/gap_detail_align_exec.c:1143
+#: ../gap/gap_detail_align_exec.c:1252
 msgid "Path Point Order:"
 msgstr "Σειρά σημείων μονοπατιού:"
 
 #. Order Mode the radio buttons
-#: ../gap/gap_detail_align_exec.c:1161
+#: ../gap/gap_detail_align_exec.c:1270
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Target is marked by points 1&2 "
@@ -2072,7 +2072,7 @@ msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Ο στόχος σημειώνεται από τα σημεία 1&2 "
 
-#: ../gap/gap_detail_align_exec.c:1279
+#: ../gap/gap_detail_align_exec.c:1388
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
@@ -2090,7 +2090,7 @@ msgstr ""
 "σημείου2 στο σημείο1. (μέσω απλής λειτουργίας μετακίνησης χωρίς περιστροφή "
 "και κλιμάκωση)"
 
-#: ../gap/gap_detail_align_exec.c:1290
+#: ../gap/gap_detail_align_exec.c:1399
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
@@ -2108,13 +2108,13 @@ msgstr ""
 "σημείου2 στο σημείο1. (μέσω απλής λειτουργίας μετακίνησης χωρίς περιστροφή "
 "και κλιμάκωση)"
 
-#: ../gap/gap_detail_tracking_exec.c:1198
+#: ../gap/gap_detail_tracking_exec.c:2021
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
 msgstr ""
 "Σταμάτημα παρακολούθησης λεπτομερειών. (αδυναμία εύρεσης αντίστοιχων "
 "λεπτομερειών)"
 
-#: ../gap/gap_detail_tracking_exec.c:1333
+#: ../gap/gap_detail_tracking_exec.c:2158
 msgid ""
 "This filter requires a current path with one or 2 anchor points\n"
 "to mark coordinate(s) to be tracked in the target frame(s)"
@@ -2122,11 +2122,25 @@ msgstr ""
 "Αυτό το φίλτρο απαιτεί ένα τρέχων μονοπάτι με ένα ή 2 σημεία αγκίστρωσης\n"
 "για να σημειώσει τις παρακολουθούμενες συντεταγμένες στα πλαίσια στόχου"
 
-#: ../gap/gap_detail_tracking_exec.c:1339
+#: ../gap/gap_detail_tracking_exec.c:2163
+#| msgid "Delete Point"
+msgid "Select Points:"
+msgstr "Επιλογή σημείων:"
+
+#: ../gap/gap_detail_tracking_exec.c:2164
+msgid ""
+"1: select only the best path point for movement detection, 2: select the "
+"best 2 points for movement,scale and rotation detection."
+msgstr ""
+"1: επιλογή μόνο το σημείο βέλτιστου μονοπατιού για ανίχνευση κίνησης, 2: "
+"επιλογή των 2 καλύτερων σημείων για την κίνηση, κλιμάκωση και ανίχνευση "
+"περιστροφής."
+
+#: ../gap/gap_detail_tracking_exec.c:2180
 msgid "Locate colordiff Thres:"
 msgstr "Εντοπισμός κατωφλίου χρωματικής διαφοράς:"
 
-#: ../gap/gap_detail_tracking_exec.c:1340
+#: ../gap/gap_detail_tracking_exec.c:2181
 msgid ""
 "Colordiff threshold value. Locate fails when average color difference is "
 "below this value."
@@ -2134,11 +2148,11 @@ msgstr ""
 "Τιμή ορίου χρωματικής διαφοράς. Ο εντοπισμός αποτυγχάνει όταν η μέση "
 "χρωματική διαφορά είναι κάτω από αυτήν την τιμή."
 
-#: ../gap/gap_detail_tracking_exec.c:1352 ../gap/gap_morph_tween_dialog.c:819
+#: ../gap/gap_detail_tracking_exec.c:2193 ../gap/gap_morph_tween_dialog.c:819
 msgid "Locate Shape Radius:"
 msgstr "Εντοπισμός ακτίνας σχήματος:"
 
-#: ../gap/gap_detail_tracking_exec.c:1353
+#: ../gap/gap_detail_tracking_exec.c:2194
 msgid ""
 "The quadratic area surrounding a marked detail coordinate +- this radius is "
 "considered as reference shape, to be tracked in the target frame(s)."
@@ -2146,20 +2160,20 @@ msgstr ""
 "Η τετραγωνική περιοχή που περιβάλει τη σημειωμένη λεπτομέρεια +- αυτήν την "
 "ακτίνα θεωρείται ως σχήμα αναφοράς παρακολούθησης στα πλαίσια στόχου."
 
-#: ../gap/gap_detail_tracking_exec.c:1366
+#: ../gap/gap_detail_tracking_exec.c:2207
 msgid "Locate Target Move Radius:"
 msgstr "Εντοπισμός ακτίνας μετακίνησης στόχου:"
 
-#: ../gap/gap_detail_tracking_exec.c:1367
+#: ../gap/gap_detail_tracking_exec.c:2208
 msgid "Limits attempts to locate the Detail within this radius."
 msgstr ""
 "Τα όρια προσπαθούν να εντοπίσουν τη λεπτομέρεια μέσα σε αυτήν την ακτίνα."
 
-#: ../gap/gap_detail_tracking_exec.c:1381
+#: ../gap/gap_detail_tracking_exec.c:2222
 msgid "Log Relative Coords:"
 msgstr "Ημερολόγιο σχετικών συντεταγμένων:"
 
-#: ../gap/gap_detail_tracking_exec.c:1382
+#: ../gap/gap_detail_tracking_exec.c:2223
 msgid ""
 "ON: Coordinates are logged relative to the first coordinate.\n"
 "OFF: Coordinates are logged as absolute pixel coordinate values."
@@ -2168,11 +2182,11 @@ msgstr ""
 "ΟΧΙ: Οι συντεταγμένες καταγράφονται ως απόλυτες τιμές συντεταγμένων "
 "εικονοστοιχείου."
 
-#: ../gap/gap_detail_tracking_exec.c:1391
+#: ../gap/gap_detail_tracking_exec.c:2232
 msgid "Log Scaling:"
 msgstr "Καταγραφή κλιμάκωσης:"
 
-#: ../gap/gap_detail_tracking_exec.c:1392
+#: ../gap/gap_detail_tracking_exec.c:2233
 msgid ""
 "ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
 "OFF: Calculate only rotation and keep original size."
@@ -2181,11 +2195,11 @@ msgstr ""
 "λεπτομέρειας παρακολουθούνται.\n"
 "ΟΧΙ: Υπολογισμός μόνο περιστροφής και διατήρηση αρχικού μεγέθους."
 
-#: ../gap/gap_detail_tracking_exec.c:1402
+#: ../gap/gap_detail_tracking_exec.c:2243
 msgid "BG is Reference:"
 msgstr "Το παρασκήνιο είναι αναφορά:"
 
-#: ../gap/gap_detail_tracking_exec.c:1403
+#: ../gap/gap_detail_tracking_exec.c:2244
 msgid ""
 "ON: Use background layer as reference and foreground layer as target for "
 "tracking.\n"
@@ -2198,11 +2212,11 @@ msgstr ""
 "αναφοράς\n"
 "."
 
-#: ../gap/gap_detail_tracking_exec.c:1411
+#: ../gap/gap_detail_tracking_exec.c:2252
 msgid "Remove Middle Layers:"
 msgstr "Αφαίρεση μεσαίων στρώσεων:"
 
-#: ../gap/gap_detail_tracking_exec.c:1412
+#: ../gap/gap_detail_tracking_exec.c:2253
 msgid ""
 "ON: removes layers (except BG and 2 Layer on top) that are not relevant for "
 "detail tracking.\n"
@@ -2212,39 +2226,39 @@ msgstr ""
 "δεν είναι σχετικές για λεπτομερή παρακολούθηση.\n"
 "ΟΧΙ: Διατήρηση όλων των στρώσεων."
 
-#: ../gap/gap_detail_tracking_exec.c:1423
+#: ../gap/gap_detail_tracking_exec.c:2264
 msgid "Const X Offset:"
 msgstr "Μετατόπιση σταθεράς Χ:"
 
-#: ../gap/gap_detail_tracking_exec.c:1424
+#: ../gap/gap_detail_tracking_exec.c:2265
 msgid "This value is added when logging captured X coordinates."
 msgstr ""
 "Αυτή η τιμή προστίθεται όταν καταχωρίζονται οι συλλαμβανόμενες συντεταγμένες "
 "Χ."
 
-#: ../gap/gap_detail_tracking_exec.c:1437
+#: ../gap/gap_detail_tracking_exec.c:2278
 msgid "Const Y Offset:"
 msgstr "Μετατόπιση σταθεράς Χ:"
 
-#: ../gap/gap_detail_tracking_exec.c:1438
+#: ../gap/gap_detail_tracking_exec.c:2279
 msgid "This value is added when logging captured Y coordinates."
 msgstr ""
 "Αυτή η τιμή προστίθεται όταν καταχωρίζονται οι συλλαμβανόμενες συντεταγμένες "
 "Υ."
 
-#: ../gap/gap_detail_tracking_exec.c:1451
+#: ../gap/gap_detail_tracking_exec.c:2292
 msgid "Const Rotate Offset:"
 msgstr "Μετατόπιση περιστροφής σταθεράς:"
 
-#: ../gap/gap_detail_tracking_exec.c:1452
+#: ../gap/gap_detail_tracking_exec.c:2293
 msgid "This value is added when logging rotation values."
 msgstr "Αυτή η τιμή προστίθεται όταν καταχωρίζονται τιμές περιστροφής."
 
-#: ../gap/gap_detail_tracking_exec.c:1464
+#: ../gap/gap_detail_tracking_exec.c:2305
 msgid "MovePath XML file:"
 msgstr "Αρχείο XML μετακίνησης μονοπατιού:"
 
-#: ../gap/gap_detail_tracking_exec.c:1465
+#: ../gap/gap_detail_tracking_exec.c:2306
 msgid ""
 "Name of the file to log the tracked detail coordinates  as XML parameterfile "
 "for later use in the MovePath plug-in."
@@ -2253,7 +2267,7 @@ msgstr ""
 "λεπτομέρειας ως παραμετρικό αρχείο XML για μεταγενέστερη χρήση στο πρόσθετο "
 "μετακίνηση μονοπατιού."
 
-#: ../gap/gap_detail_tracking_exec.c:1477
+#: ../gap/gap_detail_tracking_exec.c:2318
 msgid "Detail Tracking"
 msgstr "Παρακολούθηση λεπτομέρειας"
 
@@ -2278,7 +2292,6 @@ msgid "<Image>/Layer/Transform/"
 msgstr "<Image>/Στρώση/Μετασχηματισμός/"
 
 #: ../gap/gap-dup-continue.scm:38
-#| msgid "<Image>/Video/Onionskin/"
 msgid "<Image>/Video/Duplicate Continue"
 msgstr "<Image>/Βίντεο/Διπλότυπο συνέχεια"
 
@@ -2475,11 +2488,11 @@ msgstr ""
 msgid "Applying filter to all layers..."
 msgstr "Εφαρμογή φίλτρου σε όλες τις στρώσεις..."
 
-#: ../gap/gap_filter_foreach.c:702
+#: ../gap/gap_filter_foreach.c:707
 msgid "Select Filter for Animated Apply"
 msgstr "Επιλογή φίλτρου για εφαρμογή κίνησης"
 
-#: ../gap/gap_filter_foreach.c:703 ../gap/gap_mod_layer.c:1451
+#: ../gap/gap_filter_foreach.c:708 ../gap/gap_mod_layer.c:1451
 msgid "Apply"
 msgstr "Εφαρμογή"
 
@@ -2780,7 +2793,7 @@ msgstr ""
 #. table col, row
 #: ../gap/gap_fire_pattern.c:2327 ../gap/gap_mov_dialog.c:5124
 #: ../gap/gap_mov_dialog.c:5399 ../gap/gap_onion_dialog.c:1136
-#: ../gap/gap_story_att_trans_dlg.c:3731 ../gap/gap_water_pattern.c:1407
+#: ../gap/gap_story_att_trans_dlg.c:3733 ../gap/gap_water_pattern.c:1407
 #: ../gap/gap_wr_opacity.c:332
 msgid "Opacity:"
 msgstr "Διαφάνεια:"
@@ -2984,7 +2997,7 @@ msgstr "MPEG2..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Βίντεο/Κωδικοποίηση/"
 
-#: ../gap/gap_lib.c:2016
+#: ../gap/gap_lib.c:2015
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2992,23 +3005,23 @@ msgstr ""
 "Ακύρωση λειτουργίας.\n"
 "Το τρέχον πλαίσιο άλλαξε, ενώ ο διάλογος ήταν ανοιχτός."
 
-#: ../gap/gap_lib.c:2155
+#: ../gap/gap_lib.c:2154
 msgid "overwrite flattened"
 msgstr "Αντικατάσταση ισοπεδωμένου"
 
-#: ../gap/gap_lib.c:2157
+#: ../gap/gap_lib.c:2156
 msgid "overwrite"
 msgstr "Αντικατάσταση"
 
-#: ../gap/gap_lib.c:2159
+#: ../gap/gap_lib.c:2158
 msgid "read only"
 msgstr "Μόνο για ανάγνωση"
 
-#: ../gap/gap_lib.c:2161
+#: ../gap/gap_lib.c:2160
 msgid "discard changes"
 msgstr "Απόρριψη αλλαγών"
 
-#: ../gap/gap_lib.c:2166
+#: ../gap/gap_lib.c:2165
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -3026,11 +3039,11 @@ msgstr ""
 "αλλά η αυτόματη αντικατάσταση (μέσω εξαγωγής) σε άλλες μορφές\n"
 "καταλήγει τυπικά σε απώλεια στρώσεων και άλλων πληροφοριών."
 
-#: ../gap/gap_lib.c:2176
+#: ../gap/gap_lib.c:2175
 msgid "Save my decision:"
 msgstr "Αποθήκευση της απόφασής μου:"
 
-#: ../gap/gap_lib.c:2177
+#: ../gap/gap_lib.c:2176
 #, c-format
 msgid ""
 "Save decision for this fileformat for further gimp sessions.\n"
@@ -3040,11 +3053,11 @@ msgstr ""
 "του gimp.\n"
 "αυτό δημιουργεί μια καταχώριση στο αρχείο σας gimprc με το κλειδί:%s)"
 
-#: ../gap/gap_lib.c:2186
+#: ../gap/gap_lib.c:2185
 msgid "Fileformat Warning"
 msgstr "Προειδοποίηση τύπου αρχείου"
 
-#: ../gap/gap_lib.c:2453
+#: ../gap/gap_lib.c:2452
 #, c-format
 msgid ""
 "Frame operation blocked\n"
@@ -5618,7 +5631,7 @@ msgstr "Ορισμός αδιαφάνειας πηγαίας στρώσης σε
 
 #. Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3705
+#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3707
 msgid "Rotate:"
 msgstr "Περιστροφή:"
 
@@ -5816,7 +5829,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3755
 msgid ""
 "acceleration characteristic for opacity (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5861,7 +5874,7 @@ msgstr "Περιστροφή:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3725
+#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3727
 msgid ""
 "acceleration characteristic for rotation (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -8509,25 +8522,25 @@ msgstr "Επαναφορά σημείου"
 msgid "Rotate Follow"
 msgstr "Ακολουθεί περιστροφή"
 
-#: ../gap/gap_story_att_trans_dlg.c:2804
+#: ../gap/gap_story_att_trans_dlg.c:2806
 msgid "Set Movepath Parameterfile (XML)"
 msgstr "Ορισμός παραμετρικού αρχείου μονοπατιού μετακίνησης (XML)"
 
 #. auto update toggle  check button
-#: ../gap/gap_story_att_trans_dlg.c:3210
+#: ../gap/gap_story_att_trans_dlg.c:3212
 msgid "Update"
 msgstr "Ενημέρωση"
 
-#: ../gap/gap_story_att_trans_dlg.c:3215
+#: ../gap/gap_story_att_trans_dlg.c:3217
 msgid "automatic update using the referred frame"
 msgstr "αυτόματη ενημέρωση χρησιμοποιώντας το αναφερόμενο πλαίσιο"
 
 #. from start label
-#: ../gap/gap_story_att_trans_dlg.c:3320
+#: ../gap/gap_story_att_trans_dlg.c:3322
 msgid "Start:"
 msgstr "Εκκίνηση:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3323 ../gap/gap_story_att_trans_dlg.c:3366
+#: ../gap/gap_story_att_trans_dlg.c:3325 ../gap/gap_story_att_trans_dlg.c:3368
 msgid ""
 "Reset to: defaults, use modifier keys CTRL, ALT for alternative defaults. "
 "SHIFT resets to initial value"
@@ -8536,59 +8549,59 @@ msgstr ""
 "ALT για εναλλακτικές προεπιλογές. Το SHIFT επαναφέρει στην αρχική τιμή"
 
 #. to (end value of transition) button
-#: ../gap/gap_story_att_trans_dlg.c:3363
+#: ../gap/gap_story_att_trans_dlg.c:3365
 msgid "End:"
 msgstr "Τέλος:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3410 ../gap/gap_story_att_trans_dlg.c:3664
+#: ../gap/gap_story_att_trans_dlg.c:3412 ../gap/gap_story_att_trans_dlg.c:3666
 msgid "Copy this number of frames to all enabled rows"
 msgstr ""
 "Αντιγραφή αυτού του αριθμού των πλαισίων σε όλες τις ενεργοποιημένες γραμμές"
 
-#: ../gap/gap_story_att_trans_dlg.c:3437
+#: ../gap/gap_story_att_trans_dlg.c:3439
 msgid "Number of frames (duration of transition from start to end value)"
 msgstr "Αριθμός πλαισίων (διάρκεια της μετάβασης από αρχική σε τελική τιμή)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3534 ../gap/gap_story_att_trans_dlg.c:3545
+#: ../gap/gap_story_att_trans_dlg.c:3536 ../gap/gap_story_att_trans_dlg.c:3547
 msgid "Transition Attributes"
 msgstr "Γνωρίσματα μετάβασης"
 
 #. the frame
-#: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
+#: ../gap/gap_story_att_trans_dlg.c:3569 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
 #: ../gap/gap_story_properties.c:4040 ../gap/gap_story_section_properties.c:784
 msgid "Properties"
 msgstr "Ιδιότητες"
 
 #. the fit size label
-#: ../gap/gap_story_att_trans_dlg.c:3583
+#: ../gap/gap_story_att_trans_dlg.c:3585
 msgid "FitSize:"
 msgstr "Προσαρμογή μεγέθους:"
 
 #. the fit width check button
-#: ../gap/gap_story_att_trans_dlg.c:3589
+#: ../gap/gap_story_att_trans_dlg.c:3591
 msgid "Width"
 msgstr "Πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3597
+#: ../gap/gap_story_att_trans_dlg.c:3599
 msgid "scale width of frame to fit master width"
 msgstr "κλιμάκωση πλάτους του πλαισίου για να ταιριάζει στο κύριο πλάτος"
 
 #. the fit height check button
-#: ../gap/gap_story_att_trans_dlg.c:3608
+#: ../gap/gap_story_att_trans_dlg.c:3610
 msgid "Height"
 msgstr "Ύψος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3616
+#: ../gap/gap_story_att_trans_dlg.c:3618
 msgid "scale height of frame to fit master height"
 msgstr "κλιμάκωση ύψους πλαισίου για να ταιριάξει με το κύριο ύψος"
 
 #. the keep proportions check button
-#: ../gap/gap_story_att_trans_dlg.c:3627
+#: ../gap/gap_story_att_trans_dlg.c:3629
 msgid "Keep Proportion"
 msgstr "Διατήρηση αναλογίας"
 
-#: ../gap/gap_story_att_trans_dlg.c:3635
+#: ../gap/gap_story_att_trans_dlg.c:3637
 msgid ""
 "ON: keep proportions at scaling.  (this may result in black borders)OFF: "
 "allow changes of image proportions at scaling"
@@ -8598,11 +8611,11 @@ msgstr ""
 "κλιμάκωση"
 
 #. the overlap label (same row as FitSize)
-#: ../gap/gap_story_att_trans_dlg.c:3654
+#: ../gap/gap_story_att_trans_dlg.c:3656
 msgid "Overlap:"
 msgstr "Επικάλυψη:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3689
+#: ../gap/gap_story_att_trans_dlg.c:3691
 msgid "Number of overlapping frames within this track"
 msgstr "Αριθμός των επικαλυπτόμενων πλαισίων μέσα σε αυτό το κομμάτι"
 
@@ -8612,23 +8625,23 @@ msgstr "Αριθμός των επικαλυπτόμενων πλαισίων μ
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3717
+#: ../gap/gap_story_att_trans_dlg.c:3719
 msgid "ON: Enable rotation settings"
 msgstr "ΕΝΕΡΓΟ: Ενεργοποίηση ρυθμίσεων περιστροφής"
 
-#: ../gap/gap_story_att_trans_dlg.c:3719
+#: ../gap/gap_story_att_trans_dlg.c:3721
 msgid "rotation value in degree for the first handled frame "
 msgstr "τιμή περιστροφής σε βαθμούς για το πρώτο επεξεργασμένο πλαίσιο"
 
-#: ../gap/gap_story_att_trans_dlg.c:3721
+#: ../gap/gap_story_att_trans_dlg.c:3723
 msgid "rotation value in degree for the last handled frame "
 msgstr "τιμή περιστροφής σε βαθμούς για το τελευταίο επεξεργασμένο πλαίσιο"
 
 #
-#: ../gap/gap_story_att_trans_dlg.c:3723 ../gap/gap_story_att_trans_dlg.c:3751
-#: ../gap/gap_story_att_trans_dlg.c:3780 ../gap/gap_story_att_trans_dlg.c:3809
-#: ../gap/gap_story_att_trans_dlg.c:3837 ../gap/gap_story_att_trans_dlg.c:3865
-#: ../gap/gap_story_att_trans_dlg.c:3895
+#: ../gap/gap_story_att_trans_dlg.c:3725 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_story_att_trans_dlg.c:3782 ../gap/gap_story_att_trans_dlg.c:3811
+#: ../gap/gap_story_att_trans_dlg.c:3839 ../gap/gap_story_att_trans_dlg.c:3867
+#: ../gap/gap_story_att_trans_dlg.c:3897
 msgid "number of frames"
 msgstr "αριθμός πλαισίων"
 
@@ -8638,11 +8651,11 @@ msgstr "αριθμός πλαισίων"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3743
+#: ../gap/gap_story_att_trans_dlg.c:3745
 msgid "ON: Enable opacity settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων αδιαφάνειας"
 
-#: ../gap/gap_story_att_trans_dlg.c:3745
+#: ../gap/gap_story_att_trans_dlg.c:3747
 msgid ""
 "opacity value for the first handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
@@ -8650,7 +8663,7 @@ msgstr ""
 "η τιμή αδιαφάνειας για το πρώτο επεξεργαζόμενο πλαίσιο όπου 100 είναι πλήρως "
 "αδιαφανές, 0 είναι πλήρως διαφανές"
 
-#: ../gap/gap_story_att_trans_dlg.c:3748
+#: ../gap/gap_story_att_trans_dlg.c:3750
 msgid ""
 "opacity value for the last handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
@@ -8658,7 +8671,7 @@ msgstr ""
 "η τιμή αδιαφάνειας για το τελευταίο επεξεργασμένο πλαίσιο όπου 100 είναι "
 "πλήρως αδιαφανές, 0 είναι ολότελα διαφανές"
 
-#: ../gap/gap_story_att_trans_dlg.c:3760
+#: ../gap/gap_story_att_trans_dlg.c:3762
 msgid "Move X:"
 msgstr "Μετακίνηση Χ:"
 
@@ -8668,11 +8681,11 @@ msgstr "Μετακίνηση Χ:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3772
+#: ../gap/gap_story_att_trans_dlg.c:3774
 msgid "ON: Enable move horizontal settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων οριζόντιας μετακίνησης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3774
+#: ../gap/gap_story_att_trans_dlg.c:3776
 msgid ""
 "move horizontal value for the first handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
@@ -8680,7 +8693,7 @@ msgstr ""
 "τιμή οριζόντιας μετακίνησης για το πρώτο επεξεργαζόμενο πλαίσιο όπου 0 είναι "
 "κεντραρισμένο, 100 είναι έξω δεξιά, -100 είναι έξω αριστερά"
 
-#: ../gap/gap_story_att_trans_dlg.c:3777
+#: ../gap/gap_story_att_trans_dlg.c:3779
 msgid ""
 "move horizontal value for the last handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
@@ -8688,7 +8701,7 @@ msgstr ""
 "τιμή οριζόντιας μετακίνησης για το τελευταίο επεξεργαζόμενο πλαίσιο όπου 0 "
 "είναι κεντραρισμένο, 100 είναι έξω δεξιά, -100 είναι έξω αριστερά"
 
-#: ../gap/gap_story_att_trans_dlg.c:3782
+#: ../gap/gap_story_att_trans_dlg.c:3784
 msgid ""
 "acceleration characteristic for horizontal move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8696,7 +8709,7 @@ msgstr ""
 "χαρακτηριστικά επιτάχυνσης για οριζόντια μετακίνηση (1 για σταθερή ταχύτητα, "
 "θετικός: επιτάχυνση, αρνητικός: επιβράδυνση)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3789
+#: ../gap/gap_story_att_trans_dlg.c:3791
 msgid "Move Y:"
 msgstr "Μετακίνηση Υ:"
 
@@ -8706,11 +8719,11 @@ msgstr "Μετακίνηση Υ:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3801
+#: ../gap/gap_story_att_trans_dlg.c:3803
 msgid "ON: Enable move vertical settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων κάθετης μετακίνησης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3803
+#: ../gap/gap_story_att_trans_dlg.c:3805
 msgid ""
 "move vertical value for the first handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
@@ -8718,7 +8731,7 @@ msgstr ""
 "τιμή κάθετης μετακίνησης για το πρώτο επεξεργασμένο πλαίσιο όπου 0 είναι "
 "κεντραρισμένο, 100 είναι έξω και στον πυθμένα, -100 είναι έξω και στην κορυφή"
 
-#: ../gap/gap_story_att_trans_dlg.c:3806
+#: ../gap/gap_story_att_trans_dlg.c:3808
 msgid ""
 "move vertical value for the last handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
@@ -8726,7 +8739,7 @@ msgstr ""
 "τιμή κάθετης μετακίνησης για το τελευταίο επεξεργασμένο πλαίσιο όπου 0 είναι "
 "κεντραρισμένο, 100 είναι έξω και στον πυθμένα, -100 είναι έξω και στην κορυφή"
 
-#: ../gap/gap_story_att_trans_dlg.c:3811
+#: ../gap/gap_story_att_trans_dlg.c:3813
 msgid ""
 "acceleration characteristic for vertical move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8735,7 +8748,7 @@ msgstr ""
 "θετικός: επιτάχυνση, αρνητικός: επιβράδυνση)"
 
 #
-#: ../gap/gap_story_att_trans_dlg.c:3817
+#: ../gap/gap_story_att_trans_dlg.c:3819
 msgid "Scale Width:"
 msgstr "Κλιμάκωση πλάτους:"
 
@@ -8745,11 +8758,11 @@ msgstr "Κλιμάκωση πλάτους:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3829
+#: ../gap/gap_story_att_trans_dlg.c:3831
 msgid "ON: Enable scale width settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων πλάτους κλιμάκωσης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3831
+#: ../gap/gap_story_att_trans_dlg.c:3833
 msgid ""
 "scale width value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
@@ -8757,7 +8770,7 @@ msgstr ""
 "τιμή πλάτους κλίμακας για το πρώτο επεξεργαζόμενο πλαίσιο όπου 100 είναι "
 "1:1, 50 είναι το μισό, 200 είναι το διπλό πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3834
+#: ../gap/gap_story_att_trans_dlg.c:3836
 msgid ""
 "scale width value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
@@ -8765,7 +8778,7 @@ msgstr ""
 "τιμή πλάτους κλίμακας για το τελευταίο επεξεργαζόμενο πλαίσιο όπου 100 είναι "
 "1:1, 50 είναι το μισό, 200 είναι το διπλό πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3839
+#: ../gap/gap_story_att_trans_dlg.c:3841
 msgid ""
 "acceleration characteristic for scale width (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -8773,7 +8786,7 @@ msgstr ""
 "χαρακτηριστικά επιτάχυνσης για πλάτος κλίμακας (1 για σταθερή ταχύτητα, "
 "θετικός: επιτάχυνση, αρνητικός: επιβράδυνση)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3845
+#: ../gap/gap_story_att_trans_dlg.c:3847
 msgid "Scale Height:"
 msgstr "Κλιμάκωση ύψους:"
 
@@ -8783,11 +8796,11 @@ msgstr "Κλιμάκωση ύψους:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3857
+#: ../gap/gap_story_att_trans_dlg.c:3859
 msgid "ON: Enable scale height settings"
 msgstr "ΕΝΕΡΓΟ: ενεργοποίηση ρυθμίσεων ύψους κλιμάκωσης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3859
+#: ../gap/gap_story_att_trans_dlg.c:3861
 msgid ""
 "scale height value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
@@ -8795,7 +8808,7 @@ msgstr ""
 "τιμή ύψους κλίμακας για το πρώτο επεξεργαζόμενο πλαίσιο όπου 100 είναι 1:1, "
 "50 είναι το μισό, 200 είναι το διπλό πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3862
+#: ../gap/gap_story_att_trans_dlg.c:3864
 msgid ""
 "scale height value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
@@ -8803,7 +8816,7 @@ msgstr ""
 "τιμή ύψους κλίμακας για το τελευταίο επεξεργαζόμενο πλαίσιο όπου 100 είναι "
 "1:1, 50 είναι το μισό, 200 είναι το διπλό πλάτος"
 
-#: ../gap/gap_story_att_trans_dlg.c:3867
+#: ../gap/gap_story_att_trans_dlg.c:3869
 msgid ""
 "acceleration characteristic for scale height (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8811,7 +8824,7 @@ msgstr ""
 "χαρακτηριστικά επιτάχυνσης για ύψος κλίμακας (1 για σταθερή ταχύτητα, "
 "θετικός: επιτάχυνση, αρνητικός: επιβράδυνση)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3873
+#: ../gap/gap_story_att_trans_dlg.c:3875
 msgid "Move Path:"
 msgstr "Μετακίνηση μονοπατιού:"
 
@@ -8821,7 +8834,7 @@ msgstr "Μετακίνηση μονοπατιού:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3885
+#: ../gap/gap_story_att_trans_dlg.c:3887
 msgid ""
 "ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
@@ -8830,7 +8843,7 @@ msgstr ""
 "ρυθμίσεις που παρέχονται μέσω ενός παραμετρικού αρχείου μονοπατιού "
 "μετακίνησης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3887
+#: ../gap/gap_story_att_trans_dlg.c:3889
 msgid ""
 "frame number (phase) of the movement/transition along path for the first "
 "handled frame where 1 is the begin of the path using settings of the 1st "
@@ -8841,7 +8854,7 @@ msgstr ""
 "χρησιμοποιώντας ρυθμίσεις του πρώτου σημείου ελέγχου στο παραμετρικό αρχείο "
 "μονοπατιού μετακίνησης"
 
-#: ../gap/gap_story_att_trans_dlg.c:3891
+#: ../gap/gap_story_att_trans_dlg.c:3893
 msgid ""
 "frame number (phase) of the movement/transition along path for the last "
 "handled frame. note that frame numbers higher than (or equal to) total "
@@ -8854,18 +8867,18 @@ msgstr ""
 "μετακίνησης χρησιμοποιούν ρυθμίσεις του τελευταίου σημείου ελέγχου σε αυτό "
 "το αρχείο."
 
-#: ../gap/gap_story_att_trans_dlg.c:3897
+#: ../gap/gap_story_att_trans_dlg.c:3899
 msgid "acceleration characteristic (currently ignored)"
 msgstr "χαρακτηριστικά επιτάχυνσης (προς το παρόν αγνοούμενα)"
 
 #. the movepath label
-#: ../gap/gap_story_att_trans_dlg.c:3943
+#: ../gap/gap_story_att_trans_dlg.c:3945
 msgid "Movepath File:"
 msgstr "Αρχείο μονοπατιού κίνησης:"
 
 #. the comment label
 #. the Comment lable
-#: ../gap/gap_story_att_trans_dlg.c:3990 ../gap/gap_story_properties.c:5048
+#: ../gap/gap_story_att_trans_dlg.c:3992 ../gap/gap_story_properties.c:5048
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3745
 msgid "Comment:"
 msgstr "Σχόλιο:"
@@ -9547,11 +9560,6 @@ msgstr "Μορφή εξωτερικής διαφάνειας:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
 #, c-format
-#| msgid ""
-#| "Format string to provide external transparency in movie clips. (i.e. "
-#| "automatic alpha channel insertion via external frames)this string shall "
-#| "contain \\%s as placeholder for the basename of a videoclip and optional "
-#| "\\%06d as placeholder for the framenumber."
 msgid ""
 "Format string to provide external transparency in movie clips. (i.e. "
 "automatic alpha channel insertion via external frames)this string shall "
@@ -9571,11 +9579,6 @@ msgstr "Μορφή περιοχής:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
 #, c-format
-#| msgid ""
-#| "Format string for area replacement in movie clips. (for example automatic "
-#| "logo insert)this string shall contain \\%s as placeholder for the "
-#| "basename of a videoclip and optional \\%06d as placeholder for the "
-#| "framenumber."
 msgid ""
 "Format string for area replacement in movie clips. (for example automatic "
 "logo insert)this string shall contain %s as placeholder for the basename of "
@@ -10184,11 +10187,11 @@ msgstr "ανάλυση γραμμής %d (από %d)"
 msgid "No Frames or Images found ..."
 msgstr "Δεν βρέθηκαν πλαίσια ή εικόνες..."
 
-#: ../gap/gap_story_render_processor.c:7618
+#: ../gap/gap_story_render_processor.c:7621
 msgid "Seek Inputvideoframe..."
 msgstr "Αναζήτηση πλαισίου εισόδου βίντεο..."
 
-#: ../gap/gap_story_render_processor.c:7652
+#: ../gap/gap_story_render_processor.c:7655
 msgid "Continue Encoding..."
 msgstr "Συνέχεια κωδικοποίησης..."
 
@@ -11208,12 +11211,10 @@ msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
 msgstr "<Image>/Script-Fu/Σχεδιαστές/Επιλογή ΕικόναςΚίνησης..."
 
 #: ../gap/sel-to-anim-img.scm:123
-#| msgid "Number of Colors"
 msgid "Number of Copies"
 msgstr "Αριθμός αντιγράφων"
 
 #: ../gap/sel-to-anim-img.scm:124
-#| msgid "Select By Color"
 msgid "Fill with BG Color"
 msgstr "Γέμισμα με χρώμα παρασκηνίου"
 
