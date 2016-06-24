@@ -12,22 +12,23 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 # Francisco Vila <francisco.vila@hispalinux.es>, 2011, 2012.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2016.
+# Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-04 07:16+0000\n"
-"PO-Revision-Date: 2016-03-04 08:28+0100\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2016-05-28 14:30+0000\n"
+"PO-Revision-Date: 2016-06-23 23:57-0500\n"
+"Last-Translator: Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -47,7 +48,7 @@ msgstr "Valor:"
 msgid "Press Button"
 msgstr "Pulsar el botón"
 
-#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2187
+#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2186
 msgid "Select"
 msgstr "Seleccionar"
 
@@ -243,7 +244,7 @@ msgstr "Error: no se puede guardar el fotograma %s"
 #: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
 #: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
 #: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
-#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3847
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3845
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Error: no se puede renombrar el fotograma %ld a %ld"
@@ -410,7 +411,7 @@ msgstr "Cambiar la densidad de los fotogramas"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2039
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2038
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -558,7 +559,6 @@ msgid "No Path Vectors available."
 msgstr "No hay ningún vector de ruta disponible."
 
 #: ../gap/gap_blend_fill_main.c:1488
-#, fuzzy
 #| msgid "SVG file does not exist (use Save Pats button to create)."
 msgid "SVG file does not exist (use Save Paths button to create)."
 msgstr "El archivo SVG no existe (use el botón Guardar rutas para crearlo)."
@@ -643,7 +643,6 @@ msgid "Save Paths"
 msgstr "Guardar rutas"
 
 #: ../gap/gap_blend_fill_main.c:1965
-#, fuzzy
 #| msgid ""
 #| "Save all pathes as svg vector file.(use svg file when large or many "
 #| "pathes shall be used)"
@@ -1066,7 +1065,6 @@ msgid "Isle Area:"
 msgstr "Área de isletas:"
 
 #: ../gap/gap_colormask_dialog.c:392
-#, fuzzy
 #| msgid ""
 #| "Isle Area size in pixels. small isolated opaque or transparent pixel "
 #| "areas below that size are removed (e.g toggled from opaque to transparent "
@@ -1122,7 +1120,6 @@ msgid "Trigger Alpha:"
 msgstr "Alfa de disparo:"
 
 #: ../gap/gap_colormask_dialog.c:504
-#, fuzzy
 #| msgid ""
 #| "Trigger alpha is only relevant in case the color mask has an alpha "
 #| "channel. All pixels where the alpha channel of the corresponding pixel in "
@@ -1208,7 +1205,6 @@ msgid "DEBUG Options"
 msgstr "Opciones de DEBUG"
 
 #: ../gap/gap_colormask_dialog.c:815
-#, fuzzy
 #| msgid "DiffSensitvity:"
 msgid "DiffSensitivity:"
 msgstr "Sensibilidad de la diferencia:"
@@ -1446,8 +1442,8 @@ msgstr ""
 
 #. Frames Duration button
 #. Frames Overlap duration button
-#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3407
-#: ../gap/gap_story_att_trans_dlg.c:3661
+#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3409
+#: ../gap/gap_story_att_trans_dlg.c:3663
 msgid "Frames:"
 msgstr "Fotogramas:"
 
@@ -1542,17 +1538,15 @@ msgid "Jpeg Optimize:"
 msgstr "Optimizar JPEG:"
 
 #: ../gap/gap_decode_mplayer.c:544
-#, fuzzy
 #| msgid "optimization factor(is ignored when other formats are used)"
 msgid "Optimization factor (is ignored when other formats are used)"
-msgstr "factor de optimización (se ignora cuando se usan otros formatos)"
+msgstr "Factor de optimización (se ignora cuando se usan otros formatos)"
 
 #: ../gap/gap_decode_mplayer.c:554
 msgid "Jpeg Smooth:"
 msgstr "Suavizado JPEG:"
 
 #: ../gap/gap_decode_mplayer.c:555
-#, fuzzy
 #| msgid "Smooth factor(is ignored when other formats are used)"
 msgid "Smooth factor (is ignored when other formats are used)"
 msgstr "Factor de suavizado (se ignora cuando se usan otros formatos)"
@@ -1562,7 +1556,6 @@ msgid "Jpeg Progressive:"
 msgstr "JPEG progresivo:"
 
 #: ../gap/gap_decode_mplayer.c:566
-#, fuzzy
 #| msgid ""
 #| "Enable progressive jpeg encoding(is ignored when other formats are used)"
 msgid ""
@@ -1576,7 +1569,6 @@ msgid "Jpeg Baseline:"
 msgstr "Línea de base JPEG:"
 
 #: ../gap/gap_decode_mplayer.c:573
-#, fuzzy
 #| msgid ""
 #| "Enable baseline jpeg encoding(is ignored when other formats are used)"
 msgid "Enable baseline jpeg encoding (is ignored when other formats are used)"
@@ -1972,20 +1964,20 @@ msgstr ""
 "no se puede encontrar ningún fotograma extraído,\n"
 "XAnim falló o se canceló"
 
-#: ../gap/gap_detail_align_exec.c:634
+#: ../gap/gap_detail_align_exec.c:743
 msgid "Frame Phase:"
 msgstr "Fase de los fotogramas:"
 
 # What??
-#: ../gap/gap_detail_align_exec.c:635
+#: ../gap/gap_detail_align_exec.c:744
 msgid "Frame number (phase) to be rendered."
 msgstr "Número del fotograma (fase) que renderizar."
 
-#: ../gap/gap_detail_align_exec.c:648
+#: ../gap/gap_detail_align_exec.c:757
 msgid "XML file:"
 msgstr "Archivo XML:"
 
-#: ../gap/gap_detail_align_exec.c:649
+#: ../gap/gap_detail_align_exec.c:758
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
@@ -1994,7 +1986,7 @@ msgstr ""
 "detalle (grabadas con la funcionalidad de seguimiento de detalles)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:658 ../gap/gap_detail_tracking_exec.c:1474
+#: ../gap/gap_detail_align_exec.c:767 ../gap/gap_detail_tracking_exec.c:2315
 #: ../gap/gap_mov_dialog.c:1596 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:529 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5307 ../gap/gap_story_dialog.c:5664
@@ -2003,24 +1995,24 @@ msgstr ""
 msgid "Default"
 msgstr "Predeterminado"
 
-#: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1475
+#: ../gap/gap_detail_align_exec.c:768 ../gap/gap_detail_tracking_exec.c:2316
 #: ../gap/gap_mov_dialog.c:1597 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:530 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Restablecer todos los parámetros a los valores predefinidos"
 
-#: ../gap/gap_detail_align_exec.c:661
+#: ../gap/gap_detail_align_exec.c:770
 msgid "Detail Align via XML"
 msgstr "Alineamiento de detalles mediante XML"
 
-#: ../gap/gap_detail_align_exec.c:662 ../gap/gap_detail_tracking_exec.c:1478
+#: ../gap/gap_detail_align_exec.c:771 ../gap/gap_detail_tracking_exec.c:2319
 #: ../gap/gap_name2layer_main.c:536 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Configuración :"
 
-#: ../gap/gap_detail_align_exec.c:946
+#: ../gap/gap_detail_align_exec.c:1055
 #, c-format
 msgid ""
 "Current path with 4 point triggers transformations:\n"
@@ -2039,7 +2031,7 @@ msgstr ""
 "Pulse Aceptar para transformar la capa\n"
 "de forma que punto3 se mueve a punto1 y punto4 se mueve a punto2"
 
-#: ../gap/gap_detail_align_exec.c:967
+#: ../gap/gap_detail_align_exec.c:1076
 #, c-format
 msgid ""
 "Current path with 2 points triggers simple move:\n"
@@ -2054,7 +2046,7 @@ msgstr ""
 "Pulse Aceptar para transformar la capa\n"
 "de forma que punto2 se mueve a punto1 "
 
-#: ../gap/gap_detail_align_exec.c:983
+#: ../gap/gap_detail_align_exec.c:1092
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
@@ -2066,19 +2058,19 @@ msgstr ""
 "de ruta.\n"
 "Cree una ruta y presione el botón Refrescar."
 
-#: ../gap/gap_detail_align_exec.c:1090
+#: ../gap/gap_detail_align_exec.c:1199
 msgid "Transform Layer via 4 (or 2) point Alignment"
 msgstr "Transformar la capa por medio de una alineación de 4 (o 2) puntos"
 
 #. pointOrder radiobutton
 #. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
 #.
-#: ../gap/gap_detail_align_exec.c:1143
+#: ../gap/gap_detail_align_exec.c:1252
 msgid "Path Point Order:"
 msgstr "Orden de los puntos de ruta:"
 
 #. Order Mode the radio buttons
-#: ../gap/gap_detail_align_exec.c:1161
+#: ../gap/gap_detail_align_exec.c:1270
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Target is marked by points 1&2 "
@@ -2086,7 +2078,7 @@ msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "El objetivo está marcado por los puntos 1 y 2"
 
-#: ../gap/gap_detail_align_exec.c:1279
+#: ../gap/gap_detail_align_exec.c:1388
 #, fuzzy
 #| msgid ""
 #| "This filter requires a current path with 4 points,where point 1 and 2 "
@@ -2112,7 +2104,7 @@ msgstr ""
 "Se puede usar una ruta con 2 puntos para mover el punto 2 al punto 1 (por "
 "medio de una operación de traslación simple sin rotación ni escalado)"
 
-#: ../gap/gap_detail_align_exec.c:1290
+#: ../gap/gap_detail_align_exec.c:1399
 #, fuzzy
 #| msgid ""
 #| "This filter requires a current path with 4 points,where point 1 and 3 "
@@ -2138,13 +2130,13 @@ msgstr ""
 "Se puede usar una ruta con 2 puntos para mover el punto 2 al punto 1 (por "
 "medio de una operación de traslación simple sin rotación ni escalado)"
 
-#: ../gap/gap_detail_tracking_exec.c:1198
+#: ../gap/gap_detail_tracking_exec.c:2021
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
 msgstr ""
 "Seguimiento de detalles detenido. (No se pudo encontrar el detalle "
 "correspondiente)"
 
-#: ../gap/gap_detail_tracking_exec.c:1333
+#: ../gap/gap_detail_tracking_exec.c:2158
 msgid ""
 "This filter requires a current path with one or 2 anchor points\n"
 "to mark coordinate(s) to be tracked in the target frame(s)"
@@ -2153,11 +2145,25 @@ msgstr ""
 "para marcar la(s) coordenada(s) que seguir en el fotograma o fotogramas de "
 "destino."
 
-#: ../gap/gap_detail_tracking_exec.c:1339
+#: ../gap/gap_detail_tracking_exec.c:2163
+#| msgid "Delete Point"
+msgid "Select Points:"
+msgstr "Seleccionar puntos:"
+
+#: ../gap/gap_detail_tracking_exec.c:2164
+msgid ""
+"1: select only the best path point for movement detection, 2: select the "
+"best 2 points for movement,scale and rotation detection."
+msgstr ""
+"1: seleccionar sólo el mejor punto de ruta para la detección de movimiento, "
+"2: seleccionar los mejores 2 puntos para el movimiento, escala y detección "
+"de rotación."
+
+#: ../gap/gap_detail_tracking_exec.c:2180
 msgid "Locate colordiff Thres:"
 msgstr "Umbral de ubicación de diferencia de colores:"
 
-#: ../gap/gap_detail_tracking_exec.c:1340
+#: ../gap/gap_detail_tracking_exec.c:2181
 msgid ""
 "Colordiff threshold value. Locate fails when average color difference is "
 "below this value."
@@ -2165,11 +2171,11 @@ msgstr ""
 "Valor de umbral de diferencia de colores. La operación de localización falla "
 "cuando la diferencia de color promedio está por debajo de este valor."
 
-#: ../gap/gap_detail_tracking_exec.c:1352 ../gap/gap_morph_tween_dialog.c:819
+#: ../gap/gap_detail_tracking_exec.c:2193 ../gap/gap_morph_tween_dialog.c:819
 msgid "Locate Shape Radius:"
 msgstr "Radio de ubicación de forma:"
 
-#: ../gap/gap_detail_tracking_exec.c:1353
+#: ../gap/gap_detail_tracking_exec.c:2194
 msgid ""
 "The quadratic area surrounding a marked detail coordinate +- this radius is "
 "considered as reference shape, to be tracked in the target frame(s)."
@@ -2178,19 +2184,19 @@ msgstr ""
 "radio se considera como la forma de referencia a la que hacer el seguimiento "
 "en el fotograma o fotogramas de destino."
 
-#: ../gap/gap_detail_tracking_exec.c:1366
+#: ../gap/gap_detail_tracking_exec.c:2207
 msgid "Locate Target Move Radius:"
 msgstr "Radio de mover destino de ubicación:"
 
-#: ../gap/gap_detail_tracking_exec.c:1367
+#: ../gap/gap_detail_tracking_exec.c:2208
 msgid "Limits attempts to locate the Detail within this radius."
 msgstr "Limita los intentos de ubicar el detalle dentro de este radio."
 
-#: ../gap/gap_detail_tracking_exec.c:1381
+#: ../gap/gap_detail_tracking_exec.c:2222
 msgid "Log Relative Coords:"
 msgstr "Registrar coordenadas relativas:"
 
-#: ../gap/gap_detail_tracking_exec.c:1382
+#: ../gap/gap_detail_tracking_exec.c:2223
 msgid ""
 "ON: Coordinates are logged relative to the first coordinate.\n"
 "OFF: Coordinates are logged as absolute pixel coordinate values."
@@ -2199,11 +2205,11 @@ msgstr ""
 "DESACTIVADO: las coordenadas se registran como valores de coordenadas de "
 "píxel absolutas."
 
-#: ../gap/gap_detail_tracking_exec.c:1391
+#: ../gap/gap_detail_tracking_exec.c:2232
 msgid "Log Scaling:"
 msgstr "Escalado del registro:"
 
-#: ../gap/gap_detail_tracking_exec.c:1392
+#: ../gap/gap_detail_tracking_exec.c:2233
 msgid ""
 "ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
 "OFF: Calculate only rotation and keep original size."
@@ -2212,11 +2218,11 @@ msgstr ""
 "de 2 coordenadas de detalles.\n"
 "DESACTIVADO: calcular sólo la rotación y mantener el tamaño original."
 
-#: ../gap/gap_detail_tracking_exec.c:1402
+#: ../gap/gap_detail_tracking_exec.c:2243
 msgid "BG is Reference:"
 msgstr "El fondo es referencia:"
 
-#: ../gap/gap_detail_tracking_exec.c:1403
+#: ../gap/gap_detail_tracking_exec.c:2244
 msgid ""
 "ON: Use background layer as reference and foreground layer as target for "
 "tracking.\n"
@@ -2229,11 +2235,11 @@ msgstr ""
 "como referencia.\n"
 "."
 
-#: ../gap/gap_detail_tracking_exec.c:1411
+#: ../gap/gap_detail_tracking_exec.c:2252
 msgid "Remove Middle Layers:"
 msgstr "Eliminar las capas intermedias:"
 
-#: ../gap/gap_detail_tracking_exec.c:1412
+#: ../gap/gap_detail_tracking_exec.c:2253
 msgid ""
 "ON: removes layers (except BG and 2 Layer on top) that are not relevant for "
 "detail tracking.\n"
@@ -2243,35 +2249,35 @@ msgstr ""
 "son relevantes para el seguimiento de detalles.\n"
 "DESACTIVADO: mantener todas las capas."
 
-#: ../gap/gap_detail_tracking_exec.c:1423
+#: ../gap/gap_detail_tracking_exec.c:2264
 msgid "Const X Offset:"
 msgstr "Desplazamiento X constante:"
 
-#: ../gap/gap_detail_tracking_exec.c:1424
+#: ../gap/gap_detail_tracking_exec.c:2265
 msgid "This value is added when logging captured X coordinates."
 msgstr "Se añade este valor al registrar las coordenadas X capturadas."
 
-#: ../gap/gap_detail_tracking_exec.c:1437
+#: ../gap/gap_detail_tracking_exec.c:2278
 msgid "Const Y Offset:"
 msgstr "Desplazamiento Y constante:"
 
-#: ../gap/gap_detail_tracking_exec.c:1438
+#: ../gap/gap_detail_tracking_exec.c:2279
 msgid "This value is added when logging captured Y coordinates."
 msgstr "Se añade este valor al registrar las coordenadas Y capturadas."
 
-#: ../gap/gap_detail_tracking_exec.c:1451
+#: ../gap/gap_detail_tracking_exec.c:2292
 msgid "Const Rotate Offset:"
 msgstr "Desplazamiento de rotación constante:"
 
-#: ../gap/gap_detail_tracking_exec.c:1452
+#: ../gap/gap_detail_tracking_exec.c:2293
 msgid "This value is added when logging rotation values."
 msgstr "Se añade este valor al registrar los valores de rotación."
 
-#: ../gap/gap_detail_tracking_exec.c:1464
+#: ../gap/gap_detail_tracking_exec.c:2305
 msgid "MovePath XML file:"
 msgstr "Archivo XML de ruta de movimiento:"
 
-#: ../gap/gap_detail_tracking_exec.c:1465
+#: ../gap/gap_detail_tracking_exec.c:2306
 msgid ""
 "Name of the file to log the tracked detail coordinates  as XML parameterfile "
 "for later use in the MovePath plug-in."
@@ -2280,7 +2286,7 @@ msgstr ""
 "detalle como un archivo de parámetros XML para uso posterior en el "
 "complemento MovePath."
 
-#: ../gap/gap_detail_tracking_exec.c:1477
+#: ../gap/gap_detail_tracking_exec.c:2318
 msgid "Detail Tracking"
 msgstr "Seguimiento de detalles"
 
@@ -2499,7 +2505,7 @@ msgid "Animated Filter Apply"
 msgstr "Aplicar filtro en animación"
 
 #: ../gap/gap_filter_foreach.c:235
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Error: Plugin %s has changed the number of layers from %d to %d\n"
 #| "could not restore Layer visibilty.\n"
@@ -2514,11 +2520,11 @@ msgstr ""
 msgid "Applying filter to all layers..."
 msgstr "Aplicando filtro a todas las capas…"
 
-#: ../gap/gap_filter_foreach.c:702
+#: ../gap/gap_filter_foreach.c:707
 msgid "Select Filter for Animated Apply"
 msgstr "Seleccione filtro para aplicar en animación"
 
-#: ../gap/gap_filter_foreach.c:703 ../gap/gap_mod_layer.c:1451
+#: ../gap/gap_filter_foreach.c:708 ../gap/gap_mod_layer.c:1451
 msgid "Apply"
 msgstr "Aplicar"
 
@@ -2814,7 +2820,7 @@ msgstr ""
 #. table col, row
 #: ../gap/gap_fire_pattern.c:2327 ../gap/gap_mov_dialog.c:5124
 #: ../gap/gap_mov_dialog.c:5399 ../gap/gap_onion_dialog.c:1136
-#: ../gap/gap_story_att_trans_dlg.c:3731 ../gap/gap_water_pattern.c:1407
+#: ../gap/gap_story_att_trans_dlg.c:3733 ../gap/gap_water_pattern.c:1407
 #: ../gap/gap_wr_opacity.c:332
 msgid "Opacity:"
 msgstr "Opacidad:"
@@ -3014,7 +3020,7 @@ msgstr "MPEG2…"
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Vídeo/Codificar/"
 
-#: ../gap/gap_lib.c:2016
+#: ../gap/gap_lib.c:2015
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -3022,23 +3028,23 @@ msgstr ""
 "Operación cancelada.\n"
 "El fotograma actual cambió mientras el diálogo estaba abierto."
 
-#: ../gap/gap_lib.c:2155
+#: ../gap/gap_lib.c:2154
 msgid "overwrite flattened"
 msgstr "sobrescribir aplanado"
 
-#: ../gap/gap_lib.c:2157
+#: ../gap/gap_lib.c:2156
 msgid "overwrite"
 msgstr "sobrescribir"
 
-#: ../gap/gap_lib.c:2159
+#: ../gap/gap_lib.c:2158
 msgid "read only"
 msgstr "sólo lectura"
 
-#: ../gap/gap_lib.c:2161
+#: ../gap/gap_lib.c:2160
 msgid "discard changes"
 msgstr "descartar cambios"
 
-#: ../gap/gap_lib.c:2166
+#: ../gap/gap_lib.c:2165
 #, fuzzy, c-format
 #| msgid ""
 #| "You are using another file format than xcf.\n"
@@ -3063,11 +3069,11 @@ msgstr ""
 "otros formatos (ej. exportar), perdiendo generalmente capas\n"
 "u otra información."
 
-#: ../gap/gap_lib.c:2176
+#: ../gap/gap_lib.c:2175
 msgid "Save my decision:"
 msgstr "Recordar mi decisión:"
 
-#: ../gap/gap_lib.c:2177
+#: ../gap/gap_lib.c:2176
 #, c-format
 msgid ""
 "Save decision for this fileformat for further gimp sessions.\n"
@@ -3077,11 +3083,11 @@ msgstr ""
 "Gimp.\n"
 "Esto crea una entrada en el archivo gimprc con la clave:%s"
 
-#: ../gap/gap_lib.c:2186
+#: ../gap/gap_lib.c:2185
 msgid "Fileformat Warning"
 msgstr "Advertencia de formato de archivo"
 
-#: ../gap/gap_lib.c:2453
+#: ../gap/gap_lib.c:2452
 #, c-format
 msgid ""
 "Frame operation blocked\n"
@@ -3851,7 +3857,6 @@ msgid "All visible (ignore pattern)"
 msgstr "Todas las visibles (no considerar el patrón)"
 
 #: ../gap/gap_mod_layer_dialog.c:1648
-#, fuzzy
 #| msgid ""
 #| "Select all visible layers at same level in the layers tree (e.g. in the "
 #| "same group)"
@@ -4524,7 +4529,6 @@ msgid "Num Workpoints:"
 msgstr "Número de puntos de trabajo:"
 
 #: ../gap/gap_morph_tween_dialog.c:734
-#, fuzzy
 #| msgid "Number of workpoints to be generated par processed frame"
 msgid "Number of workpoints to be generated per processed frame"
 msgstr "Número de puntos de trabajo que crear por cada fotograma procesado"
@@ -5305,15 +5309,15 @@ msgstr "Opacidad descendiente de la capa tween"
 #. the merge option menu for the moving object
 #: ../gap/gap_mov_dialog.c:4354
 msgid "Keep Rendered Object as Layer"
-msgstr ""
+msgstr "Mantener objeto renderizado como capa"
 
 #: ../gap/gap_mov_dialog.c:4355
 msgid "Merge Down Rendered Object"
-msgstr ""
+msgstr "Combinar hacia abajo el objeto renderizado"
 
 #: ../gap/gap_mov_dialog.c:4356
 msgid "Delete Rendered Object"
-msgstr ""
+msgstr "Eliminar objeto renderizado"
 
 #: ../gap/gap_mov_dialog.c:4385
 msgid "Postprocessing mode for the rendered moving object layer"
@@ -5341,6 +5345,8 @@ msgstr "Borrar capa(s)"
 #: ../gap/gap_mov_dialog.c:4426
 msgid "Postprocessing mode for the tween layer (is ignored when not present)"
 msgstr ""
+"Modo de postprocesamiento para la capa de interpolación (se ignora cuando no "
+"está presente)"
 
 #. the merge option menu for the trace layer
 #: ../gap/gap_mov_dialog.c:4435
@@ -5364,6 +5370,8 @@ msgstr "Borrar capa(s)"
 #: ../gap/gap_mov_dialog.c:4466
 msgid "Postprocessing mode for the trace layer (is ignored when not present)"
 msgstr ""
+"Modo de postprocesamiento de la capa de rastreo (se ignora cuando no está "
+"presente)"
 
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4477
@@ -5373,10 +5381,9 @@ msgid "Merge Target:"
 msgstr "Mezclar capas:"
 
 #: ../gap/gap_mov_dialog.c:4482
-#, fuzzy
 #| msgid "New Layer Name"
 msgid "New Layer"
-msgstr "Nombre de la capa nueva"
+msgstr "Nueva capa"
 
 #: ../gap/gap_mov_dialog.c:4483
 #, fuzzy
@@ -5394,7 +5401,7 @@ msgstr ""
 
 #: ../gap/gap_mov_dialog.c:4486
 msgid "Merge to existing Mask at Layer below"
-msgstr ""
+msgstr "Fusionar en máscara existente en la capa de abajo"
 
 #: ../gap/gap_mov_dialog.c:4517
 msgid ""
@@ -5646,7 +5653,7 @@ msgstr "Establecer opacidad de la capa origen en porcentaje"
 
 #. Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3705
+#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3707
 msgid "Rotate:"
 msgstr "Rotar:"
 
@@ -5841,7 +5848,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3755
 msgid ""
 "acceleration characteristic for opacity (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5885,7 +5892,7 @@ msgstr "Rotación:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3725
+#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3727
 msgid ""
 "acceleration characteristic for rotation (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -6147,7 +6154,7 @@ msgstr "Número del fotograma en curso"
 
 #: ../gap/gap_mov_dialog.c:7353
 msgid "Movepath rendering for a single frame"
-msgstr ""
+msgstr "Mover ruta de renderizado para un solo cuadro"
 
 #: ../gap/gap_mov_dialog.c:7354 ../gap/gap_player_dialog.c:491
 #: ../gap/gap_story_dialog.c:5311 ../gap/gap_story_dialog.c:9169
@@ -8545,25 +8552,25 @@ msgstr "Restablecer punto"
 msgid "Rotate Follow"
 msgstr "Rotación de seguimiento"
 
-#: ../gap/gap_story_att_trans_dlg.c:2804
+#: ../gap/gap_story_att_trans_dlg.c:2806
 msgid "Set Movepath Parameterfile (XML)"
 msgstr "Establecer archivo de parámetros de ruta de movimiento (XML)"
 
 #. auto update toggle  check button
-#: ../gap/gap_story_att_trans_dlg.c:3210
+#: ../gap/gap_story_att_trans_dlg.c:3212
 msgid "Update"
 msgstr "Actualizar"
 
-#: ../gap/gap_story_att_trans_dlg.c:3215
+#: ../gap/gap_story_att_trans_dlg.c:3217
 msgid "automatic update using the referred frame"
 msgstr "actualización automática usando el fotograma de referencia"
 
 #. from start label
-#: ../gap/gap_story_att_trans_dlg.c:3320
+#: ../gap/gap_story_att_trans_dlg.c:3322
 msgid "Start:"
 msgstr "Inicio:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3323 ../gap/gap_story_att_trans_dlg.c:3366
+#: ../gap/gap_story_att_trans_dlg.c:3325 ../gap/gap_story_att_trans_dlg.c:3368
 msgid ""
 "Reset to: defaults, use modifier keys CTRL, ALT for alternative defaults. "
 "SHIFT resets to initial value"
@@ -8573,26 +8580,26 @@ msgstr ""
 "inicial"
 
 #. to (end value of transition) button
-#: ../gap/gap_story_att_trans_dlg.c:3363
+#: ../gap/gap_story_att_trans_dlg.c:3365
 msgid "End:"
 msgstr "Final:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3410 ../gap/gap_story_att_trans_dlg.c:3664
+#: ../gap/gap_story_att_trans_dlg.c:3412 ../gap/gap_story_att_trans_dlg.c:3666
 msgid "Copy this number of frames to all enabled rows"
 msgstr "Copiar este número de fotogramas a todas las filas activadas"
 
-#: ../gap/gap_story_att_trans_dlg.c:3437
+#: ../gap/gap_story_att_trans_dlg.c:3439
 msgid "Number of frames (duration of transition from start to end value)"
 msgstr ""
 "Número de fotogramas (duración de la transición desde el principio al final "
 "del valor)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3534 ../gap/gap_story_att_trans_dlg.c:3545
+#: ../gap/gap_story_att_trans_dlg.c:3536 ../gap/gap_story_att_trans_dlg.c:3547
 msgid "Transition Attributes"
 msgstr "Atributos de transición"
 
 #. the frame
-#: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
+#: ../gap/gap_story_att_trans_dlg.c:3569 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
 #: ../gap/gap_story_properties.c:4040
 #: ../gap/gap_story_section_properties.c:784
@@ -8600,35 +8607,35 @@ msgid "Properties"
 msgstr "Propiedades"
 
 #. the fit size label
-#: ../gap/gap_story_att_trans_dlg.c:3583
+#: ../gap/gap_story_att_trans_dlg.c:3585
 msgid "FitSize:"
 msgstr "Tamaño de ajuste:"
 
 #. the fit width check button
-#: ../gap/gap_story_att_trans_dlg.c:3589
+#: ../gap/gap_story_att_trans_dlg.c:3591
 msgid "Width"
 msgstr "Anchura"
 
-#: ../gap/gap_story_att_trans_dlg.c:3597
+#: ../gap/gap_story_att_trans_dlg.c:3599
 msgid "scale width of frame to fit master width"
 msgstr ""
 "escalar la anchura de los fotogramas para ajustarse a la anchura maestra"
 
 #. the fit height check button
-#: ../gap/gap_story_att_trans_dlg.c:3608
+#: ../gap/gap_story_att_trans_dlg.c:3610
 msgid "Height"
 msgstr "Altura"
 
-#: ../gap/gap_story_att_trans_dlg.c:3616
+#: ../gap/gap_story_att_trans_dlg.c:3618
 msgid "scale height of frame to fit master height"
 msgstr "escalar la altura de los fotogramas para ajustarse a la altura maestra"
 
 #. the keep proportions check button
-#: ../gap/gap_story_att_trans_dlg.c:3627
+#: ../gap/gap_story_att_trans_dlg.c:3629
 msgid "Keep Proportion"
 msgstr "Mantener proporciones"
 
-#: ../gap/gap_story_att_trans_dlg.c:3635
+#: ../gap/gap_story_att_trans_dlg.c:3637
 msgid ""
 "ON: keep proportions at scaling.  (this may result in black borders)OFF: "
 "allow changes of image proportions at scaling"
@@ -8638,11 +8645,11 @@ msgstr ""
 "de la imagen al escalar."
 
 #. the overlap label (same row as FitSize)
-#: ../gap/gap_story_att_trans_dlg.c:3654
+#: ../gap/gap_story_att_trans_dlg.c:3656
 msgid "Overlap:"
 msgstr "Solapar:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3689
+#: ../gap/gap_story_att_trans_dlg.c:3691
 msgid "Number of overlapping frames within this track"
 msgstr "Número de fotogramas que solapar en esta pista"
 
@@ -8652,22 +8659,22 @@ msgstr "Número de fotogramas que solapar en esta pista"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3717
+#: ../gap/gap_story_att_trans_dlg.c:3719
 msgid "ON: Enable rotation settings"
 msgstr "ACTIVADO: activar los ajustes de rotación"
 
-#: ../gap/gap_story_att_trans_dlg.c:3719
+#: ../gap/gap_story_att_trans_dlg.c:3721
 msgid "rotation value in degree for the first handled frame "
 msgstr "valor de rotación en grados para el primer fotograma manejado"
 
-#: ../gap/gap_story_att_trans_dlg.c:3721
+#: ../gap/gap_story_att_trans_dlg.c:3723
 msgid "rotation value in degree for the last handled frame "
 msgstr "valor de rotación en grados para el último fotograma manejado"
 
-#: ../gap/gap_story_att_trans_dlg.c:3723 ../gap/gap_story_att_trans_dlg.c:3751
-#: ../gap/gap_story_att_trans_dlg.c:3780 ../gap/gap_story_att_trans_dlg.c:3809
-#: ../gap/gap_story_att_trans_dlg.c:3837 ../gap/gap_story_att_trans_dlg.c:3865
-#: ../gap/gap_story_att_trans_dlg.c:3895
+#: ../gap/gap_story_att_trans_dlg.c:3725 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_story_att_trans_dlg.c:3782 ../gap/gap_story_att_trans_dlg.c:3811
+#: ../gap/gap_story_att_trans_dlg.c:3839 ../gap/gap_story_att_trans_dlg.c:3867
+#: ../gap/gap_story_att_trans_dlg.c:3897
 msgid "number of frames"
 msgstr "número de fotogramas"
 
@@ -8677,11 +8684,11 @@ msgstr "número de fotogramas"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3743
+#: ../gap/gap_story_att_trans_dlg.c:3745
 msgid "ON: Enable opacity settings"
 msgstr "Activado: activar los parámetros de opacidad"
 
-#: ../gap/gap_story_att_trans_dlg.c:3745
+#: ../gap/gap_story_att_trans_dlg.c:3747
 msgid ""
 "opacity value for the first handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
@@ -8689,7 +8696,7 @@ msgstr ""
 "valor de opacidad para el primer fotograma manejado, donde 100 es "
 "completamente opaco y 0 es completamente transparente"
 
-#: ../gap/gap_story_att_trans_dlg.c:3748
+#: ../gap/gap_story_att_trans_dlg.c:3750
 msgid ""
 "opacity value for the last handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
@@ -8697,7 +8704,7 @@ msgstr ""
 "valor de opacidad para el último fotograma manejado, donde 100 es "
 "completamente opaco y 0 es completamente transparente"
 
-#: ../gap/gap_story_att_trans_dlg.c:3760
+#: ../gap/gap_story_att_trans_dlg.c:3762
 msgid "Move X:"
 msgstr "Mover X:"
 
@@ -8707,11 +8714,11 @@ msgstr "Mover X:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3772
+#: ../gap/gap_story_att_trans_dlg.c:3774
 msgid "ON: Enable move horizontal settings"
 msgstr "Activado: Activa los ajustes de movimiento horizontal"
 
-#: ../gap/gap_story_att_trans_dlg.c:3774
+#: ../gap/gap_story_att_trans_dlg.c:3776
 msgid ""
 "move horizontal value for the first handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
@@ -8720,7 +8727,7 @@ msgstr ""
 "centrado, 100.0 es totalmente a la derecha y -100.0 es totalmente a la "
 "izquierda"
 
-#: ../gap/gap_story_att_trans_dlg.c:3777
+#: ../gap/gap_story_att_trans_dlg.c:3779
 msgid ""
 "move horizontal value for the last handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
@@ -8729,7 +8736,7 @@ msgstr ""
 "centrado, 100.0 es totalmente a la derecha y -100.0 es totalmente a la "
 "izquierda"
 
-#: ../gap/gap_story_att_trans_dlg.c:3782
+#: ../gap/gap_story_att_trans_dlg.c:3784
 msgid ""
 "acceleration characteristic for horizontal move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8737,7 +8744,7 @@ msgstr ""
 "característica de aceleración para el movimiento horizontal (1 para "
 "velocidad constante; positivo: aceleración; negativo: ralentización)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3789
+#: ../gap/gap_story_att_trans_dlg.c:3791
 msgid "Move Y:"
 msgstr "Mover Y:"
 
@@ -8747,11 +8754,11 @@ msgstr "Mover Y:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3801
+#: ../gap/gap_story_att_trans_dlg.c:3803
 msgid "ON: Enable move vertical settings"
 msgstr "ACTIVADO: Activar los ajustes de movimiento vertical"
 
-#: ../gap/gap_story_att_trans_dlg.c:3803
+#: ../gap/gap_story_att_trans_dlg.c:3805
 msgid ""
 "move vertical value for the first handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
@@ -8759,7 +8766,7 @@ msgstr ""
 "mover el valor vertical para el primer fotograma manejado donde 0.0 es "
 "centrado, 100.0 en la parte inferior, y -100.0 en la parte superior"
 
-#: ../gap/gap_story_att_trans_dlg.c:3806
+#: ../gap/gap_story_att_trans_dlg.c:3808
 msgid ""
 "move vertical value for the last handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
@@ -8767,7 +8774,7 @@ msgstr ""
 "mover el valor vertical para el último fotograma manejado donde 0.0 es "
 "centrado, 100.0 en la parte inferior, -100.0 en la parte superior"
 
-#: ../gap/gap_story_att_trans_dlg.c:3811
+#: ../gap/gap_story_att_trans_dlg.c:3813
 msgid ""
 "acceleration characteristic for vertical move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8775,7 +8782,7 @@ msgstr ""
 "característica de aceleración para el movimiento vertical (1 para velocidad "
 "constante; positivo: aceleración; negativo: ralentización)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3817
+#: ../gap/gap_story_att_trans_dlg.c:3819
 msgid "Scale Width:"
 msgstr "Ancho de la escala:"
 
@@ -8785,11 +8792,11 @@ msgstr "Ancho de la escala:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3829
+#: ../gap/gap_story_att_trans_dlg.c:3831
 msgid "ON: Enable scale width settings"
 msgstr "Activado: Activa los parámetros de la anchura de la escala"
 
-#: ../gap/gap_story_att_trans_dlg.c:3831
+#: ../gap/gap_story_att_trans_dlg.c:3833
 msgid ""
 "scale width value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
@@ -8797,7 +8804,7 @@ msgstr ""
 "valor del ancho de la escala para el primer fotograma manejado donde 100 es "
 "1.1, 50 es la mitad del ancho y 200 el doble"
 
-#: ../gap/gap_story_att_trans_dlg.c:3834
+#: ../gap/gap_story_att_trans_dlg.c:3836
 msgid ""
 "scale width value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
@@ -8805,7 +8812,7 @@ msgstr ""
 "valor del ancho de la escala para el último fotograma manejado donde 100 es "
 "1.1, 50 es la mitad del ancho y 200 el doble"
 
-#: ../gap/gap_story_att_trans_dlg.c:3839
+#: ../gap/gap_story_att_trans_dlg.c:3841
 msgid ""
 "acceleration characteristic for scale width (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -8813,7 +8820,7 @@ msgstr ""
 "característica de aceleración para la anchura de escala (1 para velocidad "
 "constante; positivo: aceleración; negativo: ralentización)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3845
+#: ../gap/gap_story_att_trans_dlg.c:3847
 msgid "Scale Height:"
 msgstr "Escalar altura:"
 
@@ -8823,11 +8830,11 @@ msgstr "Escalar altura:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3857
+#: ../gap/gap_story_att_trans_dlg.c:3859
 msgid "ON: Enable scale height settings"
 msgstr "Activado: Activa los parámetros de la altura de la escala"
 
-#: ../gap/gap_story_att_trans_dlg.c:3859
+#: ../gap/gap_story_att_trans_dlg.c:3861
 msgid ""
 "scale height value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
@@ -8835,7 +8842,7 @@ msgstr ""
 "escalar el valor de la altura para el primer fotograma manejado donde 100 es "
 "1:1, 50 es la mitad, 200 es altura doble"
 
-#: ../gap/gap_story_att_trans_dlg.c:3862
+#: ../gap/gap_story_att_trans_dlg.c:3864
 msgid ""
 "scale height value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
@@ -8843,7 +8850,7 @@ msgstr ""
 "escalar el valor de la altura para el último fotograma manejado donde 100 es "
 "1:1, 50 es la mitad, 200 es altura doble"
 
-#: ../gap/gap_story_att_trans_dlg.c:3867
+#: ../gap/gap_story_att_trans_dlg.c:3869
 msgid ""
 "acceleration characteristic for scale height (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8851,7 +8858,7 @@ msgstr ""
 "característica de aceleración para la altura de escala (1 para velocidad "
 "constante; positivo: aceleración; negativo: ralentización)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3873
+#: ../gap/gap_story_att_trans_dlg.c:3875
 msgid "Move Path:"
 msgstr "Ruta de movimiento:"
 
@@ -8861,7 +8868,7 @@ msgstr "Ruta de movimiento:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3885
+#: ../gap/gap_story_att_trans_dlg.c:3887
 #, fuzzy
 #| msgid ""
 #| "ON: Enable move path transistions using settings provided via a movepath "
@@ -8873,7 +8880,7 @@ msgstr ""
 "ACTIVADO: activar las transiciones de ruta de movimiento utilizando ajustes "
 "proporcionados a través de un archivo de parámetros de rutas de movimiento"
 
-#: ../gap/gap_story_att_trans_dlg.c:3887
+#: ../gap/gap_story_att_trans_dlg.c:3889
 msgid ""
 "frame number (phase) of the movement/transition along path for the first "
 "handled frame where 1 is the begin of the path using settings of the 1st "
@@ -8884,7 +8891,7 @@ msgstr ""
 "utilizando los ajustes del primer punto de control dentro del archivo de "
 "parámetros de rutas de movimiento."
 
-#: ../gap/gap_story_att_trans_dlg.c:3891
+#: ../gap/gap_story_att_trans_dlg.c:3893
 msgid ""
 "frame number (phase) of the movement/transition along path for the last "
 "handled frame. note that frame numbers higher than (or equal to) total "
@@ -8897,18 +8904,18 @@ msgstr ""
 "parámetros de rutas de movimiento utilizan los ajustes del último punto de "
 "control en este archivo."
 
-#: ../gap/gap_story_att_trans_dlg.c:3897
+#: ../gap/gap_story_att_trans_dlg.c:3899
 msgid "acceleration characteristic (currently ignored)"
 msgstr "característica de aceleración (actualmente se ignora)"
 
 #. the movepath label
-#: ../gap/gap_story_att_trans_dlg.c:3943
+#: ../gap/gap_story_att_trans_dlg.c:3945
 msgid "Movepath File:"
 msgstr "Archivo de rutas de movimiento:"
 
 #. the comment label
 #. the Comment lable
-#: ../gap/gap_story_att_trans_dlg.c:3990 ../gap/gap_story_properties.c:5048
+#: ../gap/gap_story_att_trans_dlg.c:3992 ../gap/gap_story_properties.c:5048
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3745
 msgid "Comment:"
 msgstr "Comentario:"
@@ -10235,11 +10242,11 @@ msgstr "analizada línea %d (de %d)"
 msgid "No Frames or Images found ..."
 msgstr "No se encontraron fotogramas o imágenes…"
 
-#: ../gap/gap_story_render_processor.c:7618
+#: ../gap/gap_story_render_processor.c:7621
 msgid "Seek Inputvideoframe..."
 msgstr "Buscar fotograma de entrada de vídeo…"
 
-#: ../gap/gap_story_render_processor.c:7652
+#: ../gap/gap_story_render_processor.c:7655
 msgid "Continue Encoding..."
 msgstr "Continuar la codificación…"
 
