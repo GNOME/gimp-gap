@@ -11,24 +11,24 @@
 # Omar Campagne <ocampagne@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 # Francisco Vila <francisco.vila@hispalinux.es>, 2011, 2012.
-# Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>, 2016.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2016.
+# Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-06-24 06:37+0000\n"
-"PO-Revision-Date: 2016-06-29 10:03+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2016-06-29 08:08+0000\n"
+"PO-Revision-Date: 2016-07-05 22:59-0500\n"
+"Last-Translator: Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -2059,7 +2059,6 @@ msgstr ""
 "El objetivo está marcado por los puntos 1 y 2"
 
 #: ../gap/gap_detail_align_exec.c:1388
-#, fuzzy
 #| msgid ""
 #| "This filter requires a current path with 4 points,where point 1 and 2 "
 #| "mark reference positions and point 3 and 4 mark postions in the target "
@@ -2085,7 +2084,6 @@ msgstr ""
 "medio de una operación de traslación simple sin rotación ni escalado)"
 
 #: ../gap/gap_detail_align_exec.c:1399
-#, fuzzy
 #| msgid ""
 #| "This filter requires a current path with 4 points,where point 1 and 3 "
 #| "mark reference positions and point 2 and 4 mark postions in the target "
@@ -2368,7 +2366,6 @@ msgid "Tri-Map:"
 msgstr "Mapa triple:"
 
 #: ../gap/gap_fg_matting_dialog.c:443
-#, fuzzy
 #| msgid ""
 #| "Select the tri_map layer (or layermask).  the tri-map shall be of same "
 #| "size as the input layer and  provides a rough user selection  where WHITE "
@@ -3019,7 +3016,7 @@ msgid "discard changes"
 msgstr "descartar cambios"
 
 #: ../gap/gap_lib.c:2165
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "You are using another file format than xcf.\n"
 #| "This dialog configures how to handle exchanges of\n"
@@ -3040,7 +3037,7 @@ msgstr ""
 "marco de la imagen actual (o marcos con extensión %s).\n"
 "Tenga en cuenta que el guardado automático al cambiar el\n"
 "marco sólo funciona con XCF, pero sobrescribe automáticamente\n"
-"otros formatos (ej. exportar), perdiendo generalmente capas\n"
+"otros formatos (mediante la exportación), perdiendo generalmente capas\n"
 "u otra información."
 
 #: ../gap/gap_lib.c:2175
@@ -3767,7 +3764,6 @@ msgid "Invert Layer Selection"
 msgstr "Invertir selección de capas"
 
 #: ../gap/gap_mod_layer_dialog.c:1540
-#, fuzzy
 #| msgid ""
 #| "Perform actions on all unselected layers at same level in the layers tree "
 #| "(e.g. in the same group)"
@@ -4242,7 +4238,6 @@ msgstr ""
 "de trabajo (no es relevante para la renderización)"
 
 #: ../gap/gap_morph_dialog.c:3953
-#, fuzzy
 #| msgid ""
 #| "Locate Shaperadius in pixels. Defines shape size as area around workpoint "
 #| "to be compared  when loacting corresponding coordinate(Not relevant for "
@@ -4538,7 +4533,6 @@ msgstr ""
 "trabajo generado."
 
 #: ../gap/gap_morph_tween_dialog.c:790
-#, fuzzy
 #| msgid ""
 #| "INTENSITY attribute value to be written to the generated workpoint file. "
 #| "value 0 turns off intensity desceding deformation, morph processing will "
@@ -4578,7 +4572,6 @@ msgid "Edge Threshold:"
 msgstr "Umbral de borde:"
 
 #: ../gap/gap_morph_tween_dialog.c:838
-#, fuzzy
 #| msgid ""
 #| "Edge detection threshold. Workpoints are generated on detected edges. "
 #| "Edges are detected on pixels where color or opacity differs significant "
@@ -4651,7 +4644,6 @@ msgstr[1] ""
 "esta operación genera %d fotogramas perdidos entre los fotogramas %d y %d"
 
 #: ../gap/gap_morph_tween_dialog.c:1182
-#, fuzzy
 #| msgid ""
 #| "This operation creates copies of all frames in the specified range\n"
 #| "and the specifed number of tweens as additional tween frames\n"
@@ -4682,7 +4674,6 @@ msgid "Number of Tweens:"
 msgstr "Número de tweens:"
 
 #: ../gap/gap_morph_tween_dialog.c:1260
-#, fuzzy
 #| msgid ""
 #| "Number of tweens to be inserted between 2 frames. Value 0 renderes "
 #| "missing frames (via morphing or fade) but does not create tweens where "
@@ -4717,7 +4708,6 @@ msgid "Subdirectory:"
 msgstr "Subcarpeta:"
 
 #: ../gap/gap_morph_tween_dialog.c:1302
-#, fuzzy
 #| msgid ""
 #| "Name of a (Sub)directoy to save copies of processed frames and generated "
 #| "tweens. Note that tweens are created via simple fade operations when no "
@@ -5432,7 +5422,6 @@ msgstr ""
 "punto último, entre el resto de puntos."
 
 #: ../gap/gap_mov_dialog.c:4719
-#, fuzzy
 #| msgid ""
 #| "Set rotation for all controlpoints to follow the shape of the path. Hold "
 #| "down the shift key to use rotation of contolpoint 1 as offset."
@@ -6074,7 +6063,6 @@ msgid "MovePath xmlfile:"
 msgstr "Archivo XML de ruta de movimiento:"
 
 #: ../gap/gap_mov_dialog.c:7324
-#, fuzzy
 #| msgid ""
 #| "Name of the file containing move path paramters and controlpoints in XML "
 #| "format"
@@ -7058,7 +7046,6 @@ msgid "Copy Audiofile as Wavefile"
 msgstr "Copiar archivo de sonido como archivo de ondas"
 
 #: ../gap/gap_player_dialog.c:584
-#, fuzzy
 #| msgid ""
 #| "Failure to start the wavplay server is fatal.\n"
 #| "Please check the executability of the 'wavplay' command.\n"
@@ -7966,7 +7953,6 @@ msgstr ""
 "manipular capas múltiples y requiere fotogramas aplanados."
 
 #: ../gap/gap_range_ops.c:515
-#, fuzzy
 #| msgid ""
 #| "Merge resulting frame down to one layer. This keeps transparency "
 #| "information Example: use this for PNG fileformat that can handle "
@@ -8017,7 +8003,6 @@ msgid "Imagetype:"
 msgstr "Tipo de imagen:"
 
 #: ../gap/gap_range_ops.c:574
-#, fuzzy
 #| msgid ""
 #| "Convert to another imagetype, or keep imagetype as it is. Most "
 #| "fileformats can't handle all types and may require a conversion.Example: "
@@ -8165,7 +8150,6 @@ msgid "Exclude BG-Layer:"
 msgstr "Excluir capa de fondo:"
 
 #: ../gap/gap_range_ops.c:777
-#, fuzzy
 #| msgid ""
 #| "Exclude the background layer in all handled frames, regardless to the "
 #| "other settings of layer selection."
@@ -8174,7 +8158,7 @@ msgid ""
 "settings of layer selection."
 msgstr ""
 "Excluir las capas de fondo en todos los fotogramas manipulados a pesar de la "
-"selección"
+"selección."
 
 #: ../gap/gap_range_ops.c:784
 msgid "Layer Selection:"
@@ -8328,7 +8312,6 @@ msgid "Splitting image into frames..."
 msgstr "Dividiendo imagen en fotogramas…"
 
 #: ../gap/gap_split.c:365
-#, fuzzy
 #| msgid ""
 #| "Split Frames: Save operation failed.\n"
 #| "desired save plugin can't handle type\n"
@@ -8338,7 +8321,7 @@ msgid ""
 "Desired save plugin can't handle type\n"
 "or desired save plugin not available."
 msgstr ""
-"Dividir fotogramas: Ha fallado la operación guardar.\n"
+"Dividir fotogramas: ha fallado la operación guardar.\n"
 "El complemento para guardar deseado no funciona\n"
 "con este tipo de imagen, o bien dicho\n"
 "complemento no está disponible."
@@ -8399,7 +8382,6 @@ msgid "Only Visible:"
 msgstr "Sólo visible:"
 
 #: ../gap/gap_split.c:479
-#, fuzzy
 #| msgid ""
 #| "ON: Handle only visible layers.\n"
 #| "OFF: handle all layers and force visibiblity"
@@ -8407,15 +8389,14 @@ msgid ""
 "ON: Handle only visible layers.\n"
 "OFF: handle all layers and force visibility"
 msgstr ""
-"Activado: Manejar sólo las capas visibles.\n"
-"Desactivado: Manejar todas las capas y forzar visibilidad"
+"Activado: manejar sólo las capas visibles.\n"
+"Desactivado: manejar todas las capas y forzar visibilidad"
 
 #: ../gap/gap_split.c:486
 msgid "Copy properties:"
 msgstr "Propiedades del clip:"
 
 #: ../gap/gap_split.c:487
-#, fuzzy
 #| msgid ""
 #| "ON: Copy all image properties (channels, pathes, guides) to all frame "
 #| "images.\n"
@@ -8425,9 +8406,9 @@ msgid ""
 "images.\n"
 "OFF: copy only layers without image properties to frame images"
 msgstr ""
-"Activado: Copia todas las propiedades de imagen (capas, rutas, guía) a todos "
+"Activado: copia todas las propiedades de imagen (capas, rutas, guía) a todos "
 "los fotogramas\n"
-"Desactivado: Copia solo las capas sin propiedades de imagen a las imágenes "
+"Desactivado: copia solo las capas sin propiedades de imagen a las imágenes "
 "de fotograma"
 
 #: ../gap/gap_split.c:496
@@ -8545,8 +8526,7 @@ msgstr "Atributos de transición"
 #. the frame
 #: ../gap/gap_story_att_trans_dlg.c:3569 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
-#: ../gap/gap_story_properties.c:4040
-#: ../gap/gap_story_section_properties.c:784
+#: ../gap/gap_story_properties.c:4040 ../gap/gap_story_section_properties.c:784
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -8813,7 +8793,6 @@ msgstr "Ruta de movimiento:"
 #. page size        for the from/to values
 #. digits for the from/to values
 #: ../gap/gap_story_att_trans_dlg.c:3887
-#, fuzzy
 #| msgid ""
 #| "ON: Enable move path transistions using settings provided via a movepath "
 #| "parameter file"
@@ -9509,7 +9488,6 @@ msgid "Decoder:"
 msgstr "Decodificador:"
 
 #: ../gap/gap_story_dialog.c:9515
-#, fuzzy
 #| msgid ""
 #| "Select preferred video decoder library, or leave empty for automatic "
 #| "selection.The decoder setting is only relevant if videoclips are used "
@@ -9540,7 +9518,7 @@ msgstr "Formato de transparencia externa:"
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Format string to provide external tranparency in movie clips. (e.g "
 #| "automatic alpha channel insertation)this string shall contain \\%s as "
@@ -9553,9 +9531,10 @@ msgid ""
 "as placeholder for the framenumber."
 msgstr ""
 "Cadena de formato para proporcionar transparencia externa en clips de vídeo "
-"(ej. inserción automática de un canal alfa). Esta cadena debe contener \\%s "
-"como marcador de posición para el nombre base de un clip de vídeo y un \\"
-"%06d opcional como marcador de posición para el número de fotograma."
+"(ej. inserción automática de un canal alfa mediante fotogramas externos). "
+"Esta cadena debe contener \\%s como marcador de posición para el nombre base "
+"de un clip de vídeo y un \\%06d opcional como marcador de posición para el "
+"número de fotograma."
 
 #: ../gap/gap_story_dialog.c:9595
 msgid "AreaFormat:"
@@ -9563,7 +9542,7 @@ msgstr "ÁreaFormato:"
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Format string for area replacement in movie clips. (e.g automatic logo "
 #| "insert)this string shall contain \\%s as placeholder for the basename of "
@@ -9601,7 +9580,7 @@ msgid "section_%02d"
 msgstr "sección_%02d"
 
 #: ../gap/gap_story_file.c:2716
-#, fuzzy, c-format
+#, c-format
 #| msgid "illegal number: %s (valid range is %d upto %d)\n"
 msgid "illegal number: %s (valid range is %d up to %d)\n"
 msgstr "número ilegal: %s (rango válido entre %d y %d)\n"
@@ -9769,8 +9748,7 @@ msgstr "COMENTARIO"
 msgid "** UNKNOWN **"
 msgstr "** DESCONOCIDO **"
 
-#: ../gap/gap_story_properties.c:2800
-#: ../gap/gap_story_section_properties.c:599
+#: ../gap/gap_story_properties.c:2800 ../gap/gap_story_section_properties.c:599
 #, c-format
 msgid "%d (frames)"
 msgstr "%d (fotogramas)"
@@ -9814,8 +9792,7 @@ msgid "Clip Type:"
 msgstr "Tipo de clip:"
 
 #. the duration label
-#: ../gap/gap_story_properties.c:4100
-#: ../gap/gap_story_section_properties.c:830
+#: ../gap/gap_story_properties.c:4100 ../gap/gap_story_section_properties.c:830
 msgid "Duration:"
 msgstr "Duración:"
 
