@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-06-29 08:08+0000\n"
-"PO-Revision-Date: 2016-07-05 22:59-0500\n"
+"POT-Creation-Date: 2016-07-06 06:51+0000\n"
+"PO-Revision-Date: 2016-07-06 20:35-0500\n"
 "Last-Translator: Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -2059,14 +2059,6 @@ msgstr ""
 "El objetivo está marcado por los puntos 1 y 2"
 
 #: ../gap/gap_detail_align_exec.c:1388
-#| msgid ""
-#| "This filter requires a current path with 4 points,where point 1 and 2 "
-#| "mark reference positions and point 3 and 4 mark postions in the target "
-#| "layer.It transforms the target layer in a way that point3 is moved to "
-#| "point1 and point4 moves to point2.(this may include rotate an scale "
-#| "transformation).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
@@ -2084,14 +2076,6 @@ msgstr ""
 "medio de una operación de traslación simple sin rotación ni escalado)"
 
 #: ../gap/gap_detail_align_exec.c:1399
-#| msgid ""
-#| "This filter requires a current path with 4 points,where point 1 and 3 "
-#| "mark reference positions and point 2 and 4 mark postions in the target "
-#| "layer.It transforms the target layer in a way that point2 is moved to "
-#| "point1 and point4 moves to point3.(this may include rotate an scale "
-#| "transformation).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
@@ -2366,13 +2350,6 @@ msgid "Tri-Map:"
 msgstr "Mapa triple:"
 
 #: ../gap/gap_fg_matting_dialog.c:443
-#| msgid ""
-#| "Select the tri_map layer (or layermask).  the tri-map shall be of same "
-#| "size as the input layer and  provides a rough user selection  where WHITE "
-#| "pixels in the tri map defines FOREGROUND (eg. opaque result)  BLACK "
-#| "pixels define BACKGROUND (eg. transparent result) GRAY pixels (value 1 "
-#| "upto 240) are marked as Undefined  (eg. opacity to be processed by this "
-#| "filter.) )"
 msgid ""
 "Select the tri_map layer (or layermask).  the tri-map shall be of same size "
 "as the input layer and  provides a rough user selection  where WHITE pixels "
@@ -3017,13 +2994,6 @@ msgstr "descartar cambios"
 
 #: ../gap/gap_lib.c:2165
 #, c-format
-#| msgid ""
-#| "You are using another file format than xcf.\n"
-#| "This dialog configures how to handle exchanges of\n"
-#| "the current frame image (for frames with extension %s)\n"
-#| "Note that automatical save on frame change just works with XCF\n"
-#| "but automatical overwrite (e.g export) to other formats\n"
-#| "typically results in loss of layers and other information."
 msgid ""
 "You are using another file format than xcf.\n"
 "This dialog configures how to handle exchanges of\n"
@@ -3764,9 +3734,6 @@ msgid "Invert Layer Selection"
 msgstr "Invertir selección de capas"
 
 #: ../gap/gap_mod_layer_dialog.c:1540
-#| msgid ""
-#| "Perform actions on all unselected layers at same level in the layers tree "
-#| "(e.g. in the same group)"
 msgid ""
 "Perform actions on all unselected layers at same level in the layers tree (i."
 "e. in the same group)"
@@ -3900,7 +3867,7 @@ msgid ""
 "filename: '%s':\n"
 "%s"
 msgstr ""
-"Falló al escribir el archivo de puntos de trabajo de morphing\n"
+"Falló al escribir el archivo de puntos de trabajo de transformación\n"
 "archivo: «%s»:\n"
 "%s"
 
@@ -3911,7 +3878,7 @@ msgid ""
 "filename: '%s'\n"
 "%s"
 msgstr ""
-"Error: No se pudieron abrir los puntos de trabajo de morphing\n"
+"Error: No se pudieron abrir los puntos de trabajo de transformación\n"
 "archivo: «%s»\n"
 "%s"
 
@@ -3922,17 +3889,17 @@ msgid ""
 "filename: '%s'\n"
 "(Is not a valid morph workpoint file)"
 msgstr ""
-"Error: No se pudieron leer los puntos de trabajo de morphing\n"
+"Error: No se pudieron leer los puntos de trabajo de transformación\n"
 "archivo: '%s'\n"
-"(No es un archivo de puntos de trabajo de morphing válido)"
+"(No es un archivo de puntos de trabajo de transformación válido)"
 
 #: ../gap/gap_morph_dialog.c:2565
 msgid "Save Morph Workpointfile"
-msgstr "Guardar archivo de puntos de trabajo de morphing"
+msgstr "Guardar archivo de puntos de trabajo de transformación"
 
 #: ../gap/gap_morph_dialog.c:2569
 msgid "Load Morph Workpointfile"
-msgstr "Cargar archivo de puntos de trabajo de morphing"
+msgstr "Cargar archivo de puntos de trabajo de transformación"
 
 #: ../gap/gap_morph_dialog.c:2911
 msgid "Edit Mode:"
@@ -4007,12 +3974,13 @@ msgstr "Modo de renderizado:"
 #. radio button MORPH
 #: ../gap/gap_morph_dialog.c:3075
 msgid "Morph"
-msgstr "Morph"
+msgstr "Transformación"
 
 #: ../gap/gap_morph_dialog.c:3084
 msgid "Render morph transition (warp forward, warp backward and cross fade)"
 msgstr ""
-"Renderizar transformación morph (warp adelante, warp atrás y cross fade)"
+"Renderizar transición de transformación (warp adelante, warp atrás y cross "
+"fade)"
 
 #. radio button WARP
 #: ../gap/gap_morph_dialog.c:3097
@@ -4043,11 +4011,11 @@ msgstr "X:"
 
 #: ../gap/gap_morph_dialog.c:3216
 msgid "Morphpoint X coordinate"
-msgstr "Coordenada X del punto de morph"
+msgstr "Coordenada X del punto de transformación"
 
 #: ../gap/gap_morph_dialog.c:3248
 msgid "Morphpoint Y coordinate"
-msgstr "Coordenada Y del punto de morph"
+msgstr "Coordenada Y del punto de transformación"
 
 #. Fit Zoom Button
 #: ../gap/gap_morph_dialog.c:3256
@@ -4082,7 +4050,7 @@ msgstr "001"
 
 #: ../gap/gap_morph_dialog.c:3460
 msgid "Morph / Warp"
-msgstr "Morph / Warp"
+msgstr "Transformar / Warp"
 
 #: ../gap/gap_morph_dialog.c:3465
 msgid "Swap"
@@ -4182,7 +4150,7 @@ msgstr "Punto de color"
 
 #: ../gap/gap_morph_dialog.c:3795
 msgid "Set color for the morph workpoints"
-msgstr "Establece el color para los puntos de trabajo morph"
+msgstr "Establece el color para los puntos de trabajo de transformación"
 
 #. the currentcolor colorbutton
 #: ../gap/gap_morph_dialog.c:3806
@@ -4191,7 +4159,7 @@ msgstr "Punto de color actual"
 
 #: ../gap/gap_morph_dialog.c:3814
 msgid "Set color for the current morph workpoint"
-msgstr "Establecer color para el punto de trabajo de morphing actual"
+msgstr "Establecer color para el punto de trabajo de transformación actual"
 
 #. the multiple pointsets checkbutton
 #: ../gap/gap_morph_dialog.c:3832
@@ -4238,10 +4206,6 @@ msgstr ""
 "de trabajo (no es relevante para la renderización)"
 
 #: ../gap/gap_morph_dialog.c:3953
-#| msgid ""
-#| "Locate Shaperadius in pixels. Defines shape size as area around workpoint "
-#| "to be compared  when loacting corresponding coordinate(Not relevant for "
-#| "rendering)"
 msgid ""
 "Locate Shaperadius in pixels. Defines shape size as area around workpoint to "
 "be compared  when locating corresponding coordinate(Not relevant for "
@@ -4533,10 +4497,6 @@ msgstr ""
 "trabajo generado."
 
 #: ../gap/gap_morph_tween_dialog.c:790
-#| msgid ""
-#| "INTENSITY attribute value to be written to the generated workpoint file. "
-#| "value 0 turns off intensity desceding deformation, morph processing will "
-#| "use linear deform action inside the deform radius"
 msgid ""
 "INTENSITY attribute value to be written to the generated workpoint file. "
 "value 0 turns off intensity descending deformation, morph processing will "
@@ -4572,11 +4532,6 @@ msgid "Edge Threshold:"
 msgstr "Umbral de borde:"
 
 #: ../gap/gap_morph_tween_dialog.c:838
-#| msgid ""
-#| "Edge detection threshold. Workpoints are generated on detected edges. "
-#| "Edges are detected on pixels where color or opacity differs significant "
-#| "from the neighbor pixel.(e.g. more than the specified edge detection "
-#| "threshold)."
 msgid ""
 "Edge detection threshold. Workpoints are generated on detected edges. Edges "
 "are detected on pixels where color or opacity differs significantly from the "
@@ -4644,13 +4599,6 @@ msgstr[1] ""
 "esta operación genera %d fotogramas perdidos entre los fotogramas %d y %d"
 
 #: ../gap/gap_morph_tween_dialog.c:1182
-#| msgid ""
-#| "This operation creates copies of all frames in the specified range\n"
-#| "and the specifed number of tweens as additional tween frames\n"
-#| "between all the processed frames in the specified subdirectory.\n"
-#| "Provide workpointfiles (one per frame) for morphing based tween "
-#| "rendering\n"
-#| "(this can be done with the Morph Workpoint Generator)"
 msgid ""
 "This operation creates copies of all frames in the specified range\n"
 "and the specified number of tweens as additional tween frames\n"
@@ -4674,10 +4622,6 @@ msgid "Number of Tweens:"
 msgstr "Número de tweens:"
 
 #: ../gap/gap_morph_tween_dialog.c:1260
-#| msgid ""
-#| "Number of tweens to be inserted between 2 frames. Value 0 renderes "
-#| "missing frames (via morphing or fade) but does not create tweens where "
-#| "the next frame number is equal to the current processed frame number +1"
 msgid ""
 "Number of tweens to be inserted between 2 frames. Value 0 renders missing "
 "frames (via morphing or fade) but does not create tweens where the next "
@@ -4708,11 +4652,6 @@ msgid "Subdirectory:"
 msgstr "Subcarpeta:"
 
 #: ../gap/gap_morph_tween_dialog.c:1302
-#| msgid ""
-#| "Name of a (Sub)directoy to save copies of processed frames and generated "
-#| "tweens. Note that tweens are created via simple fade operations when no "
-#| "workpointfile for the processed frame is available. (individual "
-#| "workpointfiles per frame are refered by extension .morphpoints)"
 msgid ""
 "Name of a (Sub)directory to save copies of processed frames and generated "
 "tweens. Note that tweens are created via simple fade operations when no "
@@ -5422,9 +5361,6 @@ msgstr ""
 "punto último, entre el resto de puntos."
 
 #: ../gap/gap_mov_dialog.c:4719
-#| msgid ""
-#| "Set rotation for all controlpoints to follow the shape of the path. Hold "
-#| "down the shift key to use rotation of contolpoint 1 as offset."
 msgid ""
 "Set rotation for all controlpoints to follow the shape of the path. Hold "
 "down the shift key to use rotation of controlpoint 1 as offset."
@@ -6063,9 +5999,6 @@ msgid "MovePath xmlfile:"
 msgstr "Archivo XML de ruta de movimiento:"
 
 #: ../gap/gap_mov_dialog.c:7324
-#| msgid ""
-#| "Name of the file containing move path paramters and controlpoints in XML "
-#| "format"
 msgid ""
 "Name of the file containing move path parameters and controlpoints in XML "
 "format"
@@ -7046,11 +6979,6 @@ msgid "Copy Audiofile as Wavefile"
 msgstr "Copiar archivo de sonido como archivo de ondas"
 
 #: ../gap/gap_player_dialog.c:584
-#| msgid ""
-#| "Failure to start the wavplay server is fatal.\n"
-#| "Please check the executability of the 'wavplay' command.\n"
-#| "If you have installed the wavplay executeable somewhere\n"
-#| "you can set the Environmentvariable WAVPLAYPATH before gimp startup\n"
 msgid ""
 "Failure to start the wavplay server is fatal.\n"
 "Please check the executability of the 'wavplay' command.\n"
@@ -7953,10 +7881,6 @@ msgstr ""
 "manipular capas múltiples y requiere fotogramas aplanados."
 
 #: ../gap/gap_range_ops.c:515
-#| msgid ""
-#| "Merge resulting frame down to one layer. This keeps transparency "
-#| "information Example: use this for PNG fileformat that can handle "
-#| "transpararency (alpha channel) but is limited to one layer)"
 msgid ""
 "Merge resulting frame down to one layer. This keeps transparency information "
 "Example: use this for PNG fileformat that can handle transparency (alpha "
@@ -8003,10 +7927,6 @@ msgid "Imagetype:"
 msgstr "Tipo de imagen:"
 
 #: ../gap/gap_range_ops.c:574
-#| msgid ""
-#| "Convert to another imagetype, or keep imagetype as it is. Most "
-#| "fileformats can't handle all types and may require a conversion.Example: "
-#| "GIF can not handle RGB and requires convert to indexed imagetype."
 msgid ""
 "Convert to another imagetype, or keep imagetype as it is. Most fileformats "
 "can't handle all types and may require a conversion. Example: GIF can not "
@@ -8150,9 +8070,6 @@ msgid "Exclude BG-Layer:"
 msgstr "Excluir capa de fondo:"
 
 #: ../gap/gap_range_ops.c:777
-#| msgid ""
-#| "Exclude the background layer in all handled frames, regardless to the "
-#| "other settings of layer selection."
 msgid ""
 "Exclude the background layer in all handled frames, regardless of the other "
 "settings of layer selection."
@@ -8312,10 +8229,6 @@ msgid "Splitting image into frames..."
 msgstr "Dividiendo imagen en fotogramas…"
 
 #: ../gap/gap_split.c:365
-#| msgid ""
-#| "Split Frames: Save operation failed.\n"
-#| "desired save plugin can't handle type\n"
-#| "or desired save plugin not available."
 msgid ""
 "Split Frames: Save operation failed.\n"
 "Desired save plugin can't handle type\n"
@@ -8382,9 +8295,6 @@ msgid "Only Visible:"
 msgstr "Sólo visible:"
 
 #: ../gap/gap_split.c:479
-#| msgid ""
-#| "ON: Handle only visible layers.\n"
-#| "OFF: handle all layers and force visibiblity"
 msgid ""
 "ON: Handle only visible layers.\n"
 "OFF: handle all layers and force visibility"
@@ -8397,10 +8307,6 @@ msgid "Copy properties:"
 msgstr "Propiedades del clip:"
 
 #: ../gap/gap_split.c:487
-#| msgid ""
-#| "ON: Copy all image properties (channels, pathes, guides) to all frame "
-#| "images.\n"
-#| "OFF: copy only layers without image properties to frame images"
 msgid ""
 "ON: Copy all image properties (channels, paths, guides) to all frame "
 "images.\n"
@@ -8793,9 +8699,6 @@ msgstr "Ruta de movimiento:"
 #. page size        for the from/to values
 #. digits for the from/to values
 #: ../gap/gap_story_att_trans_dlg.c:3887
-#| msgid ""
-#| "ON: Enable move path transistions using settings provided via a movepath "
-#| "parameter file"
 msgid ""
 "ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
@@ -9488,10 +9391,6 @@ msgid "Decoder:"
 msgstr "Decodificador:"
 
 #: ../gap/gap_story_dialog.c:9515
-#| msgid ""
-#| "Select preferred video decoder library, or leave empty for automatic "
-#| "selection.The decoder setting is only relevant if videoclips are used "
-#| "(but not for frames that are imagefiles)"
 msgid ""
 "Select preferred video decoder library, or leave empty for automatic "
 "selection. The decoder setting is only relevant if videoclips are used (but "
@@ -9519,11 +9418,6 @@ msgstr "Formato de transparencia externa:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
 #, c-format
-#| msgid ""
-#| "Format string to provide external tranparency in movie clips. (e.g "
-#| "automatic alpha channel insertation)this string shall contain \\%s as "
-#| "placeholder for the basename of a videoclip and optional \\%06d as "
-#| "placeholder for the framenumber."
 msgid ""
 "Format string to provide external transparency in movie clips. (i.e. "
 "automatic alpha channel insertion via external frames)this string shall "
@@ -9543,10 +9437,6 @@ msgstr "ÁreaFormato:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
 #, c-format
-#| msgid ""
-#| "Format string for area replacement in movie clips. (e.g automatic logo "
-#| "insert)this string shall contain \\%s as placeholder for the basename of "
-#| "a videoclip and optional \\%06d as placeholder for the framenumber."
 msgid ""
 "Format string for area replacement in movie clips. (for example automatic "
 "logo insert)this string shall contain %s as placeholder for the basename of "
@@ -9581,12 +9471,11 @@ msgstr "sección_%02d"
 
 #: ../gap/gap_story_file.c:2716
 #, c-format
-#| msgid "illegal number: %s (valid range is %d upto %d)\n"
 msgid "illegal number: %s (valid range is %d up to %d)\n"
 msgstr "número ilegal: %s (rango válido entre %d y %d)\n"
 
 #: ../gap/gap_story_file.c:2755
-#, fuzzy, c-format
+#, c-format
 #| msgid "illegal number: %s (valid range is %.3f upto %.3f)"
 msgid "illegal number: %s (valid range is %.3f up to %.3f)"
 msgstr "número ilegal: %s (rango válido entre %.3f y %.3f)"
@@ -9699,10 +9588,9 @@ msgid "Set Image or Frame Filename"
 msgstr "Establecer imagen o nombre del fotograma"
 
 #: ../gap/gap_story_properties.c:2501
-#, fuzzy
 #| msgid "Set Colormark Parmeter Filename"
 msgid "Set Colormask Parameter Filename"
-msgstr "Establecer nombre del archivo de parámetros de marcas de color"
+msgstr "Establecer nombre del archivo del parámetro de máscara de color"
 
 #: ../gap/gap_story_properties.c:2601
 msgid "Set Filtermacro Filename"
@@ -10158,7 +10046,6 @@ msgid "analyze line %d (out of %d)"
 msgstr "analizada línea %d (de %d)"
 
 #: ../gap/gap_story_render_processor.c:3429
-#, fuzzy
 #| msgid "No Frames or Images found ...."
 msgid "No Frames or Images found ..."
 msgstr "No se encontraron fotogramas o imágenes…"
@@ -10637,7 +10524,6 @@ msgid "  %s (%d of %d)"
 msgstr "  %s (%d de %d)"
 
 #: ../gap/gap_video_index_creator.c:924
-#, fuzzy
 #| msgid ""
 #| "Conditional video index creation,  based on a few quick timcode "
 #| "probereads.\n"
@@ -10659,7 +10545,7 @@ msgstr ""
 "\n"
 "ADVERTENCIA: el posicionamiento por búsqueda nativa puede no ser exacto en "
 "caso de que algún paso crucial de código de tiempo no se detectase en el "
-"sondeo rápido"
+"sondeo rápido."
 
 #: ../gap/gap_video_index_creator.c:929
 msgid ""
@@ -10723,7 +10609,6 @@ msgid "Percentage:"
 msgstr "Porcentaje:"
 
 #: ../gap/gap_video_index_creator.c:994
-#, fuzzy
 #| msgid ""
 #| "stop scan after percentage reached and no unplausible timecode was "
 #| "detected so far (only relevant in smart mode)"
@@ -10809,7 +10694,6 @@ msgstr ""
 "imagen"
 
 #: ../gap/gap_water_pattern.c:1216
-#, fuzzy
 #| msgid ""
 #| "ON: create waterpattern cloud layers according options. OFF: Use external "
 #| "pattern layers. "
@@ -11190,16 +11074,14 @@ msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
 msgstr "<Image>/Script-Fu/Animadores/Selección de Imagen Anim…"
 
 #: ../gap/sel-to-anim-img.scm:123
-#, fuzzy
 #| msgid "Number of Colors"
 msgid "Number of Copies"
-msgstr "Número de colores"
+msgstr "Número de copias"
 
 #: ../gap/sel-to-anim-img.scm:124
-#, fuzzy
 #| msgid "Select By Color"
 msgid "Fill with BG Color"
-msgstr "Seleccionar por color"
+msgstr "Rellenar con color BG"
 
 #: ../gap/sel-to-anim-img.scm:125
 msgid "Anim-Filter for all Copies"
@@ -12125,7 +12007,6 @@ msgstr ""
 "Este complemento es la interfaz principal de codificación de vídeo y sonido"
 
 #: ../vid_common/gap_cme_main.c:148
-#, fuzzy
 #| msgid ""
 #| "This plugin is a common GUI for all available video + audio encoding "
 #| "plugins it operates on a selected range of animframes or storyboard "
@@ -12336,7 +12217,6 @@ msgid "BGR (rgb):"
 msgstr "BGR (rgb):"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:921
-#, fuzzy
 #| msgid ""
 #| "Check if you want to encode frames in BGR (prefered) or RGB colormodel "
 #| "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
@@ -12566,13 +12446,12 @@ msgstr "Ajuste predeterminado seleccionado: %s"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:502
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:518
-#, fuzzy
 #| msgid "Recommanded Framesize"
 msgid "Recommended Framesize"
 msgstr "Tamaño de fotograma recomendado"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:529
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Selected Fileformat : [%s] %s\n"
 #| "Recommanded Video CODEC : %s\n"
@@ -13226,7 +13105,6 @@ msgid "Dont Recode"
 msgstr "No recodificar"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2478
-#, fuzzy
 #| msgid ""
 #| "Bypass the FFMPEG Vidoencoder where inputframes can be copied 1:1 from an "
 #| "input MPEG videofile.This experimental feature provides lossless MPEG "
@@ -14020,7 +13898,6 @@ msgstr ""
 "@rawframeS@"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:184
-#, fuzzy
 #| msgid ""
 #| "This plugin has a video encoder API but writes a series of single raw "
 #| "frames instead of one videofile. the filetype of the output frames is "
