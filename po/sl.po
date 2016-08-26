@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Gimp-gap 2.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-24 12:01+0100\n"
-"PO-Revision-Date: 2016-01-24 12:01+0100\n"
+"POT-Creation-Date: 2016-07-18 07:59+0000\n"
+"PO-Revision-Date: 2016-08-26 16:50+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language: sl\n"
@@ -20,9 +20,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
-"X-Generator: Poedit 1.8.6\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 1.8.8\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -42,7 +41,7 @@ msgstr "Vrednost:"
 msgid "Press Button"
 msgstr "Pritisnite gumb"
 
-#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2187
+#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2186
 msgid "Select"
 msgstr "Izberi"
 
@@ -236,7 +235,7 @@ msgstr "Napaka: Ni mogoče shraniti sličice %s"
 #: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
 #: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
 #: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
-#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3847
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3845
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Napaka: Ni mogoče preimenovati sličic od %ld do %ld"
@@ -399,7 +398,7 @@ msgstr "Spremeni zgoščenost sličic"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2039
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2038
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -1402,8 +1401,8 @@ msgstr "Izločanje se začne na navedenem časovnem odmiku HH:MM:SS slike"
 
 #. Frames Duration button
 #. Frames Overlap duration button
-#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3407
-#: ../gap/gap_story_att_trans_dlg.c:3661
+#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3409
+#: ../gap/gap_story_att_trans_dlg.c:3663
 msgid "Frames:"
 msgstr "Št. sličic:"
 
@@ -1912,19 +1911,19 @@ msgstr ""
 "Izločenih sličic ni mogoče najti,\n"
 "xanim ni uspel ali je bil preklican"
 
-#: ../gap/gap_detail_align_exec.c:634
+#: ../gap/gap_detail_align_exec.c:743
 msgid "Frame Phase:"
 msgstr "Faza sličic:"
 
-#: ../gap/gap_detail_align_exec.c:635
+#: ../gap/gap_detail_align_exec.c:744
 msgid "Frame number (phase) to be rendered."
 msgstr "Številka sličice (faza), ki bo upodobljena."
 
-#: ../gap/gap_detail_align_exec.c:648
+#: ../gap/gap_detail_align_exec.c:757
 msgid "XML file:"
 msgstr "Datoteka XML:"
 
-#: ../gap/gap_detail_align_exec.c:649
+#: ../gap/gap_detail_align_exec.c:758
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
@@ -1933,7 +1932,7 @@ msgstr ""
 "funkcijo sledenja podrobnosti)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:658 ../gap/gap_detail_tracking_exec.c:1474
+#: ../gap/gap_detail_align_exec.c:767 ../gap/gap_detail_tracking_exec.c:2315
 #: ../gap/gap_mov_dialog.c:1596 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:529 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5307 ../gap/gap_story_dialog.c:5664
@@ -1942,24 +1941,24 @@ msgstr ""
 msgid "Default"
 msgstr "Privzeto"
 
-#: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1475
+#: ../gap/gap_detail_align_exec.c:768 ../gap/gap_detail_tracking_exec.c:2316
 #: ../gap/gap_mov_dialog.c:1597 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:530 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Ponastavi vse parametre na privzete vrednosti"
 
-#: ../gap/gap_detail_align_exec.c:661
+#: ../gap/gap_detail_align_exec.c:770
 msgid "Detail Align via XML"
 msgstr "Poravnava podrobnosti prek XML"
 
-#: ../gap/gap_detail_align_exec.c:662 ../gap/gap_detail_tracking_exec.c:1478
+#: ../gap/gap_detail_align_exec.c:771 ../gap/gap_detail_tracking_exec.c:2319
 #: ../gap/gap_name2layer_main.c:536 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Nastavitve:"
 
-#: ../gap/gap_detail_align_exec.c:946
+#: ../gap/gap_detail_align_exec.c:1055
 #, c-format
 msgid ""
 "Current path with 4 point triggers transformations:\n"
@@ -1978,7 +1977,7 @@ msgstr ""
 "Pritisnite gumb V redu za preoblikovanje plasti\n"
 "na način, da se točka3 premakne k točki1 in točka 4 k točki2."
 
-#: ../gap/gap_detail_align_exec.c:967
+#: ../gap/gap_detail_align_exec.c:1076
 #, c-format
 msgid ""
 "Current path with 2 points triggers simple move:\n"
@@ -1993,7 +1992,7 @@ msgstr ""
 "Pritisnite gumb V redu za premik plasti\n"
 "na način, da se točka2 premakne k točki1."
 
-#: ../gap/gap_detail_align_exec.c:983
+#: ../gap/gap_detail_align_exec.c:1092
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
@@ -2005,19 +2004,19 @@ msgstr ""
 "točke poti.\n"
 "Ustvarite pot in pritisnite gumb Osveži."
 
-#: ../gap/gap_detail_align_exec.c:1090
+#: ../gap/gap_detail_align_exec.c:1199
 msgid "Transform Layer via 4 (or 2) point Alignment"
 msgstr "Preoblikuj plast prek 4(ali 2)-točkovne poravnave"
 
 #. pointOrder radiobutton
 #. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
 #.
-#: ../gap/gap_detail_align_exec.c:1143
+#: ../gap/gap_detail_align_exec.c:1252
 msgid "Path Point Order:"
 msgstr "Zaporedje točk poti:"
 
 #. Order Mode the radio buttons
-#: ../gap/gap_detail_align_exec.c:1161
+#: ../gap/gap_detail_align_exec.c:1270
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Target is marked by points 1&2 "
@@ -2025,7 +2024,7 @@ msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Cilj označujeta točki 1 in 2 "
 
-#: ../gap/gap_detail_align_exec.c:1279
+#: ../gap/gap_detail_align_exec.c:1388
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
@@ -2042,7 +2041,7 @@ msgstr ""
 "Pot z dvema točkama lahko uporabite za premik točke 2 v točko 1 (prek "
 "enostavne operacije premika brez sukanja in spremembe merila)."
 
-#: ../gap/gap_detail_align_exec.c:1290
+#: ../gap/gap_detail_align_exec.c:1399
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
@@ -2059,12 +2058,12 @@ msgstr ""
 "Pot z dvema točkama lahko uporabite za premik točke 2 v točko 1 (prek "
 "enostavne operacije premika brez sukanja in spremembe merila)."
 
-#: ../gap/gap_detail_tracking_exec.c:1198
+#: ../gap/gap_detail_tracking_exec.c:2021
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
 msgstr ""
 "Sledenje podrobnosti ustavljeno (ustrezne podrobnosti ni mogoče najti)."
 
-#: ../gap/gap_detail_tracking_exec.c:1333
+#: ../gap/gap_detail_tracking_exec.c:2158
 msgid ""
 "This filter requires a current path with one or 2 anchor points\n"
 "to mark coordinate(s) to be tracked in the target frame(s)"
@@ -2072,11 +2071,23 @@ msgstr ""
 "Ta filter zahteva trenutno pot z eno ali dvema točkama sidranja\n"
 "za označitev koordinat, ki bodo zasledovane v ciljnih sličicah."
 
-#: ../gap/gap_detail_tracking_exec.c:1339
+#: ../gap/gap_detail_tracking_exec.c:2163
+msgid "Select Points:"
+msgstr "Izberite točke:"
+
+#: ../gap/gap_detail_tracking_exec.c:2164
+msgid ""
+"1: select only the best path point for movement detection, 2: select the "
+"best 2 points for movement,scale and rotation detection."
+msgstr ""
+"1: izberite le najboljšo točko poti za zaznavo gibanja; 2: izberite "
+"najboljši točki za zaznavo gibanja, razmerja in sukanja."
+
+#: ../gap/gap_detail_tracking_exec.c:2180
 msgid "Locate colordiff Thres:"
 msgstr "Prag lociranja barvne razlike:"
 
-#: ../gap/gap_detail_tracking_exec.c:1340
+#: ../gap/gap_detail_tracking_exec.c:2181
 msgid ""
 "Colordiff threshold value. Locate fails when average color difference is "
 "below this value."
@@ -2084,11 +2095,11 @@ msgstr ""
 "Vrednost praga barvne razlike. Lociranje je neuspešno, ko je povprečna "
 "barvna razlika pod to vrednostjo."
 
-#: ../gap/gap_detail_tracking_exec.c:1352 ../gap/gap_morph_tween_dialog.c:819
+#: ../gap/gap_detail_tracking_exec.c:2193 ../gap/gap_morph_tween_dialog.c:819
 msgid "Locate Shape Radius:"
 msgstr "Polmer lociranja lika:"
 
-#: ../gap/gap_detail_tracking_exec.c:1353
+#: ../gap/gap_detail_tracking_exec.c:2194
 msgid ""
 "The quadratic area surrounding a marked detail coordinate +- this radius is "
 "considered as reference shape, to be tracked in the target frame(s)."
@@ -2096,19 +2107,19 @@ msgstr ""
 "Kvadratno območje, ki obkroža koordinate označene podrobnosti +- ta radij "
 "velja za referenčni lik, ki se mu bo sledilo v ciljnih sličicah."
 
-#: ../gap/gap_detail_tracking_exec.c:1366
+#: ../gap/gap_detail_tracking_exec.c:2207
 msgid "Locate Target Move Radius:"
 msgstr "Polmer lociranja premika cilja:"
 
-#: ../gap/gap_detail_tracking_exec.c:1367
+#: ../gap/gap_detail_tracking_exec.c:2208
 msgid "Limits attempts to locate the Detail within this radius."
 msgstr "Omeji poskuse lociranja podrobnosti na ta radij."
 
-#: ../gap/gap_detail_tracking_exec.c:1381
+#: ../gap/gap_detail_tracking_exec.c:2222
 msgid "Log Relative Coords:"
 msgstr "Beleži relativne koordinate:"
 
-#: ../gap/gap_detail_tracking_exec.c:1382
+#: ../gap/gap_detail_tracking_exec.c:2223
 msgid ""
 "ON: Coordinates are logged relative to the first coordinate.\n"
 "OFF: Coordinates are logged as absolute pixel coordinate values."
@@ -2117,11 +2128,11 @@ msgstr ""
 "IZKLJUČENO: Koordinate se beležijo v absolutnih vrednostih koordinat "
 "slikovnih točk."
 
-#: ../gap/gap_detail_tracking_exec.c:1391
+#: ../gap/gap_detail_tracking_exec.c:2232
 msgid "Log Scaling:"
 msgstr "Beleži merilo velikosti:"
 
-#: ../gap/gap_detail_tracking_exec.c:1392
+#: ../gap/gap_detail_tracking_exec.c:2233
 msgid ""
 "ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
 "OFF: Calculate only rotation and keep original size."
@@ -2130,11 +2141,11 @@ msgstr ""
 "podrobnosti.\n"
 "IZKLJUČENO: Izračuna le sukanje in ohrani izvorno velikost."
 
-#: ../gap/gap_detail_tracking_exec.c:1402
+#: ../gap/gap_detail_tracking_exec.c:2243
 msgid "BG is Reference:"
 msgstr "Ozadje je sklic:"
 
-#: ../gap/gap_detail_tracking_exec.c:1403
+#: ../gap/gap_detail_tracking_exec.c:2244
 msgid ""
 "ON: Use background layer as reference and foreground layer as target for "
 "tracking.\n"
@@ -2146,11 +2157,11 @@ msgstr ""
 "IZKLJUČENO: Uporabi plast ospredja kot cilj in plast pod njo kot sklic.\n"
 "."
 
-#: ../gap/gap_detail_tracking_exec.c:1411
+#: ../gap/gap_detail_tracking_exec.c:2252
 msgid "Remove Middle Layers:"
 msgstr "Odstrani vmesne plasti:"
 
-#: ../gap/gap_detail_tracking_exec.c:1412
+#: ../gap/gap_detail_tracking_exec.c:2253
 msgid ""
 "ON: removes layers (except BG and 2 Layer on top) that are not relevant for "
 "detail tracking.\n"
@@ -2160,35 +2171,35 @@ msgstr ""
 "pomembne za sledeneje podrobnostim.\n"
 "IZKLJUČENO: Ohrani vse plasti."
 
-#: ../gap/gap_detail_tracking_exec.c:1423
+#: ../gap/gap_detail_tracking_exec.c:2264
 msgid "Const X Offset:"
 msgstr "Konst. zamik X:"
 
-#: ../gap/gap_detail_tracking_exec.c:1424
+#: ../gap/gap_detail_tracking_exec.c:2265
 msgid "This value is added when logging captured X coordinates."
 msgstr "Ta vrednost je dodana pri beleženju zajetih koordinat X."
 
-#: ../gap/gap_detail_tracking_exec.c:1437
+#: ../gap/gap_detail_tracking_exec.c:2278
 msgid "Const Y Offset:"
 msgstr "Konst. zamik Y:"
 
-#: ../gap/gap_detail_tracking_exec.c:1438
+#: ../gap/gap_detail_tracking_exec.c:2279
 msgid "This value is added when logging captured Y coordinates."
 msgstr "Ta vrednost je dodana pri beleženju zajetih koordinat Y."
 
-#: ../gap/gap_detail_tracking_exec.c:1451
+#: ../gap/gap_detail_tracking_exec.c:2292
 msgid "Const Rotate Offset:"
 msgstr "Konst. zamik sukanja:"
 
-#: ../gap/gap_detail_tracking_exec.c:1452
+#: ../gap/gap_detail_tracking_exec.c:2293
 msgid "This value is added when logging rotation values."
 msgstr "Ta vrednost je dodana pri beleženju vrednosti sukanja."
 
-#: ../gap/gap_detail_tracking_exec.c:1464
+#: ../gap/gap_detail_tracking_exec.c:2305
 msgid "MovePath XML file:"
 msgstr "Datoteka XML za pot premika:"
 
-#: ../gap/gap_detail_tracking_exec.c:1465
+#: ../gap/gap_detail_tracking_exec.c:2306
 msgid ""
 "Name of the file to log the tracked detail coordinates  as XML parameterfile "
 "for later use in the MovePath plug-in."
@@ -2196,7 +2207,7 @@ msgstr ""
 "Ime datoteke, ki beleži koordinate zasledovane podrobnosti kot datoteko "
 "parametrov XML za kasnejšo rabo z vtičnikom PotPremika."
 
-#: ../gap/gap_detail_tracking_exec.c:1477
+#: ../gap/gap_detail_tracking_exec.c:2318
 msgid "Detail Tracking"
 msgstr "Sledenje podrobnosti"
 
@@ -2411,11 +2422,11 @@ msgstr ""
 msgid "Applying filter to all layers..."
 msgstr "Uporaba filtra na vseh plasteh ..."
 
-#: ../gap/gap_filter_foreach.c:702
+#: ../gap/gap_filter_foreach.c:707
 msgid "Select Filter for Animated Apply"
 msgstr "Izberite filter za uporabo na animaciji"
 
-#: ../gap/gap_filter_foreach.c:703 ../gap/gap_mod_layer.c:1451
+#: ../gap/gap_filter_foreach.c:708 ../gap/gap_mod_layer.c:1451
 msgid "Apply"
 msgstr "Uporabi"
 
@@ -2705,7 +2716,7 @@ msgstr ""
 #. table col, row
 #: ../gap/gap_fire_pattern.c:2327 ../gap/gap_mov_dialog.c:5124
 #: ../gap/gap_mov_dialog.c:5399 ../gap/gap_onion_dialog.c:1136
-#: ../gap/gap_story_att_trans_dlg.c:3731 ../gap/gap_water_pattern.c:1407
+#: ../gap/gap_story_att_trans_dlg.c:3733 ../gap/gap_water_pattern.c:1407
 #: ../gap/gap_wr_opacity.c:332
 msgid "Opacity:"
 msgstr "Prekrivnost:"
@@ -2907,7 +2918,7 @@ msgstr "MPEG2 ..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Video/Kodiraj/"
 
-#: ../gap/gap_lib.c:2016
+#: ../gap/gap_lib.c:2015
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2915,23 +2926,23 @@ msgstr ""
 "Operacija je preklicana.\n"
 "Tekoča sličica se je spremenila, medtem ko je bilo pogovorno okno odprto."
 
-#: ../gap/gap_lib.c:2155
+#: ../gap/gap_lib.c:2154
 msgid "overwrite flattened"
 msgstr "prepiši sploščeno"
 
-#: ../gap/gap_lib.c:2157
+#: ../gap/gap_lib.c:2156
 msgid "overwrite"
 msgstr "prepiši"
 
-#: ../gap/gap_lib.c:2159
+#: ../gap/gap_lib.c:2158
 msgid "read only"
 msgstr "samo za branje"
 
-#: ../gap/gap_lib.c:2161
+#: ../gap/gap_lib.c:2160
 msgid "discard changes"
 msgstr "opusti spremembe"
 
-#: ../gap/gap_lib.c:2166
+#: ../gap/gap_lib.c:2165
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -2948,11 +2959,11 @@ msgstr ""
 "medtem ko se samodejno prepisovanje (npr. izvoz) v druge zapise\n"
 "običajno konča z izgubo plasti in drugih informacij."
 
-#: ../gap/gap_lib.c:2176
+#: ../gap/gap_lib.c:2175
 msgid "Save my decision:"
 msgstr "Shrani mojo odločitev:"
 
-#: ../gap/gap_lib.c:2177
+#: ../gap/gap_lib.c:2176
 #, c-format
 msgid ""
 "Save decision for this fileformat for further gimp sessions.\n"
@@ -2961,11 +2972,11 @@ msgstr ""
 "Shrani odločitev za to vrsto datotek za nadaljnje seje gimp.\n"
 "To ustvari vnos v datoteki gimprc s ključem: %s)"
 
-#: ../gap/gap_lib.c:2186
+#: ../gap/gap_lib.c:2185
 msgid "Fileformat Warning"
 msgstr "Opozorilo vrste datoteke"
 
-#: ../gap/gap_lib.c:2453
+#: ../gap/gap_lib.c:2452
 #, c-format
 msgid ""
 "Frame operation blocked\n"
@@ -5429,7 +5440,7 @@ msgstr "Nastavi izvorno prekrivnost plasti v odstotkih"
 
 #. Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3705
+#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3707
 msgid "Rotate:"
 msgstr "Zasukaj:"
 
@@ -5619,7 +5630,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3755
 msgid ""
 "acceleration characteristic for opacity (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5663,7 +5674,7 @@ msgstr "Zasukanost:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3725
+#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3727
 msgid ""
 "acceleration characteristic for rotation (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -8239,25 +8250,25 @@ msgstr "Ponastavi točko"
 msgid "Rotate Follow"
 msgstr "Sledi zasuku"
 
-#: ../gap/gap_story_att_trans_dlg.c:2804
+#: ../gap/gap_story_att_trans_dlg.c:2806
 msgid "Set Movepath Parameterfile (XML)"
 msgstr "Določi datoteko parametro poti premika (XML)"
 
 #. auto update toggle  check button
-#: ../gap/gap_story_att_trans_dlg.c:3210
+#: ../gap/gap_story_att_trans_dlg.c:3212
 msgid "Update"
 msgstr "Posodobi"
 
-#: ../gap/gap_story_att_trans_dlg.c:3215
+#: ../gap/gap_story_att_trans_dlg.c:3217
 msgid "automatic update using the referred frame"
 msgstr "Samodejna posodobitev z uporabo sličice sklica"
 
 #. from start label
-#: ../gap/gap_story_att_trans_dlg.c:3320
+#: ../gap/gap_story_att_trans_dlg.c:3322
 msgid "Start:"
 msgstr "Začetek:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3323 ../gap/gap_story_att_trans_dlg.c:3366
+#: ../gap/gap_story_att_trans_dlg.c:3325 ../gap/gap_story_att_trans_dlg.c:3368
 msgid ""
 "Reset to: defaults, use modifier keys CTRL, ALT for alternative defaults. "
 "SHIFT resets to initial value"
@@ -8266,58 +8277,58 @@ msgstr ""
 "alternativne privzete vrednosti. Dvigalka ponastavi na začetno vrednost."
 
 #. to (end value of transition) button
-#: ../gap/gap_story_att_trans_dlg.c:3363
+#: ../gap/gap_story_att_trans_dlg.c:3365
 msgid "End:"
 msgstr "Konec:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3410 ../gap/gap_story_att_trans_dlg.c:3664
+#: ../gap/gap_story_att_trans_dlg.c:3412 ../gap/gap_story_att_trans_dlg.c:3666
 msgid "Copy this number of frames to all enabled rows"
 msgstr "Kopiraj to število sličic v vse omogočene vrstice"
 
-#: ../gap/gap_story_att_trans_dlg.c:3437
+#: ../gap/gap_story_att_trans_dlg.c:3439
 msgid "Number of frames (duration of transition from start to end value)"
 msgstr "Število sličic (dolžina prehoda od začetne do končne vrednosti)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3534 ../gap/gap_story_att_trans_dlg.c:3545
+#: ../gap/gap_story_att_trans_dlg.c:3536 ../gap/gap_story_att_trans_dlg.c:3547
 msgid "Transition Attributes"
 msgstr "Lastnosti prehoda"
 
 #. the frame
-#: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
+#: ../gap/gap_story_att_trans_dlg.c:3569 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
 #: ../gap/gap_story_properties.c:4040 ../gap/gap_story_section_properties.c:784
 msgid "Properties"
 msgstr "Lastnosti"
 
 #. the fit size label
-#: ../gap/gap_story_att_trans_dlg.c:3583
+#: ../gap/gap_story_att_trans_dlg.c:3585
 msgid "FitSize:"
 msgstr "Umeri velikost:"
 
 #. the fit width check button
-#: ../gap/gap_story_att_trans_dlg.c:3589
+#: ../gap/gap_story_att_trans_dlg.c:3591
 msgid "Width"
 msgstr "Širina"
 
-#: ../gap/gap_story_att_trans_dlg.c:3597
+#: ../gap/gap_story_att_trans_dlg.c:3599
 msgid "scale width of frame to fit master width"
 msgstr "Spremeni merilo širine sličice, da bo ustrezala glavni širini"
 
 #. the fit height check button
-#: ../gap/gap_story_att_trans_dlg.c:3608
+#: ../gap/gap_story_att_trans_dlg.c:3610
 msgid "Height"
 msgstr "Višina"
 
-#: ../gap/gap_story_att_trans_dlg.c:3616
+#: ../gap/gap_story_att_trans_dlg.c:3618
 msgid "scale height of frame to fit master height"
 msgstr "Spremeni merilo višine sličice, da bo ustrezala glavni višini"
 
 #. the keep proportions check button
-#: ../gap/gap_story_att_trans_dlg.c:3627
+#: ../gap/gap_story_att_trans_dlg.c:3629
 msgid "Keep Proportion"
 msgstr "Ohrani razmerja"
 
-#: ../gap/gap_story_att_trans_dlg.c:3635
+#: ../gap/gap_story_att_trans_dlg.c:3637
 msgid ""
 "ON: keep proportions at scaling.  (this may result in black borders)OFF: "
 "allow changes of image proportions at scaling"
@@ -8326,11 +8337,11 @@ msgstr ""
 "robove). IZKLJUČENO: Dovoli spremembe razmerja stranic ob spremembi merila."
 
 #. the overlap label (same row as FitSize)
-#: ../gap/gap_story_att_trans_dlg.c:3654
+#: ../gap/gap_story_att_trans_dlg.c:3656
 msgid "Overlap:"
 msgstr "Prekrivajoče sličice:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3689
+#: ../gap/gap_story_att_trans_dlg.c:3691
 msgid "Number of overlapping frames within this track"
 msgstr "Število prekrivajočih se sličic na tej sledi"
 
@@ -8340,22 +8351,22 @@ msgstr "Število prekrivajočih se sličic na tej sledi"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3717
+#: ../gap/gap_story_att_trans_dlg.c:3719
 msgid "ON: Enable rotation settings"
 msgstr "VKLJUČENO: Omogoči nastavitve sukanja"
 
-#: ../gap/gap_story_att_trans_dlg.c:3719
+#: ../gap/gap_story_att_trans_dlg.c:3721
 msgid "rotation value in degree for the first handled frame "
 msgstr "vrednost sukanja v stopinjah za prvo obravnavano sličico"
 
-#: ../gap/gap_story_att_trans_dlg.c:3721
+#: ../gap/gap_story_att_trans_dlg.c:3723
 msgid "rotation value in degree for the last handled frame "
 msgstr "Vrednost sukanja v stopinjah za zadnjo obravnavano sličico"
 
-#: ../gap/gap_story_att_trans_dlg.c:3723 ../gap/gap_story_att_trans_dlg.c:3751
-#: ../gap/gap_story_att_trans_dlg.c:3780 ../gap/gap_story_att_trans_dlg.c:3809
-#: ../gap/gap_story_att_trans_dlg.c:3837 ../gap/gap_story_att_trans_dlg.c:3865
-#: ../gap/gap_story_att_trans_dlg.c:3895
+#: ../gap/gap_story_att_trans_dlg.c:3725 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_story_att_trans_dlg.c:3782 ../gap/gap_story_att_trans_dlg.c:3811
+#: ../gap/gap_story_att_trans_dlg.c:3839 ../gap/gap_story_att_trans_dlg.c:3867
+#: ../gap/gap_story_att_trans_dlg.c:3897
 msgid "number of frames"
 msgstr "Število sličic"
 
@@ -8365,11 +8376,11 @@ msgstr "Število sličic"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3743
+#: ../gap/gap_story_att_trans_dlg.c:3745
 msgid "ON: Enable opacity settings"
 msgstr "VKLJUČENO: Omogoči nastavitve prekrivnosti"
 
-#: ../gap/gap_story_att_trans_dlg.c:3745
+#: ../gap/gap_story_att_trans_dlg.c:3747
 msgid ""
 "opacity value for the first handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
@@ -8377,7 +8388,7 @@ msgstr ""
 "vrednost prekrivnosti prve obravnavane sličice, kjer je 100 povsem "
 "prekrivno, 0 pa povsem prosojno"
 
-#: ../gap/gap_story_att_trans_dlg.c:3748
+#: ../gap/gap_story_att_trans_dlg.c:3750
 msgid ""
 "opacity value for the last handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
@@ -8385,7 +8396,7 @@ msgstr ""
 "vrednost prekrivnosti zadnje obravnavane sličice, kjer je 100 povsem "
 "prekrivno, 0 pa povsem prosojno"
 
-#: ../gap/gap_story_att_trans_dlg.c:3760
+#: ../gap/gap_story_att_trans_dlg.c:3762
 msgid "Move X:"
 msgstr "Premakni X:"
 
@@ -8395,11 +8406,11 @@ msgstr "Premakni X:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3772
+#: ../gap/gap_story_att_trans_dlg.c:3774
 msgid "ON: Enable move horizontal settings"
 msgstr "VKLJUČENO: Omogoči nastavitve vodoravnega premika"
 
-#: ../gap/gap_story_att_trans_dlg.c:3774
+#: ../gap/gap_story_att_trans_dlg.c:3776
 msgid ""
 "move horizontal value for the first handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
@@ -8407,7 +8418,7 @@ msgstr ""
 "Vrednost vodoravnega premika prve obravnavane sličice (0,0 je sredina, 100,0 "
 "desni rob, -100,0 pa levi rob)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3777
+#: ../gap/gap_story_att_trans_dlg.c:3779
 msgid ""
 "move horizontal value for the last handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
@@ -8415,7 +8426,7 @@ msgstr ""
 "Vrednost vodoravnega premika zadnje obravnavane sličice (0,0 je sredina, "
 "100,0 desni rob, -100,0 pa levi rob)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3782
+#: ../gap/gap_story_att_trans_dlg.c:3784
 msgid ""
 "acceleration characteristic for horizontal move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8423,7 +8434,7 @@ msgstr ""
 "značilnost pospeševanja za vodoravni premik (1 za konstantno hitrost, "
 "pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3789
+#: ../gap/gap_story_att_trans_dlg.c:3791
 msgid "Move Y:"
 msgstr "Premakni Y:"
 
@@ -8433,11 +8444,11 @@ msgstr "Premakni Y:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3801
+#: ../gap/gap_story_att_trans_dlg.c:3803
 msgid "ON: Enable move vertical settings"
 msgstr "VKLJUČENO: Omogoči nastavitve navpičnega premika"
 
-#: ../gap/gap_story_att_trans_dlg.c:3803
+#: ../gap/gap_story_att_trans_dlg.c:3805
 msgid ""
 "move vertical value for the first handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
@@ -8445,7 +8456,7 @@ msgstr ""
 "Vrednost navpičnega premika prve obravnavane sličice (0,0 je sredina, 100,0 "
 "spodnji rob, -100,0 pa zgornji rob)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3806
+#: ../gap/gap_story_att_trans_dlg.c:3808
 msgid ""
 "move vertical value for the last handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
@@ -8453,7 +8464,7 @@ msgstr ""
 "Vrednost navpičnega premika zadnje obravnavane sličice (0,0 je sredina, "
 "100,0 spodnji rob, -100,0 pa zgornji rob)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3811
+#: ../gap/gap_story_att_trans_dlg.c:3813
 msgid ""
 "acceleration characteristic for vertical move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8461,7 +8472,7 @@ msgstr ""
 "značilnost pospeševanja za navpični premik (1 za konstantno hitrost, "
 "pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3817
+#: ../gap/gap_story_att_trans_dlg.c:3819
 msgid "Scale Width:"
 msgstr "Sprememba merila po širini:"
 
@@ -8471,11 +8482,11 @@ msgstr "Sprememba merila po širini:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3829
+#: ../gap/gap_story_att_trans_dlg.c:3831
 msgid "ON: Enable scale width settings"
 msgstr "VKLJUČENO: Omogoči nastavitve spremembe merila širine"
 
-#: ../gap/gap_story_att_trans_dlg.c:3831
+#: ../gap/gap_story_att_trans_dlg.c:3833
 msgid ""
 "scale width value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
@@ -8483,7 +8494,7 @@ msgstr ""
 "spremeni merilo širine za prvo obravnavano sličico (kjer 100 pomeni 1:1, 50 "
 "polovično, 200 pa dvojno širino)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3834
+#: ../gap/gap_story_att_trans_dlg.c:3836
 msgid ""
 "scale width value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
@@ -8491,7 +8502,7 @@ msgstr ""
 "spremeni merilo širine za zadnjo obravnavano sličico (kjer 100 pomeni 1:1, "
 "50 polovično, 200 pa dvojno širino)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3839
+#: ../gap/gap_story_att_trans_dlg.c:3841
 msgid ""
 "acceleration characteristic for scale width (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -8499,7 +8510,7 @@ msgstr ""
 "značilnost pospeševanja za spr. velikosti po širini (1 za konstantno "
 "hitrost, pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3845
+#: ../gap/gap_story_att_trans_dlg.c:3847
 msgid "Scale Height:"
 msgstr "Sprememba merila po višini:"
 
@@ -8509,11 +8520,11 @@ msgstr "Sprememba merila po višini:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3857
+#: ../gap/gap_story_att_trans_dlg.c:3859
 msgid "ON: Enable scale height settings"
 msgstr "VKLJUČENO: Omogoči nastavitve spremembe merila višine"
 
-#: ../gap/gap_story_att_trans_dlg.c:3859
+#: ../gap/gap_story_att_trans_dlg.c:3861
 msgid ""
 "scale height value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
@@ -8521,7 +8532,7 @@ msgstr ""
 "spremeni merilo višine za prvo obravnavano sličico (kjer 100 pomeni 1:1, 50 "
 "polovično, 200 pa dvojno višino)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3862
+#: ../gap/gap_story_att_trans_dlg.c:3864
 msgid ""
 "scale height value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
@@ -8529,7 +8540,7 @@ msgstr ""
 "spremeni merilo višine za zadnjo obravnavano sličico (kjer 100 pomeni 1:1, "
 "50 polovično, 200 pa dvojno višino)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3867
+#: ../gap/gap_story_att_trans_dlg.c:3869
 msgid ""
 "acceleration characteristic for scale height (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -8537,7 +8548,7 @@ msgstr ""
 "značilnost pospeševanja za spr. velikosti po višini (1 za konstantno "
 "hitrost, pozitivno pospešuje, negativno pojemuje)"
 
-#: ../gap/gap_story_att_trans_dlg.c:3873
+#: ../gap/gap_story_att_trans_dlg.c:3875
 msgid "Move Path:"
 msgstr "Pot premika:"
 
@@ -8547,7 +8558,7 @@ msgstr "Pot premika:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3885
+#: ../gap/gap_story_att_trans_dlg.c:3887
 msgid ""
 "ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
@@ -8555,7 +8566,7 @@ msgstr ""
 "VKLJUČENO: Omogoči prehode premika vzdolž poti z nastavitvami, ki so "
 "zapisane v datoteki parametrov poti premika"
 
-#: ../gap/gap_story_att_trans_dlg.c:3887
+#: ../gap/gap_story_att_trans_dlg.c:3889
 msgid ""
 "frame number (phase) of the movement/transition along path for the first "
 "handled frame where 1 is the begin of the path using settings of the 1st "
@@ -8565,7 +8576,7 @@ msgstr ""
 "sličico, kjer 1 pomeni začetek poti z uporabo nastavitev prve nadzorne točke "
 "v datoteki parametrov poti premika."
 
-#: ../gap/gap_story_att_trans_dlg.c:3891
+#: ../gap/gap_story_att_trans_dlg.c:3893
 msgid ""
 "frame number (phase) of the movement/transition along path for the last "
 "handled frame. note that frame numbers higher than (or equal to) total "
@@ -8577,18 +8588,18 @@ msgstr ""
 "skupnega števila sličic, v datoteki parametrov poti premika veljajo "
 "nastavitve zadnje nadzorne točke v tej datoteki."
 
-#: ../gap/gap_story_att_trans_dlg.c:3897
+#: ../gap/gap_story_att_trans_dlg.c:3899
 msgid "acceleration characteristic (currently ignored)"
 msgstr "značilnost pospeševanja (trenutno prezrta)"
 
 #. the movepath label
-#: ../gap/gap_story_att_trans_dlg.c:3943
+#: ../gap/gap_story_att_trans_dlg.c:3945
 msgid "Movepath File:"
 msgstr "Datoteka poti premika:"
 
 #. the comment label
 #. the Comment lable
-#: ../gap/gap_story_att_trans_dlg.c:3990 ../gap/gap_story_properties.c:5048
+#: ../gap/gap_story_att_trans_dlg.c:3992 ../gap/gap_story_properties.c:5048
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3745
 msgid "Comment:"
 msgstr "Komentar:"
@@ -9867,11 +9878,11 @@ msgstr "Analiziraj vrstico %d (od %d-ih)"
 msgid "No Frames or Images found ..."
 msgstr "Ni najdenih sličic ali slik …"
 
-#: ../gap/gap_story_render_processor.c:7618
+#: ../gap/gap_story_render_processor.c:7621
 msgid "Seek Inputvideoframe..."
 msgstr "Poišči sličico vhodne slike ..."
 
-#: ../gap/gap_story_render_processor.c:7652
+#: ../gap/gap_story_render_processor.c:7655
 msgid "Continue Encoding..."
 msgstr "Nadaljuj s kodiranjem ..."
 
