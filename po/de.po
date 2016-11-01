@@ -14,9 +14,9 @@ msgstr ""
 "Project-Id-Version: gimp-gap master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-19 09:42+0000\n"
-"PO-Revision-Date: 2016-09-29 21:56+0200\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2016-09-29 20:32+0000\n"
+"PO-Revision-Date: 2016-11-01 15:19+0100\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -7759,19 +7759,19 @@ msgstr "Schwarz/Weiß-(1-Bit)-Palette verwenden"
 
 #: ../gap/gap_range_ops.c:380
 msgid "Floyd-Steinberg Color Dithering (Normal)"
-msgstr "Floyd-Steinberg-Farbrasterung (Normal)"
+msgstr "Floyd-Steinberg-Dithering (Normal)"
 
 #: ../gap/gap_range_ops.c:381
 msgid "Floyd-Steinberg Color Dithering (Reduced Color Bleeding)"
-msgstr "Floyd-Steinberg-Farbrasterung (Reduziertes Farbbluten)"
+msgstr "Floyd-Steinberg-Dithering (Reduziertes Farbbluten)"
 
 #: ../gap/gap_range_ops.c:382
 msgid "Positioned Color Dithering"
-msgstr "Positionierte Farbrasterung"
+msgstr "Positioniertes Farb-Dithering"
 
 #: ../gap/gap_range_ops.c:383
 msgid "No Color Dithering"
-msgstr "Keine Farbrasterung"
+msgstr "Kein Farb-Dithering"
 
 #: ../gap/gap_range_ops.c:395
 msgid "Palette Type"
@@ -7811,7 +7811,7 @@ msgstr ""
 
 #: ../gap/gap_range_ops.c:422
 msgid "Dither Options"
-msgstr "Einstellungen zur Rasterung"
+msgstr "Dithering-Einstellungen"
 
 #: ../gap/gap_range_ops.c:429
 msgid "Enable Transparency"
