@@ -1962,7 +1962,7 @@ msgid ""
 "(that is required for mplayer frame export)"
 msgstr ""
 "no s'ha pogut crear el directori %s\n"
-"(que és necessita per a l'exportació de fotogrames mplayer)"
+"(que es necessita per a l'exportació de fotogrames mplayer)"
 
 #: ../gap/gap_decode_mplayer.c:1553 ../gap/gap_decode_xanim.c:1133
 msgid "Extracting frames..."
@@ -2034,7 +2034,7 @@ msgid ""
 "you have to set environment variable GAP_XANIM_PROG\n"
 "to your xanim exporting program and restart gimp"
 msgstr ""
-"si la edició d'exportació xanim no és al voster camí o no s'anomena xanim\n"
+"si la edició d'exportació xanim no és al vostre camí o no s'anomena xanim\n"
 "heu de definir la variable d'entorn GAP_XANIM_PROG\n"
 "al vostre programa d'exportació xanim i tornar a iniciar el Gimp"
 
@@ -2315,7 +2315,7 @@ msgid ""
 "Target is marked by points 1&2 "
 msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
-"L'bjectiu està marcat pels punts 1 i 2"
+"L'objectiu està marcat pels punts 1 i 2"
 
 #: ../gap/gap_detail_align_exec.c:1388
 msgid ""
@@ -3121,7 +3121,7 @@ msgstr "Afegeix filtre"
 
 #: ../gap/gap_fmac_main.c:690
 msgid "Filter Macro Script"
-msgstr "Seqüència de la filtre macro"
+msgstr "Seqüència del filtre macro"
 
 #  label
 #  label
@@ -3132,7 +3132,7 @@ msgstr "Nom de fitxer:"
 
 #: ../gap/gap_fmac_main.c:726
 msgid "Name of the filtermacro scriptfile"
-msgstr "Nom del fitxer de seqüència de la filtre macro"
+msgstr "Nom del fitxer de seqüència del filtre macro"
 
 #: ../gap/gap_fmac_main.c:736
 msgid "Open filebrowser window to select a filename"
@@ -3185,7 +3185,7 @@ msgstr "Suprimeix-ho tot"
 
 #: ../gap/gap_fmac_main.c:1117
 msgid "Delete the filtermacro scriptfile"
-msgstr "Suprimeix el fitxer de seqüència de la filtre macro"
+msgstr "Suprimeix el fitxer de seqüència del filtre macro"
 
 #  Button Delete
 #  radio button DELETE
@@ -3215,7 +3215,7 @@ msgid ""
 "settings of the last call"
 msgstr ""
 "Obre la finestra del navegador PDB per afegir un nou filtre pel fitxer de "
-"seqüència de la filtre macro.\n"
+"seqüència del filtre macro.\n"
 "Important:\n"
 "El navegador PDB només mostra filtres que ja hagin estat utilitzats en la "
 "sessió actual i hagin configurat la memòria intermèdia interna amb la "
@@ -3228,7 +3228,7 @@ msgstr "Tanca la finestra"
 #: ../gap/gap_fmac_main.c:1177
 msgid "Apply filtermacro script on current drawable and close window"
 msgstr ""
-"Aplica la seqüència de la filtre macro en el dibuixable actual i tanca la "
+"Aplica la seqüència del filtre macro en el dibuixable actual i tanca la "
 "finestra"
 
 #: ../gap/gap_fmac_main.c:1380
@@ -3238,13 +3238,13 @@ msgid ""
 "filename: '%s'\n"
 "%s"
 msgstr ""
-"Error: No s'ha pogut escriure en la seqüència de la filtre macro\n"
+"Error: No s'ha pogut escriure en la seqüència del filtre macro\n"
 "nom de fitxer: «%s»\n"
 "%s"
 
 #: ../gap/gap_fmac_main.c:1404
 msgid "Select Filtermacro Scriptfile"
-msgstr "Selecciona el fitxer de seqüència de la filtre macro"
+msgstr "Selecciona el fitxer de seqüència del filtre macro"
 
 #: ../gap/gap_frontends_main.c:141 ../gap/gap_frontends_main.c:154
 msgid "XANIM based extraction..."
@@ -4991,7 +4991,7 @@ msgstr "Crea punts:"
 
 #: ../gap/gap_morph_tween_dialog.c:1107 ../gap/gap_morph_tween_dialog.c:1118
 msgid "Create Tween Frames"
-msgstr "Crea fotogrames intercalats"
+msgstr "Crea fotogrames intercalats:"
 
 #. label
 #: ../gap/gap_morph_tween_dialog.c:1158
@@ -5031,7 +5031,7 @@ msgstr "Aquesta operació requereix més d'un fotograma."
 
 #: ../gap/gap_morph_tween_dialog.c:1257
 msgid "Number of Tweens:"
-msgstr "Nombre d'intercalats"
+msgstr "Nombre d'intercalats:"
 
 #: ../gap/gap_morph_tween_dialog.c:1260
 msgid ""
@@ -5300,7 +5300,7 @@ msgid ""
 "filename: '%s'\n"
 "(Is not a valid controlpoint file)"
 msgstr ""
-"Error: No s'han Puget llegir els punts de control\n"
+"Error: No s'han pogut llegir els punts de control\n"
 "nom de fitxer: «%s»\n"
 "(No és un fitxer de punts de control vàlid)"
 
@@ -7005,7 +7005,7 @@ msgstr ""
 
 #: ../gap/gap_mpege.c:424
 msgid "BQSCALE:"
-msgstr "BQSCALE"
+msgstr "BQSCALE:"
 
 #: ../gap/gap_mpege.c:425
 msgid ""
@@ -7125,7 +7125,7 @@ msgstr "Selecciona el nom de la tipografia"
 
 #: ../gap/gap_name2layer_main.c:481
 msgid "Fontsize:"
-msgstr "Mida de la tipografia"
+msgstr "Mida de la tipografia:"
 
 #: ../gap/gap_name2layer_main.c:482
 msgid "Fontsize in pixels"
@@ -7592,7 +7592,7 @@ msgstr ""
 
 #: ../gap/gap_onion_dialog.c:1380
 msgid "Reset to default settings"
-msgstr "Recupera les valors per defecte dels paràmetres"
+msgstr "Recupera els valors per defecte dels paràmetres"
 
 #: ../gap/gap_onion_dialog.c:1387
 msgid "Close window without any action"
@@ -7646,7 +7646,7 @@ msgstr "S'estan creant capes paper ceba..."
 
 #: ../gap/gap_onion_worker.c:372
 msgid "Removing onionskin layers..."
-msgstr "S'estan suprimint capes paper ceba"
+msgstr "S'estan suprimint capes paper ceba..."
 
 #  Format the message
 #. Format the message
@@ -7662,7 +7662,7 @@ msgstr ""
 
 #: ../gap/gap_player_dialog.c:439
 msgid "Audiosource:"
-msgstr "Font d'àudio"
+msgstr "Font d'àudio:"
 
 #: ../gap/gap_player_dialog.c:450
 msgid "Wavefile:"
@@ -8565,7 +8565,7 @@ msgid ""
 "Number of resulting colors (ignored if palette type is not generate optimal "
 "palette)"
 msgstr ""
-"Nombre de colors resultants (s'ignora si el tipus de paleta no és genera "
+"Nombre de colors resultants (s'ignora si el tipus de paleta no es genera "
 "d'una paleta òptima)"
 
 #: ../gap/gap_range_ops.c:422
@@ -8944,7 +8944,7 @@ msgstr "Escapça els fotogrames"
 #. the original width & height labels
 #: ../gap/gap_resi_dialog.c:668
 msgid "Current width:"
-msgstr "Amplada actual"
+msgstr "Amplada actual:"
 
 #: ../gap/gap_resi_dialog.c:674
 msgid "Current height:"
@@ -9618,7 +9618,7 @@ msgstr "files en la llista de clips"
 #  the stb_frame
 #: ../gap/gap_story_dialog.c:5258
 msgid "Storyboard Layout:"
-msgstr "Disposició en el guió gràfic"
+msgstr "Disposició en el guió gràfic:"
 
 #: ../gap/gap_story_dialog.c:5264
 msgid "Thumbnail size in the storyboard list"
@@ -9680,7 +9680,7 @@ msgstr ""
 
 #: ../gap/gap_story_dialog.c:5570
 msgid "Framecache / open video:"
-msgstr "memòria cau del fotogrma / vídeo de codi obert:"
+msgstr "Memòria cau del fotograma / vídeo de codi obert:"
 
 #: ../gap/gap_story_dialog.c:5571
 msgid ""
@@ -10052,7 +10052,7 @@ msgstr "Pista d'àudio d'entrada:"
 #  lower/upper unconstrained
 #: ../gap/gap_story_dialog.c:9125
 msgid "select input audiotrack in the videofile(s)."
-msgstr "selecciona la pista de d'àudio d'entrada del fitxer de vídeo."
+msgstr "selecciona la pista de l'àudio d'entrada del fitxer de vídeo."
 
 #  the audiotrack to label
 #: ../gap/gap_story_dialog.c:9136
@@ -10692,7 +10692,7 @@ msgstr "Gira 180"
 
 #: ../gap/gap_story_properties.c:4537
 msgid "Rotate all frames of this clip by 180 degree"
-msgstr "Gira tos els fotogrames d'aquest clip 180 graus"
+msgstr "Gira tots els fotogrames d'aquest clip 180 graus"
 
 #  the center offsetX button
 #. radio button flip_request hor
@@ -10859,7 +10859,7 @@ msgstr ""
 #: ../gap/gap_story_render_audio.c:466
 #, c-format
 msgid "cant load:  %s to memory"
-msgstr "No es por carregar %s a memòria"
+msgstr "No es pot carregar %s a memòria"
 
 #: ../gap/gap_story_render_audio.c:851
 #, c-format
@@ -10968,7 +10968,7 @@ msgstr ""
 #: ../gap/gap_story_section_properties.c:648
 msgid "Clips of the MAIN section are rendered in the output video"
 msgstr ""
-"Els clips de la secció principal és renderitzarà en el vídeo de sortida"
+"Els clips de la secció principal es renderitzaran en el vídeo de sortida"
 
 #  Hue Mode the radio buttons
 #  Channel the radio buttons
@@ -11473,7 +11473,7 @@ msgid ""
 "Create video index. Requires unconditional full scan of all frames. Native "
 "seek is enabled only in case all timecodes are OK."
 msgstr ""
-"Crea un índex de vídeo. Requereix un anàlisis incondicional complet de tots "
+"Crea un índex de vídeo. Requereix una anàlisis incondicional complet de tots "
 "els fotogrames. La recerca nativa s'habilitarà només si tots els codis de "
 "temps són correctes."
 
@@ -11883,7 +11883,7 @@ msgstr "Mode capa"
 
 #: ../gap/gap_wr_opacity.c:141
 msgid "Set Layer Opacity..."
-msgstr "Defineix l'opacitat de capa"
+msgstr "Defineix l'opacitat de capa..."
 
 #: ../gap/gap_wr_opacity.c:333
 msgid "New opacity value where 0 is transparent and 100.0 is opaque"
@@ -14894,7 +14894,7 @@ msgstr ""
 "Aquest connector té un codificador de vídeo API, però escriu una sèrie de "
 "fotogrames simples individuals en lloc d'un fitxer de vídeo. El tipus de "
 "fitxer dels fotogrames de sortida s'obté de l'extensió. L'extensió és la "
-"part del sufix del paràmetre «videofile». Els noms del fotogrames de sortida "
+"part del sufix del paràmetre «videofile». Els noms dels fotogrames de sortida "
 "són els mateixos que el paràmetre «videofile», però la part del número de "
 "fotograma és substituït pel número de fotograma actual (o afegit "
 "automàticament si el fitxer de vídeo no té part numèrica); s'ignoren les "
@@ -14979,7 +14979,7 @@ msgid ""
 "but the framenumber part is replaced by the current framenumber (or added "
 "automatic if videofile has no number part) audiodata is ignored. A  call of\""
 msgstr ""
-"Aquest connector té un codificador de vídeo API però escriu una série de "
+"Aquest connector té un codificador de vídeo API però escriu una sèrie de "
 "fotogrames simples en lloc d'un fitxer de vídeo. El tipus de fitxer dels "
 "fotogrames de sortida és derivat de l'extensió. La extensió és part del "
 "sufixe del paràmetre \"videofile\". Els noms dels fotogrames de sortida són "
@@ -14998,7 +14998,7 @@ msgstr ""
 msgid "This plugin sets singleframes specific video encoding parameters."
 msgstr ""
 "Aquest connector estableix els paràmetres de codificació de vídeo específic "
-"de fotograma simple"
+"de fotograma simple."
 
 #: ../vid_enc_single/gap_enc_singleframes_main.c:219
 msgid "Get GUI parameters for GAP singleframes video encoder"
