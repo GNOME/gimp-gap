@@ -847,7 +847,6 @@ p_debug_print_dump_AVCodecContext(AVCodecContext *codecContext)
   printf("(codec (AVCodec *)            %ld)\n",(long)   codecContext->codec);
   printf("(priv_data (void *)           %ld)\n",(long)   codecContext->priv_data);
   printf("(rtp_payload_size             %d)\n", (int)    codecContext->rtp_payload_size);
-  printf("(rtp_callback (fptr)          %ld)\n",(long)   codecContext->rtp_callback);
   printf("(mv_bits                      %d)\n", (int)    codecContext->mv_bits);
   printf("(header_bits                  %d)\n", (int)    codecContext->header_bits);
   printf("(i_tex_bits                   %d)\n", (int)    codecContext->i_tex_bits);
