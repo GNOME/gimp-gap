@@ -11,15 +11,15 @@ msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-05 13:03+0000\n"
-"PO-Revision-Date: 2016-09-19 11:46+0200\n"
+"POT-Creation-Date: 2016-10-21 22:53+0000\n"
+"PO-Revision-Date: 2017-02-12 18:47+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Button  to invoke fontbrowser
@@ -209,7 +209,7 @@ msgstr ""
 "Filen: %s\n"
 "är en ljudspellista, men innehåller referenser till ljudfiler som\n"
 "inte matchar den önskade samplingsfrekvensen på %d Hz\n"
-"eller inte har 16 bitar per sampel."
+"eller inte har 16 bitar per sampel"
 
 #: ../gap/gap_base_ops.c:93
 msgid "Decreasing density by deleting frames..."
@@ -393,7 +393,7 @@ msgstr ""
 "PÅ: Duplicerade bildrutor får en målhastighet som är densitet × "
 "originalhastighet\n"
 "AV: Ta bort bildrutor för att få en målhastighet som är originalhastighet/"
-"densitet"
+"densitet."
 
 #: ../gap/gap_base_ops.c:1474
 msgid "Change Frames Density"
@@ -1006,7 +1006,7 @@ msgstr ""
 #. keep layermask checkbutton
 #: ../gap/gap_colormask_dialog.c:285
 msgid "Keep Layer Mask"
-msgstr "Behåll lagermask:"
+msgstr "Behåll lagermask"
 
 #. apply immediate checkbutton
 #: ../gap/gap_colormask_dialog.c:301
@@ -1657,7 +1657,7 @@ msgstr ""
 #: ../gap/gap_decode_mplayer.c:1120
 #, c-format
 msgid "The mediaplayer executable file '%s' was not found."
-msgstr "Den körbara mediaspelarfilen \"%s\" hittades inte. "
+msgstr "Den körbara mediaspelarfilen \"%s\" hittades inte."
 
 #: ../gap/gap_decode_mplayer.c:1482
 msgid "Exit, neither video nor audio track was selected"
@@ -2204,7 +2204,7 @@ msgstr ""
 
 #: ../gap/gap_detail_tracking_exec.c:2318
 msgid "Detail Tracking"
-msgstr "Detaljspårning:"
+msgstr "Detaljspårning"
 
 #: ../gap/gap_detail_tracking_main.c:234
 msgid "DetailTracking Config..."
@@ -2334,7 +2334,7 @@ msgid ""
 "OFF: render transparency and background color removal on the input drawable"
 msgstr ""
 "PÅ: skapa ett nytt lager som resultat av förgrundsextraktionsbearbetning. "
-"AV: återge transparens och bakgrundsfärgsborttagning på ingångsritytan."
+"AV: återge transparens och bakgrundsfärgsborttagning på ingångsritytan"
 
 #: ../gap/gap_fg_matting_exec.c:130
 msgid "Foreground Extract"
@@ -3303,7 +3303,7 @@ msgstr "Värde"
 #. the Layer Stackposition sub menu
 #: ../gap/gap_mod_layer_dialog.c:758
 msgid "Layer Stackposition"
-msgstr "Lager stackposition:"
+msgstr "Lager stackposition"
 
 #: ../gap/gap_mod_layer_dialog.c:765
 msgid "Raise layer(s) to top"
@@ -3455,7 +3455,7 @@ msgstr "Ta bort kanal (efter namn)"
 #. the LayerMask sub menu
 #: ../gap/gap_mod_layer_dialog.c:955
 msgid "Layer Mask"
-msgstr "Lagermask:"
+msgstr "Lagermask"
 
 #: ../gap/gap_mod_layer_dialog.c:962
 msgid "Add white layermask (opaque)"
@@ -4044,7 +4044,7 @@ msgid ""
 "by power of intensity.OFF: Linear deform action inside the radius"
 msgstr ""
 "PÅ: avtagande deformationsåtgärd från arbetspunkt (full) till radie (noll). "
-"Avtar med intensitetens styrka. AV: Linjär deformationsåtgärd inom radien."
+"Avtar med intensitetens styrka. AV: Linjär deformationsåtgärd inom radien"
 
 #. the tween_steps label
 #: ../gap/gap_morph_dialog.c:3754
@@ -4462,7 +4462,7 @@ msgid ""
 msgstr ""
 "PÅ: skriver över befintliga arbetspunktsfiler. AV: Hoppa över "
 "arbetspunktsgenerering eller lägg till nya genererade arbetspunkter (se "
-"kontrollknapp bifoga) "
+"kontrollknapp bifoga)."
 
 #. the overwrite checkbutton
 #: ../gap/gap_morph_tween_dialog.c:897
@@ -5343,7 +5343,7 @@ msgstr ""
 "namnsökväg till grupp/undergrupp där det återgivna föremålet ska infogas. "
 "Observera att den angivna gruppen (och undergrupper) kommer att skapas "
 "automatiskt i alla behandlade målbildrutor där de ännu inte finns. Lämna "
-"målgrupp tomt då infogning i bild utanför grupper önskas."
+"målgrupp tomt då infogning i bild utanför grupper önskas"
 
 #: ../gap/gap_mov_dialog.c:4973
 msgid "delimiter to separate group/subgroup"
@@ -6344,7 +6344,7 @@ msgid ""
 msgstr ""
 "Uppspelning\n"
 "<SKIFT> konverterar de markerade bildrutorna till temporär bild, och utför "
-"lageranimationsuppspelning"
+"lageranimationsuppspelning."
 
 #: ../gap/gap_navigator_dialog.c:447
 msgid ""
@@ -6433,7 +6433,7 @@ msgstr ""
 #. the active layer tracking label
 #: ../gap/gap_navigator_dialog.c:3984
 msgid "AL-Tracking:"
-msgstr "AL-spårning"
+msgstr "AL-spårning:"
 
 #. radio button active layer tracking OFF
 #: ../gap/gap_navigator_dialog.c:3994
@@ -6646,7 +6646,7 @@ msgstr "Ignorera bakgrundslager:"
 msgid ""
 "Exclude N background layers. Use 0 if you dont want to exclude any layer."
 msgstr ""
-"Exkludera N bakgrundslager. (använd 0 om du inte vill exkludera något lager)"
+"Exkludera N bakgrundslager. Använd 0 om du inte vill exkludera något lager."
 
 #: ../gap/gap_onion_dialog.c:1218
 msgid "Select Mode:"
@@ -6684,7 +6684,7 @@ msgid ""
 "OFF: Ignore case."
 msgstr ""
 "PÅ: Skiftlägeskänsligt mönster.\n"
-"AV: ignorera skiftläge"
+"AV: ignorera skiftläge."
 
 #: ../gap/gap_onion_dialog.c:1275
 msgid "Invert Selection"
@@ -7058,7 +7058,7 @@ msgstr "extern ljudkonverterare MISSLYCKADES."
 
 #: ../gap/gap_player_dialog.c:6649
 msgid "extern audioconverter FAILED"
-msgstr "extern ljudkonverterare MISSLYCKADES."
+msgstr "extern ljudkonverterare MISSLYCKADES"
 
 #: ../gap/gap_player_dialog.c:6795
 msgid "Select Audiofile"
@@ -9458,7 +9458,7 @@ msgstr "AV:"
 
 #: ../gap/gap_story_properties.c:3617
 msgid "Filtermacro2: "
-msgstr "Filtermakro2:"
+msgstr "Filtermakro2: "
 
 #: ../gap/gap_story_properties.c:3978 ../gap/gap_story_properties.c:3988
 msgid "Mask Properties"
@@ -10239,7 +10239,7 @@ msgstr "misslyckades med att extrahera bildruta från video: %s"
 
 #: ../gap/gap_vex_exec.c:545
 msgid "Seek Frame Position..."
-msgstr "Sök bildruteposition"
+msgstr "Sök bildruteposition..."
 
 #: ../gap/gap_vex_exec.c:597
 msgid "Extracting Frames..."
@@ -10326,7 +10326,7 @@ msgstr ""
 "Hoppa över indexskapande om inhemsk sökning verkar möjlig\n"
 "\n"
 "VARNING: positionering via inhemsk sökning kanske inte fungerar exakt ifall "
-"kritiska tidskodssteg inte registrerades i snabbtestet"
+"kritiska tidskodssteg inte registrerades i snabbtestet."
 
 #: ../gap/gap_video_index_creator.c:929
 msgid ""
@@ -10344,7 +10344,7 @@ msgstr ""
 "tidskod upptäcktes i provläsningarna så långt\n"
 "\n"
 "VARNING: positionering via inhemsk sökning kanske inte fungerar exakt ifall "
-"kritiska tidskodssteg inte registrerades i snabbtesten"
+"kritiska tidskodssteg inte registrerades i provläsningarna."
 
 #: ../gap/gap_video_index_creator.c:935
 msgid ""
@@ -10776,7 +10776,7 @@ msgstr ""
 
 #: ../gap/gap_wr_resynth.c:420 ../gap/gap_wr_resynth.c:432
 msgid "Smart selection eraser"
-msgstr "Smart markeringssuddgummi."
+msgstr "Smart markeringssuddgummi"
 
 #: ../gap/gap_wr_resynth.c:465
 msgid ""
@@ -13489,7 +13489,7 @@ msgstr ""
 "Denna insticksmodul ställer in ffmpeg videokodningsparametrar. Icke-"
 "interaktiva anropare måste tillhandahålla en parameterfil, interaktiva anrop "
 "tillhandahålla en dialogfönster för att specificera och eventuellt spara "
-"parametrarna,"
+"parametrarna."
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:510
 msgid "Get GUI parameters for GAP ffmpeg video encoder"
