@@ -2,25 +2,25 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2010.
-# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011, 2013, 2014, 2015.
-# Edurne Labaka <elabaka@uzei.com>, 2015.
 #
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2010.
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011, 2013, 2014, 2015, 2017.
+# Edurne Labaka <elabaka@uzei.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap gap-2-8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-07 15:01+0100\n"
-"PO-Revision-Date: 2015-02-07 15:09+0100\n"
+"POT-Creation-Date: 2016-03-28 08:31+0000\n"
+"PO-Revision-Date: 2017-02-21 23:13+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
-"Language-Team: Basque <librezale@librezale.org>\n"
+"Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -40,7 +40,7 @@ msgstr "Balioa:"
 msgid "Press Button"
 msgstr "Sakatu botoia"
 
-#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2187
+#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2186
 msgid "Select"
 msgstr "Hautatu"
 
@@ -236,7 +236,7 @@ msgstr "Errorea: ezin izan da %s fotograma gorde"
 #: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
 #: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
 #: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
-#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3847
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3845
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Errorea: ezin izan zaio %ld fotogramari %ld izena jarri"
@@ -340,7 +340,7 @@ msgstr "Aldatu fotograma-dentsitatea"
 #: ../gap/gap_base_ops.c:1437 ../gap/gap_base_ops.c:1591
 #: ../gap/gap_base_ops.c:1797 ../gap/gap_base_ops.c:1856
 #: ../gap/gap_decode_xanim.c:247 ../gap/gap_mod_layer_dialog.c:1762
-#: ../gap/gap_mov_dialog.c:4567 ../gap/gap_mpege.c:302
+#: ../gap/gap_mov_dialog.c:4869 ../gap/gap_mpege.c:302
 #: ../gap/gap_onion_dialog.c:920 ../gap/gap_range_ops.c:301
 #: ../gap/gap_range_ops.c:537 ../gap/gap_range_ops.c:735
 #: ../gap/gap_vex_dialog.c:2131 ../vid_common/gap_cme_gui.c:3651
@@ -358,7 +358,7 @@ msgstr "Eraginpeko bitartea fotograma-zenbaki honetan hasten da"
 #: ../gap/gap_base_ops.c:1445 ../gap/gap_base_ops.c:1599
 #: ../gap/gap_base_ops.c:1805 ../gap/gap_base_ops.c:1864
 #: ../gap/gap_decode_xanim.c:257 ../gap/gap_mod_layer_dialog.c:1784
-#: ../gap/gap_mov_dialog.c:4592 ../gap/gap_mpege.c:312
+#: ../gap/gap_mov_dialog.c:4894 ../gap/gap_mpege.c:312
 #: ../gap/gap_onion_dialog.c:927 ../gap/gap_range_ops.c:311
 #: ../gap/gap_range_ops.c:545 ../gap/gap_range_ops.c:743
 #: ../gap/gap_vex_dialog.c:2187 ../vid_common/gap_cme_gui.c:3685
@@ -403,7 +403,7 @@ msgstr "Aldatu fotogramen dentsitatea"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2039
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2038
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -548,9 +548,10 @@ msgid "No Path Vectors available."
 msgstr "Ez dago bidearen bektore erabilgarririk."
 
 #: ../gap/gap_blend_fill_main.c:1488
-msgid "SVG file does not exist (use Save Pats button to create)."
+#| msgid "SVG file does not exist (use Save Pats button to create)."
+msgid "SVG file does not exist (use Save Paths button to create)."
 msgstr ""
-"SVG fitxategia ez da existitzen (erabili 'Gorde bidea' botoia sortzeko)."
+"SVG fitxategia ez da existitzen (erabili “Gorde bidea“ botoia sortzeko)."
 
 #: ../gap/gap_blend_fill_main.c:1494
 msgid "please enter SVG filename"
@@ -664,7 +665,7 @@ msgid "Select output svg vector file via browser"
 msgstr "Hautatu irteerako SVG bektore-fitxategia arakatzailearen bidez"
 
 #. toggle bluebox
-#: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:4047
+#: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:4141
 msgid "Bluebox"
 msgstr "Bluebox"
 
@@ -675,7 +676,7 @@ msgstr "Hautatu kolorearen arabera"
 
 #. the keycolor label
 #. keycolor label
-#: ../gap/gap_bluebox.c:288 ../gap/gap_mov_dialog.c:4064
+#: ../gap/gap_bluebox.c:288 ../gap/gap_mov_dialog.c:4158
 msgid "Keycolor:"
 msgstr "Gako-kolorea:"
 
@@ -745,7 +746,7 @@ msgstr "AKTIBATUTA: difuminatze-erradioa erabiliz difuminatzen ditu ertzak"
 #. accelaration characteristic for feather radius
 #. table col, row
 #: ../gap/gap_bluebox.c:394 ../gap/gap_colormask_dialog.c:407
-#: ../gap/gap_mov_dialog.c:5174
+#: ../gap/gap_mov_dialog.c:5476
 msgid "Feather Radius:"
 msgstr "Difuminatze-erradioa:"
 
@@ -783,7 +784,7 @@ msgstr "AKTIBATUTA: aurrebistako irudia eguneratuta edukitzen du"
 
 #. button
 #. the preview frame
-#: ../gap/gap_bluebox.c:447 ../gap/gap_mov_dialog.c:5458
+#: ../gap/gap_bluebox.c:447 ../gap/gap_mov_dialog.c:5760
 msgid "Preview"
 msgstr "Aurreikusi"
 
@@ -1181,7 +1182,8 @@ msgid "DEBUG Options"
 msgstr "Arazketaren aukerak"
 
 #: ../gap/gap_colormask_dialog.c:815
-msgid "DiffSensitvity:"
+#| msgid "DiffSensitvity:"
+msgid "DiffSensitivity:"
 msgstr "Diferentziaren sentikortasuna:"
 
 #. connectByCorner checkbutton
@@ -1510,9 +1512,10 @@ msgid "Jpeg Optimize:"
 msgstr "Jpeg optimizatzea:"
 
 #: ../gap/gap_decode_mplayer.c:544
-msgid "optimization factor(is ignored when other formats are used)"
+#| msgid "optimization factor(is ignored when other formats are used)"
+msgid "Optimization factor (is ignored when other formats are used)"
 msgstr ""
-"optimizazio-faktorea (ez ikusi egiten zaio beste formatu batzuk erabiltzen "
+"Optimizazio-faktorea (ez ikusi egiten zaio beste formatu batzuk erabiltzen "
 "direnean)"
 
 #: ../gap/gap_decode_mplayer.c:554
@@ -1520,9 +1523,10 @@ msgid "Jpeg Smooth:"
 msgstr "Jpeg leuntzea:"
 
 #: ../gap/gap_decode_mplayer.c:555
-msgid "Smooth factor(is ignored when other formats are used)"
+#| msgid "Smooth factor(is ignored when other formats are used)"
+msgid "Smooth factor (is ignored when other formats are used)"
 msgstr ""
-"leuntze-faktorea (ez ikusi egiten zaio beste formatu batzuk erabiltzen "
+"Leuntze-faktorea (ez ikusi egiten zaio beste formatu batzuk erabiltzen "
 "direnean)"
 
 #: ../gap/gap_decode_mplayer.c:565
@@ -1530,8 +1534,10 @@ msgid "Jpeg Progressive:"
 msgstr "Jpeg progresiboa:"
 
 #: ../gap/gap_decode_mplayer.c:566
+#| msgid ""
+#| "Enable progressive jpeg encoding(is ignored when other formats are used)"
 msgid ""
-"Enable progressive jpeg encoding(is ignored when other formats are used)"
+"Enable progressive jpeg encoding (is ignored when other formats are used)"
 msgstr ""
 "jpeg kodetze progresiboa gaitzen du (ez ikusi egiten zaio beste formatu "
 "batzuk erabiltzen direnean)"
@@ -1541,9 +1547,11 @@ msgid "Jpeg Baseline:"
 msgstr "Oinarri-lerroko jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:573
-msgid "Enable baseline jpeg encoding(is ignored when other formats are used)"
+#| msgid ""
+#| "Enable baseline jpeg encoding(is ignored when other formats are used)"
+msgid "Enable baseline jpeg encoding (is ignored when other formats are used)"
 msgstr ""
-"oinarri-lerroko jpeg kodetzea gaitzen du (ez ikusi egiten zaio beste formatu "
+"Oinarri-lerroko jpeg kodetzea gaitzen du (ez ikusi egiten zaio beste formatu "
 "batzuk erabiltzen direnean)"
 
 #: ../gap/gap_decode_mplayer.c:584
@@ -1935,19 +1943,19 @@ msgstr ""
 "ezin da erauzitako fotogramarik aurkitu,\n"
 "xanim-ek huts egin du edo bertan behera utzi da"
 
-#: ../gap/gap_detail_align_exec.c:634
+#: ../gap/gap_detail_align_exec.c:743
 msgid "Frame Phase:"
 msgstr "Fotograma-urratsa:"
 
-#: ../gap/gap_detail_align_exec.c:635
+#: ../gap/gap_detail_align_exec.c:744
 msgid "Frame number (phase) to be rendered."
 msgstr "Fotogramaren zenbakia (urratsa) errendatzeko."
 
-#: ../gap/gap_detail_align_exec.c:648
+#: ../gap/gap_detail_align_exec.c:757
 msgid "XML file:"
 msgstr "XML fitxategia:"
 
-#: ../gap/gap_detail_align_exec.c:649
+#: ../gap/gap_detail_align_exec.c:758
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
@@ -1956,8 +1964,8 @@ msgstr ""
 "xehearen eginbidearekin erregistratuta)"
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:658 ../gap/gap_detail_tracking_exec.c:1474
-#: ../gap/gap_mov_dialog.c:1570 ../gap/gap_mpege.c:373
+#: ../gap/gap_detail_align_exec.c:767 ../gap/gap_detail_tracking_exec.c:2315
+#: ../gap/gap_mov_dialog.c:1596 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:529 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5307 ../gap/gap_story_dialog.c:5664
 #: ../gap/gap_video_index_creator.c:1006 ../gap/gap_wr_opacity.c:356
@@ -1965,24 +1973,24 @@ msgstr ""
 msgid "Default"
 msgstr "Lehenetsia"
 
-#: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1475
-#: ../gap/gap_mov_dialog.c:1571 ../gap/gap_mpege.c:374
+#: ../gap/gap_detail_align_exec.c:768 ../gap/gap_detail_tracking_exec.c:2316
+#: ../gap/gap_mov_dialog.c:1597 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:530 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Berrezarri parametro guztiak balio lehenetsietan"
 
-#: ../gap/gap_detail_align_exec.c:661
+#: ../gap/gap_detail_align_exec.c:770
 msgid "Detail Align via XML"
 msgstr "Xehatu lerrokadura XML bidez"
 
-#: ../gap/gap_detail_align_exec.c:662 ../gap/gap_detail_tracking_exec.c:1478
+#: ../gap/gap_detail_align_exec.c:771 ../gap/gap_detail_tracking_exec.c:2319
 #: ../gap/gap_name2layer_main.c:536 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
 msgstr "Ezarpenak:"
 
-#: ../gap/gap_detail_align_exec.c:946
+#: ../gap/gap_detail_align_exec.c:1055
 #, c-format
 msgid ""
 "Current path with 4 point triggers transformations:\n"
@@ -2001,7 +2009,7 @@ msgstr ""
 "Sakatu Ados botoia geruza eraldatzeko\n"
 "3. puntuak 1. puntura eta 4. puntuak 2. puntura mugitzen duten moduan."
 
-#: ../gap/gap_detail_align_exec.c:967
+#: ../gap/gap_detail_align_exec.c:1076
 #, c-format
 msgid ""
 "Current path with 2 points triggers simple move:\n"
@@ -2016,7 +2024,7 @@ msgstr ""
 "Sakatu Ados botoia geruza eraldatzeko\n"
 "2. puntuak 1. puntura mugitzen duen moduan."
 
-#: ../gap/gap_detail_align_exec.c:983
+#: ../gap/gap_detail_align_exec.c:1092
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
@@ -2028,19 +2036,19 @@ msgstr ""
 "arabera.\n"
 "Sortu bide bat eta sakatu Freskatu botoia."
 
-#: ../gap/gap_detail_align_exec.c:1090
+#: ../gap/gap_detail_align_exec.c:1199
 msgid "Transform Layer via 4 (or 2) point Alignment"
 msgstr "Eraldatu geruza 4. (edo 2.) puntuaren lerrokaduraren bidez"
 
 #. pointOrder radiobutton
 #. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
 #.
-#: ../gap/gap_detail_align_exec.c:1143
+#: ../gap/gap_detail_align_exec.c:1252
 msgid "Path Point Order:"
 msgstr "Bidearen puntuen ordena:"
 
 #. Order Mode the radio buttons
-#: ../gap/gap_detail_align_exec.c:1161
+#: ../gap/gap_detail_align_exec.c:1270
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Target is marked by points 1&2 "
@@ -2048,9 +2056,17 @@ msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Helburua 1&2 puntuekin markatu da"
 
-#: ../gap/gap_detail_align_exec.c:1279
+#: ../gap/gap_detail_align_exec.c:1388
+#| msgid ""
+#| "This filter requires a current path with 4 points,where point 1 and 2 "
+#| "mark reference positions and point 3 and 4 mark positions in the target "
+#| "layer.It transforms the target layer in a way that point3 is moved to "
+#| "point1 and point4 moves to point2.(this may include rotate and scale "
+#| "transformation).\n"
+#| "A path with 2 points can be used to move point2 to point1.(via simple "
+#| "move operation without rotate and scale)"
 msgid ""
-"This filter requires a current path with 4 points,where point 1 and 2 mark "
+"This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
 "transforms the target layer in a way that point3 is moved to point1 and "
 "point4 moves to point2.(this may include rotate and scale transformation).\n"
@@ -2066,9 +2082,17 @@ msgstr ""
 "(mugimendua sinplea izanik, biraketaren edo eskalatzearen eragiketarik landu "
 "gabe)"
 
-#: ../gap/gap_detail_align_exec.c:1290
+#: ../gap/gap_detail_align_exec.c:1399
+#| msgid ""
+#| "This filter requires a current path with 4 points,where point 1 and 3 "
+#| "mark reference positions and point 2 and 4 mark positions in the target "
+#| "layer.It transforms the target layer in a way that point2 is moved to "
+#| "point1 and point4 moves to point3.(this may include rotate and scale "
+#| "transformation).\n"
+#| "A path with 2 points can be used to move point2 to point1.(via simple "
+#| "move operation without rotate and scale)"
 msgid ""
-"This filter requires a current path with 4 points,where point 1 and 3 mark "
+"This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
 "transforms the target layer in a way that point2 is moved to point1 and "
 "point4 moves to point3.(this may include rotate and scale transformation).\n"
@@ -2084,12 +2108,12 @@ msgstr ""
 "(mugimendua sinplea izanik, biraketaren edo eskalatzearen eragiketarik landu "
 "gabe)"
 
-#: ../gap/gap_detail_tracking_exec.c:1198
+#: ../gap/gap_detail_tracking_exec.c:2021
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
 msgstr ""
 "Jarraipen xehatua geldituta (ezin izan da dagokion xehetasunik aurkitu)"
 
-#: ../gap/gap_detail_tracking_exec.c:1333
+#: ../gap/gap_detail_tracking_exec.c:2158
 msgid ""
 "This filter requires a current path with one or 2 anchor points\n"
 "to mark coordinate(s) to be tracked in the target frame(s)"
@@ -2097,11 +2121,24 @@ msgstr ""
 "Iragazki honek aingura puntu bateko edo biko uneko bide bat eskatzen du\n"
 "koordenatuak markatzeko (helburuko fotogrametan jarraipena egiteko)"
 
-#: ../gap/gap_detail_tracking_exec.c:1339
+#: ../gap/gap_detail_tracking_exec.c:2163
+#| msgid "Delete Point"
+msgid "Select Points:"
+msgstr "Hautatu puntuak:"
+
+#: ../gap/gap_detail_tracking_exec.c:2164
+msgid ""
+"1: select only the best path point for movement detection, 2: select the "
+"best 2 points for movement,scale and rotation detection."
+msgstr ""
+"1: hautatu soilik puntuaren biderik onena mugimendua detektatzeko, "
+"2: hautatu 2 puntu onenak mugimendua, eskala eta biraketa detektatzeko."
+
+#: ../gap/gap_detail_tracking_exec.c:2180
 msgid "Locate colordiff Thres:"
 msgstr "Kokatu kolore-diferentziaren atalasea:"
 
-#: ../gap/gap_detail_tracking_exec.c:1340
+#: ../gap/gap_detail_tracking_exec.c:2181
 msgid ""
 "Colordiff threshold value. Locate fails when average color difference is "
 "below this value."
@@ -2109,11 +2146,11 @@ msgstr ""
 "Kolore-diferentziaren atalasearen balioa. Kokatzeak huts egiten du koloreen "
 "arteko diferentziaren batez bestekoa balio honen azpitik dagoenean."
 
-#: ../gap/gap_detail_tracking_exec.c:1352 ../gap/gap_morph_tween_dialog.c:819
+#: ../gap/gap_detail_tracking_exec.c:2193 ../gap/gap_morph_tween_dialog.c:819
 msgid "Locate Shape Radius:"
 msgstr "Forma kokatzeko erradioa:"
 
-#: ../gap/gap_detail_tracking_exec.c:1353
+#: ../gap/gap_detail_tracking_exec.c:2194
 msgid ""
 "The quadratic area surrounding a marked detail coordinate +- this radius is "
 "considered as reference shape, to be tracked in the target frame(s)."
@@ -2122,19 +2159,19 @@ msgstr ""
 "erreferentziako forma gisa hartzen da (helburuko fotogrametan jarraipena "
 "egiteko)"
 
-#: ../gap/gap_detail_tracking_exec.c:1366
+#: ../gap/gap_detail_tracking_exec.c:2207
 msgid "Locate Target Move Radius:"
 msgstr "Helburuko mugimendua kokatzeko erradioa:"
 
-#: ../gap/gap_detail_tracking_exec.c:1367
+#: ../gap/gap_detail_tracking_exec.c:2208
 msgid "Limits attempts to locate the Detail within this radius."
 msgstr "Erradio honen barruko xehetasuna kokatzeko saiakeren muga."
 
-#: ../gap/gap_detail_tracking_exec.c:1381
+#: ../gap/gap_detail_tracking_exec.c:2222
 msgid "Log Relative Coords:"
 msgstr "Erregistratu koord. erlatiboak:"
 
-#: ../gap/gap_detail_tracking_exec.c:1382
+#: ../gap/gap_detail_tracking_exec.c:2223
 msgid ""
 "ON: Coordinates are logged relative to the first coordinate.\n"
 "OFF: Coordinates are logged as absolute pixel coordinate values."
@@ -2143,11 +2180,11 @@ msgstr ""
 "ITZALITA: koordenatuak pixelen koordenatuen balio absolutu gisa "
 "erregistratuko dira. "
 
-#: ../gap/gap_detail_tracking_exec.c:1391
+#: ../gap/gap_detail_tracking_exec.c:2232
 msgid "Log Scaling:"
 msgstr "Erregistratu eskalatzea:"
 
-#: ../gap/gap_detail_tracking_exec.c:1392
+#: ../gap/gap_detail_tracking_exec.c:2233
 msgid ""
 "ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
 "OFF: Calculate only rotation and keep original size."
@@ -2156,11 +2193,11 @@ msgstr ""
 "jarraipena egitean.\n"
 "DESAKTIBATUTA: kalkulatu biraketa soilik eta mantendu jatorrizko tamaina."
 
-#: ../gap/gap_detail_tracking_exec.c:1402
+#: ../gap/gap_detail_tracking_exec.c:2243
 msgid "BG is Reference:"
 msgstr "AtzPlanoa erreferentzia da:"
 
-#: ../gap/gap_detail_tracking_exec.c:1403
+#: ../gap/gap_detail_tracking_exec.c:2244
 msgid ""
 "ON: Use background layer as reference and foreground layer as target for "
 "tracking.\n"
@@ -2172,11 +2209,11 @@ msgstr ""
 "ITZALITA: erabili aurreko planoaren geruza helburu gisa, eta azpiko geruza "
 "erreferentzia gisa."
 
-#: ../gap/gap_detail_tracking_exec.c:1411
+#: ../gap/gap_detail_tracking_exec.c:2252
 msgid "Remove Middle Layers:"
 msgstr "Kendu tarteko geruzak:"
 
-#: ../gap/gap_detail_tracking_exec.c:1412
+#: ../gap/gap_detail_tracking_exec.c:2253
 msgid ""
 "ON: removes layers (except BG and 2 Layer on top) that are not relevant for "
 "detail tracking.\n"
@@ -2185,44 +2222,44 @@ msgstr ""
 "PIZTUTA: jarraipen xehatuarentzako garrantzizkoak ez diren geruzak kendu "
 "(AtzPlanoa eta goiko 2. geruza izan ezik)ITZALITA: mantendu geruza guztiak"
 
-#: ../gap/gap_detail_tracking_exec.c:1423
+#: ../gap/gap_detail_tracking_exec.c:2264
 msgid "Const X Offset:"
 msgstr "X desplazamendu konstantea:"
 
-#: ../gap/gap_detail_tracking_exec.c:1424
+#: ../gap/gap_detail_tracking_exec.c:2265
 msgid "This value is added when logging captured X coordinates."
 msgstr "Balio hau gehitzen da kapturatutako X koordenatua erregistratzean."
 
-#: ../gap/gap_detail_tracking_exec.c:1437
+#: ../gap/gap_detail_tracking_exec.c:2278
 msgid "Const Y Offset:"
 msgstr "Y desplazamendu konstantea:"
 
-#: ../gap/gap_detail_tracking_exec.c:1438
+#: ../gap/gap_detail_tracking_exec.c:2279
 msgid "This value is added when logging captured Y coordinates."
 msgstr "Balio hau gehitzen da kapturatutako Y koordenatua erregistratzean."
 
-#: ../gap/gap_detail_tracking_exec.c:1451
+#: ../gap/gap_detail_tracking_exec.c:2292
 msgid "Const Rotate Offset:"
 msgstr "Biraketaren desplazamendu konstantea:"
 
-#: ../gap/gap_detail_tracking_exec.c:1452
+#: ../gap/gap_detail_tracking_exec.c:2293
 msgid "This value is added when logging rotation values."
 msgstr "Balio hau gehitzen da biraketaren balioak erregistratzean."
 
-#: ../gap/gap_detail_tracking_exec.c:1464
+#: ../gap/gap_detail_tracking_exec.c:2305
 msgid "MovePath XML file:"
-msgstr "Animazioaren bidearen XML fitxategia:"
+msgstr "AnimazioBidearen XML fitxategia:"
 
-#: ../gap/gap_detail_tracking_exec.c:1465
+#: ../gap/gap_detail_tracking_exec.c:2306
 msgid ""
 "Name of the file to log the tracked detail coordinates  as XML parameterfile "
 "for later use in the MovePath plug-in."
 msgstr ""
 "Fitxategiaren izena jarraipen xehearen koordenatuak XML parametro-fitxategi "
-"gisa erregistratzeko, beranduago 'Animazioaren bidea' (Movepath) pluginean "
+"gisa erregistratzeko, beranduago 'AnimazioBidea' (Movepath) pluginean "
 "erabiltzeko."
 
-#: ../gap/gap_detail_tracking_exec.c:1477
+#: ../gap/gap_detail_tracking_exec.c:2318
 msgid "Detail Tracking"
 msgstr "Jarraipen xehea"
 
@@ -2246,6 +2283,11 @@ msgstr "Lerrokatze zehatza 4 puntuko bidea erabiliz."
 msgid "<Image>/Layer/Transform/"
 msgstr "<Image>/Geruza/Eraldatu/"
 
+#: ../gap/gap-dup-continue.scm:38
+#| msgid "<Image>/Video/Onionskin/"
+msgid "<Image>/Video/Duplicate Continue"
+msgstr "<Image>/Bideoa/Bikoiztu Jarraitu"
+
 #. The dialog1 and main vbox
 #: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
 msgid "Foreground-Extract"
@@ -2254,7 +2296,7 @@ msgstr "Aurreko planoaren erauzketa"
 #. the frame
 #. Options section
 #: ../gap/gap_fg_from_sel_dialog.c:276 ../gap/gap_fg_matting_dialog.c:408
-#: ../gap/gap_mov_dialog.c:1574 ../gap/gap_wr_layermode.c:329
+#: ../gap/gap_mov_dialog.c:1600 ../gap/gap_wr_layermode.c:329
 msgid "Options"
 msgstr "Aukerak"
 
@@ -2322,14 +2364,21 @@ msgid "Tri-Map:"
 msgstr "Hiru tonuko mapa:"
 
 #: ../gap/gap_fg_matting_dialog.c:443
+#| msgid ""
+#| "Select the tri_map layer (or layermask).  the tri-map shall be of same "
+#| "size as the input layer and  provides a rough user selection  where WHITE "
+#| "pixels in the tri map defines FOREGROUND (i.e. opaque result)  BLACK "
+#| "pixels define BACKGROUND (i.e. transparent result) GRAY pixels (value 1 "
+#| "upto 240) are marked as Undefined  (i.e. opacity to be processed by this "
+#| "filter.) )"
 msgid ""
 "Select the tri_map layer (or layermask).  the tri-map shall be of same size "
 "as the input layer and  provides a rough user selection  where WHITE pixels "
 "in the tri map defines FOREGROUND (i.e. opaque result)  BLACK pixels define "
-"BACKGROUND (i.e. transparent result) GRAY pixels (value 1 upto 240) are "
+"BACKGROUND (i.e. transparent result) GRAY pixels (value 1 up to 240) are "
 "marked as Undefined  (i.e. opacity to be processed by this filter.) )"
 msgstr ""
-"Hautatu hiru tonuko maparen geruza (edo geruza-maskara). Hiru tonuko mapa "
+"Hautatu _hiru tonuko maparen geruza (edo geruza-maskara). Hiru tonuko mapa "
 "sarrerako geruzaren tamaina berdinekoa izango da eta erabiltzailearen gutxi "
 "gorabeherako hautapena eskaintzen du, non hiru tonuko mapako ZURIA pixelek "
 "AURREKO PLANOA definitzen duten (adib. emaitza opakua), BELTZA pixelek, "
@@ -2428,22 +2477,25 @@ msgstr "Aplikatu animazio-iragazkia"
 
 #: ../gap/gap_filter_foreach.c:235
 #, c-format
+#| msgid ""
+#| "Error: Plugin %s has changed the number of layers from %d to %d\n"
+#| "could not restore Layer visibilty.\n"
 msgid ""
 "Error: Plugin %s has changed the number of layers from %d to %d\n"
-"could not restore Layer visibilty.\n"
+"could not restore Layer visibility.\n"
 msgstr ""
-"Errorea: '%s' pluginak geruza kopurua aldatu egin du: %d -> %d\n"
+"Errorea: “%s“ pluginak geruza kopurua aldatu egin du: %d -> %d\n"
 "Ezin izan da geruzaren ikusgaitasuna leheneratu.\n"
 
 #: ../gap/gap_filter_foreach.c:416
 msgid "Applying filter to all layers..."
 msgstr "Iragazkia geruza guztiei aplikatzen..."
 
-#: ../gap/gap_filter_foreach.c:702
+#: ../gap/gap_filter_foreach.c:707
 msgid "Select Filter for Animated Apply"
 msgstr "Hautatu aplikazio animatuaren iragazkia"
 
-#: ../gap/gap_filter_foreach.c:703 ../gap/gap_mod_layer.c:1451
+#: ../gap/gap_filter_foreach.c:708 ../gap/gap_mod_layer.c:1451
 msgid "Apply"
 msgstr "Aplikatu"
 
@@ -2544,7 +2596,7 @@ msgstr ""
 #. table col, row
 #. shiftPhaseY spinbutton
 #: ../gap/gap_fire_pattern.c:1918 ../gap/gap_morph_dialog.c:3225
-#: ../gap/gap_mov_dialog.c:5362 ../gap/gap_name2layer_main.c:503
+#: ../gap/gap_mov_dialog.c:5664 ../gap/gap_name2layer_main.c:503
 #: ../gap/gap_resi_dialog.c:853 ../gap/gap_water_pattern.c:1161
 #: ../gap/gap_water_pattern.c:1298
 msgid "Y:"
@@ -2701,17 +2753,17 @@ msgstr "Batzeko modua:"
 
 #. Blend Mode the radio buttons
 #: ../gap/gap_fire_pattern.c:2269 ../gap/gap_mod_layer_dialog.c:693
-#: ../gap/gap_mov_dialog.c:3815 ../gap/gap_wr_layermode.c:355
+#: ../gap/gap_mov_dialog.c:3909 ../gap/gap_wr_layermode.c:355
 msgid "Burn"
 msgstr "Grabatu"
 
 #: ../gap/gap_fire_pattern.c:2280 ../gap/gap_mod_layer_dialog.c:672
-#: ../gap/gap_mov_dialog.c:3822 ../gap/gap_wr_layermode.c:362
+#: ../gap/gap_mov_dialog.c:3916 ../gap/gap_wr_layermode.c:362
 msgid "Subtract"
 msgstr "Kendu"
 
 #: ../gap/gap_fire_pattern.c:2291 ../gap/gap_mod_layer_dialog.c:641
-#: ../gap/gap_mov_dialog.c:3810 ../gap/gap_wr_layermode.c:350
+#: ../gap/gap_mov_dialog.c:3904 ../gap/gap_wr_layermode.c:350
 msgid "Multiply"
 msgstr "Biderkatu"
 
@@ -2735,8 +2787,8 @@ msgstr ""
 #. table col, row
 #. accelaration characteristic
 #. table col, row
-#: ../gap/gap_fire_pattern.c:2327 ../gap/gap_mov_dialog.c:4822
-#: ../gap/gap_mov_dialog.c:5097 ../gap/gap_onion_dialog.c:1136
+#: ../gap/gap_fire_pattern.c:2327 ../gap/gap_mov_dialog.c:5124
+#: ../gap/gap_mov_dialog.c:5399 ../gap/gap_onion_dialog.c:1136
 #: ../gap/gap_story_att_trans_dlg.c:3731 ../gap/gap_water_pattern.c:1407
 #: ../gap/gap_wr_opacity.c:332
 msgid "Opacity:"
@@ -2937,7 +2989,7 @@ msgstr "MPEG2..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Bideoa/Kodetu/"
 
-#: ../gap/gap_lib.c:2016
+#: ../gap/gap_lib.c:2015
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2945,30 +2997,37 @@ msgstr ""
 "Eragiketa bertan behera utzi da.\n"
 "Uneko fotograma elkarrizketa-koadroa irekita zegoela aldatu da."
 
-#: ../gap/gap_lib.c:2155
+#: ../gap/gap_lib.c:2154
 msgid "overwrite flattened"
 msgstr "berdindutako gainidaztea"
 
-#: ../gap/gap_lib.c:2157
+#: ../gap/gap_lib.c:2156
 msgid "overwrite"
 msgstr "gainidatzi"
 
-#: ../gap/gap_lib.c:2159
+#: ../gap/gap_lib.c:2158
 msgid "read only"
 msgstr "irakurtzeko soilik"
 
-#: ../gap/gap_lib.c:2161
+#: ../gap/gap_lib.c:2160
 msgid "discard changes"
 msgstr "baztertu aldaketak"
 
-#: ../gap/gap_lib.c:2166
+#: ../gap/gap_lib.c:2165
 #, c-format
+#| msgid ""
+#| "You are using another file format than xcf.\n"
+#| "This dialog configures how to handle exchanges of\n"
+#| "the current frame image (for frames with extension %s)\n"
+#| "Note that automatical save on frame change just works with XCF\n"
+#| "but automatical overwrite (via export) to other formats\n"
+#| "typically results in loss of layers and other information."
 msgid ""
 "You are using another file format than xcf.\n"
 "This dialog configures how to handle exchanges of\n"
 "the current frame image (for frames with extension %s)\n"
-"Note that automatical save on frame change just works with XCF\n"
-"but automatical overwrite (via export) to other formats\n"
+"Note that automatic save on frame change just works with XCF\n"
+"but automatic overwrite (via export) to other formats\n"
 "typically results in loss of layers and other information."
 msgstr ""
 "XCF ez den beste formatu bat erabiltzen ari zara.\n"
@@ -2979,11 +3038,11 @@ msgstr ""
 "gainidazteak (adib esportatu) geruzak eta bestelako informazioa galtzea\n"
 "eragin dezakeela."
 
-#: ../gap/gap_lib.c:2176
+#: ../gap/gap_lib.c:2175
 msgid "Save my decision:"
 msgstr "Gorde nire erabakia:"
 
-#: ../gap/gap_lib.c:2177
+#: ../gap/gap_lib.c:2176
 #, c-format
 msgid ""
 "Save decision for this fileformat for further gimp sessions.\n"
@@ -2993,11 +3052,11 @@ msgstr ""
 "Gimp-eko saioentzako. Honek sarrera bat ('%s' gakoa) sortzen du\n"
 "gimprc fitxategian."
 
-#: ../gap/gap_lib.c:2186
+#: ../gap/gap_lib.c:2185
 msgid "Fileformat Warning"
 msgstr "Fitxategi-formatuaren abisua"
 
-#: ../gap/gap_lib.c:2453
+#: ../gap/gap_lib.c:2452
 #, c-format
 msgid ""
 "Frame operation blocked\n"
@@ -3246,38 +3305,38 @@ msgstr "Ezarri hautatutako geruza guztiak modu honetan: %s"
 msgid "Layer Modes"
 msgstr "Geruzen moduak"
 
-#: ../gap/gap_mod_layer_dialog.c:631 ../gap/gap_mov_dialog.c:3807
+#: ../gap/gap_mod_layer_dialog.c:631 ../gap/gap_mov_dialog.c:3901
 #: ../gap/gap_wr_layermode.c:347
 msgid "Normal"
 msgstr "Normala"
 
-#: ../gap/gap_mod_layer_dialog.c:636 ../gap/gap_mov_dialog.c:3808
+#: ../gap/gap_mod_layer_dialog.c:636 ../gap/gap_mov_dialog.c:3902
 #: ../gap/gap_wr_layermode.c:348
 msgid "Dissolve"
 msgstr "Disolbatu"
 
-#: ../gap/gap_mod_layer_dialog.c:646 ../gap/gap_mov_dialog.c:3811
+#: ../gap/gap_mod_layer_dialog.c:646 ../gap/gap_mov_dialog.c:3905
 #: ../gap/gap_wr_layermode.c:351
 msgid "Divide"
 msgstr "Zatitu"
 
-#: ../gap/gap_mod_layer_dialog.c:651 ../gap/gap_mov_dialog.c:3812
+#: ../gap/gap_mod_layer_dialog.c:651 ../gap/gap_mov_dialog.c:3906
 #: ../gap/gap_water_pattern.c:1470 ../gap/gap_wr_layermode.c:352
 msgid "Screen"
 msgstr "Pantaila"
 
 #. Blend Mode the radio buttons
-#: ../gap/gap_mod_layer_dialog.c:656 ../gap/gap_mov_dialog.c:3813
+#: ../gap/gap_mod_layer_dialog.c:656 ../gap/gap_mov_dialog.c:3907
 #: ../gap/gap_water_pattern.c:1448 ../gap/gap_wr_layermode.c:353
 msgid "Overlay"
 msgstr "Gainjarri"
 
-#: ../gap/gap_mod_layer_dialog.c:662 ../gap/gap_mov_dialog.c:3820
+#: ../gap/gap_mod_layer_dialog.c:662 ../gap/gap_mov_dialog.c:3914
 #: ../gap/gap_wr_layermode.c:360
 msgid "Difference"
 msgstr "Diferentzia"
 
-#: ../gap/gap_mod_layer_dialog.c:667 ../gap/gap_mov_dialog.c:3821
+#: ../gap/gap_mod_layer_dialog.c:667 ../gap/gap_mov_dialog.c:3915
 #: ../gap/gap_water_pattern.c:1459 ../gap/gap_wr_layermode.c:361
 msgid "Addition"
 msgstr "Batuketa"
@@ -3290,7 +3349,7 @@ msgstr "Ilundu bakarrik"
 msgid "Lighten only"
 msgstr "Argitu bakarrik"
 
-#: ../gap/gap_mod_layer_dialog.c:688 ../gap/gap_mov_dialog.c:3814
+#: ../gap/gap_mod_layer_dialog.c:688 ../gap/gap_mov_dialog.c:3908
 #: ../gap/gap_water_pattern.c:1481 ../gap/gap_wr_layermode.c:354
 msgid "Dodge"
 msgstr "Zuritu"
@@ -3315,22 +3374,22 @@ msgstr "Pikortsua erauztea"
 msgid "Grain merge"
 msgstr "Pikortsua batzea"
 
-#: ../gap/gap_mod_layer_dialog.c:723 ../gap/gap_mov_dialog.c:3825
+#: ../gap/gap_mod_layer_dialog.c:723 ../gap/gap_mov_dialog.c:3919
 #: ../gap/gap_wr_layermode.c:365
 msgid "Hue"
 msgstr "Ñabardura"
 
-#: ../gap/gap_mod_layer_dialog.c:728 ../gap/gap_mov_dialog.c:3826
+#: ../gap/gap_mod_layer_dialog.c:728 ../gap/gap_mov_dialog.c:3920
 #: ../gap/gap_wr_layermode.c:366
 msgid "Saturation"
 msgstr "Saturazioa"
 
-#: ../gap/gap_mod_layer_dialog.c:733 ../gap/gap_mov_dialog.c:3827
+#: ../gap/gap_mod_layer_dialog.c:733 ../gap/gap_mov_dialog.c:3921
 #: ../gap/gap_wr_layermode.c:367
 msgid "Color"
 msgstr "Kolorea"
 
-#: ../gap/gap_mod_layer_dialog.c:738 ../gap/gap_mov_dialog.c:3829
+#: ../gap/gap_mod_layer_dialog.c:738 ../gap/gap_mov_dialog.c:3923
 #: ../gap/gap_wr_layermode.c:369
 msgid "Value"
 msgstr "Balioa"
@@ -3971,7 +4030,7 @@ msgstr "Hautatu helburu-geruza "
 #. table col, row
 #. gtk_container_add (GTK_CONTAINER (abox), table3);
 #. the x/y offest labels
-#: ../gap/gap_morph_dialog.c:3194 ../gap/gap_mov_dialog.c:5344
+#: ../gap/gap_morph_dialog.c:3194 ../gap/gap_mov_dialog.c:5646
 #: ../gap/gap_name2layer_main.c:492 ../gap/gap_resi_dialog.c:847
 msgid "X:"
 msgstr "X:"
@@ -4169,14 +4228,18 @@ msgstr ""
 "errendatzean)"
 
 #: ../gap/gap_morph_dialog.c:3953
+#| msgid ""
+#| "Locate Shaperadius in pixels. Defines shape size as area around workpoint "
+#| "to be compared  when loacting corresponding coordinate(Not relevant for "
+#| "rendering)"
 msgid ""
 "Locate Shaperadius in pixels. Defines shape size as area around workpoint to "
-"be compared  when loacting corresponding coordinate(Not relevant for "
+"be compared  when locating corresponding coordinate(Not relevant for "
 "rendering)"
 msgstr ""
 "Kokatu formaren erradioa pixeletan. Formaren tamaina konparatzen den kontrol-"
 "puntuaren inguruko area gisa zehazten du dagokion koordenatua kokatuta "
-"dagoenean  (ez da garrantzitsua errendatzeko)"
+"dagoenean (ez da garrantzitsua errendatzeko)"
 
 #: ../gap/gap_morph_dialog.c:3979
 msgid ""
@@ -4419,8 +4482,10 @@ msgstr "Prozesatutako azken fotograma"
 msgid "Num Workpoints:"
 msgstr "Kontrol-puntuen kopurua:"
 
+# workpoint == kontrol-puntua
 #: ../gap/gap_morph_tween_dialog.c:734
-msgid "Number of workpoints to be generated par processed frame"
+#| msgid "Number of workpoints to be generated par processed frame"
+msgid "Number of workpoints to be generated per processed frame"
 msgstr "Prozesatutako fotogramak sortu beharreko kontrol-puntu kopurua"
 
 #: ../gap/gap_morph_tween_dialog.c:743
@@ -4456,12 +4521,16 @@ msgstr ""
 "idazteko."
 
 #: ../gap/gap_morph_tween_dialog.c:790
+#| msgid ""
+#| "INTENSITY attribute value to be written to the generated workpoint file. "
+#| "value 0 turns off intensity desceding deformation, morph processing will "
+#| "use linear deform action inside the deform radius"
 msgid ""
 "INTENSITY attribute value to be written to the generated workpoint file. "
-"value 0 turns off intensity desceding deformation, morph processing will use "
-"linear deform action inside the deform radius"
+"value 0 turns off intensity descending deformation, morph processing will "
+"use linear deform action inside the deform radius"
 msgstr ""
-"INTENSITY AFFECT-RADIUS atributuaren balioa sortutako kontrol-puntuen "
+"INTENSITY atributuaren balioa sortutako kontrol-puntuen "
 "fitxategian idazteko. 0 balioak intentsitatearen beherako deformazioa "
 "desaktibatzen du, morphing lantzean deformazio linealaren ekintza erabiliko "
 "da deformazioaren erradioaren barruan."
@@ -4612,9 +4681,15 @@ msgstr ""
 msgid "Subdirectory:"
 msgstr "Azpidirektorioa:"
 
+# tweens == tarteko fotograma
 #: ../gap/gap_morph_tween_dialog.c:1302
+#| msgid ""
+#| "Name of a (Sub)directoy to save copies of processed frames and generated "
+#| "tweens. Note that tweens are created via simple fade operations when no "
+#| "workpointfile for the processed frame is available. (individual "
+#| "workpointfiles per frame are referred by extension .morphpoints)"
 msgid ""
-"Name of a (Sub)directoy to save copies of processed frames and generated "
+"Name of a (Sub)directory to save copies of processed frames and generated "
 "tweens. Note that tweens are created via simple fade operations when no "
 "workpointfile for the processed frame is available. (individual "
 "workpointfiles per frame are referred by extension .morphpoints)"
@@ -4636,44 +4711,50 @@ msgstr ""
 #. the master progress bar
 #. master progress
 #: ../gap/gap_morph_tween_dialog.c:1338
-msgid "Create Tweenfame(s):"
+#| msgid "Create Tweenfame(s):"
+msgid "Create Tweenframe(s):"
 msgstr "Sortu tarteko fotogramak:"
 
 #: ../gap/gap_morph_tween_dialog.c:1353
 msgid "Local Progress:"
 msgstr "Lokaleko aurrerapena:"
 
-#: ../gap/gap_mov_dialog.c:1001
+#: ../gap/gap_mov_dialog.c:1016
 msgid "Move Path Editor"
 msgstr "Mugimenduaren bidearen editorea"
 
-#: ../gap/gap_mov_dialog.c:1005
+#: ../gap/gap_mov_dialog.c:1020
 msgid "Move Path"
 msgstr "Animazioaren bidea"
 
-#: ../gap/gap_mov_dialog.c:1049
+#: ../gap/gap_mov_dialog.c:1064
 msgid "Show preview frame with selected source layer at current controlpoint"
 msgstr ""
 "Bistaratu aurrebista-fotograma hautatutako iturburu-geruzarekin, uneko "
 "kontrol-puntuan"
 
-#: ../gap/gap_mov_dialog.c:1060
+#: ../gap/gap_mov_dialog.c:1075
 msgid "Generate animated preview as multilayer image"
 msgstr "Sortu aurrebista animatua geruza anitzeko irudi gisa"
 
-#: ../gap/gap_mov_dialog.c:1081
+#: ../gap/gap_mov_dialog.c:1096
 msgid "Copy moving source-layer(s) into frames"
 msgstr "Kopiatu iturburu-geruza mugikorra(k) fotogrametan"
 
-#: ../gap/gap_mov_dialog.c:1108
+#: ../gap/gap_mov_dialog.c:1123
 msgid "Source Select"
 msgstr "Iturburuko hautapena"
 
-#: ../gap/gap_mov_dialog.c:1116
+#: ../gap/gap_mov_dialog.c:1131
 msgid "Advanced Settings"
 msgstr "Ezarpen aurreratuak"
 
-#: ../gap/gap_mov_dialog.c:1188
+#: ../gap/gap_mov_dialog.c:1140
+#| msgid "Render Settings"
+msgid "Merge Settings"
+msgstr "Batzearen ezarpenak"
+
+#: ../gap/gap_mov_dialog.c:1214
 msgid ""
 "No source image was selected.\n"
 "Please open a 2nd image of the same type before opening 'Move Path'"
@@ -4681,46 +4762,46 @@ msgstr ""
 "Ez da hautatu iturburu-irudirik.\n"
 "Ireki mota bereko 2. irudia 'Animazioaren bidea' ireki baino lehen"
 
-#: ../gap/gap_mov_dialog.c:1476
+#: ../gap/gap_mov_dialog.c:1502
 msgid "Object on empty frames"
 msgstr "Objektua fotograma hutsetan"
 
-#: ../gap/gap_mov_dialog.c:1477
+#: ../gap/gap_mov_dialog.c:1503
 msgid "Object on one frame"
 msgstr "Objektua fotograma batean"
 
-#: ../gap/gap_mov_dialog.c:1478
+#: ../gap/gap_mov_dialog.c:1504
 msgid "Exact object on frames"
 msgstr "Objektu zehatza fotogrametan"
 
-#: ../gap/gap_mov_dialog.c:1509
+#: ../gap/gap_mov_dialog.c:1535
 msgid "Anim Preview Mode:"
 msgstr "Animazioaren aurrebista modua:"
 
-#: ../gap/gap_mov_dialog.c:1531
+#: ../gap/gap_mov_dialog.c:1557
 msgid "Scale Preview:"
 msgstr "Eskalatu aurrebista:"
 
-#: ../gap/gap_mov_dialog.c:1532
+#: ../gap/gap_mov_dialog.c:1558
 msgid "Scale down size of the generated animated preview (in %)"
 msgstr "Txikitu sortutako aurrebista animatua (%)"
 
 #. the Framerate lable
-#: ../gap/gap_mov_dialog.c:1542 ../gap/gap_mpege.c:321
+#: ../gap/gap_mov_dialog.c:1568 ../gap/gap_mpege.c:321
 #: ../gap/gap_navigator_dialog.c:4261 ../gap/gap_story_dialog.c:9413
 #: ../vid_common/gap_cme_gui.c:3790
 msgid "Framerate:"
 msgstr "Fotograma-tasa:"
 
-#: ../gap/gap_mov_dialog.c:1543
+#: ../gap/gap_mov_dialog.c:1569
 msgid "Framerate to use in the animated preview in frames/sec"
 msgstr "Aurrebista animatuan erabili beharreko fotograma-tasa (fotograma/s)"
 
-#: ../gap/gap_mov_dialog.c:1562
+#: ../gap/gap_mov_dialog.c:1588
 msgid "Copy to Video Buffer:"
 msgstr "Kopiatu bideo-bufferrera:"
 
-#: ../gap/gap_mov_dialog.c:1563
+#: ../gap/gap_mov_dialog.c:1589
 msgid ""
 "Save all single frames of animated preview to video buffer.(configured in "
 "gimprc by video-paste-dir and video-paste-basename)"
@@ -4728,15 +4809,15 @@ msgstr ""
 "Gorde aurrebista animatuko fotograma bakun guztiak bideo-bufferrean "
 "(konfiguratu gimprc-en, video-paste-dir eta video-paste-basename erabiliz)."
 
-#: ../gap/gap_mov_dialog.c:1573
+#: ../gap/gap_mov_dialog.c:1599
 msgid "Move Path Animated Preview"
 msgstr "Animazioaren bidearen arabera animatutako aurrebista"
 
-#: ../gap/gap_mov_dialog.c:1626
+#: ../gap/gap_mov_dialog.c:1652
 msgid "Generation of animated preview failed"
 msgstr "Ezin izan da aurrebista animatua sortu"
 
-#: ../gap/gap_mov_dialog.c:1921
+#: ../gap/gap_mov_dialog.c:1947
 #, c-format
 msgid ""
 "No stroke ids found in path:\n"
@@ -4749,7 +4830,7 @@ msgstr ""
 "irudi honetan:\n"
 "'%s'"
 
-#: ../gap/gap_mov_dialog.c:1958
+#: ../gap/gap_mov_dialog.c:1984
 #, c-format
 msgid ""
 "Unsupported pathtype %d found in path:\n"
@@ -4762,7 +4843,7 @@ msgstr ""
 "irudi honetan:\n"
 "'%s'"
 
-#: ../gap/gap_mov_dialog.c:1971
+#: ../gap/gap_mov_dialog.c:1997
 #, c-format
 msgid ""
 "No controlpoints found in path:\n"
@@ -4775,7 +4856,7 @@ msgstr ""
 "irudi honetan:\n"
 "'%s'"
 
-#: ../gap/gap_mov_dialog.c:2008
+#: ../gap/gap_mov_dialog.c:2034
 #, c-format
 msgid ""
 "No path found in the image:\n"
@@ -4784,20 +4865,20 @@ msgstr ""
 "Ez da biderik aurkitu irudi honetan:\n"
 "'%s'"
 
-#: ../gap/gap_mov_dialog.c:2432
+#: ../gap/gap_mov_dialog.c:2458
 msgid "Load Path Points from File"
 msgstr "Kargatu bidearen puntuak fitxategitik"
 
-#: ../gap/gap_mov_dialog.c:2473
+#: ../gap/gap_mov_dialog.c:2499
 msgid "Save Path Points to File"
 msgstr "Gorde bidearen puntuak fitxategian"
 
-#: ../gap/gap_mov_dialog.c:3443
+#: ../gap/gap_mov_dialog.c:3537
 #, c-format
 msgid "Current Point: [ %3d ] of [ %3d ]"
 msgstr "Uneko puntua: [ %3d ] / [ %3d ]"
 
-#: ../gap/gap_mov_dialog.c:3651
+#: ../gap/gap_mov_dialog.c:3745
 #, c-format
 msgid ""
 "ERROR: Could not open xml parameterfile\n"
@@ -4808,7 +4889,7 @@ msgstr ""
 "fitxategi-izena: '%s'\n"
 "%s"
 
-#: ../gap/gap_mov_dialog.c:3657
+#: ../gap/gap_mov_dialog.c:3751
 #, c-format
 msgid ""
 "ERROR: Could not read parameterfile\n"
@@ -4819,7 +4900,7 @@ msgstr ""
 "fitxategi-izena: '%s'\n"
 "(ez da mugimenduaren bidearen XML parametroen baliozko fitxategia)"
 
-#: ../gap/gap_mov_dialog.c:3678
+#: ../gap/gap_mov_dialog.c:3772
 #, c-format
 msgid ""
 "ERROR: Could not open controlpoints\n"
@@ -4830,7 +4911,7 @@ msgstr ""
 "fitxategi-izena: '%s'\n"
 "%s"
 
-#: ../gap/gap_mov_dialog.c:3684
+#: ../gap/gap_mov_dialog.c:3778
 #, c-format
 msgid ""
 "ERROR: Could not read controlpoints\n"
@@ -4841,7 +4922,7 @@ msgstr ""
 "fitxategi-izena: '%s'\n"
 "(ez da kontrol-puntuen baliozko fitxategia)"
 
-#: ../gap/gap_mov_dialog.c:3726
+#: ../gap/gap_mov_dialog.c:3820
 #, c-format
 msgid ""
 "Failed to write controlpointfile\n"
@@ -4853,11 +4934,11 @@ msgstr ""
 "%s"
 
 #. Source Layer menu
-#: ../gap/gap_mov_dialog.c:3772
+#: ../gap/gap_mov_dialog.c:3866
 msgid "Source Image/Layer:"
 msgstr "Iturburuko irudia/geruza:"
 
-#: ../gap/gap_mov_dialog.c:3782
+#: ../gap/gap_mov_dialog.c:3876
 msgid "Source object to insert into destination frames of the specified range"
 msgstr ""
 "Zehaztutako bitarteko helburuko fotogrametan txertatzeko iturburu-objektua"
@@ -4865,60 +4946,60 @@ msgstr ""
 #. Paintmode combo (menu)
 #. the operating Mode label
 #. Paintmode combo (menu)
-#: ../gap/gap_mov_dialog.c:3802 ../gap/gap_name2layer_main.c:461
+#: ../gap/gap_mov_dialog.c:3896 ../gap/gap_name2layer_main.c:461
 #: ../gap/gap_vex_dialog.c:2435 ../gap/gap_video_index_creator.c:982
 #: ../gap/gap_wr_layermode.c:342 ../gap/gap_wr_opacity.c:344
 msgid "Mode:"
 msgstr "Modua:"
 
-#: ../gap/gap_mov_dialog.c:3809 ../gap/gap_wr_layermode.c:349
+#: ../gap/gap_mov_dialog.c:3903 ../gap/gap_wr_layermode.c:349
 msgid "Behind"
 msgstr "Atzean"
 
-#: ../gap/gap_mov_dialog.c:3816 ../gap/gap_wr_layermode.c:356
+#: ../gap/gap_mov_dialog.c:3910 ../gap/gap_wr_layermode.c:356
 msgid "Hard Light"
 msgstr "Argi bizia"
 
-#: ../gap/gap_mov_dialog.c:3817 ../gap/gap_wr_layermode.c:357
+#: ../gap/gap_mov_dialog.c:3911 ../gap/gap_wr_layermode.c:357
 msgid "Soft Light"
 msgstr "Argi leuna"
 
-#: ../gap/gap_mov_dialog.c:3818 ../gap/gap_wr_layermode.c:358
+#: ../gap/gap_mov_dialog.c:3912 ../gap/gap_wr_layermode.c:358
 msgid "Grain Extract"
 msgstr "Erauzi pikortsua"
 
-#: ../gap/gap_mov_dialog.c:3819 ../gap/gap_wr_layermode.c:359
+#: ../gap/gap_mov_dialog.c:3913 ../gap/gap_wr_layermode.c:359
 msgid "Grain Merge"
 msgstr "Batu pikortsua"
 
-#: ../gap/gap_mov_dialog.c:3823 ../gap/gap_wr_layermode.c:363
+#: ../gap/gap_mov_dialog.c:3917 ../gap/gap_wr_layermode.c:363
 msgid "Darken Only"
 msgstr "Ilundu bakarrik"
 
-#: ../gap/gap_mov_dialog.c:3824 ../gap/gap_wr_layermode.c:364
+#: ../gap/gap_mov_dialog.c:3918 ../gap/gap_wr_layermode.c:364
 msgid "Lighten Only"
 msgstr "Argitu bakarrik"
 
-#: ../gap/gap_mov_dialog.c:3828 ../gap/gap_wr_layermode.c:368
+#: ../gap/gap_mov_dialog.c:3922 ../gap/gap_wr_layermode.c:368
 msgid "Color Erase"
 msgstr "Kolorea ezabatzea"
 
-#: ../gap/gap_mov_dialog.c:3830
+#: ../gap/gap_mov_dialog.c:3924
 msgid "Keep Paintmode"
 msgstr "Mantendu pintatzeko modua"
 
-#: ../gap/gap_mov_dialog.c:3852 ../gap/gap_wr_layermode.c:387
+#: ../gap/gap_mov_dialog.c:3946 ../gap/gap_wr_layermode.c:387
 msgid "Paintmode"
 msgstr "Pintatzeko modua"
 
 #. Loop Stepmode menu (Label)
-#: ../gap/gap_mov_dialog.c:3861
+#: ../gap/gap_mov_dialog.c:3955
 msgid "Stepmode:"
 msgstr "Urratsez urratseko modua:"
 
 #. StepSpeedFactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:3880
+#: ../gap/gap_mov_dialog.c:3974
 msgid "SpeedFactor:"
 msgstr "Abiadura-faktorea:"
 
@@ -4930,7 +5011,7 @@ msgstr "Abiadura-faktorea:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:3888
+#: ../gap/gap_mov_dialog.c:3982
 msgid ""
 "Source and target frames step synchronized at value 1.0. A value of 0.5 will "
 "step the source half time slower. One source step is done only at every 2nd "
@@ -4943,93 +5024,93 @@ msgstr ""
 #. Loop Stepmode combo
 #. the playback mode checkbuttons
 #. Loop Toggle
-#: ../gap/gap_mov_dialog.c:3910 ../gap/gap_player_dialog.c:8360
+#: ../gap/gap_mov_dialog.c:4004 ../gap/gap_player_dialog.c:8360
 msgid "Loop"
 msgstr "Begiztak"
 
-#: ../gap/gap_mov_dialog.c:3911
+#: ../gap/gap_mov_dialog.c:4005
 msgid "Loop Reverse"
 msgstr "Begizta alderantzikatua"
 
-#: ../gap/gap_mov_dialog.c:3912
+#: ../gap/gap_mov_dialog.c:4006
 msgid "Once"
 msgstr "Behin"
 
-#: ../gap/gap_mov_dialog.c:3913
+#: ../gap/gap_mov_dialog.c:4007
 msgid "Once Reverse"
 msgstr "Behin alderantzikatuta"
 
-#: ../gap/gap_mov_dialog.c:3914
+#: ../gap/gap_mov_dialog.c:4008
 msgid "Ping Pong"
 msgstr "Aurrera-atzerakoa"
 
 #. radio button delace_mode None
 #. radio button flip_request None
-#: ../gap/gap_mov_dialog.c:3915 ../gap/gap_range_ops.c:505
+#: ../gap/gap_mov_dialog.c:4009 ../gap/gap_range_ops.c:505
 #: ../gap/gap_story_properties.c:2110 ../gap/gap_story_properties.c:4363
 #: ../gap/gap_story_properties.c:4509
 msgid "None"
 msgstr "Bat ere ez"
 
-#: ../gap/gap_mov_dialog.c:3916
+#: ../gap/gap_mov_dialog.c:4010
 msgid "Frame Loop"
 msgstr "Fotograma-begizta"
 
-#: ../gap/gap_mov_dialog.c:3917
+#: ../gap/gap_mov_dialog.c:4011
 msgid "Frame Loop Reverse"
 msgstr "Fotograma-begizta alderantzikatua"
 
-#: ../gap/gap_mov_dialog.c:3918
+#: ../gap/gap_mov_dialog.c:4012
 msgid "Frame Once"
 msgstr "Fotograma behin"
 
-#: ../gap/gap_mov_dialog.c:3919
+#: ../gap/gap_mov_dialog.c:4013
 msgid "Frame Once Reverse"
 msgstr "Fotograma behin alderantzikatuta"
 
-#: ../gap/gap_mov_dialog.c:3920
+#: ../gap/gap_mov_dialog.c:4014
 msgid "Frame Ping Pong"
 msgstr "Aurrera-atzerako fotograma"
 
-#: ../gap/gap_mov_dialog.c:3921
+#: ../gap/gap_mov_dialog.c:4015
 msgid "Frame None"
 msgstr "Fotogramarik ez"
 
-#: ../gap/gap_mov_dialog.c:3942
+#: ../gap/gap_mov_dialog.c:4036
 msgid "How to fetch the next source layer at the next handled frame"
 msgstr ""
 "Nola eskuratu maneiatutako hurrengo fotogramako hurrengo iturburu-geruza"
 
 #. Source Image Handle menu
-#: ../gap/gap_mov_dialog.c:3958
+#: ../gap/gap_mov_dialog.c:4052
 msgid "Handle:"
 msgstr "Maneiatu:"
 
-#: ../gap/gap_mov_dialog.c:3963
+#: ../gap/gap_mov_dialog.c:4057
 msgid "Left  Top"
 msgstr "Goian ezkerrean"
 
-#: ../gap/gap_mov_dialog.c:3964
+#: ../gap/gap_mov_dialog.c:4058
 msgid "Left  Bottom"
 msgstr "Behean ezkerrean"
 
-#: ../gap/gap_mov_dialog.c:3965
+#: ../gap/gap_mov_dialog.c:4059
 msgid "Right Top"
 msgstr "Goian eskuinean"
 
-#: ../gap/gap_mov_dialog.c:3966
+#: ../gap/gap_mov_dialog.c:4060
 msgid "Right Bottom"
 msgstr "Behean eskuinean"
 
-#: ../gap/gap_mov_dialog.c:3967
+#: ../gap/gap_mov_dialog.c:4061
 msgid "Center"
 msgstr "Erdian"
 
-#: ../gap/gap_mov_dialog.c:3998
+#: ../gap/gap_mov_dialog.c:4092
 msgid "How to place the Source layer at controlpoint coordinates"
 msgstr "Nola kokatu iturburu-geruza kontrol-puntuko koordenatuetan"
 
-#: ../gap/gap_mov_dialog.c:4052
+#: ../gap/gap_mov_dialog.c:4146
 msgid ""
 "Apply the bluebox filter on the moving object(s). The bluebox filter makes "
 "the keycolor transparent."
@@ -5038,11 +5119,11 @@ msgstr ""
 "kolorea garden bihurtzen du."
 
 #. keycolor button
-#: ../gap/gap_mov_dialog.c:4076
+#: ../gap/gap_mov_dialog.c:4170
 msgid "Move Path Bluebox Keycolor"
 msgstr "Animazioaren bidearen Bluebox gako-kolorea"
 
-#: ../gap/gap_mov_dialog.c:4093
+#: ../gap/gap_mov_dialog.c:4187
 msgid ""
 "Open dialog window to set parameters and keycolor for the bluebox filter"
 msgstr ""
@@ -5050,17 +5131,17 @@ msgstr ""
 "ezartzeko"
 
 #. toggle Tracelayer
-#: ../gap/gap_mov_dialog.c:4111 ../gap/gap_mov_exec.c:2164
+#: ../gap/gap_mov_dialog.c:4205 ../gap/gap_mov_exec.c:2466
 msgid "Tracelayer"
 msgstr "Aztarna-geruza"
 
-#: ../gap/gap_mov_dialog.c:4116
+#: ../gap/gap_mov_dialog.c:4210
 msgid "Create an additional trace layer in all handled frames"
 msgstr "Sortu beste aztarna-geruza bat maneiatutako fotograma guztietan"
 
 #. TraceOpacityInitial
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4128
+#: ../gap/gap_mov_dialog.c:4222
 msgid "TraceOpacity1:"
 msgstr "Aztarna-opakutasuna1:"
 
@@ -5072,13 +5153,13 @@ msgstr "Aztarna-opakutasuna1:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4136
+#: ../gap/gap_mov_dialog.c:4230
 msgid "Initial opacity of the trace layer"
 msgstr "Aztarna-geruzaren hasierako opakutasuna"
 
 #. TraceOpacityDescending
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4146
+#: ../gap/gap_mov_dialog.c:4240
 msgid "TraceOpacity2:"
 msgstr "Aztarna-opakutasuna2:"
 
@@ -5090,13 +5171,13 @@ msgstr "Aztarna-opakutasuna2:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4154
+#: ../gap/gap_mov_dialog.c:4248
 msgid "Descending opacity of the trace layer"
 msgstr "Aztarna-geruzaren beheranzko opakutasuna"
 
 #. TweenSteps
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4166
+#: ../gap/gap_mov_dialog.c:4260
 msgid "Tweensteps:"
 msgstr "Tarteko urratsak:"
 
@@ -5108,7 +5189,7 @@ msgstr "Tarteko urratsak:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4174
+#: ../gap/gap_mov_dialog.c:4268
 msgid ""
 "Calculate n steps between 2 frames. The rendered tween steps are collected "
 "in a tween layer that will be added to the handled destination frames. If "
@@ -5122,7 +5203,7 @@ msgstr ""
 
 #. TweenOpacityInitial
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4189
+#: ../gap/gap_mov_dialog.c:4283
 msgid "TweenOpacity1:"
 msgstr "TartekoOpakutasuna1:"
 
@@ -5134,13 +5215,13 @@ msgstr "TartekoOpakutasuna1:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4197
+#: ../gap/gap_mov_dialog.c:4291
 msgid "Initial opacity of the tween layer"
 msgstr "Tarteko geruzaren hasierako opakutasuna"
 
 #. TweenOpacityDescending
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4206
+#: ../gap/gap_mov_dialog.c:4300
 msgid "TweenOpacity2:"
 msgstr "TartekoOpakutasuna2:"
 
@@ -5152,70 +5233,166 @@ msgstr "TartekoOpakutasuna2:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4214
+#: ../gap/gap_mov_dialog.c:4308
 msgid "Descending opacity of the tween layer"
 msgstr "Tarteko geruzaren beheranzko opakutasuna"
 
+#. the merge option menu for the moving object
+#: ../gap/gap_mov_dialog.c:4354
+msgid "Keep Rendered Object as Layer"
+msgstr "Mantendu errendatutako objektua geruza gisa"
+
+# Merge Down == batu justu azpian kokatuta dagoen geruzarekin
+#: ../gap/gap_mov_dialog.c:4355
+msgid "Merge Down Rendered Object"
+msgstr "Batu beheko errendatutako objektua"
+
+#: ../gap/gap_mov_dialog.c:4356
+msgid "Delete Rendered Object"
+msgstr "Ezabatu errendatutako objektua"
+
+#: ../gap/gap_mov_dialog.c:4385
+msgid "Postprocessing mode for the rendered moving object layer"
+msgstr ""
+"Post-prozesatze modua (errendatutako mugimendu-objektuaren geruzarentzako)"
+
+# TweenLayer == tarteko geruza
+#. the merge option menu for the tween layer
+#: ../gap/gap_mov_dialog.c:4395
+#| msgid "Tweenlayer"
+msgid "Keep TweenLayer"
+msgstr "Mantendu tarteko geruza"
+
+#: ../gap/gap_mov_dialog.c:4396
+#| msgid "Merge Layers"
+msgid "Merge Down TweenLayer"
+msgstr "Batu beheko tarteko geruza"
+
+#: ../gap/gap_mov_dialog.c:4397
+#| msgid "Delete layer(s)"
+msgid "Delete TweenLayer"
+msgstr "Ezabatu tarteko geruza"
+
+#: ../gap/gap_mov_dialog.c:4426
+msgid "Postprocessing mode for the tween layer (is ignored when not present)"
+msgstr "Post-prozesatze modua tarteko geruzarentzako (ez ikusi egiten zaio ez)"
+
+# TraceLayer == aztarna-geruza
+#. the merge option menu for the trace layer
+#: ../gap/gap_mov_dialog.c:4435
+#| msgid "Tracelayer"
+msgid "Keep TraceLayer"
+msgstr "Mantendu aztarna-geruza"
+
+#: ../gap/gap_mov_dialog.c:4436
+#| msgid "Merge Layers"
+msgid "Merge Down TraceLayer"
+msgstr "Batu beheko aztarna-geruza"
+
+#: ../gap/gap_mov_dialog.c:4437
+#| msgid "Delete layer(s)"
+msgid "Delete TraceLayer"
+msgstr "Ezabatu aztarna-geruza"
+
+#: ../gap/gap_mov_dialog.c:4466
+msgid "Postprocessing mode for the trace layer (is ignored when not present)"
+msgstr "Post-prozesatze modua aztarna-geruzarentzako (ez ikusi egiten zaio ez)"
+
+#. the merge target option menu widgets
+#: ../gap/gap_mov_dialog.c:4477
+#| msgid "Merge Layers:"
+msgid "Merge Target:"
+msgstr "Batu helburua:"
+
+#: ../gap/gap_mov_dialog.c:4482
+#| msgid "New Layer Name"
+msgid "New Layer"
+msgstr "Geruza berria"
+
+#: ../gap/gap_mov_dialog.c:4483
+#| msgid "Merged Layer Name"
+msgid "Merge to Layer below"
+msgstr "Batu azpiko geruzari"
+
+#: ../gap/gap_mov_dialog.c:4484
+msgid "Merge to new Black Mask at Layer below"
+msgstr "Batu maskara beltz berri batekin azpiko geruzan"
+
+#: ../gap/gap_mov_dialog.c:4485
+msgid "Merge to new White Mask at Layer below"
+msgstr "Batu maskara zuri berri batekin azpiko geruzan"
+
+#: ../gap/gap_mov_dialog.c:4486
+msgid "Merge to existing Mask at Layer below"
+msgstr "Batu dagoen maskararekin azpiko geruzan"
+
+#: ../gap/gap_mov_dialog.c:4517
+msgid ""
+"merge target provides options how to postprocess layers rendered by MovePath."
+msgstr ""
+"helburua batzeak AnimazioBideak-ekin errendatutako geruzak post-prozesatzeko "
+"aukerak eskaintzen ditu "
+
 #. the frame
-#: ../gap/gap_mov_dialog.c:4249
+#: ../gap/gap_mov_dialog.c:4551
 msgid "Edit Controlpoints"
 msgstr "Editatu kontrol-puntuak"
 
-#: ../gap/gap_mov_dialog.c:4267
+#: ../gap/gap_mov_dialog.c:4569
 msgid "Add controlpoint at end. The last controlpoint is duplicated."
 msgstr ""
 "Gehitu kontrol-puntua amaieran. Azken kontrol-puntua bikoiztu egiten da."
 
-#: ../gap/gap_mov_dialog.c:4280
+#: ../gap/gap_mov_dialog.c:4582
 msgid ""
 "Delete all controlpoints, and replace them with a copy of all anchorpoints "
 "of the current path from the image from which 'MovePath' was invoked. Hold "
 "down the Shift key to create controlpoints for each handled frame, following "
 "the Bezier path."
 msgstr ""
-"Ezabatu kontrol-puntu guztiak, eta ordeztu 'Animazioaren bidea'ri deitzeko "
+"Ezabatu kontrol-puntu guztiak, eta ordeztu 'AnimazioBidea'ri deitzeko "
 "erabili den irudiaren uneko bideko ainguraketa-puntu guztien kopiarekin. "
 "Mantendu Maius tekla sakatua maneiatutako fotograma bakoitzaren kontrol-"
 "puntuak sortzeko, Bezier kurbaren arabera."
 
-#: ../gap/gap_mov_dialog.c:4299
+#: ../gap/gap_mov_dialog.c:4601
 msgid "Insert controlpoint. The current controlpoint is duplicated."
 msgstr "Txertatu kontrol-puntua. Uneko kontrol-puntua bikoizten da."
 
-#: ../gap/gap_mov_dialog.c:4312
+#: ../gap/gap_mov_dialog.c:4614
 msgid "Delete current controlpoint"
 msgstr "Ezabatu uneko kontrol-puntua"
 
-#: ../gap/gap_mov_dialog.c:4327
+#: ../gap/gap_mov_dialog.c:4629
 msgid ""
 "Show previous controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
 "Erakutsi aurreko kontrol-puntua. Mantendu Maius tekla sakatua gako-"
 "fotogramei jarraitzeko."
 
-#: ../gap/gap_mov_dialog.c:4340
+#: ../gap/gap_mov_dialog.c:4642
 msgid "Show next controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
 "Erakutsi hurrengo kontrol-puntua. Mantendu Maius tekla sakatua gako-"
 "fotogramei jarraitzeko."
 
-#: ../gap/gap_mov_dialog.c:4355
+#: ../gap/gap_mov_dialog.c:4657
 msgid "Show first controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
 "Erakutsi lehen kontrol-puntua. Mantendu Maius tekla sakatua gako-fotogramei "
 "jarraitzeko."
 
-#: ../gap/gap_mov_dialog.c:4368
+#: ../gap/gap_mov_dialog.c:4670
 msgid "Show last controlpoint. Hold down the shift key to follow keyframes."
 msgstr ""
 "Erakutsi azken kontrol-puntua. Mantendu Maius tekla sakatua gako-fotogramei "
 "jarraitzeko."
 
-#: ../gap/gap_mov_dialog.c:4383
+#: ../gap/gap_mov_dialog.c:4685
 msgid "Reset the current controlpoint to default values"
 msgstr "Berrezarri uneko kontrol-puntua balio lehenetsietan"
 
-#: ../gap/gap_mov_dialog.c:4396
+#: ../gap/gap_mov_dialog.c:4698
 msgid ""
 "Reset all controlpoints to default values but dont change the path (X/Y "
 "values). Hold down the shift key to copy settings of point1 into all other "
@@ -5227,7 +5404,7 @@ msgstr ""
 "kopiatzeko. Ktrl tekla sakatuta, lehen puntuaren eta azken puntuaren "
 "ezarpenak mailakatuta ezarriko zaizkie tarteko puntuei."
 
-#: ../gap/gap_mov_dialog.c:4417
+#: ../gap/gap_mov_dialog.c:4719
 msgid ""
 "Set rotation for all controlpoints to follow the shape of the path. Hold "
 "down the shift key to use rotation of controlpoint 1 as offset."
@@ -5236,15 +5413,15 @@ msgstr ""
 "Sakatuta eduki Maius tekla 1. kontrol-puntuaren biratzea desplazamendu gisa "
 "erabiltzeko."
 
-#: ../gap/gap_mov_dialog.c:4432
+#: ../gap/gap_mov_dialog.c:4734
 msgid "Delete all controlpoints"
 msgstr "Ezabatu kontrol-puntu guztiak"
 
-#: ../gap/gap_mov_dialog.c:4448
+#: ../gap/gap_mov_dialog.c:4750
 msgid "Load controlpoints from file"
 msgstr "Kargatu kontrol-puntuak fitxategitik"
 
-#: ../gap/gap_mov_dialog.c:4461
+#: ../gap/gap_mov_dialog.c:4763
 msgid "Save controlpoints to file"
 msgstr "Gorde kontrol-puntuak fitxategian"
 
@@ -5258,7 +5435,7 @@ msgstr "Gorde kontrol-puntuak fitxategian"
 #. constrain
 #. lower, (unconstrained)
 #. upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4577
+#: ../gap/gap_mov_dialog.c:4879
 msgid "First handled destination frame"
 msgstr "Maneiatutako lehen helburu-fotograma"
 
@@ -5272,12 +5449,12 @@ msgstr "Maneiatutako lehen helburu-fotograma"
 #. constrain
 #. lower, (unconstrained)
 #. upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4602
+#: ../gap/gap_mov_dialog.c:4904
 msgid "Last handled destination frame"
 msgstr "Maneiatutako azken helburu-fotograma"
 
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4617 ../gap/gap_range_ops.c:322
+#: ../gap/gap_mov_dialog.c:4919 ../gap/gap_range_ops.c:322
 msgid "Layerstack:"
 msgstr "Geruza-pila:"
 
@@ -5289,7 +5466,7 @@ msgstr "Geruza-pila:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4625
+#: ../gap/gap_mov_dialog.c:4927
 msgid ""
 "How to insert source layer into the layerstack of the destination frames. "
 "layerstack 0 means on top i.e. in front"
@@ -5298,11 +5475,11 @@ msgstr ""
 "pilak goian esan nahi du, hau da, aurrean"
 
 #. destination group path
-#: ../gap/gap_mov_dialog.c:4638
+#: ../gap/gap_mov_dialog.c:4940
 msgid "Target Group:"
 msgstr "Helburuko taldea:"
 
-#: ../gap/gap_mov_dialog.c:4650
+#: ../gap/gap_mov_dialog.c:4952
 msgid ""
 "group/subgroup name path where to insert the rendered object. Note that the "
 "specified group (and subgroups) will be created automatically in all "
@@ -5314,32 +5491,32 @@ msgstr ""
 "agertzen ez diren prozesatutako helburuko fotograma guztietan. Utzi "
 "helburuko taldea hutsik irudia taldeetatik kanpo txertatzea nahi denean"
 
-#: ../gap/gap_mov_dialog.c:4671
+#: ../gap/gap_mov_dialog.c:4973
 msgid "delimiter to separate group/subgroup"
 msgstr "bereizlea taldea/azpitaldea bereizteko"
 
 #. toggle force visibility
-#: ../gap/gap_mov_dialog.c:4697
+#: ../gap/gap_mov_dialog.c:4999
 msgid "Force Visibility"
 msgstr "Behartu ikusgaitasuna"
 
-#: ../gap/gap_mov_dialog.c:4701
+#: ../gap/gap_mov_dialog.c:5003
 msgid "Force visibility for all copied source layers"
 msgstr "Behartu ikusgaitasuna kopiatutako iturburuko geruza guztietarako"
 
 #. toggle clip_to_image
-#: ../gap/gap_mov_dialog.c:4715
+#: ../gap/gap_mov_dialog.c:5017
 msgid "Clip To Frame"
 msgstr "Ebaki fotogramaren arabera"
 
-#: ../gap/gap_mov_dialog.c:4719
+#: ../gap/gap_mov_dialog.c:5021
 msgid "Clip all copied source layers at destination frame boundaries"
 msgstr "Ebaki kopiatutako iturburu-geruza guztiak helburu-fotogramaren mugetan"
 
 #. Width Scale
 #. table col, row
 #. the width label
-#: ../gap/gap_mov_dialog.c:4770 ../gap/gap_story_dialog.c:9390
+#: ../gap/gap_mov_dialog.c:5072 ../gap/gap_story_dialog.c:9390
 #: ../vid_common/gap_cme_gui.c:3711
 msgid "Width:"
 msgstr "Zabalera:"
@@ -5352,14 +5529,14 @@ msgstr "Zabalera:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4778
+#: ../gap/gap_mov_dialog.c:5080
 msgid "Scale source layer's width in percent"
 msgstr "Eskalatu iturburu-geruzaren zabalera ehunekotan"
 
 #. Height Scale
 #. table col, row
 #. the height label
-#: ../gap/gap_mov_dialog.c:4788 ../gap/gap_story_dialog.c:9401
+#: ../gap/gap_mov_dialog.c:5090 ../gap/gap_story_dialog.c:9401
 #: ../vid_common/gap_cme_gui.c:3764
 msgid "Height:"
 msgstr "Altuera:"
@@ -5372,11 +5549,11 @@ msgstr "Altuera:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4796
+#: ../gap/gap_mov_dialog.c:5098
 msgid "Scale source layer's height in percent"
 msgstr "Eskalatu iturburu-geruzaren altuera ehunekotan"
 
-#: ../gap/gap_mov_dialog.c:4813 ../gap/gap_resi_dialog.c:812
+#: ../gap/gap_mov_dialog.c:5115 ../gap/gap_resi_dialog.c:812
 msgid "Constrain aspect ratio"
 msgstr "Murriztu aspektu-erlazioa"
 
@@ -5388,13 +5565,13 @@ msgstr "Murriztu aspektu-erlazioa"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4830
+#: ../gap/gap_mov_dialog.c:5132
 msgid "Set the source layer's opacity in percent"
 msgstr "Ezarri iturburu-geruzaren opakutasuna ehunekotan"
 
 #. Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4840 ../gap/gap_story_att_trans_dlg.c:3705
+#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3705
 msgid "Rotate:"
 msgstr "Biratu:"
 
@@ -5406,13 +5583,13 @@ msgstr "Biratu:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4848
+#: ../gap/gap_mov_dialog.c:5150
 msgid "Rotate source layer (in degrees)"
 msgstr "Biratu iturburu-geruza (gradutan)"
 
 #. ttlx transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4894
+#: ../gap/gap_mov_dialog.c:5196
 msgid "x1:"
 msgstr "x1:"
 
@@ -5424,13 +5601,13 @@ msgstr "x1:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4902
+#: ../gap/gap_mov_dialog.c:5204
 msgid "Transformfactor for upper left corner X coordinate"
 msgstr "Goiko ezkerreko izkinako X koordenatuaren eraldatze-faktorea"
 
 #. ttly transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4913
+#: ../gap/gap_mov_dialog.c:5215
 msgid "y1:"
 msgstr "y1:"
 
@@ -5442,13 +5619,13 @@ msgstr "y1:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4921
+#: ../gap/gap_mov_dialog.c:5223
 msgid "Transformfactor for upper left corner Y coordinate"
 msgstr "Goiko ezkerreko izkinako Y koordenatuaren eraldatze-faktorea"
 
 #. ttrx transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4932
+#: ../gap/gap_mov_dialog.c:5234
 msgid "x2:"
 msgstr "x2:"
 
@@ -5460,13 +5637,13 @@ msgstr "x2:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4940
+#: ../gap/gap_mov_dialog.c:5242
 msgid "Transformfactor for upper right corner X coordinate"
 msgstr "Goiko eskuineko izkinako X koordenatuaren eraldatze-faktorea"
 
 #. ttry transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4950
+#: ../gap/gap_mov_dialog.c:5252
 msgid "y2:"
 msgstr "y2:"
 
@@ -5478,13 +5655,13 @@ msgstr "y2:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4958
+#: ../gap/gap_mov_dialog.c:5260
 msgid "Transformfactor for upper right corner Y coordinate"
 msgstr "Goiko eskuineko izkinako Y koordenatuaren eraldatze-faktorea"
 
 #. tblx transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4968
+#: ../gap/gap_mov_dialog.c:5270
 msgid "x3:"
 msgstr "x3:"
 
@@ -5496,13 +5673,13 @@ msgstr "x3:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4976
+#: ../gap/gap_mov_dialog.c:5278
 msgid "Transformfactor for lower left corner X coordinate"
 msgstr "Beheko ezkerreko izkinako X koordenatuaren eraldatze-faktorea"
 
 #. tbly transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:4986
+#: ../gap/gap_mov_dialog.c:5288
 msgid "y3:"
 msgstr "y3:"
 
@@ -5514,13 +5691,13 @@ msgstr "y3:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:4994
+#: ../gap/gap_mov_dialog.c:5296
 msgid "Transformfactor for lower left corner Y coordinate"
 msgstr "Beheko ezkerreko izkinako Y koordenatuaren eraldatze-faktorea"
 
 #. tbrx transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5004
+#: ../gap/gap_mov_dialog.c:5306
 msgid "x4:"
 msgstr "x4:"
 
@@ -5532,13 +5709,13 @@ msgstr "x4:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5012
+#: ../gap/gap_mov_dialog.c:5314
 msgid "Transformfactor for lower right corner X coordinate"
 msgstr "Beheko eskuineko izkinako X koordenatuaren eraldatze-faktorea"
 
 #. tbry transformfactor
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5022
+#: ../gap/gap_mov_dialog.c:5324
 msgid "y4:"
 msgstr "y4:"
 
@@ -5550,13 +5727,13 @@ msgstr "y4:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5030
+#: ../gap/gap_mov_dialog.c:5332
 msgid "Transformfactor for lower right corner Y coordinate"
 msgstr "Beheko eskuineko izkinako Y koordenatuaren eraldatze-faktorea"
 
 #. accelaration characteristic for Position (i.e. movement)
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5077
+#: ../gap/gap_mov_dialog.c:5379
 msgid "Movement:"
 msgstr "Mugimendua:"
 
@@ -5568,7 +5745,7 @@ msgstr "Mugimendua:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5085
+#: ../gap/gap_mov_dialog.c:5387
 msgid ""
 "acceleration characteristic for movement (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5584,7 +5761,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5105 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3753
 msgid ""
 "acceleration characteristic for opacity (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5594,7 +5771,7 @@ msgstr ""
 
 #. accelaration characteristic for Size (i.e. Zoom)
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5118
+#: ../gap/gap_mov_dialog.c:5420
 msgid "Scale:"
 msgstr "Eskala:"
 
@@ -5606,7 +5783,7 @@ msgstr "Eskala:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5126
+#: ../gap/gap_mov_dialog.c:5428
 msgid ""
 "acceleration characteristic for zoom (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5616,7 +5793,7 @@ msgstr ""
 
 #. accelaration characteristic for Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5137
+#: ../gap/gap_mov_dialog.c:5439
 msgid "Rotation:"
 msgstr "Biraketa:"
 
@@ -5628,7 +5805,7 @@ msgstr "Biraketa:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5145 ../gap/gap_story_att_trans_dlg.c:3725
+#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3725
 msgid ""
 "acceleration characteristic for rotation (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5638,7 +5815,7 @@ msgstr ""
 
 #. accelaration characteristic for Perspective
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5155
+#: ../gap/gap_mov_dialog.c:5457
 msgid "Perspective:"
 msgstr "Perspektiba:"
 
@@ -5650,7 +5827,7 @@ msgstr "Perspektiba:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5163
+#: ../gap/gap_mov_dialog.c:5465
 msgid ""
 "acceleration characteristic for perspective (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5666,7 +5843,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5182
+#: ../gap/gap_mov_dialog.c:5484
 msgid ""
 "acceleration characteristic for feather radius (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
@@ -5675,25 +5852,25 @@ msgstr ""
 "positiboak azeleratu, negatiboak dezeleratu.)"
 
 #. Selection combo
-#: ../gap/gap_mov_dialog.c:5222
+#: ../gap/gap_mov_dialog.c:5524
 msgid "Ignore selection (in all source images)"
 msgstr "Ez ikusi egin hautapenari (iturburu-irudi guztietan)"
 
-#: ../gap/gap_mov_dialog.c:5223
+#: ../gap/gap_mov_dialog.c:5525
 msgid "Use selection (from initial source image)"
 msgstr "Erabili hautapena (hasierako iturburu-irudikoa)"
 
-#: ../gap/gap_mov_dialog.c:5224
+#: ../gap/gap_mov_dialog.c:5526
 msgid "Use selections (from all source images)"
 msgstr "Erabili hautapenak (iturburu-irudi guztietakoak)"
 
-#: ../gap/gap_mov_dialog.c:5233
+#: ../gap/gap_mov_dialog.c:5535
 msgid "How to handle selections in the source image"
 msgstr "Nola maneiatu iturburu-irudiko hautapenak"
 
 #. Feather Radius
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5240
+#: ../gap/gap_mov_dialog.c:5542
 msgid "Selection Feather Radius:"
 msgstr "Hautapenaren difuminatze-erradioa:"
 
@@ -5705,23 +5882,23 @@ msgstr "Hautapenaren difuminatze-erradioa:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5248
+#: ../gap/gap_mov_dialog.c:5550
 msgid "Feather radius in pixels (for smoothing selection(s))"
 msgstr "Difuminatze-erradioa pixeletan (hautapena(k) leuntzeko)"
 
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5353
+#: ../gap/gap_mov_dialog.c:5655
 msgid "X coordinate"
 msgstr "X koordenatua"
 
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5371
+#: ../gap/gap_mov_dialog.c:5673
 msgid "Y coordinate"
 msgstr "Y koordenatua"
 
 #. Keyframe
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5380
+#: ../gap/gap_mov_dialog.c:5682
 msgid "Keyframe:"
 msgstr "Gako-fotograma:"
 
@@ -5733,54 +5910,54 @@ msgstr "Gako-fotograma:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5388
+#: ../gap/gap_mov_dialog.c:5690
 msgid "Fix controlpoint to keyframe number where 0 == no keyframe"
 msgstr ""
 "Ezarri kontrol-puntua gako-fotogramaren zenbakian, non 0 == gako-"
 "fotogramarik ez"
 
-#: ../gap/gap_mov_dialog.c:5418
+#: ../gap/gap_mov_dialog.c:5720
 msgid "Scale and Modify"
 msgstr "Eskalatu eta aldatu"
 
-#: ../gap/gap_mov_dialog.c:5424
+#: ../gap/gap_mov_dialog.c:5726
 msgid "Perspective"
 msgstr "Perspektiba"
 
-#: ../gap/gap_mov_dialog.c:5430
+#: ../gap/gap_mov_dialog.c:5732
 msgid "Selection Handling"
 msgstr "Hautapena maneiatzea"
 
-#: ../gap/gap_mov_dialog.c:5436
+#: ../gap/gap_mov_dialog.c:5738
 msgid "Acceleration"
 msgstr "Azelerazioa"
 
-#: ../gap/gap_mov_dialog.c:5554
+#: ../gap/gap_mov_dialog.c:5856
 msgid "Segment:"
 msgstr "Segmentua:"
 
-#: ../gap/gap_mov_dialog.c:5568
+#: ../gap/gap_mov_dialog.c:5870
 msgid "Length:"
 msgstr "Iraupena:"
 
-#: ../gap/gap_mov_dialog.c:5582
+#: ../gap/gap_mov_dialog.c:5884
 msgid "Speed Min/Max:"
 msgstr "Gutx/Gehien. abiadura:"
 
-#: ../gap/gap_mov_dialog.c:5617
+#: ../gap/gap_mov_dialog.c:5919
 msgid "Pathline Color Picker"
 msgstr "Bide-lerroaren kolore-hautatzailea"
 
-#: ../gap/gap_mov_dialog.c:5624
+#: ../gap/gap_mov_dialog.c:5926
 msgid "Select the color that is used to draw pathlines in the preview"
 msgstr "Hautatu aurrebistan bide-lerroak marrazteko erabiltzen den kolorea"
 
 #. toggle Show path
-#: ../gap/gap_mov_dialog.c:5636
+#: ../gap/gap_mov_dialog.c:5938
 msgid "Path"
 msgstr "Bidea"
 
-#: ../gap/gap_mov_dialog.c:5640
+#: ../gap/gap_mov_dialog.c:5942
 msgid ""
 "Show path lines and enable pick/drag with left button or move with right "
 "button"
@@ -5789,35 +5966,35 @@ msgstr ""
 "eta eskuineko botoiarekin lekuz aldatzea"
 
 #. toggle Show cursor
-#: ../gap/gap_mov_dialog.c:5654
+#: ../gap/gap_mov_dialog.c:5956
 msgid "Cursor"
 msgstr "Kurtsorea"
 
-#: ../gap/gap_mov_dialog.c:5658
+#: ../gap/gap_mov_dialog.c:5960
 msgid "Show cursor crosslines"
 msgstr "Erakutsi kurtsorearen gurutzatze-lerroak"
 
 #. toggle Show Grid
-#: ../gap/gap_mov_dialog.c:5669
+#: ../gap/gap_mov_dialog.c:5971
 msgid "Grid"
 msgstr "Sareta"
 
-#: ../gap/gap_mov_dialog.c:5673
+#: ../gap/gap_mov_dialog.c:5975
 msgid "Show source layer as gridlines"
 msgstr "Erakutsi iturburu-geruza sareta-marra gisa"
 
 #. toggle Instant Apply
-#: ../gap/gap_mov_dialog.c:5683
+#: ../gap/gap_mov_dialog.c:5985
 msgid "Instant Apply"
 msgstr "Aplikatu berehala"
 
-#: ../gap/gap_mov_dialog.c:5687
+#: ../gap/gap_mov_dialog.c:5989
 msgid "Update the preview automatically"
 msgstr "Eguneratu aurrebista automatikoki"
 
 #. the Preview Frame Number
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5706
+#: ../gap/gap_mov_dialog.c:6008
 msgid "Frame:"
 msgstr "Fotograma:"
 
@@ -5831,11 +6008,11 @@ msgstr "Fotograma:"
 #. constrain
 #. lower (unconstrained)
 #. upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5716
+#: ../gap/gap_mov_dialog.c:6018
 msgid "Frame to show when 'Refresh' button is pressed"
 msgstr "'Freskatu' botoia sakatzean erakutsi beharreko fotograma"
 
-#: ../gap/gap_mov_dialog.c:6488
+#: ../gap/gap_mov_dialog.c:6790
 #, c-format
 msgid ""
 "Can't operate with current controlpoint\n"
@@ -5850,50 +6027,53 @@ msgstr ""
 "Errore-zerrenda:\n"
 "%s"
 
-#: ../gap/gap_mov_dialog.c:6987
+#: ../gap/gap_mov_dialog.c:7322
 msgid "MovePath xmlfile:"
-msgstr "Animazioaren bidearen XML fitxategia:"
+msgstr "AnimazioBidearen XML fitxategia:"
 
-#: ../gap/gap_mov_dialog.c:6989
+#: ../gap/gap_mov_dialog.c:7324
+#| msgid ""
+#| "Name of the file containing move path paramters and controlpoints in XML "
+#| "format"
 msgid ""
-"Name of the file containing move path paramters and controlpoints in XML "
+"Name of the file containing move path parameters and controlpoints in XML "
 "format"
 msgstr ""
 "Mugimenduaren bidearen parametro eta kontrol-puntuak XML formatuan dituen "
 "fitxategiaren izena"
 
-#: ../gap/gap_mov_dialog.c:6997 ../vid_common/gap_cme_gui.c:2895
+#: ../gap/gap_mov_dialog.c:7332 ../vid_common/gap_cme_gui.c:2895
 msgid "Total Frames:"
 msgstr "Fotogramak guztira:"
 
-#: ../gap/gap_mov_dialog.c:6998
+#: ../gap/gap_mov_dialog.c:7333
 msgid "Total number of frames"
 msgstr "Guztirako fotograma kopurua"
 
-#: ../gap/gap_mov_dialog.c:7009
+#: ../gap/gap_mov_dialog.c:7344
 msgid "Current Frame:"
 msgstr "Uneko fotograma:"
 
-#: ../gap/gap_mov_dialog.c:7010
+#: ../gap/gap_mov_dialog.c:7345
 msgid "Current Frame number (i.e. current phase) of total number of frames"
 msgstr ""
 "Uneko fotogramaren zenbakia (uneko fasea) (fotogramen guztizko kopurutik)"
 
-#: ../gap/gap_mov_dialog.c:7018
+#: ../gap/gap_mov_dialog.c:7353
 msgid "Movepath rendering for a single frame"
-msgstr "Animazioaren bidea fotograma bakarretik errendatzea"
+msgstr "AnimazioBidea fotograma bakarretik errendatzea"
 
-#: ../gap/gap_mov_dialog.c:7019 ../gap/gap_player_dialog.c:491
+#: ../gap/gap_mov_dialog.c:7354 ../gap/gap_player_dialog.c:491
 #: ../gap/gap_story_dialog.c:5311 ../gap/gap_story_dialog.c:9169
 #: ../gap/gap_story_dialog.c:9619
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: ../gap/gap_mov_exec.c:386
+#: ../gap/gap_mov_exec.c:688
 msgid "Tweenlayer"
 msgstr "Tarteko geruza"
 
-#: ../gap/gap_mov_exec.c:1999
+#: ../gap/gap_mov_exec.c:2301
 msgid ""
 "No source image was selected.\n"
 "Please open a 2nd image of the same type before opening 'Move Path'."
@@ -5901,19 +6081,19 @@ msgstr ""
 "Ez da hautatu iturburu-irudirik.\n"
 "Ireki mota bereko 2. irudia 'Animazioaren bidea' ireki baino lehen."
 
-#: ../gap/gap_mov_exec.c:2013
+#: ../gap/gap_mov_exec.c:2315
 msgid "Copying layers into frames..."
 msgstr "Geruzak fotogrametan kopiatzen..."
 
-#: ../gap/gap_mov_exec.c:2017
+#: ../gap/gap_mov_exec.c:2319
 msgid "Generating animated preview..."
 msgstr "Aurrebista animatua sortzen..."
 
-#: ../gap/gap_mov_exec.c:2623
+#: ../gap/gap_mov_exec.c:2925
 msgid "Transforming layer according to move path frame_phase..."
 msgstr "Geruza eraldatzen mugimenduaren bidearen _urratsaren arabera..."
 
-#: ../gap/gap_mov_exec.c:3942
+#: ../gap/gap_mov_exec.c:4244
 #, c-format
 msgid ""
 "\n"
@@ -5925,7 +6105,7 @@ msgstr ""
 "(fotogramak)\n"
 "aurreko kontrol-puntuentzat"
 
-#: ../gap/gap_mov_exec.c:3952
+#: ../gap/gap_mov_exec.c:4254
 #, c-format
 msgid ""
 "\n"
@@ -5934,7 +6114,7 @@ msgstr ""
 "\n"
 "Errorea: %d gako-fotograma ez dago sekuentzian [%d] puntuan"
 
-#: ../gap/gap_mov_exec.c:3970
+#: ../gap/gap_mov_exec.c:4272
 #, c-format
 msgid ""
 "\n"
@@ -6164,7 +6344,8 @@ msgid "P-Search:"
 msgstr "P-Bilaketa:"
 
 #: ../gap/gap_mpege.c:435
-msgid "Search algorithmus used for P-frames"
+#| msgid "Search algorithmus used for P-frames"
+msgid "Search algorithm used for P-frames"
 msgstr "P fotogrametarako erabilitako bilaketa-algoritmoak"
 
 #: ../gap/gap_mpege.c:443
@@ -6172,7 +6353,8 @@ msgid "B-Search:"
 msgstr "B-Bilaketa:"
 
 #: ../gap/gap_mpege.c:444
-msgid "Search algorithmus used for B-frames"
+#| msgid "Search algorithmus used for B-frames"
+msgid "Search algorithm used for B-frames"
 msgstr "B fotogrametarako erabilitako bilaketa-algoritmoak"
 
 #: ../gap/gap_mpege.c:451
@@ -6613,7 +6795,8 @@ msgstr ""
 "opakua)"
 
 #: ../gap/gap_onion_dialog.c:1176
-msgid "Descending opacity for 2.nd onionskin layer"
+#| msgid "Descending opacity for 2.nd onionskin layer"
+msgid "Descending opacity for 2nd onionskin layer"
 msgstr "Beheranzko opakutasuna tipula-paper motako 2. geruzarentzat"
 
 #: ../gap/gap_onion_dialog.c:1193
@@ -7305,9 +7488,8 @@ msgstr ""
 "baten (edo biren) koordenatuak kapturako irudian uneko bidea erabiliz (1 edo "
 "2 puntutakoa). Aurrerantzeko kaptura bakoitzak automatikoki mugituko ditu "
 "markatutako puntuak dagokien xehetasunen koordenatuetara eta mugimendua XML "
-"parametro gisa erregistratuko ditu 'Animazioaren bidea' eginbidearentzako. 2 "
-"puntu "
-"markatzen direnean, biraketa ere kalkulatzen da.\n"
+"parametro gisa erregistratuko ditu 'AnimazioBidea' eginbidearentzako. 2 "
+"puntu markatzen direnean, biraketa ere kalkulatzen da.\n"
 "ITZALITA: desgaitu jarraipen xehea."
 
 #. Save Player Preferences label
@@ -7782,9 +7964,13 @@ msgid "Imagetype:"
 msgstr "Irudi mota:"
 
 #: ../gap/gap_range_ops.c:574
+#| msgid ""
+#| "Convert to another imagetype, or keep imagetype as it is. Most "
+#| "fileformats can't handle all types and may require a conversion.Example: "
+#| "GIF can not handle RGB and requires convert to indexed imagetype."
 msgid ""
 "Convert to another imagetype, or keep imagetype as it is. Most fileformats "
-"can't handle all types and may require a conversion.Example: GIF can not "
+"can't handle all types and may require a conversion. Example: GIF can not "
 "handle RGB and requires convert to indexed imagetype."
 msgstr ""
 "Bihurtu beste irudi mota bat, edo mantendu irudi mota dagoen bezala. "
@@ -7924,8 +8110,11 @@ msgid "Exclude BG-Layer:"
 msgstr "Kanpoan utzi atzeko planoko geruza:"
 
 #: ../gap/gap_range_ops.c:777
+#| msgid ""
+#| "Exclude the background layer in all handled frames, regardless to the "
+#| "other settings of layer selection."
 msgid ""
-"Exclude the background layer in all handled frames, regardless to the other "
+"Exclude the background layer in all handled frames, regardless of the other "
 "settings of layer selection."
 msgstr ""
 "Kanpoan utzi atzeko planoko geruza maneiatutako fotograma guztietan, geruza-"
@@ -7941,8 +8130,8 @@ msgid ""
 "String to identify layer(s) by name or by layerstack position numbers. "
 "Example: 0,3-5"
 msgstr ""
-"Izenaren edo geruza-pilen kokapen-zenbakien arabera identifikatzeko geruza"
-"(k) identifikatzeko katea: Adibidez: 0,3-5"
+"Izenaren edo geruza-pilen kokapen-zenbakien arabera identifikatzeko "
+"geruza(k) identifikatzeko katea: Adibidez: 0,3-5"
 
 #: ../gap/gap_range_ops.c:802
 msgid "Case sensitive:"
@@ -8148,9 +8337,12 @@ msgid "Only Visible:"
 msgstr "Ikusgai bakarrik:"
 
 #: ../gap/gap_split.c:479
+#| msgid ""
+#| "ON: Handle only visible layers.\n"
+#| "OFF: handle all layers and force visibiblity"
 msgid ""
 "ON: Handle only visible layers.\n"
-"OFF: handle all layers and force visibiblity"
+"OFF: handle all layers and force visibility"
 msgstr ""
 "AKTIBATUTA: maneiatu ikusgai dauden geruzak.\n"
 "DESAKTIBATUTA: maneiatu geruza guztiak eta behartu ikusgaitasuna"
@@ -8160,8 +8352,12 @@ msgid "Copy properties:"
 msgstr "Kopiatu propietateak:"
 
 #: ../gap/gap_split.c:487
+#| msgid ""
+#| "ON: Copy all image properties (channels, pathes, guides) to all frame "
+#| "images.\n"
+#| "OFF: copy only layers without image properties to frame images"
 msgid ""
-"ON: Copy all image properties (channels, pathes, guides) to all frame "
+"ON: Copy all image properties (channels, paths, guides) to all frame "
 "images.\n"
 "OFF: copy only layers without image properties to frame images"
 msgstr ""
@@ -8238,7 +8434,7 @@ msgstr "Jarraipen-biraketa"
 
 #: ../gap/gap_story_att_trans_dlg.c:2804
 msgid "Set Movepath Parameterfile (XML)"
-msgstr "Ezarri animazioaren bidearen parametroen fitxategia (XML)"
+msgstr "Ezarri AnimazioBidearen parametroen fitxategia (XML)"
 
 #. auto update toggle  check button
 #: ../gap/gap_story_att_trans_dlg.c:3210
@@ -8283,8 +8479,7 @@ msgstr "Trantsizio-atributuak"
 #. the frame
 #: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
-#: ../gap/gap_story_properties.c:4040
-#: ../gap/gap_story_section_properties.c:784
+#: ../gap/gap_story_properties.c:4040 ../gap/gap_story_section_properties.c:784
 msgid "Properties"
 msgstr "Propietateak"
 
@@ -8548,11 +8743,14 @@ msgstr "Mugimenduaren bidea:"
 #. page size        for the from/to values
 #. digits for the from/to values
 #: ../gap/gap_story_att_trans_dlg.c:3885
+#| msgid ""
+#| "ON: Enable move path transistions using settings provided via a movepath "
+#| "parameter file"
 msgid ""
-"ON: Enable move path transistions using settings provided via a movepath "
+"ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
 msgstr ""
-"AKTIBATUTA: gaitu animazioaren bidearen trantsizioak mugimenduaren bidearen "
+"AKTIBATUTA: gaitu animazioaren bidearen trantsizioak animaziobidearen "
 "parametroen fitxategiak eskainitako ezarpenak erabiliz."
 
 #: ../gap/gap_story_att_trans_dlg.c:3887
@@ -8562,8 +8760,9 @@ msgid ""
 "controlpoint in the movepath parameter file"
 msgstr ""
 "mugimenduko/trantsizioko fotogramaren zenbakia (urratsa) kudeatutako "
-"aurreneko fotogramaren bidean zehar, non 1 bidearen hasiera den parametroen "
-"fitxategiko aurreneko kontrol-puntuaren ezarpenak erabiliz."
+"aurreneko fotogramaren bidean zehar, non 1 bidearen hasiera den "
+"animaziobidearen "
+"parametroen fitxategiko aurreneko kontrol-puntuaren ezarpenak erabiliz."
 
 #: ../gap/gap_story_att_trans_dlg.c:3891
 msgid ""
@@ -8574,8 +8773,8 @@ msgid ""
 msgstr ""
 "mugimenduko/trantsizioko fotogramaren zenbakia (urratsa) kudeatutako "
 "azkeneko fotogramaren bidean zehar. Oharra: guztirako fotogramen baino "
-"zenbaki altuagoa (edo berdina) duten fotogramek parametroen fitxategiko "
-"azkenengo kontrol-puntuaren ezarpenak erabiliko dute."
+"zenbaki altuagoa (edo berdina) duten fotogramek animaziobidearen parametroen "
+"fitxategiko azkenengo kontrol-puntuaren ezarpenak erabiliko dute."
 
 #: ../gap/gap_story_att_trans_dlg.c:3897
 msgid "acceleration characteristic (currently ignored)"
@@ -8584,7 +8783,7 @@ msgstr "azelerazio karakteristikoa (unean ez ikusi eginda)"
 #. the movepath label
 #: ../gap/gap_story_att_trans_dlg.c:3943
 msgid "Movepath File:"
-msgstr "Animazioaren bidearen fitxategia:"
+msgstr "AnimazioBidearen fitxategia:"
 
 #. the comment label
 #. the Comment lable
@@ -9235,9 +9434,13 @@ msgid "Decoder:"
 msgstr "Deskodetzailea:"
 
 #: ../gap/gap_story_dialog.c:9515
+#| msgid ""
+#| "Select preferred video decoder library, or leave empty for automatic "
+#| "selection.The decoder setting is only relevant if videoclips are used "
+#| "(but not for frames that are imagefiles)"
 msgid ""
 "Select preferred video decoder library, or leave empty for automatic "
-"selection.The decoder setting is only relevant if videoclips are used (but "
+"selection. The decoder setting is only relevant if videoclips are used (but "
 "not for frames that are imagefiles)"
 msgstr ""
 "Hautatu bideo-deskodetzailearen liburutegi hobetsia, edo utzi hutsik "
@@ -9260,16 +9463,22 @@ msgstr "Kanpoko gardentasun-formatua:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
 #, c-format
+#| msgid ""
+#| "Format string to provide external transparency in movie clips. (i.e. "
+#| "automatic alpha channel insertion via external frames)this string shall "
+#| "contain \\%s as placeholder for the basename of a videoclip and optional "
+#| "\\%06d as placeholder for the framenumber."
 msgid ""
 "Format string to provide external transparency in movie clips. (i.e. "
 "automatic alpha channel insertion via external frames)this string shall "
-"contain \\%s as placeholder for the basename of a videoclip and optional \\"
-"%06d as placeholder for the framenumber."
+"contain %s as placeholder for the basename of a videoclip and optional %06d "
+"as placeholder for the framenumber."
 msgstr ""
 "Filmaren klipetako kanpoko gardentasuna eskaintzeko katearen formatua (adib. "
-"alfa kanala automatikoki txertatzea). Kate honek \\%s eduki dezake "
-"bideokliparen oinarrizko izenaren leku-marka gisa eta aukerako \\%06d "
-"fotograma-zenbakiaren leku-marka gisa."
+"alfa kanala automatikoki txertatzea kanpoko fotogramen bidez). "
+"Kate honek %s eduki dezake bideokliparen oinarrizko izenaren leku-marka gisa "
+"eta aukerako "
+"%06d fotograma-zenbakiaren leku-marka gisa."
 
 #: ../gap/gap_story_dialog.c:9595
 msgid "AreaFormat:"
@@ -9278,14 +9487,19 @@ msgstr "Area-formatua:"
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
 #, c-format
+#| msgid ""
+#| "Format string for area replacement in movie clips. (for example automatic "
+#| "logo insert)this string shall contain \\%s as placeholder for the "
+#| "basename of a videoclip and optional \\%06d as placeholder for the "
+#| "framenumber."
 msgid ""
 "Format string for area replacement in movie clips. (for example automatic "
-"logo insert)this string shall contain \\%s as placeholder for the basename "
-"of a videoclip and optional \\%06d as placeholder for the framenumber."
+"logo insert)this string shall contain %s as placeholder for the basename of "
+"a videoclip and optional %06d as placeholder for the framenumber."
 msgstr ""
 "Filmaren klipetako ordezteko arearen katearen formatua (adib. logotipo "
-"automatikoa txertatzea). Kate honek \\%s eduki dezake bideokliparen "
-"oinarrizko izenaren leku-marka gisa eta aukerako \\%06d fotograma-"
+"automatikoa txertatzea). Kate honek %s eduki dezake bideokliparen "
+"oinarrizko izenaren leku-marka gisa eta aukerako %06d fotograma-"
 "zenbakiaren leku-marka gisa."
 
 #. should use GIMP_STOCK_RESET if possible
@@ -9312,13 +9526,15 @@ msgstr "atala_%02d"
 
 #: ../gap/gap_story_file.c:2716
 #, c-format
-msgid "illegal number: %s (valid range is %d upto %d)\n"
+#| msgid "illegal number: %s (valid range is %d upto %d)\n"
+msgid "illegal number: %s (valid range is %d up to %d)\n"
 msgstr "kopuru baliogabea: %s (baliozko bitartea: %d(e)tik %d(e)ra)\n"
 
 #: ../gap/gap_story_file.c:2755
 #, c-format
-msgid "illegal number: %s (valid range is %.3f upto %.3f)"
-msgstr "kopuru baliogabea: %s (baliozko bitartea: %.3f(e)tik %.3f(e)ra)"
+#| msgid "illegal number: %s (valid range is %.3f upto %.3f)"
+msgid "illegal number: %s (valid range is %.3f up to %.3f)"
+msgstr "ukopuru baliogabea: %s (baliozko bitartea: %.3f(e)tik %.3f(e)ra)"
 
 #: ../gap/gap_story_file.c:2797
 #, c-format
@@ -9427,8 +9643,9 @@ msgid "Set Image or Frame Filename"
 msgstr "Ezarri irudiaren edo fotogramaren fitxategi-izena"
 
 #: ../gap/gap_story_properties.c:2501
-msgid "Set Colormark Parmeter Filename"
-msgstr "Ezarri kolore-markaren parametroen fitxategi-izena"
+#| msgid "Set Colormark Parmeter Filename"
+msgid "Set Colormask Parameter Filename"
+msgstr "Ezarri kolore-maskararen parametroen fitxategi-izena"
 
 #: ../gap/gap_story_properties.c:2601
 msgid "Set Filtermacro Filename"
@@ -9474,8 +9691,7 @@ msgstr "IRUZKINA"
 msgid "** UNKNOWN **"
 msgstr "** EZEZAGUNA **"
 
-#: ../gap/gap_story_properties.c:2800
-#: ../gap/gap_story_section_properties.c:599
+#: ../gap/gap_story_properties.c:2800 ../gap/gap_story_section_properties.c:599
 #, c-format
 msgid "%d (frames)"
 msgstr "%d (fotogramak)"
@@ -9519,8 +9735,7 @@ msgid "Clip Type:"
 msgstr "Klip mota:"
 
 #. the duration label
-#: ../gap/gap_story_properties.c:4100
-#: ../gap/gap_story_section_properties.c:830
+#: ../gap/gap_story_properties.c:4100 ../gap/gap_story_section_properties.c:830
 msgid "Duration:"
 msgstr "Iraupena:"
 
@@ -9882,8 +10097,9 @@ msgid "analyze line %d (out of %d)"
 msgstr "%d / %d lerroa aztertzea"
 
 #: ../gap/gap_story_render_processor.c:3429
-msgid "No Frames or Images found ...."
-msgstr "Ez da fotogramarik edo irudirik aurkitu..."
+#| msgid "No Frames or Images found ...."
+msgid "No Frames or Images found ..."
+msgstr "Ez da fotogramarik edo irudirik aurkitu…"
 
 #: ../gap/gap_story_render_processor.c:7618
 msgid "Seek Inputvideoframe..."
@@ -10358,12 +10574,20 @@ msgid "  %s (%d of %d)"
 msgstr "  %s (%d / %d)"
 
 #: ../gap/gap_video_index_creator.c:924
+#| msgid ""
+#| "Conditional video index creation,  based on a few quick timcode "
+#| "probereads.\n"
+#| "Skip index creation if native seek seems possible\n"
+#| "\n"
+#| "WARNING: positioning via native seek may not work exact in case critical "
+#| "timecode steps were not detected in the quick test)"
 msgid ""
-"Conditional video index creation,  based on a few quick timcode probereads.\n"
+"Conditional video index creation,  based on a few quick timecode "
+"probereads.\n"
 "Skip index creation if native seek seems possible\n"
 "\n"
 "WARNING: positioning via native seek may not work exact in case critical "
-"timecode steps were not detected in the quick test)"
+"timecode steps were not detected in the quick test."
 msgstr ""
 "Baldintzako bideo-indizearen sorrera, denbora-kodearen probako irakurketa "
 "bizkor gutxitan oinarrituta.\n"
@@ -10435,8 +10659,11 @@ msgid "Percentage:"
 msgstr "Ehunekoa:"
 
 #: ../gap/gap_video_index_creator.c:994
+#| msgid ""
+#| "stop scan after percentage reached and no unplausible timecode was "
+#| "detected so far (only relevant in smart mode)"
 msgid ""
-"stop scan after percentage reached and no unplausible timecode was detected "
+"stop scan after percentage reached and no implausible timecode was detected "
 "so far (only relevant in smart mode)"
 msgstr ""
 "gelditu eskaneatzea ehunekora iritsitakoan, eta ez bada denbora-koderik "
@@ -10514,12 +10741,15 @@ msgid "Horizontal shift phase where 1.0 refers to image width"
 msgstr "Urratsaren desplazamendu horizontala (1.0 = irudiaren zabalera)"
 
 #: ../gap/gap_water_pattern.c:1216
+#| msgid ""
+#| "ON: create waterpattern cloud layers according options. OFF: Use external "
+#| "pattern layers. "
 msgid ""
-"ON: create waterpattern cloud layers according options. OFF: Use external "
+"ON: create waterpattern cloud layers according to options. OFF: Use external "
 "pattern layers. "
 msgstr ""
 "AKTIBATUTA: sortu ur-ereduaren hodeiaren geruza aukeren arabera "
-"DESAKTIBATUTA: erabili kanpoko ereduaren geruzak."
+"DESAKTIBATUTA: erabili kanpoko ereduaren geruzak. "
 
 #. pattern
 #: ../gap/gap_water_pattern.c:1227
@@ -10885,6 +11115,25 @@ msgstr "<Image>/Bideoa/Geruza/Eraldatu/"
 #: ../gap/gap_wr_trans.c:654
 msgid "Rotate angle:"
 msgstr "Biratzeko angelua:"
+
+# AnimImage == AnimIrudi ?
+#: ../gap/sel-to-anim-img.scm:115
+msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
+msgstr "<Image>/Script-Fu/Animazioa/Hautapena AnimIrudira..."
+
+#: ../gap/sel-to-anim-img.scm:123
+#| msgid "Number of Colors"
+msgid "Number of Copies"
+msgstr "Kopia kopurua"
+
+#: ../gap/sel-to-anim-img.scm:124
+#| msgid "Select By Color"
+msgid "Fill with BG Color"
+msgstr "Bete AtzPlanoaren koloreaz"
+
+#: ../gap/sel-to-anim-img.scm:125
+msgid "Anim-Filter for all Copies"
+msgstr "Animazio-iragazkia kopia guztietan"
 
 #: ../libgapvidapi/gap_vid_api_mpeg3.c:843
 #, c-format
@@ -11799,6 +12048,17 @@ msgid "This plugin is the master dialog for video + audio encoding"
 msgstr "Bideo- eta audio-kodetzearen elkarrizketa maisua da plugin hori"
 
 #: ../vid_common/gap_cme_main.c:148
+#| msgid ""
+#| "This plugin is a common GUI for all available video + audio encoding "
+#| "plugins it operates on a selected range of animframes or storyboard "
+#| "files. The (optional) audio inputdata (param: audfile) is transformed to "
+#| "RIFF WAVE format (16Bit PCM) and passed to the selected videoencoder plug-"
+#| "in as temporary file. (or direct if format and samplerate already matches "
+#| "the desired target samplerate). The videoformat is defined with "
+#| "vid_enc_plugin parameter. The specified plugin  is called with the "
+#| "parameters specified in the dialog. for noninteractive calls default "
+#| "values will be used. (you may call the desired plugin directly if you "
+#| "want to specify non-interacive parameters"
 msgid ""
 "This plugin is a common GUI for all available video + audio encoding plugins "
 "it operates on a selected range of animframes or storyboard files. The "
@@ -11808,7 +12068,7 @@ msgid ""
 "desired target samplerate). The videoformat is defined with vid_enc_plugin "
 "parameter. The specified plugin  is called with the parameters specified in "
 "the dialog. for noninteractive calls default values will be used. (you may "
-"call the desired plugin directly if you want to specify non-interacive "
+"call the desired plugin directly if you want to specify non-interactive "
 "parameters"
 msgstr ""
 "Erabiltzaile-interfaze grafiko ohikoa da plugin hori, erabilgarri dauden "
@@ -11997,14 +12257,19 @@ msgid "BGR (rgb):"
 msgstr "BGR (gbu):"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:921
+#| msgid ""
+#| "Check if you want to encode frames in BGR (prefered) or RGB colormodel "
+#| "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
+#| "other players want RGB colromodel for RAW avi data)"
 msgid ""
-"Check if you want to encode frames in BGR (prefered) or RGB colormodel (most "
-"players like WinDvD, VLC-player want BGR colormodel for RAW data) other "
-"players want RGB colromodel for RAW avi data)"
+"Check if you want to encode frames in BGR (preferred) or RGB colormodel "
+"(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
+"other players want RGB colormodel for RAW avi data)"
 msgstr ""
 "Aktibatu fotogramak BGR (hobetsia) edo GBU kolore-ereduetan kodetzea nahi "
-"baduzu (WinDVD edo VLC bezalako erreproduzitzaile gehienek  BGR eredua nahi "
-"dute RAW datuentzako, beste batzuk GBU kolore-eredua nahiago dute RAW avi "
+"baduzu (WinDVD edo VLC bezalako erreproduzitzaile gehienek  BGR kolore-eredua "
+"nahi dute RAW datuentzako, beste batzuk GBU kolore-eredua nahiago dute RAW "
+"avi "
 "datuentzako)"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:931
@@ -12221,15 +12486,21 @@ msgstr "Hautatutako aurrezarpenak: %s"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:502
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:518
-msgid "Recommanded Framesize"
+#| msgid "Recommanded Framesize"
+msgid "Recommended Framesize"
 msgstr "Gomendatutako fotograma-tamaina"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:529
 #, c-format
+#| msgid ""
+#| "Selected Fileformat : [%s] %s\n"
+#| "Recommanded Video CODEC : %s\n"
+#| "Recommanded Audio CODEC : %s\n"
+#| "Extension(s): %s %s"
 msgid ""
 "Selected Fileformat : [%s] %s\n"
-"Recommanded Video CODEC : %s\n"
-"Recommanded Audio CODEC : %s\n"
+"Recommended Video CODEC : %s\n"
+"Recommended Audio CODEC : %s\n"
 "Extension(s): %s %s"
 msgstr ""
 "Hautatu fitxategi-formatua: [%s] %s\n"
@@ -12877,9 +13148,13 @@ msgid "Dont Recode"
 msgstr "Ez kodetu berriz"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2478
+#| msgid ""
+#| "Bypass the FFMPEG Vidoencoder where inputframes can be copied 1:1 from an "
+#| "input MPEG videofile.This experimental feature provides lossless MPEG "
+#| "video cut, but works only for the MPEG Fileformats."
 msgid ""
-"Bypass the FFMPEG Vidoencoder where inputframes can be copied 1:1 from an "
-"input MPEG videofile.This experimental feature provides lossless MPEG video "
+"Bypass the FFMPEG Videoencoder where inputframes can be copied 1:1 from an "
+"input MPEG videofile. This experimental feature provides lossless MPEG video "
 "cut, but works only for the MPEG Fileformats."
 msgstr ""
 "FFMPEG bideo-kodetzailea saltatzen du; sarrerako MPEG bideo-fitxategitik 1:1 "
@@ -13653,24 +13928,37 @@ msgstr ""
 "@rawframeS@"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:184
+#| msgid ""
+#| "This plugin has a video encoder API but writes a series of single raw "
+#| "frames instead of one videofile. the filetype of the output frames is "
+#| "derived from the extension. the extension is the suffix part of the "
+#| "parameter \"videofile\". the names of the output frame(s) are same as the "
+#| "parameter \"videofile\" but the framenumber part is replaced by the "
+#| "current framenumber (or added automatic if videofile has no number part) "
+#| "audiodata is ignored.WARNINGS: for proper operation, the handled frames "
+#| "shall refere to single video file without any transitions. this allows "
+#| "fetching frames as raw data chunks. The chunks are 1:1 written to disc as "
+#| "framefiles. The resulting raw data frames on disc may be unusable if the "
+#| "raw chunk data is not compatible to any image fileformat. MPEG I frames, "
+#| "and MJPG files may be extractable to the JPEG fileformat. A  call of\""
 msgid ""
 "This plugin has a video encoder API but writes a series of single raw frames "
 "instead of one videofile. the filetype of the output frames is derived from "
 "the extension. the extension is the suffix part of the parameter \"videofile"
 "\". the names of the output frame(s) are same as the parameter \"videofile\" "
 "but the framenumber part is replaced by the current framenumber (or added "
-"automatic if videofile has no number part) audiodata is ignored.WARNINGS: "
-"for proper operation, the handled frames shall refere to single video file "
+"automatic if videofile has no number part) audiodata is ignored. WARNINGS: "
+"for proper operation, the handled frames shall refer to single video file "
 "without any transitions. this allows fetching frames as raw data chunks. The "
 "chunks are 1:1 written to disc as framefiles. The resulting raw data frames "
 "on disc may be unusable if the raw chunk data is not compatible to any image "
 "fileformat. MPEG I frames, and MJPG files may be extractable to the JPEG "
 "fileformat. A  call of\""
 msgstr ""
-"Plugin horrek API bideo-kodetzaile bat du, baina, bideo-fitxategi bat "
-"beharrean, fotograma gordin bakunen sorta bat idazten du. Irteera-fotogramen "
-"fitxategi mota luzapenaren ondorio da. \"bideo-fitxategia\" parametroaren "
-"atzizkia da luzapena. \"bideo-fitxategia\" parametroaren izenaren berdinak "
+"Plugin horrek API bideo-kodetzaile bat du, baina, bideo-fitxategi baten "
+"ordez, fotograma gordin bakunen sorta bat idazten du. Irteera-fotogramen "
+"fitxategi mota luzapenaren ondorio da. “bideo-fitxategia“ parametroaren "
+"atzizkia da luzapena. “bideo-fitxategia“ parametroaren izenaren berdinak "
 "dira irteera-fotogramen izenak, baina uneko fotogramaren zenbakia jartzen du "
 "fotograma-zenbakia zatian (edo, bideo-fitxategiak zenbakiaren zatirik ez "
 "badu, automatikoki eransten zaio). Audio-datuei ez ikusi egiten zaie. "
@@ -13680,7 +13968,7 @@ msgstr ""
 "fitxategi gisa gordetzen dira diskoan. Diskoko emaitzako datu gordinen "
 "fotogramak erabilgaitzak izango dira pusketa gordinaren datuak ez badira "
 "bateragarriak inolako irudien formatuekin. MPEG I fotogramak, eta MJPG "
-"fitxategiak erauzi daitezke JPEG fitxategi-formatura. Honakoaren deia \""
+"fitxategiak erauzi daitezke JPEG fitxategi-formatura. Honakoaren deia “"
 
 #: ../vid_enc_rawframes/gap_enc_rawframes_main.c:214
 msgid "Set parameters for GAP rawframes video encoder Plugins"
