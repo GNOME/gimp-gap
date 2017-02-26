@@ -7121,15 +7121,15 @@ msgstr "Nom de fitxer:"
 #. pixel
 #: ../gap/gap_name2layer_main.c:473
 msgid "Select Fontname"
-msgstr "Selecciona el nom de la tipografia"
+msgstr "Selecciona el nom del tipus de lletra"
 
 #: ../gap/gap_name2layer_main.c:481
 msgid "Fontsize:"
-msgstr "Mida de la tipografia:"
+msgstr "Mida del tipus de lletra:"
 
 #: ../gap/gap_name2layer_main.c:482
 msgid "Fontsize in pixels"
-msgstr "Mida de la tipografia en píxels"
+msgstr "Mida del tipus de lletra en píxels"
 
 #: ../gap/gap_name2layer_main.c:493
 msgid "Position X-offset in pixels"
@@ -11782,7 +11782,7 @@ msgstr "To-Saturació"
 #. the frame
 #: ../gap/gap_wr_color_huesat.c:618
 msgid "Hue / Lightness / Saturation Adjustments "
-msgstr "Ajustaments de To / Brillantor / Saturació"
+msgstr "Ajustaments de To / Lluminositat / Saturació"
 
 #  Hue Mode the label
 #. Hue Mode the label
@@ -11820,7 +11820,7 @@ msgstr "To:"
 
 #: ../gap/gap_wr_color_huesat.c:694
 msgid "Lightness:"
-msgstr "Brillantor:"
+msgstr "Lluminositat:"
 
 #: ../gap/gap_wr_color_huesat.c:701
 msgid "Saturation:"
