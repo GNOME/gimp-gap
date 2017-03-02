@@ -1147,7 +1147,7 @@ msgstr "Opcions bàsiques"
 #  The dialog1 and main vbox
 #: ../gap/gap_colormask_dialog.c:243
 msgid "Color Mask:"
-msgstr "Màscara de color"
+msgstr "Màscara de color:"
 
 #: ../gap/gap_colormask_dialog.c:249
 msgid "Colordiff Threshold:"
@@ -1233,7 +1233,7 @@ msgid ""
 "below that size are removed (i.e. toggled from opaque to transparent and "
 "vice versa)"
 msgstr ""
-"La mida de la zona de la illa en píxels, zones petites aïllades opaques o "
+"La mida de la zona de l'illa en píxels, zones petites aïllades opaques o "
 "zones de píxels transparents que per sota d'aquesta mida s'eliminen (és a "
 "dir, canvia d'opac a transparent i al revés)"
 
@@ -1397,7 +1397,7 @@ msgstr "Sig Radi:"
 #  lowr/upper unconstrained
 #: ../gap/gap_colormask_dialog.c:710
 msgid "_Edge Colordiff threshold:"
-msgstr "Llindar de la diferència del color de la vora"
+msgstr "_Llindar de la diferència del color de la vora:"
 
 #  lower/upper
 #  step, page
@@ -1411,7 +1411,7 @@ msgstr "Llindar de la diferència del color de la vora"
 #  lowr/upper unconstrained
 #: ../gap/gap_colormask_dialog.c:725
 msgid "_Area Colordiff threshold:"
-msgstr "Llindar de la diferència del color de l’àrea"
+msgstr "Lli_ndar de la diferència del color de l'àrea:"
 
 #: ../gap/gap_colormask_dialog.c:740
 msgid "Small Area Diagonal:"
@@ -1419,7 +1419,7 @@ msgstr "Petita zona diagonal:"
 
 #: ../gap/gap_colormask_dialog.c:754
 msgid "Small Area Pixelsize:"
-msgstr "Mida del píxel d'una àrea petita"
+msgstr "Mida del píxel d'una àrea petita:"
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:788
@@ -2034,7 +2034,7 @@ msgid ""
 "you have to set environment variable GAP_XANIM_PROG\n"
 "to your xanim exporting program and restart gimp"
 msgstr ""
-"si la edició d'exportació xanim no és al vostre camí o no s'anomena xanim\n"
+"si l'edició d'exportació xanim no és al vostre camí o no s'anomena xanim\n"
 "heu de definir la variable d'entorn GAP_XANIM_PROG\n"
 "al vostre programa d'exportació xanim i tornar a iniciar el Gimp"
 
@@ -2510,7 +2510,7 @@ msgstr "Seguiment del detall"
 
 #: ../gap/gap_detail_tracking_main.c:234
 msgid "DetailTracking Config..."
-msgstr "Configuració del seguiment del detall"
+msgstr "Configuració del seguiment del detall..."
 
 #: ../gap/gap_detail_tracking_main.c:259
 msgid "DetailTracking"
@@ -2780,7 +2780,7 @@ msgid ""
 "animation effect on the input drawable"
 msgstr ""
 "Activat: crea una nova imatge amb n còpies del dibuixable d'entrada i "
-"renderitza l'efecte d'animació complert sobre aquestes còpies. Desactivat: "
+"renderitza l'efecte d'animació complet sobre aquestes còpies. Desactivat: "
 "renderitza només una fase de l'efecte d'animació al dibuixable d'entrada"
 
 #  the Preview Frame Number
@@ -3093,7 +3093,7 @@ msgstr ""
 #: ../gap/gap_fmac_base.c:274 ../gap/gap_fmac_base.c:376
 #, c-format
 msgid "file: %s is not a filtermacro file !"
-msgstr "El fitxer «%s» no és una filtre macro."
+msgstr "El fitxer «%s» no és un filtre macro."
 
 #: ../gap/gap_fmac_base.c:464
 #, c-format
@@ -3420,7 +3420,7 @@ msgstr "Escala els fotogrames..."
 
 #: ../gap/gap_main.c:796
 msgid "Split Image to Frames..."
-msgstr "Divideix la imatge en fotogrames"
+msgstr "Divideix la imatge en fotogrames..."
 
 #: ../gap/gap_main.c:808
 msgid "Frame Sequence Shift..."
@@ -4477,7 +4477,7 @@ msgstr "Intensitat:"
 
 #: ../gap/gap_morph_dialog.c:3702
 msgid "Deform intensity."
-msgstr "Deforma intensitat"
+msgstr "Deforma intensitat."
 
 #  the use_intensity checkbutton
 #. the use_intensity checkbutton
@@ -4499,7 +4499,7 @@ msgstr ""
 #. the tween_steps label
 #: ../gap/gap_morph_dialog.c:3754
 msgid "Steps:"
-msgstr "Passos"
+msgstr "Passos:"
 
 #: ../gap/gap_morph_dialog.c:3776
 msgid ""
@@ -5962,7 +5962,7 @@ msgid ""
 "layerstack 0 means on top i.e. in front"
 msgstr ""
 "Com inserir la capa origen dins la pila de capes dels fotogrames de "
-"destinació. El 0 vol dir al capdamunt, p.e., davant"
+"destinació. El 0 vol dir al capdamunt, p. ex., davant"
 
 #. destination group path
 #: ../gap/gap_mov_dialog.c:4940
@@ -7611,7 +7611,7 @@ msgid ""
 "Remove all onionskin layers in all frames of the the selected frame range"
 msgstr ""
 "Suprimeix totes les capes de paper ceba en tots els fotogrames de l'abast "
-"dels fotograma seleccionat"
+"del fotograma seleccionat"
 
 #: ../gap/gap_onion_dialog.c:1411
 msgid ""
@@ -7619,7 +7619,7 @@ msgid ""
 "range"
 msgstr ""
 "Crea o reemplaça capa(es) de paper ceba en tots els fotogrames de l'abast "
-"dels fotograma seleccionat"
+"del fotograma seleccionat"
 
 #: ../gap/gap_onion_main.c:152
 msgid "Configuration..."
@@ -10102,7 +10102,7 @@ msgstr ""
 "No s'ha creat la pista del to original.\n"
 "El guió gràfic %s\n"
 "té una referència al clip d'àudio existent a la pista %d.\n"
-"Utilitzeu una altre número de pista o permeteu reemplaçar quan ho proveu de "
+"Utilitzeu un altre número de pista o permeteu reemplaçar quan ho proveu de "
 "nou."
 
 #: ../gap/gap_story_dialog.c:9214
@@ -11473,7 +11473,7 @@ msgid ""
 "Create video index. Requires unconditional full scan of all frames. Native "
 "seek is enabled only in case all timecodes are OK."
 msgstr ""
-"Crea un índex de vídeo. Requereix una anàlisis incondicional complet de tots "
+"Crea un índex de vídeo. Requereix una anàlisi incondicional complet de tots "
 "els fotogrames. La recerca nativa s'habilitarà només si tots els codis de "
 "temps són correctes."
 
@@ -12574,7 +12574,7 @@ msgid ""
 "and executing macro"
 msgstr ""
 "Desa opcional cada fotograma multicapa composat a fitxer XJT, abans "
-"d'aplanar i executar el macro"
+"d'aplanar i executar la macro"
 
 #: ../vid_common/gap_cme_gui.c:3212
 msgid "Configuration of external audiotool program"
@@ -14901,7 +14901,7 @@ msgstr ""
 "dades d'àudio. AVISOS: per a un correcte funcionament, els fotogrames "
 "gestionats han de referenciar un únic fitxer de vídeo sense cap tipus de "
 "transició; això permet carregar els fotogrames com a fragments de dades "
-"crues. Els fragments s'escriuen un a un al disc, com a fitxer de fotogrames. "
+"crues. Els fragments s'escriuen un per un al disc, com a fitxer de fotogrames. "
 "Els fotogrames de dades simples resultants que hi ha a disc poden esdevenir "
 "inservibles si les dades crues dels fragments no són compatibles amb cap "
 "format de fitxer d'imatge. És possible que els fotogrames MPEG I i els "
@@ -14981,7 +14981,7 @@ msgid ""
 msgstr ""
 "Aquest connector té un codificador de vídeo API però escriu una sèrie de "
 "fotogrames simples en lloc d'un fitxer de vídeo. El tipus de fitxer dels "
-"fotogrames de sortida és derivat de l'extensió. La extensió és part del "
+"fotogrames de sortida és derivat de l'extensió. L'extensió és part del "
 "sufixe del paràmetre \"videofile\". Els noms dels fotogrames de sortida són "
 "els mateixos que el paràmetre \"videofile\", però la part del número de "
 "fotograma es reemplaçat pel número de fotograma actual (o afegit "
