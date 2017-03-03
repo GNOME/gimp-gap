@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-28 15:11+0100\n"
-"PO-Revision-Date: 2017-03-03 13:25+0100\n"
+"PO-Revision-Date: 2017-03-03 19:38+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: gimp.linux.it\n"
 "Language: it\n"
@@ -1295,7 +1295,7 @@ msgstr "Salta"
 
 #: ../gap/gap_dbbrowser_utils.c:384
 msgid "skip processing of the selected filter for group layers."
-msgstr "salta l'elaborazione del filtro selezionato per i livelli di gruppo."
+msgstr "salta l'elaborazione del filtro selezionato per i gruppi di livelli."
 
 #: ../gap/gap_dbbrowser_utils.c:388
 msgid "Merge"
@@ -1303,7 +1303,7 @@ msgstr "Fondi"
 
 #: ../gap/gap_dbbrowser_utils.c:392
 msgid "group layers are merged before the selected filter is applied."
-msgstr "i livelli di gruppo vengono fusi prima che il filtro selezionato venga applicato."
+msgstr "i gruppi di livelli vengono fusi prima che il filtro selezionato venga applicato."
 
 #: ../gap/gap_dbbrowser_utils.c:439
 msgid "Gen Code by name"
@@ -2027,7 +2027,7 @@ msgstr "Trasforma il livello attraverso 4 (o 2) punti di allineamento"
 #.
 #: ../gap/gap_detail_align_exec.c:1252
 msgid "Path Point Order:"
-msgstr "Ordine dei punti tracciato:"
+msgstr "Ordine dei punti traccia:"
 
 #. Order Mode the radio buttons
 #: ../gap/gap_detail_align_exec.c:1270
@@ -2085,7 +2085,7 @@ msgstr "Seleziona punti:"
 msgid ""
 "1: select only the best path point for movement detection, 2: select the "
 "best 2 points for movement,scale and rotation detection."
-msgstr ""
+msgstr "1: seleziona solo il miglior punto traccia per il rilevamento del movimento, 2: seleziona i migliori 2 punti per il rilevamento di movimento, scalatura e rotazione."
 
 #: ../gap/gap_detail_tracking_exec.c:2180
 msgid "Locate colordiff Thres:"
@@ -2343,10 +2343,7 @@ msgstr "Crea livello risultato:"
 msgid ""
 "ON: create a new layer as result of the foreground extraction processing. "
 "OFF: render transparency and background color removal on the input drawable"
-msgstr ""
-"ACCESO: crea un nuovo livello come risultato dell'elaborazione di estrazione "
-"dello sfondo. SPENTO: renderizza la rimozione della trasparenza e del colore "
-"di sfondo nel disegnabile in ingresso"
+msgstr "ACCESO: crea un nuovo livello come risultato dell'elaborazione di estrazione dello sfondo. SPENTO: renderizza la rimozione della trasparenza e del colore di sfondo nel disegnabile in ingresso."
 
 #: ../gap/gap_fg_matting_exec.c:130
 msgid "Foreground Extract"
@@ -2470,10 +2467,8 @@ msgid ""
 "complete animation effect on those copies. OFF: render only one phase of the "
 "animation effect on the input drawable"
 msgstr ""
-"Acceso: crea una nuova immagine con n copie del disegnabile considerato e "
-"renderizza completamente un effetto animazione su tali copie.\n"
-"Spento: renderizza solo la prima fase dell'effetto di animazione sul "
-"disegnabile."
+"ACCESO: crea una nuova immagine con n copie del disegnabile considerato e renderizza completamente un effetto animazione su tali copie.\n"
+"SPENTO: renderizza solo la prima fase dell'effetto di animazione sul disegnabile."
 
 #: ../gap/gap_fire_pattern.c:1795 ../gap/gap_water_pattern.c:1118
 msgid "N-Frames:"
@@ -2509,8 +2504,8 @@ msgid ""
 "ON: create firepattern cloud layer according to options. OFF: Use external "
 "pattern layer. "
 msgstr ""
-"Acceso: crea un livello nuvola con motivo di fuoco secondo le opzioni.\n"
-"Spento: usa un livello di motivo esterno."
+"ACCESO: crea un livello nuvola con motivo di fuoco secondo le opzioni.\n"
+"SPENTO: usa un livello di motivo esterno."
 
 #: ../gap/gap_fire_pattern.c:1886
 msgid "vertical stretch factor for the fire pattern"
@@ -2592,8 +2587,8 @@ msgid ""
 "ON: create fire shape layer according to options. OFF: Use external fire "
 "shape layer. "
 msgstr ""
-"Acceso: crea il livello di forma fiamma secondo le opzioni.\n"
-"Spento: usa un livello di forma fiamma esterno."
+"ACCESO: crea il livello di forma fiamma secondo le opzioni.\n"
+"SPENTO: usa un livello di forma fiamma esterno."
 
 #. useTrapezoidShape checkbutton
 #: ../gap/gap_fire_pattern.c:2051
@@ -2603,8 +2598,8 @@ msgstr "Trapezoide:"
 #: ../gap/gap_fire_pattern.c:2061
 msgid "ON: Render trapezoid shaped fire, OFF: render fire at full image width"
 msgstr ""
-"Acceso: renderizza la fiamma a forma trapezoidale.\n"
-"Spento: renderizza la fiamma a piena larghezza immagine."
+"ACCESO: renderizza la fiamma a forma trapezoidale.\n"
+"SPENTO: renderizza la fiamma a piena larghezza immagine."
 
 #. flameHeight spinbutton
 #: ../gap/gap_fire_pattern.c:2075
@@ -2683,8 +2678,8 @@ msgid ""
 "ON: Render fire pattern effect as separate layer, OFF: merge rendered effect "
 "onto processed layer"
 msgstr ""
-"Acceso: renderizza il motivo di effetto fiamma come livello separato.\n"
-"Spento: fondi l'effetto renderizzato sul livello in elaborazione"
+"ACCESO: renderizza il motivo di effetto fiamma come livello separato.\n"
+"SPENTO: fondi l'effetto renderizzato sul livello in elaborazione"
 
 #. Highlights blend mode
 #: ../gap/gap_fire_pattern.c:2251 ../gap/gap_water_pattern.c:1430
@@ -2717,8 +2712,8 @@ msgid ""
 "ON: Render fire layer with transparent background, OFF: render with black "
 "background"
 msgstr ""
-"Acceso: renderizza il livello fiamma con uno sfondo trasparente.\n"
-"Spento: renderizza con sfondo nero."
+"ACCESO: renderizza il livello fiamma con uno sfondo trasparente.\n"
+"SPENTO: renderizza con sfondo nero."
 
 #. the state of the contrain ratio chainbutton is checked in other callbacks (where needed)
 #. * there is no need for the chainbutton to have its own callback procedure
@@ -2746,8 +2741,8 @@ msgstr "Gradiente inverso:"
 #: ../gap/gap_fire_pattern.c:2361
 msgid "ON: use reverse gradient colors, OFF: use gradient colors"
 msgstr ""
-"Acceso: usa i colori del gradiente inverso.\n"
-"Spento: usa i colori del gradiente."
+"ACCESO: usa i colori del gradiente inverso.\n"
+"SPENTO: usa i colori del gradiente."
 
 #: ../gap/gap_fire_pattern.c:2527
 msgid "Fire Pattern..."
@@ -4461,9 +4456,8 @@ msgid ""
 "ON: overwrite existing workpointfiles.OFF: Skip workpoint generation or add "
 "new generated workpoints (see append checkbutton)."
 msgstr ""
-"Acceso: sovrascrive i file esistenti di punti di lavoro.\n"
-"Spento: salta la generazione dei punti di lavoro o aggiunge i nuovi punti di "
-"lavoro generati (notare la casella di spunta aggiunta)."
+"ACCESO: sovrascrive i file esistenti di punti di lavoro.\n"
+"SPENTO: salta la generazione dei punti di lavoro o aggiunge i nuovi punti di lavoro generati (notare la casella di spunta aggiunta)."
 
 #. the overwrite checkbutton
 #: ../gap/gap_morph_tween_dialog.c:897
@@ -4568,9 +4562,8 @@ msgid ""
 "ON: overwrite existing frames.OFF: skip processing when target frame/tween "
 "already exists."
 msgstr ""
-"Acceso: sovrascrive i quadri esistenti.\n"
-"Spento: salta l'elaborazione quando il quadro/intermedio risultante esiste "
-"già."
+"ACCESO: sovrascrive i quadri esistenti.\n"
+"SPENTO: salta l'elaborazione quando il quadro/intermedio risultante esiste già."
 
 #. the master progress bar
 #. master progress
@@ -4729,11 +4722,11 @@ msgstr ""
 
 #: ../gap/gap_mov_dialog.c:2458
 msgid "Load Path Points from File"
-msgstr "Carica punti tracciato dal file"
+msgstr "Carica punti traccia dal file"
 
 #: ../gap/gap_mov_dialog.c:2499
 msgid "Save Path Points to File"
-msgstr "Salva punti tracciato nel file"
+msgstr "Salva punti traccia nel file"
 
 #: ../gap/gap_mov_dialog.c:3537
 #, c-format
@@ -6433,7 +6426,7 @@ msgstr "Tracking-LA:"
 #. radio button active layer tracking OFF
 #: ../gap/gap_navigator_dialog.c:3994
 msgid "OFF"
-msgstr "Spento"
+msgstr "SPENTO"
 
 #: ../gap/gap_navigator_dialog.c:4007
 msgid "Disable active layer tracking"
@@ -6720,33 +6713,23 @@ msgid "Auto create after load"
 msgstr "Auto creazione dopo il caricamento"
 
 #: ../gap/gap_onion_dialog.c:1332
-#, fuzzy
 msgid ""
 "ON: Automatic creation/replacement of onionskin layer(s). Works on frame "
 "changes via 'VCR Navigator' and go to operations in the video menu -- but "
 "not on explicit load from the file menu."
-msgstr ""
-"ACCESO: creazione/rimpiazzo automatico dei livelli cartavelina. Lavora sui "
-"cambiamenti di quadri attraverso il 'Navigatore VCR' e va alle operazioni "
-"nel menu video -- ma non su caricamento esplicito dal file menu."
+msgstr "ACCESO: creazione/rimpiazzo automatico dei livelli cartavelina. Lavora sui cambiamenti di quadri attraverso il 'Navigatore VCR' e va alle operazioni nel menu video -- ma non su caricamento esplicito dal file menu."
 
 #: ../gap/gap_onion_dialog.c:1341
 msgid "Auto delete before save"
 msgstr "Auto eliminazione dopo il salvataggio"
 
 #: ../gap/gap_onion_dialog.c:1344
-#, fuzzy
 msgid ""
 "ON: Automatic delete of onionskin layer(s). Works on framechanges via 'VCR "
 "Navigator' and go to operations in the video menu -- but not on explicit "
 "save from the file menu. Use this option if you dont want onionskin layers "
 "to appear in thumbnail files."
-msgstr ""
-"ACCESO: cancellazione automatica dei livelli cartavelina. Lavora sui "
-"cambiamenti di quadri attraverso il 'Navigatore VCR' e va alle operazioni "
-"nel menu video -- ma non su un salvataggio esplicito dal file menu. Usa "
-"quest'opzione se vuoi veder apparire i livelli cartavelina nei file "
-"miniatura."
+msgstr "ACCESO: cancellazione automatica dei livelli cartavelina. Lavora sui cambiamenti di quadri attraverso il 'Navigatore VCR' e va alle operazioni nel menu video -- ma non su un salvataggio esplicito dal file menu. Usa quest'opzione se vuoi veder apparire i livelli cartavelina nei file miniatura."
 
 #: ../gap/gap_onion_dialog.c:1380
 msgid "Reset to default settings"
@@ -6856,7 +6839,6 @@ msgid "Copy Audiofile as Wavefile"
 msgstr "Copia file audio come file wave"
 
 #: ../gap/gap_player_dialog.c:584
-#, fuzzy
 msgid ""
 "Failure to start the wavplay server is fatal.\n"
 "Please check the executability of the 'wavplay' command.\n"
@@ -6865,9 +6847,8 @@ msgid ""
 msgstr ""
 "Il fallimento nella partenza del server wavplay è fatale.\n"
 "Controllare l'eseguibilità del comando 'wavplay'.\n"
-"Se avete installato l'eseguibile wavplay da qualche parte\n"
-"potete comunicarlo a gimp alla partenza attraverso la variabile ambiente "
-"WAVPLAYPATH\n"
+"Se è stato installato da qualche parte l'eseguibile wavplay, è possibile\n"
+"comunicarlo a GIMP al suo avvio impostando la variabile ambiente WAVPLAYPATH.\n"
 
 #: ../gap/gap_player_dialog.c:647
 msgid "Audio Delay"
@@ -6962,7 +6943,6 @@ msgid "Ready"
 msgstr "Pronto"
 
 #: ../gap/gap_player_dialog.c:2499
-#, fuzzy
 msgid "checking audiotrack"
 msgstr "controllo traccia audio"
 
@@ -6988,9 +6968,9 @@ msgid "Extract of audiotrack failed on videofile: %s"
 msgstr "Estrazione traccia audio fallita nel file video: %s"
 
 #: ../gap/gap_player_dialog.c:2695
-#, fuzzy, c-format
+#, c-format
 msgid "Creating Index %d"
-msgstr "Creazione indice"
+msgstr "Creazione indice %d"
 
 #: ../gap/gap_player_dialog.c:2904
 msgid "seek-selftest"
@@ -7148,11 +7128,11 @@ msgid ""
 "OFF: do not sync audio with original position in the referenced videos. Use "
 "this for independent audiofile playback."
 msgstr ""
-"Acceso: per la posizione di partenza di sincronizzazione audio "
+"ACCESO: per la posizione di partenza di sincronizzazione audio "
 "dell'esecuzione di video clip  secondo la posizione originale del video in "
 "oggetto. Usare quest'opzione se il file audio è una traccia audio estratta "
 "del file video completo in oggetto.\n"
-"Spento: non sincronizzare l'audio con la posizione originale dei file video "
+"SPENTO: non sincronizzare l'audio con la posizione originale dei file video "
 "in oggetto. Usare quest'opzione per l'esecuzione di file audio indipendenti."
 
 #: ../gap/gap_player_dialog.c:7030
@@ -7160,13 +7140,10 @@ msgid "Audio Track"
 msgstr "Traccia audio"
 
 #: ../gap/gap_player_dialog.c:7040
-#, fuzzy
 msgid ""
 "Extract Audio Track from videofile for the current videofile and use it for "
 "original audiotrack playback"
-msgstr ""
-"Estrae la traccia audio dal file video per il file video corrente e la "
-"utilizza per l'esecuzione della traccia audio originale "
+msgstr "Estrae la traccia audio dal file video per il file video corrente e la usa per l'esecuzione della traccia audio originale."
 
 #. create wavfile button
 #: ../gap/gap_player_dialog.c:7054
@@ -7755,15 +7732,11 @@ msgstr ""
 "gestire i livelli multipli e necessita dell'appiattimento dei quadri."
 
 #: ../gap/gap_range_ops.c:515
-#, fuzzy
 msgid ""
 "Merge resulting frame down to one layer. This keeps transparency information "
 "Example: use this for PNG fileformat that can handle transparency (alpha "
 "channel) but is limited to one layer)"
-msgstr ""
-"Fonde il quadro risultante in un livello. Ciò mantiene le informazioni di "
-"trasparenza. Esempio: da usarsi per i file in formato PNG che possono "
-"gestire la trasparenza (il canale alfa) ma sono limitati ad un solo livello."
+msgstr "Fonde il quadro risultante in un livello. Ciò mantiene le informazioni di trasparenza. Esempio: da usarsi per i file in formato PNG che possono gestire la trasparenza (il canale alfa) ma sono limitati ad un solo livello."
 
 #. the basename label
 #: ../gap/gap_range_ops.c:555 ../gap/gap_vex_dialog.c:2463
@@ -7802,16 +7775,11 @@ msgid "Imagetype:"
 msgstr "Tipo immagine:"
 
 #: ../gap/gap_range_ops.c:574
-#, fuzzy
 msgid ""
 "Convert to another imagetype, or keep imagetype as it is. Most fileformats "
 "can't handle all types and may require a conversion. Example: GIF can not "
 "handle RGB and requires convert to indexed imagetype."
-msgstr ""
-"Converti in un'altro tipo di immagine o mantieni l'immagine così com'è. "
-"Molti formati di immagine non riescono a gestirne tutti i tipi e possono "
-"necessitare di una conversione. Esempio: i GIF non possono gestire RGB e "
-"necessitano di una conversione in immagine indicizzata."
+msgstr "Converti in un'altro tipo di immagine o mantieni l'immagine così com'è. Molti formati immagine non possono gestirne tutti i tipi e può essere necessaria una conversione. Esempio: i GIF non possono gestire l'RGB e abbisognano di una conversione in immagine indicizzata."
 
 #: ../gap/gap_range_ops.c:582
 msgid "Merge Layers:"
@@ -7945,7 +7913,6 @@ msgid "Exclude BG-Layer:"
 msgstr "Escludi livello di sfondo:"
 
 #: ../gap/gap_range_ops.c:777
-#, fuzzy
 msgid ""
 "Exclude the background layer in all handled frames, regardless of the other "
 "settings of layer selection."
@@ -7983,13 +7950,10 @@ msgid "Pixel Selection:"
 msgstr "Selezione punti:"
 
 #: ../gap/gap_range_ops.c:829
-#, fuzzy
 msgid ""
 "You are using INDEXED frames. Please note that the result will be an RGB "
 "image"
-msgstr ""
-"Si sta usando quadri INDICIZZATI. Notare che il risultato sarà un'immagine "
-"RGB"
+msgstr "Si sta usando quadri INDICIZZATI. Si noti che il risultato sarà un'immagine RGB."
 
 #: ../gap/gap_range_ops.c:911
 msgid "Creating layer-animated image..."
@@ -8102,10 +8066,9 @@ msgstr "Centra verticalmente"
 
 #: ../gap/gap_split.c:172
 msgid "Splitting image into frames..."
-msgstr "Divisione dell'immagine in frame .."
+msgstr "Divisione dell'immagine in frame..."
 
 #: ../gap/gap_split.c:365
-#, fuzzy
 msgid ""
 "Split Frames: Save operation failed.\n"
 "Desired save plugin can't handle type\n"
@@ -8171,13 +8134,12 @@ msgid "Only Visible:"
 msgstr "Solo visibili:"
 
 #: ../gap/gap_split.c:479
-#, fuzzy
 msgid ""
 "ON: Handle only visible layers.\n"
 "OFF: handle all layers and force visibility"
 msgstr ""
 "ACCESO: gestisci solo livelli visibili.\n"
-"SPENTO: gestisci tutti i livelli e forza la visibilità"
+"SPENTO: gestisci tutti i livelli e forza la visibilità."
 
 #: ../gap/gap_split.c:486
 msgid "Copy properties:"
@@ -8190,10 +8152,8 @@ msgid ""
 "images.\n"
 "OFF: copy only layers without image properties to frame images"
 msgstr ""
-"ACCESO: copia tutte le proprietà dell'immagine (canali, tracciati, guide) su "
-"tutti i quadri immagine.\n"
-"SPENTO: copia solo i livelli senà le proprietà dell'immagine nei quadri "
-"immagine."
+"ACCESO: copia tutte le proprietà dell'immagine (canali, tracciati, guide) su tutti i quadri immagine.\n"
+"SPENTO: copia solo i livelli senà le proprietà dell'immagine nei quadri immagine."
 
 #: ../gap/gap_split.c:496
 msgid "How many digits to use for the framenumber filename part"
@@ -8732,9 +8692,9 @@ msgid ""
 "ON: player shows clips transformed to aspect setting from the Storyboard "
 "properties.OFF: player shows clips according to their original pixel sizes"
 msgstr ""
-"Acceso: il player mostra le clip trasformate dalle impostazioni d'aspetto "
+"ACCESO: il player mostra le clip trasformate dalle impostazioni d'aspetto "
 "delle proprietà della storyboard.\n"
-"Spento: il player mostra le clip secondo le loro dimensioni di pixel "
+"SPENTO: il player mostra le clip secondo le loro dimensioni di pixel "
 "originali."
 
 #: ../gap/gap_story_dialog.c:5308
@@ -8819,9 +8779,9 @@ msgid ""
 "where possible.(typically faster but disables extraction of a composite "
 "frame at original size via click into the player preview)"
 msgstr ""
-"Acceso: il rendering dei quadri compositi a scopo di anteprima viene fatto "
+"ACCESO: il rendering dei quadri compositi a scopo di anteprima viene fatto "
 "(lento) a piena dimensione.\n"
-"Spento: il rendering della a scopo di anteprima viene fatto con dimensioni "
+"SPENTO: il rendering della a scopo di anteprima viene fatto con dimensioni "
 "ridotte, ove possibile (tipicamente più veloce ma disabilita l'estrazione di "
 "un quadro composito a dimensione originale usando il clic sull'anteprima del "
 "player)."
@@ -8836,10 +8796,10 @@ msgid ""
 "(reading frames from videoclips is done by parallel running prefetch "
 "processing) OFF: Rendering of composite frames uses only one processor."
 msgstr ""
-"Acceso: il rendering di quadri compositi dello storyboard userà più di un "
+"ACCESO: il rendering di quadri compositi dello storyboard userà più di un "
 "processore (la lettura dei quadri dagli spezzoni video viene effettuato "
 "eseguendo in parallelo l'elaborazione di precaricamento).\n"
-"Spento: il rendering di quadri compositi userà solo un processore."
+"SPENTO: il rendering di quadri compositi userà solo un processore."
 
 #: ../gap/gap_story_dialog.c:5650
 msgid "Multiprocessor Encoder Support:"
@@ -8851,10 +8811,10 @@ msgid ""
 "ffmpeg based video encoder implementation supports parallel processing. OFF: "
 "Video encoders use only one processor."
 msgstr ""
-"Acceso: i codificatori video useranno più di un processore se tale "
+"ACCESO: i codificatori video useranno più di un processore se tale "
 "caratteristica è stata implementata. L'implementazione dei codificatori "
 "video basati su ffmpeg supporta l'elaborazione parallela.\n"
-"Spento: i codificatori video useranno solo un processore."
+"SPENTO: i codificatori video useranno solo un processore."
 
 #: ../gap/gap_story_dialog.c:5665
 msgid "Use the standard built in storyboard render settings"
@@ -9507,11 +9467,11 @@ msgstr "%d (frame)"
 
 #: ../gap/gap_story_properties.c:3584
 msgid "ON:"
-msgstr "Acceso:"
+msgstr "ACCESO:"
 
 #: ../gap/gap_story_properties.c:3593
 msgid "OFF:"
-msgstr "Spento:"
+msgstr "SPENTO:"
 
 #: ../gap/gap_story_properties.c:3617
 msgid "Filtermacro2: "
@@ -10214,8 +10174,8 @@ msgid ""
 "On: extract grayscale mask (generated by bluebox)\n"
 "Off: extract color frames 1:1"
 msgstr ""
-"Acceso: estrae la maschera di scala di grigi (generata dalla bluebox)\n"
-"Spento: estrae i quadri di colore 1:1"
+"ACCESO: estrae la maschera di scala di grigi (generata dalla bluebox)\n"
+"SPENTO: estrae i quadri di colore 1:1"
 
 #. the layermask checkbutton
 #: ../gap/gap_vex_dialog.c:2545
@@ -10227,8 +10187,8 @@ msgid ""
 "On: bluebox shall generate transparency as layermask\n"
 "Off: bluebox shall generate transparency as alpha channel"
 msgstr ""
-"Acceso: la bluebox genererà la trasparenza come maschera di livello\n"
-"Spento: la bluebox genererà la trasparenza come canale alfa"
+"ACCESO: la bluebox genererà la trasparenza come maschera di livello\n"
+"SPENTO: la bluebox genererà la trasparenza come canale alfa"
 
 #. the bluebox checkbutton
 #: ../gap/gap_vex_dialog.c:2558
@@ -10242,10 +10202,10 @@ msgid ""
 "of last run in this session)\n"
 "Off: extract frames 1.1"
 msgstr ""
-"Acceso: aggiunge della trasparenza per i quadri estratti attraverso il "
+"ACCESO: aggiunge della trasparenza per i quadri estratti attraverso il "
 "filtro bluebox (usando valori presi dall'ultima esecuzione in questa "
 "sessione)\n"
-"Spento: estrae i quadri 1.1"
+"SPENTO: estrae i quadri 1.1"
 
 #: ../gap/gap_vex_dialog.c:2598
 msgid "Extension of extracted frames (.xcf, .jpg, .ppm)"
@@ -10314,9 +10274,9 @@ msgid "Start extraction"
 msgstr "Comincia estrazione"
 
 #: ../gap/gap_vex_exec.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "failed to extract frame from video: %s"
-msgstr "Fallita la scrittura del file SVG: %s"
+msgstr "Fallita estrazione quadro dal video: %s"
 
 #: ../gap/gap_vex_exec.c:545
 msgid "Seek Frame Position..."
@@ -10560,8 +10520,8 @@ msgid ""
 "ON: create waterpattern cloud layers according to options. OFF: Use external "
 "pattern layers. "
 msgstr ""
-"Acceso: crea i livelli motivo nuvola acquatici secondo le opzioni.\n"
-"Spento: usa il livelli di motivo esterni."
+"ACCESO: crea i livelli motivo nuvola acquatici secondo le opzioni.\n"
+"SPENTO: usa il livelli di motivo esterni."
 
 #. pattern
 #: ../gap/gap_water_pattern.c:1227
