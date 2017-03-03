@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-28 15:11+0100\n"
-"PO-Revision-Date: 2017-03-03 12:58+0100\n"
+"PO-Revision-Date: 2017-03-03 13:25+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: gimp.linux.it\n"
 "Language: it\n"
@@ -1295,7 +1295,7 @@ msgstr "Salta"
 
 #: ../gap/gap_dbbrowser_utils.c:384
 msgid "skip processing of the selected filter for group layers."
-msgstr ""
+msgstr "salta l'elaborazione del filtro selezionato per i livelli di gruppo."
 
 #: ../gap/gap_dbbrowser_utils.c:388
 msgid "Merge"
@@ -1303,7 +1303,7 @@ msgstr "Fondi"
 
 #: ../gap/gap_dbbrowser_utils.c:392
 msgid "group layers are merged before the selected filter is applied."
-msgstr ""
+msgstr "i livelli di gruppo vengono fusi prima che il filtro selezionato venga applicato."
 
 #: ../gap/gap_dbbrowser_utils.c:439
 msgid "Gen Code by name"
@@ -2321,20 +2321,13 @@ msgid "Tri-Map:"
 msgstr "Tri-Mappa:"
 
 #: ../gap/gap_fg_matting_dialog.c:443
-#, fuzzy
 msgid ""
 "Select the tri_map layer (or layermask).  the tri-map shall be of same size "
 "as the input layer and  provides a rough user selection  where WHITE pixels "
 "in the tri map defines FOREGROUND (i.e. opaque result)  BLACK pixels define "
 "BACKGROUND (i.e. transparent result) GRAY pixels (value 1 up to 240) are "
 "marked as Undefined  (i.e. opacity to be processed by this filter.) )"
-msgstr ""
-"Seleziona il livello tri_map (o maschera di controllo).  Il tri-map deve "
-"essere della stessa dimensione del livello di ingresso e fornisce una "
-"grossolana selezione utente dove i pixel BIANCHI nel tri map definiscono il "
-"PRIMO PIANO (cioè il risultato opaco), il pixel NERI definiscono lo SFONDO "
-"(cioè il risultato trasparente) e i pixel GRIGI (valori da 1 a 240) sono "
-"marcati come NON DEFINITI (cioè l'opacità da elaborare con questo filtro)."
+msgstr "Seleziona il livello tri_map (o maschera di controllo).  Il tri-map deve essere della stessa dimensione del livello di ingresso e fornisce una grossolana selezione utente dove i pixel BIANCHI nel tri map definiscono il PRIMO PIANO (cioè il risultato opaco), il pixel NERI definiscono lo SFONDO (cioè il risultato trasparente) e i pixel GRIGI (valori da 1 a 240) sono marcati come NON DEFINITI (cioè l'opacità da elaborare con questo filtro)."
 
 #: ../gap/gap_fg_matting_dialog.c:467
 msgid "Layermask"
@@ -4136,15 +4129,11 @@ msgstr ""
 "nell'impostazione dei punti di lavoro (non rilevante per il rendering)."
 
 #: ../gap/gap_morph_dialog.c:3953
-#, fuzzy
 msgid ""
 "Locate Shaperadius in pixels. Defines shape size as area around workpoint to "
 "be compared  when locating corresponding coordinate(Not relevant for "
 "rendering)"
-msgstr ""
-"Raggio di localizzazione forma in pixel. Definisce la dimensione forma come "
-"un'area attorno al punto di lavoro da confrontare con le corrispondenti "
-"coordinate di localizzazione (non rilevante per il rendering)"
+msgstr "Raggio di localizzazione forma in pixel. Definisce la dimensione forma come un'area attorno al punto di lavoro da confrontare con le corrispondenti coordinate di localizzazione (non rilevante per il rendering)."
 
 #: ../gap/gap_morph_dialog.c:3979
 msgid ""
@@ -4386,9 +4375,8 @@ msgid "Num Workpoints:"
 msgstr "Numero dei punti di lavoro:"
 
 #: ../gap/gap_morph_tween_dialog.c:734
-#, fuzzy
 msgid "Number of workpoints to be generated per processed frame"
-msgstr "Numero dei punti di lavoro da creare per quadro processato"
+msgstr "Numero dei punti di lavoro da creare per quadro elaborato"
 
 #: ../gap/gap_morph_tween_dialog.c:743
 msgid "Num Outlinepoints:"
@@ -4424,16 +4412,11 @@ msgstr ""
 "generato."
 
 #: ../gap/gap_morph_tween_dialog.c:790
-#, fuzzy
 msgid ""
 "INTENSITY attribute value to be written to the generated workpoint file. "
 "value 0 turns off intensity descending deformation, morph processing will "
 "use linear deform action inside the deform radius"
-msgstr ""
-"Valore dell'attributi di INTENSITY da scrivere sul file dei punti di lavoro "
-"generato. Un valore 0 spegne la deformazione di intensità discendente, il "
-"processo di morphing userà una azione di deformazione lineare all'interno "
-"del raggio di deformazione"
+msgstr "Valore dell'attributo INTENSITÀ da scrivere sul file dei punti di lavoro generato. Un valore 0 spegne la deformazione di intensità discendente, il processo di morphing userà una azione di deformazione lineare all'interno del raggio di deformazione."
 
 #: ../gap/gap_morph_tween_dialog.c:805
 msgid "Locate Move Radius:"
@@ -4463,16 +4446,11 @@ msgid "Edge Threshold:"
 msgstr "Soglia bordi:"
 
 #: ../gap/gap_morph_tween_dialog.c:838
-#, fuzzy
 msgid ""
 "Edge detection threshold. Workpoints are generated on detected edges. Edges "
 "are detected on pixels where color or opacity differs significantly from the "
 "neighbor pixel.(i.e. more than the specified edge detection threshold)."
-msgstr ""
-"Soglia rilevamento bordi. I punti di lavoro vengono generati sui bordi "
-"rilevati. I bordi sono rilevati sui pixel dove il colore o l'opacità si "
-"differenzia significativamente dai pixel vicinanti (cioè più della soglia di "
-"rilevamento bordi specificata)."
+msgstr "Soglia rilevamento bordi. I punti di lavoro vengono generati sui bordi rilevati. I bordi sono rilevati sui pixel dove il colore o l'opacità si differenzia significativamente dai pixel vicinanti (cioè più della soglia di rilevamento bordi specificata)."
 
 #: ../gap/gap_morph_tween_dialog.c:853
 msgid "Locate ColordiffEdge Threshold:"
@@ -4529,7 +4507,6 @@ msgstr[0] "questa operazione crea %d quadro mancante tra i quadri %d e %d"
 msgstr[1] "questa operazione crea %d quadri mancanti tra i quadri %d e %d"
 
 #: ../gap/gap_morph_tween_dialog.c:1182
-#, fuzzy
 msgid ""
 "This operation creates copies of all frames in the specified range\n"
 "and the specified number of tweens as additional tween frames\n"
@@ -4538,12 +4515,11 @@ msgid ""
 "(this can be done with the Morph Workpoint Generator)"
 msgstr ""
 "Questa operazione crea copie di tutti i quadri nel campo specificato\n"
-"e nello specificato numero di intermedi come quadri intermedi aggiuntivi\n"
+"e lo specificato numero di intermedi come quadri intermedi aggiuntivi\n"
 "tra tutti i quadri elaborati nella sottodirectory specificata.\n"
 "Fornisce i file di punti di lavoro (uno per quadro) per la generazione \n"
-"dei quadri intermedi basata sul morphing (quest'ultima operazione può "
-"essere \n"
-"effettuata tramite il \"generatore di punti di lavoro di morphing\")"
+"dei quadri intermedi basata sul morphing (quest'ultima operazione può essere \n"
+"effettuata tramite il \"generatore di punti di lavoro di morphing\")."
 
 #: ../gap/gap_morph_tween_dialog.c:1192
 msgid "This operation requires more than one frame."
@@ -4554,16 +4530,11 @@ msgid "Number of Tweens:"
 msgstr "Numero di intermedi:"
 
 #: ../gap/gap_morph_tween_dialog.c:1260
-#, fuzzy
 msgid ""
 "Number of tweens to be inserted between 2 frames. Value 0 renders missing "
 "frames (via morphing or fade) but does not create tweens where the next "
 "frame number is equal to the current processed frame number +1"
-msgstr ""
-"Numero di intermedi da inserire tra 2 quadri. Il valore 0 provoca la "
-"renderizzazione dei quadri mancanti (con morping o dissolvenza) ma non crea "
-"intermedi quando il numero di quadro seguente è uguale al numero di quadro "
-"in elaborazione corrente +1"
+msgstr "Numero di intermedi da inserire tra 2 quadri. Il valore 0 provoca la renderizzazione dei quadri mancanti (con morping o dissolvenza) ma non crea intermedi quando il numero di quadro seguente è uguale al numero di quadro in elaborazione corrente +1."
 
 #. the create_tweens_in_subdir checkbutton
 #. checkbutton = gtk_check_button_new_with_label ( _("Subdirectory:"));
@@ -4585,18 +4556,12 @@ msgid "Subdirectory:"
 msgstr "Sottocartella:"
 
 #: ../gap/gap_morph_tween_dialog.c:1302
-#, fuzzy
 msgid ""
 "Name of a (Sub)directory to save copies of processed frames and generated "
 "tweens. Note that tweens are created via simple fade operations when no "
 "workpointfile for the processed frame is available. (individual "
 "workpointfiles per frame are referred by extension .morphpoints)"
-msgstr ""
-"Nome di una (sotto)cartella dove salvare le copie dei quadri elaborati e "
-"degli itermedi generati. Si noti che gli intermedi vengono creati attravero "
-"semplici operazioni di dissolvenza nel caso non sia disponibile nessun file "
-"di punti di lavoro per i quadri in elaborazione (i singoli file di punti di "
-"lavoro per i quadri sono riferiti ad essi tramite l'estensione .morphpoints)."
+msgstr "Nome di una (sotto)cartella dove salvare le copie dei quadri elaborati e degli itermedi generati. Si noti che gli intermedi vengono creati attravero semplici operazioni di dissolvenza nel caso non sia disponibile nessun file di punti di lavoro per i quadri in elaborazione (i singoli file di punti di lavoro per i quadri sono riferiti ad essi tramite l'estensione .morphpoints)."
 
 #: ../gap/gap_morph_tween_dialog.c:1326
 msgid ""
@@ -4610,7 +4575,6 @@ msgstr ""
 #. the master progress bar
 #. master progress
 #: ../gap/gap_morph_tween_dialog.c:1338
-#, fuzzy
 msgid "Create Tweenframe(s):"
 msgstr "Crea quadri intermedi:"
 
@@ -4649,9 +4613,8 @@ msgid "Advanced Settings"
 msgstr "Configurazione avanzata"
 
 #: ../gap/gap_mov_dialog.c:1140
-#, fuzzy
 msgid "Merge Settings"
-msgstr "Impostazioni rederizzazione:"
+msgstr "Impostazioni di fusione"
 
 #: ../gap/gap_mov_dialog.c:1214
 msgid ""
@@ -5289,14 +5252,10 @@ msgstr ""
 "dell'ultimo in tutti gli altri punti in mezzo."
 
 #: ../gap/gap_mov_dialog.c:4719
-#, fuzzy
 msgid ""
 "Set rotation for all controlpoints to follow the shape of the path. Hold "
 "down the shift key to use rotation of controlpoint 1 as offset."
-msgstr ""
-"Imposta la rotazione per tutti i punti di controllo che seguono la forma del "
-"tracciato. Mantieni premuto il tasto Maiusc per usare la rotazione del punto "
-"di controllo 1 come spostamento."
+msgstr "Imposta la rotazione per tutti i punti di controllo che seguono la forma del tracciato. Mantieni premuto il tasto Maiusc per usare la rotazione del punto di controllo 1 come spostamento."
 
 #: ../gap/gap_mov_dialog.c:4734
 msgid "Delete all controlpoints"
