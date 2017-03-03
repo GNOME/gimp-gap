@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-28 15:11+0100\n"
-"PO-Revision-Date: 2017-02-28 21:30+0100\n"
+"PO-Revision-Date: 2017-03-03 12:58+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: gimp.linux.it\n"
 "Language: it\n"
@@ -1053,15 +1053,11 @@ msgid "Isle Area:"
 msgstr "Area isolati:"
 
 #: ../gap/gap_colormask_dialog.c:392
-#, fuzzy
 msgid ""
 "Isle Area size in pixels. small isolated opaque or transparent pixel areas "
 "below that size are removed (i.e. toggled from opaque to transparent and "
 "vice versa)"
-msgstr ""
-"Dimensione area isolati in pixel. Piccole isolate aree di pixel opache o "
-"trasparenti sotto tale dimensione vengono rimosse (cioè trasformate da "
-"opache a trasparenti o viceversa)"
+msgstr "Dimensione \"area isolata\" in pixel. Piccole isolate aree di pixel opache o trasparenti sotto tale dimensione vengono rimosse (cioè trasformate da opache a trasparenti o viceversa)"
 
 #: ../gap/gap_colormask_dialog.c:410
 msgid "feather radius in pixels (use value 0 to disable feathering)"
@@ -1105,7 +1101,6 @@ msgid "Trigger Alpha:"
 msgstr "Soglia alfa:"
 
 #: ../gap/gap_colormask_dialog.c:504
-#, fuzzy
 msgid ""
 "Trigger alpha is only relevant in case the color mask has an alpha channel. "
 "All pixels where the alpha channel of the corresponding pixel in the color "
@@ -2044,7 +2039,6 @@ msgstr ""
 "L'obiettivo è marcato dai punti 1&2 "
 
 #: ../gap/gap_detail_align_exec.c:1388
-#, fuzzy
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
@@ -2053,17 +2047,10 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Questo filtro richiede un tracciato corrente con 4 punti, dove i punti 1 e 2 "
-"marcano le posizioni di riferimento e i punti 3 e 4 marcano le posizioni nel "
-"livello obbiettivo. Trasforma il livello obbiettivo in modo tale che il "
-"punto 3 viene spostato sul punto 1 ed il punto 4 sul punto 2 (ciò può "
-"includere le trasformazioni di rotazione e di scalatura).\n"
-"Un tracciato con 2 punti può essere usato per spostare il punto 2 sul punto "
-"1 (attraverso una semplice operazione di spostamento senza rotazione né "
-"scalatura)."
+"Questo filtro richiede un tracciato corrente con 4 punti, dove i punti 1 e 2 marcano le posizioni di riferimento e i punti 3 e 4 marcano le posizioni nel livello obbiettivo. Trasforma il livello obbiettivo in modo tale da spostare il punto 3 sul punto 1 ed il punto 4 sul punto 2 (ciò può includere le trasformazioni di rotazione e di scalatura).\n"
+"Un tracciato con 2 punti può essere usato per spostare il punto 2 sul punto 1 (attraverso una semplice operazione di spostamento senza rotazione né scalatura)."
 
 #: ../gap/gap_detail_align_exec.c:1399
-#, fuzzy
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
@@ -2072,14 +2059,8 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Questo filtro richiede un tracciato corrente con 4 punti, dove i punti 1 e 2 "
-"marcano le posizioni di riferimento e i punti 3 e 4 marcano le posizioni nel "
-"livello obbiettivo. Esso trasforma il livello obbiettivo in modo tale da "
-"spostare il punto 3 sul punto 1 ed il punto 4 sul punto 2 (ciò può includere "
-"le trasformazioni di rotazione e di scalatura).\n"
-"Un tracciato con 2 punti può essere usato per spostare il punto 2 sul punto "
-"1 (attraverso una semplice operazione di spostamento senza rotazione né "
-"scalatura)."
+"Questo filtro richiede un tracciato corrente con 4 punti, dove i punti 1 e 3 marcano le posizioni di riferimento e i punti 2 e 4 marcano le posizioni nel livello obbiettivo. Esso trasforma il livello obbiettivo in modo tale da spostare il punto 2 sul punto 1 ed il punto 4 sul punto 3 (ciò può includere le trasformazioni di rotazione e di scalatura).\n"
+"Un tracciato con 2 punti può essere usato per spostare il punto 2 sul punto 1 (attraverso una semplice operazione di spostamento senza rotazione né scalatura)."
 
 #: ../gap/gap_detail_tracking_exec.c:2021
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
@@ -2158,13 +2139,11 @@ msgid "Log Scaling:"
 msgstr "Registra scalatura:"
 
 #: ../gap/gap_detail_tracking_exec.c:2233
-#, fuzzy
 msgid ""
 "ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
 "OFF: Calculate only rotation and keep original size."
 msgstr ""
-"ACCESO: calcola la scalatura e rotazione quando vengono tracciate 2 "
-"coordinate dettaglio.\n"
+"ACCESO: calcola la scalatura e rotazione quando vengono tracciate 2 coordinate dettaglio.\n"
 "SPENTO: calcola solo la rotazione e mantiene la dimensione originale."
 
 #: ../gap/gap_detail_tracking_exec.c:2243
@@ -2264,14 +2243,13 @@ msgid "<Image>/Layer/Transform/"
 msgstr "<Image>/Livelli/Trasforma/"
 
 #: ../gap/gap-dup-continue.scm:38
-#, fuzzy
 msgid "<Image>/Video/Duplicate Continue"
-msgstr "<Image>/Video/Cartavelina/"
+msgstr "<Image>/Video/Duplica continua"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
 msgid "Foreground-Extract"
-msgstr "Estrazione primo piano"
+msgstr "Estrazione primopiano"
 
 #. the frame
 #. Options section
@@ -2965,12 +2943,10 @@ msgstr ""
 "Il quadro corrente è cambiato durante l'apertura della finestra di dialogo."
 
 #: ../gap/gap_lib.c:2154
-#, fuzzy
 msgid "overwrite flattened"
-msgstr "Sovrascrivi file"
+msgstr "Sovrascrivi appiattito"
 
 #: ../gap/gap_lib.c:2156
-#, fuzzy
 msgid "overwrite"
 msgstr "Sovrascrivi"
 
@@ -3414,24 +3390,20 @@ msgid "merge selected layers and clip to bg-layer"
 msgstr "fonde i livelli selezionati e li aggiunge al livello di sfondo"
 
 #: ../gap/gap_mod_layer_dialog.c:835
-#, fuzzy
 msgid "Merge down layer(s); expand as necessary"
-msgstr "Fondi livelli ed espandi se necessario"
+msgstr "Fondi livelli in basso; espandi se necessario"
 
 #: ../gap/gap_mod_layer_dialog.c:836
-#, fuzzy
 msgid "merge selected layers with the layer below and expand as necessary"
-msgstr "fonde i livelli selezionati e li espande se necessario"
+msgstr "fonde i livelli selezionati con il livello in basso e li espande se necessario"
 
 #: ../gap/gap_mod_layer_dialog.c:841
-#, fuzzy
 msgid "Merge down layer(s); clipped to image"
-msgstr "Fondi i livelli attaccati all'immagine"
+msgstr "Fondi i livelli in basso; ritagliati all'immagine"
 
 #: ../gap/gap_mod_layer_dialog.c:842
-#, fuzzy
 msgid "merge selected layers with the layer below and clip to image size"
-msgstr "fonde i livelli selezionati e li aggiunge all'immagine"
+msgstr "fonde i livelli selezionati al livello in basso e li ritaglia alla dimensione immagine"
 
 #: ../gap/gap_mod_layer_dialog.c:847
 msgid "Merge down layer(s) clipped to bg-layer"
@@ -5179,7 +5151,7 @@ msgstr "Cancella l'oggetto renderizzato"
 
 #: ../gap/gap_mov_dialog.c:4385
 msgid "Postprocessing mode for the rendered moving object layer"
-msgstr ""
+msgstr "Modalità di post-elaborazione per il livello dell'oggetto in movimento renderizzato"
 
 #. the merge option menu for the tween layer
 #: ../gap/gap_mov_dialog.c:4395
@@ -5196,7 +5168,7 @@ msgstr "Cancella livello intermedio"
 
 #: ../gap/gap_mov_dialog.c:4426
 msgid "Postprocessing mode for the tween layer (is ignored when not present)"
-msgstr ""
+msgstr "Modalità di post-elaborazione per il livello intermedio (ignorata se non presente)"
 
 #. the merge option menu for the trace layer
 #: ../gap/gap_mov_dialog.c:4435
@@ -5213,7 +5185,7 @@ msgstr "Cancella livello traccia"
 
 #: ../gap/gap_mov_dialog.c:4466
 msgid "Postprocessing mode for the trace layer (is ignored when not present)"
-msgstr ""
+msgstr "Modalità di post-elaborazione per il livello traccia (ignorata se non presente)"
 
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4477
@@ -5230,20 +5202,20 @@ msgstr "Fondi su livello in basso"
 
 #: ../gap/gap_mov_dialog.c:4484
 msgid "Merge to new Black Mask at Layer below"
-msgstr ""
+msgstr "Fondi alla nuova maschera nera al livello in basso"
 
 #: ../gap/gap_mov_dialog.c:4485
 msgid "Merge to new White Mask at Layer below"
-msgstr ""
+msgstr "Fondi alla nuova maschera bianca al livello in basso"
 
 #: ../gap/gap_mov_dialog.c:4486
 msgid "Merge to existing Mask at Layer below"
-msgstr ""
+msgstr "Fondi alla maschera esistente al livello in basso"
 
 #: ../gap/gap_mov_dialog.c:4517
 msgid ""
 "merge target provides options how to postprocess layers rendered by MovePath."
-msgstr ""
+msgstr "fondi obiettivo fornisce opzioni per la modifica della post-elaborazione dei livelli renderizzati da Spostatracciato."
 
 #. the frame
 #: ../gap/gap_mov_dialog.c:4551
@@ -5975,7 +5947,7 @@ msgstr "Numero di quadro corrente (cioè, fase corrente) del numero totale di qu
 
 #: ../gap/gap_mov_dialog.c:7353
 msgid "Movepath rendering for a single frame"
-msgstr ""
+msgstr "Rendering di Spostatracciato per un singolo quadro"
 
 #: ../gap/gap_mov_dialog.c:7354 ../gap/gap_player_dialog.c:491
 #: ../gap/gap_story_dialog.c:5311 ../gap/gap_story_dialog.c:9169
@@ -7360,13 +7332,15 @@ msgstr ""
 #. Auto skip missing frames
 #: ../gap/gap_player_dialog.c:7606
 msgid "Auto Skip Missing Frames"
-msgstr ""
+msgstr "Auto salta quadri mancanti"
 
 #: ../gap/gap_player_dialog.c:7612
 msgid ""
 "ON: Automatically skip missing frames on playback.\n"
 "OFF: Show missing frames as empty (transparent) image."
 msgstr ""
+"ACCESO: salta automaticamente i quadri mancanti durante l'esecuzione.\n"
+"SPENTO: mostra i quadri mancanti come immagini vuote (trasparenti)."
 
 #. configure Detail Tracking button
 #: ../gap/gap_player_dialog.c:7627
@@ -10887,13 +10861,12 @@ msgid "High Output:"
 msgstr "Uscita alta:"
 
 #: ../gap/gap_wr_layermode.c:131
-#, fuzzy
 msgid "Set Layer Mode..."
-msgstr "Modalità livello"
+msgstr "Imposta modalità livello..."
 
 #: ../gap/gap_wr_layermode.c:306
 msgid "LAYERMODE"
-msgstr ""
+msgstr "MODALITÀLIVELLO"
 
 #: ../gap/gap_wr_opacity.c:141
 msgid "Set Layer Opacity..."
@@ -11001,21 +10974,19 @@ msgstr "Angolo di rotazione:"
 
 #: ../gap/sel-to-anim-img.scm:115
 msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
-msgstr ""
+msgstr "<Image>/Script-Fu/Animatori/Selezione a AnimImage..."
 
 #: ../gap/sel-to-anim-img.scm:123
-#, fuzzy
 msgid "Number of Copies"
-msgstr "Numero di colori"
+msgstr "Numero di copie"
 
 #: ../gap/sel-to-anim-img.scm:124
-#, fuzzy
 msgid "Fill with BG Color"
-msgstr "Selezione per colore"
+msgstr "Riempi con colore di sfondo"
 
 #: ../gap/sel-to-anim-img.scm:125
 msgid "Anim-Filter for all Copies"
-msgstr ""
+msgstr "Filtro anim per tutte le copie"
 
 #: ../libgapvidapi/gap_vid_api_mpeg3.c:843
 #, c-format
@@ -11024,8 +10995,8 @@ msgid ""
 "tocfile: '%s'\n"
 "%s"
 msgstr ""
-"ERRORE: fallita la scrittura dell'indice video\n"
-"file indice '%s':\n"
+"ERRORE: fallita la scrittura del file sommario dell'indice video\n"
+"file sommario \"%s\":\n"
 "%s"
 
 #: ../libgapvidapi/gap_vid_api_vidindex.c:633
@@ -12357,12 +12328,11 @@ msgstr "Preimpostazione selezionata: %s"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:502
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:518
-#, fuzzy
 msgid "Recommended Framesize"
 msgstr "Dimensione quadri consigliata"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:529
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Selected Fileformat : [%s] %s\n"
 "Recommended Video CODEC : %s\n"
