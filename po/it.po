@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-28 15:11+0100\n"
-"PO-Revision-Date: 2017-03-03 19:38+0100\n"
+"PO-Revision-Date: 2017-03-05 16:56+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: gimp.linux.it\n"
 "Language: it\n"
@@ -1286,7 +1286,7 @@ msgid ""
 "group layers are processed the same way as normal layers. (this typically "
 "keeps the group structure, but the filter call will fail  for all filters "
 "that are not capable to process a group layer)"
-msgstr ""
+msgstr "i gruppi di livelli vengono elaborati allo stesso modo dei livelli normali (questo mantiene normalmente la struttura del gruppo, ma la chiamata al filtro  fallirà per tutti i filtri che non sono in grado di elaborare un gruppo di livelli)."
 
 #. printf("DROP (SKIP) frame\n");
 #: ../gap/gap_dbbrowser_utils.c:380 ../gap/gap_player_dialog.c:4795
@@ -2370,7 +2370,7 @@ msgstr "non mostrare nuovamente questa finestra di dialogo"
 #, c-format
 msgid ""
 "add %s to gimprc configuration to disable this dialog in all further sessions"
-msgstr ""
+msgstr "aggiunge %s alla configurazione gimprc per disabilitare questa finestra di dialogo in tutte le future sessioni"
 
 #: ../gap/gap_filter_foreach.c:152
 msgid "Backup to file"
@@ -2419,6 +2419,8 @@ msgid ""
 "Error: Plugin %s has changed the number of layers from %d to %d\n"
 "could not restore Layer visibility.\n"
 msgstr ""
+"Errore: il plugin %s ha cambiato il numero di livelli da %d a %d\n"
+"impossibile ripristinare la visibilità del livello.\n"
 
 #: ../gap/gap_filter_foreach.c:416
 msgid "Applying filter to all layers..."
@@ -2956,6 +2958,12 @@ msgid ""
 "but automatic overwrite (via export) to other formats\n"
 "typically results in loss of layers and other information."
 msgstr ""
+"Si sta usando un formato file diverso dall'xcf.\n"
+"Questa finestra di dialogo configura come gestire gli scambi\n"
+"dell'immagine di quadro corrente (per quadri con estensione %s).\n"
+"Si noti che il salvataggio automatico al cambiamento di quadro funziona solo con\n"
+"il formato XCF, ma la sovrascrittura automatica (tramite esportazione) ad altri\n"
+"formati provoca tipicamente la perdita dei livelli e di altre informazioni."
 
 #: ../gap/gap_lib.c:2175
 msgid "Save my decision:"
@@ -2967,6 +2975,8 @@ msgid ""
 "Save decision for this fileformat for further gimp sessions.\n"
 "this creates an entry in your gimprc file with the key:%s)"
 msgstr ""
+"Salva la decisione presa per questo formato file per le future sessioni.\n"
+"Crea una voce nel file gimprc con la chiave: %s)"
 
 #: ../gap/gap_lib.c:2185
 msgid "Fileformat Warning"
@@ -2979,6 +2989,9 @@ msgid ""
 "due to unsaved changes in readonly frame image\n"
 "%s"
 msgstr ""
+"Operazione su quadro bloccata\n"
+"a causa di cambiamenti non salvati nel quadro immagine a sola lettura\n"
+"%s"
 
 #: ../gap/gap_lock.c:101
 #, c-format
@@ -3346,7 +3359,7 @@ msgstr "Riordina livelli"
 
 #: ../gap/gap_mod_layer_dialog.c:790
 msgid "move the selected layer(s) to specified group and/or stack position"
-msgstr ""
+msgstr "sposta i livelli selezionati al gruppo e/o alla posisione sulla pila specificati"
 
 #. the Merge Layers sub menu
 #: ../gap/gap_mod_layer_dialog.c:809
@@ -3606,6 +3619,8 @@ msgid ""
 "Name for the new group to be created if not already present\n"
 "(relevant in reorder layer and creat group function)"
 msgstr ""
+"Il nome per il nuovo gruppo da creare se non è già presente\n"
+"(rilevante nelle funzioni di riordino livelli e creazioni grupppi)"
 
 #: ../gap/gap_mod_layer_dialog.c:1442
 msgid "New Position:"
@@ -3620,7 +3635,7 @@ msgstr "Nuova posizione:"
 #. upper unconstrained
 #: ../gap/gap_mod_layer_dialog.c:1451
 msgid "New Stack position (relevant for reorder layer function)"
-msgstr ""
+msgstr "Nuova posizione sulla pila (rilevante per il riordino della funzione dei livelli)"
 
 #. +++++++++++++++++++++++++
 #. the layer selection frame
@@ -3666,7 +3681,7 @@ msgstr "Inverti selezione livelli"
 msgid ""
 "Perform actions on all unselected layers at same level in the layers tree (i."
 "e. in the same group)"
-msgstr ""
+msgstr "Esegue le azioni su tutti i livelli non selezionati allo stesso livello nell'albero dei livelli (cioè nello stesso gruppo)"
 
 #. the  radio button "Pattern is end of layer name"
 #: ../gap/gap_mod_layer_dialog.c:1551 ../gap/gap_range_ops.c:688
@@ -3725,7 +3740,7 @@ msgstr "Tutti visibili (ignora modello)"
 msgid ""
 "Select all visible layers at same level in the layers tree (i.e. in the same "
 "group)"
-msgstr ""
+msgstr "Seleziona tutti i livelli visibili allo stesso livello nell'albero dei livelli (cioè nello stesso gruppo)"
 
 #: ../gap/gap_mod_layer_dialog.c:1681
 msgid ""
@@ -3743,11 +3758,11 @@ msgstr "Nome gruppo:"
 msgid ""
 "String to identify layer group/subgroup name that builds the scope for the "
 "layer selection. An empty string refers to the image toplevel"
-msgstr ""
+msgstr "La stringa per identificare il nome del gruppo/sottogruppo di livelli che crea il campo per la selezione dei livelli. Una stringa vuota si riferisce al livello in cima all'immagine"
 
 #: ../gap/gap_mod_layer_dialog.c:1725
 msgid "Delimiter string to split layer group/subgroup names."
-msgstr ""
+msgstr "Stringa delimitatrice per dividere i nomi dei gruppi/sottogruppi di livelli."
 
 #. +++++++++++++++++++++++++
 #. the frame_range     frame
@@ -5322,7 +5337,7 @@ msgid ""
 "specified group (and subgroups) will be created automatically in all "
 "processed target frames where they are not already present. Leave the target "
 "group empty when insert into the image outside groups is desired"
-msgstr ""
+msgstr "nome percorso grupo/sottogruppo dove inserire l'oggetto renderizzato. Si noti che il gruppo (e suttogruppi) specificati verranno creati automaticamente in tutti i quadri obiettivo elaborati dove questi non siano già presenti. Lasciare il gruppo obiettivo vuoto se si desidera inserire nei gruppi fuori dell'immagine."
 
 #: ../gap/gap_mov_dialog.c:4973
 msgid "delimiter to separate group/subgroup"
@@ -8146,14 +8161,13 @@ msgid "Copy properties:"
 msgstr "Proprietà della copia:"
 
 #: ../gap/gap_split.c:487
-#, fuzzy
 msgid ""
 "ON: Copy all image properties (channels, paths, guides) to all frame "
 "images.\n"
 "OFF: copy only layers without image properties to frame images"
 msgstr ""
 "ACCESO: copia tutte le proprietà dell'immagine (canali, tracciati, guide) su tutti i quadri immagine.\n"
-"SPENTO: copia solo i livelli senà le proprietà dell'immagine nei quadri immagine."
+"SPENTO: copia solo i livelli senza le proprietà immagine nelle immagini dei quadri."
 
 #: ../gap/gap_split.c:496
 msgid "How many digits to use for the framenumber filename part"
@@ -8238,13 +8252,10 @@ msgid "Start:"
 msgstr "Inizio:"
 
 #: ../gap/gap_story_att_trans_dlg.c:3325 ../gap/gap_story_att_trans_dlg.c:3368
-#, fuzzy
 msgid ""
 "Reset to: defaults, use modifier keys CTRL, ALT for alternative defaults. "
 "SHIFT resets to initial value"
-msgstr ""
-"Reimposta a: valori predefiniti, usare i tasti modificatori CTRL, ALT per i "
-"valori predefiniti alternativi. Maiusc reimposta ai valori iniziali"
+msgstr "Reimposta a: valori predefiniti, usare i tasti modificatori CTRL, ALT per i valori predefiniti alternativi. Maiusc reimposta ai valori iniziali."
 
 #. to (end value of transition) button
 #: ../gap/gap_story_att_trans_dlg.c:3365
@@ -8532,13 +8543,10 @@ msgstr "Sposta tracciato:"
 #. page size        for the from/to values
 #. digits for the from/to values
 #: ../gap/gap_story_att_trans_dlg.c:3887
-#, fuzzy
 msgid ""
 "ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
-msgstr ""
-"ACCESO: abilita le transizioni movepath usando le impostazioni fornite "
-"attraverso un file parametri movepath"
+msgstr "ACCESO: abilita le transizioni a spostamento tracciati usando le impostazioni fornite attraverso un file parametri di spostamento tracciato."
 
 #: ../gap/gap_story_att_trans_dlg.c:3889
 msgid ""
@@ -8758,15 +8766,11 @@ msgid "Resource Loginterval:"
 msgstr "Intervallo di log delle risorse:"
 
 #: ../gap/gap_story_dialog.c:5598
-#, fuzzy
 msgid ""
 "Value 0 turns off resource logging to stdout. Value n logs current resource "
 "usage after each n processed frames to stdout (this includes the list of "
 "cached images and opened videofiles)"
-msgstr ""
-"Il valore 0 spegne la registrazione delle risorse verso lo stdout. Valori n "
-"registrano l'uso delle risorse corrente dopo ogni n quadri elaborati su "
-"stdout (includendo l'elenco delle immagini in cache e dei file video aperti)"
+msgstr "Il valore 0 spegne la registrazione delle risorse verso lo stdout. Valori n registrano l'uso delle risorse corrente dopo ogni n quadri elaborati su stdout (includendo l'elenco delle immagini in cache e dei file video aperti)."
 
 #: ../gap/gap_story_dialog.c:5611
 msgid "Render preview at full size:"
@@ -9188,12 +9192,9 @@ msgid "Track 1 on top:"
 msgstr "Traccia 1 in cima:"
 
 #: ../gap/gap_story_dialog.c:9433
-#, fuzzy
 msgid ""
 "ON: video track1 is Foreground (on top). OFF: video track 1 is on Background."
-msgstr ""
-"ACCESO: la traccia1 video è in primo piano (di fronte). SPENTO: la traccia1 "
-"video è sullo sfondo."
+msgstr "ACCESO: la traccia1 video è in primo piano (in cima). SPENTO: la traccia1 video è sullo sfondo."
 
 #. the aspect label
 #: ../gap/gap_story_dialog.c:9471 ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3779
@@ -9219,15 +9220,11 @@ msgid "Decoder:"
 msgstr "Decodificatore:"
 
 #: ../gap/gap_story_dialog.c:9515
-#, fuzzy
 msgid ""
 "Select preferred video decoder library, or leave empty for automatic "
 "selection. The decoder setting is only relevant if videoclips are used (but "
 "not for frames that are imagefiles)"
-msgstr ""
-"Seleziona la libreria ci codifica video preferita o lascia vuoto per la "
-"selezione automatica. Le impostazioni del decodificatore sono rilevanti solo "
-"se vengono usati i videoclip (ma non come frame che sono file immagine)"
+msgstr "Seleziona la libreria di codifica video preferita o lasciare vuoto per la selezione automatica. Le impostazioni del decodificatore sono rilevanti solo se vengono usati i videoclip (ma non per quadri costituiti da file immagine)."
 
 #: ../gap/gap_story_dialog.c:9533
 msgid "Master audio samplerate for the resulting video in samples/sec."
@@ -9244,17 +9241,13 @@ msgstr "Formato trasparenza esterna:"
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9576
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Format string to provide external transparency in movie clips. (i.e. "
 "automatic alpha channel insertion via external frames)this string shall "
 "contain %s as placeholder for the basename of a videoclip and optional %06d "
 "as placeholder for the framenumber."
-msgstr ""
-"Formato stringa per fornire un'area di trasparenza esterna negli spezzoni "
-"video (per es. per l'inserimento automatico di un canale alfa). Questa "
-"stringa conterrà \\%s come contrassegno per il nome base di uno spezzone "
-"video e opzionalmente \\%06d come contrassegno per il numero di quadro."
+msgstr "Stringa di formato per fornire un'area di trasparenza esterna negli spezzoni video (per es. per l'inserimento automatico di un canale alfa tramite quadri esterni). Questa stringa conterrà %s come contrassegno per il nome base di uno spezzone video e opzionalmente %06d come contrassegno per il numero di quadro."
 
 #: ../gap/gap_story_dialog.c:9595
 msgid "AreaFormat:"
@@ -9262,20 +9255,15 @@ msgstr "Formato area:"
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Format string for area replacement in movie clips. (for example automatic "
 "logo insert)this string shall contain %s as placeholder for the basename of "
 "a videoclip and optional %06d as placeholder for the framenumber."
-msgstr ""
-"Formato stringa per l'area di rimpiazzo nelle clip video (per es. "
-"inserimento automatico del logo). Questa stringa conterrà \\%s come "
-"contrassegno per in nome base di un videoclip e opzionalmente \\%06d per "
-"invece il numero di quadro."
+msgstr "Stringa di formato per l'area di rimpiazzo nelle clip video (per es. inserimento automatico del logo). Questa stringa conterrà %s come contrassegno per in nome base di un videoclip e opzionalmente %06d come contrassegno il numero di quadro."
 
 #. should use GIMP_STOCK_RESET if possible
 #: ../gap/gap_story_dialog.c:9607
-#, fuzzy
 msgid "Reset parameters to initial values"
 msgstr "Reimposta i parametri ai valori iniziali"
 
@@ -9297,12 +9285,12 @@ msgid "section_%02d"
 msgstr "sezione_%02d"
 
 #: ../gap/gap_story_file.c:2716
-#, fuzzy, c-format
+#, c-format
 msgid "illegal number: %s (valid range is %d up to %d)\n"
 msgstr "numero illegale: %s (l'intervallo valido è da %d a %d)\n"
 
 #: ../gap/gap_story_file.c:2755
-#, fuzzy, c-format
+#, c-format
 msgid "illegal number: %s (valid range is %.3f up to %.3f)"
 msgstr "numero illegale: %s (l'intervallo valido è da %.3f a %.3f)"
 
@@ -9412,9 +9400,8 @@ msgid "Set Image or Frame Filename"
 msgstr "Imposta nome file immagine o frame"
 
 #: ../gap/gap_story_properties.c:2501
-#, fuzzy
 msgid "Set Colormask Parameter Filename"
-msgstr "Imposta nome file parametro marcatura colore"
+msgstr "Imposta nome file parametro maschera di colore"
 
 #: ../gap/gap_story_properties.c:2601
 msgid "Set Filtermacro Filename"
@@ -9823,7 +9810,7 @@ msgid "file not found:  %s for audioinput"
 msgstr "file non trovato: %s per ingresso audio"
 
 #: ../gap/gap_story_render_audio.c:1307 ../gap/gap_story_render_audio.c:1454
-#, fuzzy, c-format
+#, c-format
 msgid "converting audio (via external program)"
 msgstr "conversione audio (attraverso un programma esterno)"
 
@@ -9869,9 +9856,8 @@ msgid "analyze line %d (out of %d)"
 msgstr "analisi riga %d (di %d)"
 
 #: ../gap/gap_story_render_processor.c:3429
-#, fuzzy
 msgid "No Frames or Images found ..."
-msgstr "Nessun frame o immagine trovati..."
+msgstr "Nessun quadro o immagine trovati ..."
 
 #: ../gap/gap_story_render_processor.c:7621
 msgid "Seek Inputvideoframe..."
@@ -10124,21 +10110,16 @@ msgid "Output"
 msgstr "Uscita"
 
 #: ../gap/gap_vex_dialog.c:2446
-#, fuzzy
 msgid "extracted frames are written to frame files on disc"
-msgstr ""
-"ACCESO: i quadri estratti sono memorizzati in un'immagine multilivello. "
-"SPENTO: i quadri estratti verranno scritti in un file per ogni quadro"
+msgstr "i quadri estratti verranno scritti in file quadro su disco"
 
 #: ../gap/gap_vex_dialog.c:2447
-#, fuzzy
 msgid "extracted frames are stored in one multilayer image"
-msgstr "Genera anteprima animata come immagine multilivello"
+msgstr "i quadri estratti vengono immagazzinati in una immagine multilivello"
 
 #: ../gap/gap_vex_dialog.c:2448
-#, fuzzy
 msgid "create a storyboard from selected video clip"
-msgstr "Cancella sezione dello storyboard"
+msgstr "crea una storyboard dalle sequenze video selezionate"
 
 #: ../gap/gap_vex_dialog.c:2479
 msgid "Basename for extracted frames (framenr and extension is added)"
@@ -10196,7 +10177,6 @@ msgid "bluebox"
 msgstr "bluebox"
 
 #: ../gap/gap_vex_dialog.c:2565
-#, fuzzy
 msgid ""
 "On: add transparency for extracted frames via bluebox filter (using values "
 "of last run in this session)\n"
@@ -10354,7 +10334,6 @@ msgid "  %s (%d of %d)"
 msgstr "  %s (%d di %d)"
 
 #: ../gap/gap_video_index_creator.c:924
-#, fuzzy
 msgid ""
 "Conditional video index creation,  based on a few quick timecode "
 "probereads.\n"
@@ -10363,13 +10342,10 @@ msgid ""
 "WARNING: positioning via native seek may not work exact in case critical "
 "timecode steps were not detected in the quick test."
 msgstr ""
-"Creazione dell'indice video condizionale, basata su poche e veloci analisi "
-"di lettura di codici temporali.\n"
+"Creazione dell'indice video condizionale, basata su poche e veloci analisi di lettura di codici temporali.\n"
 "Salta la creazione dell'indice se pare possibile il posizionamento nativo.\n"
 "\n"
-"Attenzione: il posizionamento attraverso l'avanzamento nativo potrebbe non "
-"funzionare in maniera precisa in caso di passi di codici temporali critici "
-"non rilevati nel test rapido "
+"Attenzione: il posizionamento attraverso l'avanzamento nativo potrebbe non funzionare in maniera precisa nel caso che i passi di codici temporali critici non vengano rilevati nel test rapido."
 
 #: ../gap/gap_video_index_creator.c:929
 msgid ""
@@ -10433,14 +10409,10 @@ msgid "Percentage:"
 msgstr "Percentuale:"
 
 #: ../gap/gap_video_index_creator.c:994
-#, fuzzy
 msgid ""
 "stop scan after percentage reached and no implausible timecode was detected "
 "so far (only relevant in smart mode)"
-msgstr ""
-"blocca la scansione dopo il raggiungimento della percentuale e nessun codice "
-"di temporizzazione plausibile sia stato rilevato sino all'istante corrente "
-"(rilevante solo in caso di modalità intelligente)"
+msgstr "blocca la scansione dopo il raggiungimento della percentuale e nessun codice di temporizzazione implausibile sia stato rilevato sino all'istante corrente (rilevante solo in caso di modalità intelligente)"
 
 #: ../gap/gap_video_index_creator.c:1012
 msgid "Video Index Creation"
@@ -10495,9 +10467,9 @@ msgid "Creating video index %0.3f %%"
 msgstr "Creazione indice del video %0.3f %%"
 
 #: ../gap/gap_video_index_creator.c:1600
-#, fuzzy, c-format
+#, c-format
 msgid "Creating video index %0.3f %% (%d)"
-msgstr "Creazione indice del video %0.3f %%"
+msgstr "Creazione indice video %0.3f %% (%d)"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_water_pattern.c:1039
@@ -10515,13 +10487,10 @@ msgstr ""
 "Spostamento di fase orizzontale; 1.0 corrisponde alla larghezza dell'immagine"
 
 #: ../gap/gap_water_pattern.c:1216
-#, fuzzy
 msgid ""
 "ON: create waterpattern cloud layers according to options. OFF: Use external "
 "pattern layers. "
-msgstr ""
-"ACCESO: crea i livelli motivo nuvola acquatici secondo le opzioni.\n"
-"SPENTO: usa il livelli di motivo esterni."
+msgstr "ACCESO: crea i livelli motivo nuvola acquatici secondo le opzioni. SPENTO: usa i livelli motivo esterni."
 
 #. pattern
 #: ../gap/gap_water_pattern.c:1227
@@ -10568,9 +10537,8 @@ msgid "Render water pattern highlight effect"
 msgstr "Renderizza motivo acquatico con effetto alteluci"
 
 #: ../gap/gap_water_pattern.c:1418
-#, fuzzy
 msgid "The highlight strength (i.e. opacity)"
-msgstr "Intensità delle alteluci (cioè opacità)"
+msgstr "L'intensità delle alteluci (cioè l'opacità)"
 
 #. useDisplaceMap checkbutton
 #: ../gap/gap_water_pattern.c:1499
@@ -10796,13 +10764,10 @@ msgid "New opacity value where 0 is transparent and 100.0 is opaque"
 msgstr "Nuovo valore di opacità dove 0 è trasparente e 100.0 è opaco"
 
 #: ../gap/gap_wr_opacity.c:345
-#, fuzzy
 msgid ""
 "Modes set opacity or change the old opacity value by adding, subtracting or "
 "multiplying by the supplied new value"
-msgstr ""
-"Imposta l'opacità o cambia il vecchio valore di opacità aggiungendo, "
-"sottraendo o moltiplicando per il nuovo valore fornito."
+msgstr "Le modalità impostano l'opacità o cambiano il vecchio valore di opacità aggiungendo, sottraendo o moltiplicando per il nuovo valore fornito."
 
 #: ../gap/gap_wr_opacity.c:359
 msgid "Set Layer Opacity"
@@ -11824,7 +11789,6 @@ msgstr ""
 "audio"
 
 #: ../vid_common/gap_cme_main.c:148
-#, fuzzy
 msgid ""
 "This plugin is a common GUI for all available video + audio encoding plugins "
 "it operates on a selected range of animframes or storyboard files. The "
@@ -11836,18 +11800,7 @@ msgid ""
 "the dialog. for noninteractive calls default values will be used. (you may "
 "call the desired plugin directly if you want to specify non-interactive "
 "parameters"
-msgstr ""
-"Questo plugin è un'interfaccia grafica comune a tutti i plugin video + audio "
-"e opera su insieme selezionato di quadri animati o file di storyboard. I "
-"dati audio in ingresso (opzionali) vengono trasformati (parametro: audfile) "
-"in formato RIFF WAVE (PCM 16bit) e passati al plugin di codifica video "
-"selezionato come file temporaneo (o direttamente se il formato e la velocità "
-"di campionamento corrispondono già alla velocità di campionamento "
-"desiderate). Il formato video viene definito con il parametro "
-"vid_enc_plugin. Il plugin specifico viene chiamato con i parametri impostati "
-"nella finestra di dialogo. Per chiamate non interattive verranno usati i "
-"valori predefiniti (è possibile chiamare il plugin desiderato direttamente "
-"se si desidera specificare parametri non interattivi"
+msgstr "Questo plugin è un'interfaccia grafica comune a tutti i plugin video + audio disponibili e opera su un insieme selezionato di quadri animati o file di storyboard. I dati audio in ingresso (opzionali) vengono trasformati (parametro: audfile) in formato RIFF WAVE (PCM 16bit) e passati al plugin di codifica video selezionato come file temporaneo (o direttamente se il formato e la velocità di campionamento corrispondono già alla velocità di campionamento desiderate). Il formato video viene definito con il parametro vid_enc_plugin. Il plugin specifico viene chiamato con i parametri specificati nella finestra di dialogo. Per chiamate non interattive verranno usati i valori predefiniti (è possibile chiamare il plugin desiderato direttamente se si desidera specificare parametri non interattivi)."
 
 #: ../vid_common/gap_cme_main.c:160
 msgid "Master Videoencoder..."
@@ -12022,16 +11975,11 @@ msgid "BGR (rgb):"
 msgstr "BGR (rgb):"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:921
-#, fuzzy
 msgid ""
 "Check if you want to encode frames in BGR (preferred) or RGB colormodel "
 "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
 "other players want RGB colormodel for RAW avi data)"
-msgstr ""
-"Controllare se si desidera codificare i quadri in BGR (consigliato) o nel "
-"modello di colore RGB. Da notare che molti visualizzatori come WinDvD o VLC "
-"preferiscono il modello di colore BGR per i dati grezzi mentre altri "
-"preferiscono il modello RGB per i dati grezzi avi."
+msgstr "Controllare se si desidera codificare i quadri in BGR (consigliato) o nel modello di colore RGB. Si noti che molti visualizzatori come WinDvD o VLC preferiscono il modello di colore BGR per i dati grezzi mentre altri preferiscono il modello RGB per i dati grezzi avi."
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:931
 msgid "XVID Codec Options"
@@ -12900,16 +12848,11 @@ msgid "Dont Recode"
 msgstr "Non ricodificare"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2478
-#, fuzzy
 msgid ""
 "Bypass the FFMPEG Videoencoder where inputframes can be copied 1:1 from an "
 "input MPEG videofile. This experimental feature provides lossless MPEG video "
 "cut, but works only for the MPEG Fileformats."
-msgstr ""
-"Salta il codificatore video FFMPEG quando i quadri in ingresso possono "
-"essere copiati 1:1 da un file video MPEG in ingresso. Questa caratteristica "
-"sperimentale prevede tagli video MPEG senza perdite ma funziona solo per "
-"formati di file video MPEG."
+msgstr "Salta il codificatore video FFMPEG quando i quadri in ingresso possono essere copiati 1:1 da un file video MPEG in ingresso. Questa caratteristica sperimentale prevede tagli video MPEG senza perdite ma funziona solo per formati di file video MPEG."
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2509
 msgid "FFMpeg Expert Flags2"
@@ -13805,49 +13748,3 @@ msgstr ""
 #: ../vid_enc_single/gap_enc_singleframes_main.c:512
 msgid "the Singleframe Encoder has no encoder specific parameters"
 msgstr "il codificatore a quadro singolo non ha parametri specifici"
-
-#~ msgid "Save Flattened"
-#~ msgstr "Salva appiattita"
-
-#~ msgid "Save As Is"
-#~ msgstr "Salva come è"
-
-#~ msgid ""
-#~ "You are using another file format than xcf.\n"
-#~ "Save operations may result in loss of layer information.\n"
-#~ "\n"
-#~ "To configure flattening for this fileformat\n"
-#~ "(permanent for all further sessions) please add the line:\n"
-#~ "(%s %s)\n"
-#~ "to your gimprc file."
-#~ msgstr ""
-#~ "Si sta usando un formato file diverso da xcf.\n"
-#~ "L'operazione di salvataggio potrà causare la perdita di informazioni.\n"
-#~ "\n"
-#~ "Per configurare l'appiattimento a questo formato di file\n"
-#~ "(permanente per tutte le future sessioni) aggiungere la linea:\n"
-#~ "(%s %s)\n"
-#~ "al file gimprc."
-
-#~ msgid "Perform actions on all unselected layers"
-#~ msgstr "Compie azioni su tutti i livelli non selezionati"
-
-#~ msgid ""
-#~ "\n"
-#~ "Error: Keyframe %d at point [%d] higher or equal than last handled frame"
-#~ msgstr ""
-#~ "\n"
-#~ "Errore: frame chiave %d al punto [%d] più alto o uguale all'ultimo frame "
-#~ "gestito"
-
-#~ msgid ""
-#~ "\n"
-#~ "Error: More controlpoints (%d) than handled frames (%d).\n"
-#~ "Please reduce controlpoints or select more frames"
-#~ msgstr ""
-#~ "\n"
-#~ "Errore: più punti di controllo (%d) che frame gestiti (%d).\n"
-#~ "Ridurre i punti di controllo o selezionare più frame"
-
-#~ msgid "Create only one multilayer Image"
-#~ msgstr "Create solo una immagine multi-livello"
