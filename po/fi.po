@@ -13,18 +13,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-01 09:46+0000\n"
-"PO-Revision-Date: 2015-11-01 11:47+0200\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
+"POT-Creation-Date: 2017-02-23 11:38+0000\n"
+"PO-Revision-Date: 2017-04-10 15:25+0300\n"
+"Last-Translator: Santtu Urpilainen <santtu.urpilainen@gmail.com>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Poedit 2.0\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -44,7 +44,7 @@ msgstr "Arvo:"
 msgid "Press Button"
 msgstr "Paina nappia"
 
-#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2187
+#: ../gap/gap_arr_dialog.c:1662 ../gap/gap_lib.c:2186
 msgid "Select"
 msgstr "Valitse"
 
@@ -80,10 +80,9 @@ msgid "GAP Message"
 msgstr "GAP-viesti"
 
 #: ../gap/gap_arr_dialog.c:1945
-#, fuzzy, c-format
-#| msgid "ERROR: could not create video-index-directory:'%s'%s"
+#, c-format
 msgid "ERROR: could not create directory:'%s'%s"
-msgstr "VIRHE: Kansiota '%s'%s video-indekseille ei voitu luoda"
+msgstr "VIRHE: Kansiota '%s'%s  ei voitu luoda"
 
 #: ../gap/gap_arr_dialog.c:1998
 #, c-format
@@ -97,16 +96,7 @@ msgstr ""
 "%s"
 
 #: ../gap/gap_arr_dialog.c:2103
-#, fuzzy, c-format
-#| msgid ""
-#| "Do you want to create a videoindex file ?\n"
-#| "This will enable fast and random frame access.\n"
-#| "\n"
-#| "If you want GIMP-GAP to create videoindex files\n"
-#| "automatically whithout showing up this dialog again\n"
-#| "then you should add the following line to\n"
-#| "your gimprc file:\n"
-#| "%s"
+#, c-format
 msgid ""
 "Do you want to create a videoindex file ?\n"
 "\n"
@@ -117,11 +107,10 @@ msgid ""
 "%s"
 msgstr ""
 "Haluatko luoda tiedoston videoindekseille?\n"
-"Tämä mahdollistaa ruutujen nopean ja suoran käsittelyn.\n"
-"\n"
-"Jos et halua enää nähdä tätä valintaikkunaa, vaan\n"
-"haluat GIMP-GAPin luovan tämän tiedoston \n"
-"automaattisesti, lisää seuraava rivi gimprc-tiedostoosi:\n"
+"Jos haluat GIMP-GAPin luovan tämän tiedoston automaattisesti\n"
+"kun sitä suositellaan ilman, että tätä dialogia näytetään uudestaan\n"
+"sinun tulee lisätä seuraava rivi\n"
+"gimprc-tiedostoosi:\n"
 "%s"
 
 #: ../gap/gap_arr_dialog.c:2129
@@ -132,6 +121,10 @@ msgid ""
 "creating a video index is NOT recommended\n"
 "(would not work)\n"
 msgstr ""
+"VAROITUS:\n"
+"satunnainen paikannus ei ole mahdollista tälle videolle.\n"
+"videoindeksin luominen EI OLE suositeltavaa\n"
+"(se ei tulisi toimimaan)\n"
 
 #: ../gap/gap_arr_dialog.c:2134
 #, c-format
@@ -142,6 +135,11 @@ msgid ""
 "but requires one initial full scan.\n"
 "(this will take a while).\n"
 msgstr ""
+"VINKKI:\n"
+"videoindeksin luominen tälle videolle on suositeltavaa.\n"
+"Tämä mahdollistaa nopean ja satunnaiskehykseen pääsyn.\n"
+"mutta vaatii yhden alustavan skannauksen.\n"
+"(tässä saattaa kestää jonkin aikaa).\n"
 
 #: ../gap/gap_arr_dialog.c:2140
 #, c-format
@@ -150,6 +148,9 @@ msgid ""
 "native fast and exact random positioning works for this video.\n"
 "video index is not required, and should be cancelled.\n"
 msgstr ""
+"INFO:\n"
+"natiivi nopea ja tarkka satunnaispaikannus toimii tälle videolle.\n"
+"videoindeksiä ei tarvita ja se tulisi peruuttaa.\n"
 
 #: ../gap/gap_arr_dialog.c:2151 ../gap/gap_decode_xanim.c:237
 msgid "Video:"
@@ -177,22 +178,17 @@ msgid "Problem while writing audiofile: %s"
 msgstr "Ongelma kirjoitettaessa äänitiedostoa: %s"
 
 #: ../gap/gap_audio_wav.c:614 ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:1939
-#, fuzzy, c-format
-#| msgid ""
-#| "The file: %s\n"
-#| "has unexpect content that will be ignored.\n"
-#| "You should specify an audio file in RIFF WAVE fileformat,\n"
-#| "or a textfile containing filenames of such audio files"
+#, c-format
 msgid ""
 "The file: %s\n"
 "has unexpected content that will be ignored.\n"
 "You should specify an audio file in RIFF WAVE fileformat,\n"
 "or a textfile containing filenames of such audio files"
 msgstr ""
-"Tiedosto %s\n"
+"Tiedosto: %s\n"
 " sisältää odottamatonta tietoa, joka ohitetaan.\n"
 "Annetun tiedoston tulisi sisältää RIFF WAVE -muotoista ääntä\n"
-"tai listan senmuotoisista äänitiedostoista"
+"tai tekstitiedoston sen muotoisista äänitiedostoista"
 
 #: ../gap/gap_audio_wav.c:626
 #, c-format
@@ -201,7 +197,7 @@ msgid ""
 "contains too many audio-input tracks\n"
 "(only %d tracks are used, the rest are ignored)."
 msgstr ""
-"Tiedosto %s\n"
+"Tiedosto: %s\n"
 "sisältää liian monta äänitiedostoa\n"
 "(vain %d raitaa käytetään, loput ohitetaan)"
 
@@ -213,7 +209,7 @@ msgid ""
 "do not match the desired sample rate of %d Hz\n"
 "or do not have 16 bits per sample"
 msgstr ""
-"Tiedosto %s\n"
+"Tiedosto: %s\n"
 "on soittolista, mutta sisältää viittauksia äänitiedostoihin, joiden\n"
 "näytteenottotaajuus ei ole haluttu %d Hz tai joiden\n"
 "näytteiden koko ei ole 16 bittiä"
@@ -241,7 +237,7 @@ msgstr "Virhe: Ruudun %s tallentaminen epäonnistui"
 #: ../gap/gap_base_ops.c:719 ../gap/gap_base_ops.c:726
 #: ../gap/gap_base_ops.c:733 ../gap/gap_base_ops.c:827
 #: ../gap/gap_base_ops.c:861 ../gap/gap_base_ops.c:997
-#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3847
+#: ../gap/gap_base_ops.c:1005 ../gap/gap_base_ops.c:1013 ../gap/gap_lib.c:3845
 #, c-format
 msgid "Error: could not rename frame %ld to %ld"
 msgstr "Virhe: Ruutua %ld ei voitu nimetä ruuduksi %ld"
@@ -404,7 +400,7 @@ msgstr "Muuta ruututiheyttä"
 #. plugin was called on a frame without extension and without framenumber in its name
 #. * (typical for new created images named like 'Untitled'
 #.
-#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2039
+#: ../gap/gap_base_ops.c:1537 ../gap/gap_base_ops.c:1666 ../gap/gap_lib.c:2038
 #: ../gap/gap_morph_main.c:354
 msgid ""
 "Operation cancelled.\n"
@@ -521,7 +517,7 @@ msgstr "Numeroi ruutuja uudelleen - toinen kierros"
 
 #: ../gap/gap_blend_fill_main.c:236
 msgid "Blend Fill..."
-msgstr ""
+msgstr "Sekoitus Täyttö..."
 
 #. Menu names
 #: ../gap/gap_blend_fill_main.c:247 ../gap/gap_detail_tracking_main.c:312
@@ -530,57 +526,44 @@ msgid "<Image>/Video/Layer/Enhance/"
 msgstr "<Image>/Video/Taso/Paranna/"
 
 #: ../gap/gap_blend_fill_main.c:313 ../gap/gap_blend_fill_main.c:1982
-#, fuzzy
-#| msgid "Selection"
 msgid "selection.svg"
-msgstr "Valinta"
+msgstr "selection.svg"
 
 #: ../gap/gap_blend_fill_main.c:477
 msgid "Blendfill ..."
-msgstr ""
+msgstr "Sekoitustäyttö ..."
 
 #: ../gap/gap_blend_fill_main.c:1460 ../gap/gap_blend_fill_main.c:1762
 #, c-format
 msgid "Path Vectors too large to fit into buffersize:%ld."
-msgstr ""
+msgstr "Polun Vektorit ovat liian suuria sopimaan puskurinkokoon:%ld."
 
 #: ../gap/gap_blend_fill_main.c:1471 ../gap/gap_blend_fill_main.c:1769
-#, fuzzy
-#| msgid "no description available"
 msgid "No Path Vectors available."
-msgstr "kuvausta ei saatavilla"
+msgstr "Polun Vektoreita ei saatavilla"
 
 #: ../gap/gap_blend_fill_main.c:1488
 msgid "SVG file does not exist (use Save Paths button to create)."
 msgstr ""
+"SVG-tiedostoa ei ole olemassa (käytä Tallenna Reitit näppäin luodaksesi "
+"sellainen)."
 
 #: ../gap/gap_blend_fill_main.c:1494
 msgid "please enter SVG filename"
-msgstr ""
+msgstr "Ole hyvä ja anna SVG-tiedoston nimi"
 
 #: ../gap/gap_blend_fill_main.c:1613
-#, fuzzy
-#| msgid "Select Audiofilename"
 msgid "Select vectorfile name"
-msgstr "Valitse äänitiedostonimi"
+msgstr "Valitse vektoritiedostonimi"
 
 #: ../gap/gap_blend_fill_main.c:1724
-#, fuzzy, c-format
-#| msgid ""
-#| "ERROR: Failed to write videoindex\n"
-#| "file: '%s'\n"
-#| "%s"
+#, c-format
 msgid "Failed to write SVG file: %s"
-msgstr ""
-"VIRHE: Videoindeksin kirjoittaminen epäonnistui:\n"
-"tiedosto: '%s'\n"
-"%s"
+msgstr "SVG-tiedoston kirjoittaminen epäonnistui: %s"
 
 #: ../gap/gap_blend_fill_main.c:1810
-#, fuzzy
-#| msgid "Pixel Selection:"
 msgid "Blend Fill Selection"
-msgstr "Pikselivalinta:"
+msgstr "Sekoitus Täytön valinta"
 
 #. horizontalBlendFlag checkbutton
 #: ../gap/gap_blend_fill_main.c:1844
@@ -589,40 +572,41 @@ msgid ""
 "to cover the selected area.\n"
 "Intended to fix small pixel errors"
 msgstr ""
+"täyttää valinnan sekoittamalla vastakkaiset reunavärit valinnan ulkopuolella "
+"peittämään valitun alueen.\n"
+"Tarkoitettu pienten pikseli virheiden korjaamiseen"
 
 #. horizontalBlendFlag checkbutton
 #: ../gap/gap_blend_fill_main.c:1856
-#, fuzzy
-#| msgid "Flip Horizontally"
 msgid "Horizontal Blend:"
-msgstr "Peilaa pystysuunnassa"
+msgstr "Vaakasuora Sekoitus:"
 
 #: ../gap/gap_blend_fill_main.c:1865
 msgid ""
 "ON: enable horizontal color blending. OFF: disable horizontal color blending."
 msgstr ""
+"PÄÄLLÄ: mahdollistaa vaakasuoran värin sekoittamisen. POIS: estää "
+"vaakasuoran värin sekoittamisen."
 
 #. verticalBlendFlag checkbutton
 #: ../gap/gap_blend_fill_main.c:1878
-#, fuzzy
-#| msgid "Vertical flip:"
 msgid "Vertical Blend:"
-msgstr "Pystysuora peilaus:"
+msgstr "Pystysuora Sekoitus:"
 
 #: ../gap/gap_blend_fill_main.c:1887
 msgid ""
 "ON: enable vertical color blending. OFF: disable vertical color blending."
 msgstr ""
+"PÄÄLLÄ: mahdollistaa pystysuoran värin sekoittamisen. POIS: estää "
+"pystysuoran värin sekoittamisen."
 
 #: ../gap/gap_blend_fill_main.c:1900 ../gap/gap_wr_resynth.c:478
-#, fuzzy
-#| msgid "Feather Radius:"
 msgid "Border Radius:"
-msgstr "Säde:"
+msgstr "Reunan Säde:"
 
 #: ../gap/gap_blend_fill_main.c:1903
 msgid "radius for picking border colors"
-msgstr ""
+msgstr "reunan värien valinnan säde"
 
 #. layer combo_box (altSelection)
 #. layer combo_box (alt_selection)
@@ -633,35 +617,29 @@ msgid "Set Selection:"
 msgstr "Tason valinta:"
 
 #: ../gap/gap_blend_fill_main.c:1925
-#, fuzzy
-#| msgid "Selection all"
 msgid "Selection From All Paths"
-msgstr "Valitse kaikki"
+msgstr "Valitse kaikista reiteistä"
 
 #: ../gap/gap_blend_fill_main.c:1930
-#, fuzzy
-#| msgid "Select Videofile"
 msgid "Selection From Vectors File"
-msgstr "Valitset videotiedosto"
+msgstr "Valitse vektorit-tiedostosta"
 
 #. grab vectors button
 #: ../gap/gap_blend_fill_main.c:1960
-#, fuzzy
-#| msgid "Move Path"
 msgid "Save Paths"
-msgstr "Liikepolku"
+msgstr "Tallenna polut"
 
 #: ../gap/gap_blend_fill_main.c:1965
 msgid ""
 "Save all paths as svg vector file.(use svg file when large or many paths "
 "shall be used)"
 msgstr ""
+"Tallenna kaikki polut SVG-vektoritiedostona. (käytä SVG-tiedostoa, kun polku "
+"on suuri tai käytetään useita polkuja)"
 
 #: ../gap/gap_blend_fill_main.c:1977
-#, fuzzy
-#| msgid "Name of output videofile"
 msgid "Name of SVG vector file"
-msgstr "Tulostevideotiedoston nimi"
+msgstr "SVG-vektoritiedoston nimi"
 
 #. the videofile button (that invokes fileselection dialog)
 #. the basename button (that invokes the fileselection dialog)
@@ -680,10 +658,8 @@ msgid "..."
 msgstr "..."
 
 #: ../gap/gap_blend_fill_main.c:1997
-#, fuzzy
-#| msgid "Select output videofile via browser"
 msgid "Select output svg vector file via browser"
-msgstr "Valitse tulostevideotiedosto selaimen kautta"
+msgstr "Valitse tuloste SVG-vektoritiedosto selaimen kautta"
 
 #. toggle bluebox
 #: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:4141
@@ -708,7 +684,7 @@ msgstr "Bluescreen värinvalitsin"
 
 #: ../gap/gap_bluebox.c:318
 msgid "Alpha Tolerance:"
-msgstr "Alfa-raja"
+msgstr "Alfa-raja:"
 
 #. lower/upper
 #. step, page
@@ -716,15 +692,14 @@ msgstr "Alfa-raja"
 #. constrain
 #. lower/upper unconstrained
 #: ../gap/gap_bluebox.c:325
-#, fuzzy
 msgid ""
 "Sharp pixel selection by color with 0.0. Values greater than 0 give the "
 "selection more or less variable alpha value, depending on disparity with the "
 "key color."
 msgstr ""
-"Arvolla 0.0 valitaan pikselit tarkasti värin mukaan. Tätä suuremimlla "
-"arvoilla valintaan tulee enemmän tai vähemmän läpnäkyvyyttä, riippuen erosta "
-"vainväriin."
+"Tarkka pikselin valinta värin mukaan arvolla 0.0. Nollaa suuremmilla "
+"arvoilla valintaan tulee enemmän tai vähemmän läpinäkyvyyttä, riippuen "
+"erosta avain väriin."
 
 #: ../gap/gap_bluebox.c:337
 msgid "Source Alpha:"
@@ -739,7 +714,7 @@ msgstr "Alkuperäinen alfa:"
 msgid "Affect only pixels with alpha >= source alpha where 1.0 is full opaque"
 msgstr ""
 "Käsittele vain pikseleitä, joiden  alfa >= alkuperäisen kuvan alfa. 1.0 "
-"merkitsee täysin peittävää."
+"merkitsee täysin peittävää"
 
 #: ../gap/gap_bluebox.c:355
 msgid "Target Alpha:"
@@ -755,7 +730,7 @@ msgid ""
 "Set alpha of affected pixel to target alpha where 0.0 is full transparent"
 msgstr ""
 "Aseta käsiteltävän pikselin alfa tuloksen alfaksi, missä 0.0 merkitsee "
-"täysin läpinäkyvää."
+"täysin läpinäkyvää"
 
 #: ../gap/gap_bluebox.c:373
 msgid "Feather Edges:"
@@ -1000,22 +975,16 @@ msgstr "<Image>/Video/"
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:212
-#, fuzzy
-#| msgid "Basic Options"
 msgid "Base Options"
-msgstr "Perusvalinnat"
+msgstr "Yleisasetukset"
 
 #: ../gap/gap_colormask_dialog.c:243
-#, fuzzy
-#| msgid "Color erase"
 msgid "Color Mask:"
-msgstr "Värin poisto"
+msgstr "Värimaski:"
 
 #: ../gap/gap_colormask_dialog.c:249
-#, fuzzy
-#| msgid "Threshold:"
 msgid "Colordiff Threshold:"
-msgstr "Raja-arvo:"
+msgstr "Värierojen Raja-arvo:"
 
 #: ../gap/gap_colormask_dialog.c:252
 msgid ""
@@ -1023,12 +992,13 @@ msgid ""
 "(compared with the corresponding pixel in the colormask) are set to lower "
 "opacity value (usually transparent)"
 msgstr ""
+"Alempi värierojen raja-arvo. pikselit, jotka eroavat väristä vähemmän kuin "
+"tämä arvo (verrattuna vastaavaan pikseliin värimaskissa) asetetaan "
+"pienempään peittävyysarvoon (usein läpinäkyvä)"
 
 #: ../gap/gap_colormask_dialog.c:266
-#, fuzzy
-#| msgid "Common color threshold"
 msgid "_HiColordiff Threshold:"
-msgstr "Yhteinen raja-arvo"
+msgstr "_Korkeampi Värierojen raja-arvo:"
 
 #: ../gap/gap_colormask_dialog.c:269
 msgid ""
@@ -1036,48 +1006,45 @@ msgid ""
 "(compared with the corresponding pixel in the colormask) are set to upper "
 "opacity value (usually opaque)"
 msgstr ""
+"Ylempi värierojen raja-arvo. pikselit, jotka eroavat väristä enemmän kuin "
+"tämä arvo (verrattuna vastaavaan pikseliin värimaskissa) asetetaan "
+"suurempaan peittävyysarvoon (usein peittäväksi)"
 
 #. keep layermask checkbutton
 #: ../gap/gap_colormask_dialog.c:285
-#, fuzzy
-#| msgid "Layer Mask"
 msgid "Keep Layer Mask"
-msgstr "Tason maski"
+msgstr "Pidä tasomaski"
 
 #. apply immediate checkbutton
 #: ../gap/gap_colormask_dialog.c:301
 msgid "Apply Immediately"
-msgstr ""
+msgstr "Käytä välittömästi"
 
 #. show expert options checkbutton
 #: ../gap/gap_colormask_dialog.c:316
-#, fuzzy
-#| msgid "RAW Options"
 msgid "Show All Options"
-msgstr "RAW-valinnat"
+msgstr "Näytä kaikki valinnat"
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:349
-#, fuzzy
-#| msgid "Dither Options"
 msgid "Filter Options"
-msgstr "Ditteroinnin valinnat"
+msgstr "Suodattimen valinnat"
 
 #: ../gap/gap_colormask_dialog.c:375
-#, fuzzy
-#| msgid "Radius:"
 msgid "Isle Radius:"
-msgstr "Säde:"
+msgstr "Eristyksen Säde:"
 
 #: ../gap/gap_colormask_dialog.c:378
 msgid ""
 "Isle removal radius in pixels (use value 0 to disable removal of isolated "
 "pixels)"
 msgstr ""
+"Eristettyjen pikselien poisto säteessä (käytä arvoa 0 estämään eristettyjen "
+"pikselien poisto)"
 
 #: ../gap/gap_colormask_dialog.c:389
 msgid "Isle Area:"
-msgstr ""
+msgstr "Eristyksen Alue:"
 
 #: ../gap/gap_colormask_dialog.c:392
 msgid ""
@@ -1085,47 +1052,48 @@ msgid ""
 "below that size are removed (i.e. toggled from opaque to transparent and "
 "vice versa)"
 msgstr ""
+"Eristysalueen koko pikseleissä. pienet eristetyt peittävät tai läpinäkyvät "
+"alueet, jotka ovat koon alapuolella poistetaan (ts. asetetaan peittävästä "
+"läpinäkyväksi ja toisin päin)"
 
 #: ../gap/gap_colormask_dialog.c:410
 msgid "feather radius in pixels (use value 0 to disable feathering)"
 msgstr ""
+"reunanpehmennyksen säde pikseleissä (käytä arvoa 0 estääksesi "
+"reunanpehmennyksen)"
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:443
-#, fuzzy
-#| msgid "Basic Options"
 msgid "Opacity Options"
-msgstr "Perusvalinnat"
+msgstr "Peittävyyden valinnat"
 
 #: ../gap/gap_colormask_dialog.c:466
-#, fuzzy
-#| msgid "Opacity:"
 msgid "Lower Opacity:"
-msgstr "Läpinäkyvyys:"
+msgstr "Matalampi peittävyys:"
 
 #: ../gap/gap_colormask_dialog.c:469
 msgid ""
 "Lower opacity value is set for pixels with color difference less than "
 "Colordiff threshold (use value 0 for transparency)"
 msgstr ""
+"Matalampi peittävyys arvo asetetaan pikseleille, joiden väriero on vähemmän "
+"kuin väriero raja-arvo (käytä arvoa 0 läpinäkyvyydelle)"
 
 #: ../gap/gap_colormask_dialog.c:483
-#, fuzzy
-#| msgid "Opacity:"
 msgid "Upper Opacity:"
-msgstr "Läpinäkyvyys:"
+msgstr "Korkeampi peittävyys:"
 
 #: ../gap/gap_colormask_dialog.c:486
 msgid ""
 "Upper opacity is set for pixels with color difference greater than High "
 "Colordiff threshold (use value 1 for opacity)"
 msgstr ""
+"Korkeampi peittävyys arvo asetetaan pikseleille, joiden väriero on enemmän "
+"kuin väriero raja-arvo (käytä arvoa 1 peittävyydelle)"
 
 #: ../gap/gap_colormask_dialog.c:501
-#, fuzzy
-#| msgid "Target Alpha:"
 msgid "Trigger Alpha:"
-msgstr "Tuloksen alfa:"
+msgstr "Laukaisin alpha:"
 
 #: ../gap/gap_colormask_dialog.c:504
 msgid ""
@@ -1134,6 +1102,10 @@ msgid ""
 "mask is below this trigger value are not changed (i.e. keep their original "
 "opacity)"
 msgstr ""
+"Laukaisin alpha on relevantti vain siinä tapauksessa, että värimaskilla on "
+"alphakanava. Kaikki pikselit, joissa on alphakanava vastaavassa värimaskin "
+"pikselissä on laukaisinarvon alapuolella eivät muutu (ts. ne pitävät "
+"alkuperäisen peittävyytensä)"
 
 #. the frame
 #. the notebook page label for expert encoder options
@@ -1143,183 +1115,145 @@ msgid "Expert Options"
 msgstr "Lisävalinnat"
 
 #: ../gap/gap_colormask_dialog.c:565
-#, fuzzy
-#| msgid "Algorithms"
 msgid "_Algorithm:"
-msgstr "Algoritmit"
+msgstr "_Algoritmitmi:"
 
 #. --------------- start of keycolor widgets  -------------
 #. enableKeyColorThreshold checkbutton
 #: ../gap/gap_colormask_dialog.c:584
 msgid "Enable individual color threshold for the key color"
-msgstr ""
+msgstr "Mahdollistaa yksittäiset väriraja-arvot avain väreille"
 
 #. the keycolor label
 #: ../gap/gap_colormask_dialog.c:602
-#, fuzzy
-#| msgid "Keycolor:"
 msgid "Key color:"
 msgstr "Avainväri:"
 
 #. the keycolor button
 #: ../gap/gap_colormask_dialog.c:608
-#, fuzzy
-#| msgid "Keycolor:"
 msgid "Key color"
-msgstr "Avainväri:"
+msgstr "Avainväri"
 
 #: ../gap/gap_colormask_dialog.c:629
-#, fuzzy
-#| msgid "Common color threshold"
 msgid "Key Colordiff threshold:"
-msgstr "Yhteinen raja-arvo"
+msgstr "Avainväriero raja-arvo:"
 
 #: ../gap/gap_colormask_dialog.c:644
 msgid "Key Color Sensitivity:"
-msgstr ""
+msgstr "Avainväri herkkyys:"
 
 #: ../gap/gap_colormask_dialog.c:664
-#, fuzzy
-#| msgid "Common color threshold"
 msgid "Sig Colordiff Threshold:"
-msgstr "Yhteinen raja-arvo"
+msgstr "Allekirjoitus väriero raja-arvo:"
 
 #: ../gap/gap_colormask_dialog.c:678
 msgid "Sig Brightness Threshold:"
-msgstr ""
+msgstr "Allekirjoitus kirkkaus raja-arvo:"
 
 #: ../gap/gap_colormask_dialog.c:693
-#, fuzzy
-#| msgid "Radius:"
 msgid "Sig Radius:"
-msgstr "Säde:"
+msgstr "Allekirjoituksen säde:"
 
 #: ../gap/gap_colormask_dialog.c:710
-#, fuzzy
-#| msgid "Common color threshold"
 msgid "_Edge Colordiff threshold:"
-msgstr "Yhteinen raja-arvo"
+msgstr "_Reunan väriero raja-arvo:"
 
 #: ../gap/gap_colormask_dialog.c:725
-#, fuzzy
-#| msgid "Common color threshold"
 msgid "_Area Colordiff threshold:"
-msgstr "Yhteinen raja-arvo"
+msgstr "_Alueen väriero raja-arvo:"
 
 #: ../gap/gap_colormask_dialog.c:740
 msgid "Small Area Diagonal:"
-msgstr ""
+msgstr "Pienen alueen lävistäjä:"
 
 #: ../gap/gap_colormask_dialog.c:754
 msgid "Small Area Pixelsize:"
-msgstr ""
+msgstr "Pienen alueen pikselikoko:"
 
 #. the frame
 #: ../gap/gap_colormask_dialog.c:788
-#, fuzzy
-#| msgid "JPEG Options"
 msgid "DEBUG Options"
-msgstr "JPEG-valinnat"
+msgstr "DEBUG-valinnat"
 
 #: ../gap/gap_colormask_dialog.c:815
-#, fuzzy
-#| msgid "Density:"
 msgid "DiffSensitivity:"
-msgstr "Tiheys:"
+msgstr "Eroavaisuudenherkkyys:"
 
 #. connectByCorner checkbutton
 #: ../gap/gap_colormask_dialog.c:833
 msgid "DEBUG Connect by corner (+ use RGB colordiff)"
-msgstr ""
+msgstr "DEBUG yhteys reunan mukaan (+ käytä RGB värieroa)"
 
 #. keep worklayer checkbutton
 #: ../gap/gap_colormask_dialog.c:849
 msgid "DEBUG Keep worklayer"
-msgstr ""
+msgstr "DEBUG Pidä työskentelytaso"
 
 #. the layercolor label
 #: ../gap/gap_colormask_dialog.c:871
-#, fuzzy
-#| msgid "Keycolor:"
 msgid "Layer color:"
-msgstr "Avainväri:"
+msgstr "Tasonväri:"
 
 #. the layercolor button
 #: ../gap/gap_colormask_dialog.c:877
 msgid "Layer color (Colormask)"
-msgstr ""
+msgstr "Tasonväri (Värimaski)"
 
 #. the maskcolor label
 #: ../gap/gap_colormask_dialog.c:893
-#, fuzzy
-#| msgid "Keycolor:"
 msgid "Mask color:"
-msgstr "Avainväri:"
+msgstr "Maskinväri:"
 
 #. the maskcolor button
 #: ../gap/gap_colormask_dialog.c:899
 msgid "Mask color (Colormask)"
-msgstr ""
+msgstr "Maskinväri (Värimaski)"
 
 #. the maskcolor label
 #: ../gap/gap_colormask_dialog.c:916
-#, fuzzy
-#| msgid "Keycolor:"
 msgid "Nb color:"
-msgstr "Avainväri:"
+msgstr "Naapuriväri:"
 
 #. the maskcolor button
 #: ../gap/gap_colormask_dialog.c:922
 msgid "Left Neighbor color"
-msgstr ""
+msgstr "Vasen naapuriväri"
 
 #. the colordiff label
 #: ../gap/gap_colormask_dialog.c:938
-#, fuzzy
-#| msgid "Color"
 msgid "Colordiff:"
-msgstr "Väri"
+msgstr "Väriero:"
 
 #: ../gap/gap_colormask_dialog.c:943 ../gap/gap_colormask_dialog.c:957
 msgid "#.#####"
-msgstr ""
+msgstr "#.#####"
 
 #. the neighbor colordiff label
 #: ../gap/gap_colormask_dialog.c:952
-#, fuzzy
-#| msgid "qdiff:"
 msgid "NbDiff:"
-msgstr "qdiff:"
+msgstr "Naapuriero:"
 
 #: ../gap/gap_colormask_dialog.c:1688
-#, fuzzy
-#| msgid "Color erase"
 msgid "Color Mask"
-msgstr "Värin poisto"
+msgstr "Värimaski"
 
 #: ../gap/gap_colormask_file.c:115
-#, fuzzy, c-format
-#| msgid ""
-#| "Could not read ffmpeg video encoder parameters from file:\n"
-#| "%s"
+#, c-format
 msgid ""
 "Could not read colormask parameters from file:\n"
 "%s"
 msgstr ""
-"Tiedostosta ei voitu lukea ffmpeg videokoodauksen parametrejä:\n"
+"Tiedostosta ei voitu lukea värimaskin parametrejä:\n"
 "%s"
 
 #: ../gap/gap_colormask_file.c:156
-#, fuzzy, c-format
-#| msgid "Could not save ffmpeg video encoder parameterfile:'%s'%s"
+#, c-format
 msgid "Could not save colormask parameterfile:'%s'%s"
-msgstr "Ei voitu tallentaa ffmpeg-videokoodauksen parametritiedostoa:'%s'%s"
+msgstr "Ei voitu tallentaa värimaskin parametritiedostoa:'%s'%s"
 
 #: ../gap/gap_colormask_main.c:222
-#, fuzzy
-#| msgid "Apply layermask"
 msgid "Apply Colormask..."
-msgstr "Sovella tason maskia"
+msgstr "Käytä värimaskia..."
 
 #. Menu names
 #: ../gap/gap_colormask_main.c:266 ../gap/gap_wr_layermode.c:140
@@ -1339,7 +1273,7 @@ msgstr "Tasoryhmä:"
 #. GroupLayer handling mode the radio buttons
 #: ../gap/gap_dbbrowser_utils.c:370
 msgid "Process"
-msgstr ""
+msgstr "Prosessi"
 
 #: ../gap/gap_dbbrowser_utils.c:374
 msgid ""
@@ -1347,6 +1281,9 @@ msgid ""
 "keeps the group structure, but the filter call will fail  for all filters "
 "that are not capable to process a group layer)"
 msgstr ""
+"ryhmätasot prosessoidaan samalla tavalla kuin tavalliset tasot. (tämä "
+"tyypillisesti pitää ryhmän rakenteen, mutta suodatinkutsu saattaa "
+"epäonnistua kaikille suodattimille, jotka eivät voi prosessoida ryhmätasoa)"
 
 #. printf("DROP (SKIP) frame\n");
 #: ../gap/gap_dbbrowser_utils.c:380 ../gap/gap_player_dialog.c:4795
@@ -1355,21 +1292,19 @@ msgstr "Ohita"
 
 #: ../gap/gap_dbbrowser_utils.c:384
 msgid "skip processing of the selected filter for group layers."
-msgstr ""
+msgstr "ohittaa valitun suodattimen prosessoinnin ryhmätasoille."
 
 #: ../gap/gap_dbbrowser_utils.c:388
-#, fuzzy
-#| msgid "Grain Merge"
 msgid "Merge"
-msgstr "Värin lisäys"
+msgstr "Yhdistä"
 
 #: ../gap/gap_dbbrowser_utils.c:392
 msgid "group layers are merged before the selected filter is applied."
-msgstr ""
+msgstr "ryhmätasot yhdistetään ennen kuin valittua suodatinta käytetään."
 
 #: ../gap/gap_dbbrowser_utils.c:439
 msgid "Gen Code by name"
-msgstr ""
+msgstr "Generoi koodi nimen mukaan"
 
 #. Button Search by Name
 #: ../gap/gap_dbbrowser_utils.c:459
@@ -1379,7 +1314,7 @@ msgstr "Etsi nimen mukaan"
 #. Button Search by Blurb
 #: ../gap/gap_dbbrowser_utils.c:469
 msgid "Search by Blurb"
-msgstr ""
+msgstr "Etsi takakannen mukaan"
 
 #. Button Search by Menupath
 #: ../gap/gap_dbbrowser_utils.c:479
@@ -1391,6 +1326,9 @@ msgid ""
 "acceleration characteristic for filter apply 0=constant, 1 varying with "
 "constant speed, positive accelerate, negative decelerate"
 msgstr ""
+"kiihdytyksen ominaisuudet suodattimelle käyttävät 0=jatkuva, 1 vaihtelevasti "
+"jatkuvan nopeuden, positiivisen kiihdytyksen ja negatiivisen hidastuksen "
+"välillä"
 
 #: ../gap/gap_dbbrowser_utils.c:646
 msgid "** not available **"
@@ -1402,7 +1340,7 @@ msgstr "Etsitään nimen mukaan, ole hyvä ja odota"
 
 #: ../gap/gap_dbbrowser_utils.c:921
 msgid "Searching by blurb - please wait"
-msgstr ""
+msgstr "Etsitään takakannen mukaan, ole hyvä ja odota"
 
 #: ../gap/gap_dbbrowser_utils.c:933
 msgid "Searching by menupath - please wait"
@@ -1444,7 +1382,7 @@ msgstr "Virhe yritettäessä kutsua ohjelmaa mplayer:"
 
 #: ../gap/gap_decode_mplayer.c:286
 msgid "mplayer Information"
-msgstr "Tietoa mplayer"
+msgstr "tietoa mplayer"
 
 #: ../gap/gap_decode_mplayer.c:427
 msgid "Input Video:"
@@ -1465,12 +1403,12 @@ msgstr "Aloitusaika:"
 
 #: ../gap/gap_decode_mplayer.c:446
 msgid "Extracting starts at the specified time offset HH:MM:SS in the video"
-msgstr ""
+msgstr "Purkaminen alkaa määritetyssä ajan alussa HH:MM:SS videossa"
 
 #. Frames Duration button
 #. Frames Overlap duration button
-#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3407
-#: ../gap/gap_story_att_trans_dlg.c:3661
+#: ../gap/gap_decode_mplayer.c:455 ../gap/gap_story_att_trans_dlg.c:3409
+#: ../gap/gap_story_att_trans_dlg.c:3663
 msgid "Frames:"
 msgstr "Ruutuja:"
 
@@ -1540,59 +1478,50 @@ msgid "Png Compression:"
 msgstr "Png-pakkaus:"
 
 #: ../gap/gap_decode_mplayer.c:523
-#, fuzzy
 msgid ""
 "Compression for resulting png frames where 0 is uncompressed (fast), 9 is "
 "max. compression (this option is ignored when JPEG format is used)"
 msgstr ""
-"Pakkaus tuotetuille png-kuville. 0 on pakkaamaton (nopein) ja 9 maksimi. "
-"(Tämä ohitetaan, kun käytetään JPEG-tiedostomuotoa)"
+"Pakkaus tuotetuille png-ruuduille missä 0 on pakkaamaton (nopein) ja 9 "
+"maksimi pakkaus. (Tämä ohitetaan, kun käytetään JPEG-tiedostomuotoa)"
 
 #: ../gap/gap_decode_mplayer.c:532 ../gap/gap_decode_xanim.c:294
 msgid "Jpeg Quality:"
 msgstr "Jpeg-laatu:"
 
 #: ../gap/gap_decode_mplayer.c:533
-#, fuzzy
 msgid ""
 "Quality for resulting jpeg frames where 100 is best quality (ignored when "
 "other formats are used)"
 msgstr ""
-"Laatu tuotetuille jpeg-ruuduille. 100 on paras. (Tämä ohitetetaan, kun "
-"käytetään muita tiedostomuotoja)"
+"Laatu tuotetuille jpeg-ruuduille missä 100 on paras laatu. (Tämä ohitetaan, "
+"kun käytetään muita tiedostomuotoja)"
 
 #: ../gap/gap_decode_mplayer.c:543
 msgid "Jpeg Optimize:"
-msgstr "Jpeg-optimointi"
+msgstr "Jpeg-optimointi:"
 
 #: ../gap/gap_decode_mplayer.c:544
-#, fuzzy
-#| msgid "optimization factor(is ignored when other formats are used)"
 msgid "Optimization factor (is ignored when other formats are used)"
 msgstr "Optimointitaso (ohitetaan, kun käytetään muita tiedostomuotoja)"
 
 #: ../gap/gap_decode_mplayer.c:554
 msgid "Jpeg Smooth:"
-msgstr "Jpeg-pehmennys"
+msgstr "Jpeg-pehmennys:"
 
 #: ../gap/gap_decode_mplayer.c:555
-#, fuzzy
-#| msgid "Smooth factor(is ignored when other formats are used)"
 msgid "Smooth factor (is ignored when other formats are used)"
-msgstr "Pehmennystekijä (ohitetaan, kun käytetään muita tiedostomuotoja)"
+msgstr "Pehmennystekijä (ohitetaan, kun käytetään muita tiedostomuotoja) "
 
 #: ../gap/gap_decode_mplayer.c:565
 msgid "Jpeg Progressive:"
-msgstr "Progressiivinen jpeg"
+msgstr "Progressiivinen jpeg:"
 
 #: ../gap/gap_decode_mplayer.c:566
-#, fuzzy
-#| msgid ""
-#| "Enable progressive jpeg encoding(is ignored when other formats are used)"
 msgid ""
 "Enable progressive jpeg encoding (is ignored when other formats are used)"
 msgstr ""
-"Salli progressiivinen jpeg (tämä ohitetaan, kun käytetään muita "
+"Salli progressiivisen jpeg koodauksen (tämä ohitetaan, kun käytetään muita "
 "tiedostomuotoja)"
 
 #: ../gap/gap_decode_mplayer.c:572
@@ -1600,11 +1529,10 @@ msgid "Jpeg Baseline:"
 msgstr "Jpeg Baseline:"
 
 #: ../gap/gap_decode_mplayer.c:573
-#, fuzzy
-#| msgid ""
-#| "Enable baseline jpeg encoding(is ignored when other formats are used)"
 msgid "Enable baseline jpeg encoding (is ignored when other formats are used)"
-msgstr "Enable baseline jpeg encoding(is ignored when other formats are used)"
+msgstr ""
+"Mahdollistaa lähtökohtaisen jpeg koodauksen (tämä ohitetaan, kun käytetään "
+"muita tiedostomuotoja)"
 
 #: ../gap/gap_decode_mplayer.c:584
 msgid "Silent"
@@ -1615,7 +1543,7 @@ msgid ""
 "use -nosound (-novideo) in case audiotrack (videotrack) is 0.\n"
 "mplayer will operate silent and faster."
 msgstr ""
-"Käytä -nosound (-novideo) jos ääniraita(videoraita) on 0.\n"
+"käyttää -nosound (-novideo) jos ääniraita(videoraita) on 0.\n"
 "mplayer ei ilmoita puutteista ja toimii nopeammin."
 
 #: ../gap/gap_decode_mplayer.c:591 ../gap/gap_decode_xanim.c:306
@@ -1639,16 +1567,15 @@ msgid "MPlayer 1.0pre5:"
 msgstr "MPlayer 1.0pre5:"
 
 #: ../gap/gap_decode_mplayer.c:605
-#, fuzzy
 msgid ""
 "ON: use deprecated options for mplayer 1.0pre5\n"
 "OFF: use options for newer mplayer\n"
 " Dont turn on the deprecated options if you have mplayer 1.0pre7 or newer "
 "mplayer versions"
 msgstr ""
-"PÄÄLLÄ: käytä mplayer 1.0pre5:den vanhentuneita ominaisuuksia. POIS: käytä "
-"uudemman mplayerin ominaisuuksia. (Älä aseta päälle, jos mplayerin versio on "
-"1.0pre7 tai uudempi)"
+"PÄÄLLÄ: käytä mplayer 1.0pre5:den vanhentuneita ominaisuuksia.\n"
+"POIS: käytä uudemman mplayerin ominaisuuksia.\n"
+"Älä aseta päälle, jos mplayerin versio on 1.0pre7 tai uudempi"
 
 #: ../gap/gap_decode_mplayer.c:616
 msgid "MPlayer based extraction"
@@ -1662,7 +1589,7 @@ msgstr "Valitse ruutuväli"
 #: ../gap/gap_decode_mplayer.c:650 ../gap/gap_decode_mplayer.c:1492
 #, c-format
 msgid "videofile %s not existent\n"
-msgstr "Videotiedostoa %s ei ole olemassa\n"
+msgstr "videotiedostoa %s ei ole olemassa\n"
 
 #: ../gap/gap_decode_mplayer.c:659
 #, c-format
@@ -1786,7 +1713,7 @@ msgstr "Nimetään ruutuja uudelleen..."
 #: ../gap/gap_decode_mplayer.c:1639 ../gap/gap_decode_xanim.c:1203
 #: ../gap/gap_range_ops.c:1390
 msgid "Converting frames..."
-msgstr "ruutuja muunnetaan..."
+msgstr "Ruutuja muunnetaan..."
 
 #: ../gap/gap_decode_mplayer_main.c:110 ../gap/gap_decode_mplayer_main.c:123
 msgid "MPlayer based extraction..."
@@ -1847,11 +1774,11 @@ msgstr ""
 
 #: ../gap/gap_decode_xanim.c:248
 msgid "Framenumber of 1st frame to extract"
-msgstr "Ensimmäisen luettavan ruudun numero:"
+msgstr "Ensimmäisen luettavan ruudun numero"
 
 #: ../gap/gap_decode_xanim.c:258
 msgid "Framenumber of last frame to extract"
-msgstr "Viimeisen luettavan ruudun numero:"
+msgstr "Viimeisen luettavan ruudun numero"
 
 #: ../gap/gap_decode_xanim.c:275
 msgid "Format"
@@ -1947,7 +1874,7 @@ msgid ""
 "The xanim program on your system \"%s\"\n"
 "does not support the exporting options Ea, Ee, Eq"
 msgstr ""
-"järjestelmäsi xanim-ohjelma \"%s\"\n"
+"Järjestelmäsi xanim-ohjelma \"%s\"\n"
 "ei tue vientiasetuksia Ea, Ee, Eq"
 
 #: ../gap/gap_decode_xanim.c:801
@@ -1956,7 +1883,7 @@ msgid ""
 "The xanim program on your system \"%s\"\n"
 "does not support exporting of single frames"
 msgstr ""
-"järjestelmäsi xanim-ohjelma  \"%s\"\n"
+"Järjestelmäsi xanim-ohjelma  \"%s\"\n"
 "ei tue yksittäisten ruutujen vientiä"
 
 #: ../gap/gap_decode_xanim.c:1069
@@ -1991,28 +1918,28 @@ msgstr ""
 "luettuja ruutuja ei löydy,\n"
 "xanim pysähtyi virheeseen tai keskeytettiin"
 
-#: ../gap/gap_detail_align_exec.c:634
-#, fuzzy
-#| msgid "Frames:"
+#: ../gap/gap_detail_align_exec.c:743
 msgid "Frame Phase:"
-msgstr "Ruutuja:"
+msgstr "Ruutuvaihe:"
 
-#: ../gap/gap_detail_align_exec.c:635
+#: ../gap/gap_detail_align_exec.c:744
 msgid "Frame number (phase) to be rendered."
-msgstr ""
+msgstr "Ruudun numero (vaihe) jota tullaan renderöimään."
 
-#: ../gap/gap_detail_align_exec.c:648
+#: ../gap/gap_detail_align_exec.c:757
 msgid "XML file:"
 msgstr "XML-tiedosto:"
 
-#: ../gap/gap_detail_align_exec.c:649
+#: ../gap/gap_detail_align_exec.c:758
 msgid ""
 "Name of the xml file that contains the tracked detail coordinates.  "
 "(recorded with the detail tracking feature)."
 msgstr ""
+"XML-tiedoston nimi, joka sisältää jäljitetyt yksityiskohtien koordinaatit. "
+"(nauhoitettu yksityiskohtien jäljitys toiminnolla)."
 
 #. the Default button
-#: ../gap/gap_detail_align_exec.c:658 ../gap/gap_detail_tracking_exec.c:1474
+#: ../gap/gap_detail_align_exec.c:767 ../gap/gap_detail_tracking_exec.c:2315
 #: ../gap/gap_mov_dialog.c:1596 ../gap/gap_mpege.c:373
 #: ../gap/gap_name2layer_main.c:529 ../gap/gap_split.c:505
 #: ../gap/gap_story_dialog.c:5307 ../gap/gap_story_dialog.c:5664
@@ -2021,24 +1948,24 @@ msgstr ""
 msgid "Default"
 msgstr "Oletus"
 
-#: ../gap/gap_detail_align_exec.c:659 ../gap/gap_detail_tracking_exec.c:1475
+#: ../gap/gap_detail_align_exec.c:768 ../gap/gap_detail_tracking_exec.c:2316
 #: ../gap/gap_mov_dialog.c:1597 ../gap/gap_mpege.c:374
 #: ../gap/gap_name2layer_main.c:530 ../gap/gap_split.c:506
 #: ../gap/gap_video_index_creator.c:1007 ../gap/gap_wr_opacity.c:357
 msgid "Reset all parameters to default values"
 msgstr "Aseta kaikki parametrit oletusarvoihinsa"
 
-#: ../gap/gap_detail_align_exec.c:661
+#: ../gap/gap_detail_align_exec.c:770
 msgid "Detail Align via XML"
-msgstr ""
+msgstr "Yksityiskohtien tasaaminen XML:llä"
 
-#: ../gap/gap_detail_align_exec.c:662 ../gap/gap_detail_tracking_exec.c:1478
+#: ../gap/gap_detail_align_exec.c:771 ../gap/gap_detail_tracking_exec.c:2319
 #: ../gap/gap_name2layer_main.c:536 ../gap/gap_video_index_creator.c:1013
 #: ../gap/gap_wr_opacity.c:360
 msgid "Settings :"
-msgstr "Asetukset"
+msgstr "Asetukset :"
 
-#: ../gap/gap_detail_align_exec.c:946
+#: ../gap/gap_detail_align_exec.c:1055
 #, c-format
 msgid ""
 "Current path with 4 point triggers transformations:\n"
@@ -2049,8 +1976,15 @@ msgid ""
 "Press OK button to transform the layer\n"
 "in a way that point3 moves to point1 and point4 moves to point2"
 msgstr ""
+"Nykyinen polku neljällä kohdalla laukaisee muunnoksen:\n"
+"   Rotaatio: %4f (aste)\n"
+"   Skaala     %1f (%%)\n"
+"   Liike X: %.0f (pikseliä)\n"
+"   Liike Y: %.0f (pikseliä)\n"
+"Napsauta OK-näppäintä muuntaaksesi tason\n"
+"tavalla, että kohta3 siirtyy kohtaan1 ja kohta4 siirtyy kohtaan2 "
 
-#: ../gap/gap_detail_align_exec.c:967
+#: ../gap/gap_detail_align_exec.c:1076
 #, c-format
 msgid ""
 "Current path with 2 points triggers simple move:\n"
@@ -2059,34 +1993,45 @@ msgid ""
 "Press OK button to move the layer\n"
 "in a way that point2 moves to point1"
 msgstr ""
+"Nykyinen polku kahdella kohdalla laukaisee yksinkertaisen liikkeen:\n"
+"   Liike X: %.0f (pikseliä)\n"
+"   Liike Y: %.0f (pikseliä)\n"
+"Napsauta OK-näppäintä siirtääksesi kerroksen\n"
+"tavalla, että kohta2 siirtyy kohtaan1"
 
-#: ../gap/gap_detail_align_exec.c:983
+#: ../gap/gap_detail_align_exec.c:1092
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
 "coordinate points.\n"
 "Please create a path and press the Refresh button."
 msgstr ""
+"Tämä suodatin tarvitsee nykyisen polun neljällä tai kahdella kohdalla\n"
+"Se voi muuntaa ja/tai siirtää nykyistä tasoa myöntyen sellaisiin "
+"koordinaatti kohtiin.\n"
+"Ole hyvä, luo polku ja napsauta Päivitä-näppäintä."
 
-#: ../gap/gap_detail_align_exec.c:1090
+#: ../gap/gap_detail_align_exec.c:1199
 msgid "Transform Layer via 4 (or 2) point Alignment"
-msgstr ""
+msgstr "Muunna tasoa neljän (tai kahden) kohdan asetuksella"
 
 #. pointOrder radiobutton
 #. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
 #.
-#: ../gap/gap_detail_align_exec.c:1143
+#: ../gap/gap_detail_align_exec.c:1252
 msgid "Path Point Order:"
-msgstr ""
+msgstr "Polunkohtien järjestys:"
 
 #. Order Mode the radio buttons
-#: ../gap/gap_detail_align_exec.c:1161
+#: ../gap/gap_detail_align_exec.c:1270
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Target is marked by points 1&2 "
 msgstr ""
+"( 3 --> 1 ) ( 4 --> 2 )\n"
+"Kohde on merkitty kohdilla 1&2 "
 
-#: ../gap/gap_detail_align_exec.c:1279
+#: ../gap/gap_detail_align_exec.c:1388
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer.It "
@@ -2095,8 +2040,15 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
+"Suodatin tarvitsee nykyisen polun 4 kohdalla, missä kohdat 1 ja 2 "
+"merkitsevät viittaus sijainnit ja kohdat 3 ja 4 merkitsevät sijainnit "
+"kohdetasossa. Se muuntaa kohdetason sillä tavalla, että kohta3 siirtyy "
+"kohtaan1 ja kohta4 siirtyy kohtaan2. (tämä saattaa sisältää rotaation ja "
+"koon muunnoksia).\n"
+"Reittiä, jossa on 2 kohtaa voidaan käyttää siirtämään kohta2 kohtaan1. "
+"(yksinkertaisella siirtotoiminnolla ilman rotaatiota ja koon muutosta)"
 
-#: ../gap/gap_detail_align_exec.c:1290
+#: ../gap/gap_detail_align_exec.c:1399
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer.It "
@@ -2105,166 +2057,194 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
+"Suodatin tarvitsee nykyisen polun 4 kohdalla, missä kohdat 1 ja 2 "
+"merkitsevät viittaus sijainnit ja kohdat 3 ja 4 merkitsevät sijainnit "
+"kohdetasossa. Se muuntaa kohdetason sillä tavalla, että kohta3 siirtyy "
+"kohtaan1 ja kohta4 siirtyy kohtaan2. (tämä saattaa sisältää rotaation ja "
+"koon muunnoksia).\n"
+"Reittiä, jossa on 2 kohtaa voidaan käyttää siirtämään kohta2 kohtaan1. "
+"(yksinkertaisella siirtotoiminnolla ilman rotaatiota ja koon muutosta)"
 
-#: ../gap/gap_detail_tracking_exec.c:1198
+#: ../gap/gap_detail_tracking_exec.c:2021
 msgid "Detail Tracking Stopped. (could not find corresponding detail)"
 msgstr ""
+"Yksityiskohtien jäljitys pysäytetty. (ei voitu löytää vastaavaa "
+"yksityiskohtaa)"
 
-#: ../gap/gap_detail_tracking_exec.c:1333
+#: ../gap/gap_detail_tracking_exec.c:2158
 msgid ""
 "This filter requires a current path with one or 2 anchor points\n"
 "to mark coordinate(s) to be tracked in the target frame(s)"
 msgstr ""
+"Tämä suodatin vaatii nykyisen polun, jossa on yksi tai kaksi ankkurikohtaa\n"
+"merkitsemään koordinaatin(koordinaattien) jäljitystä kohde ruutuun(ruutuihin)"
 
-#: ../gap/gap_detail_tracking_exec.c:1339
-msgid "Locate colordiff Thres:"
+#: ../gap/gap_detail_tracking_exec.c:2163
+msgid "Select Points:"
+msgstr "Valitse kohdat:"
+
+#: ../gap/gap_detail_tracking_exec.c:2164
+msgid ""
+"1: select only the best path point for movement detection, 2: select the "
+"best 2 points for movement,scale and rotation detection."
 msgstr ""
+"1: valitse vain parhaat polun kohdat liikkeen tunnistamiseen, 2: valitse "
+"kaksi parasta kohtaa liikkeen, koon ja rotaation tunnistamiseen."
 
-#: ../gap/gap_detail_tracking_exec.c:1340
+#: ../gap/gap_detail_tracking_exec.c:2180
+msgid "Locate colordiff Thres:"
+msgstr "Havaitse väriero raja-arvot:"
+
+#: ../gap/gap_detail_tracking_exec.c:2181
 msgid ""
 "Colordiff threshold value. Locate fails when average color difference is "
 "below this value."
 msgstr ""
+"Värieron raja-arvon arvo. Havaitseminen epäonnistuu kun keskiarvo väriero on "
+"tämän arvon alapuolella."
 
-#: ../gap/gap_detail_tracking_exec.c:1352 ../gap/gap_morph_tween_dialog.c:819
-#, fuzzy
-#| msgid "Feather Radius:"
+#: ../gap/gap_detail_tracking_exec.c:2193 ../gap/gap_morph_tween_dialog.c:819
 msgid "Locate Shape Radius:"
-msgstr "Säde:"
+msgstr "Havaitse Muodon Säde:"
 
-#: ../gap/gap_detail_tracking_exec.c:1353
+#: ../gap/gap_detail_tracking_exec.c:2194
 msgid ""
 "The quadratic area surrounding a marked detail coordinate +- this radius is "
 "considered as reference shape, to be tracked in the target frame(s)."
 msgstr ""
+"Merkityn yksityiskohdan koordinaattia ympäröivä alue +- tätä aluetta "
+"pidetään referenssi muotona, jota jäljitetään kohderuudussa(ruuduissa)."
 
-#: ../gap/gap_detail_tracking_exec.c:1366
+#: ../gap/gap_detail_tracking_exec.c:2207
 msgid "Locate Target Move Radius:"
-msgstr ""
+msgstr "Havaitse Kohteen Liikkeen Säde:"
 
-#: ../gap/gap_detail_tracking_exec.c:1367
+#: ../gap/gap_detail_tracking_exec.c:2208
 msgid "Limits attempts to locate the Detail within this radius."
-msgstr ""
+msgstr "Rajoittaa yritykset yksityiskohdan havaitsemiseen tässä säteessä."
 
-#: ../gap/gap_detail_tracking_exec.c:1381
+#: ../gap/gap_detail_tracking_exec.c:2222
 msgid "Log Relative Coords:"
-msgstr ""
+msgstr "Kirjaa suhteelliset koordinaatit:"
 
-#: ../gap/gap_detail_tracking_exec.c:1382
+#: ../gap/gap_detail_tracking_exec.c:2223
 msgid ""
 "ON: Coordinates are logged relative to the first coordinate.\n"
 "OFF: Coordinates are logged as absolute pixel coordinate values."
 msgstr ""
+"PÄÄLLÄ: Koordinaatit kirjataan ylös suhteessa ensimmäiseen koordinaattiin.\n"
+"POIS: Koordinaatit kirjataan ylös absoluuttisissa pikselin koordinaatti "
+"arvoissa."
 
-#: ../gap/gap_detail_tracking_exec.c:1391
+#: ../gap/gap_detail_tracking_exec.c:2232
 msgid "Log Scaling:"
-msgstr ""
+msgstr "Kirjaa skaalaus:"
 
-#: ../gap/gap_detail_tracking_exec.c:1392
+#: ../gap/gap_detail_tracking_exec.c:2233
 msgid ""
 "ON: Calculate scaling and rotation when 2 detail Coordinates are tracked.\n"
 "OFF: Calculate only rotation and keep original size."
 msgstr ""
+"PÄÄLLÄ: Laske skaalaus ja rotaatio kun 2 yksityiskohdan koordinaattia "
+"jäljitetään.\n"
+"POIS: Laske vain rotaatio ja pidä alkuperäisessä koossa."
 
-#: ../gap/gap_detail_tracking_exec.c:1402
-#, fuzzy
-#| msgid "Difference"
+#: ../gap/gap_detail_tracking_exec.c:2243
 msgid "BG is Reference:"
-msgstr "Erotus"
+msgstr "Tausta referenssinä:"
 
-#: ../gap/gap_detail_tracking_exec.c:1403
+#: ../gap/gap_detail_tracking_exec.c:2244
 msgid ""
 "ON: Use background layer as reference and foreground layer as target for "
 "tracking.\n"
 "OFF: Use foreground layer as target, and the layer below as reference\n"
 "."
 msgstr ""
+"PÄÄLLÄ: Käytä taustatasoa referenssinä ja edustatasoa jäljityksen kohteena.\n"
+"POIS: Käytä edustaa kohteena ja sen alla olevaa tasoa referenssinä"
 
-#: ../gap/gap_detail_tracking_exec.c:1411
-#, fuzzy
-#| msgid "Rename layer(s)"
+#: ../gap/gap_detail_tracking_exec.c:2252
 msgid "Remove Middle Layers:"
-msgstr "Nimeä taso(ja) uudelleen"
+msgstr "Poista keskimmäiset tasot:"
 
-#: ../gap/gap_detail_tracking_exec.c:1412
+#: ../gap/gap_detail_tracking_exec.c:2253
 msgid ""
 "ON: removes layers (except BG and 2 Layer on top) that are not relevant for "
 "detail tracking.\n"
 "OFF: Keep all layers."
 msgstr ""
+"PÄÄLLÄ: poistaa tasot (paitsi taustan ja 2 tason päällä), jotka eivät ole "
+"relevantteja yksityiskohdan jäljittämiseen.\n"
+"POIS: Pidä kaikki tasot."
 
-#: ../gap/gap_detail_tracking_exec.c:1423
-#, fuzzy
-#| msgid "Offset:"
+#: ../gap/gap_detail_tracking_exec.c:2264
 msgid "Const X Offset:"
-msgstr "Siirtymä:"
+msgstr "Vakion X Siirtymä:"
 
-#: ../gap/gap_detail_tracking_exec.c:1424
+#: ../gap/gap_detail_tracking_exec.c:2265
 msgid "This value is added when logging captured X coordinates."
-msgstr ""
+msgstr "Tämä arvo lisätään kun kirjataan ylös varastoituja X koordinaatteja."
 
-#: ../gap/gap_detail_tracking_exec.c:1437
-#, fuzzy
-#| msgid "Offset:"
+#: ../gap/gap_detail_tracking_exec.c:2278
 msgid "Const Y Offset:"
-msgstr "Siirtymä:"
+msgstr "Vakion Y Siirtymä:"
 
-#: ../gap/gap_detail_tracking_exec.c:1438
+#: ../gap/gap_detail_tracking_exec.c:2279
 msgid "This value is added when logging captured Y coordinates."
-msgstr ""
+msgstr "Tämä arvo lisätään kun kirjataan ylös varastoituja Y koordinaatteja."
 
-#: ../gap/gap_detail_tracking_exec.c:1451
+#: ../gap/gap_detail_tracking_exec.c:2292
 msgid "Const Rotate Offset:"
-msgstr ""
+msgstr "Vakion Rotaatio Siirtymä:"
 
-#: ../gap/gap_detail_tracking_exec.c:1452
+#: ../gap/gap_detail_tracking_exec.c:2293
 msgid "This value is added when logging rotation values."
-msgstr ""
+msgstr "Tämä arvo lisätään kun kirjataan ylös rotaation arvoja."
 
-#: ../gap/gap_detail_tracking_exec.c:1464
+#: ../gap/gap_detail_tracking_exec.c:2305
 msgid "MovePath XML file:"
-msgstr ""
+msgstr "Siirtopolun XML-tiedosto:"
 
-#: ../gap/gap_detail_tracking_exec.c:1465
+#: ../gap/gap_detail_tracking_exec.c:2306
 msgid ""
 "Name of the file to log the tracked detail coordinates  as XML parameterfile "
 "for later use in the MovePath plug-in."
 msgstr ""
+"Jäljitettyjen yksityiskohtien kirjattujen koordinaattien tiedoston nimi XML "
+"parametritiedostona myöhäisempää käyttöä varten Siirtopolku liitännäisessä."
 
-#: ../gap/gap_detail_tracking_exec.c:1477
+#: ../gap/gap_detail_tracking_exec.c:2318
 msgid "Detail Tracking"
-msgstr ""
+msgstr "Yksityiskohtien jäljitys"
 
 #: ../gap/gap_detail_tracking_main.c:234
 msgid "DetailTracking Config..."
-msgstr ""
+msgstr "YksityiskohtienJäljitys konfiguraatio..."
 
 #: ../gap/gap_detail_tracking_main.c:259
 msgid "DetailTracking"
-msgstr ""
+msgstr "YksityiskohtienJäljitys"
 
 #: ../gap/gap_detail_tracking_main.c:281
 msgid "Align Transform via XML file..."
-msgstr ""
+msgstr "Tasaa muunnos XML-tiedostolla..."
 
 #: ../gap/gap_detail_tracking_main.c:301
 msgid "Exact Align via 4-Point Path."
-msgstr ""
+msgstr "Tarkka tasaus 4-kohdan polulla."
 
 #: ../gap/gap_detail_tracking_main.c:313
 msgid "<Image>/Layer/Transform/"
 msgstr "<Image>/Taso/Muunna/"
 
 #: ../gap/gap-dup-continue.scm:38
-#, fuzzy
-#| msgid "<Image>/Video/Duplicate Frames..."
 msgid "<Image>/Video/Duplicate Continue"
-msgstr "<Image>/Video/Kahdenna ruutuja..."
+msgstr "<Image>/Video/Jatka kahdennusta"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_fg_from_sel_dialog.c:240 ../gap/gap_fg_matting_dialog.c:372
 msgid "Foreground-Extract"
-msgstr ""
+msgstr "Edusta-Purku"
 
 #. the frame
 #. Options section
@@ -2275,65 +2255,65 @@ msgstr "Asetukset"
 
 #. the InnerRadius spinbutton
 #: ../gap/gap_fg_from_sel_dialog.c:297
-#, fuzzy
-#| msgid "Feather Radius:"
 msgid "Inner Radius"
-msgstr "Säde:"
+msgstr "Sisäinen Säde"
 
 #: ../gap/gap_fg_from_sel_dialog.c:305
 msgid "Radius for undefined (e.g. trimmable) area inside the selection border"
 msgstr ""
+"Säde määrittämättömälle (esim. leikattavalle) alueelle valintareunuksen "
+"sisäpuolelle"
 
 #. the OuterRadius spinbutton
 #: ../gap/gap_fg_from_sel_dialog.c:318
-#, fuzzy
-#| msgid "Feather Radius:"
 msgid "Outer Radius"
-msgstr "Säde:"
+msgstr "Ulkoinen Säde"
 
 #: ../gap/gap_fg_from_sel_dialog.c:326
 msgid "Radius for undefined (e.g. trimmable) area outside the selection border"
 msgstr ""
+"Säde määrittämättömälle (esim. leikattavalle) alueelle valintareunuksen "
+"ulkopuolelle"
 
 #. create_layermask checkbutton
 #: ../gap/gap_fg_from_sel_dialog.c:343 ../gap/gap_fg_matting_dialog.c:491
-#, fuzzy
-#| msgid "Create Layers"
 msgid "Create Layermask:"
-msgstr "Luo tasoja"
+msgstr "Luo tasomaski:"
 
 #: ../gap/gap_fg_from_sel_dialog.c:354 ../gap/gap_fg_matting_dialog.c:502
 msgid ""
 "ON: render opacity by creating a new layer mask, OFF: apply rendered opacity "
 "to the alpha channel"
 msgstr ""
+"PÄÄLLÄ: renderöi peittävyys luomalla uusi tasomaski, POIS: käytä renderöityä "
+"peittävyyttä alphakanavaan"
 
 #. lock_color checkbutton
 #: ../gap/gap_fg_from_sel_dialog.c:368 ../gap/gap_fg_matting_dialog.c:516
 msgid "Lock Colors:"
-msgstr ""
+msgstr "Lukitse värit:"
 
 #: ../gap/gap_fg_from_sel_dialog.c:378 ../gap/gap_fg_matting_dialog.c:526
 msgid ""
 "ON: Keep RGB channels of the input layer, OFF: allow Background color "
 "removal in processed undefined regions"
 msgstr ""
+"PÄÄLLÄ: Pidä syöttötason RGB kanavat, POIS: mahdollista taustavärin "
+"poistaminen prosessoiduissa määrittämättömissä alueissa"
 
 #. colordiff_threshold spinbutton
 #: ../gap/gap_fg_from_sel_dialog.c:392 ../gap/gap_fg_matting_dialog.c:567
-#, fuzzy
-#| msgid "Common color threshold"
 msgid "Color Diff Threshold"
-msgstr "Yhteinen raja-arvo"
+msgstr "Värieron raja-arvo"
 
 #: ../gap/gap_fg_from_sel_dialog.c:400 ../gap/gap_fg_matting_dialog.c:575
 msgid "sensitivity for color comparison"
-msgstr ""
+msgstr "värin vertailun herkkyys"
 
 #. the tri-map drawable selection combo box
 #: ../gap/gap_fg_matting_dialog.c:429
 msgid "Tri-Map:"
-msgstr ""
+msgstr "Kolmi-Kartta:"
 
 #: ../gap/gap_fg_matting_dialog.c:443
 msgid ""
@@ -2343,19 +2323,21 @@ msgid ""
 "BACKGROUND (i.e. transparent result) GRAY pixels (value 1 up to 240) are "
 "marked as Undefined  (i.e. opacity to be processed by this filter.) )"
 msgstr ""
+"Valitse kolmi_karttataso (tai tasomaski). kolmi-kartta tulee olemaan samaa "
+"kokoa kuin syöttötaso ja tarjoaa karhean käyttäjävalinnan missä kolmikartan "
+"VALKOISET pikselit määrittävät EDUSTAN (ts. peittävän tuloksen) MUSTAT "
+"pikselit määrittävät TAUSTAN (ts. läpinäkyvän tuloksen) HARMAAT pikselit "
+"(arvot 1:sta 240:n) merkitään Määrittämättömiksi (ts. peittävyys "
+"prosessoidaan tämän suodattimen mukaan.)"
 
 #: ../gap/gap_fg_matting_dialog.c:467
-#, fuzzy
-#| msgid "Layer Mask"
 msgid "Layermask"
-msgstr "Tason maski"
+msgstr "Tasomaski"
 
 #. create_result (create_result checkbutton
 #: ../gap/gap_fg_matting_dialog.c:539
-#, fuzzy
-#| msgid "Create Layer:"
 msgid "Create Result Layer:"
-msgstr "Luo taso:"
+msgstr "Luo Tulostaso:"
 
 #. gtk_widget_show (checkbutton);
 #: ../gap/gap_fg_matting_dialog.c:551
@@ -2363,20 +2345,20 @@ msgid ""
 "ON: create a new layer as result of the foreground extraction processing. "
 "OFF: render transparency and background color removal on the input drawable"
 msgstr ""
+"PÄÄLLÄ: luo uuden tason taustan purkamisen prosessoinnin tuloksena. POIS: "
+"renderöi läpinäkyvyyden ja taustavärin poiston syöttöpiirrettävään"
 
 #: ../gap/gap_fg_matting_exec.c:130
-#, fuzzy
-#| msgid "Grain Extract"
 msgid "Foreground Extract"
-msgstr "Värin poisto"
+msgstr "Taustan poisto"
 
 #: ../gap/gap_fg_matting_main.c:177
 msgid "Foreground Extract..."
-msgstr ""
+msgstr "Taustan poisto..."
 
 #: ../gap/gap_fg_matting_main.c:203
 msgid "Foreground Extract Via Selection..."
-msgstr ""
+msgstr "Taustan poisto Valinnalla..."
 
 #. Menu names
 #: ../gap/gap_fg_matting_main.c:213
@@ -2385,13 +2367,15 @@ msgstr "<Image>/Taso/Läpinäkyvyys/"
 
 #: ../gap/gap_filter_foreach.c:143 ../gap/gap_mod_layer.c:125
 msgid "do not show this dialog again"
-msgstr ""
+msgstr "älä näytä tätä valintaikkunaa enää"
 
 #: ../gap/gap_filter_foreach.c:144 ../gap/gap_mod_layer.c:126
 #, c-format
 msgid ""
 "add %s to gimprc configuration to disable this dialog in all further sessions"
 msgstr ""
+"lisää %s gimprc konfiguraatioon poistamaan tämän valintaikkunan seuraavista "
+"istunnoista"
 
 #: ../gap/gap_filter_foreach.c:152
 msgid "Backup to file"
@@ -2444,11 +2428,11 @@ msgstr ""
 msgid "Applying filter to all layers..."
 msgstr "Suodinta sovelletaan kaikkiin kerroksiin..."
 
-#: ../gap/gap_filter_foreach.c:702
+#: ../gap/gap_filter_foreach.c:707
 msgid "Select Filter for Animated Apply"
 msgstr "Valitse suodatin vaihtelevaan suodatukseen"
 
-#: ../gap/gap_filter_foreach.c:703 ../gap/gap_mod_layer.c:1451
+#: ../gap/gap_filter_foreach.c:708 ../gap/gap_mod_layer.c:1451
 msgid "Apply"
 msgstr "Toteuta"
 
@@ -2464,28 +2448,22 @@ msgstr "<Image>/Suodattimet/"
 #: ../gap/gap_fire_pattern.c:1043 ../gap/gap_water_pattern.c:430
 #, c-format
 msgid "drawable:%d is not a layer\n"
-msgstr ""
+msgstr "piirrettävä: %d ei ole taso\n"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_fire_pattern.c:1713
-#, fuzzy
-#| msgid "Flatten:"
 msgid "Fire-Pattern"
-msgstr "Yhdistä:"
+msgstr "Tuli-kuvio"
 
 #. the frame
 #: ../gap/gap_fire_pattern.c:1749 ../gap/gap_water_pattern.c:1075
-#, fuzzy
-#| msgid "Audio Options"
 msgid "Animation options"
-msgstr "Äänivalinnat"
+msgstr "Animaatio asetukset"
 
 #. createImage checkbutton
 #: ../gap/gap_fire_pattern.c:1770 ../gap/gap_water_pattern.c:1096
-#, fuzzy
-#| msgid "Create Layer:"
 msgid "Create Image:"
-msgstr "Luo taso:"
+msgstr "Luo Kuva:"
 
 #: ../gap/gap_fire_pattern.c:1782 ../gap/gap_water_pattern.c:1108
 msgid ""
@@ -2493,62 +2471,61 @@ msgid ""
 "complete animation effect on those copies. OFF: render only one phase of the "
 "animation effect on the input drawable"
 msgstr ""
+"PÄÄLLÄ: luo uuden kuvan, jossa on n kopiota syöttöpiirrettävästä ja renderöi "
+"täysi animaatiotehoste näihin kopioihin. POIS: renderöi vain yksi vaihe "
+"animaatiotehosteesta syöttöpiirrettävään"
 
 #: ../gap/gap_fire_pattern.c:1795 ../gap/gap_water_pattern.c:1118
-#, fuzzy
-#| msgid "B-Frames:"
 msgid "N-Frames:"
-msgstr "B-ruudut:"
+msgstr "N-ruudut:"
 
 #: ../gap/gap_fire_pattern.c:1805 ../gap/gap_water_pattern.c:1128
 msgid "Number of frames to be rendered as layer in the newly created image."
-msgstr ""
+msgstr "Renderöitävien ruutujen määrä tasona uudessa luodussa kuvassa. "
 
 #. shiftPhaseY spinbutton
 #: ../gap/gap_fire_pattern.c:1819
 msgid "Phase shift"
-msgstr ""
+msgstr "Vaiheen siirto"
 
 #: ../gap/gap_fire_pattern.c:1827 ../gap/gap_water_pattern.c:1169
 msgid "Vertical shift phase where 1.0 refers to image height"
-msgstr ""
+msgstr "Pystysuora siirtovaihe missä 1.0 viittaa kuvan korkeuteen"
 
 #. the frame
 #: ../gap/gap_fire_pattern.c:1840 ../gap/gap_water_pattern.c:1182
-#, fuzzy
-#| msgid "Dither Options"
 msgid "Pattern options"
-msgstr "Ditteroinnin valinnat"
+msgstr "Kuvion asetukset"
 
 #. use existing Patterns checkbutton
 #: ../gap/gap_fire_pattern.c:1863 ../gap/gap_water_pattern.c:1205
-#, fuzzy
-#| msgid "Create Layer:"
 msgid "Create Pattern:"
-msgstr "Luo taso:"
+msgstr "Luo Kuvio:"
 
 #: ../gap/gap_fire_pattern.c:1874
 msgid ""
 "ON: create firepattern cloud layer according to options. OFF: Use external "
 "pattern layer. "
 msgstr ""
+"PÄÄLLÄ: luo tulikuvio pilvitason asetusten mukaisesti. POIS: Käytä ulkoista "
+"kuviotasoa."
 
 #: ../gap/gap_fire_pattern.c:1886
 msgid "vertical stretch factor for the fire pattern"
-msgstr ""
+msgstr "pystysuora vetotekijä laukaisukuviolle"
 
 #. scalex spinbutton
 #: ../gap/gap_fire_pattern.c:1899 ../gap/gap_water_pattern.c:1279
-#, fuzzy
-#| msgid "Scale Preview:"
 msgid "Scale Pattern X:"
-msgstr "Skaalaa esikatselua:"
+msgstr "Skaalaa Kuviota X:"
 
 #: ../gap/gap_fire_pattern.c:1908
 msgid ""
 "Horizontal scaling of the random patterns that are created for rendering "
 "(cloud layer)"
 msgstr ""
+"Kohtisuora satunnaisten renderöintiä varten olevien kuvioiden skaalaus "
+"(pilvitaso)"
 
 #. the y coordinate label
 #. Y
@@ -2566,95 +2543,92 @@ msgid ""
 "Vertical scaling of the random patterns that are created for rendering "
 "(cloud layer)"
 msgstr ""
+"Pystysuora satunnaisten renderöintiä varten olevien kuvioiden skaalaus "
+"(pilvitaso)"
 
 #: ../gap/gap_fire_pattern.c:1940
 msgid "Seed Pattern:"
-msgstr ""
+msgstr "Siemenluku kuvio:"
 
 #: ../gap/gap_fire_pattern.c:1950 ../gap/gap_water_pattern.c:1329
 msgid "Seed for creating random pattern (cloud1 layer) use 0 for random value."
 msgstr ""
+"Satunnaisen kuvion (pilvi1 taso) siemenluku käytä 0:aa satunnaiselle arvolle."
 
 #: ../gap/gap_fire_pattern.c:1961
 msgid "Detail:"
-msgstr ""
+msgstr "Yksityiskohta:"
 
 #: ../gap/gap_fire_pattern.c:1971
 msgid "Detail level for creating random pattern (cloud layer)"
-msgstr ""
+msgstr "Yksityiskohta taso satunnaiselle kuviolle (pilvitaso)"
 
 #. pattern
 #. the layer_pattern label
 #: ../gap/gap_fire_pattern.c:1983 ../gap/gap_mod_layer_dialog.c:1669
 #: ../gap/gap_range_ops.c:793
 msgid "Layer Pattern:"
-msgstr ""
+msgstr "Tasokuvio:"
 
 #: ../gap/gap_fire_pattern.c:1998 ../gap/gap_water_pattern.c:1242
 #: ../gap/gap_water_pattern.c:1267
 msgid "Select an already existing pattern layer (from previous run)"
-msgstr ""
+msgstr "Valitse valmiiksi olemassa oleva kuviotaso (edellisestä ajosta)"
 
 #. the frame
 #: ../gap/gap_fire_pattern.c:2009
-#, fuzzy
-#| msgid "Dither Options"
 msgid "Fireshape options"
-msgstr "Ditteroinnin valinnat"
+msgstr "Tulimuodon asetukset"
 
 #: ../gap/gap_fire_pattern.c:2029
-#, fuzzy
-#| msgid "Create Layer:"
 msgid "Create Fireshape:"
-msgstr "Luo taso:"
+msgstr "Luo Tulimuoto:"
 
 #: ../gap/gap_fire_pattern.c:2040
 msgid ""
 "ON: create fire shape layer according to options. OFF: Use external fire "
 "shape layer. "
 msgstr ""
+"PÄÄLLÄ: luo tulimuototaso asetusten mukaan. POIS: käytä ulkoista "
+"tulimuototasoa. "
 
 #. useTrapezoidShape checkbutton
 #: ../gap/gap_fire_pattern.c:2051
 msgid "Trapezoid:"
-msgstr ""
+msgstr "Puolisuunnikas:"
 
 #: ../gap/gap_fire_pattern.c:2061
 msgid "ON: Render trapezoid shaped fire, OFF: render fire at full image width"
 msgstr ""
+"PÄÄLLÄ: Renderöi puolisuunnikkaan muotoista tulta, POIS: renderöi tulta koko "
+"kuvan leveydeltä"
 
 #. flameHeight spinbutton
 #: ../gap/gap_fire_pattern.c:2075
-#, fuzzy
-#| msgid "New Height:"
 msgid "Flame Height:"
-msgstr "Uusi korkeus:"
+msgstr "Liekin korkeus:"
 
 #: ../gap/gap_fire_pattern.c:2084
 msgid "Height of the flame (1.0 refers to full image height)"
-msgstr ""
+msgstr "Liekin korkeus (1.0 viittaa koko kuvan korkeuteen)"
 
 #. flameBorder spinbutton
 #: ../gap/gap_fire_pattern.c:2095
 msgid "Flame Border:"
-msgstr ""
+msgstr "Liekin Raja:"
 
 #: ../gap/gap_fire_pattern.c:2104
-#, fuzzy
-#| msgid "number of frames"
 msgid "border of the flame"
-msgstr "ruutujen lukumäärä"
+msgstr "liekin reuna"
 
 #. flameWidth checkbuttons
 #: ../gap/gap_fire_pattern.c:2117
-#, fuzzy
-#| msgid "Width:"
 msgid "FlameWidth:"
-msgstr "Leveys:"
+msgstr "LiekinLeveys:"
 
 #: ../gap/gap_fire_pattern.c:2126
 msgid "width of the flame at base line (1.0 for full image width)"
-msgstr ""
+msgstr "liekin leveys lähtökohdassa (1.0 täydelle kuvan leveydelle)"
 
 #: ../gap/gap_fire_pattern.c:2135
 msgid "Top:"
@@ -2750,7 +2724,7 @@ msgstr ""
 #. table col, row
 #: ../gap/gap_fire_pattern.c:2327 ../gap/gap_mov_dialog.c:5124
 #: ../gap/gap_mov_dialog.c:5399 ../gap/gap_onion_dialog.c:1136
-#: ../gap/gap_story_att_trans_dlg.c:3731 ../gap/gap_water_pattern.c:1407
+#: ../gap/gap_story_att_trans_dlg.c:3733 ../gap/gap_water_pattern.c:1407
 #: ../gap/gap_wr_opacity.c:332
 msgid "Opacity:"
 msgstr "Läpinäkyvyys:"
@@ -2948,7 +2922,7 @@ msgstr "MPEG2..."
 msgid "<Image>/Video/Encode/"
 msgstr "<Image>/Video/Koodaa/"
 
-#: ../gap/gap_lib.c:2016
+#: ../gap/gap_lib.c:2015
 msgid ""
 "Operation cancelled.\n"
 "Current frame was changed while dialog was open."
@@ -2956,29 +2930,29 @@ msgstr ""
 "Toiminto keskeytetty\n"
 "Nykyinen ruutuon muuttunut valintaikkunan ollessa auki."
 
-#: ../gap/gap_lib.c:2155
+#: ../gap/gap_lib.c:2154
 #, fuzzy
 #| msgid "Overwrite File"
 msgid "overwrite flattened"
 msgstr "Kirjoita tiedoston päälle"
 
-#: ../gap/gap_lib.c:2157
+#: ../gap/gap_lib.c:2156
 #, fuzzy
 #| msgid "Overwrite"
 msgid "overwrite"
 msgstr "Korvaa"
 
-#: ../gap/gap_lib.c:2159
+#: ../gap/gap_lib.c:2158
 #, fuzzy
 #| msgid "ready"
 msgid "read only"
 msgstr "valmis"
 
-#: ../gap/gap_lib.c:2161
+#: ../gap/gap_lib.c:2160
 msgid "discard changes"
 msgstr "hylkää muutokset"
 
-#: ../gap/gap_lib.c:2166
+#: ../gap/gap_lib.c:2165
 #, c-format
 msgid ""
 "You are using another file format than xcf.\n"
@@ -2989,24 +2963,24 @@ msgid ""
 "typically results in loss of layers and other information."
 msgstr ""
 
-#: ../gap/gap_lib.c:2176
+#: ../gap/gap_lib.c:2175
 #, fuzzy
 #| msgid "MB Decision:"
 msgid "Save my decision:"
 msgstr "MacroBlock-päätös:"
 
-#: ../gap/gap_lib.c:2177
+#: ../gap/gap_lib.c:2176
 #, c-format
 msgid ""
 "Save decision for this fileformat for further gimp sessions.\n"
 "this creates an entry in your gimprc file with the key:%s)"
 msgstr ""
 
-#: ../gap/gap_lib.c:2186
+#: ../gap/gap_lib.c:2185
 msgid "Fileformat Warning"
 msgstr "Varoitus tiedostomuodosta"
 
-#: ../gap/gap_lib.c:2453
+#: ../gap/gap_lib.c:2452
 #, c-format
 msgid ""
 "Frame operation blocked\n"
@@ -5399,7 +5373,7 @@ msgstr "Aseta lähdekerroksen läpinäkyvyys prosentteina"
 
 #. Rotation
 #. table col, row
-#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3705
+#: ../gap/gap_mov_dialog.c:5142 ../gap/gap_story_att_trans_dlg.c:3707
 msgid "Rotate:"
 msgstr "Kierrä:"
 
@@ -5589,7 +5563,7 @@ msgstr ""
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_mov_dialog.c:5407 ../gap/gap_story_att_trans_dlg.c:3755
 msgid ""
 "acceleration characteristic for opacity (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -5633,7 +5607,7 @@ msgstr "Kierrä:"
 #. digits
 #. constrain
 #. lower, upper (unconstrained)
-#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3725
+#: ../gap/gap_mov_dialog.c:5447 ../gap/gap_story_att_trans_dlg.c:3727
 msgid ""
 "acceleration characteristic for rotation (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
@@ -8049,95 +8023,94 @@ msgstr "Nollaa piste"
 msgid "Rotate Follow"
 msgstr "Kierrä seuraa"
 
-#: ../gap/gap_story_att_trans_dlg.c:2804
+#: ../gap/gap_story_att_trans_dlg.c:2806
 msgid "Set Movepath Parameterfile (XML)"
 msgstr ""
 
 #. auto update toggle  check button
-#: ../gap/gap_story_att_trans_dlg.c:3210
+#: ../gap/gap_story_att_trans_dlg.c:3212
 msgid "Update"
 msgstr "Päivitä"
 
-#: ../gap/gap_story_att_trans_dlg.c:3215
+#: ../gap/gap_story_att_trans_dlg.c:3217
 msgid "automatic update using the referred frame"
 msgstr "Päivitä automaattisesti käyttäen viitattua ruutua"
 
 #. from start label
-#: ../gap/gap_story_att_trans_dlg.c:3320
+#: ../gap/gap_story_att_trans_dlg.c:3322
 msgid "Start:"
 msgstr "Aloitus:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3323 ../gap/gap_story_att_trans_dlg.c:3366
+#: ../gap/gap_story_att_trans_dlg.c:3325 ../gap/gap_story_att_trans_dlg.c:3368
 msgid ""
 "Reset to: defaults, use modifier keys CTRL, ALT for alternative defaults. "
 "SHIFT resets to initial value"
 msgstr ""
 
 #. to (end value of transition) button
-#: ../gap/gap_story_att_trans_dlg.c:3363
+#: ../gap/gap_story_att_trans_dlg.c:3365
 msgid "End:"
 msgstr "Loppu:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3410 ../gap/gap_story_att_trans_dlg.c:3664
+#: ../gap/gap_story_att_trans_dlg.c:3412 ../gap/gap_story_att_trans_dlg.c:3666
 msgid "Copy this number of frames to all enabled rows"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3437
+#: ../gap/gap_story_att_trans_dlg.c:3439
 msgid "Number of frames (duration of transition from start to end value)"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3534 ../gap/gap_story_att_trans_dlg.c:3545
+#: ../gap/gap_story_att_trans_dlg.c:3536 ../gap/gap_story_att_trans_dlg.c:3547
 msgid "Transition Attributes"
 msgstr "Muunnoksen ominaisuudet"
 
 #. the frame
-#: ../gap/gap_story_att_trans_dlg.c:3567 ../gap/gap_story_dialog.c:6304
+#: ../gap/gap_story_att_trans_dlg.c:3569 ../gap/gap_story_dialog.c:6304
 #: ../gap/gap_story_dialog.c:6389 ../gap/gap_story_dialog.c:6489
-#: ../gap/gap_story_properties.c:4040
-#: ../gap/gap_story_section_properties.c:784
+#: ../gap/gap_story_properties.c:4040 ../gap/gap_story_section_properties.c:784
 msgid "Properties"
 msgstr "Ominaisuudet"
 
 #. the fit size label
-#: ../gap/gap_story_att_trans_dlg.c:3583
+#: ../gap/gap_story_att_trans_dlg.c:3585
 msgid "FitSize:"
 msgstr "Sovituskoko:"
 
 #. the fit width check button
-#: ../gap/gap_story_att_trans_dlg.c:3589
+#: ../gap/gap_story_att_trans_dlg.c:3591
 msgid "Width"
 msgstr "Leveys"
 
-#: ../gap/gap_story_att_trans_dlg.c:3597
+#: ../gap/gap_story_att_trans_dlg.c:3599
 msgid "scale width of frame to fit master width"
 msgstr ""
 
 #. the fit height check button
-#: ../gap/gap_story_att_trans_dlg.c:3608
+#: ../gap/gap_story_att_trans_dlg.c:3610
 msgid "Height"
 msgstr "Korkeus"
 
-#: ../gap/gap_story_att_trans_dlg.c:3616
+#: ../gap/gap_story_att_trans_dlg.c:3618
 msgid "scale height of frame to fit master height"
 msgstr ""
 
 #. the keep proportions check button
-#: ../gap/gap_story_att_trans_dlg.c:3627
+#: ../gap/gap_story_att_trans_dlg.c:3629
 msgid "Keep Proportion"
 msgstr "Pidä kuvasuhde"
 
-#: ../gap/gap_story_att_trans_dlg.c:3635
+#: ../gap/gap_story_att_trans_dlg.c:3637
 msgid ""
 "ON: keep proportions at scaling.  (this may result in black borders)OFF: "
 "allow changes of image proportions at scaling"
 msgstr ""
 
 #. the overlap label (same row as FitSize)
-#: ../gap/gap_story_att_trans_dlg.c:3654
+#: ../gap/gap_story_att_trans_dlg.c:3656
 msgid "Overlap:"
 msgstr "Päällekkäisyys:"
 
-#: ../gap/gap_story_att_trans_dlg.c:3689
+#: ../gap/gap_story_att_trans_dlg.c:3691
 msgid "Number of overlapping frames within this track"
 msgstr "Tämän raidan päällekkäisten ruutujen määrä"
 
@@ -8147,17 +8120,17 @@ msgstr "Tämän raidan päällekkäisten ruutujen määrä"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3717
+#: ../gap/gap_story_att_trans_dlg.c:3719
 #, fuzzy
 #| msgid "Enable interlaced motion estimation"
 msgid "ON: Enable rotation settings"
 msgstr "Ota käyttöön lomitettu liikkeen ennakointi"
 
-#: ../gap/gap_story_att_trans_dlg.c:3719
+#: ../gap/gap_story_att_trans_dlg.c:3721
 msgid "rotation value in degree for the first handled frame "
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3721
+#: ../gap/gap_story_att_trans_dlg.c:3723
 #, fuzzy
 #| msgid "optional filtermacro file to be performed on each handled frame "
 msgid "rotation value in degree for the last handled frame "
@@ -8165,10 +8138,10 @@ msgstr ""
 "valinnainen suodatinmakrotiedosto, joka suoritetaan jokaisessa käsitellyssä "
 "ruudussa"
 
-#: ../gap/gap_story_att_trans_dlg.c:3723 ../gap/gap_story_att_trans_dlg.c:3751
-#: ../gap/gap_story_att_trans_dlg.c:3780 ../gap/gap_story_att_trans_dlg.c:3809
-#: ../gap/gap_story_att_trans_dlg.c:3837 ../gap/gap_story_att_trans_dlg.c:3865
-#: ../gap/gap_story_att_trans_dlg.c:3895
+#: ../gap/gap_story_att_trans_dlg.c:3725 ../gap/gap_story_att_trans_dlg.c:3753
+#: ../gap/gap_story_att_trans_dlg.c:3782 ../gap/gap_story_att_trans_dlg.c:3811
+#: ../gap/gap_story_att_trans_dlg.c:3839 ../gap/gap_story_att_trans_dlg.c:3867
+#: ../gap/gap_story_att_trans_dlg.c:3897
 msgid "number of frames"
 msgstr "ruutujen lukumäärä"
 
@@ -8178,23 +8151,23 @@ msgstr "ruutujen lukumäärä"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3743
+#: ../gap/gap_story_att_trans_dlg.c:3745
 msgid "ON: Enable opacity settings"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3745
+#: ../gap/gap_story_att_trans_dlg.c:3747
 msgid ""
 "opacity value for the first handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3748
+#: ../gap/gap_story_att_trans_dlg.c:3750
 msgid ""
 "opacity value for the last handled frame where 100 is fully opaque, 0 is "
 "fully transparent"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3760
+#: ../gap/gap_story_att_trans_dlg.c:3762
 msgid "Move X:"
 msgstr "Siirrä X:"
 
@@ -8204,29 +8177,29 @@ msgstr "Siirrä X:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3772
+#: ../gap/gap_story_att_trans_dlg.c:3774
 msgid "ON: Enable move horizontal settings"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3774
+#: ../gap/gap_story_att_trans_dlg.c:3776
 msgid ""
 "move horizontal value for the first handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3777
+#: ../gap/gap_story_att_trans_dlg.c:3779
 msgid ""
 "move horizontal value for the last handled frame where 0.0 is centered, "
 "100.0 is outside right, -100.0 is outside left"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3782
+#: ../gap/gap_story_att_trans_dlg.c:3784
 msgid ""
 "acceleration characteristic for horizontal move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3789
+#: ../gap/gap_story_att_trans_dlg.c:3791
 msgid "Move Y:"
 msgstr "Siirrä Y:"
 
@@ -8236,29 +8209,29 @@ msgstr "Siirrä Y:"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3801
+#: ../gap/gap_story_att_trans_dlg.c:3803
 msgid "ON: Enable move vertical settings"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3803
+#: ../gap/gap_story_att_trans_dlg.c:3805
 msgid ""
 "move vertical value for the first handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3806
+#: ../gap/gap_story_att_trans_dlg.c:3808
 msgid ""
 "move vertical value for the last handled frame where 0.0 is centered, 100.0 "
 "is outside at bottom, -100.0 is outside at top"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3811
+#: ../gap/gap_story_att_trans_dlg.c:3813
 msgid ""
 "acceleration characteristic for vertical move (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3817
+#: ../gap/gap_story_att_trans_dlg.c:3819
 msgid "Scale Width:"
 msgstr ""
 
@@ -8268,29 +8241,29 @@ msgstr ""
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3829
+#: ../gap/gap_story_att_trans_dlg.c:3831
 msgid "ON: Enable scale width settings"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3831
+#: ../gap/gap_story_att_trans_dlg.c:3833
 msgid ""
 "scale width value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3834
+#: ../gap/gap_story_att_trans_dlg.c:3836
 msgid ""
 "scale width value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double width"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3839
+#: ../gap/gap_story_att_trans_dlg.c:3841
 msgid ""
 "acceleration characteristic for scale width (1 for constant speed, positive: "
 "acceleration, negative: deceleration)"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3845
+#: ../gap/gap_story_att_trans_dlg.c:3847
 msgid "Scale Height:"
 msgstr ""
 
@@ -8300,29 +8273,29 @@ msgstr ""
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3857
+#: ../gap/gap_story_att_trans_dlg.c:3859
 msgid "ON: Enable scale height settings"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3859
+#: ../gap/gap_story_att_trans_dlg.c:3861
 msgid ""
 "scale height value for the first handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3862
+#: ../gap/gap_story_att_trans_dlg.c:3864
 msgid ""
 "scale height value for the last handled frame where 100 is 1:1, 50 is half, "
 "200 is double height"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3867
+#: ../gap/gap_story_att_trans_dlg.c:3869
 msgid ""
 "acceleration characteristic for scale height (1 for constant speed, "
 "positive: acceleration, negative: deceleration)"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3873
+#: ../gap/gap_story_att_trans_dlg.c:3875
 #, fuzzy
 #| msgid "Move Path"
 msgid "Move Path:"
@@ -8334,20 +8307,20 @@ msgstr "Liikepolku"
 #. page increment   for the from/to values
 #. page size        for the from/to values
 #. digits for the from/to values
-#: ../gap/gap_story_att_trans_dlg.c:3885
+#: ../gap/gap_story_att_trans_dlg.c:3887
 msgid ""
 "ON: Enable move path transitions using settings provided via a movepath "
 "parameter file"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3887
+#: ../gap/gap_story_att_trans_dlg.c:3889
 msgid ""
 "frame number (phase) of the movement/transition along path for the first "
 "handled frame where 1 is the begin of the path using settings of the 1st "
 "controlpoint in the movepath parameter file"
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3891
+#: ../gap/gap_story_att_trans_dlg.c:3893
 msgid ""
 "frame number (phase) of the movement/transition along path for the last "
 "handled frame. note that frame numbers higher than (or equal to) total "
@@ -8355,12 +8328,12 @@ msgid ""
 "in this file."
 msgstr ""
 
-#: ../gap/gap_story_att_trans_dlg.c:3897
+#: ../gap/gap_story_att_trans_dlg.c:3899
 msgid "acceleration characteristic (currently ignored)"
 msgstr ""
 
 #. the movepath label
-#: ../gap/gap_story_att_trans_dlg.c:3943
+#: ../gap/gap_story_att_trans_dlg.c:3945
 #, fuzzy
 #| msgid "Move Path"
 msgid "Movepath File:"
@@ -8368,7 +8341,7 @@ msgstr "Liikepolku"
 
 #. the comment label
 #. the Comment lable
-#: ../gap/gap_story_att_trans_dlg.c:3990 ../gap/gap_story_properties.c:5048
+#: ../gap/gap_story_att_trans_dlg.c:3992 ../gap/gap_story_properties.c:5048
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3745
 msgid "Comment:"
 msgstr "Kommentti:"
@@ -9232,8 +9205,7 @@ msgstr "KOMMENTTI"
 msgid "** UNKNOWN **"
 msgstr "** TUNTEMATON **"
 
-#: ../gap/gap_story_properties.c:2800
-#: ../gap/gap_story_section_properties.c:599
+#: ../gap/gap_story_properties.c:2800 ../gap/gap_story_section_properties.c:599
 #, c-format
 msgid "%d (frames)"
 msgstr "%d (ruudut)"
@@ -9279,8 +9251,7 @@ msgid "Clip Type:"
 msgstr "Leiketyyppi:"
 
 #. the duration label
-#: ../gap/gap_story_properties.c:4100
-#: ../gap/gap_story_section_properties.c:830
+#: ../gap/gap_story_properties.c:4100 ../gap/gap_story_section_properties.c:830
 msgid "Duration:"
 msgstr "Kesto:"
 
@@ -9645,11 +9616,11 @@ msgstr "analysoi viivaa %d ( / %d)"
 msgid "No Frames or Images found ..."
 msgstr "Yhtään ruutua tai kuvaa ei löytynyt ...."
 
-#: ../gap/gap_story_render_processor.c:7618
+#: ../gap/gap_story_render_processor.c:7621
 msgid "Seek Inputvideoframe..."
 msgstr "Etsi syöteruutua"
 
-#: ../gap/gap_story_render_processor.c:7652
+#: ../gap/gap_story_render_processor.c:7655
 msgid "Continue Encoding..."
 msgstr "Jatka koodausta..."
 
