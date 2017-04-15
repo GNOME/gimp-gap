@@ -18,6 +18,8 @@ gap/gap_detail_align_exec.c
 gap/gap_detail_tracking_exec.c
 gap/gap_detail_tracking_main.c
 gap/gap-dup-continue.scm
+gap/gap_edge_detection_dialog.c
+gap/gap_edge_detection_main.c
 gap/gap_fg_from_sel_dialog.c
 gap/gap_fg_matting.c
 gap/gap_fg_matting_dialog.c
@@ -50,6 +52,7 @@ gap/gap_onion_base.c
 gap/gap_onion_dialog.c
 gap/gap_onion_main.c
 gap/gap_onion_worker.c
+gap/gap_opacity_exposure_main.c
 gap/gap_player_dialog.c
 gap/gap_player_main.c
 gap/gap_range_ops.c
@@ -75,6 +78,7 @@ gap/gap_wr_color_balance.c
 gap/gap_wr_color_curve.c
 gap/gap_wr_color_huesat.c
 gap/gap_wr_color_levels.c
+gap/gap_wr_desaturate.c
 gap/gap_wr_layermode.c
 gap/gap_wr_opacity.c
 gap/gap_wr_resynth.c
