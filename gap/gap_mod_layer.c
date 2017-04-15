@@ -378,6 +378,154 @@ gap_mod_alloc_layli(gint32 image_id, gint32 *l_sel_cnt, gint *nlayers,
 }               /* end gap_mod_alloc_layli */
 
 
+/* -----------------------------------------
+ * p_write_xml_header
+ * -----------------------------------------
+ * write header for a MovePath XML file
+ */
+static void
+p_write_xml_header(FILE *l_fp, gint imageWidth, gint imageHeight, gint layerWidth, gint layerHeight, gint numFrames)
+{
+  fprintf(l_fp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+  
+  fprintf(l_fp, "<gimp_gap_move_path_parameters version=\"2\" >\n");
+
+  fprintf(l_fp, "  <frame_description ");
+  fprintf(l_fp, "width=\"%d\" ", (int) imageWidth);         
+  fprintf(l_fp, "height=\"%d\" ", (int) imageHeight);         
+  fprintf(l_fp, "range_from=\"%d\" ", (int) 1);         
+  fprintf(l_fp, "range_to=\"%d\" ", (int) numFrames);         
+  fprintf(l_fp, "total_frames=\"%d\" ", (int) numFrames);         
+  fprintf(l_fp, " />\n");
+          
+          
+  fprintf(l_fp, "  <tween tween_steps=\"0\" />\n");
+  fprintf(l_fp, "  <trace tracelayer_enable=\"FALSE\" />\n");
+  fprintf(l_fp, "  <moving_object src_layer_id=\"0\" src_layerstack=\"0\" width=\"%d\" height=\"%d\"\n"
+          , (int)layerWidth
+          , (int)layerHeight
+          );
+          
+  fprintf(l_fp, "    src_handle=\"GAP_HANDLE_LEFT_TOP\"");
+  fprintf(l_fp, " handle_dx=\"0\" handle_dy=\"0\"\n"); 
+          
+  fprintf(l_fp, "    src_stepmode=\"GAP_STEP_FRAME_ONCE\" step_speed_factor=\"1.00000\"\n");
+  fprintf(l_fp, "    src_selmode=\"GAP_MOV_SEL_IGNORE\"\n");
+  fprintf(l_fp, "    src_paintmode=\"GIMP_NORMAL_MODE\"\n");
+  fprintf(l_fp, "    dst_layerstack=\"0\" src_force_visible=\"TRUE\" clip_to_img=\"FALSE\" src_apply_bluebox=\"FALSE\"\n");
+  fprintf(l_fp, "    >\n");
+  fprintf(l_fp, "  </moving_object>\n");
+  fprintf(l_fp, "\n");
+
+  fprintf(l_fp, "  <controlpoints current_point=\"0\" number_of_points=\"%d\"  >\n"
+          , (int)numFrames
+          );
+
+}  /* end p_write_xml_header */
+
+
+/* -----------------------------------------
+ * p_append_xml_footer
+ * -----------------------------------------
+ */
+static void
+p_append_xml_footer(gchar *filename)
+{
+  FILE *l_fp;
+  
+  if(filename == NULL)
+  {
+    return;
+  }
+  if (g_file_test (filename, G_FILE_TEST_EXISTS))
+  {
+    /* append xml footer */
+    l_fp = g_fopen(filename, "ab");
+    if(l_fp != NULL)
+    {
+      fprintf(l_fp, "  </controlpoints>\n");
+      fprintf(l_fp, "</gimp_gap_move_path_parameters>");
+      fclose(l_fp);
+    }
+  }
+}  /* end p_append_xml_footer */
+
+
+/* --------------------------------
+ * p_record_layer_offsets
+ * --------------------------------
+ * Record the layeroffests in XML controlpoint syntax
+ * (usable with the GAP MovePath feature)
+ *
+ */
+static void
+p_record_layer_offsets(gint numFrames, long frameNr, gint32 imageId, gint32 layerId, char *filename)
+{
+  FILE *l_fp;
+  gint src_offset_x;
+  gint src_offset_y;
+  gchar *logline;
+  gboolean logToStdout;
+
+ 
+  gimp_drawable_offsets(layerId, &src_offset_x, &src_offset_y);
+  
+  /* the logline to be recorded shall look like this example:
+   *   <controlpoint px="     0" py="     0" keyframe_abs="000001" /> 
+   */
+  
+  logline = g_strdup_printf("    <controlpoint px=\"%6d\" py=\"%6d\" keyframe_abs=\"%06d\" />"
+       , (int)src_offset_x
+       , (int)src_offset_y
+       , (int)frameNr
+       );
+
+  logToStdout = TRUE;
+  if (filename != NULL)
+  {
+    if (*filename != '\0')
+    {
+      logToStdout = FALSE;
+      
+      
+      if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+      {
+        l_fp = g_fopen(filename, "w+");
+        p_write_xml_header(l_fp
+                          , gimp_image_width(imageId)
+                          , gimp_image_height(imageId)
+                          , gimp_drawable_width(layerId)
+                          , gimp_drawable_height(layerId)
+                          , numFrames
+                          );
+      }
+      else
+      {
+        /* append controlpoints (use binary mode to prevent additional line feeds in Windows environment)  */
+        l_fp = g_fopen(filename, "ab");
+      }
+      
+      if(l_fp != NULL)
+      {
+         fprintf(l_fp, "%s\n", logline);
+         fclose(l_fp);
+      }
+    }
+  }
+  
+  if(logToStdout == TRUE)
+  {
+    printf("%s\n", logline);
+  }
+  
+  g_free(logline);
+
+
+}  /* end p_record_layer_offsets */
+
+
+
+
 /* ============================================================================
  * p_raise_layer
  *   raise layer (check if possible before)
@@ -466,7 +614,7 @@ p_selection_combine(gint32 image_id
                             , 0
                             , 0
                             );
-  gimp_drawable_delete(l_new_channel_id);
+  gimp_item_delete(l_new_channel_id);
 
 }  /* end p_selection_combine */
 
@@ -946,6 +1094,30 @@ p_apply_action2(gint32 image_id,
         case GAP_MOD_ACM_SET_UNLINKED:
           gimp_item_set_linked(l_layer_id, FALSE);
           break;
+        case GAP_MOD_ACM_SET_ACTIVE_LAYER:
+          gimp_image_set_active_layer(image_id, l_layer_id);
+          if(gimp_layer_get_mask(l_layer_id) >= 0)
+          {
+            /* the layer has a layer mask, therefore set edit_mask
+             * FALSE (edit the layer itself is desired)
+             */
+            gimp_layer_set_edit_mask(l_layer_id, FALSE);
+          }
+          break;
+        case GAP_MOD_ACM_SET_ACTIVE_LAYERMASK:
+          gimp_image_set_active_layer(image_id, l_layer_id);
+          if(gimp_layer_get_mask(l_layer_id) >= 0)
+          {
+            /* the layer has a layer mask, therefore set edit_mask
+             * TRUE (edit the layermask is desired)
+             */
+            gimp_layer_set_edit_mask(l_layer_id, TRUE);
+          }
+          break;
+        case GAP_MOD_ACM_RECORD_LAYER_OFFSETS:
+          /* note that new_layername is used as filename for the XML output */
+          p_record_layer_offsets(1 + (MAX(from, to) - MIN(from, to)) /* numFrames*/, curr, image_id, l_layer_id, new_layername);
+          break;
         case GAP_MOD_ACM_RAISE:
           p_raise_layer(image_id, l_layer_id, layli_ptr, nlayers, FALSE);
           break;
@@ -1012,7 +1184,7 @@ p_apply_action2(gint32 image_id,
         case GAP_MOD_ACM_SEL_ALPHA:
           if(gimp_drawable_has_alpha(l_layer_id))
           {
-            gimp_selection_layer_alpha(l_layer_id);
+            gimp_image_select_item(image_id, GIMP_CHANNEL_OP_REPLACE, l_layer_id);
           }
           else
           {
@@ -1356,6 +1528,12 @@ p_apply_action2(gint32 image_id,
           break;
         case GAP_MOD_ACM_RESIZE_TO_IMG:
           gimp_layer_resize_to_image_size (l_layer_id);
+          break;
+        case GAP_MOD_ACM_RESIZE_TO_SELECTION_1:
+          gap_layer_resize_to_selection(master_image_id, l_layer_id);
+          break;
+        case GAP_MOD_ACM_RESIZE_TO_SELECTION_N:
+          gap_layer_resize_to_selection(image_id, l_layer_id);
           break;
         default:
           break;
@@ -1796,6 +1974,7 @@ gap_mod_frames_modify(GapAnimInfo *ainfo_ptr,
         (int)action_mode, (int)sel_mode, (int)sel_case, (int)sel_invert, sel_pattern);
   }
 
+  groupFilterHandlingMode = 0;
   l_operate_on_layermask = FALSE;
   l_percentage = 0.0;
   if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
@@ -2244,6 +2423,14 @@ modify_advance_to_next_frame:
                              );
        gimp_image_remove_channel(ainfo_ptr->image_id, master_channel_id);
     }
+  }
+  
+  if (action_mode == GAP_MOD_ACM_RECORD_LAYER_OFFSETS)
+  {
+     /* Write XML closing tags when recording to XML file
+      * note that new_layername holds the XML filename in this action_mode 
+      */
+     p_append_xml_footer(new_layername);
   }
 
   if(gap_debug)

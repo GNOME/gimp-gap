@@ -25,6 +25,7 @@
  */
 
 /* revision history:
+ * 2.8.xx;  2017/04/04    hof: added gap_base_rename
  * 1.3.16b; 2003/07/03   hof: added gap_density
  * 1.3.14a  2003/05/24   hof: created (module was splitted off from gap_lib)
  */
@@ -50,6 +51,8 @@ gint32 gap_base_shift(GimpRunMode run_mode, gint32 image_id, int nr, long range_
 gint32 gap_base_reverse(GimpRunMode run_mode, gint32 image_id, long range_from, long range_to);
 gint32 gap_base_renumber(GimpRunMode run_mode, gint32 image_id,
             long start_frame_nr, long digits);
+gint32 gap_base_rename(GimpRunMode run_mode, gint32 image_id,
+            char *newFrameName,  gint len_newFrameName);
 
 #endif
 

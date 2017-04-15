@@ -301,7 +301,7 @@ p_mov_transform_perspective(gint32 layer_id
   if(gap_debug)
   {
     printf("** p_mov_transform_perspective:\n");
-    printf("  Factors: [0] %.3f %.3f  [1] %.3f %.3f  [2] %.3f %.3f  [3] %.3f %.3f\n"
+    printf("  Factors: [0] %.8f %.8f  [1] %.8f %.8f  [2] %.8f %.8f  [3] %.8f %.8f\n"
           ,(float)cur_ptr->currTTLX
           ,(float)cur_ptr->currTTLY
           ,(float)cur_ptr->currTTRX
@@ -315,13 +315,13 @@ p_mov_transform_perspective(gint32 layer_id
           ,(float)width
           ,(float)height
           );
-    printf("  x0: %4.3f y0: %4.3f     x1: %4.3f y1: %4.3f\n"
+    printf("  x0: %4.8f y0: %4.8f     x1: %4.8f y1: %4.8f\n"
           ,(float)x0
           ,(float)y0
           ,(float)x1
           ,(float)y1
           );
-    printf("  x2: %4.3f y2: %4.3f     x3: %4.3f y3: %4.3f\n\n"
+    printf("  x2: %4.8f y2: %4.8f     x3: %4.8f y3: %4.8f\n\n"
           ,(float)x2
           ,(float)y2
           ,(float)x3
@@ -942,14 +942,25 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                           , &scaleHeightPercent
                           );
 
-
+  if (gap_debug)
+  {
+    printf("After: p_mov_calculate_scale_factors cur_ptr->currWidth: %f  currHeight:%f "
+           " scaleWidthPercent:%.20f scaleHeightPercent:%.20f  l_orig_width:%d l_orig_height:%d\n"
+          , (float)cur_ptr->currWidth
+          , (float)cur_ptr->currHeight
+          , (float)scaleWidthPercent
+          , (float)scaleHeightPercent
+          , (int)l_orig_width
+          , (int)l_orig_height
+          );
+  }
 
 
 
   if((scaleWidthPercent * scaleHeightPercent) > (100.0 * 100.0))
   {
-    l_potential_new_width  = (l_orig_width  * scaleWidthPercent) / 100;
-    l_potential_new_height = (l_orig_height * scaleHeightPercent) / 100;
+    l_potential_new_width  = rint(((gdouble)l_orig_width  * scaleWidthPercent) / 100.0);
+    l_potential_new_height = rint(((gdouble)l_orig_height * scaleHeightPercent) / 100.0);
 
     if((l_potential_new_width != l_new_width)
     || (l_potential_new_height != l_new_height))
@@ -979,6 +990,13 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                        , &l_new_width
                        , &l_new_height
                        );
+    if(gap_debug)
+    {
+      printf("PER_TRANS done after upscale l_new_width:%d l_new_height:%d \n"
+        , (int)l_new_width
+        , (int)l_new_height
+        );
+    }
   }
   else
   {
@@ -991,8 +1009,16 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
                        , &l_new_height
                        );
 
-    l_potential_new_width  = (l_new_width  * scaleWidthPercent) / 100;
-    l_potential_new_height = (l_new_height * scaleHeightPercent) / 100;
+    if(gap_debug)
+    {
+      printf("PER_TRANS done l_new_width:%d l_new_height:%d \n"
+        , (int)l_new_width
+        , (int)l_new_height
+        );
+    }
+
+    l_potential_new_width  = rint(((gdouble)l_new_width  * scaleWidthPercent) / 100.0);
+    l_potential_new_height = rint(((gdouble)l_new_height * scaleHeightPercent) / 100.0);
 
     if((l_potential_new_width != l_new_width)
     || (l_potential_new_height != l_new_height))
@@ -1029,13 +1055,21 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
 
     l_new_width  = gimp_drawable_width(l_cp_layer_id);
     l_new_height = gimp_drawable_height(l_cp_layer_id);
+
+    if(gap_debug)
+    {
+      printf("ROTATE done l_new_width:%d l_new_height:%d \n"
+        , (int)l_new_width
+        , (int)l_new_height
+        );
+    }
   }
 
   if(l_resized_flag == 1)
   {
-     /* adjust offsets according to handle and change of size */
-     switch(val_ptr->src_handle)
-     {
+    /* adjust offsets according to handle and change of size */
+    switch(val_ptr->src_handle)
+    {
         case GAP_HANDLE_LEFT_BOT:
            l_src_offset_y += ((gint)l_orig_height - (gint)l_new_height);
            break;
@@ -1053,7 +1087,20 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
         case GAP_HANDLE_LEFT_TOP:
         default:
            break;
-     }
+    }
+    if(gap_debug)
+    {
+      printf("After RESIZED_FLAG l_src_offset_x:%d l_src_offset_y:%d \n"
+             " l_orig_width:%d l_orig_height:%d\n"
+             " l_new_width:%d  l_new_height:%d\n"
+        , (int)l_src_offset_x
+        , (int)l_src_offset_y
+        , (int)l_orig_width
+        , (int)l_orig_height
+        , (int)l_new_width
+        , (int)l_new_height
+        );
+    }
   }
 
   /* calculate offsets in destination image */
@@ -1062,6 +1109,24 @@ gap_mov_render_render(gint32 image_id, GapMovValues *val_ptr, GapMovCurrent *cur
 
   /* modify coordinate offsets of the copied layer within dest. image */
   gimp_layer_set_offsets(l_cp_layer_id, l_offset_x, l_offset_y);
+
+  if(gap_debug)
+  {
+      printf("FINAL SET OFFSETS l_offset_x:%d l_offset_y:%d \n"
+             " currX:%d currY:%d\n"
+             " l_handleX:%d l_handleY:%d\n"
+             " l_src_offset_x:%d l_src_offset_y:%d\n"
+        , (int)l_offset_x
+        , (int)l_offset_y
+        , (int)cur_ptr->currX
+        , (int)cur_ptr->currY
+        , (int)cur_ptr->l_handleX
+        , (int)cur_ptr->l_handleY
+        , (int)l_src_offset_x 
+        , (int)l_src_offset_y
+        );
+  }
+
 
   /* clip the handled layer to image size if desired */
   if(val_ptr->clip_to_img != 0)
@@ -1306,8 +1371,8 @@ render_fetch_wanted_src_frame:
                  , (float)pvals->apv_scalex, (float)pvals->apv_scaley );
        }
 
-       l_size_x = (gimp_image_width(pvals->cache_tmp_image_id) * pvals->apv_scalex) / 100;
-       l_size_y = (gimp_image_height(pvals->cache_tmp_image_id) * pvals->apv_scaley) / 100;
+       l_size_x = rint(((gdouble)gimp_image_width(pvals->cache_tmp_image_id) * pvals->apv_scalex) / 100.0);
+       l_size_y = rint(((gdouble)gimp_image_height(pvals->cache_tmp_image_id) * pvals->apv_scaley) / 100.0);
        gimp_image_scale(pvals->cache_tmp_image_id, l_size_x, l_size_y);
      }
 

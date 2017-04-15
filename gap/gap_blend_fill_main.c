@@ -58,6 +58,7 @@ int gap_debug = 0;  /* 1 == print debug infos , 0 dont print debug infos */
 #include "gimplastvaldesc.h"
 #include "gap_image.h"
 #include "gap_arr_dialog.h"
+#include "gap_layer_copy.h"
 
 #include "gap-intl.h"
 
@@ -1006,19 +1007,13 @@ p_set_selection_from_vectors_string(FilterContext *context)
 
   if ((vectorsOk) && (vectors_ids != NULL) && (num_vectors > 0))
   {
-    /* gboolean       selOk; */
     gint32         vectorId;
     GimpChannelOps operation;
 
     vectorId = vectors_ids[0];
     operation = GIMP_CHANNEL_OP_REPLACE;
-    /* selOk = */ gimp_vectors_to_selection(vectorId
-                                     , operation
-                                     , FALSE      /*  antialias */
-                                     , FALSE      /*  feather   */
-                                     , 0.0        /*  gdouble feather_radius_x */
-                                     , 0.0        /*  gdouble feather_radius_y */
-                                     );
+    
+    gimp_image_select_item(context->imageId, operation, vectorId);
     gimp_image_remove_vectors(context->imageId, vectorId);
     context->doClearSelection = TRUE;
   }
@@ -1059,19 +1054,12 @@ p_set_selection_from_vectors_file(FilterContext *context)
 
   if ((vectorsOk) && (vectors_ids != NULL) && (num_vectors > 0))
   {
-    /* gboolean       selOk; */
     gint32         vectorId;
     GimpChannelOps operation;
 
     vectorId = vectors_ids[0];
     operation = GIMP_CHANNEL_OP_REPLACE;
-    /* selOk =  */ gimp_vectors_to_selection(vectorId
-                                     , operation
-                                     , FALSE      /*  antialias */
-                                     , FALSE      /*  feather   */
-                                     , 0.0        /*  gdouble feather_radius_x */
-                                     , 0.0        /*  gdouble feather_radius_y */
-                                     );
+    gimp_image_select_item(context->imageId, operation, vectorId);
     gimp_image_remove_vectors(context->imageId, vectorId);
     context->doClearSelection = TRUE;
   }
@@ -1151,7 +1139,7 @@ p_render_initial_workLayer(FilterContext *context)
 /* ----------------------------------------
  * p_create_workLayer
  * ----------------------------------------
- * create the workLayer as copy of the drawable rectangle area
+ * create the workLayer above the active layer as copy of the drawable rectangle area
  * that intersects with the selection expanded by borderRadius and clipped
  * to drawable boundaries.
  * The alpha channel is copied from the selection and the rgb channels
@@ -1167,6 +1155,8 @@ p_create_workLayer(FilterContext *context)
   gint     ix, iy, ix1, iy1, ix2, iy2;
   gint     iWidth, iHeight;
   gint     borderRadius;
+  gint32   l_parent_id;
+  gint32   l_position;
 
 
   altSelection_success = FALSE;
@@ -1260,7 +1250,9 @@ p_create_workLayer(FilterContext *context)
                 , 100.0   /* full opacity */
                 , 0       /* normal mode */
                 );
-  gimp_image_insert_layer(context->imageId, context->workLayerId, 0, 0);
+  l_parent_id = gimp_item_get_parent(context->drawableId);
+  l_position = gimp_image_get_item_position(context->imageId, context->drawableId);
+  gimp_image_insert_layer(context->imageId, context->workLayerId, l_parent_id, l_position);
   gimp_layer_set_offsets(context->workLayerId
                         , context->workLayerOffsX
                         , context->workLayerOffsY
@@ -1328,6 +1320,8 @@ gap_blend_fill_apply_run(gint32 image_id, gint32 activeDrawableId, gboolean doPr
   p_create_workLayer(context);
   if (context->workLayerId >= 0)
   {
+    gint32 layermaskId;
+    
     p_set_tile_cache(context);
 
     if (context->valPtr->horizontalBlendFlag)
@@ -1340,8 +1334,66 @@ gap_blend_fill_apply_run(gint32 image_id, gint32 activeDrawableId, gboolean doPr
       p_vertical_color_blend(context);
     }
 
-    rc = gimp_image_merge_down(image_id, context->workLayerId, GIMP_EXPAND_AS_NECESSARY);
+    layermaskId = gimp_layer_get_mask(activeDrawableId);
+    if (layermaskId >= 0)
+    {
+      gint32 l_parent_id;
+      gint32 l_position;
+      gint32 l_new_layer_id;
+      gint32 l_new_layermask_id;
+      gint32 l_new_layer_id_after_merge;
 
+      /* the active layer has a layermask that would be removed by merge down...
+       * therefore make a copy of the active layer (
+       * that is placed in the stack between worklayer and active layer 
+       */
+      l_parent_id = gimp_item_get_parent(activeDrawableId);
+      l_position = gimp_image_get_item_position(image_id, activeDrawableId);
+      l_new_layer_id = gimp_layer_copy(activeDrawableId);
+      gimp_image_insert_layer (image_id, l_new_layer_id, l_parent_id, l_position);
+
+      l_new_layermask_id = gimp_layer_get_mask(l_new_layer_id);
+      if (l_new_layermask_id >= 0)
+      {
+        /* remove the layermask from the copy
+         * because masked parts would be rendered as black pixels
+         * in the following merge.
+         * therefore the merge is done unmasked to preserve the original content
+         * for copying back to the original activeDrawableId
+         */
+        gimp_layer_remove_mask (l_new_layer_id, GIMP_MASK_DISCARD);
+      }
+
+      /* merge down the worklayer to the newly created copy l_new_layer_id */
+      l_new_layer_id_after_merge = gimp_image_merge_down(image_id, context->workLayerId, GIMP_EXPAND_AS_NECESSARY);
+      
+      if(gap_debug)
+      {
+        printf("activeDrawableId: %d\n", activeDrawableId);
+        printf("l_parent_id: %d\n", l_parent_id);
+        printf("l_position: %d\n", l_position);
+        printf("l_new_layer_id: %d\n", l_new_layer_id);
+        printf("l_new_layer_id_after_merge: %d\n", l_new_layer_id_after_merge);
+      }
+      
+      
+      
+      /* copy the content of  l_new_layer_id into the active layer */
+      gap_layer_copy_content (activeDrawableId, l_new_layer_id_after_merge);
+      
+      gimp_image_remove_layer(image_id, l_new_layer_id_after_merge);
+      
+      rc = activeDrawableId;
+
+    }
+    else
+    {
+      /* the active layer has no layermask,
+       * in this case just merge down worklayer to the active layer
+       */
+      rc = gimp_image_merge_down(image_id, context->workLayerId, GIMP_EXPAND_AS_NECESSARY);
+    }
+    
     if(context->doClearSelection)
     {
       gimp_selection_none(context->imageId);

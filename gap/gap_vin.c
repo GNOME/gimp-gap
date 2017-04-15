@@ -23,6 +23,7 @@
  */
 
 /* revision history:
+ * version 2.8.xx;  2017/03/15  hof: added onionskin setting layermask_mode
  * version 2.1.0a;  2004/06/03  hof: added onionskin setting ref_mode
  * version 1.3.25b; 2004/01/23  hof: bugfix: gap_val_load_textfile set correct line_nr
  * version 1.3.18b; 2003/08/23  hof: gap_vin_get_all: force timezoom value >= 1 (0 results in divison by zero)
@@ -85,6 +86,8 @@ p_set_onion_keywords(GapValKeyList *keylist, GapVinVideoInfo *vin_ptr)
    gap_val_set_keyword(keylist, "(onion_select_invert ", &vin_ptr->select_invert, GAP_VAL_GBOOLEAN, 0, "\0");
    gap_val_set_keyword(keylist, "(onion_select_string ", &vin_ptr->select_string[0], GAP_VAL_STRING, sizeof(vin_ptr->select_string), "\0");
    gap_val_set_keyword(keylist, "(onion_ascending_opacity ", &vin_ptr->asc_opacity, GAP_VAL_GBOOLEAN, 0, "\0");
+   gap_val_set_keyword(keylist, "(onion_layermask_mode ", &vin_ptr->layermask_mode, GAP_VAL_GINT32, 0, "\0");
+   gap_val_set_keyword(keylist, "(onion_active_mode ", &vin_ptr->active_mode, GAP_VAL_GINT32, 0, "\0");
 }  /* end p_set_onion_keywords */
 
 
@@ -163,6 +166,7 @@ gap_vin_get_all_keylist(GapValKeyList *keylist, GapVinVideoInfo *vin_ptr, char *
     vin_ptr->auto_replace_after_load = FALSE;
     vin_ptr->auto_delete_before_save = FALSE;
 
+    vin_ptr->ref_mode           = 0;
     vin_ptr->num_olayers        = 2;
     vin_ptr->ref_delta          = -1;
     vin_ptr->ref_cycle          = FALSE;
@@ -175,7 +179,9 @@ gap_vin_get_all_keylist(GapValKeyList *keylist, GapVinVideoInfo *vin_ptr, char *
     vin_ptr->select_mode        = 6;     /* GAP_MTCH_ALL_VISIBLE */
     vin_ptr->select_case        = 0;     /* 0 .. ignore case, 1..case sensitve */
     vin_ptr->select_invert      = 0;     /* 0 .. no invert, 1 ..invert */
-    vin_ptr->select_string[0] = '\0';
+    vin_ptr->select_string[0]   = '\0';
+    vin_ptr->layermask_mode     = 0;
+    vin_ptr->active_mode        = 0;
   }
   
   l_vin_filename = gap_vin_alloc_name(basename);
@@ -215,6 +221,7 @@ gap_vin_get_all(char *basename)
   {
      printf("gap_vin_get_all: RETURN with vin_ptr content:\n");
      printf("  num_olayers: %d\n",   (int)vin_ptr->num_olayers);
+     printf("  ref_mode: %d\n",      (int)vin_ptr->ref_mode);
      printf("  ref_delta: %d\n",     (int)vin_ptr->ref_delta);
      printf("  ref_cycle: %d\n",     (int)vin_ptr->ref_cycle);
      printf("  stack_pos: %d\n",     (int)vin_ptr->stack_pos);
@@ -226,6 +233,8 @@ gap_vin_get_all(char *basename)
      printf("  onionskin_auto_enable: %d\n",   (int)vin_ptr->onionskin_auto_enable);
      printf("  auto_replace_after_load: %d\n",   (int)vin_ptr->auto_replace_after_load);
      printf("  auto_delete_before_save: %d\n",   (int)vin_ptr->auto_delete_before_save);
+     printf("  layermask_mode: %d\n",(int)vin_ptr->layermask_mode);
+     printf("  active_mode: %d\n",   (int)vin_ptr->active_mode);
   }
   return(vin_ptr);
 }  /* end gap_vin_get_all */

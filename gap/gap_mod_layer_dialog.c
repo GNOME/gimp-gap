@@ -410,6 +410,10 @@ p_upd_sensitivity(GapModFramesGlobalParams *gmop)
     case GAP_MOD_ACM_SEL_INVERT:
       l_sensitive_frame = FALSE;
       break;
+    case GAP_MOD_ACM_RECORD_LAYER_OFFSETS:
+      l_label_name = _("XML Filename");
+      l_sensitive = TRUE;
+      break;
     default:
       break;
   }
@@ -577,6 +581,26 @@ p_make_layer_attrinutes_submenu(GtkWidget *master_menu, GapModFramesGlobalParams
   p_make_func_menu_item(_("Set layer(s) unlinked")
                        ,_("set all selected layers unlinked")
                        ,GAP_MOD_ACM_SET_UNLINKED
+                       ,sub_menu
+                       ,gmop
+                       );
+
+
+  p_make_func_menu_item(_("Set layer active")
+                       ,_("set all selected layers unlinked")
+                       ,GAP_MOD_ACM_SET_ACTIVE_LAYER
+                       ,sub_menu
+                       ,gmop
+                       );
+  p_make_func_menu_item(_("Set layermask active")
+                       ,_("set all selected layers unlinked")
+                       ,GAP_MOD_ACM_SET_ACTIVE_LAYERMASK
+                       ,sub_menu
+                       ,gmop
+                       );
+  p_make_func_menu_item(_("Record layer offsets (to xml file)")
+                       ,_("set all selected layers unlinked")
+                       ,GAP_MOD_ACM_RECORD_LAYER_OFFSETS
                        ,sub_menu
                        ,gmop
                        );
@@ -1093,6 +1117,22 @@ p_make_toplevel_menu_items(GtkWidget *master_menu, GapModFramesGlobalParams *gmo
                       ,master_menu
                       ,gmop
                       );
+
+
+  p_make_func_menu_item(_("Resize layer(s) to selection (active frame)")
+                       ,_("Resize selected layer(s) to selection bounds of the active frame")
+                      ,GAP_MOD_ACM_RESIZE_TO_SELECTION_1
+                      ,master_menu
+                      ,gmop
+                      );
+
+  p_make_func_menu_item(_("Resize layer(s) to selection (individual per frame)")
+                       ,_("Resize selected layer(s) to selection bounds using individual selection per frame")
+                      ,GAP_MOD_ACM_RESIZE_TO_SELECTION_N
+                      ,master_menu
+                      ,gmop
+                      );
+
 
   p_make_func_menu_item(_("Add alpha channel")
                        ,NULL

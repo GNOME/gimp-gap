@@ -26,6 +26,7 @@
  */
 
 /* revision history:
+ * gimp    2.8.20;  2017/02/21  hof: support handle offsets
  * gimp    2.8.14;  2015/08/24  hof: support merge down postprocessing
  * gimp    2.8.10;  2014/05/07  hof: support unlimited number of controlpoints.
  * gimp    2.1.0b;  2004/11/04  hof: replaced deprecated option_menu by combo box
@@ -118,6 +119,7 @@
 #include "gap_libgapbase.h"
 #include "gap_layer_copy.h"
 #include "gap_lib.h"
+#include "gap_base.h"
 #include "gap_image.h"
 #include "gap_mov_exec.h"
 #include "gap_mov_xml_par.h"
@@ -346,6 +348,15 @@ typedef struct
   GtkWidget     *tracemerge_mode_combo;
   GtkWidget     *merge_target_combo;
 
+  GtkAdjustment *handleDx_adj;
+  GtkAdjustment *handleDy_adj;
+  GtkAdjustment *current_point_adj;
+  gint           current_point;
+  guint          current_point_spinbutton_bevent_state;
+  
+  gboolean       haveOverwritablePointfilename;
+  GtkWidget     *point_filename_frame;
+
 } t_mov_gui_stuff;
 
 
@@ -360,7 +371,9 @@ static void        p_gap_mov_dlg_move_dialog(t_mov_gui_stuff *mgp
                        , gint32 nframes
                        );
 static void        p_free_mgp_resources(t_mov_gui_stuff *mgp);
+static void        p_update_pointfilename_text(t_mov_gui_stuff *mgp);
 static void        p_update_point_index_text (t_mov_gui_stuff *mgp);
+static void        p_update_current_point_adj(t_mov_gui_stuff *mgp);
 static void        p_set_sensitivity_by_adjustment(GtkAdjustment *adj, gboolean sensitive);
 static void        p_accel_widget_sensitivity(t_mov_gui_stuff *mgp);
 static void        p_points_from_tab         (t_mov_gui_stuff *mgp);
@@ -369,10 +382,12 @@ static void        p_point_refresh           (t_mov_gui_stuff *mgp);
 static void        p_pick_nearest_point      (gint px, gint py);
 static void        p_reset_points            ();
 static void        p_clear_one_point         (gint idx);
-static void        p_mix_one_point(gint idx, gint ref1, gint ref2, gdouble mix_factor);
+static void        p_clear_one_point_protect_keyframe(gint idx, gboolean keyframeProtect);
+static void        p_mix_one_point(gint idx, gint ref1, gint ref2, gdouble mix_factor, gboolean keyframeProtect);
+static void        p_mix_one_point_coord(gint idx, gint ref1, gint ref2, gdouble mix_factor, gboolean xCoord);
 static void        p_refresh_widgets_after_load(t_mov_gui_stuff *mgp);
 static void        p_load_points             (char *filename, t_mov_gui_stuff *mgp);
-static void        p_save_points             (char *filename, t_mov_gui_stuff *mgp);
+static void        p_save_points             (char *filename, t_mov_gui_stuff *mgp, gboolean showOverwriteDialog);
 
 static GimpDrawable * p_get_flattened_drawable (gint32 image_id);
 static GimpDrawable * p_get_prevw_drawable (t_mov_gui_stuff *mgp);
@@ -403,6 +418,8 @@ static void        mov_path_colorbutton_update ( GimpColorButton *widget, t_mov_
 static void        mov_path_keycolorbutton_clicked ( GimpColorButton *widget, t_mov_gui_stuff *mgp);
 static void        mov_path_keycolorbutton_changed ( GimpColorButton *widget, t_mov_gui_stuff *mgp);
 static void        mov_path_keyframe_update ( GtkWidget *widget, t_mov_gui_stuff *mgp );
+static gboolean    mov_path_current_point_spinbutton_callback ( GtkWidget *widget, GdkEventButton *bevent, t_mov_gui_stuff *mgp);
+static void        mov_path_current_point_update ( GtkWidget *widget, t_mov_gui_stuff *mgp );
 static void        mov_path_x_adjustment_update ( GtkWidget *widget, gpointer data );
 static void        mov_path_y_adjustment_update ( GtkWidget *widget, gpointer data );
 static void        mov_path_tfactor_adjustment_update( GtkWidget *widget, gdouble *val);
@@ -444,10 +461,17 @@ static void     mov_pclr_callback        (GtkWidget *widget,gpointer data);
 static void     mov_pclr_all_callback    (GtkWidget *widget,GdkEventButton *bevent,gpointer data);
 static void     mov_prot_follow_callback (GtkWidget *widget,GdkEventButton *bevent,gpointer data);
 static void     mov_pload_callback       (GtkWidget *widget,gpointer data);
-static void     mov_psave_callback       (GtkWidget *widget,gpointer data);
+static void     mov_psave_callback       (GtkWidget *widget,GdkEventButton *bevent,gpointer data);
 static void     p_points_load_from_file  (GtkWidget *widget,t_mov_gui_stuff *mgp);
 static void     p_points_save_to_file    (GtkWidget *widget,t_mov_gui_stuff *mgp);
+static void     p_points_save_to_known_filename(t_mov_gui_stuff *mgp, gboolean showOverwriteDialog);
 
+static void     mov_x_button_callback    (GtkWidget *widget,GdkEventButton *bevent,gpointer data);
+static void     mov_y_button_callback    (GtkWidget *widget,GdkEventButton *bevent,gpointer data);
+static void     p_xy_coordinate_button_cb (GtkWidget *widget,
+                      GdkEventButton *bevent,
+                      t_mov_gui_stuff  *mgp,
+                      gboolean xCoord);
 static gboolean mov_check_valid_src_layer(t_mov_gui_stuff   *mgp);
 static void     mov_help_callback        (GtkWidget *widget, t_mov_gui_stuff *mgp);
 static void     mov_close_callback       (GtkWidget *widget, t_mov_gui_stuff *mgp);
@@ -671,6 +695,9 @@ gap_mov_dlg_edit_movepath_dialog (gint32 frame_image_id, gint32 drawable_id
     pvals->tween_opacity_initial = 80.0;
     pvals->tween_opacity_desc = 80.0;
 
+    pvals->handleDx = 0.0;
+    pvals->handleDy = 0.0;
+
     p_reset_points();
   }
 
@@ -785,6 +812,12 @@ p_gap_mov_dlg_move_dialog(t_mov_gui_stuff *mgp
   mgp->tracemerge_mode_combo = NULL;
   mgp->merge_target_combo = NULL;
 
+  mgp->handleDx_adj = NULL;
+  mgp->handleDy_adj = NULL;
+  mgp->current_point_adj = NULL;
+  mgp->current_point_spinbutton_bevent_state = 0;
+  mgp->current_point = 0;
+
   pvals = mov_ptr->val_ptr;
 
 
@@ -855,6 +888,8 @@ p_gap_mov_dlg_move_dialog(t_mov_gui_stuff *mgp
   if(mgp->isRecordOnlyMode != TRUE)
   {
     pvals->src_handle = GAP_HANDLE_LEFT_TOP;
+    pvals->handleDx = 0.0;
+    pvals->handleDy = 0.0;
     pvals->src_selmode = GAP_MOV_SEL_IGNORE;
     pvals->src_paintmode = GIMP_NORMAL_MODE;
     pvals->src_force_visible  = 1;
@@ -880,11 +915,13 @@ p_gap_mov_dlg_move_dialog(t_mov_gui_stuff *mgp
   pvals->dst_range_end   = l_last;
   pvals->dst_layerstack = 0;   /* 0 ... insert layer on top of stack */
 
+  mgp->haveOverwritablePointfilename = FALSE;   /* the 1st Save button click displays the fileselector */
   mgp->filesel = NULL;   /* fileselector is not open */
   mgp->ainfo_ptr            = mov_ptr->dst_ainfo_ptr;
   mgp->preview_frame_nr     = l_curr;
   mgp->old_preview_frame_nr = mgp->preview_frame_nr;
   mgp->point_index_frame = NULL;
+  mgp->point_filename_frame = NULL;
 
   p_points_from_tab(mgp);
   p_update_point_index_text(mgp);
@@ -2320,7 +2357,7 @@ mov_pclr_callback (GtkWidget *widget,
   t_mov_gui_stuff *mgp = data;
 
   if(gap_debug) printf("mov_pclr_callback\n");
-  p_clear_one_point(pvals->point_idx);         /* clear the current point */
+  p_clear_one_point_protect_keyframe(pvals->point_idx, TRUE);         /* clear the current point but keep keyframe information */
   p_point_refresh(mgp);
   mov_set_instant_apply_request(mgp);
 }
@@ -2345,10 +2382,18 @@ mov_pclr_all_callback (GtkWidget *widget,
   gint l_idx;
   gint l_ref_idx1;
   gint l_ref_idx2;
+  gboolean keyframeProtect;
   t_mov_gui_stuff *mgp = data;
   gdouble          mix_factor;
 
   if(gap_debug) printf("mov_pclr_all_callback\n");
+
+  keyframeProtect = TRUE;
+  if(bevent->state & GDK_MOD1_MASK)  /* ALT */
+  {
+    keyframeProtect = FALSE;
+  }
+
 
   if(bevent->state & GDK_SHIFT_MASK)
   {
@@ -2358,7 +2403,7 @@ mov_pclr_all_callback (GtkWidget *widget,
       l_ref_idx1 = 0;
       l_ref_idx2 = 0;
 
-      p_mix_one_point(l_idx, l_ref_idx1, l_ref_idx2, mix_factor);
+      p_mix_one_point(l_idx, l_ref_idx1, l_ref_idx2, mix_factor, keyframeProtect);
     }
   }
   else
@@ -2371,14 +2416,14 @@ mov_pclr_all_callback (GtkWidget *widget,
         l_ref_idx1 = 0;
         l_ref_idx2 = pvals->point_idx_max;
 
-        p_mix_one_point(l_idx, l_ref_idx1, l_ref_idx2, mix_factor);
+        p_mix_one_point(l_idx, l_ref_idx1, l_ref_idx2, mix_factor, keyframeProtect);
       }
     }
     else
     {
       for(l_idx = 0; l_idx <= pvals->point_idx_max; l_idx++)
       {
-        p_clear_one_point(l_idx);
+        p_clear_one_point_protect_keyframe(l_idx, keyframeProtect);
       }
     }
   }
@@ -2484,17 +2529,44 @@ mov_pload_callback (GtkWidget *widget,
 
 
 static void
-mov_psave_callback (GtkWidget *widget,
-                      gpointer   data)
+mov_psave_callback (GtkWidget *widget
+                   , GdkEventButton *bevent
+                   , gpointer   data)
 {
   GtkWidget *filesel;
+  gboolean   showSaveDialog;
   t_mov_gui_stuff *mgp = data;
+  
+  showSaveDialog = TRUE;
+  if((bevent->state & GDK_CONTROL_MASK)
+  || (bevent->state & GDK_SHIFT_MASK))
+  {
+    showSaveDialog = TRUE;
+  }
+  else
+  {
+    if (mgp->haveOverwritablePointfilename == TRUE)
+    {
+      /* Save overwrite without fileselection dialog
+       * depends on previous successful load or save in this session 
+       */
+      showSaveDialog = FALSE;
+    }
+  }
+  
 
   if(mgp->filesel != NULL)
   {
     gtk_window_present(GTK_WINDOW(mgp->filesel));
     return;  /* filesel is already open */
   }
+
+  if(showSaveDialog != TRUE)
+  {
+    p_points_save_to_known_filename(mgp, FALSE /* Do NOT showOverwriteDialog */  );
+    return;
+  }
+
 
   filesel = gtk_file_selection_new ( _("Save Path Points to File"));
   mgp->filesel = filesel;
@@ -2522,6 +2594,105 @@ mov_psave_callback (GtkWidget *widget,
                     G_CALLBACK (p_filesel_close_cb),
                     mgp);
 }
+
+
+/* ------------------------
+ * mov_x_button_callback
+ * ------------------------
+ */
+static void
+mov_x_button_callback (GtkWidget *widget,
+                      GdkEventButton *bevent,
+                      gpointer   data)
+{
+  t_mov_gui_stuff *mgp = data;
+  gboolean         xCoord = TRUE; /* operate on the X coordinate */
+
+  if(gap_debug) printf("mov_x_button_callback\n");
+
+  p_xy_coordinate_button_cb(widget, bevent, mgp, xCoord);
+
+}
+
+/* ------------------------
+ * mov_y_button_callback
+ * ------------------------
+ */
+static void
+mov_y_button_callback (GtkWidget *widget,
+                      GdkEventButton *bevent,
+                      gpointer   data)
+{
+  t_mov_gui_stuff *mgp = data;
+  gboolean         xCoord = FALSE; /* operate on the Y coordinate */
+
+  if(gap_debug) printf("mov_y_button_callback\n");
+
+  p_xy_coordinate_button_cb(widget, bevent, mgp, xCoord);
+
+}
+
+
+/* -------------------------
+ * p_xy_coordinate_button_cb
+ * -------------------------
+ * Copy or mix x (or y) coordinate from previous or next controlpoint.
+ * The operation Depends on Modifier Key that was hold down while the X or Y Button was pressed.
+ * SHIFT: Copy from next
+ * CTRL:  Mix previos next
+ * <none>: copy from previous
+ */
+static void
+p_xy_coordinate_button_cb (GtkWidget *widget,
+                      GdkEventButton *bevent,
+                      t_mov_gui_stuff  *mgp,
+                      gboolean xCoord)
+{
+  gint l_idx;
+  gint l_ref_idx1;
+  gint l_ref_idx2;
+  gdouble          mix_factor;
+  if (mgp == NULL)
+  {
+    return;
+  }
+
+
+  l_idx = pvals->point_idx; /* index of current point */
+  l_ref_idx1 = l_idx;
+  l_ref_idx2 = l_idx;
+  mix_factor = 0.0;
+  if(bevent->state & GDK_SHIFT_MASK)
+  {
+    /* copy coordinate from next point */
+    l_ref_idx1 = l_idx + 1;
+    l_ref_idx2 = l_idx + 1;
+  }
+  else
+  {
+    if(bevent->state & GDK_CONTROL_MASK)
+    {
+      /* mix x coord from previous and next point */
+      mix_factor = 0.5;
+      l_ref_idx1 = l_idx - 1;
+      l_ref_idx2 = l_idx + 1;
+    }
+    else
+    {
+      /* copy coordinate from previos point */
+      l_ref_idx1 = l_idx - 1;
+      l_ref_idx2 = l_idx - 1;
+
+    }
+  }
+
+  p_mix_one_point_coord(l_idx, l_ref_idx1, l_ref_idx2, mix_factor, xCoord);
+
+  p_point_refresh(mgp);
+  mov_set_instant_apply_request(mgp);
+
+} /* end p_xy_coordinate_button_cb */
+
 
 /* --------------------------------
  * p_refresh_widgets_after_load
@@ -2586,6 +2757,16 @@ p_refresh_widgets_after_load(t_mov_gui_stuff *mgp)
   if(mgp->step_speed_factor_adj != NULL)
   {
     gtk_adjustment_set_value(mgp->step_speed_factor_adj,  pvals->step_speed_factor);
+  }
+
+
+  if(mgp->handleDx_adj != NULL)
+  {
+    gtk_adjustment_set_value(mgp->handleDx_adj,  pvals->handleDx);
+  }
+  if(mgp->handleDy_adj != NULL)
+  {
+    gtk_adjustment_set_value(mgp->handleDy_adj,  pvals->handleDy);
   }
 
 
@@ -2711,7 +2892,7 @@ p_points_load_from_file (GtkWidget *widget,
 /* ---------------------------------
  * p_points_save_to_file
  * ---------------------------------
- *
+ * Callback procedure for filesel "Save" dialog, OK Button
  */
 static void
 p_points_save_to_file (GtkWidget *widget,
@@ -2740,15 +2921,23 @@ p_points_save_to_file (GtkWidget *widget,
   gtk_widget_destroy(GTK_WIDGET(mgp->filesel));
   mgp->filesel = NULL;
 
+  p_points_save_to_known_filename(mgp, TRUE /* showOverwriteDialog */  );
+
+}  /* end p_points_save_to_file */
+
+
+static void
+p_points_save_to_known_filename(t_mov_gui_stuff *mgp, gboolean showOverwriteDialog)
+{
   p_points_to_tab(mgp);
-  p_save_points(mgp->pointfile_name, mgp);
+  p_save_points(mgp->pointfile_name, mgp, showOverwriteDialog);
 
   /* quit if MovePath Mainwindow was closed */
   if(mgp->shell == NULL) { gtk_main_quit(); return; }
 
   p_point_refresh(mgp);
 
-}  /* end p_points_save_to_file */
+}
 
 
 static void
@@ -3530,6 +3719,39 @@ p_points_to_tab(t_mov_gui_stuff *mgp)
   }
 }
 
+static void
+p_update_pointfilename_text(t_mov_gui_stuff *mgp)
+{
+  char *lblTxt;
+  
+  if(mgp == NULL)
+  {
+    return;
+  }
+  
+  if ((mgp->pointfile_name == NULL) || (mgp->haveOverwritablePointfilename != TRUE))
+  {
+    lblTxt = g_strdup_printf(_("Edit Controlpoints"));
+  }
+  else
+  {
+    lblTxt = gap_base_shorten_filename(_("Edit Controlpoints ")  /* const char *prefix */
+                            ,mgp->pointfile_name         /* const char *filename */
+                            ,NULL                        /* const char *suffix */
+                            ,47                          /* gint32 max_chars */
+                        );
+  }
+  
+  if (mgp->point_filename_frame)
+  {
+    gtk_frame_set_label (GTK_FRAME (mgp->point_filename_frame), lblTxt);
+  }
+  
+  g_free(lblTxt);
+  
+}
+
+
 void
 p_update_point_index_text(t_mov_gui_stuff *mgp)
 {
@@ -3538,10 +3760,37 @@ p_update_point_index_text(t_mov_gui_stuff *mgp)
               pvals->point_idx + 1, pvals->point_idx_max +1);
 
   if (mgp->point_index_frame)
-    {
-      gtk_frame_set_label (GTK_FRAME (mgp->point_index_frame),
+  {
+    gtk_frame_set_label (GTK_FRAME (mgp->point_index_frame),
                           &mgp->point_index_text[0]);
+  }
+  
+  p_update_current_point_adj(mgp);
+}
+
+static void
+p_update_current_point_adj(t_mov_gui_stuff *mgp)
+{
+  if (mgp->current_point_adj)
+  {
+    gdouble l_val;
+    gdouble l_current_point;
+    gdouble l_upper;
+    
+    l_upper = pvals->point_idx_max +1;
+    l_val = gtk_adjustment_get_upper(GTK_ADJUSTMENT(mgp->current_point_adj));
+    if (l_val != l_upper)
+    {
+        gtk_adjustment_set_upper(GTK_ADJUSTMENT(mgp->current_point_adj), l_upper);
     }
+    
+    l_current_point = pvals->point_idx + 1;
+    l_val = gtk_adjustment_get_value(GTK_ADJUSTMENT(mgp->current_point_adj));
+    if(l_val != l_current_point)
+    {
+      gtk_adjustment_set_value (GTK_ADJUSTMENT(mgp->current_point_adj), l_current_point);
+    }
+  }
 }
 
 
@@ -3551,7 +3800,13 @@ p_update_point_index_text(t_mov_gui_stuff *mgp)
  * ============================================================================
  */
 void
-p_clear_one_point(gint idx)
+p_clear_one_point(gint idx) 
+{
+  p_clear_one_point_protect_keyframe(idx, FALSE /* keyframeProtect */);
+}
+
+void
+p_clear_one_point_protect_keyframe(gint idx, gboolean keyframeProtect)
 {
   if((idx >= 0) && (idx <= pvals->point_idx_max))
   {
@@ -3569,9 +3824,11 @@ p_clear_one_point(gint idx)
     pvals->point[idx].tbrx      = 1.0;
     pvals->point[idx].tbry      = 1.0;
     pvals->point[idx].sel_feather_radius = 0.0;
-    pvals->point[idx].keyframe = 0;   /* 0: controlpoint is not fixed to keyframe */
-    pvals->point[idx].keyframe_abs = 0;   /* 0: controlpoint is not fixed to keyframe */
-
+    if (keyframeProtect != TRUE)
+    {
+      pvals->point[idx].keyframe = 0;   /* 0: controlpoint is not fixed to keyframe */
+      pvals->point[idx].keyframe_abs = 0;   /* 0: controlpoint is not fixed to keyframe */
+    }
     pvals->point[idx].accPosition = 0;           /* 0: linear (NO acceleration) is default */
     pvals->point[idx].accOpacity = 0;            /* 0: linear (NO acceleration) is default */
     pvals->point[idx].accSize = 0;               /* 0: linear (NO acceleration) is default */
@@ -3591,7 +3848,7 @@ p_clear_one_point(gint idx)
  * All settings EXCEPT the position are affected
  */
 void
-p_mix_one_point(gint idx, gint ref1, gint ref2, gdouble mix_factor)
+p_mix_one_point(gint idx, gint ref1, gint ref2, gdouble mix_factor, gboolean keyframeProtect)
 {
 
   if((idx >= 0)
@@ -3627,11 +3884,45 @@ p_mix_one_point(gint idx, gint ref1, gint ref2, gdouble mix_factor)
     pvals->point[idx].accSelFeatherRadius = GAP_BASE_MIX_VALUE(mix_factor, pvals->point[ref1].accSelFeatherRadius,  pvals->point[ref2].accSelFeatherRadius);
 
 
-
-    pvals->point[idx].keyframe = 0;   /* 0: controlpoint is not fixed to keyframe */
-    pvals->point[idx].keyframe_abs = 0;   /* 0: controlpoint is not fixed to keyframe */
+    if (keyframeProtect != TRUE)
+    {
+      pvals->point[idx].keyframe = 0;   /* 0: controlpoint is not fixed to keyframe */
+      pvals->point[idx].keyframe_abs = 0;   /* 0: controlpoint is not fixed to keyframe */
+    }
   }
 }       /* end p_mix_one_point */
+
+/* --------------------------
+ * p_mix_one_point_coord
+ * --------------------------
+ * calculate x or y coordinate by mixing
+ * the settings of 2 reference points.
+ * no other settings that the coordinate are affected
+ */
+void
+p_mix_one_point_coord(gint idx, gint ref1, gint ref2, gdouble mix_factor, gboolean xCoord)
+{
+  gdouble value;
+  if((idx >= 0)
+  && (idx <= pvals->point_idx_max)
+  && (ref1 >= 0)
+  && (ref1 <= pvals->point_idx_max)
+  && (ref2 >= 0)
+  && (ref2 <= pvals->point_idx_max)
+  )
+  {
+    if (xCoord == TRUE)
+    {
+      value = GAP_BASE_MIX_VALUE(mix_factor, (gdouble)pvals->point[ref1].p_x,  (gdouble)pvals->point[ref2].p_x); 
+      pvals->point[idx].p_x  = rint(value);
+    }
+    else
+    {
+      value = GAP_BASE_MIX_VALUE(mix_factor, (gdouble)pvals->point[ref1].p_y,  (gdouble)pvals->point[ref2].p_y); 
+      pvals->point[idx].p_y  = rint(value);
+    }
+  }
+}       /* end p_mix_one_point_coord */
 
 
 /* ============================================================================
@@ -3737,9 +4028,11 @@ p_load_points(char *filename, t_mov_gui_stuff *mgp)
           pvals->point_idx = 0;
         }
       }
+      mgp->haveOverwritablePointfilename = TRUE;
     }
     else
     {
+      mgp->haveOverwritablePointfilename = FALSE;
       if(l_errno != 0)
       {
         g_message(_("ERROR: Could not open xml parameterfile\n"
@@ -3754,6 +4047,7 @@ p_load_points(char *filename, t_mov_gui_stuff *mgp)
       }
 
     }
+    p_update_pointfilename_text(mgp);
 
     return;
   }
@@ -3765,8 +4059,13 @@ p_load_points(char *filename, t_mov_gui_stuff *mgp)
   {
     p_reset_points();
   }
-  if (l_rc != 0)
+  if (l_rc == 0)
   {
+    mgp->haveOverwritablePointfilename = TRUE;
+  }
+  else
+  {
+    mgp->haveOverwritablePointfilename = FALSE;
     if(l_errno != 0)
     {
       g_message(_("ERROR: Could not open controlpoints\n"
@@ -3780,6 +4079,7 @@ p_load_points(char *filename, t_mov_gui_stuff *mgp)
                ,filename);
     }
   }
+  p_update_pointfilename_text(mgp);
 }  /* end p_load_points */
 
 
@@ -3789,16 +4089,25 @@ p_load_points(char *filename, t_mov_gui_stuff *mgp)
  * ----------------------------
  * depending on the filename extension (.xml)
  *   save point table (from global pvals into named file)
- *
+ * showOverwriteDialog 
+ *   TRUE  (Use a popup dialog to warn user and ask for overwrite permission)
+ *   FALSE (overwrite allowed without futher dialog)
  */
 static void
-p_save_points(char *filename, t_mov_gui_stuff *mgp)
+p_save_points(char *filename, t_mov_gui_stuff *mgp, gboolean showOverwriteDialog)
 {
   gint l_rc;
   gint l_errno;
   gboolean l_wr_permission;
 
-  l_wr_permission = gap_arr_overwrite_file_dialog(filename);
+  if (showOverwriteDialog == TRUE)
+  {
+    l_wr_permission = gap_arr_overwrite_file_dialog(filename);
+  }
+  else 
+  {
+    l_wr_permission = TRUE;
+  }
 
   /* quit if MovePath Mainwindow was closed */
   if(mgp->shell == NULL) { gtk_main_quit (); return; }
@@ -3815,12 +4124,18 @@ p_save_points(char *filename, t_mov_gui_stuff *mgp)
     }
     l_errno = errno;
 
-    if(l_rc != 0)
+    if(l_rc == 0)
     {
+        mgp->haveOverwritablePointfilename = TRUE;
+    }
+    else
+    {
+        mgp->haveOverwritablePointfilename = FALSE;
         g_message (_("Failed to write controlpointfile\n"
                       "filename: '%s':\n%s"),
                    filename, g_strerror (l_errno));
     }
+    p_update_pointfilename_text(mgp);
   }
 }       /* end p_save_points */
 
@@ -3851,6 +4166,7 @@ mov_src_sel_create(t_mov_gui_stuff *mgp)
 {
   GtkWidget *table;
   GtkWidget *sub_table;
+  GtkWidget *sub_table2;  /* for handle offsets */
   GtkWidget *combo;
   GtkWidget *label;
   GtkObject      *adj;
@@ -3863,7 +4179,7 @@ mov_src_sel_create(t_mov_gui_stuff *mgp)
   gtk_table_set_col_spacings (GTK_TABLE (table), 4);
 
   /* Source Layer menu */
-  label = gtk_label_new( _("Source Image/Layer:"));
+  label = gtk_label_new( _("Image/Layer:"));
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1, GTK_FILL, 0, 4, 0);
   gtk_widget_show(label);
@@ -4047,12 +4363,27 @@ mov_src_sel_create(t_mov_gui_stuff *mgp)
   mgp->stepmode_combo = combo;
 
 
+
   /* Source Image Handle menu */
 
   label = gtk_label_new( _("Handle:"));
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
   gtk_table_attach(GTK_TABLE(table), label, 2, 3, 1, 2, GTK_FILL, 0, 4, 0);
   gtk_widget_show(label);
+
+
+  /* the sub_table (1 row) */
+  sub_table2 = gtk_table_new (1, 5, FALSE);
+  gtk_widget_show(sub_table2);
+  gtk_container_set_border_width (GTK_CONTAINER (sub_table2), 2);
+  gtk_table_set_row_spacings (GTK_TABLE (sub_table2), 0);
+  gtk_table_set_col_spacings (GTK_TABLE (sub_table2), 2);
+
+  gtk_table_attach(GTK_TABLE(table), sub_table2, 3, 4, 1, 2,
+                   GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
+
+
 
   combo = gimp_int_combo_box_new (_("Left  Top"),     GAP_HANDLE_LEFT_TOP,
                                   _("Left  Bottom"),  GAP_HANDLE_LEFT_BOT,
@@ -4086,13 +4417,54 @@ mov_src_sel_create(t_mov_gui_stuff *mgp)
                               mgp);
   }
 
-  gtk_table_attach(GTK_TABLE(table), combo, 3, 4, 1, 2,
+  gtk_table_attach(GTK_TABLE(sub_table2), combo, 0, 1, 0, 1,
                    GTK_EXPAND | GTK_FILL, 0, 0, 0);
   gimp_help_set_help_data(combo,
                        _("How to place the Source layer at controlpoint coordinates")
                        , NULL);
   gtk_widget_show(combo);
   mgp->handlemode_combo = combo;
+  
+  
+  /* Handle Offset X */
+  adj = p_mov_spinbutton_new( GTK_TABLE (sub_table2), 1, 0,    /* table col, row */
+                          _("dX:"),                           /* label text */
+                          SCALE_WIDTH, ENTRY_WIDTH,           /* scalesize spinsize */
+                          (gdouble)pvals->handleDx,           /* initial value */
+                          (gdouble)-9999.0, (gdouble)9999.0,   /* lower, upper */
+                          1.0, 10.0,                          /* step, page */
+                          0,                                  /* digits */
+                          FALSE,                              /* constrain */
+                          (gdouble)-9999.0, (gdouble)9999.0,        /* lower, upper (unconstrained) */
+                          _("Handle Offest X is added to x coordinate in all points"),
+                          NULL);    /* tooltip privatetip */
+  g_object_set_data(G_OBJECT(adj), "mgp", mgp);
+  g_signal_connect (G_OBJECT (adj), "value_changed",
+                    G_CALLBACK (mov_instant_double_adjustment_update),
+                    &pvals->handleDx);
+  mgp->handleDx_adj = GTK_ADJUSTMENT(adj);
+
+
+
+  /* Handle Offset Y */
+  adj = p_mov_spinbutton_new( GTK_TABLE (sub_table2), 3, 0,    /* table col, row */
+                          _("dY:"),                           /* label text */
+                          SCALE_WIDTH, ENTRY_WIDTH,           /* scalesize spinsize */
+                          (gdouble)pvals->handleDy,           /* initial value */
+                          (gdouble)-9999.0, (gdouble)9999.0,   /* lower, upper */
+                          1.0, 10.0,                          /* step, page */
+                          0,                                  /* digits */
+                          FALSE,                              /* constrain */
+                          (gdouble)-9999.0, (gdouble)9999.0,        /* lower, upper (unconstrained) */
+                          _("Handle Offest Y is added to y coordinate in all points"),
+                          NULL);    /* tooltip privatetip */
+  g_object_set_data(G_OBJECT(adj), "mgp", mgp);
+  g_signal_connect (G_OBJECT (adj), "value_changed",
+                    G_CALLBACK (mov_instant_double_adjustment_update),
+                    &pvals->handleDy);
+  mgp->handleDy_adj = GTK_ADJUSTMENT(adj);
+  
+  
 
   gtk_widget_show( table );
 
@@ -4549,7 +4921,10 @@ mov_edit_button_box_create (t_mov_gui_stuff *mgp)
 
   /* the frame */
   frame = gimp_frame_new (_("Edit Controlpoints"));
+  mgp->point_filename_frame = frame;
   gtk_container_set_border_width( GTK_CONTAINER( frame ), 2 );
+  mgp->point_filename_frame = frame;
+
 
 
   /* button_table 7 rows */
@@ -4696,7 +5071,8 @@ mov_edit_button_box_create (t_mov_gui_stuff *mgp)
                     GTK_FILL, 0, 0, 0 );
   gimp_help_set_help_data(button,
                        _("Reset all controlpoints to default values "
-                         "but dont change the path (X/Y values). "
+                         "but dont change the path (X/Y values and keyframes). "
+                         "Hold down the alt key removes the keyframe information from all controlpoints."
                          "Hold down the shift key to copy settings "
                          "of point1 into all other points. "
                          "Holding down the ctrl key spreads a mix of "
@@ -4760,10 +5136,10 @@ mov_edit_button_box_create (t_mov_gui_stuff *mgp)
   gtk_table_attach( GTK_TABLE(button_table), button, 1, 2, row, row+1,
                     GTK_FILL, 0, 0, 0 );
   gimp_help_set_help_data(button,
-                       _("Save controlpoints to file")
+                       _("Save controlpoints to file. Hold down the ctrl or shift key for filename selection dialog.")
                        , NULL);
   gtk_widget_show (button);
-  g_signal_connect (G_OBJECT (button), "clicked",
+  g_signal_connect (G_OBJECT (button), "button_press_event",
                     G_CALLBACK (mov_psave_callback),
                     mgp);
 
@@ -5601,6 +5977,9 @@ mov_path_prevw_create ( GimpDrawable *drawable, t_mov_gui_stuff *mgp, gboolean v
   GtkObject      *adj;
   GtkWidget      *framerange_table;
   GtkWidget      *edit_buttons;
+  GtkWidget      *button;
+  guint          row;
+  guint          col;
 
   mgp->drawable = drawable;
   mgp->dwidth   = gimp_drawable_width(drawable->drawable_id );
@@ -5634,16 +6013,33 @@ mov_path_prevw_create ( GimpDrawable *drawable, t_mov_gui_stuff *mgp, gboolean v
 
 
   /* the table (3 rows) for other controlpoint specific settings */
-  table = gtk_table_new ( 3, 4, FALSE );
+  table = gtk_table_new ( 3, 5, FALSE );
   gtk_container_set_border_width (GTK_CONTAINER (table), 2 );
   gtk_table_set_row_spacings (GTK_TABLE (table), 2);
   gtk_table_set_col_spacings (GTK_TABLE (table), 4);
   gtk_container_add (GTK_CONTAINER (cpt_frame), table);
 
-
   /* X */
-  adj = gimp_scale_entry_new( GTK_TABLE (table), 0, 0,            /* table col, row */
-                          _("X:"),                                /* label text */
+  row = 0;
+  col = 0;
+  
+  button = gtk_button_new_with_label (_("X:"));
+  GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+  gtk_table_attach( GTK_TABLE(table), button, col, col+1, row, row +1,
+                    0/*GTK_FILL*/, 0, 0, 0 );
+  gimp_help_set_help_data(button,
+                       _("Copy X coordinate from previous Controlpoint. "
+                         "Holding down the shift Key Copy X coordinate from next Controlpoint. "
+                         "Holding down the ctrl Key Calculate X coordinate as average between previous and next Controlpoint.")
+                       , NULL);
+  gtk_widget_show (button);
+  g_signal_connect (G_OBJECT (button), "button_press_event",
+                    G_CALLBACK (mov_x_button_callback),
+                    mgp);
+
+  col++;
+  adj = gimp_scale_entry_new( GTK_TABLE (table), col, row,        /* table col, row */
+                          /* X: */ "",                            /* label text */
                           SCALE_WIDTH, SPINBUTTON_WIDTH,          /* scalesize spinsize */
                           (gdouble)mgp->p_x,                      /* value */
                           (gdouble)0, (gdouble)mgp->dwidth,       /* lower, upper */
@@ -5660,8 +6056,26 @@ mov_path_prevw_create ( GimpDrawable *drawable, t_mov_gui_stuff *mgp, gboolean v
   mgp->x_adj = GTK_ADJUSTMENT(adj);
 
   /* Y */
-  adj = gimp_scale_entry_new( GTK_TABLE (table), 0, 1,            /* table col, row */
-                          _("Y:"),                                /* label text */
+  row = 1;
+  col = 0;
+  
+  button = gtk_button_new_with_label (_("Y:"));
+  GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+  gtk_table_attach( GTK_TABLE(table), button, col, col+1, row, row +1,
+                    0/*GTK_FILL*/, 0, 0, 0 );
+  gimp_help_set_help_data(button,
+                       _("Copy Y coordinate from previous Controlpoint. "
+                         "Holding down the shift Key Copy Y coordinate from next Controlpoint. "
+                         "Holding down the ctrl Key Calculate Y coordinate as average between previous and next Controlpoint.")
+                       , NULL);
+  gtk_widget_show (button);
+  g_signal_connect (G_OBJECT (button), "button_press_event",
+                    G_CALLBACK (mov_y_button_callback),
+                    mgp);
+
+  col++;
+  adj = gimp_scale_entry_new( GTK_TABLE (table), col, row,        /* table col, row */
+                          /* Y: */ "",                                     /* label text */
                           SCALE_WIDTH, ENTRY_WIDTH,               /* scalesize spinsize */
                           (gdouble)mgp->p_y,                      /* value */
                           (gdouble)0, (gdouble)mgp->dheight,      /* lower, upper */
@@ -5678,7 +6092,9 @@ mov_path_prevw_create ( GimpDrawable *drawable, t_mov_gui_stuff *mgp, gboolean v
   mgp->y_adj = GTK_ADJUSTMENT(adj);
 
   /* Keyframe */
-  adj = p_mov_spinbutton_new( GTK_TABLE (table), 1, 2,          /* table col, row */
+  row = 2;
+  col = 2;
+  adj = p_mov_spinbutton_new( GTK_TABLE (table), col, row,      /* table col, row */
                           _("Keyframe:"),                       /* label text */
                           SCALE_WIDTH, ENTRY_WIDTH,             /* scalesize spinsize */
                           (gdouble)mgp->keyframe_abs,           /* value */
@@ -5742,8 +6158,10 @@ mov_path_prevw_create ( GimpDrawable *drawable, t_mov_gui_stuff *mgp, gboolean v
                              );
 
   }
-  gtk_table_attach(GTK_TABLE(table), notebook, 3, 4          /* column */
-                                             , 0, 3          /* all rows */
+  row = 0;
+  col = 4;
+  gtk_table_attach(GTK_TABLE(table), notebook, col, col+1    /* column */
+                                             , row, row+3    /* all rows */
                                              , 0, 0, 0, 0);
 
   gtk_widget_show (notebook);
@@ -6001,7 +6419,7 @@ mov_path_prevw_create ( GimpDrawable *drawable, t_mov_gui_stuff *mgp, gboolean v
   }
 
   /* the preview sub table (1 row) */
-  pv_sub_table = gtk_table_new ( 1, 3, FALSE );
+  pv_sub_table = gtk_table_new ( 1, 5, FALSE );
 
   /* the Preview Frame Number  */
   adj = gimp_scale_entry_new( GTK_TABLE (pv_sub_table), 0, 1,   /* table col, row */
@@ -6044,6 +6462,56 @@ mov_path_prevw_create ( GimpDrawable *drawable, t_mov_gui_stuff *mgp, gboolean v
     }
 
   }
+  
+  /* the Point Spinbutton */
+  mgp->current_point = pvals->point_idx + 1;
+  adj = p_mov_spinbutton_new( GTK_TABLE (pv_sub_table), 4, 1,          /* table col, row */
+                          _("Point:"),                          /* label text */
+                          SCALE_WIDTH, ENTRY_WIDTH,             /* scalesize spinsize */
+                          (gdouble)mgp->current_point,                   /* value */
+                          (gdouble)1, (gdouble)pvals->point_idx_max +1,  /* lower, upper */
+                          1, 10,                                         /* step, page */
+                          0,                                             /* digits */
+                          TRUE,                                          /* constrain */
+                          (gdouble)1, (gdouble)pvals->point_idx_max +1,  /* lower, upper (unconstrained) */
+                          _("Current controlpoint"),
+                          NULL);    /* tooltip privatetip */
+  g_signal_connect (G_OBJECT (adj), "value_changed",
+                    G_CALLBACK (mov_path_current_point_update),
+                    mgp);
+  mgp->current_point_adj = GTK_ADJUSTMENT(adj);
+  if (FALSE)
+  {
+    // TODO 
+    /* this code does not yet work as expected, 
+     *  when mov_path_current_point_spinbutton_callback is connected to the spinbutton
+     *  it seems that the default handler is not called anymore and the value can not be
+     *  adjusted via mouseclicks on the small arrow up/down buttons of the spinbutton widget.
+     *
+     * when mov_path_current_point_spinbutton_callback is connected via g_signal_connect_after
+     * ist is not called (because the default handler comes first)
+     * (For proper operation mov_path_current_point_spinbutton_callback should connect BEFORE the default handler
+     * or explicite call the default handler... 
+     *
+     * The wanted behavios should add the optional follow_keyframe feature in case
+     * the SHIFT modifyer is hold down while ajusting the spinbutton value via moseclick
+     */
+    GtkWidget *spinbutton;
+    
+    spinbutton = g_object_get_data( G_OBJECT(adj), "spinbutton" );
+    if (spinbutton != NULL)
+    {
+      // g_signal_connect_after   "button_press_event"  "key_press_event"
+      g_signal_connect (G_OBJECT (spinbutton), "button_press_event",
+                    G_CALLBACK (mov_path_current_point_spinbutton_callback),
+                    mgp);
+      g_signal_connect (G_OBJECT (spinbutton), "button_press_event",
+                    G_CALLBACK (mov_path_current_point_spinbutton_callback),
+                    mgp);
+    }
+  
+  }
+  
 
 
   gtk_table_attach( GTK_TABLE(pv_table), pv_sub_table, 0, 1, 3, 4,
@@ -6413,6 +6881,56 @@ mov_path_keyframe_update ( GtkWidget *widget, t_mov_gui_stuff *mgp)
   p_accel_widget_sensitivity(mgp);
   p_points_to_tab(mgp);
   mov_upd_seg_labels(NULL, mgp);
+}
+
+
+static gboolean
+mov_path_current_point_spinbutton_callback ( GtkWidget *widget,
+                    GdkEventButton *bevent,
+                    t_mov_gui_stuff *mgp)
+{
+  if(gap_debug)
+  {
+     printf("mov_path_current_point_spinbutton_callback bevent->state:%d", bevent->state);
+     if (mgp->current_point_spinbutton_bevent_state & GDK_SHIFT_MASK)
+     {
+       printf(" GDK_SHIFT_MASK set");
+     }
+     printf("\n");
+  }
+
+  if(mgp != NULL)
+  {
+    mgp->current_point_spinbutton_bevent_state = bevent->state;
+  }
+  
+  return (TRUE);
+}
+
+static void
+mov_path_current_point_update ( GtkWidget *widget, t_mov_gui_stuff *mgp)
+{
+  if(gap_debug)
+  {
+     printf("mov_path_current_point_update START\n");
+  }
+  gimp_int_adjustment_update(GTK_ADJUSTMENT(widget), &mgp->current_point);
+  if (mgp->current_point != pvals->point_idx +1)
+  {
+    gint new_point_idx;
+    
+    new_point_idx = CLAMP(mgp->current_point -1, 0, pvals->point_idx_max);  /* the value entered in the widget starts at 1, point_idx starts at 0 */
+    p_points_to_tab(mgp);
+    pvals->point_idx = new_point_idx;
+    p_point_refresh(mgp);
+    
+    if (mgp->current_point_spinbutton_bevent_state & GDK_SHIFT_MASK)
+    {
+      mov_follow_keyframe(mgp);
+    }
+    mov_set_instant_apply_request(mgp);
+  }
+
 }
 
 

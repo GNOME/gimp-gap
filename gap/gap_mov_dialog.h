@@ -298,6 +298,10 @@ typedef struct {
         GapMovMergePostProcessingMode  mergeModeRenderedTweenLayer;
         GapMovMergePostProcessingMode  mergeModeRenderedTraceLayer;
         GapMovMergePostProcessingTargetMode  mergeTarget;
+        
+        
+        gdouble handleDx;
+        gdouble handleDy;
 
 
 } GapMovValues;

@@ -1,3 +1,91 @@
+2017-04-15 Wolfgang Hofer <hof@gimp.org>
+
+- MovePath support Handle Offsets, "Reset all controlpoints" Button protects keyframe information by default
+  This change of behavior is a bugfix to prevent unwanted loss of keyframe information in the path controlpoints.
+  In case where reset of keyframe information is wanted
+  Clicking "Reset all controlpoints" Button while holding down the ALT key removes keyframe information
+  from all controlpoints the same way as the old behavior always did.
+  
+  Added X and Y Controlpoint Coordinate Buttons to copy coordinate from previous Controlpoint
+  Holding down the shift Key copy coordinate from next Controlpoint
+  Holding down the ctrl Key Calculate coordinate as average between previous and next Controlpoint.
+
+- MovePath Save Button overwrites pointfile (after succsessful inital load or save) without popup the fileselection.
+  Hold Ctrl or Shift forces the fileselection (Save As), 
+  Show the pointfilename (as part of the framelabel Edit Controlpoints)
+
+- Detail tracking history information is now stored in temporary image parasite
+  in the (mtrace) image that is updated while playback in detail tracking mode.
+  (older versions stored history global in the gimp session)
+
+- bugfix in the BlendFill filter (that applied always to the layer on top of stack instead of the active drawable)
+  furthermore keep the layermask (in case the active layer has one)
+
+- The wrapper for the 3rd party resysnthesizer plugin now supports the same options as the
+  python script "plugin-heal-selecton.py" that ships with the resynthesizer
+  with additional option to load the selection from a vectors file in SVG format.
+
+- Added a wrapper for the gimp desaturation procedure
+  (so it can be used in GIMP-GAP triggered filtercalls such as filtermacro
+  in filter all layers or modify frames feature)
+
+- Added Dialog and extended the edge detection method for use in  GIMP-GAP triggered filtercalls
+  (GIMP already has a similar Edge detection Filter based on Difference between 2 Gaussian Blur operations
+  the GAP variante also provides shifting options and separated x y settings -- that makes it more complicated for the user --
+  but allows more tuning when creating edge protectgion masks for remastering of videoframes)
+
+- Onionskin creation of onionskin layers has now options to create the onionskin layer(s) with
+  a layermask (none, Black, White, from Selection, Clipped from Selection) and has options
+  to set the onionskin layer or its layermask active after crestion.
+
+- FramesModify supports 2 additional functions for resizing layers in frame images
+  to selction bounds (using the selection of invoking active frame, or individual selection in all frames)
+
+- Added new base operation to remame the framename part in all framefiles.
+
+  * gap/Makefile.am
+  * gap/gap_base_ops.c
+  * gap/gap_base_ops.h
+  * gap/gap_blend_fill_main.c
+  * gap/gap_detail_align_exec.c
+  * gap/gap_detail_align_exec.h
+  * gap/gap_detail_tracking_exec.c
+  * gap/gap_detail_tracking_exec.h
+  * gap/gap_detail_tracking_main.c
+  * gap/gap_edge_detection.c
+  * gap/gap_edge_detection.h
+  * gap/gap_layer_copy.c
+  * gap/gap_layer_copy.h
+  * gap/gap_locate2.c
+  * gap/gap_locate2.h
+  * gap/gap_main.c
+  * gap/gap_mod_layer.c
+  * gap/gap_mod_layer.h
+  * gap/gap_mod_layer_dialog.c
+  * gap/gap_mov_dialog.c
+  * gap/gap_mov_dialog.h
+  * gap/gap_mov_exec.c
+  * gap/gap_mov_render.c
+  * gap/gap_mov_xml_par.c
+  * gap/gap_onion_base.c
+  * gap/gap_onion_base.h
+  * gap/gap_onion_dialog.c
+  * gap/gap_onion_main.c
+  * gap/gap_onion_main.h
+  * gap/gap_vex_exec.c
+  * gap/gap_vin.c
+  * gap/gap_vin.h
+  * gap/gap_wr_resynth.c
+  
+  * gap/gap_edge_detection_dialog.c # new
+  * gap/gap_edge_detection_dialog.h # new
+  * gap/gap_edge_detection_main.c # new
+  * gap/gap_geo.c # new
+  * gap/gap_geo.h # new
+  * gap/gap_opacity_exposure_main.c # new
+  * gap/gap_wr_desaturate.c # new
+  
+
 2016-05-28 Wolfgang Hofer <hof@gimp.org>
 
 - replaced deprecated procedure calls: 

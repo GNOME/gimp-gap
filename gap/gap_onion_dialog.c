@@ -24,6 +24,7 @@
  */
 
 /* revision history:
+ * version 2.8.xx;  2017/03/15   hof: added onionskin setting layermask_mode and active_mode
  * version 2.1.0a;  2004/06/03   hof: added onionskin setting ref_mode
  * version 2.1.0a;  2004.04.10   hof: callbacks now directly use GapOnionMainGlobalParams *gpp
  *                                    rather than gpointer
@@ -57,6 +58,8 @@
 #define ENC_MENU_ITEM_INDEX_KEY "gap_enc_menu_item_index"
 #define MAX_SELECT_MODE_ARRAY_ELEMENTS 7
 #define MAX_REF_MODE_ARRAY_ELEMENTS 3
+#define MAX_LAYERMASK_MODE_ARRAY_ELEMENTS 5
+#define MAX_ACTIVE_MODE_ARRAY_ELEMENTS 3
 
 
 extern int gap_debug;
@@ -66,6 +69,21 @@ gint  gtab_ref_modes[MAX_REF_MODE_ARRAY_ELEMENTS] =
   { GAP_ONION_REFMODE_NORMAL                /* 0 */
   , GAP_ONION_REFMODE_BIDRIECTIONAL_SINGLE  /* 1 */
   , GAP_ONION_REFMODE_BIDRIECTIONAL_DOUBLE  /* 2 */
+  };
+
+
+gint  gtab_layermask_modes[MAX_LAYERMASK_MODE_ARRAY_ELEMENTS] =
+  { GAP_ONION_LAYERMASK_MODE_NONE                /* 0 */
+  , GAP_ONION_LAYERMASK_MODE_BLACK  /* 1 */
+  , GAP_ONION_LAYERMASK_MODE_WHITE  /* 2 */
+  , GAP_ONION_LAYERMASK_MODE_SELECTION  /* 3 */
+  , GAP_ONION_LAYERMASK_MODE_SELECTION_CLIP  /* 4 */
+  };
+
+gint  gtab_active_modes[MAX_ACTIVE_MODE_ARRAY_ELEMENTS] =
+  { GAP_ONION_ACTIVE_MODE_NONE                /* 0 */
+  , GAP_ONION_ACTIVE_MODE_ONION_LAYER         /* 1 */
+  , GAP_ONION_ACTIVE_MODE_ONION_LAYER_MASK    /* 2 */
   };
 
 
@@ -269,6 +287,50 @@ on_oni__combo_ref_mode (GtkWidget     *widget,
      l_idx = 0;
   }
   gpp->vin.ref_mode = gtab_ref_modes[l_idx];
+}
+
+static void
+on_oni__combo_layermask_mode (GtkWidget     *widget,
+                        GapOnionMainGlobalParams *gpp)
+{
+  gint       l_idx;
+  gint       value;
+
+  if(gap_debug) printf("CB: on_oni__combo_layermask_mode\n");
+
+  if(gpp == NULL) return;
+
+  gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
+  l_idx = value;
+
+  if(gap_debug) printf("CB: on_oni__combo_layermask_mode index: %d\n", (int)l_idx);
+  if((l_idx >= MAX_LAYERMASK_MODE_ARRAY_ELEMENTS) || (l_idx < 1))
+  {
+     l_idx = 0;
+  }
+  gpp->vin.layermask_mode = gtab_layermask_modes[l_idx];
+}
+
+static void
+on_oni__combo_active_mode (GtkWidget     *widget,
+                        GapOnionMainGlobalParams *gpp)
+{
+  gint       l_idx;
+  gint       value;
+
+  if(gap_debug) printf("CB: on_oni__combo_active_mode\n");
+
+  if(gpp == NULL) return;
+
+  gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
+  l_idx = value;
+
+  if(gap_debug) printf("CB: on_oni__combo_active_mode index: %d\n", (int)l_idx);
+  if((l_idx >= MAX_ACTIVE_MODE_ARRAY_ELEMENTS) || (l_idx < 1))
+  {
+     l_idx = 0;
+  }
+  gpp->vin.active_mode = gtab_active_modes[l_idx];
 }
 
 static void
@@ -707,6 +769,9 @@ on_oni__checkbutton_auto_delete_toggled  (GtkToggleButton *togglebutton,
  }
 }
 
+
+
+
 static void
 p_init_combo_actual_idx(GapOnionMainGlobalParams *gpp, GtkWidget *wgt, gint *gtab_ptr, gint val, gint maxidx)
 {
@@ -726,6 +791,16 @@ p_init_combo_actual_idx(GapOnionMainGlobalParams *gpp, GtkWidget *wgt, gint *gta
 static void
 p_init_combos(GapOnionMainGlobalParams *gpp)
 {
+ if(gap_debug)
+ {
+   printf("p_init_combos: select_mode:%d ref_mode:%d layermask_mode:%d active_mode:%d\n"
+      ,(int)gpp->vin.select_mode
+      ,(int)gpp->vin.ref_mode
+      ,(int)gpp->vin.layermask_mode
+      ,(int)gpp->vin.active_mode
+      );
+ }
+
  p_init_combo_actual_idx( gpp
                              , gpp->oni__combo_select_mode
                              , gtab_select_modes
@@ -737,6 +812,18 @@ p_init_combos(GapOnionMainGlobalParams *gpp)
                              , gtab_ref_modes
                              , gpp->vin.ref_mode
                              , MAX_REF_MODE_ARRAY_ELEMENTS
+                             );
+ p_init_combo_actual_idx( gpp
+                             , gpp->oni__combo_layermask_mode
+                             , gtab_layermask_modes
+                             , gpp->vin.layermask_mode
+                             , MAX_LAYERMASK_MODE_ARRAY_ELEMENTS
+                             );
+ p_init_combo_actual_idx( gpp
+                             , gpp->oni__combo_active_mode
+                             , gtab_active_modes
+                             , gpp->vin.active_mode
+                             , MAX_ACTIVE_MODE_ARRAY_ELEMENTS
                              );
 }
 
@@ -816,6 +903,7 @@ p_init_togglebuttons(GapOnionMainGlobalParams *gpp)
 
   wgt = gpp->oni__checkbutton_auto_delete;
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (wgt), gpp->vin.auto_delete_before_save);
+  
 }
 
 static void
@@ -865,6 +953,8 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
   GtkWidget *label9;
   GtkWidget *label10;
 
+  GtkWidget *oni__combo_active_mode;
+  GtkWidget *oni__combo_layermask_mode;
   GtkWidget *oni__combo_ref_mode;
   GtkWidget *oni__combo_select_mode;
 
@@ -885,7 +975,6 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
 
   GtkWidget *oni__checkbutton_auto_replace;
   GtkWidget *oni__checkbutton_auto_delete;
-
 
   GtkWidget *oni__button_default;
   GtkWidget *dialog_action_area1;
@@ -1176,6 +1265,47 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
                          , _("Descending opacity for 2nd onionskin layer")
                          , NULL);
 
+
+
+  tab1_row++;
+
+  label = gtk_label_new (_("Layermask Mode:"));
+  gtk_widget_show (label);
+  gtk_table_attach (GTK_TABLE (table1), label, 0, 1, tab1_row, tab1_row+1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+
+
+  /* the layermask_mode  combo box */
+  oni__combo_layermask_mode
+    = gimp_int_combo_box_new (_("None"),                   0,
+                              _("Black (fully transparent)"),  1,
+                              _("White (fully opaque)"),  2,
+                              _("From Selection (in current image)"),  3,
+                              _("Clipped from Selection (in current image) "),  4,
+                              NULL);
+  gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (oni__combo_layermask_mode),
+                                 0,  /* initial gint value */
+                                 G_CALLBACK (on_oni__combo_layermask_mode),
+                                 gpp);
+
+  gtk_widget_show (oni__combo_layermask_mode);
+  gtk_table_attach (GTK_TABLE (table1), oni__combo_layermask_mode, 1, 3, tab1_row, tab1_row+1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gimp_help_set_help_data(oni__combo_layermask_mode
+                         , _("Layermask creation for the onionskin layer(s):\n"
+                             " None: (create onionskin layer without layermask)\n"
+                             " Black (create onionskin layer with black layermask)\n"
+                             " White (create onionskin layer with white layermask)\n"
+                             " Selection (create layermask from selection in current image)\n"
+                             " Selection (create layermask from selection in current image) and clip layer to selection size")
+                         , NULL);
+
+
+
+
   tab1_row++;
 
 
@@ -1320,7 +1450,7 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
   {
      GtkWidget *auto_table;
 
-     auto_table = gtk_table_new (1, 2, TRUE);
+     auto_table = gtk_table_new (1, 3, TRUE);
      gtk_widget_show (auto_table);
      gtk_table_attach (GTK_TABLE (table1), auto_table, 0, 3, tab1_row, tab1_row+1,
                       (GtkAttachOptions) (GTK_FILL),
@@ -1350,6 +1480,27 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
                        1, 2, 0, 1,
                        (GtkAttachOptions) (GTK_FILL),
                        (GtkAttachOptions) (GTK_FILL), 0, 0);
+
+
+    /* the active_mode  combo box */
+    oni__combo_active_mode = gimp_int_combo_box_new (_("Keep active layer"),                   0,
+                              _("Set Onion layer active"),  1,
+                              _("Set Onion layermask active"),  2,
+                              NULL);
+    gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (oni__combo_active_mode),
+                                 0,  /* initial gint value */
+                                 G_CALLBACK (on_oni__combo_active_mode),
+                                 gpp);
+
+    gtk_widget_show (oni__combo_active_mode);
+    gtk_table_attach (GTK_TABLE (auto_table), oni__combo_active_mode, 2, 3, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+    gimp_help_set_help_data(oni__combo_active_mode
+                         , _("Handling of active layer after onion layer creation")
+                         , NULL);
+                         
+
   }
 
 
@@ -1465,6 +1616,7 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
                       G_CALLBACK (on_oni__checkbutton_auto_delete_toggled),
                       gpp);
 
+
   if (oni__button_help)
     g_signal_connect (G_OBJECT (oni__button_help), "clicked",
                       G_CALLBACK (on_oni__button_help_clicked),
@@ -1489,11 +1641,12 @@ create_oni__dialog (GapOnionMainGlobalParams *gpp)
                       gpp);
 
 
-
   /* copy widget pointers to global parameter
    * (for use in callbacks outside of this procedure)
    */
   gpp->oni__entry_select_string         = oni__entry_select_string;
+  gpp->oni__combo_active_mode           = oni__combo_active_mode;
+  gpp->oni__combo_layermask_mode        = oni__combo_layermask_mode;
   gpp->oni__combo_ref_mode              = oni__combo_ref_mode;
   gpp->oni__combo_select_mode           = oni__combo_select_mode;
   gpp->oni__spinbutton_ignore_botlayers = oni__spinbutton_ignore_botlayers;
@@ -1529,6 +1682,8 @@ gap_onion_dlg_init_default_values(GapOnionMainGlobalParams *gpp)
           gpp->vin.auto_delete_before_save = FALSE;
 
           gpp->vin.num_olayers        = 2;
+          gpp->vin.layermask_mode     = gtab_layermask_modes[0]; /* none layermask mode */
+          gpp->vin.active_mode        = gtab_active_modes[0];  /* none keep active layer */
           gpp->vin.ref_mode           = gtab_ref_modes[0]; /* normal ref mode */
           gpp->vin.ref_delta          = -1;
           gpp->vin.ref_cycle          = FALSE;
@@ -1576,14 +1731,20 @@ gap_onion_dlg_onion_cfg_dialog(GapOnionMainGlobalParams *gpp)
   {
     gint32 l_ref_mode;
     gint32 l_select_mode;
+    gint32 l_layermask_mode;
+    gint32 l_active_mode;
 
     l_ref_mode = gpp->vin.ref_mode;
     l_select_mode = gpp->vin.select_mode;
+    l_layermask_mode = gpp->vin.layermask_mode;
+    l_active_mode = gpp->vin.active_mode;
 
     gpp->main_dialog = create_oni__dialog(gpp);
 
     gpp->vin.ref_mode = l_ref_mode;
     gpp->vin.select_mode = l_select_mode;
+    gpp->vin.layermask_mode = l_layermask_mode;
+    gpp->vin.active_mode = l_active_mode;
   }
 
   if(gap_debug) printf("gap_onion_dlg_onion_cfg_dialog: After create_oni__dialog\n");

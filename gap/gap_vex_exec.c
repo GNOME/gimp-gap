@@ -107,7 +107,7 @@ p_frame_postprocessing(t_GVA_Handle   *gvahand
   if (gpp->val.generate_alpha_via_bluebox == TRUE)
   {
     if ((gpp->val.extract_with_layermask == TRUE)
-    || (gpp->val.extract_with_layermask == TRUE))
+    || (gpp->val.extract_alpha_as_gray_frames == TRUE))
     {
       l_bbox_layer_id = gimp_layer_copy(gvahand->layer_id);
       gimp_image_insert_layer(gvahand->image_id, l_bbox_layer_id, 0, -1);
@@ -134,7 +134,12 @@ p_frame_postprocessing(t_GVA_Handle   *gvahand
       {
         printf("GRAY created layermask_id:%d\n", l_layermask_id);
       }
+      gimp_layer_add_mask(l_bbox_layer_id, l_layermask_id);
       gap_layer_copy_paste_drawable(gvahand->image_id, gvahand->layer_id, l_layermask_id);
+      /* insert the graymask above gvahand->layer_id normal mode and merge_down */
+      //gimp_image_set_active_layer (gvahand->image_id, gvahand->layer_id);
+      //gimp_image_insert_layer(gvahand->image_id, l_layermask_id, 0, -1);  /* 0, -1 is insert above the active layer */
+      //gvahand->layer_id = gimp_image_merge_down(gvahand->image_id, l_layermask_id, GIMP_EXPAND_AS_NECESSARY);
     }
     else if (gpp->val.extract_with_layermask == TRUE)
     {

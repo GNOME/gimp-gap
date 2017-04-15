@@ -74,6 +74,9 @@ typedef struct GapVinVideoInfo {
   gboolean asc_opacity;    /* TRUE: the far neighbour frames have higher opacity
                             * FALSE: near neighbour frames have higher opacity (DEFAULT)
                             */
+  gint32  layermask_mode;  /* onionskin layermask creation 0: NONE, 1:SELECTION, 2:BLACK, 3:WHITE */
+  gint32  active_mode;     /* 0 keep active layer, 1 set oinon layer active, 2 set onion layermask active */
+
 } GapVinVideoInfo;
 
 

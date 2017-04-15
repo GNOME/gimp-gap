@@ -65,6 +65,17 @@
 #define GAP_ONION_REFMODE_BIDRIECTIONAL_SINGLE   1
 #define GAP_ONION_REFMODE_BIDRIECTIONAL_DOUBLE   2
 
+#define GAP_ONION_LAYERMASK_MODE_NONE            0
+#define GAP_ONION_LAYERMASK_MODE_BLACK           1
+#define GAP_ONION_LAYERMASK_MODE_WHITE           2
+#define GAP_ONION_LAYERMASK_MODE_SELECTION       3
+#define GAP_ONION_LAYERMASK_MODE_SELECTION_CLIP  4
+
+#define GAP_ONION_ACTIVE_MODE_NONE               0
+#define GAP_ONION_ACTIVE_MODE_ONION_LAYER        1
+#define GAP_ONION_ACTIVE_MODE_ONION_LAYER_MASK   2
+
+
 typedef struct GapOnionBaseParasite_data {
    time_t       timestamp;      /* UTC timecode of creation time */
    gint32       tattoo;         /* unique tattoo */

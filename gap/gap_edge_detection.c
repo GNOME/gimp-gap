@@ -1,5 +1,11 @@
 /* gap_edge_detection.c
  *    by hof (Wolfgang Hofer)
+ *
+ *   This module implements 2 different edge detection methods.
+ *   - One of them [gap_edgeDetection] is used for internal purposes in other GAP features
+ *   - The alternative method [gap_edgeDetectionByShiftBlurDiff]  based on shifted and or blured copies is reachable via the Video menu 
+ *     and callable via PDB
+ *
  *  2010/08/10
  *
  */
@@ -56,6 +62,11 @@ typedef struct GapEdgeContext { /* nickname: ectx */
      GimpPixelFetcher *pftRef;
 
   } GapEdgeContext;
+
+
+static gboolean      p_call_plug_in_gauss_iir2(gint32 imageId, gint32 layerId, gdouble radiusX, gdouble radiusY);
+static gint32        p_createEdgeLayer(gint32 imageId, gint32 activeDrawableId, GapEdgeValues *edvalPtr, 
+                         gint32 offset1X, gint32 offset1Y, gint32 offset2X, gint32 offset2Y);
 
 
 /* ----------------------------------
@@ -501,303 +512,293 @@ gint32 gap_edgeDetection(gint32  refDrawableId
 
 
 /*
- * Stuff for the alternative algorithm:
+ * Stuff for the alternative algorithm: (reachable via GUI dialog)
  *
  * ----------------------------------------------
- * Edge detection via Difference to Blurred Copy 
+ * Edge detection via Difference to optional Shifted and Blurred Copy 
  * ----------------------------------------------
- * 
+ * This can be used same as the Difference of Gaussian Blur (DoG) edge detection
+ * that is shiped as one of the GIMP's standard edge detection methods,
+ * but provides additional features based on shifting before compare.
+ * where shift and or blur may be combined or just use only shifting (when blur radius values are 0.0)
+ * or use only blur (when all the shift values are 0)
+ *
  */
- 
- 
- /* ---------------------------------
-  * p_colordiffProcessingForOneRegion
-  * ---------------------------------
-  * subtract RGB channels of the refPR from edgePR
-  * and set edgePR pixels to desaturated result of the subtraction.
-  * (desaturation is done by lightness)
-  */
- static void
- p_colordiffProcessingForOneRegion (const GimpPixelRgn *edgePR
-                     , const GimpPixelRgn *refPR
-                     , const GimpPixelRgn *ref2PR
-                     , gdouble threshold01f, gboolean invert
-                     , gint cx, gint cy
-                     )
- {
-   guint    row;
-   guchar* ref = refPR->data;
-   guchar* ref2 = ref2PR->data;
-   guchar* edge = edgePR->data;
-   gdouble colordiff;
-   
-   if(gap_debug)
-   {
-     printf("p_colordiffProcessingForOneRegion START Edge:w:%d h:%d x:%d y:%d  Ref:w:%d h:%d x:%d y:%d \n"
-        ,edgePR->w
-        ,edgePR->h
-        ,edgePR->x
-        ,edgePR->y
-        ,refPR->w
-        ,refPR->h
-        ,refPR->x
-        ,refPR->y
-         );
-   }
-   
-   for (row = 0; row < edgePR->h; row++)
-   {
-     guint  col;
-     guint  idxref;
-     guint  idxref2;
-     guint  idxedge;
- 
-     idxref = 0;
-     idxref2 = 0;
-     idxedge = 0;
-     for(col = 0; col < edgePR->w; col++)
-     {
-       gint value;
-       gboolean  debugPrint;
-       gdouble colordiff1;
-       gdouble colordiff2;
- 
-       debugPrint = FALSE;
-       
-       if((cx == edgePR->x + col)
-       && (cy == edgePR->y + row))
-       {
-         debugPrint = TRUE;
-         printf("threshold01f:%.4f\n", (float)threshold01f);
-       }
-       
-//        colordiff = gap_colordiff_simple_guchar(&ref[idxref]
-//                      , &edge[idxref]
-//                      , debugPrint    /* debugPrint */
-//                      );
-//        colordiff = gap_colordiff_guchar(&ref[idxref]
-//                             ,  &edge[idxref]
-// 			    , 1.15            /* gdouble color sensitivity 1.0 to 2.0 */
-//                             , debugPrint
-//                             );
-       colordiff1 = gap_colordiff_hvmax_guchar(&ref[idxref]
-                   , &edge[idxref]
-                   , debugPrint
-                   );
-       colordiff2 = gap_colordiff_hvmax_guchar(&ref2[idxref]
-                   , &edge[idxref]
-                   , debugPrint
-                   );
-       colordiff = MAX(colordiff1, colordiff2);          
-       value = 0;
-       if(colordiff > threshold01f)
-       {
-         gdouble valuef;
-         
-         valuef = colordiff * 255.0;
-         value = CLAMP(valuef, 0, 255);
-       }
 
-       if (invert)
-       {
-         value = 255 - value;
-       }
-       
-       if(debugPrint)
-       {
-         printf("value: %d\n"
-               ,(int)value
-               );
-       }
-       
-       edge[idxedge]    = value;
-       edge[idxedge +1] = value;
-       edge[idxedge +2] = value;
- 
- 
-       idxref += refPR->bpp;
-       idxref2 += ref2PR->bpp;
-       idxedge += edgePR->bpp;
-     }
- 
-     ref += refPR->rowstride;
-     ref2 += ref2PR->rowstride;
-     edge += edgePR->rowstride;
- 
-   }
- 
- 
- }  /* end p_colordiffProcessingForOneRegion */
- 
- 
- /* ----------------------------------------
-  * p_subtract_ref_layer
-  * ----------------------------------------
-  * setup pixel regions and perform edge detection by subtracting RGB channels 
-  * of the orignal (refDrawable) from the blurred copy (edgeDrawable)
-  * and convert the rgb differences to lightness.
-  *
-  * as result of this processing in the edgeDrawable contains a desaturated
-  * colordifference of the original versus blured copy.
-  */
- static void
- p_subtract_ref_layer(gint32 image_id, GimpDrawable *edgeDrawable, GimpDrawable *refDrawable
-   , gdouble threshold, gint32 shift, gboolean invert)
- {
-   GimpPixelRgn edgePR;
-   GimpPixelRgn refPR;
-   GimpPixelRgn ref2PR;
-   gpointer  pr;
-   gdouble   threshold01f;
-   gdouble   threshold255f;
-   //gint      threshold255;
-   gint      cx;
-   gint      cy;
-   
-   threshold01f = CLAMP((threshold / 100.0), 0, 1);
-   threshold255f = 255.0 * threshold01f;
-   //threshold255 = threshold255f;
-
-   p_get_debug_coords_from_guides(image_id, &cx, &cy);
-   
-   gimp_pixel_rgn_init (&edgePR, edgeDrawable, 0, 0
-                       , edgeDrawable->width - shift, edgeDrawable->height - shift
-                       , TRUE     /* dirty */
-                       , FALSE    /* shadow */
-                        );
-
-   /* start at shifted offset 0/+1 */ 
-   gimp_pixel_rgn_init (&refPR, refDrawable, 0, shift
-                       , refDrawable->width - shift, refDrawable->height - shift
-                       , FALSE     /* dirty */
-                       , FALSE     /* shadow */
-                        );
-   /* start at shifted offset +1/0 */ 
-   gimp_pixel_rgn_init (&ref2PR, refDrawable, shift, 0
-                       , refDrawable->width - shift, refDrawable->height - shift
-                       , FALSE     /* dirty */
-                       , FALSE     /* shadow */
-                        );
- 
-   /* compare pixel areas in tiled portions via pixel region processing loops.
-    */
-   for (pr = gimp_pixel_rgns_register (3, &edgePR, &refPR, &ref2PR);
-        pr != NULL;
-        pr = gimp_pixel_rgns_process (pr))
-   {
-     p_colordiffProcessingForOneRegion (&edgePR, &refPR, &ref2PR, threshold01f, invert, cx, cy);
-   }
- 
-   gimp_drawable_flush (edgeDrawable);
-   gimp_drawable_update (edgeDrawable->drawable_id
-                          , 0, 0
-                          , edgeDrawable->width, edgeDrawable->height
-                          );
- 
- }  /* end  p_subtract_ref_layer */
- 
- 
- 
  /* ---------------------------------
   * p_call_plug_in_gauss_iir2
   * ---------------------------------
   */
- gboolean
- p_call_plug_in_gauss_iir2(gint32 imageId, gint32 edgeLayerId, gdouble radiusX, gdouble radiusY)
- {
-    static char     *l_called_proc = "plug-in-gauss-iir2";
-    GimpParam       *return_vals;
-    int              nreturn_vals;
- 
-    return_vals = gimp_run_procedure (l_called_proc,
-                                  &nreturn_vals,
-                                  GIMP_PDB_INT32,     GIMP_RUN_NONINTERACTIVE,
-                                  GIMP_PDB_IMAGE,     imageId,
-                                  GIMP_PDB_DRAWABLE,  edgeLayerId,
-                                  GIMP_PDB_FLOAT,     radiusX,
-                                  GIMP_PDB_FLOAT,     radiusY,
-                                  GIMP_PDB_END);
- 
-    if (return_vals[0].data.d_status == GIMP_PDB_SUCCESS)
-    {
-       gimp_destroy_params(return_vals, nreturn_vals);
-       return (TRUE);   /* OK */
-    }
-    gimp_destroy_params(return_vals, nreturn_vals);
-    printf("GAP: Error: PDB call of %s failed, d_status:%d %s\n"
+static gboolean
+p_call_plug_in_gauss_iir2(gint32 imageId, gint32 layerId, gdouble radiusX, gdouble radiusY)
+{
+  static char     *l_called_proc = "plug-in-gauss-iir2";
+  GimpParam       *return_vals;
+  int              nreturn_vals;
+  
+  if(gap_debug)
+  {
+    printf("calling %s  imageId:%d layerId:%d rX:%f rY:%f\n"
        , l_called_proc
-       , (int)return_vals[0].data.d_status
-       , gap_status_to_string(return_vals[0].data.d_status)
+       , (int)imageId
+       , (int)layerId
+       , (float)radiusX
+       , (float)radiusY
        );
-    return(FALSE);
- }       /* end p_call_plug_in_gauss_iir2 */
+  }
  
+  return_vals = gimp_run_procedure (l_called_proc,
+                                &nreturn_vals,
+                                GIMP_PDB_INT32,     GIMP_RUN_NONINTERACTIVE,
+                                GIMP_PDB_IMAGE,     imageId,
+                                GIMP_PDB_DRAWABLE,  layerId,
+                                GIMP_PDB_FLOAT,     radiusX,
+                                GIMP_PDB_FLOAT,     radiusY,
+                                GIMP_PDB_END);
  
+  if (return_vals[0].data.d_status == GIMP_PDB_SUCCESS)
+  {
+     gimp_destroy_params(return_vals, nreturn_vals);
+     return (TRUE);   /* OK */
+  }
+  gimp_destroy_params(return_vals, nreturn_vals);
+  printf("GAP: Error: PDB call of %s failed, d_status:%d %s\n"
+     , l_called_proc
+     , (int)return_vals[0].data.d_status
+     , gap_status_to_string(return_vals[0].data.d_status)
+     );
+  return(FALSE);
+}       /* end p_call_plug_in_gauss_iir2 */
  
  /* ---------------------------------
-  * gap_edgeDetectionByBlurDiff
+  * p_createEdgeLayer
   * ---------------------------------
+  * returns the layerId of the created edge layer.
+  *
+  * inserts 3 temporarty layers above the activeDrawableId:
+  *
+  *   shiftLayer2Id        (top, SUBTRACT mode, optionally shifted & blured)
+  *   shiftLayer1Id        (NORMAL mode, optionally shifted & blured)
+  *   blackLayerId         (NORMAL mode, filled black)
+  *   activeDrawableId     (base layer for the 3 duplicates)
+  *
+  * and then merges down the shifted layers to the resulting edgeLayer.
+  *
+  * Note that the black_layer provides "area without edges" information on the borders
+  * and provides black background in desired size in the 2nd mergeDown operation.
   */
- gint32
- gap_edgeDetectionByBlurDiff(gint32 activeDrawableId, gdouble blurRadius, gdouble blurResultRadius
-   , gdouble threshold, gint32 shift, gboolean doLevelsAutostretch
-   , gboolean invert)
- {
-   //gint32 blurLayerId;
-   gint32 edgeLayerId;
-   gint32 imageId;
-   GimpDrawable *edgeDrawable;
-   GimpDrawable *refDrawable;
-   GimpDrawable *blurDrawable;
+static gint32
+p_createEdgeLayer(gint32 imageId, gint32 activeDrawableId, GapEdgeValues *edvalPtr, 
+   gint32 offset1X, gint32 offset1Y, gint32 offset2X, gint32 offset2Y)
+{
+  gint32 shiftLayer1Id;
+  gint32 shiftLayer2Id;
+  gint32 blackLayerId;
+  gint32 mergedLayerId;
+  gint32 edgeLayerId;
+  
+  if(gap_debug)
+  {
+    printf("p_createEdgeLayer: START imageId:%d  activeDrawableId:%d offset1(X,Y): (%d %d) offset2(X,Y): (%d %d)\n"
+      , (int)imageId
+      , (int)activeDrawableId
+      , (int)offset1X
+      , (int)offset1Y
+      , (int)offset2X
+      , (int)offset2Y
+      );
+  }
+
+  gimp_image_set_active_layer(imageId, activeDrawableId); 
+
+  blackLayerId = gimp_layer_copy(activeDrawableId);
+  gimp_image_insert_layer (imageId, blackLayerId, 0, -1 /* stackposition -1 above th active drawable */ );
+  gimp_item_set_name(blackLayerId, "blackLayer");
+    
+  /* initial fill the edge base layer with black opaque color */
+  gap_layer_clear_to_color(blackLayerId
+                             ,0.0 /* red */
+                             ,0.0 /* green */
+                             ,0.0 /* blue */
+                             ,1.0 /* alpha */
+                           );
+                           
+  gimp_image_set_active_layer(imageId, blackLayerId); 
+  
+  shiftLayer1Id = gimp_layer_copy(activeDrawableId);
+  gimp_image_insert_layer (imageId, shiftLayer1Id, 0, -1 /* stackposition -1 above th active blackLayerId */ );
+  gimp_layer_set_offsets(shiftLayer1Id, offset1X, offset1Y);
+  gimp_item_set_name(shiftLayer1Id, "shiftLayer1");
+
+  if ((edvalPtr->blurRadius1X > 0.0) || (edvalPtr->blurRadius1Y > 0.0))
+  {
+    p_call_plug_in_gauss_iir2(imageId, shiftLayer1Id, edvalPtr->blurRadius1X, edvalPtr->blurRadius1Y);
+  }
+
+  gimp_image_set_active_layer(imageId, shiftLayer1Id); 
+
+  
+  shiftLayer2Id = gimp_layer_copy(activeDrawableId);
+  gimp_image_insert_layer (imageId, shiftLayer2Id, 0, -1 /* stackposition -1 above th active shiftLayer1Id */ );
+  gimp_layer_set_offsets(shiftLayer2Id, offset2X, offset2Y);
+  gimp_layer_set_mode(shiftLayer2Id, GIMP_SUBTRACT_MODE);
+  gimp_item_set_name(shiftLayer2Id, "shiftLayer2");
+
+  if ((edvalPtr->blurRadius2X > 0.0) || (edvalPtr->blurRadius2Y > 0.0))
+  {
+    p_call_plug_in_gauss_iir2(imageId, shiftLayer2Id, edvalPtr->blurRadius2X, edvalPtr->blurRadius2Y);
+  }
+
+
+
+
+  if(gap_debug)
+  {
+    printf("p_createEdgeLayer: activeDrawableId:%d blackLayerId:%d shiftLayer1Id:%d shiftLayer2Id:%d\n"
+      , (int)activeDrawableId
+      , (int)blackLayerId
+      , (int)shiftLayer1Id
+      , (int)shiftLayer2Id
+      );
+  }
+  
+  /* merge down topmost shiftLayer2Id into shiftLayer1Id */
+  mergedLayerId = gimp_image_merge_down(imageId, shiftLayer2Id, GIMP_EXPAND_AS_NECESSARY);
+  gimp_item_set_name(mergedLayerId, "mergedLayer");
+
+  if(gap_debug)
+  {
+    printf("p_createEdgeLayer: mergedLayerId=%d\n", mergedLayerId);
+  }
+
+  /* further merge down  into blackLayerId */
+  edgeLayerId = gimp_image_merge_down(imageId, mergedLayerId, GIMP_CLIP_TO_BOTTOM_LAYER);
+  gimp_item_set_name(edgeLayerId, "edgeLayer");
+
+  gimp_image_set_active_layer(imageId, activeDrawableId); 
+
+  return (edgeLayerId);
+
+  
+}  /* end p_createEdgeLayer */
 
  
- 
- 
-   imageId = gimp_item_get_image(activeDrawableId);
- 
-   edgeLayerId = gimp_layer_copy(activeDrawableId);
-   gimp_image_insert_layer (imageId, edgeLayerId, 0, 0 /* stackposition */ );
- 
-   edgeDrawable = gimp_drawable_get(edgeLayerId);
-   refDrawable = gimp_drawable_get(activeDrawableId);
- 
-   if(blurRadius > 0.0)
-   {
-     p_call_plug_in_gauss_iir2(imageId, edgeLayerId, blurRadius, blurRadius);
-   }
-   
-   blurDrawable = NULL;
-//    blurLayerId = gimp_layer_copy(edgeLayerId);
-//    gimp_image_insert_layer (imageId, blurLayerId, 0, 0 /* stackposition */ );
-//    blurDrawable = gimp_drawable_get(blurLayerId);
+/* ---------------------------------
+ * gap_edgeDetectionByShiftBlurDiff
+ * ---------------------------------
+ */
+gint32
+gap_edgeDetectionByShiftBlurDiff(gint32 activeDrawableId, GapEdgeValues *edvalPtr)
+{
+  gint32 edgeLayerId;
+  gint32 edgeHorizontalLayerId;
+  gint32 edgeVerticalLayerId;
+  gint32 imageId;
+  gint32 retLayerId;
+  gint   src_offset_x;
+  gint   src_offset_y;
 
-   p_subtract_ref_layer(imageId, edgeDrawable, refDrawable, threshold, shift, invert);
-   //p_subtract_ref_layer(imageId, edgeDrawable, blurDrawable, threshold, shift, invert);
-   if (doLevelsAutostretch)
-   {
-     gimp_levels_stretch(edgeLayerId);
-   }
 
-   if(blurResultRadius > 0.0)
-   {
-     p_call_plug_in_gauss_iir2(imageId, edgeLayerId, blurResultRadius, blurResultRadius);
-   }
- 
-   if(refDrawable)
-   {
-     gimp_drawable_detach(refDrawable);
-   }
-   
-   if(edgeDrawable)
-   {
-     gimp_drawable_detach(edgeDrawable);
-   }
-   if(blurDrawable)
-   {
-     gimp_drawable_detach(blurDrawable);
-   }
- 
-   return (edgeLayerId);
-   
- }  /* end gap_edgeDetectionByBlurDiff */
+  imageId = gimp_item_get_image(activeDrawableId);
+  gimp_drawable_offsets(activeDrawableId, &src_offset_x, &src_offset_y);
+  
+  
+  
+  edgeHorizontalLayerId = p_createEdgeLayer(imageId, activeDrawableId, edvalPtr 
+     , src_offset_x - edvalPtr->shiftLeft   /* offset1X */
+     , src_offset_y                         /* offset1Y */
+     , src_offset_x + edvalPtr->shiftRight  /* offset2X */
+     , src_offset_y                         /* offset2Y */
+     );
+
+
+  edgeVerticalLayerId = -1;
+  if ((edvalPtr->shiftUp != 0)
+  ||  (edvalPtr->shiftDown != 0)
+  ||  (edvalPtr->blurRadius1X > 0.0)
+  ||  (edvalPtr->blurRadius1Y > 0.0)
+  ||  (edvalPtr->blurRadius2X > 0.0)
+  ||  (edvalPtr->blurRadius2Y > 0.0))
+  {
+  
+    edgeVerticalLayerId = p_createEdgeLayer(imageId, activeDrawableId, edvalPtr 
+     , src_offset_x                        /* offset1X */
+     , src_offset_y - edvalPtr->shiftUp    /* offset1Y */
+     , src_offset_x                        /* offset2X */
+     , src_offset_y + edvalPtr->shiftDown  /* offset2Y */
+     );
+
+    gimp_layer_set_mode(edgeHorizontalLayerId, GIMP_LIGHTEN_ONLY_MODE);
+
+    /* for operation in both directions
+     * the layerstack at this point shall look like this:
+     *
+     *  edgeHorizontalLayerId (topmost)
+     *  edgeVerticalLayerId
+     *  activeDrawableId      
+     *
+     */
+
+    
+    /* merge edgeHorizontalLayerId down into edgeVerticalLayerId 
+     * note that the upper layer edgeHorizontalLayerId has GIMP_LIGHTEN_ONLY_MODE mode
+     * so the result has a mix of both horizontal and vertiacal detected edge lines that are brighter
+     * than the other areas in both edgeHorizontalLayerId and edgeVerticalLayerId)
+     */
+    edgeLayerId = gimp_image_merge_down(imageId, edgeHorizontalLayerId, GIMP_CLIP_TO_BOTTOM_LAYER);
+
+  }
+  else
+  {
+    edgeLayerId = edgeHorizontalLayerId;
+  }
+  
+  
+  /* postprocessing options */
+  if (edvalPtr->autoLevels)
+  {
+    /* for gimp-2.8.xx use the old name gimp_levels_stretch (that is deprected since gimp-2.9) */
+    gimp_levels_stretch(edgeLayerId);
+    
+    // GIMP-2.9 gimp_drawable_levels_stretch(edgeLayerId);
+  }
+
+  if (edvalPtr->desaturate)
+  {
+    /* for gimp-2.8.xx use the old name gimp_desaturate_full (that is deprected since gimp-2.9) */
+    gimp_desaturate_full(edgeLayerId, GIMP_DESATURATE_LIGHTNESS);
+
+    // GIMP-2.9 calls should look like this:
+    //  desaturatedDrawableId = gimp_drawable_desaturate(drawable_id
+    //                       , cuvals->desaturate_mode
+    //                       );
+  }
+
+  if (edvalPtr->invert)
+  {
+    /* for gimp-2.8.xx use the old name gimp_levels_stretch (that is deprected since gimp-2.9) */
+    gimp_invert(edgeLayerId);
+    
+    // GIMP-2.9  gimp_drawable_invert(edgeLayerId);
+  }
+
+  if (edvalPtr->createEdgeAsNewLayer)
+  {
+    retLayerId = edgeLayerId;
+  }
+  else
+  {
+    /* in case no new layer is requested replace the active layer */
+    gap_layer_copy_content (activeDrawableId,  edgeLayerId /* src_drawable_id */ );
+  
+    /* and delete the edgeLayerId after copying */
+    gimp_image_remove_layer(imageId, edgeLayerId);
+    
+    retLayerId = activeDrawableId;
+  }
+  
+  
+  return (retLayerId);
+  
+}  /* end gap_edgeDetectionByShiftBlurDiff */
  

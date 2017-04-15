@@ -58,6 +58,8 @@ BASE_SOURCES = \
 	gap_colormask_file.h 	\
         gap_edge_detection.c    \
         gap_edge_detection.h    \
+	gap_geo.c		\
+	gap_geo.h		\
 	gap_image.c		\
 	gap_image.h		\
 	gap_layer_copy.c	\
@@ -67,6 +69,8 @@ BASE_SOURCES = \
 	gap_lib_common_defs.h	\
 	gap_detail_tracking_exec.c	\
 	gap_detail_tracking_exec.h 	\
+	gap_detail_align_exec.c	\
+	gap_detail_align_exec.h	\
 	gap_locate.c		\
 	gap_locate.h		\
 	gap_locate2.c		\
@@ -134,6 +138,7 @@ libgapstory_a_SOURCES = $(BASE_SOURCES)	$(MOVEPATH_SOURCES) \
 libexec_PROGRAMS = \
 	gap_blend_fill		\
 	gap_bluebox		\
+	gap_edge		\
 	gap_colormask		\
 	gap_detail_tracking	\
 	gap_plugins		\
@@ -148,6 +153,7 @@ libexec_PROGRAMS = \
 	gap_navigator_dialog	\
 	gap_player		\
 	gap_onion		\
+	gap_opacity_exposure	\
 	gap_storyboard		\
 	$(GAP_VIDEO_EXTRACT)	\
 	$(GAP_VIDEO_INDEX)	\
@@ -161,6 +167,7 @@ libexec_PROGRAMS = \
 	gap_wr_trans		\
 	gap_wr_resynth		\
 	gap_wr_layermode	\
+	gap_wr_desaturate       \
 	gap_wr_opacity
 
 
@@ -176,6 +183,16 @@ gap_bluebox_SOURCES = \
 	gap_bluebox_main.c	\
 	gap_bluebox.c		\
 	gap_bluebox.h		\
+	gap_libgimpgap.h	
+
+gap_edge_SOURCES = \
+	gap_lastvaldesc.c	\
+	gap_lastvaldesc.h	\
+	gap_edge_detection_main.c	\
+	gap_edge_detection.c		\
+	gap_edge_detection.h		\
+	gap_edge_detection_dialog.c	\
+	gap_edge_detection_dialog.h	\
 	gap_libgimpgap.h	
 
 gap_colormask_SOURCES = \
@@ -364,6 +381,13 @@ gap_onion_SOURCES = \
 	gap_onion_worker.h	\
 	gap_libgimpgap.h	
 
+gap_opacity_exposure_SOURCES = \
+	gap_lastvaldesc.c	\
+	gap_lastvaldesc.h	\
+	gap_opacity_exposure_main.c   \
+	gap_libgimpgap.h	
+
+
 gap_storyboard_SOURCES = \
 	gap_story_main.c	\
 	gap_story_main.h	\
@@ -491,6 +515,13 @@ gap_wr_resynth_SOURCES = \
 	gap_libgimpgap.h
 
 
+gap_wr_desaturate_SOURCES = \
+	gap_wr_desaturate.c	\
+	gap_lastvaldesc.c	\
+	gap_lastvaldesc.h	\
+	gap_libgimpgap.h
+
+
 if OS_WIN32
 mwindows = -mwindows
 endif
@@ -520,6 +551,7 @@ gap_bluebox_LDADD =          $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_blend_fill_LDADD =       $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_colormask_LDADD =        $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_detail_tracking_LDADD =  $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
+gap_edge_LDADD =             $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_filter_LDADD =           $(GAPVIDEOAPI) $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_fmac_LDADD =             $(GAPVIDEOAPI) $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_fmac_varying_LDADD =     $(GAPVIDEOAPI) $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
@@ -530,6 +562,7 @@ gap_name2layer_LDADD =       $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_navigator_dialog_LDADD = $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_player_LDADD =           $(GAPVIDEOAPI) $(GAP_AUDIO_LIBS) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
 gap_onion_LDADD =            $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
+gap_opacity_exposure_LDADD = $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_storyboard_LDADD =       $(GAPVIDEOAPI) $(GAP_AUDIO_LIBS) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
 gap_video_extract_LDADD =    $(GAPVIDEOAPI) $(GAP_AUDIO_LIBS) ${LIBGAPSTORY} $(LIBGAPBASE) $(GIMP_LIBS)
 gap_video_index_LDADD =      $(GAPVIDEOAPI) $(LIBGAPSTORY) $(LIBGAPBASE)  $(GIMP_LIBS)
@@ -544,6 +577,7 @@ gap_wr_color_levels_LDADD =  $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_wr_color_huesat_LDADD =  $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_wr_color_balance_LDADD = $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 gap_wr_resynth_LDADD =       $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
+gap_wr_desaturate_LDADD =       $(LIBGIMPGAP)  $(LIBGAPBASE) $(GIMP_LIBS)
 
 
 EXTRA_DIST = \

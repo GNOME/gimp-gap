@@ -122,6 +122,15 @@
 #define  GAP_MOD_ACM_MERGE_DOWN_IMG                68
 #define  GAP_MOD_ACM_MERGE_DOWN_BG                 69
 
+
+#define  GAP_MOD_ACM_RESIZE_TO_SELECTION_1         70
+#define  GAP_MOD_ACM_RESIZE_TO_SELECTION_N         71
+#define  GAP_MOD_ACM_SET_ACTIVE_LAYER              72
+#define  GAP_MOD_ACM_SET_ACTIVE_LAYERMASK          73
+#define  GAP_MOD_ACM_RECORD_LAYER_OFFSETS          74
+
+
+
 typedef struct
 {
   gint32 layer_id;

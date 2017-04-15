@@ -105,7 +105,7 @@ gap_onion_base_check_is_onion_layer(gint32 layer_id)
    if(gap_debug) printf("gap_onion_base_check_is_onion_layer: START layer_id %d\n", (int)layer_id);
 
    l_found = FALSE;
-   l_parasite = gimp_drawable_parasite_find(layer_id, GAP_ONION_PARASITE_NAME);
+   l_parasite = gimp_item_get_parasite(layer_id, GAP_ONION_PARASITE_NAME);
    if (l_parasite)
    {
       l_parasite_data = (GapOnionBaseParasite_data *)l_parasite->data;
@@ -281,6 +281,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
   char         *l_name;
   gint32        l_layer_id;
   gint32        l_new_layer_id;
+  gint32        l_layermask_id;
   gint32     *l_layers_list;
   gint        l_nlayers;
   gdouble     l_opacity;
@@ -309,6 +310,7 @@ gap_onion_base_onionskin_apply(gpointer gpp
      printf("  ainfo_last_frame_nr: %d\n",     (int)ainfo_last_frame_nr);
      printf("  ainfo_basename: %s\n",     ainfo_basename);
      printf("  ainfo_extension: %s\n",    ainfo_extension);
+     printf("  layermask_mode:  %d\n", (int)vin_ptr->layermask_mode);
 
   }
 
@@ -572,9 +574,68 @@ gap_onion_base_onionskin_apply(gpointer gpp
       g_free(l_name);
 
 
+
+      /* (optional) create layermask */
+      l_layermask_id = -1;
+      switch(vin_ptr->layermask_mode)
+      {
+        case GAP_ONION_LAYERMASK_MODE_SELECTION:
+        case GAP_ONION_LAYERMASK_MODE_SELECTION_CLIP:
+          if(gimp_layer_get_mask(l_new_layer_id) >= 0)
+          {
+            gimp_layer_remove_mask (l_new_layer_id, GIMP_MASK_APPLY);
+          }
+          l_layermask_id = gimp_layer_create_mask(l_new_layer_id, GIMP_ADD_SELECTION_MASK);
+          gimp_layer_add_mask(l_new_layer_id, l_layermask_id);
+          if (vin_ptr->layermask_mode == GAP_ONION_LAYERMASK_MODE_SELECTION_CLIP)
+          {
+            gap_layer_resize_to_selection(image_id, l_new_layer_id);
+          }
+          break;
+        case GAP_ONION_LAYERMASK_MODE_BLACK:
+          if(gimp_layer_get_mask(l_new_layer_id) >= 0)
+          {
+            gimp_layer_remove_mask (l_new_layer_id, GIMP_MASK_DISCARD);
+          }
+          l_layermask_id = gimp_layer_create_mask(l_new_layer_id, GIMP_ADD_BLACK_MASK);
+          gimp_layer_add_mask(l_new_layer_id, l_layermask_id);
+          break;
+        case GAP_ONION_LAYERMASK_MODE_WHITE:
+          if(gimp_layer_get_mask(l_new_layer_id) >= 0)
+          {
+            gimp_layer_remove_mask (l_new_layer_id, GIMP_MASK_DISCARD);
+          }
+          l_layermask_id = gimp_layer_create_mask(l_new_layer_id, GIMP_ADD_WHITE_MASK);
+          gimp_layer_add_mask(l_new_layer_id, l_layermask_id);
+          break;
+        default:  /* GAP_ONION_LAYERMASK_MODE_NONE */
+          break;
+      }
+
+
       /* Set parasite or tattoo */
       gap_onion_base_mark_as_onionlayer(l_new_layer_id);
       /* gimp_layer_set_opacity(l_new_layer_id, l_opacity); */
+      
+      /* Handle activation of onion layer or its layermask */
+      if(vin_ptr->active_mode != GAP_ONION_ACTIVE_MODE_NONE)
+      {
+         gimp_image_set_active_layer(image_id, l_new_layer_id);
+         
+         if (l_layermask_id >= 0)
+         {
+           gboolean setMaskActive;
+
+           setMaskActive = FALSE;
+           if(vin_ptr->active_mode == GAP_ONION_ACTIVE_MODE_ONION_LAYER_MASK)
+           {
+             setMaskActive = TRUE;
+           }
+           gimp_layer_set_edit_mask(l_new_layer_id, setMaskActive);
+         
+         }
+      }
+
     }
 
 
@@ -596,9 +657,14 @@ gap_onion_base_onionskin_apply(gpointer gpp
 
   }
 
-  if(l_active_layer >= 0)
+
+  
+  if (vin_ptr->active_mode == GAP_ONION_ACTIVE_MODE_NONE)
   {
-    gimp_image_set_active_layer(image_id, l_active_layer);
+    if(l_active_layer >= 0)
+    {
+      gimp_image_set_active_layer(image_id, l_active_layer);
+    }
   }
 
   if(gap_debug) printf("gap_onion_base_onionskin_apply: END\n\n");
