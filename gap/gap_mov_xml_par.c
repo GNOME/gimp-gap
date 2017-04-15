@@ -95,6 +95,8 @@
 #define GAP_MOVPATH_XML_TOKEN_DST_GROUP_DELIM        "dst_group_name_delimiter"
 
 #define GAP_MOVPATH_XML_TOKEN_STEP_SPEED_FACTOR      "step_speed_factor"
+#define GAP_MOVPATH_XML_TOKEN_HANDLE_DX              "handle_dx"
+#define GAP_MOVPATH_XML_TOKEN_HANDLE_DY              "handle_dy"
 #define GAP_MOVPATH_XML_TOKEN_SRC_FORCE_VISIBLE      "src_force_visible"
 #define GAP_MOVPATH_XML_TOKEN_CLIP_TO_IMG            "clip_to_img"
 #define GAP_MOVPATH_XML_TOKEN_SRC_APPLY_BLUEBOX      "src_apply_bluebox"
@@ -725,6 +727,14 @@ p_xml_parse_element_moving_object(const gchar         *element_name,
     else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_STEP_SPEED_FACTOR) == 0)
     {
       userDataPtr->isParseOk = gap_xml_parse_value_gdouble(*value_cursor, &userDataPtr->pvals->step_speed_factor);
+    }
+    else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_HANDLE_DX) == 0)
+    {
+      userDataPtr->isParseOk = gap_xml_parse_value_gdouble(*value_cursor, &userDataPtr->pvals->handleDx);
+    }
+    else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_HANDLE_DY) == 0)
+    {
+      userDataPtr->isParseOk = gap_xml_parse_value_gdouble(*value_cursor, &userDataPtr->pvals->handleDy);
     }
     else if (strcmp (*name_cursor, GAP_MOVPATH_XML_TOKEN_SRC_FORCE_VISIBLE) == 0)
     {
@@ -1592,6 +1602,8 @@ gap_mov_xml_par_save(char *filename, GapMovValues *pvals)
       }
       fprintf(l_fp, "\n    ");
       gap_xml_write_EnumValue(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_HANDLE, pvals->src_handle, &valuesGapMovHandle[0]);
+      gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_HANDLE_DX, pvals->handleDx, 4, 0);
+      gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_HANDLE_DY, pvals->handleDy, 4, 0);
       fprintf(l_fp, "\n    ");
       gap_xml_write_EnumValue(l_fp, GAP_MOVPATH_XML_TOKEN_SRC_STEPMODE, pvals->src_stepmode, &valuesGapMovStepMode[0]);
       gap_xml_write_gdouble_value(l_fp, GAP_MOVPATH_XML_TOKEN_STEP_SPEED_FACTOR, pvals->step_speed_factor, 1, 5);

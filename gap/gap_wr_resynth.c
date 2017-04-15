@@ -3,7 +3,9 @@
  *   Useful to remove unwanted logos when processing video frames.
  * PRECONDITIONS:
  *   Requires resynthesizer plug-in.
- *  (resynthesizer-0.16.tar.gz is available in the gimp plug-in registry)
+ *  (resynthesizer-0.16.tar.gz is available in the gimp plug-in registry
+ *   alternative sourcecode download from https://github.com/bootchk/resynthesizer  Latest commit on 29 May 2016
+ *   was testest working OK on 2017.03.02 with this wrapper)
  *  NOTE this wrapper also supports an extended variant plug-in-resynthesizer-s
  *       that has an additional seed parameter.
  */
@@ -57,6 +59,21 @@
 #define PLUG_IN_RESYNTHESIZER            "plug-in-resynthesizer"
 #define PLUG_IN_RESYNTHESIZER_WITH_SEED  "plug-in-resynthesizer-s"  /* unpublished prvate version */
 
+#define MAX_SVG_SIZE     1600
+#define BUTTON_MIN_WIDTH     50
+
+
+#define DIRECTION_ALL_AROUND      0
+#define DIRECTION_SIDES           1
+#define DIRECTION_ABOVE_AND_BELOW 2
+
+#define FILL_ORDER_RANDOM                0
+#define FILL_ORDER_INWARDS_TO_CENTER     1
+#define FILL_ORDER_OUTWARDS_FROM_CENTER  2
+
+
+#define SELECTION_FROM_VECTORS -2
+#define SELECTION_FROM_SVG_FILE -3
 
 
 /***** Magic numbers *****/
@@ -69,15 +86,32 @@
 
 typedef struct {
   gint32  corpus_border_radius;
+  gint32  directionParam;
+  gint32  orderParam;
+
   gint32  alt_selection;
   gint32  seed;
+  gchar   selectionSVGFileName[MAX_SVG_SIZE]; /* contains small xml string or reference to SVG file */
 } TransValues;
+
+typedef struct GuiStuff {
+  //gint32      imageId;
+  //GtkWidget  *ok_button;
+  //GtkWidget  *msg_label;
+  GtkWidget  *svg_entry;
+  GtkWidget  *svg_filesel;
+  TransValues *valPtr;
+} GuiStuff;
+
 
 static TransValues glob_vals =
 {
    20           /* corpus_border_radius */
+,  DIRECTION_ALL_AROUND           /* directionParam 0 = AllAround, 1 = Sides, 2 = Above and Below */
+,  FILL_ORDER_RANDOM              /* filling orderParam 0 = Random, 1 = Inwards To Center, 2 = Outwards from center */
 ,  -1           /* alt_selection (drawable id or -1 for using original selection) */
 , 4711          /* seed for random number generator */
+, "selection.svg"
 };
 
 
@@ -92,10 +126,18 @@ static void run   (const gchar      *name,
                    gint             *nreturn_vals,
                    GimpParam       **return_vals);
 
+static void p_set_selection_from_vectors_file(gint32 imageId, TransValues *val_ptr);
 static gint p_selectionConstraintFunc (gint32   image_id,
                gint32   drawable_id,
                gpointer data);
 static gboolean p_dialog(TransValues *val_ptr, gint32 drawable_id);
+static void p_on_gint32_combo_callback  (GtkWidget     *widget, gint32 *value);
+static void on_svg_entry_changed              (GtkEditable     *editable,
+                                   TransValues *val_ptr);
+static void on_filesel_button_clicked             (GtkButton *button,
+                                       GuiStuff  *guiStuffPtr);
+static GtkWidget* p_create_fileselection (GuiStuff *guiStuffPtr);
+
 static gint32 p_process_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr);
 
 /***** Variables *****/
@@ -113,8 +155,11 @@ static GimpParamDef in_args[] = {
     { GIMP_PDB_IMAGE,    "image",                "Input image"                  },
     { GIMP_PDB_DRAWABLE, "drawable",             "The drawable (typically a layer)"               },
     { GIMP_PDB_INT32,    "corpus_border_radius", "Radius to take texture from"     },
+    { GIMP_PDB_INT32,    "directionParam",       "0 = AllAround, 1 = Sides, 2 = Above and Below"     },
+    { GIMP_PDB_INT32,    "orderParam",           "filling orderParam 0 = Random, 1 = Inwards To Center, 2 = Outwards from center"     },
     { GIMP_PDB_DRAWABLE, "alt_selection",        "id of a drawable to replace the selection (use -1 to operate with selection of the input image)"     },
-    { GIMP_PDB_INT32,    "seed",                 "seed for random numbers (use -1 to init with current time)"     }
+    { GIMP_PDB_INT32,    "seed",                 "seed for random numbers (use -1 to init with current time)"     },
+    { GIMP_PDB_STRING,   "selSVGFile",    "optional name of a file that contains the selection as vectors in SVG format. (set altSelection to -2)" }
   };
 
 static GimpParamDef return_vals[] = {
@@ -143,8 +188,12 @@ query (void)
   static GimpLastvalDef lastvals[] =
   {
     GIMP_LASTVALDEF_GINT32          (GIMP_ITER_TRUE,  glob_vals.corpus_border_radius,  "corpus_border_radius"),
+    GIMP_LASTVALDEF_GINT32          (GIMP_ITER_FALSE, glob_vals.directionParam,        "directionParam"),
+    GIMP_LASTVALDEF_GINT32          (GIMP_ITER_FALSE, glob_vals.orderParam,            "orderParam"),
     GIMP_LASTVALDEF_DRAWABLE        (GIMP_ITER_TRUE,  glob_vals.alt_selection,         "alt_selection"),
-    GIMP_LASTVALDEF_GINT32          (GIMP_ITER_TRUE,  glob_vals.seed,                  "seed")
+    GIMP_LASTVALDEF_GINT32          (GIMP_ITER_TRUE,  glob_vals.seed,                  "seed"),
+    GIMP_LASTVALDEF_ARRAY           (GIMP_ITER_FALSE, glob_vals.selectionSVGFileName,    "svgFileNameArray"),
+    GIMP_LASTVALDEF_GCHAR           (GIMP_ITER_FALSE, glob_vals.selectionSVGFileName[0], "svgFilenameNameChar")
   };
 
   gimp_plugin_domain_register (GETTEXT_PACKAGE, LOCALEDIR);
@@ -158,7 +207,7 @@ query (void)
 
 
   gimp_install_procedure (PLUG_IN_PROC,
-                          N_("Smart selection eraser."),
+                          N_("Heal Selection"),
                           "Remove an object from an image by extending surrounding texture to cover it. "
                           "The object can be represented by the current selection  "
                           "or by an alternative selection (provided as parameter alt_selection) "
@@ -168,13 +217,13 @@ query (void)
                           "to identify the object that shall be replaced. "
                           "alt_selection value -1 indicates that the selection of the input image shall be used. "
                           "Requires resynthesizer plug-in. (available in the gimp plug-in registry) "
-                          "The smart selection eraser wrapper provides ability to run in GIMP_GAP filtermacros "
+                          "The Heal Selection wrapper provides ability to run in GIMP_GAP filtermacros "
                           "when processing video frames (typically for removing unwanted logos from video frames)."
                           "(using the same seed value for all frames is recommended) ",
                           "Wolfgang Hofer",
                           "Wolfgang Hofer",
                           PLUG_IN_VERSION,
-                          N_("Smart selection eraser..."),
+                          N_("Heal Selection..."),
                           "RGB*, GRAY*",
                           GIMP_PLUGIN,
                           global_number_in_args, global_number_out_args,
@@ -243,7 +292,15 @@ run (const gchar *name,          /* name of plugin */
 
       /* Initial values */
       glob_vals.corpus_border_radius = 20;
+      glob_vals.directionParam = 0;
+      glob_vals.orderParam = 0;
       glob_vals.alt_selection = -1;
+      
+      glob_vals.selectionSVGFileName[0] = '\0';
+      g_snprintf(glob_vals.selectionSVGFileName
+                   , sizeof(glob_vals.selectionSVGFileName), "%s"
+             , _("selection.svg"));
+      
       run_flag = TRUE;
 
       /* Possibly retrieve data from a previous run */
@@ -262,8 +319,10 @@ run (const gchar *name,          /* name of plugin */
           if (nparams >= global_number_in_args)
           {
              glob_vals.corpus_border_radius = param[3].data.d_int32;
-             glob_vals.alt_selection = param[4].data.d_int32;
-             glob_vals.seed = param[5].data.d_int32;
+             glob_vals.directionParam = param[4].data.d_int32;
+             glob_vals.orderParam = param[5].data.d_int32;
+             glob_vals.alt_selection = param[6].data.d_int32;
+             glob_vals.seed = param[7].data.d_int32;
           }
           else
           {
@@ -341,6 +400,53 @@ run (const gchar *name,          /* name of plugin */
 }       /* end run */
 
 
+
+/* ----------------------------------
+ * p_set_selection_from_vectors_file
+ * ----------------------------------
+ * import selection from an SVG vectors file
+ * and replace the current selection on success.
+ * (on errors keep current selection)
+ */
+static void
+p_set_selection_from_vectors_file(gint32 imageId, TransValues *val_ptr)
+{
+  gboolean vectorsOk;
+  gint     num_vectors;
+  gint32  *vectors_ids;
+
+  vectorsOk = FALSE;
+  if (val_ptr->selectionSVGFileName != '\0')
+  {
+    if(g_file_test(val_ptr->selectionSVGFileName, G_FILE_TEST_EXISTS))
+    {
+      vectorsOk = gimp_vectors_import_from_file   (imageId
+                                                  ,val_ptr->selectionSVGFileName
+                                                  , TRUE  /* Merge paths into a single vectors object. */
+                                                  , TRUE  /* Scale the SVG to image dimensions. */
+                                                  , &num_vectors
+                                                  , &vectors_ids
+                                                  );
+    }
+  }
+
+
+  if ((vectorsOk) && (vectors_ids != NULL) && (num_vectors > 0))
+  {
+    gint32         vectorId;
+    GimpChannelOps operation;
+
+    vectorId = vectors_ids[0];
+    operation = GIMP_CHANNEL_OP_REPLACE;
+    gimp_image_select_item(imageId, operation, vectorId);
+    gimp_image_remove_vectors(imageId, vectorId);
+    // doClearSelection = TRUE;
+  }
+
+}  /* end p_set_selection_from_vectors_file */
+
+
+
 /* ----------------------------
  * p_selectionConstraintFunc
  * ----------------------------
@@ -360,6 +466,8 @@ p_selectionConstraintFunc (gint32   image_id,
 
   return TRUE;
 }  /* end p_selectionConstraintFunc */
+
+
 
 
 /* ----------------------------
@@ -387,6 +495,181 @@ p_selectionComboCallback (GtkWidget *widget)
 
 }  /* end p_selectionComboCallback */
 
+/* ----------------------------------------
+ * p_on_gint32_combo_callback
+ * ----------------------------------------
+ */
+static void
+p_on_gint32_combo_callback  (GtkWidget     *widget,
+                       gint32 *valuePtr)
+{
+  gint       value;
+
+  if(gap_debug) printf("CB: p_on_gint32_combo_callback\n");
+
+  if(valuePtr == NULL) return;
+
+  gimp_int_combo_box_get_active (GIMP_INT_COMBO_BOX (widget), &value);
+
+  if(gap_debug)
+  {
+    printf("CB: p_on_gint32_combo_callback value: %d\n", (int)value);
+  }
+
+  *valuePtr = value;
+
+}  /* end p_on_gint32_combo_callback */
+
+/* ---------------------------------
+ * on_svg_entry_changed
+ * ---------------------------------
+ */
+static void
+on_svg_entry_changed              (GtkEditable     *editable,
+                                   TransValues *val_ptr)
+{
+  GtkEntry *entry;
+
+ if(gap_debug)
+ {
+   printf("CB: on_svg_entry_changed\n");
+ }
+ if(val_ptr == NULL)
+ {
+   return;
+ }
+
+ entry = GTK_ENTRY(editable);
+ if(entry)
+ {
+    g_snprintf(val_ptr->selectionSVGFileName
+              , sizeof(val_ptr->selectionSVGFileName), "%s"
+              , gtk_entry_get_text(entry));
+    // TODO p_check_exec_condition_and_set_ok_sesitivity(guiStuffPtr);
+ }
+}
+
+
+/* ---------------------------------
+ * on_filesel_button_clicked
+ * ---------------------------------
+ */
+static void
+on_filesel_button_clicked             (GtkButton *button,
+                                       GuiStuff  *guiStuffPtr)
+{
+ if(gap_debug)
+ {
+   printf("CB: on_filesel_button_clicked\n");
+ }
+ if(guiStuffPtr == NULL)
+ {
+   return;
+ }
+
+ if(guiStuffPtr->svg_filesel == NULL)
+ {
+   guiStuffPtr->svg_filesel = p_create_fileselection(guiStuffPtr);
+   gtk_file_selection_set_filename (GTK_FILE_SELECTION (guiStuffPtr->svg_filesel),
+                                    guiStuffPtr->valPtr->selectionSVGFileName);
+
+   gtk_widget_show (guiStuffPtr->svg_filesel);
+ }
+
+}  /* end on_filesel_button_clicked */
+
+
+/* ---------------------------------
+ * svg fileselct callbacks
+ * ---------------------------------
+ */
+
+static void
+on_svg_filesel_destroy          (GtkObject *object,
+                                 GuiStuff  *guiStuffPtr)
+{
+ if(gap_debug) printf("CB: on_svg_filesel_destroy\n");
+ if(guiStuffPtr == NULL) return;
+
+ guiStuffPtr->svg_filesel = NULL;
+}
+
+static void
+on_svg__button_cancel_clicked          (GtkButton *button,
+                                        GuiStuff  *guiStuffPtr)
+{
+ if(gap_debug) printf("CB: on_svg__button_cancel_clicked\n");
+ if(guiStuffPtr == NULL) return;
+
+ if(guiStuffPtr->svg_filesel)
+ {
+   gtk_widget_destroy(guiStuffPtr->svg_filesel);
+   guiStuffPtr->svg_filesel = NULL;
+ }
+}
+
+static void
+on_svg__button_OK_clicked       (GtkButton *button,
+                                 GuiStuff  *guiStuffPtr)
+{
+  const gchar *filename;
+  GtkEntry *entry;
+
+ if(gap_debug) printf("CB: on_svg__button_OK_clicked\n");
+ if(guiStuffPtr == NULL) return;
+
+ if(guiStuffPtr->svg_filesel)
+ {
+   filename =  gtk_file_selection_get_filename (GTK_FILE_SELECTION (guiStuffPtr->svg_filesel));
+   g_snprintf(guiStuffPtr->valPtr->selectionSVGFileName
+             , sizeof(guiStuffPtr->valPtr->selectionSVGFileName), "%s"
+             , filename);
+   entry = GTK_ENTRY(guiStuffPtr->svg_entry);
+   if(entry)
+   {
+      gtk_entry_set_text(entry, filename);
+   }
+   on_svg__button_cancel_clicked(NULL, (gpointer)guiStuffPtr);
+ }
+}
+
+
+/* ----------------------------------------
+ * p_create_fileselection
+ * ----------------------------------------
+ */
+static GtkWidget*
+p_create_fileselection (GuiStuff *guiStuffPtr)
+{
+  GtkWidget *svg_filesel;
+  GtkWidget *svg__button_OK;
+  GtkWidget *svg__button_cancel;
+
+  svg_filesel = gtk_file_selection_new (_("Select vectorfile name"));
+  gtk_container_set_border_width (GTK_CONTAINER (svg_filesel), 10);
+
+  svg__button_OK = GTK_FILE_SELECTION (svg_filesel)->ok_button;
+  gtk_widget_show (svg__button_OK);
+  GTK_WIDGET_SET_FLAGS (svg__button_OK, GTK_CAN_DEFAULT);
+
+  svg__button_cancel = GTK_FILE_SELECTION (svg_filesel)->cancel_button;
+  gtk_widget_show (svg__button_cancel);
+  GTK_WIDGET_SET_FLAGS (svg__button_cancel, GTK_CAN_DEFAULT);
+
+  g_signal_connect (G_OBJECT (svg_filesel), "destroy",
+                      G_CALLBACK (on_svg_filesel_destroy),
+                      guiStuffPtr);
+  g_signal_connect (G_OBJECT (svg__button_OK), "clicked",
+                      G_CALLBACK (on_svg__button_OK_clicked),
+                      guiStuffPtr);
+  g_signal_connect (G_OBJECT (svg__button_cancel), "clicked",
+                      G_CALLBACK (on_svg__button_cancel_clicked),
+                      guiStuffPtr);
+
+  gtk_widget_grab_default (svg__button_cancel);
+  return svg_filesel;
+}  /* end p_create_fileselection */
+
 
 /* --------------------------
  * p_dialog
@@ -395,11 +678,15 @@ p_selectionComboCallback (GtkWidget *widget)
 static gboolean
 p_dialog (TransValues *val_ptr, gint32 drawable_id)
 {
+  GuiStuff guiStuffRecord;
+  GuiStuff *guiStuffPtr;
+  GtkWidget *button;
   GtkWidget *dialog;
   GtkWidget *main_vbox;
   GtkWidget *label;
   GtkWidget *table;
   GtkWidget *combo;
+  GtkWidget *entry;
   GtkObject *adj;
   gint       row;
   gboolean   run;
@@ -407,6 +694,14 @@ p_dialog (TransValues *val_ptr, gint32 drawable_id)
 
   gboolean foundResynth;
   gboolean foundResynthS;
+
+
+  guiStuffPtr = &guiStuffRecord;
+  guiStuffPtr->valPtr = val_ptr;
+  guiStuffPtr->svg_entry = NULL;
+  guiStuffPtr->svg_filesel = NULL;
+
+
 
   foundResynthS = gap_pdb_procedure_name_available(PLUG_IN_RESYNTHESIZER_WITH_SEED);
   foundResynth = gap_pdb_procedure_name_available(PLUG_IN_RESYNTHESIZER);
@@ -417,7 +712,7 @@ p_dialog (TransValues *val_ptr, gint32 drawable_id)
 
   if (isResynthesizerInstalled)
   {
-    dialog = gimp_dialog_new (_("Smart selection eraser"), PLUG_IN_BINARY,
+    dialog = gimp_dialog_new (_("Heal Selection"), PLUG_IN_BINARY,
                             NULL, 0,
                             gimp_standard_help_func, PLUG_IN_PROC,
 
@@ -429,7 +724,7 @@ p_dialog (TransValues *val_ptr, gint32 drawable_id)
   }
   else
   {
-    dialog = gimp_dialog_new (_("Smart selection eraser"), PLUG_IN_BINARY,
+    dialog = gimp_dialog_new (_("Heal Selection"), PLUG_IN_BINARY,
                             NULL, 0,
                             gimp_standard_help_func, PLUG_IN_PROC,
 
@@ -484,6 +779,67 @@ p_dialog (TransValues *val_ptr, gint32 drawable_id)
                       &val_ptr->corpus_border_radius);
 
     row++;
+    
+    /* the directionParam label */
+    label = gtk_label_new (_("Sample from:"));
+    gtk_widget_show (label);
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
+                        (GtkAttachOptions) (GTK_FILL),
+                        (GtkAttachOptions) (0), 0, 0);
+    
+    
+    /* the directionParam combo */
+    combo = gimp_int_combo_box_new ("All around",      DIRECTION_ALL_AROUND,
+                                    "Sides",           DIRECTION_SIDES,
+                                    "Above and below", DIRECTION_ABOVE_AND_BELOW,
+                                    NULL);
+    
+    gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (combo),
+                                val_ptr->directionParam,  /* inital value */
+                                G_CALLBACK (p_on_gint32_combo_callback),
+                                &val_ptr->directionParam);
+    
+    gtk_widget_show (combo);
+    gtk_table_attach (GTK_TABLE (table), combo, 1, 3, row, row+1,
+                        (GtkAttachOptions) (GTK_FILL),
+                        (GtkAttachOptions) (0), 0, 0);
+    gimp_help_set_help_data (combo, _("Select direction from where get sample pattern"), NULL);
+    
+    
+
+    row++;
+
+    /* the directionParam label */
+    label = gtk_label_new (_("Filling order:"));
+    gtk_widget_show (label);
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
+                        (GtkAttachOptions) (GTK_FILL),
+                        (GtkAttachOptions) (0), 0, 0);
+    
+    
+    /* the directionParam combo */
+    combo = gimp_int_combo_box_new ("Random",                 FILL_ORDER_RANDOM,
+                                    "Inwards towards center", FILL_ORDER_INWARDS_TO_CENTER,
+                                    "Outwards from center",   FILL_ORDER_OUTWARDS_FROM_CENTER,
+                                    NULL);
+    
+    gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (combo),
+                                val_ptr->orderParam,  /* inital value */
+                                G_CALLBACK (p_on_gint32_combo_callback),
+                                &val_ptr->orderParam);
+    
+    gtk_widget_show (combo);
+    gtk_table_attach (GTK_TABLE (table), combo, 1, 3, row, row+1,
+                        (GtkAttachOptions) (GTK_FILL),
+                        (GtkAttachOptions) (0), 0, 0);
+    gimp_help_set_help_data (combo, _("Select filling order"), NULL);
+    
+
+    row++;
+
+    
 
     if (foundResynthS)
     {
@@ -509,13 +865,68 @@ p_dialog (TransValues *val_ptr, gint32 drawable_id)
     /* layer combo_box (Sample from where to pick the alternative selection */
     combo = gimp_layer_combo_box_new (p_selectionConstraintFunc, NULL);
 
+    gimp_int_combo_box_prepend (GIMP_INT_COMBO_BOX (combo),
+                              GIMP_INT_STORE_VALUE,    SELECTION_FROM_SVG_FILE,
+                              GIMP_INT_STORE_LABEL,    _("Selection From Vectors File"),
+                              GIMP_INT_STORE_STOCK_ID, GIMP_STOCK_PATH,
+                              -1);
+
     gimp_int_combo_box_connect (GIMP_INT_COMBO_BOX (combo), drawable_id,
                                 G_CALLBACK (p_selectionComboCallback),
                                 NULL);
 
+
+
+
+
+
     gtk_table_attach (GTK_TABLE (table), combo, 1, 3, row, row + 1,
                       GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
     gtk_widget_show (combo);
+    
+    
+    row++;
+
+    /* the svg file label */
+    label = gtk_label_new (_("Vectors (SVG) file:"));
+    gtk_widget_show (label);
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
+                        (GtkAttachOptions) (GTK_FILL),
+                        (GtkAttachOptions) (0), 0, 0);
+    
+    /* the svg file name entry */
+    entry = gtk_entry_new ();
+    guiStuffPtr->svg_entry = entry;
+    gtk_widget_show (entry);
+    gtk_table_attach (GTK_TABLE (table), entry, 1, 2, row, row + 1,
+                      GTK_FILL, GTK_FILL, 4, 0);
+    gimp_help_set_help_data (entry, _("Name of SVG vector file from where to load selection"), NULL);
+    if(strncmp("<?xml", val_ptr->selectionSVGFileName, 3) == 0)
+    {
+      g_snprintf(val_ptr->selectionSVGFileName
+                 , sizeof(val_ptr->selectionSVGFileName), "%s"
+                 , _("selection.svg"));
+    }
+    gtk_entry_set_text(GTK_ENTRY (entry), val_ptr->selectionSVGFileName);
+    g_signal_connect (G_OBJECT (entry), "changed",
+                      G_CALLBACK (on_svg_entry_changed),
+                      val_ptr);
+
+
+    button = gtk_button_new_with_label (_("..."));
+    gtk_widget_set_size_request (button, BUTTON_MIN_WIDTH, -1);
+    gtk_widget_show (button);
+    gtk_table_attach (GTK_TABLE (table), button, 2, 3, row, row + 1,
+                    GTK_FILL, GTK_FILL, 4, 0);
+
+    gimp_help_set_help_data (button, _("Select output svg vector file via browser"), NULL);
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_filesel_button_clicked),
+                      guiStuffPtr);
+
+                      
+                      
   }
 
   /* Done */
@@ -535,9 +946,10 @@ p_dialog (TransValues *val_ptr, gint32 drawable_id)
  * --------------------------------
  * check if non official variant with additional seed parameter
  * is installed. if not use the official published resynthesizer 0.16
+ * (API was still compatible to more recent src repository at https://github.com/bootchk/resynthesizer  Latest commit on 29 May 2016)
  */
 static gboolean
-p_pdb_call_resynthesizer(gint32 image_id, gint32 layer_id, gint32 corpus_layer_id, gint32 seed)
+p_pdb_call_resynthesizer(gint32 image_id, gint32 layer_id, gint32 corpus_layer_id, gint32 useContext, gint32 seed)
 {
    char            *l_called_proc;
    GimpParam       *return_vals;
@@ -555,7 +967,7 @@ p_pdb_call_resynthesizer(gint32 image_id, gint32 layer_id, gint32 corpus_layer_i
                                  GIMP_PDB_DRAWABLE,  layer_id,          /* input drawable (to be processed) */
                                  GIMP_PDB_INT32,     0,                 /* vtile Make tilable vertically */
                                  GIMP_PDB_INT32,     0,                 /* htile Make tilable horizontally */
-                                 GIMP_PDB_INT32,     1,                 /* Dont change border pixels */
+                                 GIMP_PDB_INT32,     useContext,        /* useContext 1 =Dont change border pixels */
                                  GIMP_PDB_INT32,     corpus_layer_id,   /* corpus, Layer to use as corpus */
                                  GIMP_PDB_INT32,    -1,                 /* inmask Layer to use as input mask, -1 for none */
                                  GIMP_PDB_INT32,    -1,                 /* outmask Layer to use as output mask, -1 for none */
@@ -634,54 +1046,170 @@ p_pdb_call_resynthesizer(gint32 image_id, gint32 layer_id, gint32 corpus_layer_i
 static gint32
 p_create_corpus_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
 {
-  gint32 dup_image_id;
-  gint32 channel_id;
-  gint32 channel_2_id;
-  GimpRGB  bck_color;
-  GimpRGB  white_opaque_color;
-  /* gboolean has_selection; */
+// ## the following comment ist the coresponding part of the script plugin-heal-selection.py that ships with resynthesizer
+// ## (this C codede wrapper to the resynthesizer engine shall provide same functionality)
+//   targetBounds = tdrawable.mask_bounds
+// 
+//   # In duplicate image, create the sample (corpus).
+//   # (I tried to use a temporary layer but found it easier to use duplicate image.)
+//   tempImage = pdb.gimp_image_duplicate(timg)
+//   if not tempImage:
+//       raise RuntimeError, "Failed duplicate image"
+//   
+//   # !!! The drawable can be a mask (grayscale channel), don't restrict to layer.
+//   work_drawable = pdb.gimp_image_get_active_drawable(tempImage)
+//   if not work_drawable:
+//       raise RuntimeError, "Failed get active drawable"
+//       
+//   '''
+//   grow and punch hole, making a frisket iow stencil iow donut
+//   
+//   '''
+//   orgSelection = pdb.gimp_selection_save(tempImage) # save for later use
+//   pdb.gimp_selection_grow(tempImage, samplingRadiusParam)
+//   # ??? returns None , docs say it returns SUCCESS
+//   
+//   # !!! Note that if selection is a bordering ring already, growing expanded it inwards.
+//   # Which is what we want, to make a corpus inwards.
+//   
+//   grownSelection = pdb.gimp_selection_save(tempImage)
+//   
+//   # Cut hole where the original selection was, so we don't sample from it.
+//   # !!! Note that gimp enums/constants are not prefixed with GIMP_
+//   pdb.gimp_selection_combine(orgSelection, CHANNEL_OP_SUBTRACT)
+//   
+//   '''
+//   Selection (to be the corpus) is donut or frisket around the original target T
+//     xxx
+//     xTx
+//     xxx
+//   '''
+//   
+//   # crop the temp image to size of selection to save memory and for directional healing!!
+//   frisketBounds = grownSelection.mask_bounds
+//   frisketLowerLeftX = frisketBounds[0]
+//   frisketLowerLeftY = frisketBounds[1]
+//   frisketUpperRightX = frisketBounds[2]
+//   frisketUpperRightY = frisketBounds[3]
+//   targetLowerLeftX = targetBounds[0]
+//   targetLowerLeftY = targetBounds[1]
+//   targetUpperRightX = targetBounds[2]
+//   targetUpperRightY = targetBounds[3]
+//   
+//   frisketWidth = frisketUpperRightX - frisketLowerLeftX
+//   frisketHeight = frisketUpperRightY - frisketLowerLeftY
+//   
+//   # User's choice of direction affects the corpus shape, and is also passed to resynthesizer plugin
+//   if directionParam == 0: # all around
+//       # Crop to the entire frisket
+//       newWidth, newHeight, newLLX, newLLY = ( frisketWidth, frisketHeight, 
+//         frisketLowerLeftX, frisketLowerLeftY )
+//   elif directionParam == 1: # sides
+//       # Crop to target height and frisket width:  XTX
+//       newWidth, newHeight, newLLX, newLLY =  ( frisketWidth, targetUpperRightY-targetLowerLeftY, 
+//         frisketLowerLeftX, targetLowerLeftY )
+//   elif directionParam == 2: # above and below
+//       # X Crop to target width and frisket height
+//       # T
+//       # X
+//       newWidth, newHeight, newLLX, newLLY = ( targetUpperRightX-targetLowerLeftX, frisketHeight, 
+//         targetLowerLeftX, frisketLowerLeftY )
+//   # Restrict crop to image size (condition of gimp_image_crop) eg when off edge of image
+//   newWidth = min(pdb.gimp_image_width(tempImage) - newLLX, newWidth)
+//   newHeight = min(pdb.gimp_image_height(tempImage) - newLLY, newHeight)
+//   pdb.gimp_image_crop(tempImage, newWidth, newHeight, newLLX, newLLY)
+  
+  
+  
+  
+  gint32 tempImage;
+  gint32 origSelectionChannelId;
+  gint32 grownSelectionChannelId;
   gboolean non_empty;
-  gint     x1, y1, x2, y2;
-  gint32   active_layer_stackposition;
-  gint32   active_dup_layer_id;
+  gint32   work_drawable; // the corpus layer
+  gint targetLowerLeftX;  //= targetBounds[0]
+  gint targetLowerLeftY;  //= targetBounds[1]
+  gint targetUpperRightX; // = targetBounds[2]
+  gint targetUpperRightY; // = targetBounds[3]
+  gint frisketLowerLeftX; // = frisketBounds[0]
+  gint frisketLowerLeftY; // = frisketBounds[1]
+  gint frisketUpperRightX; // = frisketBounds[2]
+  gint frisketUpperRightY; // = frisketBounds[3]
+  gint frisketWidth;
+  gint frisketHeight;
+  gint newWidth;
+  gint newHeight; 
+  gint newLLX; 
+  gint newLLY;
+
+  //active_layer_stackposition = gap_layer_get_stackposition(image_id, drawable_id);
+
+  tempImage = gimp_image_duplicate(image_id);
+  work_drawable = gimp_image_get_active_drawable(tempImage); // gap_layer_get_id_by_stackposition(tempImage, active_layer_stackposition);
+
+  /*   targetBounds = tdrawable.mask_bounds */
+  gimp_selection_bounds(tempImage, &non_empty, &targetLowerLeftX, &targetLowerLeftY, &targetUpperRightX, &targetUpperRightY);
 
 
-  active_layer_stackposition = gap_layer_get_stackposition(image_id, drawable_id);
+  /* grow and punch hole, making a frisket iow stencil iow donut */
+ 
+  origSelectionChannelId = gimp_selection_save(tempImage);
+  /* # !!! Note that if selection is a bordering ring already, growing expanded it inwards.
+   * # Which is what we want, to make a corpus inwards. 
+   */
+  gimp_selection_grow(tempImage, val_ptr->corpus_border_radius);
+ 
+  grownSelectionChannelId = gimp_selection_save(tempImage);
+  
+  /* # Cut hole where the original selection was, so we don't sample from it.  */
+  //gimp_selection_combine(origSelectionChannelId, GIMP_CHANNEL_OP_SUBTRACT);
+  gimp_image_select_item(tempImage, GIMP_CHANNEL_OP_SUBTRACT, origSelectionChannelId);
+ 
+  /*   Selection (to be the corpus) is donut or frisket around the original target T
+   *    xxx
+   *    xTx
+   *    xxx
+   */
+   
+  /*   frisketBounds = grownSelection.mask_bounds */
+  gimp_selection_bounds(tempImage, &non_empty, &frisketLowerLeftX, &frisketLowerLeftY, &frisketUpperRightX, &frisketUpperRightY);
+   
+  /* # crop the temp image to size of selection to save memory and for directional healing!! */
+  frisketWidth = frisketUpperRightX - frisketLowerLeftX;
+  frisketHeight = frisketUpperRightY - frisketLowerLeftY;
+  
+  /* default assume crop settings for "all around" */
+  newWidth = frisketWidth;
+  newHeight = frisketHeight; 
+  newLLX = frisketLowerLeftX; 
+  newLLY = frisketLowerLeftY;
+  
+  if(val_ptr->directionParam == DIRECTION_SIDES) /* # 1 sides */ 
+  {
+    /* # Crop to target height and frisket width:  XTX */
+    newHeight = targetUpperRightY - targetLowerLeftY;
+  }
+  else if(val_ptr->directionParam == DIRECTION_ABOVE_AND_BELOW) /* # 2 above and below */
+  {
+    /* # X Crop to target width and frisket height
+     * # T
+     * # X      
+     */
+    newWidth = targetUpperRightX - targetLowerLeftX;
+  }
 
-  dup_image_id = gimp_image_duplicate(image_id);
-
-  channel_id = gimp_selection_save(dup_image_id);
-  gimp_selection_grow(dup_image_id, val_ptr->corpus_border_radius);
-  gimp_selection_invert(dup_image_id);
-
-  gimp_context_get_background(&bck_color);
-  channel_2_id = gimp_selection_save(dup_image_id);
-
-  gimp_image_select_item(dup_image_id, GIMP_CHANNEL_OP_REPLACE, channel_id);
-
-  gimp_rgba_set_uchar (&white_opaque_color, 255, 255, 255, 255);
-  gimp_context_set_background(&white_opaque_color);
-  gimp_edit_clear(channel_2_id);
-
-
-  gimp_context_set_background(&bck_color);  /* restore original background color */
-
-  gimp_selection_load(channel_2_id);
-
-  gimp_selection_invert(dup_image_id);
-
-  /* has_selection  = */ gimp_selection_bounds(dup_image_id, &non_empty, &x1, &y1, &x2, &y2);
-  gimp_image_crop(dup_image_id, (x2 - x1), (y2 - y1), x1, y1);
-
-  gimp_selection_invert(dup_image_id);
-  active_dup_layer_id = gap_layer_get_id_by_stackposition(dup_image_id, active_layer_stackposition);
+  /*  # Restrict crop to image size (condition of gimp_image_crop) eg when off edge of image */
+  newWidth = MIN(gimp_image_width(tempImage) - newLLX, newWidth);
+  newHeight = MIN(gimp_image_height(tempImage) - newLLY, newHeight);
+  gimp_image_crop(tempImage, newWidth, newHeight, newLLX, newLLY);
+  
 
   if (1==0)
   {
     /* debug code shows the duplicate image by adding a display */
-    gimp_display_new(dup_image_id);
+    gimp_display_new(tempImage);
   }
-  return (active_dup_layer_id);
+  return (work_drawable);
 
 }  /* end p_create_corpus_layer */
 
@@ -732,11 +1260,19 @@ p_process_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
   if(gap_debug)
   {
     printf("corpus_border_radius: %d\n", (int)val_ptr->corpus_border_radius);
+    printf("directionParam: %d\n", (int)val_ptr->directionParam);
+    printf("orderParam: %d\n", (int)val_ptr->orderParam);
     printf("alt_selection: %d\n", (int)val_ptr->alt_selection);
     printf("seed: %d\n", (int)val_ptr->seed);
   }
 
   gimp_image_undo_group_start(image_id);
+
+
+  if(val_ptr->alt_selection == SELECTION_FROM_SVG_FILE)
+  {
+    p_set_selection_from_vectors_file(image_id, val_ptr);
+  }
 
 
   trans_drawable_id = -1;
@@ -752,6 +1288,15 @@ p_process_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
   }
 
   has_selection  = gimp_selection_bounds(image_id, &non_empty, &x1, &y1, &x2, &y2);
+  
+  if (non_empty != TRUE)
+  {
+    /* in case of empty selection check if possible can load selection from SVG file (even if not explicite requested) */
+    p_set_selection_from_vectors_file(image_id, val_ptr);
+    has_selection  = gimp_selection_bounds(image_id, &non_empty, &x1, &y1, &x2, &y2);
+  }
+  
+  
   if(gap_debug)
   {
     printf("p_process_layer has_selection: %d\n", (int)has_selection);
@@ -767,12 +1312,37 @@ p_process_layer(gint32 image_id, gint32 drawable_id, TransValues *val_ptr)
   {
     gint32 corpus_layer_id;
     gint32 corpus_image_id;
+    gint32 useContext;
+    
+    useContext = 1; /* default random filling */
+    /* # Encode two script params into one resynthesizer param.
+     * # use border 1 means fill target in random order
+     * # use border 0 is for texture mapping operations, not used by this script
+     */
+    switch(val_ptr->orderParam)
+    {
+      case FILL_ORDER_RANDOM:
+        useContext = 1; /* # 0:  User wants NO order, ie random filling */
+        break;
+      case FILL_ORDER_INWARDS_TO_CENTER:           /* # Inward to corpus.  2,3,4 */
+        useContext = val_ptr->directionParam + 2;  /*  # !!! Offset by 2 to get past the original two boolean values */
+        break;
+      case FILL_ORDER_OUTWARDS_FROM_CENTER:           /* # Outward from image center.  */
+        /* # Outward from image center.  
+         * # 5+0=5 outward concentric
+         * # 5+1=6 outward from sides
+         * # 5+2=7 outward above and below
+         */
+        useContext = val_ptr->directionParam + 5;
+        break;
+    }
+
 
     trans_drawable_id = drawable_id;
 
     corpus_layer_id = p_create_corpus_layer(image_id, drawable_id, val_ptr);
 
-    p_pdb_call_resynthesizer(image_id, drawable_id, corpus_layer_id, val_ptr->seed);
+    p_pdb_call_resynthesizer(image_id, drawable_id, corpus_layer_id, useContext, val_ptr->seed);
 
     /* delete the temporary working duplicate */
     corpus_image_id = gimp_item_get_image(corpus_layer_id);

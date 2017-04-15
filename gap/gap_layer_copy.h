@@ -97,4 +97,6 @@ gint32  gap_layer_find_by_name(gint32 image_id, const char *name);
 
 gint32  gap_layer_new_same_size_and_offsets(gint32 image_id, gint32 origLayerId, gboolean imageSize);
 
+void    gap_layer_resize_to_selection(gint32 selImageId, gint32 layerId);
+
 #endif

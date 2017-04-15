@@ -57,13 +57,25 @@
 #define GAP_EXACT_ALIGNER_PLUG_IN_NAME                    "gap-exact-aligner"
 #define GAP_EXACT_ALIGNER_PLUG_IN_NAME_BINARY             "gap_exact_aligner"
 
+#define GAP_EXACT_ALIGNER_TARGET_PATH_NAME                "TARGET"
+#define GAP_EXACT_ALIGNER_SRC_PATH_NAME                   "SRC"
+#define GAP_EXACT_ALIGNER_RE_TRACED_PATH_NAME             "ReTraced"  /* used for debug fine tuning */
+#define GAP_EXACT_ALIGNER_USRC_PATH_NAME                  "USRC"      /* untuned src for debug */
+
+
+
+#define GAP_EXACT_ALIGNER_REF_LAYER_NAME                  "REF"
+
 
 #define POINT_ORDER_MODE_31_42   0
 #define POINT_ORDER_MODE_21_43   1
+#define POINT_ORDER_MODE_1234_1234   2
 
 
 typedef struct XmlAlignValues {
    gint32     framePhase;
+   gdouble    transformPrecision;           /* precision in pixels for calculating the perspective transformation matrix (0.0 to 1.0) */
+   gdouble    transformPrecisionThreshold;  /* for fine tuning purpose (use perespective coords with precision lower than threshold) */
    char       moveLogFile[1600];
 } XmlAlignValues;
 

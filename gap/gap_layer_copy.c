@@ -1030,3 +1030,45 @@ gap_layer_new_same_size_and_offsets(gint32 image_id, gint32 origLayerId, gboolea
   return (l_new_layer_id);
           
 }  /* end gap_layer_new_same_size_and_offsets */
+
+
+
+/* --------------------------------
+ * gap_layer_resize_to_selection
+ * --------------------------------
+ * resize the layer to seletion bounds of the specified selImageId.
+ * but keep original layer size in case the selImageId has empty selection.
+ */
+void
+gap_layer_resize_to_selection(gint32 selImageId, gint32 layerId)
+{
+  gboolean has_selection;
+  gboolean non_empty;
+  gint     x1, y1, x2, y2;
+  
+  has_selection  = gimp_selection_bounds(selImageId, &non_empty, &x1, &y1, &x2, &y2);
+  if ((has_selection) && (non_empty))
+  {
+     gint32 newWidth;
+     gint32 newHeight;  /*   New layer width (1 <= new-width <= 524288) */
+     gint32 offx;       /* x offset between upper left corner of old and new layers: (old - new)  */
+     gint32 offy;       /* y offset between upper left corner of old and new layers: (old - new)  */
+
+    if (!gimp_drawable_has_alpha(layerId))
+    {
+      gimp_layer_add_alpha(layerId);
+    }
+    /* first resize to image size */
+    gimp_layer_resize_to_image_size (layerId);
+    
+    offx = 0 - x1;
+    offy = 0 - y1;
+    newWidth = x2 - x1;
+    newHeight = y2 - y1;
+    
+    gimp_layer_resize(layerId, newWidth, newHeight, offx, offy);
+
+
+  }
+
+}  /* end gap_layer_resize_to_selection */

@@ -157,6 +157,7 @@ int gap_debug = 0;
 #define PLUGIN_NAME_GAP_SHIFT                "plug_in_gap_shift"
 #define PLUGIN_NAME_GAP_REVERSE              "plug_in_gap_reverse"
 #define PLUGIN_NAME_GAP_RENUMBER             "plug_in_gap_renumber"
+#define PLUGIN_NAME_GAP_RENAME               "plug_in_gap_rename"
 #define PLUGIN_NAME_GAP_MODIFY               "plug_in_gap_modify"
 #define PLUGIN_NAME_GAP_VIDEO_EDIT_COPY      "plug_in_gap_video_edit_copy"
 #define PLUGIN_NAME_GAP_VIDEO_EDIT_PASTE     "plug_in_gap_video_edit_paste"
@@ -427,6 +428,16 @@ GimpPlugInInfo PLUG_IN_INFO =
   };
   static int nargs_renumber = G_N_ELEMENTS (args_renumber);
 
+  static GimpParamDef args_rename[] =
+  {
+    {GIMP_PDB_INT32, "run_mode", "Interactive, non-interactive"},
+    {GIMP_PDB_IMAGE, "image", "Input image (current one of the video frames)"},
+    {GIMP_PDB_DRAWABLE, "drawable", "Input drawable (unused)"},
+    {GIMP_PDB_STRING, "newname", "new filename part (without directory part and without number, extension parts)"},
+  };
+  static int nargs_rename = G_N_ELEMENTS (args_rename);
+
+
   static GimpParamDef args_modify[] =
   {
     {GIMP_PDB_INT32, "run_mode", "Interactive, non-interactive"},
@@ -504,6 +515,11 @@ GimpPlugInInfo PLUG_IN_INFO =
                                     ", 67:merge down expand"
                                     ", 68:merge down clip to image"
                                     ", 69:merge down clip to bg"
+                                    ", 70:resize to selection (use selection the current frame image)"
+                                    ", 71:resize to selection (use individual selction as it is in each handled frame) "
+                                    ", 72:set layer as active"
+                                    ", 73:set layermask as active"
+                                    ", 74:record layer offests to XML file"
                                     },
     {GIMP_PDB_INT32, "select_mode", "Mode how to identify a layer: 0-3 by layername 0=equal, 1=prefix, 2=suffix, 3=contains, 4=layerstack_numberslist, 5=inv_layerstack, 6=all_visible"},
     {GIMP_PDB_INT32, "select_case", "0: ignore case 1: select_string is case sensitive"},
@@ -835,6 +851,19 @@ query ()
                          nargs_renumber, nreturn_std,
                          args_renumber, return_std);
 
+
+  gimp_install_procedure(PLUGIN_NAME_GAP_RENAME,
+                         "This plugin renames all frames (discfiles) to the specified new filename part)",
+                         "",
+                         "Wolfgang Hofer (hof@gimp.org)",
+                         "Wolfgang Hofer",
+                         GAP_VERSION_WITH_DATE,
+                         N_("Frames Rename..."),
+                         "RGB*, INDEXED*, GRAY*",
+                         GIMP_PLUGIN,
+                         nargs_rename, nreturn_std,
+                         args_rename, return_std);
+
   gimp_install_procedure(PLUGIN_NAME_GAP_MODIFY,
                          "This plugin performs a modifying action on each selected layer in each selected framerange",
                          "",
@@ -960,6 +989,7 @@ query ()
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_SHIFT, menupath_image_video);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_REVERSE, menupath_image_video);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_RENUMBER, menupath_image_video);
+     gimp_plugin_menu_register (PLUGIN_NAME_GAP_RENAME, menupath_image_video);
      gimp_plugin_menu_register (PLUGIN_NAME_GAP_MODIFY, menupath_image_video);
   }
 }       /* end query */
@@ -1653,6 +1683,39 @@ run (const gchar *name
 
         l_rc_image = gap_base_renumber(run_mode, image_id, nr, digits);
 
+      }
+  }
+  else if (strcmp (name, PLUGIN_NAME_GAP_RENAME) == 0)
+  {
+      gint len_newFrameName;
+      char newFrameName[256];
+
+      if(gap_debug)
+      {
+        printf("START %s\n", name);
+      }
+      newFrameName[0] = '\0';
+      len_newFrameName = sizeof(newFrameName);
+      if (run_mode == GIMP_RUN_NONINTERACTIVE)
+      {
+        if (n_params != nargs_rename)
+        {
+          status = GIMP_PDB_CALLING_ERROR;
+        }
+        else
+        {
+          strncpy(newFrameName, param[3].data.d_string, sizeof(newFrameName) -1);
+          newFrameName[len_newFrameName -1] = '\0';
+        }
+      }
+
+      if (status == GIMP_PDB_SUCCESS)
+      {
+        if(gap_debug)
+        {
+          printf("calling: gap_base_rename\n");
+        }
+        l_rc_image = gap_base_rename(run_mode, image_id, &newFrameName[0], len_newFrameName);
       }
   }
   else if (strcmp (name, PLUGIN_NAME_GAP_VIDEO_EDIT_COPY) == 0)

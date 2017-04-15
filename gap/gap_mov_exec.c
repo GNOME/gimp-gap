@@ -2061,8 +2061,8 @@ gap_mov_exec_set_handle_offsets_singleframe(GapMovValues *val_ptr, GapMovCurrent
    l_src_width  = gimp_image_width(cur_ptr->singleMovObjImageId);
    l_src_height = gimp_image_height(cur_ptr->singleMovObjImageId);
 
-   cur_ptr->l_handleX = 0.0;
-   cur_ptr->l_handleY = 0.0;
+   cur_ptr->l_handleX = 0 + val_ptr->handleDx;
+   cur_ptr->l_handleY = 0 + val_ptr->handleDy;
    switch(val_ptr->src_handle)
    {
       case GAP_HANDLE_LEFT_BOT:
@@ -4553,8 +4553,8 @@ void gap_mov_exec_set_handle_offsets(GapMovValues *val_ptr, GapMovCurrent *cur_p
      l_src_height = gimp_image_height(val_ptr->cache_tmp_image_id);
    }
 
-   cur_ptr->l_handleX = 0.0;
-   cur_ptr->l_handleY = 0.0;
+   cur_ptr->l_handleX = 0 + val_ptr->handleDx;
+   cur_ptr->l_handleY = 0 + val_ptr->handleDy;
    switch(val_ptr->src_handle)
    {
       case GAP_HANDLE_LEFT_BOT:
@@ -4693,6 +4693,9 @@ GapMovValues *gap_mov_exec_new_GapMovValues()
   pvals->mergeModeRenderedTweenLayer = GAP_MPP_MODE_KEEP;
   pvals->mergeModeRenderedTraceLayer = GAP_MPP_MODE_KEEP;
   pvals->mergeTarget = GAP_MPP_TARGET_NEW_LAYER;
+  
+  pvals->handleDx = 0.0;
+  pvals->handleDy = 0.0;
 
 
   return(pvals);
@@ -4775,6 +4778,8 @@ void gap_mov_exec_copy_xml_GapMovValues(GapMovValues *dstValues, GapMovValues *s
   dstValues->total_frames = srcValues->total_frames;
   dstValues->src_layerstack = srcValues->src_layerstack;
   dstValues->src_handle = srcValues->src_handle;
+  dstValues->handleDx = srcValues->handleDx;
+  dstValues->handleDy = srcValues->handleDy;
   dstValues->src_stepmode = srcValues->src_stepmode;
   dstValues->src_selmode = srcValues->src_selmode;
   dstValues->src_paintmode = srcValues->src_paintmode;

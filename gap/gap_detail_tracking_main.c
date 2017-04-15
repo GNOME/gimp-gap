@@ -1,5 +1,5 @@
 /*  gap_detail_tracking_main.c
- *  This main module provides multiple filters:
+ *  This main module provides multiple filters dealing wit video frame stabilisation:
  *
  *  A) Detail Tracking
  *
@@ -10,17 +10,20 @@
  *    in a series of video frames.
  *    The recorded positions can also be used as XML input for the XML aligner
  *    plug-in (available in this module) and can be used as filter
- *    in the frames modify feature.
+ *    in the frames modify feature for video stabilisation purpose.
  *
  *
  *    Applying the recorded position can compensate unwanted camera moves
- *    when static scenes where shot without using a stativ.
+ *    when static scenes where shot without using a tripod.
  *  Note that the recording of positions is usually triggered by the
  *  Player's Snaphot feature where this filter runs on the 2 topmost layers
  *  (or on top and BG layer)
  *  in the snapshot image that is created and updated by the player.
  *
  *  B) Transformation of a Layer by 4 or 2 controlpoints.
+ *    2x4 points: performs a perspective transformation on the layer in a way that 4 reference points
+ *        match 4 target points (in the TARGET path). 
+ *        Perspective transformation can copmensate both moves and rotations of the camera.
  *    4 points: rotate scale and move the layer in a way that 2 reference points match 2 target points. 
  *       (Note that the 4 point mode works similar to the Exact Aligner script in the plug-in registry)
  *    2 points: simple move the layer from reference point to target point.
@@ -28,6 +31,7 @@
  *    This filter transformation is available in 2 variants:
  *    B1) controlpoints input from current path
  *    B2) controlpoints from an xml input file recorded by GAP detail tracking feature.
+ *        (intended for use as filter applied with the GIMP-GAP modify frames feature on multiple frames)
  *
  *  2011/12/01
  */
@@ -116,6 +120,9 @@ static const GimpParamDef in_args[] =
                                                 "(the shape is searched in the target layer only within this radius." },
     { GIMP_PDB_FLOAT,    "loacteColodiffThreshold",     "0.0 upto 1.0 threshold that defines tolerated average colordiff for successful detail tracking."
                                                         " ." },
+    { GIMP_PDB_INT32,    "numPointsSelect",      "1 .. select best matching single point for simple point alignment via layermovement"
+                                                 "2 .. select best 2 points for alignment via scaling, rotation and movement"
+                                                 "4 .. select 4 points for perspective alignment (compensates all sorts of camera shake)" },
     { GIMP_PDB_INT32,    "coordsRelToFrame1",    "1 .. substract coords of initial position from all recorded positions."
                                                  "     (i.e. recording starts with px=0 py=0) "
                                                  "0 .. record absolute positions" },
@@ -130,16 +137,24 @@ static const GimpParamDef in_args[] =
                                                  "   (this is typically the previous frame of the sequence)" },
     { GIMP_PDB_INT32,    "removeMidlayers",      "1: delete all layers except BG layer and 2 layer on top of the layerstack, "
                                                  "0: do not delete anything and keep all layers." },
-    { GIMP_PDB_STRING,   "moveLogFile",          "optional name of a move path controlpoint xml file. (use - to write to stdout) " }
+    { GIMP_PDB_INT32,    "addTransformedLayer",  "add a transformed copy of the tracked layer "
+                                                 "when saving tracking snaphots to XCF frame images. (video stabilized frames)   " },
+    { GIMP_PDB_STRING,   "moveXmlFile",          "optional output file for detail tracking information"
+                                                 "use - for logging to stdout "
+                                                 "or provide a name name of a move path controlpoint xml file.  "
+                                                 "In case the name ends with extension .xcf, the tracked snapshot image is saved "
+                                                 "as frame image in the GIMP XCF imageformat with tracking information added as vector pathes" }
 };
 
 static const GimpParamDef in_xml_args[] =
 {
-    { GIMP_PDB_INT32,    "run-mode",      "Interactive, non-interactive" },
-    { GIMP_PDB_IMAGE,    "image",         "Input image"                  },
-    { GIMP_PDB_DRAWABLE, "drawable",      "layer to be aligned"               },
-    { GIMP_PDB_INT32,    "framePhase",    "frame number i.e. phase to render (1 upto n recorded points in the xml file)." },
-    { GIMP_PDB_STRING,   "moveLogFile",          "optional name of a move path controlpoint xml file. (use - to write to stdout) " }
+    { GIMP_PDB_INT32,    "run-mode",       "Interactive, non-interactive" },
+    { GIMP_PDB_IMAGE,    "image",          "Input image"                  },
+    { GIMP_PDB_DRAWABLE, "drawable",       "layer to be aligned"               },
+    { GIMP_PDB_INT32,    "framePhase",     "frame number i.e. phase to render (1 upto n recorded points in the xml file)." },
+    { GIMP_PDB_FLOAT,    "precision",      "precision in pixels for calculation of perspective transformation coordinates (range 0.001 to 1.0)" },
+    { GIMP_PDB_FLOAT,    "precisionThres", "precision threshold in pixels for iterative fine tuning attempts (range 0.0 to 2.0)" },
+    { GIMP_PDB_STRING,   "moveXmlFile",    "name of a controlpoint xml file. (containing the transformation coordinates recorded by detail tracking feature) " }
 };
 
 static const GimpParamDef in_exalign_args[] =
@@ -147,8 +162,9 @@ static const GimpParamDef in_exalign_args[] =
     { GIMP_PDB_INT32,    "run-mode",      "Interactive, non-interactive" },
     { GIMP_PDB_IMAGE,    "image",         "Input image"                  },
     { GIMP_PDB_DRAWABLE, "drawable",      "layer to be aligned"          },
-    { GIMP_PDB_INT32,    "pointOrder",    "0: use path coordinate points in order: 3 --> 1, 4 --> 2 "
-                                          "1: use path coordinate points in order: 2 --> 1, 4 --> 3 " }
+    { GIMP_PDB_INT32,    "pointOrder",    "0: use current path coordinate points in order: 3 --> 1, 4 --> 2 "
+                                          "1: use current path coordinate points in order: 2 --> 1, 4 --> 3 "
+                                          "2: use coordinate points in order: current path 1234 --> 1234 TARGET path " }
 };
 
 
@@ -172,6 +188,9 @@ MAIN ()
 
 static void query (void)
 {
+  gchar *descriptionText;
+  gchar *fineTuningText;
+
   static GimpLastvalDef lastvals[] =
   {
     GIMP_LASTVALDEF_GINT32       (GIMP_ITER_FALSE,  fiVals.refShapeRadius,             "refShapeRadius"),
@@ -191,9 +210,11 @@ static void query (void)
 
   static GimpLastvalDef xaLastvals[] =
   {
-    GIMP_LASTVALDEF_GINT32       (GIMP_ITER_TRUE,   xaVals.framePhase,                 "framePhase"),
-    GIMP_LASTVALDEF_ARRAY        (GIMP_ITER_FALSE,  xaVals.moveLogFile,                "moveLogFileArray"),
-    GIMP_LASTVALDEF_GCHAR        (GIMP_ITER_FALSE,  xaVals.moveLogFile[0],             "moveLogFileChar"),
+    GIMP_LASTVALDEF_GINT32       (GIMP_ITER_TRUE,   xaVals.framePhase,                  "framePhase"),
+    GIMP_LASTVALDEF_GDOUBLE      (GIMP_ITER_FALSE,  xaVals.transformPrecision,          "transformPrecision"),
+    GIMP_LASTVALDEF_GDOUBLE      (GIMP_ITER_FALSE,  xaVals.transformPrecisionThreshold, "transformPrecisionThreshold"),
+    GIMP_LASTVALDEF_ARRAY        (GIMP_ITER_FALSE,  xaVals.moveLogFile,                 "moveLogFileArray"),
+    GIMP_LASTVALDEF_GCHAR        (GIMP_ITER_FALSE,  xaVals.moveLogFile[0],              "moveLogFileChar"),
 
   };
 
@@ -225,7 +246,7 @@ static void query (void)
                           "This new position is logged in XML format, suitable as input for the MovePath plug-in."
                           "Note that this filter is typically invoked from the Player on the snapshot image, "
                           "whenever the player puts the next frame on top of the snaphot image and detail tracking is enabled. "
-                          "Detail tracking can record the unwanted camera movements in a static scene of a video shot freehand (without a stativ) "
+                          "Detail tracking can record the unwanted camera movements in a static scene of a video shot freehand (without a tripod) "
                           "Applying the recorded movements with the MovePath feature can compensate such unwanted movements. "
                           " ",
                           PLUG_IN_AUTHOR,
@@ -250,8 +271,9 @@ static void query (void)
                           "This new position is logged in XML format, suitable as input for the MovePath plug-in."
                           "Note that this filter is typically invoked from the Player on the snapshot image, "
                           "whenever the player puts the next frame on top of the snaphot image and detail tracking is enabled. "
-                          "Detail tracking can record the unwanted camera movements in a static scene of a video shot freehand (without a stativ) "
-                          "Applying the recorded movements with the MovePath feature can compensate such unwanted movements. "
+                          "Detail tracking can record the unwanted camera movements in a static scene of a video shot freehand (without a tripod) "
+                          "Applying the recorded movements with the MovePath feature (or the detail align filter via frames modify feature) "
+                          "can compensate such unwanted camera movements and rotations. "
                           " ",
                           PLUG_IN_AUTHOR,
                           PLUG_IN_COPYRIGHT,
@@ -264,17 +286,43 @@ static void query (void)
                           in_args,
                           return_vals);
 
+
+
+
+  fineTuningText = g_strdup_printf(_("optional fine tuning "
+                            "is triggered when the frame image has an additional Layer "
+                            "with the special name '%s.' "
+                            "in this case the transformation is done in more probe variants with slightly different values "
+                            "and the result is compared with the opaque areas in the '%s.' layer "
+                            "for final rendering, the variant is picked that has the minumum difference in the compared areas "
+                            "The performance intensive fine tuning is intended to reduce unwanted jitter effects "
+                            "with minimal amplitude of just 1 pixel or below "
+                            "when alignment is applied to many frames of a videoclip for stabilsation purpose. "
+                            "The the '%s.' layer shall have a layer mask that marks comparable background white (opaque)."
+                            " ")
+                            , GAP_EXACT_ALIGNER_REF_LAYER_NAME
+                            , GAP_EXACT_ALIGNER_REF_LAYER_NAME
+                            , GAP_EXACT_ALIGNER_REF_LAYER_NAME
+                            );
+
+  descriptionText = g_strdup_printf(_("This video frame stabilisation filter transforms the specified layer. "
+                            "It uses the relevant controlpoint (that matches the framePhase parameter) in the recorded XML file as input.  "
+                            "and calculates offsts, scaling and rotation or perspective corner points to transform the layer in a way that "
+                            "the points p1x p1y p2x p2y (p3x p3y p4x p4y) "
+                            "will exactly match with the points s1x s1y s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML file."
+                            "(calling this filter with framePhase 1 typically does no transformation) "
+                            "This filter is intended to run under control of the gimp-gap frames modify feature "
+                            "to align multiple frames according to the controlpoints recorded in an XML file (via Detail tracking feature)."
+                            "%s")
+                            , fineTuningText
+                            );
+
+
+
   /* the  installation of the xml based aligner plugin */
   gimp_install_procedure (GAP_DETAIL_TRACKING_XML_ALIGNER_PLUG_IN_NAME,
                           "Exact Align Layer via transformation according to current phase of detail tracking (recorded in XML file).",
-                          "This filter tranforms the specified layer. "
-                          "It uses the relevant controlpoint (that matches the framePhase parameter) in the recorded XML file as input.  "
-                          "and calculates offsts, scaling and rotation to transform the layer in a way that the points p1x p1y p2x p2y "
-                          "will exactly match with the points p1x p1y p2x p2y of the 1st controlpoint in the XML file."
-                          "(calling this filter with framePhase 1 does no transformation) "
-                          "This filter is intended to run under control of the gimp-gap frames modify feature "
-                          "to align multiple frames according to the controlpoints recorde in an XML file (via Detail tracking feature)."
-                          " ",
+                          descriptionText,
                           PLUG_IN_AUTHOR,
                           PLUG_IN_COPYRIGHT,
                           GAP_VERSION_WITH_DATE,
@@ -286,15 +334,27 @@ static void query (void)
                           in_xml_args,
                           return_vals);
 
-  /* the  installation of the 4-point path based aligner plugin */
-  gimp_install_procedure (GAP_EXACT_ALIGNER_PLUG_IN_NAME,
-                          "Exact Align Layer via transformation according 4 points specified in the current path.",
-                          "This filter expects a current path with 4 points as input where point 1 and 2 mark positions "
+  g_free(descriptionText);
+  descriptionText = g_strdup_printf(_("This filter "
+                          "expects a current path with 4 points as input where point 1 and 2 mark positions "
                           "within a reference layer and points 3 and 4 mark 2 corresponding point in the target layer. "
                           "The transformation is applied to the target layer and sets offsets, scaling and rotation "
                           "in a way that point3 is placed on position of point1, and point4 is placed on position of point2."
                           " "
-                          " ",
+                          "As alternitive this filter also provides exact alignment via Perspective Transformation. "
+                          "Therefore 4 points are required in the current path, and another 4 points are required in an "
+                          "additional path that must have the name '%s'. The layer will be transformed in a way "
+                          "that all 4 points in the current path will be placed on their corresponding points in the '%s' path."
+                          "%s")
+                          , GAP_EXACT_ALIGNER_TARGET_PATH_NAME
+                          , GAP_EXACT_ALIGNER_TARGET_PATH_NAME
+                          , fineTuningText
+                          );
+
+  /* the  installation of the 4-point path based aligner plugin */
+  gimp_install_procedure (GAP_EXACT_ALIGNER_PLUG_IN_NAME,
+                          "Exact Align Layer via transformation according 4 points specified in the current path.",
+                          descriptionText,
                           PLUG_IN_AUTHOR,
                           PLUG_IN_COPYRIGHT,
                           GAP_VERSION_WITH_DATE,
@@ -306,15 +366,18 @@ static void query (void)
                           in_exalign_args,
                           return_vals);
 
+  g_free(descriptionText);
+  g_free(fineTuningText);
 
   {
     /* Menu names */
     const char *menupath_image_layer_enhance = N_("<Image>/Video/Layer/Enhance/");
     const char *menupath_image_layer_transform = N_("<Image>/Layer/Transform/");
+    const char *menupath_image_video_layer_transform = N_("<Image>/Video/Layer/Transform/");
 
     gimp_plugin_menu_register (PLUG_IN_NAME_CFG, menupath_image_layer_enhance);
     gimp_plugin_menu_register (PLUG_IN_NAME, menupath_image_layer_enhance);
-    gimp_plugin_menu_register (GAP_DETAIL_TRACKING_XML_ALIGNER_PLUG_IN_NAME, menupath_image_layer_enhance);
+    gimp_plugin_menu_register (GAP_DETAIL_TRACKING_XML_ALIGNER_PLUG_IN_NAME, menupath_image_video_layer_transform);
     gimp_plugin_menu_register (GAP_EXACT_ALIGNER_PLUG_IN_NAME, menupath_image_layer_transform);
   }
 
@@ -444,6 +507,22 @@ runXmlAlign (const gchar *name,  /* name of plugin */
     case GIMP_RUN_INTERACTIVE:
       {
         gboolean dialogOk;
+        char   *imagename;
+        
+        imagename = gimp_image_get_filename(image_id);
+        if (imagename != NULL)
+        {
+          gint32 frameNumber;
+          
+          frameNumber = gap_lib_get_frame_nr_from_name(imagename);
+          if (frameNumber > 0)
+          {
+            xaVals.framePhase = frameNumber;
+          }
+	  g_free(imagename);
+        }
+        
+        
 
         dialogOk = gap_detail_xml_align_dialog(&xaVals);
         if( dialogOk != TRUE)
@@ -460,11 +539,13 @@ runXmlAlign (const gchar *name,  /* name of plugin */
       /* check to see if invoked with the correct number of parameters */
       if (nparams == global_number_in_args)
       {
-          xaVals.framePhase               = param[3].data.d_int32;
+          xaVals.framePhase                   = param[3].data.d_int32;
+          xaVals.transformPrecision           = param[4].data.d_float;
+          xaVals.transformPrecisionThreshold  = param[5].data.d_float;
           xaVals.moveLogFile[0] = '\0';
-          if(param[4].data.d_string != NULL)
+          if(param[6].data.d_string != NULL)
           {
-            g_snprintf(xaVals.moveLogFile, sizeof(xaVals.moveLogFile) -1, "%s", param[4].data.d_string);
+            g_snprintf(xaVals.moveLogFile, sizeof(xaVals.moveLogFile) -1, "%s", param[6].data.d_string);
           }
 
       }
@@ -652,16 +733,18 @@ run (const gchar *name,          /* name of plugin */
           fiVals.refShapeRadius               = param[3].data.d_int32;
           fiVals.targetMoveRadius             = param[4].data.d_int32;
           fiVals.loacteColodiffThreshold      = param[5].data.d_float;
-          fiVals.coordsRelToFrame1            = (param[6].data.d_int32 == 0) ? FALSE : TRUE;
-          fiVals.offsX                        = param[7].data.d_int32;
-          fiVals.offsY                        = param[8].data.d_int32;
-          fiVals.offsRotate                   = param[9].data.d_float;
-          fiVals.enableScaling                = (param[10].data.d_int32 == 0) ? FALSE : TRUE;
-          fiVals.bgLayerIsReference           = (param[11].data.d_int32 == 0) ? FALSE : TRUE;
-          fiVals.removeMidlayers              = (param[12].data.d_int32 == 0) ? FALSE : TRUE;
+          fiVals.numPointsSelect              = param[6].data.d_int32;
+          fiVals.coordsRelToFrame1            = (param[7].data.d_int32 == 0) ? FALSE : TRUE;
+          fiVals.offsX                        = param[8].data.d_int32;
+          fiVals.offsY                        = param[9].data.d_int32;
+          fiVals.offsRotate                   = param[10].data.d_float;
+          fiVals.enableScaling                = (param[11].data.d_int32 == 0) ? FALSE : TRUE;
+          fiVals.bgLayerIsReference           = (param[12].data.d_int32 == 0) ? FALSE : TRUE;
+          fiVals.removeMidlayers              = (param[13].data.d_int32 == 0) ? FALSE : TRUE;
+          fiVals.addTransformedLayer          = (param[14].data.d_int32 == 0) ? FALSE : TRUE;
 
           fiVals.moveLogFile[0] = '\0';
-          if(param[13].data.d_string != NULL)
+          if(param[15].data.d_string != NULL)
           {
             g_snprintf(fiVals.moveLogFile, sizeof(fiVals.moveLogFile) -1, "%s", param[13].data.d_string);
           }

@@ -36,7 +36,21 @@
 #include "gtk/gtk.h"
 #include "libgimp/gimp.h"
 
+typedef struct GapEdgeValues { /* nickname: edval */
+     gdouble       blurRadius1X;
+     gdouble       blurRadius1Y;
+     gdouble       blurRadius2X;
+     gdouble       blurRadius2Y;
+     gint32        shiftLeft;
+     gint32        shiftRight;
+     gint32        shiftUp;
+     gint32        shiftDown;
+     gboolean      autoLevels;
+     gboolean      desaturate;
+     gboolean      invert;
+     gboolean      createEdgeAsNewLayer;
 
+  } GapEdgeValues;
 
 /* ----------------------------------------
  * gap_edgeDetection
@@ -56,18 +70,18 @@ gint32 gap_edgeDetection(gint32  refDrawableId
 
 
 /* ---------------------------------
- * gap_edgeDetectionByBlurDiff
+ * gap_edgeDetectionByShiftBlurDiff
  * ---------------------------------
- * create a new layer representing edges of the specified activeDrawableId.
- * The edge detection is done based on difference versus a blured
- * copy of the activeDrawableId.
- * (optionalyy with auto streched levels)
- * returns the drawable id of a newly created layer
+ * replace the content of specified activeDrawableId
+ * with results of edgeDetection.
+ * The edge detection is done based on differences of copies of the original activeLayer
+ * optionally shifted by small amount (1 or 2 pixels) horizontally and/or vertically and optionally blured.
+ *
+ * the edge detection result is furter optionally auto streched (levels) and inverted.
+ * returns the drawable id of the edgeMask
  */
 gint32
-gap_edgeDetectionByBlurDiff(gint32 activeDrawableId, gdouble blurRadius, gdouble blurResultRadius
-   , gdouble threshold, gint32 shift, gboolean doLevelsAutostretch
-   , gboolean invert);
+gap_edgeDetectionByShiftBlurDiff(gint32 activeDrawableId, GapEdgeValues *edvalPtr);
 
 
 

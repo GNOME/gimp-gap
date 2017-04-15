@@ -33,6 +33,7 @@
 
 
 /* revision history:
+ * version 2.8.xx;  2017/03/15   hof: added onionskin layermask_mode parameter
  * version 2.1.0a;  2004/06/03   hof: added onionskin ref_mode parameter
  * version 1.3.17a; 2003.07.29   hof: param types GimpPlugInInfo.run procedure
  * version 1.3.16c; 2003.07.12   hof: Onionsettings scope changes from gimp-session
@@ -100,6 +101,8 @@ GimpPlugInInfo PLUG_IN_INFO =
     {GIMP_PDB_INT32, "auto_create", "TRUE..automatic creation/replacing of onionskinlayers after GAP controlled load"},
     {GIMP_PDB_INT32, "auto_delete", "TRUE..automatic delete of onionskinlayers before GAP controlled save"},
     {GIMP_PDB_INT32, "ref_mode", "Reference Mode:  0:NORMAL, 1:BIDIRECTIONAL_SINGLE, 2:BIDIRECTIONAL_DOUBLE "},
+    {GIMP_PDB_INT32, "layermask_mode", "Layermask creation Mode:  0:NONE, 1:BLACK, 2:WHITE, 3:FROM_SELECTION, 4: FROM_SELECTION_WITH_CLIPPING  "},
+    {GIMP_PDB_INT32, "active_mode", "0:do not switch the active layer, 1:set onion layer active after creation, 2: set onion layermask active"},
   };
   static int nargs_onion_cfg = G_N_ELEMENTS(args_onion_cfg);
 
@@ -329,6 +332,9 @@ run(const gchar *name
           gpp->vin.auto_delete_before_save = param[20].data.d_int32;
           gpp->vin.onionskin_auto_enable   = TRUE;
           gpp->vin.ref_mode          = param[21].data.d_int32;
+          gpp->vin.layermask_mode    = param[22].data.d_int32;
+          gpp->vin.active_mode = param[23].data.d_int32;
+          
         }
       }
       else if(gpp->run_mode != GIMP_RUN_INTERACTIVE)

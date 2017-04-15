@@ -41,6 +41,7 @@
 #include <libgimp/gimp.h>
 #include <libgimp/gimpui.h>
 
+#include "gap_geo.h"
 #include "gap_libgapbase.h"
 #include "gap_locate.h"
 #include "gap_colordiff.h"
@@ -76,22 +77,16 @@ typedef struct FilterValues {
    gboolean   enableScaling;       /* on: use rotation and scaling  off: rotate only  */
    gboolean   bgLayerIsReference;
    gboolean   removeMidlayers;     /* on: keep 2 top layers and Bg layer, remove other layers  off: keep all layers  */
+   gboolean   addTransformedLayer; /* add layer and apply detail_align transformation when tracking to XCF image */
    char       moveLogFile[1600];
 } FilterValues;
 
-typedef struct PixelCoords
-{
-  gboolean  valid;
-  gint32  px;
-  gint32  py;
-  gdouble   avgColorDiff;    // 0 = best quality, 1 = worst quality
-} PixelCoords;
 
 #define MAX_PIXEL_COORDS_ARRAY 32
 
 typedef struct PixelCoordsArray
 {
-  PixelCoords  pixCoord[MAX_PIXEL_COORDS_ARRAY];
+  GapPixelCoords  pixCoord[MAX_PIXEL_COORDS_ARRAY];
   int          numberOfCoords;           /* number of used pixelCoord elements in the array */
   gint32       numValidOffsets;          /* number of valid coords involved in average Offset calculation */
   gdouble      avgOffsX;                 /* average horizontal movement vektor (extreme values are not included) */ 
@@ -108,6 +103,7 @@ typedef struct FrameHistInfo
 
   gint32       lostTraceCount;        /* count frames where the required number of detailspoints could not be located */
   gint32       trackedFramesCount;
+  gint32       bestIdx[4];            /* best indexes that were picked while processing the previous frame */
 } FrameHistInfo;
 
 

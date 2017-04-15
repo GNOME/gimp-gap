@@ -28,6 +28,7 @@
  */
 
 /* revision history:
+ * 2.8.xx;  2017/04/04    hof: added gap_base_rename
  * 1.3.17b; 2003/07/31   hof: message text fixes for translators (# 118392)
  * 1.3.16b; 2003/07/04   hof: added gap_density, confirm dialog for frame deleting operations
  * 1.3.15a  2003/06/21   hof: textspacing
@@ -64,6 +65,7 @@ extern      int gap_debug; /* ==0  ... dont print debug infos */
 #define GAP_HELP_ID_DENSITY           "plug-in-gap-density"
 #define GAP_HELP_ID_EXCHANGE          "plug-in-gap-exchg"
 #define GAP_HELP_ID_RENUMBER          "plug-in-gap-renumber"
+#define GAP_HELP_ID_RENAME            "plug-in-gap-rename"
 #define GAP_HELP_ID_SHIFT             "plug-in-gap-shift"
 #define GAP_HELP_ID_REVERSE           "plug-in-gap-reverse"
 
@@ -2287,3 +2289,324 @@ gap_base_renumber(GimpRunMode run_mode, gint32 image_id,
 
   return(rc);
 }       /* end gap_base_renumber */
+
+
+
+/* --------------------------------
+ * p_getbasenameWithoutDirpartPtr
+ * --------------------------------
+ * returns a pointer to the start of the filename part within basenamePtr.
+ * the caller MUST NOT free the resulting pointer !
+ */
+static char *
+p_getbasenameWithoutDirpartPtr(char *basenamePtr)
+{
+  char             *retPtr;
+  char             *ptr;
+  
+  /* retPtr is set after the last
+   * occurance of directory separators (check for both UNIX and Windows separator characters)
+   */
+  retPtr = basenamePtr;
+  ptr = basenamePtr;
+  for(ptr = basenamePtr; ptr != NULL; ptr++)
+  {
+    if (*ptr == '\0')
+    {
+      break;
+    }
+    if ((*ptr == ':') || (*ptr == '/') || (*ptr == '\\'))
+    {
+      retPtr = ptr;
+      retPtr++;
+    }
+  }
+  
+  return (retPtr);
+  
+}  /* end p_getbasenameWithoutDirpartPtr */
+
+
+/* ----------------------------------
+ * p_rename_frames
+ * ----------------------------------
+ * rename all frames within the same directory to newBasenamePtr
+ * if the doRename flag is not TRUE just check if any of the new names already exist.
+ *
+ *     Old filenames               New Filenames
+ *   -----------------------------------------------
+ *     frame_000002.xcf            newname_000002.xcf
+ *     frame_000003.xcf            newname_000003.xcf
+ *     frame_000004.xcf            newname_000004.xcf
+ *     frame_000005.xcf            newname_000005.xcf
+ *
+ */
+static gint32
+p_rename_frames(GapAnimInfo *ainfo_ptr, char *newBasenamePtr, gboolean doRename)
+{
+  long l_fnr;
+  gint l_errcount;
+
+
+  if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
+  {
+    if (doRename == TRUE)
+    {
+      gimp_progress_init(_("Rename Frames"));
+    }
+    else
+    {
+      gimp_progress_init(_("Check Framnames"));
+    }
+  }
+
+  l_errcount = 0;
+  l_fnr = ainfo_ptr->first_frame_nr;
+  while (l_fnr <= ainfo_ptr->last_frame_nr)
+  {
+    char *l_curr_name;
+    
+    if (gap_debug)
+    {
+      printf("p_rename_frames: STEP l_fnr:%d ainfo_ptr->basename:%s\n", (int)l_fnr, ainfo_ptr->basename);
+    }
+
+    l_curr_name = gap_lib_alloc_fname(ainfo_ptr->basename, l_fnr, ainfo_ptr->extension);
+
+    /* check if frame file with old name exists
+     */
+    if( gap_lib_file_exists(l_curr_name) )
+    {
+      char *l_new_name;
+      char *l_new_basename;
+      char *l_dir_path;
+      char *l_filepartPtr;   /* points into l_dir_path dont g_free this */
+      
+      l_dir_path = g_strdup(ainfo_ptr->basename);
+      l_filepartPtr = p_getbasenameWithoutDirpartPtr(l_dir_path);
+      if (l_filepartPtr != NULL)
+      {
+        *l_filepartPtr = '\0';  /* cut off filename part, if no dir present cut can be at position 0 */
+      }
+      if (*l_dir_path == '\0')
+      {
+        l_new_basename = g_strdup(newBasenamePtr);
+      }
+      else
+      {
+        /* build basename from dirpath (that already ends up with a separator) and
+         * the newBasename (that was entered in the dialog and is already without dirpath)
+         */
+        l_new_basename = g_strdup_printf("%s%s", l_dir_path, newBasenamePtr);
+      }
+      
+      if(gap_debug)
+      {
+        printf("l_dir_path:%s\n", l_dir_path);
+      }
+      
+      l_new_name = gap_lib_alloc_fname(l_new_basename, l_fnr, ainfo_ptr->extension);
+      if (gap_lib_file_exists(l_new_name))
+      {
+        l_errcount++;
+      }
+      else
+      {
+        if (doRename == TRUE)
+        {
+           gint l_rc;
+           
+           l_rc = g_rename(l_curr_name, l_new_name);
+	   gap_thumb_file_rename_thumbnail(l_curr_name, l_new_name);
+	   
+           if (l_fnr == ainfo_ptr->curr_frame_nr)
+           {
+             gimp_image_set_filename(ainfo_ptr->image_id, l_new_name);
+           }
+	   
+	   if (l_rc != 0)
+	   {
+	     l_errcount++;
+	   }
+        }
+      }
+      g_free(l_new_name);
+      g_free(l_new_basename);
+      g_free(l_dir_path);
+    }
+    l_fnr++;
+    g_free(l_curr_name);
+
+    if(ainfo_ptr->run_mode == GIMP_RUN_INTERACTIVE)
+    {
+      gimp_progress_update( (gdouble)(l_fnr - ainfo_ptr->first_frame_nr)
+                          / (gdouble)(1+ (ainfo_ptr->last_frame_nr - ainfo_ptr->first_frame_nr)) );
+    }
+    if (l_errcount > 0)
+    {
+      break;
+    }
+  }
+  
+  if (l_errcount > 0)
+  {
+    return (-1);
+  }
+  return (0); /* OK */
+  
+}  /* end p_rename_frames */
+
+
+
+
+
+/* --------------------------------
+ * p_rename_dialog
+ * --------------------------------
+ */
+static int
+p_rename_dialog(GapAnimInfo *ainfo_ptr, char *newFrameName,  gint len_newFrameName) /// long *start_frame_nr, long *digits)
+{
+#define ENTRY_WIDTH 400
+  static GapArrArg  argv[3];
+  gchar            *l_title;
+  gchar            *l_oldFrameName;
+  gboolean          l_rc;
+
+
+  l_title = g_strdup_printf (_("Rename Frames (%ld)")
+                             , ainfo_ptr->frame_cnt);
+  l_oldFrameName = g_strdup_printf (_("Old FrameName: %s")
+                             , p_getbasenameWithoutDirpartPtr(ainfo_ptr->basename));
+
+  gap_arr_arg_init(&argv[0], GAP_ARR_WGT_LABEL_LEFT);
+  argv[0].label_txt = l_oldFrameName;
+
+  gap_arr_arg_init(&argv[1], GAP_ARR_WGT_TEXT);
+  argv[1].label_txt = _("New FrameName");
+  argv[1].entry_width = ENTRY_WIDTH;
+  argv[1].help_txt  = _("New FrameName for all frames (must be entered without number part, extension and directory path)");
+  argv[1].text_buf_len = len_newFrameName;
+  argv[1].text_buf_ret = newFrameName;
+
+
+  gap_arr_arg_init(&argv[2], GAP_ARR_WGT_HELP_BUTTON);
+  argv[2].help_id = GAP_HELP_ID_RENAME;
+
+  l_rc = gap_arr_ok_cancel_dialog(l_title, _("Rename Frames"),  3, argv);
+  g_free (l_title);
+  g_free (l_oldFrameName);
+
+  if(TRUE == l_rc)
+  {
+    return (0);
+  }
+  else
+  {
+    return -1;
+  }
+
+}       /* end p_rename_dialog */
+
+
+
+/* ============================================================================
+ * gap_base_rename
+ * ============================================================================
+ */
+gint32
+gap_base_rename(GimpRunMode run_mode, gint32 image_id,
+            char *newFrameName,  gint len_newFrameName)
+{
+  gint32 rc;
+  GapAnimInfo *ainfo_ptr;
+  char        *newBasenamePtr;
+
+  long           l_cnt;
+
+  rc = -1;
+  l_cnt = 0;
+  ainfo_ptr = gap_lib_alloc_ainfo(image_id, run_mode);
+  if(ainfo_ptr != NULL)
+  {
+    if (0 == gap_lib_dir_ainfo(ainfo_ptr))
+    {
+      if(run_mode != GIMP_RUN_NONINTERACTIVE)
+      {
+         if(0 != gap_lib_chk_framechange(ainfo_ptr)) { l_cnt = -1; }
+         else
+         {
+           strncpy(newFrameName, "newname_", len_newFrameName -1);
+           l_cnt = p_rename_dialog(ainfo_ptr, newFrameName, len_newFrameName);
+         }
+
+         if(0 != gap_lib_chk_framechange(ainfo_ptr))
+         {
+            l_cnt = -1;
+         }
+
+      }
+      
+      newBasenamePtr = p_getbasenameWithoutDirpartPtr(newFrameName);
+
+      /* check for directory path (that is not supported in this rename implementation) */
+      if ((newBasenamePtr != newFrameName) && (newBasenamePtr != NULL))
+      {
+        gap_arr_msg_win(ainfo_ptr->run_mode,
+	         _("Rename Frames cancelled.\n"
+                   "new Framename MUST NOT contain directory path."));
+        l_cnt = -1;
+      }
+
+      /* check for equal names (rename is not required in this case..) */
+      if (strcmp(p_getbasenameWithoutDirpartPtr(ainfo_ptr->basename), newBasenamePtr) == 0)
+      {
+        gap_arr_msg_win(ainfo_ptr->run_mode,
+	         _("Rename Frames cancelled.\n"
+                   "new Framename is equal to old Framename."));
+        l_cnt = -1;
+      }
+
+      if(gap_debug) 
+      {
+        printf("gap_base_rename: l_cnt:%d newFrameName:%s newBasenamePtr:%s\n"
+             , (int)l_cnt
+             , newFrameName
+             , newBasenamePtr
+             );
+      }
+
+      if(l_cnt >= 0)
+      {
+         /* check for all frames (on disk) if the newName already exists */
+         rc = p_rename_frames(ainfo_ptr, newBasenamePtr, FALSE);
+         if(rc < 0)
+         {
+           gap_arr_msg_win(ainfo_ptr->run_mode,
+	         _("Rename Frames cancelled.\n"
+                   "one or more new Framename(s) already exits."));
+         }
+         else
+         {
+           /* rename all frames (on disk) */
+           rc = p_rename_frames(ainfo_ptr, newBasenamePtr, TRUE);
+           if(rc < 0)
+           {
+             gap_arr_msg_win(ainfo_ptr->run_mode,
+	         _("Rename Frames failed.\n"
+                   "one or more new Framename(s) could not be renamed."));
+           }
+           else
+           {
+             rc = image_id;  /* if OK, return current image id */
+           }
+         }
+      }
+
+    }
+    gap_lib_free_ainfo(&ainfo_ptr);
+  }
+
+  return(rc);
+}       /* end gap_base_rename */
+
