@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-23 16:21+0200\n"
-"PO-Revision-Date: 2017-05-31 01:31+0200\n"
+"PO-Revision-Date: 2017-05-31 23:20+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: gimp.linux.it\n"
 "Language: it\n"
@@ -2468,7 +2468,7 @@ msgid "DetailTracking"
 msgstr "DetailTracking"
 
 #: ../gap/gap_detail_tracking_main.c:292
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "optional fine tuning is triggered when the frame image has an additional "
 "Layer with the special name '%s.' in this case the transformation is done in "
@@ -2480,10 +2480,10 @@ msgid ""
 "applied to many frames of a videoclip for stabilsation purpose. The the "
 "'%s.' layer shall have a layer mask that marks comparable background white "
 "(opaque). "
-msgstr "optional fine tuning is triggered when the frame image has an additional Layer with the special name '%s.' in this case the transformation is done in more probe variants with slightly different values and the result is compared with the opaque areas in the '%s.' layer for final rendering, the variant is picked that has the minumum difference in the compared areas The performance intensive fine tuning is intended to reduce unwanted jitter effects with minimal amplitude of just 1 pixel or below when alignment is applied to many frames of a videoclip for stabilsation purpose. The the '%s.' layer shall have a layer mask that marks comparable background white (opaque). "
+msgstr "L'opzionale regolazione fine viene avviata quando l'immagine quadro ha un livello aggiuntivo con il nome speciale \"%s.\". In questo caso la trasformazione viene effettuata con più prove con valori leggermente diversi il cui risultato  viene confrontato con le zone opache nel livello '%s.'. Per il rendering finale, viene scelta la variante che possiede la differenza minima nelle aree confrontate. Questa regolazione fine così pesante in termini di elaborazione è pensata per ridurre l'indesiderato effetto jitter con una ampiezza minima di solo 1 pixel o meno quando l'allineamento viene applicato a molti quadri di una clip video a scopo di stabilizzazione. Il livello \"%s.\" avrà una maschera di livello che marca lo sfondo confrontabile in bianco (opaco). "
 
 #: ../gap/gap_detail_tracking_main.c:308
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "This video frame stabilisation filter transforms the specified layer. It "
 "uses the relevant controlpoint (that matches the framePhase parameter) in "
@@ -2495,14 +2495,14 @@ msgid ""
 "is intended to run under control of the gimp-gap frames modify feature to "
 "align multiple frames according to the controlpoints recorded in an XML file "
 "(via Detail tracking feature).%s"
-msgstr "This video frame stabilisation filter transforms the specified layer. It uses the relevant controlpoint (that matches the framePhase parameter) in the recorded XML file as input.  and calculates offsts, scaling and rotation or perspective corner points to transform the layer in a way that the points p1x p1y p2x p2y (p3x p3y p4x p4y) will exactly match with the points s1x s1y s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML file.(calling this filter with framePhase 1 typically does no transformation) This filter is intended to run under control of the gimp-gap frames modify feature to align multiple frames according to the controlpoints recorded in an XML file (via Detail tracking feature).%s"
+msgstr "Questo filtro di stabilizzazione quadri video trasforma il livello specificato. Esso usa il punto di controllo rilevante (che corrisponde al parametro framePhase) nel file XML registrato come ingresso e calcola gli spostamenti, la scalatura e la rotazione o i punti degli angoli di prospettiva per trasformare il livello in modo che i punti p1x p1y p2x p2y (p3x p3y p4x p4y) corrispondano esattamente con i punti s1x s1y s2x s2y (s3x s3y s4x s4y) nello stesso punto di controllo nel file XML (chiamando questo filtro con framePhase 1 tipicamente non fa alcuna trasformazione). Questo filtro è studiato per essere eseguito sotto il controllo della caratteristica di modifica del quadro di gimp-gap per allineare più quadri secondo i punti di controllo registrati in un file XML (tramite la caratteristica di tracciatura dettagli).%s"
 
 #: ../gap/gap_detail_tracking_main.c:329
 msgid "Align Transform via XML file..."
 msgstr "Allinea la trasformazione tramite un file XML..."
 
 #: ../gap/gap_detail_tracking_main.c:338
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "This filter expects a current path with 4 points as input where point 1 and "
 "2 mark positions within a reference layer and points 3 and 4 mark 2 "
@@ -2514,7 +2514,7 @@ msgid ""
 "another 4 points are required in an additional path that must have the name "
 "'%s'. The layer will be transformed in a way that all 4 points in the "
 "current path will be placed on their corresponding points in the '%s' path.%s"
-msgstr "This filter expects a current path with 4 points as input where point 1 and 2 mark positions within a reference layer and points 3 and 4 mark 2 corresponding point in the target layer. The transformation is applied to the target layer and sets offsets, scaling and rotation in a way that point3 is placed on position of point1, and point4 is placed on position of point2. As alternitive this filter also provides exact alignment via Perspective Transformation. Therefore 4 points are required in the current path, and another 4 points are required in an additional path that must have the name '%s'. The layer will be transformed in a way that all 4 points in the current path will be placed on their corresponding points in the '%s' path.%s"
+msgstr "Questo filtro si aspetta un tracciato corrente con 4 punti come ingresso dove punto1 e 2 marcano le posizioni in un livello di riferimento e i punti 3 e 4 marcano 2 punti corrispondenti nel livello obiettivo. La trasformazione viene applicata al livello obiettivo e imposta gli spostamenti, la scala e la rotazione in modo da piazzare il punto 3 alla posizione del punto 1, e il punto 4 alla posizione del punto 2. Come alternativa questo filtro fornisce anche l'allineamento esatto tramite la trasformazione di prospettiva. Perciò sono richiesti 4 punti nel tracciato corrente, e altri 4 punti in un tracciato aggiuntivo che deve avere come nome \"%s\". Il livello verrà trasformato in modo che tutti i 4 punti nel tracciato corrente vengano piazzati nei loro punti corrispondenti nel tracciato \"%s\".%s"
 
 #: ../gap/gap_detail_tracking_main.c:361
 msgid "Exact Align via 4-Point Path."
@@ -5558,9 +5558,8 @@ msgstr "dX:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4439
-#, fuzzy
 msgid "Handle Offest X is added to x coordinate in all points"
-msgstr "Handle Offest X is added to x coordinate in all points"
+msgstr "Spostamento maniglia X aggiunto alla coordinata x in tutti i punti"
 
 #. Handle Offset Y
 #. table col, row
@@ -5577,9 +5576,8 @@ msgstr "dY:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4459
-#, fuzzy
 msgid "Handle Offest Y is added to y coordinate in all points"
-msgstr "Handle Offest Y is added to y coordinate in all points"
+msgstr "Spostamento maniglia Y aggiunto alla coordinata y in tutti i punti"
 
 #: ../gap/gap_mov_dialog.c:4518
 msgid ""
@@ -7297,7 +7295,6 @@ msgid "Clipped from Selection (in current image) "
 msgstr "Ritagliata dalla selezione (nell'immagine corrente)"
 
 #: ../gap/gap_onion_dialog.c:1298
-#, fuzzy
 msgid ""
 "Layermask creation for the onionskin layer(s):\n"
 " None: (create onionskin layer without layermask)\n"
@@ -7307,12 +7304,12 @@ msgid ""
 " Selection (create layermask from selection in current image) and clip layer "
 "to selection size"
 msgstr ""
-"Layermask creation for the onionskin layer(s):\n"
-" None: (create onionskin layer without layermask)\n"
-" Black (create onionskin layer with black layermask)\n"
-" White (create onionskin layer with white layermask)\n"
-" Selection (create layermask from selection in current image)\n"
-" Selection (create layermask from selection in current image) and clip layer to selection size"
+"Creazione maschera di livello per i livelli cartavelina:\n"
+" Nessuna: crea livello cartavelina senza maschera di livello\n"
+" Nera: crea livello cartavelina con maschera di livello nera\n"
+" Bianca: crea livello cartavelina con maschera di livello bianca\n"
+" Selezione: crea livello cartavelina dalla selezione nell'immagine corrente\n"
+" Ritagliata dalla selezione: crea livello cartavelina dalla selezione nell'immagine corrente e ritaglia il livello alla dimensione della selezione"
 
 #: ../gap/gap_onion_dialog.c:1323
 msgid "Ignore BG-layer(s):"
@@ -7530,11 +7527,10 @@ msgid "Use RefLayer:"
 msgstr "Usa LivDiRif:"
 
 #: ../gap/gap_opacity_exposure_main.c:1116
-#, fuzzy
 msgid ""
 "ON: use Average Luminance from opaque pixels in the reference layer (ignore "
 "Target) OFF: use specified Target Lumninance value"
-msgstr "ON: use Average Luminance from opaque pixels in the reference layer (ignore Target) OFF: use specified Target Lumninance value"
+msgstr "ACCESO: usa la luminanza media dai pixel opachi nel livello di riferimento (ignora l'obiettivo) SPENTO: usa i valori di luminanza specificati nell'obiettivo"
 
 #. use reference layer as mask checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1127
