@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-04-15 16:53+0000\n"
-"PO-Revision-Date: 2017-04-25 15:24+0200\n"
+"POT-Creation-Date: 2017-05-01 18:06+0000\n"
+"PO-Revision-Date: 2017-06-02 13:30+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -533,18 +533,15 @@ msgid "Renumber Frames 2nd Pass"
 msgstr "Renumerar fotogramas en la segunda pasada"
 
 #: ../gap/gap_base_ops.c:2355 ../gap/gap_base_ops.c:2496
-#| msgid "Renumber Frames"
 msgid "Rename Frames"
 msgstr "Renombrar fotogramas"
 
 #: ../gap/gap_base_ops.c:2359
-#| msgid "Framenames:"
 msgid "Check Framnames"
 msgstr "Comprobar nombres de fotogramas"
 
 #: ../gap/gap_base_ops.c:2477
 #, c-format
-#| msgid "Renumber Frames (%ld)"
 msgid "Rename Frames (%ld)"
 msgstr "Renombrar fotogramas (%ld)"
 
@@ -2032,7 +2029,6 @@ msgstr ""
 "detalle (grabadas con la funcionalidad de seguimiento de detalles)."
 
 #: ../gap/gap_detail_align_exec.c:1551
-#| msgid "MB Decision:"
 msgid "Precision:"
 msgstr "Precisión:"
 
@@ -2043,7 +2039,6 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:1570
-#| msgid "Threshold:"
 msgid "PrecisionThreshold:"
 msgstr "Umbral de precisión:"
 
@@ -2132,7 +2127,7 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3699
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Current path with 4 point triggers transformations:\n"
 #| "    Rotation:   %.4f (degree)\n"
@@ -2156,10 +2151,9 @@ msgstr ""
 "    Movimiento X: %.0f (píxeles)\n"
 "    Movimiento Y: %.0f (píxeles)\n"
 "Pulse Aceptar para transformar la capa\n"
-"de forma que punto3 se mueve a punto1 y punto4 se mueve a punto2"
 
 #: ../gap/gap_detail_align_exec.c:3721
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Current path with 2 points triggers simple move:\n"
 #| "    Movement X: %.0f (pixels)\n"
@@ -2176,8 +2170,7 @@ msgstr ""
 "La ruta actual con 2 puntos desencadena el movimiento sencillo:\n"
 "    Movimiento X: %.0f (píxeles)\n"
 "    Movimiento Y: %.0f (píxeles)\n"
-"Pulse Aceptar para transformar la capa\n"
-"de forma que punto2 se mueve a punto1 "
+"Pulse Aceptar para mover la capa\n"
 
 #: ../gap/gap_detail_align_exec.c:3737
 #, fuzzy, c-format
@@ -2198,7 +2191,6 @@ msgstr ""
 "Cree una ruta y presione el botón Refrescar."
 
 #: ../gap/gap_detail_align_exec.c:3748
-#, fuzzy
 #| msgid ""
 #| "This filter requires a current path with 4 or 2 points\n"
 #| "It can transform and/or move the current layer according to such path "
@@ -2214,7 +2206,8 @@ msgstr ""
 "Este filtro requiere una ruta actual con 4 o 2 puntos\n"
 "Puede transformar y/o mover la capa actual de acuerdo con dichas coordenadas "
 "de ruta.\n"
-"Cree una ruta y presione el botón Refrescar."
+"\n"
+"Cree una ruta y presione el botón Actualizar."
 
 #: ../gap/gap_detail_align_exec.c:3859
 msgid "Transform Layer via 4 (or 2) point Alignment"
@@ -2229,7 +2222,7 @@ msgstr "Orden de los puntos de ruta:"
 
 #. Order Mode the radio buttons
 #: ../gap/gap_detail_align_exec.c:3930
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "( 3 --> 1 )  ( 4 --> 2 )\n"
 #| "Target is marked by points 1&2 "
@@ -2239,10 +2232,11 @@ msgid ""
 "Target is marked by current path points 1&3\n"
 msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
-"El objetivo está marcado por los puntos 1 y 2"
+"La fuente está marcada por los puntos 3 y 4\n"
+"El objetivo está marcado por los puntos 1 y 3\n"
 
 #: ../gap/gap_detail_align_exec.c:3946
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "( 3 --> 1 )  ( 4 --> 2 )\n"
 #| "Target is marked by points 1&2 "
@@ -2252,7 +2246,8 @@ msgid ""
 "Target is marked by current path points 1&3\n"
 msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
-"El objetivo está marcado por los puntos 1 y 2"
+"La fuente está marcada por los puntos 2 y 4\n"
+"El objetivo está marcado por los puntos 1 y 3\n"
 
 #: ../gap/gap_detail_align_exec.c:3962
 #, c-format
@@ -2261,6 +2256,9 @@ msgid ""
 "Source is marked by current path points 1,2,3,4\n"
 "Target is marked by path with name: %s points 1,2,3,4"
 msgstr ""
+"( 1 --> T1 ) ( 2 --> T2 ) ( 3 --> T3 ) ( 4 --> T4 )\n"
+"La fuente está marcada por los puntos 1,2,3,4\n"
+"El objetivo está marcado por la ruta con nombre: %s puntos 1,2,3,4"
 
 #: ../gap/gap_detail_align_exec.c:4092
 msgid ""
@@ -2415,10 +2413,9 @@ msgstr ""
 "DESACTIVADO: mantener todas las capas."
 
 #: ../gap/gap_detail_tracking_exec.c:3466
-#, fuzzy
 #| msgid "Transform:"
 msgid "add Transformed Layer:"
-msgstr "Transformar:"
+msgstr "añadir capa transformada:"
 
 #: ../gap/gap_detail_tracking_exec.c:3467
 msgid ""
@@ -2545,7 +2542,7 @@ msgstr "<Image>/Vídeo/Duplicar Continuar/"
 
 #: ../gap/gap_edge_detection_dialog.c:299
 msgid "Edge Detect (DoSoG)"
-msgstr ""
+msgstr "Detección de bordes (DoSoG)"
 
 #. the frame
 #: ../gap/gap_edge_detection_dialog.c:321
@@ -2606,7 +2603,6 @@ msgstr "Difuminar radio 2 en dirección Y"
 
 # //R Huy huy
 #: ../gap/gap_edge_detection_dialog.c:411
-#| msgid "N-Shift:"
 msgid "Shift Left:"
 msgstr "Desplazar a la izquierda:"
 
@@ -2620,7 +2616,6 @@ msgid "Shift left by n pixels"
 msgstr "Desplazar a la izquierda n píxeles"
 
 #: ../gap/gap_edge_detection_dialog.c:429
-#| msgid "Soft Light"
 msgid "Shift Right:"
 msgstr "Desplazar a la derecha:"
 
@@ -2635,7 +2630,6 @@ msgstr "Desplazar a la derecha n píxeles"
 
 # //R Huy huy
 #: ../gap/gap_edge_detection_dialog.c:446
-#| msgid "N-Shift:"
 msgid "Shift Up:"
 msgstr "Desplazar arriba:"
 
@@ -2650,7 +2644,6 @@ msgstr "Desplazar arriba n píxeles"
 
 # //R Huy huy
 #: ../gap/gap_edge_detection_dialog.c:464
-#| msgid "N-Shift:"
 msgid "Shift Down:"
 msgstr "Desplazar abajo:"
 
@@ -2664,7 +2657,6 @@ msgid "Shift down by n pixels"
 msgstr "Desplazar abajo n píxeles"
 
 #: ../gap/gap_edge_detection_dialog.c:480
-#| msgid "Adjust Color Levels"
 msgid "Auto Levels:"
 msgstr "Niveles automáticos:"
 
@@ -2673,7 +2665,6 @@ msgid "ON: apply auto strech levels"
 msgstr ""
 
 #: ../gap/gap_edge_detection_dialog.c:502
-#| msgid "Saturation:"
 msgid "Desaturate:"
 msgstr "Desaturar:"
 
@@ -2701,18 +2692,15 @@ msgstr ""
 
 #: ../gap/gap_edge_detection_dialog.c:1117
 #, c-format
-#| msgid "Error: Image '%s' not found"
 msgid "Error: Image '%d' not found"
 msgstr "Error: no es encuentra la imagen «%d»"
 
 #: ../gap/gap_edge_detection_dialog.c:1122
-#, fuzzy
 #| msgid "Error: Bluebox effect operates only on layers"
 msgid "Error: This Edge detection method operates only on layers"
-msgstr "Error: el efecto bluebox opera sólo en capas"
+msgstr "Error: este método de detección de bordes sólo funciona en capas"
 
 #: ../gap/gap_edge_detection_dialog.c:1201
-#| msgid "BlueboxPreview.xcf"
 msgid "EdgeDetectionPreview.xcf"
 msgstr "EdgeDetectionPreview.xcf"
 
@@ -2721,7 +2709,6 @@ msgid "Edge Detect (DoSoG) ..."
 msgstr "Detección de bordes (DoSoG)…"
 
 #: ../gap/gap_edge_detection_main.c:167
-#| msgid "<Image>/Video/Layer/Render/"
 msgid "<Image>/Video/Layer/Render"
 msgstr "<Image>/Vídeo/Capa/Renderizar/"
 
@@ -3580,7 +3567,6 @@ msgid "Frames Renumber..."
 msgstr "Renumerar fotogramas…"
 
 #: ../gap/gap_main.c:861
-#| msgid "Frames Renumber..."
 msgid "Frames Rename..."
 msgstr "Renombrar fotogramas…"
 
@@ -3680,7 +3666,6 @@ msgid "Channel Name"
 msgstr "Nombre del canal"
 
 #: ../gap/gap_mod_layer_dialog.c:414
-#| msgid "Filename:"
 msgid "XML Filename"
 msgstr "Nombres de archivo XML"
 
@@ -3723,12 +3708,10 @@ msgid "set all selected layers unlinked"
 msgstr "Desvincular todas las capas seleccionadas"
 
 #: ../gap/gap_mod_layer_dialog.c:589
-#| msgid "Set Layer Opacity"
 msgid "Set layer active"
 msgstr "Establecer la capa activa"
 
 #: ../gap/gap_mod_layer_dialog.c:595
-#| msgid "Delete layermask"
 msgid "Set layermask active"
 msgstr "Establecer máscara de capa activa"
 
@@ -5339,7 +5322,6 @@ msgid "Edit Controlpoints"
 msgstr "Editar puntos de control"
 
 #: ../gap/gap_mov_dialog.c:3738
-#| msgid "Edit Controlpoints"
 msgid "Edit Controlpoints "
 msgstr "Editar puntos de control "
 
@@ -5405,7 +5387,6 @@ msgstr ""
 
 #. Source Layer menu
 #: ../gap/gap_mov_dialog.c:4182
-#| msgid "Source Image/Layer:"
 msgid "Image/Layer:"
 msgstr "Imagen/capa:"
 
@@ -5584,7 +5565,6 @@ msgstr "Cómo colocar la capa origen en las coordenadas del punto de control"
 #. Handle Offset X
 #. table col, row
 #: ../gap/gap_mov_dialog.c:4431
-#| msgid "X:"
 msgid "dX:"
 msgstr "dX:"
 
@@ -5603,7 +5583,6 @@ msgstr ""
 #. Handle Offset Y
 #. table col, row
 #: ../gap/gap_mov_dialog.c:4451
-#| msgid "Y:"
 msgid "dY:"
 msgstr "dY:"
 
@@ -6555,7 +6534,6 @@ msgstr "Fotograma a mostrar cuando se pulse el botón Actualizar"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:6477
-#| msgid "Delete current controlpoint"
 msgid "Current controlpoint"
 msgstr "Punto de control actual"
 
@@ -7343,17 +7321,14 @@ msgid "Descending opacity for 2nd onionskin layer"
 msgstr "Opacidad descendiente para la segunda capa de papel cebolla"
 
 #: ../gap/gap_onion_dialog.c:1272
-#| msgid "Layer Modes"
 msgid "Layermask Mode:"
 msgstr "Modo de máscara de capa:"
 
 #: ../gap/gap_onion_dialog.c:1283
-#| msgid "Add black layermask (transparent)"
 msgid "Black (fully transparent)"
 msgstr "Negra (completamente transparente)"
 
 #: ../gap/gap_onion_dialog.c:1284
-#| msgid "Add white layermask (opaque)"
 msgid "White (fully opaque)"
 msgstr "Blanca (completamente opaca)"
 
@@ -7487,7 +7462,6 @@ msgstr ""
 
 #. the active_mode  combo box
 #: ../gap/gap_onion_dialog.c:1486
-#| msgid "Keep TraceLayer"
 msgid "Keep active layer"
 msgstr "Mantener capa activa"
 
@@ -7563,10 +7537,9 @@ msgstr "Eliminando capas de papel cebolla…"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_opacity_exposure_main.c:1022
-#, fuzzy
 #| msgid "Opacity Options"
 msgid "Opacity Exposure"
-msgstr "Opciones de opacidad"
+msgstr "Exposición de la opacidad"
 
 #: ../gap/gap_opacity_exposure_main.c:1032
 msgid "Get Average Luminance From the reference layer"
@@ -7622,7 +7595,6 @@ msgid "Exposure Reference Layer"
 msgstr "Referencia de fotograma:"
 
 #: ../gap/gap_opacity_exposure_main.c:1166
-#| msgid "Select the source layer"
 msgid "Select a reference layer"
 msgstr "Seleccione una capa de referencia"
 
@@ -11656,13 +11628,11 @@ msgid "High Output:"
 msgstr "Salida alta:"
 
 #: ../gap/gap_wr_desaturate.c:202
-#| msgid "Hue-Saturation..."
 msgid "Desaturate..."
 msgstr "Desaturar…"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_wr_desaturate.c:449
-#| msgid "Saturation"
 msgid "Desaturate"
 msgstr "Desaturar"
 
@@ -11680,12 +11650,10 @@ msgstr "Sombras"
 
 #. Shades the radio buttons
 #: ../gap/gap_wr_desaturate.c:499
-#| msgid "Lightness:"
 msgid "Lightness"
 msgstr "Claridad"
 
 #: ../gap/gap_wr_desaturate.c:504
-#| msgid "Preserve luminosity"
 msgid "Luminosity"
 msgstr "Luminosidad"
 
@@ -11768,16 +11736,14 @@ msgstr ""
 
 #. the directionParam label
 #: ../gap/gap_wr_resynth.c:814
-#, fuzzy
 #| msgid "Flame Border:"
 msgid "Filling order:"
-msgstr "Borde de la llama:"
+msgstr "Orden de llenado:"
 
 #: ../gap/gap_wr_resynth.c:837
-#, fuzzy
 #| msgid "Selection none"
 msgid "Select filling order"
-msgstr "Ninguna selección"
+msgstr "Seleccionar el orden de llenado"
 
 #: ../gap/gap_wr_resynth.c:847
 msgid "Seed:"
@@ -11789,7 +11755,6 @@ msgid "Vectors (SVG) file:"
 msgstr "Archivo de vectores (SVG):"
 
 #: ../gap/gap_wr_resynth.c:904
-#| msgid "Name of SVG vector file"
 msgid "Name of SVG vector file from where to load selection"
 msgstr "Nombre del archivo de vectores SVG del que cargar la selección"
 
