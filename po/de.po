@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-05-13 15:13+0000\n"
-"PO-Revision-Date: 2017-05-13 15:12+0200\n"
+"POT-Creation-Date: 2017-06-02 11:35+0000\n"
+"PO-Revision-Date: 2017-08-04 21:28+0200\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.2\n"
 "X-Project-Style: gnome\n"
 
 #. Button  to invoke fontbrowser
@@ -2618,10 +2618,8 @@ msgstr ""
 
 # TODO!
 #: ../gap/gap_edge_detection_dialog.c:411
-#, fuzzy
-#| msgid "N-Shift:"
 msgid "Shift Left:"
-msgstr "N-Verschiebung:"
+msgstr "Nach links verschieben:"
 
 #. lower/upper
 #. step, page
@@ -2633,10 +2631,8 @@ msgid "Shift left by n pixels"
 msgstr ""
 
 #: ../gap/gap_edge_detection_dialog.c:429
-#, fuzzy
-#| msgid "Soft Light"
 msgid "Shift Right:"
-msgstr "Weiches Licht"
+msgstr "Nach rechts verschieben:"
 
 #. lower/upper
 #. step, page
@@ -2649,10 +2645,8 @@ msgstr ""
 
 # TODO!
 #: ../gap/gap_edge_detection_dialog.c:446
-#, fuzzy
-#| msgid "N-Shift:"
 msgid "Shift Up:"
-msgstr "N-Verschiebung:"
+msgstr "Nach oben verschieben:"
 
 #. lower/upper
 #. step, page
@@ -2665,10 +2659,8 @@ msgstr ""
 
 # TODO!
 #: ../gap/gap_edge_detection_dialog.c:464
-#, fuzzy
-#| msgid "N-Shift:"
 msgid "Shift Down:"
-msgstr "N-Verschiebung:"
+msgstr "Nach unten verschieben:"
 
 #. lower/upper
 #. step, page
@@ -2680,20 +2672,16 @@ msgid "Shift down by n pixels"
 msgstr ""
 
 #: ../gap/gap_edge_detection_dialog.c:480
-#, fuzzy
-#| msgid "Adjust Color Levels"
 msgid "Auto Levels:"
-msgstr "Farbwerte anpassen"
+msgstr "Automatische Farbwerte:"
 
 #: ../gap/gap_edge_detection_dialog.c:491
 msgid "ON: apply auto strech levels"
 msgstr ""
 
 #: ../gap/gap_edge_detection_dialog.c:502
-#, fuzzy
-#| msgid "Saturation:"
 msgid "Desaturate:"
-msgstr "Sättigung:"
+msgstr "Entsättigen:"
 
 #: ../gap/gap_edge_detection_dialog.c:513
 msgid "ON: Desaturate result to shades of grey"
@@ -5029,6 +5017,9 @@ msgid ""
 "Locate radius in pixels. The workpoint generation searches for corresponding "
 "points in the next frame within this radius"
 msgstr ""
+"Suchradius in Pixel. Während der Erstellung der Arbeitspunkte wird nach "
+"übereinstimmenden Punkten innerhalb dieses Radius um nächsten Einzelbild "
+"gesucht."
 
 #: ../gap/gap_morph_tween_dialog.c:825
 msgid ""
@@ -5168,6 +5159,11 @@ msgid ""
 "workpointfile for the processed frame is available. (individual "
 "workpointfiles per frame are referred by extension .morphpoints)"
 msgstr ""
+"Name des (Unter)ordners, in dem Kopien der nachbearbeiteten Einzelbilder und "
+"erstellten Zwischenbilder gespeichert werden sollen. Beachten Sie, dass "
+"Zwischenbilder mittels einfachem Überblenden erstellt werden, sofern keine "
+"Arbeitspunktdatei für die bearbeiteten Einzelbilder verfügbar ist. "
+"(Arbeitspunktdateien pro Einzelbild haben die Erweiterung .morphpoints)"
 
 #: ../gap/gap_morph_tween_dialog.c:1326
 msgid ""
@@ -5350,10 +5346,8 @@ msgid "Edit Controlpoints"
 msgstr "Kontrollpunkte bearbeiten"
 
 #: ../gap/gap_mov_dialog.c:3738
-#, fuzzy
-#| msgid "Edit Controlpoints"
 msgid "Edit Controlpoints "
-msgstr "Kontrollpunkte bearbeiten"
+msgstr "Kontrollpunkte bearbeiten "
 
 #: ../gap/gap_mov_dialog.c:3759
 #, c-format
@@ -5417,10 +5411,8 @@ msgstr ""
 
 #. Source Layer menu
 #: ../gap/gap_mov_dialog.c:4182
-#, fuzzy
-#| msgid "Source Image/Layer:"
 msgid "Image/Layer:"
-msgstr "Quell-Bild/Ebene:"
+msgstr "Bild/Ebene:"
 
 #: ../gap/gap_mov_dialog.c:4192
 msgid "Source object to insert into destination frames of the specified range"
@@ -6605,7 +6597,7 @@ msgstr "Aktuelles Einzelbild:"
 
 #: ../gap/gap_mov_dialog.c:7863
 msgid "Current Frame number (i.e. current phase) of total number of frames"
-msgstr ""
+msgstr "Aktuelle Einzelbildnummer (d.h. aktuelle Phase) aller Einzelbilder"
 
 #: ../gap/gap_mov_dialog.c:7871
 msgid "Movepath rendering for a single frame"
@@ -9111,6 +9103,9 @@ msgid ""
 "Reset to: defaults, use modifier keys CTRL, ALT for alternative defaults. "
 "SHIFT resets to initial value"
 msgstr ""
+"Auf Vorgabewerte zurücksetzen. Verwenden Sie die Zusatztasten STRG und ALT "
+"für alternative Vorgabewerte. Die UMSCHALTTASTE setzt auf die ursprünglichen "
+"Werte zurück."
 
 #. to (end value of transition) button
 #: ../gap/gap_story_att_trans_dlg.c:3365
@@ -9832,7 +9827,7 @@ msgstr "Track:"
 
 #: ../gap/gap_story_dialog.c:8114
 msgid "Video Track Number (0 refers to mask definition track)"
-msgstr ""
+msgstr "Videospurnummer (0 bezieht sich auf die Maskendefinitionsspur)"
 
 #: ../gap/gap_story_dialog.c:8150
 msgid "Cut a clip"
@@ -9852,6 +9847,9 @@ msgid ""
 "(SHIFT create transition\n"
 "CTRL create section clip)"
 msgstr ""
+"Neuen Clip erstellen\n"
+"(UMSCHALT erstellt Übergang\n"
+"STRG erstellt Clipabschnitt)"
 
 #: ../gap/gap_story_dialog.c:8200
 msgid ""
@@ -11538,30 +11536,24 @@ msgid "High Output:"
 msgstr "Hohe Ausgabe:"
 
 #: ../gap/gap_wr_desaturate.c:202
-#, fuzzy
-#| msgid "Hue-Saturation..."
 msgid "Desaturate..."
-msgstr "Farbton-Sättigung …"
+msgstr "Entsättigen …"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_wr_desaturate.c:449
-#, fuzzy
-#| msgid "Saturation"
 msgid "Desaturate"
-msgstr "Sättigung"
+msgstr "Entsättigen"
 
 #. the frame
 #: ../gap/gap_wr_desaturate.c:476
 msgid "Choose shade of gray based on:"
-msgstr ""
+msgstr "Grauwert bestimmen nach:"
 
 # TODO context ?
 #. Shades the label
 #: ../gap/gap_wr_desaturate.c:492
-#, fuzzy
-#| msgid "Shadows"
 msgid "Shades:"
-msgstr "Schatten"
+msgstr "Schatten:"
 
 #. Shades the radio buttons
 #: ../gap/gap_wr_desaturate.c:499
@@ -11571,14 +11563,12 @@ msgid "Lightness"
 msgstr "Helligkeit:"
 
 #: ../gap/gap_wr_desaturate.c:504
-#, fuzzy
-#| msgid "Preserve luminosity"
 msgid "Luminosity"
-msgstr "Helligkeit erhalten"
+msgstr "Leuchtkraft"
 
 #: ../gap/gap_wr_desaturate.c:509
 msgid "Average"
-msgstr ""
+msgstr "Durchschnitt"
 
 #: ../gap/gap_wr_layermode.c:131
 msgid "Set Layer Mode..."
@@ -12362,6 +12352,9 @@ msgid ""
 "audio files. Each of those audio files will be encoded as a separate audio "
 "track."
 msgstr ""
+"Name der Audio-Datei (.wav 16 Bit Mono oder Stereo wird bevorzugt). Optional "
+"können Sie eine Textdatei angeben, die eine Liste mit Dateinamen von Audio-"
+"Dateien enthält. Jede dieser Audio-Dateien wird als separate Tonspur kodiert."
 
 #: ../vid_common/gap_cme_gui.c:3395
 msgid "Select input audiofile via browser"
@@ -12822,6 +12815,9 @@ msgid ""
 "Check if you want to encode frames vertically flipped (suitable for playback "
 "on WinDVD player) or as is (suitable for gmplayer on linux)"
 msgstr ""
+"Ankreuzen, damit Einzelbilder vertikal gespiegelt kodiert werden (passend "
+"für die Wiedergabe mit WinDvD) oder wie vorhanden (passend für gmplayer "
+"unter Linux)"
 
 #. the BGR label
 #: ../vid_enc_avi/gap_enc_avi_gui.c:899
@@ -12834,6 +12830,10 @@ msgid ""
 "(most players like WinDvD, VLC-player want BGR colormodel for RAW data) "
 "other players want RGB colormodel for RAW avi data)"
 msgstr ""
+"Ankreuzen, damit Einzelbilder im (vorzugsweise) BGR- oder RGB-Farbmodell "
+"kodiert werden (die meisten Wiedergabeprogramme wie WinDvD und VLC-player "
+"erwarten das BGR-Farbmodell für RAW-Daten, andere erwarten das RGB-"
+"Farbmodell für RAW avi-Daten)."
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:931
 msgid "XVID Codec Options"
@@ -12914,7 +12914,7 @@ msgstr ""
 
 #: ../vid_enc_avi/gap_enc_avi_main.c:208
 msgid "avi video encoding for anim frames. Menu: @AVI@"
-msgstr ""
+msgstr "avi Video-Kodierung für bewegte Einzelbilder. Menü: @AVI@"
 
 #: ../vid_enc_avi/gap_enc_avi_main.c:209
 msgid ""
@@ -13385,7 +13385,7 @@ msgstr "einfach (mb_cmp verwenden)"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:1782
 msgid "bits (the one which needs fewest bits)"
-msgstr ""
+msgstr "Bit (jene, welche die wenigsten Bit erfordern)"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:1783
 msgid "rate distortion"
@@ -13825,9 +13825,8 @@ msgid "Use MPEG-2 intra VLC table."
 msgstr ""
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2726
-#, fuzzy
 msgid "high profile 8x8 transform (for H264 codec)"
-msgstr "8x8 Einteilungen in P-Einzelbildern aktivieren.(für X264-Codec)"
+msgstr "Hohes Profil mit 8x8-Transformation (für H264-Codec)"
 
 #. the partition_X264_PART_P4X4 checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2734
