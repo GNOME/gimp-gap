@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-05-01 18:06+0000\n"
-"PO-Revision-Date: 2017-06-02 13:30+0200\n"
+"POT-Creation-Date: 2017-06-02 11:34+0000\n"
+"PO-Revision-Date: 2017-08-11 11:56+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -546,16 +546,15 @@ msgid "Rename Frames (%ld)"
 msgstr "Renombrar fotogramas (%ld)"
 
 #: ../gap/gap_base_ops.c:2479
-#, fuzzy, c-format
+#, c-format
 #| msgid "Framenames:"
 msgid "Old FrameName: %s"
-msgstr "Nombres de fotogramas:"
+msgstr "Nombres antiguo del fotograma: %s"
 
 #: ../gap/gap_base_ops.c:2486
-#, fuzzy
 #| msgid "New Layer Name"
 msgid "New FrameName"
-msgstr "Nombre de la capa nueva"
+msgstr "Nombre del fotograma nuevo"
 
 #: ../gap/gap_base_ops.c:2488
 msgid ""
@@ -586,6 +585,8 @@ msgid ""
 "Rename Frames failed.\n"
 "one or more new Framename(s) could not be renamed."
 msgstr ""
+"Falló al renombrar los fotogramas.\n"
+"No se han podido renombrar uno o más fotogramas nuevos."
 
 #: ../gap/gap_blend_fill_main.c:237
 msgid "Blend Fill..."
@@ -2037,6 +2038,9 @@ msgid ""
 "Precision (in pixels) for calculation of perspective transformation matrix. "
 "Smaller values give more precision (and need more iterations at calculation)"
 msgstr ""
+"Precisión (en píxeles) para calcular la matriz de transformación de "
+"perspectiva. Los valores más pequeños ofrece una mayor precisión (y "
+"necesitan más iteraciones en el cálculo)"
 
 #: ../gap/gap_detail_align_exec.c:1570
 msgid "PrecisionThreshold:"
@@ -2128,14 +2132,6 @@ msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3699
 #, c-format
-#| msgid ""
-#| "Current path with 4 point triggers transformations:\n"
-#| "    Rotation:   %.4f (degree)\n"
-#| "    Scale:      %.1f (%%)\n"
-#| "    Movement X: %.0f (pixels)\n"
-#| "    Movement Y: %.0f (pixels)\n"
-#| "Press OK button to transform the layer\n"
-#| "in a way that point3 moves to point1 and point4 moves to point2"
 msgid ""
 "Current path with 4 point triggers transformations:\n"
 "    Rotation:   %.4f (degree)\n"
@@ -2154,12 +2150,6 @@ msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3721
 #, c-format
-#| msgid ""
-#| "Current path with 2 points triggers simple move:\n"
-#| "    Movement X: %.0f (pixels)\n"
-#| "    Movement Y: %.0f (pixels)\n"
-#| "Press OK button to move the layer\n"
-#| "in a way that point2 moves to point1"
 msgid ""
 "Current path with 2 points triggers simple move:\n"
 "    Movement X: %.0f (pixels)\n"
@@ -2173,7 +2163,7 @@ msgstr ""
 "Pulse Aceptar para mover la capa\n"
 
 #: ../gap/gap_detail_align_exec.c:3737
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "This filter requires a current path with 4 or 2 points\n"
 #| "It can transform and/or move the current layer according to such path "
@@ -2186,16 +2176,10 @@ msgid ""
 "Please create both paths and press the Refresh button.\n"
 msgstr ""
 "Este filtro requiere una ruta actual con 4 o 2 puntos\n"
-"Puede transformar y/o mover la capa actual de acuerdo con dichas coordenadas "
-"de ruta.\n"
-"Cree una ruta y presione el botón Refrescar."
+"y una ruta cuyo nombre sea: %s con el mismo número de puntos.\n"
+"Cree ambas rutar y pulse el botón Actualizar.\n"
 
 #: ../gap/gap_detail_align_exec.c:3748
-#| msgid ""
-#| "This filter requires a current path with 4 or 2 points\n"
-#| "It can transform and/or move the current layer according to such path "
-#| "coordinate points.\n"
-#| "Please create a path and press the Refresh button."
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
@@ -2223,9 +2207,6 @@ msgstr "Orden de los puntos de ruta:"
 #. Order Mode the radio buttons
 #: ../gap/gap_detail_align_exec.c:3930
 #, c-format
-#| msgid ""
-#| "( 3 --> 1 )  ( 4 --> 2 )\n"
-#| "Target is marked by points 1&2 "
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Source is marked by current path points 3&4\n"
@@ -2237,9 +2218,6 @@ msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3946
 #, c-format
-#| msgid ""
-#| "( 3 --> 1 )  ( 4 --> 2 )\n"
-#| "Target is marked by points 1&2 "
 msgid ""
 "( 2 --> 1 )  ( 4 --> 3 )\n"
 "Source is marked by current path points 2&4\n"
@@ -2413,7 +2391,6 @@ msgstr ""
 "DESACTIVADO: mantener todas las capas."
 
 #: ../gap/gap_detail_tracking_exec.c:3466
-#| msgid "Transform:"
 msgid "add Transformed Layer:"
 msgstr "añadir capa transformada:"
 
@@ -2547,7 +2524,7 @@ msgstr "Detección de bordes (DoSoG)"
 #. the frame
 #: ../gap/gap_edge_detection_dialog.c:321
 msgid "Edge Detect by Shift and Blur"
-msgstr ""
+msgstr "Detección de bordes al desplazar y desenfocar"
 
 #: ../gap/gap_edge_detection_dialog.c:336
 msgid "Blur R1 (X):"
@@ -2696,7 +2673,6 @@ msgid "Error: Image '%d' not found"
 msgstr "Error: no es encuentra la imagen «%d»"
 
 #: ../gap/gap_edge_detection_dialog.c:1122
-#| msgid "Error: Bluebox effect operates only on layers"
 msgid "Error: This Edge detection method operates only on layers"
 msgstr "Error: este método de detección de bordes sólo funciona en capas"
 
@@ -3717,7 +3693,7 @@ msgstr "Establecer máscara de capa activa"
 
 #: ../gap/gap_mod_layer_dialog.c:601
 msgid "Record layer offsets (to xml file)"
-msgstr ""
+msgstr "Guardar desplazamientos de la capa (en el archivo xml)"
 
 #: ../gap/gap_mod_layer_dialog.c:624
 #, c-format
@@ -4079,10 +4055,9 @@ msgid "Resize selected layer(s) to image size"
 msgstr "Redimensionar las capas seleccionadas al tamaño de la imagen"
 
 #: ../gap/gap_mod_layer_dialog.c:1122
-#, fuzzy
 #| msgid "Replace selection (source is the active frame)"
 msgid "Resize layer(s) to selection (active frame)"
-msgstr "Reemplazar la selección (el origen es el fotograma activo)"
+msgstr "Redimensionar capas al tamaño de la selección (fotograma activo)"
 
 #: ../gap/gap_mod_layer_dialog.c:1123
 #, fuzzy
@@ -4091,10 +4066,9 @@ msgid "Resize selected layer(s) to selection bounds of the active frame"
 msgstr "Reemplazar la selección (el origen es el fotograma activo)"
 
 #: ../gap/gap_mod_layer_dialog.c:1129
-#, fuzzy
 #| msgid "Save selection to channel (individual per frame)"
 msgid "Resize layer(s) to selection (individual per frame)"
-msgstr "Guardar selección al canal (individual por fotograma)"
+msgstr "Redimensionar capas a la selección (individual por fotograma)"
 
 #: ../gap/gap_mod_layer_dialog.c:1130
 msgid ""
@@ -7333,16 +7307,14 @@ msgid "White (fully opaque)"
 msgstr "Blanca (completamente opaca)"
 
 #: ../gap/gap_onion_dialog.c:1285
-#, fuzzy
 #| msgid "Ignore selection (in all source images)"
 msgid "From Selection (in current image)"
-msgstr "Ignorar selección (in todas las imágenes origen)"
+msgstr "Desde la selección (e la imágen actual)"
 
 #: ../gap/gap_onion_dialog.c:1286
-#, fuzzy
 #| msgid "Ignore selection (in all source images)"
 msgid "Clipped from Selection (in current image) "
-msgstr "Ignorar selección (in todas las imágenes origen)"
+msgstr "Recortado de la selección (en la imágen actual) "
 
 #: ../gap/gap_onion_dialog.c:1298
 msgid ""
@@ -7466,14 +7438,13 @@ msgid "Keep active layer"
 msgstr "Mantener capa activa"
 
 #: ../gap/gap_onion_dialog.c:1487
-#, fuzzy
 #| msgid "Set Layer Opacity"
 msgid "Set Onion layer active"
-msgstr "Establecer capa de opacidad"
+msgstr "Establecer capa de cebolla opacidad"
 
 #: ../gap/gap_onion_dialog.c:1488
 msgid "Set Onion layermask active"
-msgstr ""
+msgstr "Establecer máscara de capa de cebolla activa"
 
 #: ../gap/gap_onion_dialog.c:1500
 msgid "Handling of active layer after onion layer creation"
@@ -7537,7 +7508,6 @@ msgstr "Eliminando capas de papel cebolla…"
 
 #. The dialog1 and main vbox
 #: ../gap/gap_opacity_exposure_main.c:1022
-#| msgid "Opacity Options"
 msgid "Opacity Exposure"
 msgstr "Exposición de la opacidad"
 
@@ -7554,10 +7524,9 @@ msgid ""
 msgstr ""
 
 #: ../gap/gap_opacity_exposure_main.c:1082
-#, fuzzy
 #| msgid "Target Alpha:"
 msgid "Target Luminance:"
-msgstr "Alfa del destino:"
+msgstr "Luminosidad del destino:"
 
 #: ../gap/gap_opacity_exposure_main.c:1092
 msgid "Target Average Luminance (when merged with layer below in NORMAL mode)"
@@ -7565,10 +7534,9 @@ msgstr ""
 
 #. use reference layer's average luminance checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1104
-#, fuzzy
 #| msgid "New Layer"
 msgid "Use RefLayer:"
-msgstr "Capa nueva"
+msgstr "Usar RefLayer:"
 
 #: ../gap/gap_opacity_exposure_main.c:1116
 msgid ""
@@ -7578,10 +7546,9 @@ msgstr ""
 
 #. use reference layer as mask checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1127
-#, fuzzy
 #| msgid "Keep Layer Mask"
 msgid "Use RefLayer as Mask:"
-msgstr "Conservar máscara de capa"
+msgstr "Usar RefLayer como mácara:"
 
 #: ../gap/gap_opacity_exposure_main.c:1139
 msgid "ON: use the opaque pixels of reference layer as mask "
@@ -7589,10 +7556,9 @@ msgstr ""
 
 #. the reference layer label and combo
 #: ../gap/gap_opacity_exposure_main.c:1151
-#, fuzzy
 #| msgid "Frame Reference:"
 msgid "Exposure Reference Layer"
-msgstr "Referencia de fotograma:"
+msgstr "Capa de referencia de exposición"
 
 #: ../gap/gap_opacity_exposure_main.c:1166
 msgid "Select a reference layer"
@@ -11639,14 +11605,13 @@ msgstr "Desaturar"
 #. the frame
 #: ../gap/gap_wr_desaturate.c:476
 msgid "Choose shade of gray based on:"
-msgstr ""
+msgstr "Seleccionar un sombreado gris basado en:"
 
 #. Shades the label
 #: ../gap/gap_wr_desaturate.c:492
-#, fuzzy
 #| msgid "Shadows"
 msgid "Shades:"
-msgstr "Sombras"
+msgstr "Sombrea:"
 
 #. Shades the radio buttons
 #: ../gap/gap_wr_desaturate.c:499
@@ -11725,23 +11690,20 @@ msgstr ""
 
 #. the directionParam label
 #: ../gap/gap_wr_resynth.c:784
-#, fuzzy
 #| msgid "Samples:"
 msgid "Sample from:"
-msgstr "Muestras:"
+msgstr "Muestra desde:"
 
 #: ../gap/gap_wr_resynth.c:807
 msgid "Select direction from where get sample pattern"
-msgstr ""
+msgstr "Seleccionar la dirección de la que obtener un patrón de muestra"
 
 #. the directionParam label
 #: ../gap/gap_wr_resynth.c:814
-#| msgid "Flame Border:"
 msgid "Filling order:"
 msgstr "Orden de llenado:"
 
 #: ../gap/gap_wr_resynth.c:837
-#| msgid "Selection none"
 msgid "Select filling order"
 msgstr "Seleccionar el orden de llenado"
 
