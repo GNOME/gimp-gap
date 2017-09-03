@@ -1,7 +1,7 @@
 "plug-in-gap-storyboard-gen-otone"
 
 
-Generate original tone autiotrack (Storyboard)
+Generate original tone audiotrack (Storyboard)
 
     This feature generates an audiotrack in the storyboard.
     This audiotrack adds the audio original tone references 
@@ -21,7 +21,7 @@ Generate original tone autiotrack (Storyboard)
        This refers to the audiotrack number of (all used) inputvideoclips.
        Most videofiles have just one track. 
        DVD's typically store multiple language versions on
-       multiple audotracks in their .vob files.
+       multiple audiotracks in their .vob files.
 
     Output Audiotrack:
        This is the storyboard specific audiotrack number.

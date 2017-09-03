@@ -22,7 +22,7 @@ Hue-Saturation
 
     but has a less comfortable dialog without preview.
 
-    The advantage of this variante is the ability
+    The advantage of this variant is the ability
     to run automatically on many layers or frames
     with constant value settings or as animated filter 
     with varying value settings in combination with 

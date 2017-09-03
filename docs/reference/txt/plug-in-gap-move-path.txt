@@ -34,14 +34,14 @@ Move Path (make things move)
             
       The selected layer(s) of the source image or frame 
          is (are) copied into the selected range of frames.
-         Each handled frame recieves exactly one copy of the selected layer
+         Each handled frame receives exactly one copy of the selected layer
          from the source image, where the copy will be modified by
          transformations such as scaling, changing transparency and more,
          according to the controlpoint settings.
          
       If you use stepmodes "Loop", "Loop Reverse", "Once", "OnceReverse" or "PingPong"
         the layers of the source image are stepped through,
-        and the next handled frame recieves the next
+        and the next handled frame receives the next
         layer from the source image's layerstack.
         
         For the frame based stepmodes ("Frame Loop", "Frame PingPong" ...)
@@ -113,9 +113,9 @@ Move Path (make things move)
            If all 8 Coordinates have the value 1.0 no scaling is done
            and the result is the same as the original.
            Scaling with factor 0 moves the affected (x or y) coordinate to the middle.
-           Factor 2.0 applied to Coorinate moves it outwards by half of the
+           Factor 2.0 applied to Coordinate moves it outwards by half of the
            original width (for X coordinates)
-           or hlaf height (for Y coordinates).
+           or half height (for Y coordinates).
 
                  1/1                       1/1
                   +------------+------------+
@@ -152,8 +152,8 @@ Move Path (make things move)
       you have to add one more controlpoints (limited to 1024) to define a path.
 
       The affected range is selected by  start frame - end frame.
-      Each affected frame recieves exactly one copy of the (current)
-      source layer adjusted to the current controlpoint prameters.
+      Each affected frame receives exactly one copy of the (current)
+      source layer adjusted to the current controlpoint parameters.
       The layerstack defines if the pasted copy appears
       in the foreground (0 == on top) or below other layers that are
       already in the frame.
@@ -162,18 +162,18 @@ Move Path (make things move)
        
       With the frame number in the preview frame you can select the 
       frame number to display in the preview.
-      You have to press the "UpdPreview" button for explicite
+      You have to press the "UpdPreview" button for explicit
       update of the preview.
 
      Controlpoints:
-       The move path is defined by contolpoints.
-       Only the current cotrolpoint is displyed with all
+       The move path is defined by controlpoints.
+       Only the current controlpoint is displayed with all
        its values.
 
        If checkbutton "Show Path" is on, all the controlpoints
        are shown in the preview window, connected with pathlines.
-       Furter it enables picking controlpoints
-       and draging controlpoint koordinates (X/Y)
+       Further it enables picking controlpoints
+       and dragging controlpoint coordinates (X/Y)
        in the preview with the left mousebutton.
        With the right mousebutton you always drag
        the coordinates of the current controlpoint
@@ -202,17 +202,17 @@ Move Path (make things move)
           "Prev Point"    "Next Point"
 	  "First Point"   "Last Point"
           you can step from controlpoint to controlpoint,
-	  and make other controlpoint to the curremt controlpoint.
+	  and make other controlpoint to the current controlpoint.
 	  
        "Reset Point"  "Reset All Points"
           does reset width, height and opacity of the controlpoint to 100%
-          , perspective factors to 1.0 (no perspective tansformation)
+          , perspective factors to 1.0 (no perspective transformation)
 	  and rotation to 0 degree, 
 	  but leaves the path (X/Y values) unchanged.
 
 
           The "Reset All Points" button has multiple functions
-	  controlled by holding down a modifyer key:
+	  controlled by holding down a modifier key:
 	  
           - Holding down the shift key copies the setting
 	    of point1 into all other points. (except X/Y values)
@@ -229,7 +229,7 @@ Move Path (make things move)
 	  to follow the path.
 	  An object moving along a horizontal line 
 	  from left to right results in an angle of 0 degree.
-	  (or a multiple of 360 degress if the path
+	  (or a multiple of 360 degrees if the path
 	   builds circular loops)
 	  A vertical Move from top to bottom gives 90 degrees.
 	  
@@ -237,7 +237,7 @@ Move Path (make things move)
 	  Shift Key is pressed, a fix rotation offset
 	  is added to all the calculated rotation values.
 	  The rotation offset is taken from the current
-	  rotate value of controlpint 1.
+	  rotate value of controlpoint 1.
 	  
 	  If an object moves from right to left
 	  the calculated angle is 180 degree and the object
@@ -265,7 +265,7 @@ Move Path (make things move)
            selected layer of the source image.
            If you want to adjust position it may be useful to see
            the background.
-           Therfore you can make the source image
+           Therefore you can make the source image
            transparent (modify the opacity value) or
            put the sourcelayer below the background
            (set the layerstack to higher value)
@@ -284,7 +284,7 @@ Move Path (make things move)
            - maybe the source object has only fully transparent pixels
 
          
-         - If you let your objects (source layers) rotatate,
+         - If you let your objects (source layers) rotate,
            perform perspective transformations or
            change their size, set handle mode to 'Center'.
            
@@ -308,7 +308,7 @@ Move Path (make things move)
 
            The affected range has 25 frames, and you have set 6 points
            with growing distances in one straight line and without
-           specifiying keyframes for those points.
+           specifying keyframes for those points.
            That gives 5 frames (== equal time) for each part of the path,
            but each part has another length. This results in different
            (growing) speeds for each part of the path.
@@ -316,18 +316,18 @@ Move Path (make things move)
       Acceleration characteristic:
       ---------------------------
            
-        Since GIMP-GAP-2.7 speed can be controled with acceleration
+        Since GIMP-GAP-2.7 speed can be controlled with acceleration
         characteristic presets. Those presets are integer values
         where value 1 defines constant speed along a path segment,
-        indepent to the distance between the controlpoints of the path segment.
+        independent to the distance between the controlpoints of the path segment.
         (How to define path segments see chapter Keyframes below)
         positive values result in acceleration, negative values in deceleration.
         
 
 	        
-	0 ... implicite speed control, compatible to GAP 2.6.x and older releases
+	0 ... implicit speed control, compatible to GAP 2.6.x and older releases
 	      (This is the default setting for all acceleration characteristic values)
-	      Each line between 2 contolpoints gets an equal time slot (e.g number of frames)
+	      Each line between 2 controlpoints gets an equal time slot (e.g number of frames)
 	      The speed between 2 controlpoints is constant, but depends on the length of the line,
 	      where short lines result in low speed and long lines result in high speed.
               
@@ -338,9 +338,9 @@ Move Path (make things move)
 
         1        ... Constant Speed 
                      object moves through a path segment with constant speed.
-                     A path segment includes all path lines beween two keyframes
+                     A path segment includes all path lines between two keyframes
                      (note that first and last controlpoint are considered as keyframes
-                     without explicite keyframe value)
+                     without explicit keyframe value)
                      
                      In this mode the line length between controlpoints does not affect
                      the speed of the moving object.
@@ -355,18 +355,18 @@ Move Path (make things move)
 
 
         Acceleration characteristic values can be specified independent for
-        o) Movement     ... Movent of the object
+        o) Movement     ... Movement of the object
         o) Opacity      ... To control speed of the opacity changes
         o) Size         ... To control speed of size changes (e.g. zooming)
         o) Rotation     ... To control speed of object rotation
         o) Perspective  ... To control speed of object perspective transformations
-        o) FeatherRadius... To control speed of selection fether radius changes
+        o) FeatherRadius... To control speed of selection feather radius changes
 
         Each of those values can be changed in the Acceleration Tab
         with a spinbutton where you can enter a value.
         A graph next to the spinbutton shows the selected acceleration characteristic curve.
         The acceleration characteristic can also be changed by
-        clicking on th graph and dragging vertically with the mouse.
+        clicking on the graph and dragging vertically with the mouse.
 	
 	A straight line from left bottom to right top corner of the graph
 	is drawn for value 1 that represents constant speed.
@@ -385,7 +385,7 @@ Move Path (make things move)
          
         Example:
            have a path with 10 controlpoints, none of them marked as keyframe
-           specifiy rotation 0 for first controlpoint, rotation 360 for the last
+           specify rotation 0 for first controlpoint, rotation 360 for the last
            controlpoint and select both Acceleration characteristic for Movement
            and Rotation value 1 (for constant speed)
            
@@ -394,7 +394,7 @@ Move Path (make things move)
            are define in controlpoints 2,3,4,5,6,7,8,9.
 
         
-        Speed of the moving object can be controled for each segment of the path,
+        Speed of the moving object can be controlled for each segment of the path,
         where a segment is the distance to the next KEYFRAME. In case there are no
         explicite Keyframes the path has only one segment with full length
         from the first to the last controlpoint.
@@ -407,13 +407,13 @@ Move Path (make things move)
         
         Example:
           Have a path with 5 controlpoints and no explicite keyframe set.
-          At the first controlpoint secify acceleration caracteristic 12
+          At the first controlpoint specify acceleration characteristic 12
           for movement to start slow and increase speed of the moving
           object while moving along the path.
           Further let rotation of the object follow the path
           (generate the rotation settings by pressing the "Rotate Follow" button)
           
-          In this example the rotation follows the current postion of the
+          In this example the rotation follows the current position of the
           moving object with the same acceleration as the movement.
 
            
@@ -421,9 +421,9 @@ Move Path (make things move)
         
 	Keyframes can be used optional, to fix a controlpoint
 	to the given frame number. The first and last controlpoints
-	are implicite keyframes, always fixed to start or end
+	are implicit keyframes, always fixed to start or end
 	frame number. (The keyframe entry is set insensitive
-	on the first and last contolpoint)
+	on the first and last controlpoint)
 	With the help of keyframes you can control exactly
 	when things should happen.
 	
@@ -506,7 +506,7 @@ Move Path (make things move)
 	  button,
 	  If errors are detected, they are shown
 	  in a pop-up window and the action is not performed.
-        - The number of cntrolpoints is now checked
+        - The number of controlpoints is now checked
 	  against the number of affected frames.
 	  (You can't have more controlpoints than frames)
 	- If keyframes are used, they must be in
@@ -562,7 +562,7 @@ Move Path (make things move)
          Opens a dialog window where you can set all the parameters
          of the bluebox filter.
          If clicked with the right mouse button you can grab the keycolor
-         from thhe current FG/BG color (in the GIMP main window)
+         from the current FG/BG color (in the GIMP main window)
          
     
     - Tracelayer
@@ -577,18 +577,18 @@ Move Path (make things move)
         This feature is for rendering fast moving Objects.
 
         The "MovePath" plug-in can calculate the moving object for virtual frames (tweens)
-        beetween real frames. You can control this by setting tween_steps
+        between real frames. You can control this by setting tween_steps
         to a value greater than 0.
         In that case the "MovePath" plug-in creates an additional layer
         (the "Tweenlayer") and inserts that tween layer below the
-        stackpostion of the current moving object in the next real frame.
+        stackposition of the current moving object in the next real frame.
         The tween layer shows the moving object at the positions of
-        all virtual frames beetween two real frames.
+        all virtual frames between two real frames.
 	
         Example: The selected frame range is 10 frames and
         the tweensteps value is 2. In this case 28 steps
         are processed internal. 10 real frames + 18 virtual frames
-        (2 virtual beetween each real frame)
+        (2 virtual between each real frame)
         Use descending opacity to fade out tweens.
         The tween nearest to the real frame is drawn with the initial
 	opacity value, the other tweens are reduced more and more

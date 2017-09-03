@@ -12,7 +12,7 @@ Flatten Frames
     Flattening melts down all layers to one resulting
     background layer and replaces transparent regions
     with the background color.
-    (because flattening removes the alpha cahnnel)
+    (because flattening removes the alpha channel)
     this is done in all handled frames.
     
     

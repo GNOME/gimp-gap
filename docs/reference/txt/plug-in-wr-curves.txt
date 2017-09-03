@@ -24,7 +24,7 @@ Apply Color Curves File
     the color curve settings.
     It needs a color curves file as input.
 
-    The advantage of this variante is the ability
+    The advantage of this variant is the ability
     to run automatically on many layers or frames
     with constant value settings or as animated filter 
     with varying value settings in combination with 

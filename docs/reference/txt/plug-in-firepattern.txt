@@ -44,7 +44,7 @@ Fire Pattern Filter:
            Vertical phase shift (movement of the fire pattern)
            where 1.0 refers to image height.
            
-           In animated calls via (filter all layers) it is recommanded to
+           In animated calls via (filter all layers) it is recommended to
            set Phase shift to value 0.0 for the first and to value 1.0
            for the last processed frame to create a seamless animation effect
            when playback of the rendered frame is done in a loop.
@@ -60,7 +60,7 @@ Fire Pattern Filter:
             according to options. 
             (Creating a new pattern should be osed only in case
             rendering the first frame of an animation sequence.
-            for each further frame it is recomannded to turn this option OFF)
+            for each further frame it is recommended to turn this option OFF)
        OFF: Use external pattern layer.
             Typically you may select a fire pattern layer that was created
             for rendering the first frame of the animation.
@@ -121,15 +121,15 @@ Fire Pattern Filter:
      Create FireLayer: (checkbutton)
             ON:  Render fire pattern effect as separate layer. 
             OFF: merge rendered effect onto processed layer.
-                 (it is recommanded to set the Transparent BG
+                 (it is recommended to set the Transparent BG
                  to ON too)
 
             (In case this filter is called via the filter all layers
-            feature it is recommanded to turn this option OFF)
+            feature it is recommended to turn this option OFF)
             
      Blend Mode: (radio buttons)
             Selects the blend mode to be used to combine the fire pattern (cloud)
-            layer with the fire shape layer. Follwing modes are available:
+            layer with the fire shape layer. Following modes are available:
             "Burn"
             "Subtract"
             "Multiply"
@@ -158,7 +158,7 @@ Fire Pattern Filter:
     Close the window without any further action.
 
   OK
-    Close the window and render the fire effect accoring to the
+    Close the window and render the fire effect according to the
     selected options.
 
 
@@ -174,11 +174,11 @@ Fire Pattern Filter:
     From this multilayer image start the menu Filter/filter all Layers.
     This opens a browser dialog window where the plug-in-firepattern 
     can be selected in the list of available filters.
-    Set acceleration characteristcs to value 1 for linear varying values
+    Set acceleration characteristics to value 1 for linear varying values
     with constant speed and press the APPLY button in the browser dialog.
     
     This starts the Fire-Pattern dialog window of the selected plug-in-firepattern
-    where you can specifiy the options to be applied for processing the first
+    where you can specify the options to be applied for processing the first
     layer of the multilayer image.
     
     1. st dialog step
@@ -191,13 +191,13 @@ Fire Pattern Filter:
     Press OK in the Fire Pattern dialog. This renders the fire on the
     first (e.g. the background) layer of your multilayer image.
     
-    After rendering a dialog window with title "Animated Filter Aplly"
+    After rendering a dialog window with title "Animated Filter Apply"
     pops up.
     Click the "Continue" button in this dialog.
     
     2. nd dialog step
     
-    The Fire-Pattern diaolg window appears again where you can enter
+    The Fire-Pattern dialog window appears again where you can enter
     the options for the last layer to be processed (the top layer
     of your multilayer image)
     
@@ -211,7 +211,7 @@ Fire Pattern Filter:
     Press OK in the Fire Pattern dialog. This renders the fire on the
     last (e.g. the top) layer of your multilayer image.
    
-    After rendering a dialog window with title "Animated Filter Aplly"
+    After rendering a dialog window with title "Animated Filter Apply"
     pops up.
     Click the "Continue" button in this dialog.
     
@@ -226,7 +226,7 @@ Fire Pattern Filter:
     For varying external shape this other image should be a multilayer image
     where each layer represents another step of the animated fire outline shape.
     (typically white at base fading to black until the desired flame height)
-    It is recommanded to use the same number and size for the "external"
+    It is recommended to use the same number and size for the "external"
     fireshape multilayer image and for the multilayer image where the
     fire effect shall be rendered onto.
     
@@ -237,11 +237,11 @@ Fire Pattern Filter:
   How it works:
 
   This filter generates a fire pattern (cloud) layer with tileable solid noise, and a fire shape layer.
-  The fire effect is made by placing the fire patteren above the fire shape layer using "Burn" (or "subtract")
+  The fire effect is made by placing the fire pattern above the fire shape layer using "Burn" (or "subtract")
   combination mode. The animation is done by vertically shifting the fire pattern upwards slightly
   on each frame.
   The flames are built by merging the fire pattern at its shifted state with the fire shape.
-  The resulting (gray flame) layer is colorized with the colors of the selcted gradient.
+  The resulting (gray flame) layer is colorized with the colors of the selected gradient.
   The mapping of the colors (and optional opacity) is done by luminance.
 
 

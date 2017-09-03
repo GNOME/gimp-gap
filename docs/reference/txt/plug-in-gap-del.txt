@@ -20,7 +20,7 @@ Delete Frames
       the frames are deleted.
       
       The confirmation dialog is configuration dependent
-      and can be supressed by adding this configuration
+      and can be suppressed by adding this configuration
       parameter to your gimprc file:
 
       # the video-confirm-frame-delete can have values "yes" or "no"

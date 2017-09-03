@@ -20,7 +20,7 @@ Morphing:
     
     
     The warp transformation is controlled by a set of movement vectors. 
-    A movement vector is shown in form of 2 corrensponding points
+    A movement vector is shown in form of 2 corresponding points
     (start point in the source layer, the corresponding
     end point in the destination layer)
     When the checkbutton "lines" is ON, vectors are displayed as lines

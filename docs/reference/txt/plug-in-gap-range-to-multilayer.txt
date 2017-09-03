@@ -81,7 +81,7 @@ Frames to Image
        or a list of layerstack numbers (like this one: "0, 2-5, 9")
        depending on your choice in select layer(s) above.
     Case Sensitive:
-       Lowercase and upppercase letters are considered as equal
+       Lowercase and uppercase letters are considered as equal
        if this checkbutton is set to off.
     Invert Selection:
        Select all unselected layers.

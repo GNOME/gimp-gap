@@ -15,7 +15,7 @@ Frame Sequence Shift
     
 Example:
     
-    Assume tere are 20 frames:
+    Assume there are 20 frames:
       pic_000001.xcf
       pic_000002.xcf
    

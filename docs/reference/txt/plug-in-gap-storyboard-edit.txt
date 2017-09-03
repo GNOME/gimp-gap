@@ -58,7 +58,7 @@ Creating new storyboard file and clips:
       from another application (e.g. a filemanager supporting Drag&Drop)
       and drop onto one the button row.
       (any of the buttons can act as drop destination in the same way)
-      This will add the droped clips at end of an aready existing storyboard 
+      This will add the dropped clips at end of an already existing storyboard 
       (or cliplist) but also automatically create a new storyboard (or cliplist) in case if
       if the destination is NOT already existing.
 
@@ -87,9 +87,9 @@ Creating new storyboard file and clips:
       application (e.g. a filemanager supporting Drag&Drop) and 
       drag them with the mouse onto a thumbnail
       of an existing clip in the storyboard or cliplist window
-      and drop them via relesing the mousebutton.
+      and drop them via releasing the mousebutton.
       If the mouse pointer is within the left half of the destination
-      thumbnail, the droped clips will be inserted before the destination
+      thumbnail, the dropped clips will be inserted before the destination
       thumbnail. If you drop them over the right half they are inserted
       after the destination thumbnail.
       
@@ -100,7 +100,7 @@ Creating new storyboard file and clips:
   can be activated via mouse clicks:
 
   Single Click on a clip thumbnail toggles selection state of the clip.
-    All other clips are deselcted.
+    All other clips are deselected.
     With the modifier Keys CTRL and SHIFT you can keep and extend
     existing selections.
   
@@ -139,7 +139,7 @@ The Playback Preview
     (if no cliplist is opened, or the storyboard is set as default
     clip target, the clip will be added to the storyboard)
   
-    Restrctions: Creating Clips via Playback
+    Restrictions: Creating Clips via Playback
           is not supported when playback is in storyboard mode.
           (STB: name of the storyboard file)
 
@@ -155,7 +155,7 @@ Creating clips via automatic scene change detection.
   Therefore click on the thumbnail of the long clip to open
   the Clip Properties dialog.
   In the Clip Properties dialog you find the button "Auto Scene Split".
-  This will scann the selected range, and create new clips on every significant
+  This will scan the selected range, and create new clips on every significant
   scene change.
 
   ### refere to chapter Clip Properties dialog #######
@@ -174,7 +174,7 @@ The Global Menu:
       Videothumbnails are built at runtime in memory
       for all frames that are startframes of clips from
       type Movie.
-      Using Videoindexes is strongly recommanded for fast
+      Using Videoindexes is strongly recommended for fast
       frame access.
       Thumbnails for frame images are not affected here.
   - Exit
@@ -226,7 +226,7 @@ The Cliplist and Storyboard Menu
          This refers to the audiotrack number of (all used) inputvideoclips.
 	 Most videofiles have just one track. 
 	 DVD's typically store multiple language versions on
-	 multiple audotracks in their .vob files.
+	 multiple audiotracks in their .vob files.
 
       Output Audiotrack:
          This is the storyboard specific audiotrack number.
@@ -264,7 +264,7 @@ Restrictions:
   - audiotracks are not supported.
 
   Keep in mind that the backend processing can
-  already handle all specifed storyboard features.
+  already handle all specified storyboard features.
   If they are added via a text editor
   all features inclusive audio processing are supported
   for rendering the resulting video.

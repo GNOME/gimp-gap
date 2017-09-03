@@ -31,13 +31,13 @@ Blubox Filter
 
        
     Alpha Tolerance:
-      Alpha tolerance value 0.0 upto 1.0
+      Alpha tolerance value 0.0 up to 1.0
       where 0.0 makes hard pixel selection by color threshold(s)
       greater values allow more or less variable transparency (alpha channel values)
       for the selected pixels within the threshold(s)
       depending on their difference to the keycolor.
       Pixels with color equal or near the keycolor appear more transparent
-      than pixels with more color differnce.
+      than pixels with more color difference.
       Pixels with color differences bigger than the threshold(s)
       are not affected by the "Alpha Tolerance" setting.
 
@@ -73,10 +73,10 @@ Blubox Filter
     
     
     The bluebox filter creates an image for preview of the effect.
-    This image contains an (optinal scaled) copy of the original layer.
+    This image contains an (optional scaled) copy of the original layer.
     
     Automatic Preview:
-      When checked perform automatical update of the preview image 
+      When checked perform automatic update of the preview image 
       on all changes of the parameter settings.
     
     Preview Button:

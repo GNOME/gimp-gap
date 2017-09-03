@@ -53,5 +53,5 @@ Frames Convert
       because the GIF fileformat can not handle RGB, only GRAY and INDEXED)
               
       Convert to INDEXED reduces the number of colors
-      downto 256 (or less).
+      down to 256 (or less).
 

@@ -9,7 +9,7 @@ Crop Video Frames
     all frame images in a sequence of numbered frames.
     Load one of the frames and invoke this plug-in from the loaded frame,
     adjust the settings as you like and the plug-in will
-    crop all other frames downto the selected size when OK is pressed.
+    crop all other frames down to the selected size when OK is pressed.
     (the parts of the frames outside the cropping rectangles are
     will be lost after this operation)
     

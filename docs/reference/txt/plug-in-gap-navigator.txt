@@ -20,7 +20,7 @@ VCR Navigator
      "OFF"   ... disable tracking of active layer
      "Name"  ... enable tracking of active layer by name.
                  Layernames are compared from left to right
-		 and the layer whith the most matching 
+		 and the layer with the most matching 
 		 layername characters is selected.
 		 If there are more layers with same amount of matching chars
 		 case sensitivity, stringlength and stackposition are taken
@@ -31,7 +31,7 @@ VCR Navigator
    framerate:
      You can set the global framerate for all frames here.
 
-     Note: changing the framerate in the VCR Naviagtor
+     Note: changing the framerate in the VCR Navigator
             dialog window does not change the number of frames.
             Therefore the motion does speed up or slow down
             at playback. If you want to keep your motion
@@ -53,9 +53,9 @@ VCR Navigator
    frame as current frame.
 
    Single click with left mousebutton
-      selecets one frame (deselecting all others)
+      selects one frame (deselecting all others)
    Ctrl  click with left mousebutton
-      selecets one frame (additional to the current selection)
+      selects one frame (additional to the current selection)
    Shift click with left mousebutton
       selects a range of frames.
 
@@ -101,7 +101,7 @@ VCR Navigator
 
       If there are selected frames in the VCR Navigator
       dialog window, the current frame is set to
-      the first selected frame and the paste opration
+      the first selected frame and the paste operation
       is releted to the first selected frame
 
       The paste buffer is located in the filesystem

@@ -60,14 +60,14 @@ Video Options:
 	 in the Master Videoencoder itself.
 
 	 (see description Extras Tab below in this chapter, 
-	  Stroybard Audio: Button "Create Composite Audio")
+	  Storyboard Audio: Button "Create Composite Audio")
 	 
 	 
 
     From Frame (Layer/Storyframe)
     To Frame   (Layer/Storyframe)
        with these spinbuttons you can specify the range of
-       frames (or layers or storboard frames) that should
+       frames (or layers or storyboard frames) that should
        be included in the resulting video.
        
        Depending on the input mode the name changes
@@ -114,7 +114,7 @@ Audio Options:
       - Encoding of multiple audio tracks:
       
         Instead of an audiofile you can specify an audio playlist file.
-	This is a textfile that contains filenames of audifiles,
+	This is a textfile that contains filenames of audiofiles,
 	one filename per line. The filenames can include absolute path
 	or may use relative path that is relative to the audio playlist file.
 	Empty lines and comment lines (starting with #) are allowed.
@@ -163,7 +163,7 @@ Audio Tool Configuration
 
     The master videoencoder tries to convert other audiofileformats
     and samplerates before it passes the audiodata
-    to one of the video encoder plug-ins. This converion is handled
+    to one of the video encoder plug-ins. This conversion is handled
     via an external audiotool program.
     The name of this program and its options can be configured here.
  
@@ -199,7 +199,7 @@ Extras
        )
 
       
-    Stroybard File:
+    Storyboard File:
       Here you can specify the name of a storyboard file.
       When a valid storyboard file is entered the file
       will be checked. If errors are detected
@@ -210,7 +210,7 @@ Extras
       Further the Input Mode (in the Video Options notebook tab) 
       is set to "Storyboard".
 
-    Stroybard Audio:
+    Storyboard Audio:
       The Button "Create Composite Audiofile"
       starts the audio mixdown processing for all included audiotracks
       of the storyboard and creates a composite audiofile in RIFF Wave
