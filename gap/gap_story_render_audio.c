@@ -108,7 +108,7 @@ static GapStoryRenderAudioCache *global_audcache = NULL;
 
 
 static void     p_drop_audio_cache_elem1(GapStoryRenderAudioCache *audcache);
-static GapStoryRenderAudioCacheElem  *p_load_cache_audio( char* filename, gint32 *audio_id, gint32 *aud_bytelength, gint32 seek_idx);
+static GapStoryRenderAudioCacheElem  *p_load_cache_audio(gint32 audio_track, char* filename, gint32 *audio_id, gint32 *aud_bytelength, gint32 seek_idx);
 static void     p_find_min_max_aud_tracknumbers(GapStoryRenderAudioRangeElem *aud_list
                               , gint32 *lowest_tracknr
                               , gint32 *highest_tracknr);
@@ -243,7 +243,7 @@ gap_story_render_remove_tmp_audiofiles(GapStoryRenderVidHandle *vidhand)
  * ----------------------------------------------------
  */
 static GapStoryRenderAudioCacheElem  *
-p_load_cache_audio( char* filename, gint32 *audio_id, gint32 *aud_bytelength, gint32 seek_idx)
+p_load_cache_audio(gint32 audio_track, char* filename, gint32 *audio_id, gint32 *aud_bytelength, gint32 seek_idx)
 {
   gint32 l_idx;
   gint32 l_audio_id;
@@ -277,13 +277,16 @@ p_load_cache_audio( char* filename, gint32 *audio_id, gint32 *aud_bytelength, gi
   for(ac_ptr = audcache->ac_list; ac_ptr != NULL; ac_ptr = (GapStoryRenderAudioCacheElem *)ac_ptr->next)
   {
     l_idx++;
-    if(strcmp(filename, ac_ptr->filename) == 0)
+    if (audio_track == ac_ptr->owner_track)
     {
-      /* audio found in cache, can skip load */
-      *audio_id       = ac_ptr->audio_id;
-      *aud_bytelength = ac_ptr->aud_bytelength;
+      if(strcmp(filename, ac_ptr->filename) == 0)
+      {
+        /* audio found in cache, can skip load */
+        *audio_id       = ac_ptr->audio_id;
+        *aud_bytelength = ac_ptr->aud_bytelength;
 
-      return(ac_ptr);
+        return(ac_ptr);
+      }
     }
     ac_last = ac_ptr;
   }
@@ -300,6 +303,8 @@ p_load_cache_audio( char* filename, gint32 *audio_id, gint32 *aud_bytelength, gi
     *audio_id = l_audio_id;
     ac_new = g_malloc0(sizeof(GapStoryRenderAudioCacheElem));
     ac_new->filename = g_strdup(filename);
+    
+    ac_new->owner_track = audio_track;
     ac_new->audio_id = l_audio_id;
     ac_new->aud_data = aud_data;
     ac_new->aud_bytelength = *aud_bytelength;
@@ -450,7 +455,8 @@ p_get_audio_sample(GapStoryRenderVidHandle *vidhand        /* IN  */
            }
 
            if(gap_debug) printf("BEFORE p_load_cache_audio  %s\n", l_audiofile);
-           ac_elem = p_load_cache_audio(l_audiofile
+           ac_elem = p_load_cache_audio(aud_elem->track
+                                       , l_audiofile
                                        , &aud_elem->audio_id
                                        , &aud_elem->aud_bytelength
                                        , l_seek_idx

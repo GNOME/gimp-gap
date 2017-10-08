@@ -1,3 +1,15 @@
+2017-10-08 Wolfgang Hofer <hof@gimp.org>
+
+- Fix for Storyboard Audio rendering in case where clips of the same 
+  video (AUD_PLAY_MOVIE Storyboardelemnts) are used in more than 
+  one audio track of the Storyboard.
+  The bug triggered a huge amount of alternating audio segemnt load operations
+  in the composite audiofile audiomix processing. This caused extreme slow rendering
+  where one minute of audio did not finish in hours.
+
+ * gap/gap_story_render_types.h
+ * gap/gap_story_render_audio.c
+
 2017-04-15 Wolfgang Hofer <hof@gimp.org>
 
 - MovePath support Handle Offsets, "Reset all controlpoints" Button protects keyframe information by default

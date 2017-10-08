@@ -101,6 +101,7 @@ typedef struct GapStoryRenderImageCache
 
 typedef struct GapStoryRenderAudioCacheElem
 {
+   gint32  owner_track; /* owner audio track (other tracks have their own cache to avoid frequent segment reloads) */ 
    gint32  audio_id;
    char   *filename;
    guchar *aud_data;   /* full audiodata (including header) loaded in memory */
