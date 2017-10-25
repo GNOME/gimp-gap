@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-10-08 07:42+0000\n"
-"PO-Revision-Date: 2017-10-22 23:42+0200\n"
+"POT-Creation-Date: 2017-10-23 16:43+0000\n"
+"PO-Revision-Date: 2017-10-24 00:22+0200\n"
 "Last-Translator: David Aguilera <dvd1985@gmail.com>\n"
 "Language-Team: Catalan <gnome@llistes.softcatala.org>\n"
 "Language: ca\n"
@@ -2371,10 +2371,8 @@ msgstr ""
 "premeu D'acord per al següent pas d'iteració\n"
 
 #: ../gap/gap_detail_align_exec.c:2786 ../gap/gap_detail_align_exec.c:3224
-#, fuzzy
-#| msgid "Detail Align via XML"
 msgid "Detail Align FineTuning PAUSED"
-msgstr "Detall d'alineació a través de l’XML"
+msgstr "EN PAUSA el detall de l'ajust de l'alineació"
 
 #. title_txt
 #: ../gap/gap_detail_align_exec.c:2787 ../gap/gap_detail_align_exec.c:3225
@@ -2422,15 +2420,7 @@ msgstr ""
 "     I la connexió dels 4 punts ha de construir 4 línies diferents.\n"
 
 #: ../gap/gap_detail_align_exec.c:3699
-#, fuzzy, c-format
-#| msgid ""
-#| "Current path with 4 point triggers transformations:\n"
-#| "    Rotation:   %.4f (degree)\n"
-#| "    Scale:      %.1f (%%)\n"
-#| "    Movement X: %.0f (pixels)\n"
-#| "    Movement Y: %.0f (pixels)\n"
-#| "Press OK button to transform the layer\n"
-#| "in a way that point3 moves to point1 and point4 moves to point2"
+#, c-format
 msgid ""
 "Current path with 4 point triggers transformations:\n"
 "    Rotation:   %.4f (degree)\n"
@@ -2446,16 +2436,9 @@ msgstr ""
 "     Moviment X: % .0f (píxels)\n"
 "     Moviment Y: % .0f (píxels)\n"
 "Premeu el botó D'acord per transformar la capa\n"
-"de manera que el punt 3 vagi cap al punt 1 i el punt 4 vagi cap al punt 2"
 
 #: ../gap/gap_detail_align_exec.c:3721
-#, fuzzy, c-format
-#| msgid ""
-#| "Current path with 2 points triggers simple move:\n"
-#| "    Movement X: %.0f (pixels)\n"
-#| "    Movement Y: %.0f (pixels)\n"
-#| "Press OK button to move the layer\n"
-#| "in a way that point2 moves to point1"
+#, c-format
 msgid ""
 "Current path with 2 points triggers simple move:\n"
 "    Movement X: %.0f (pixels)\n"
@@ -2467,33 +2450,21 @@ msgstr ""
 "     Moviment X: %.0f (píxels)\n"
 "     Moviment Y: %.0f (píxels)\n"
 "Premeu el botó D'acord per moure la capa\n"
-"de manera que el punt 2 vagi cap al punt 1"
 
 #: ../gap/gap_detail_align_exec.c:3737
-#, fuzzy, c-format
-#| msgid ""
-#| "This filter requires a current path with 4 or 2 points\n"
-#| "It can transform and/or move the current layer according to such path "
-#| "coordinate points.\n"
-#| "Please create a path and press the Refresh button."
+#, c-format
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "and a path with name: %s with same number of points.\n"
 "\n"
 "Please create both paths and press the Refresh button.\n"
 msgstr ""
-"Aquest filtre requereix un camí actual amb 4 o 2 punts\n"
-"Es pot transformar i/o moure la capa actual d'acord amb els punts coordinats "
-"del camí.\n"
-"Si us plau, feu un camí i premeu el botó Actualitza."
+"Aquest filtre requereix un camí d'accés actual amb 4 o 2 punts\n"
+"i un camí amb el nom:%s amb el mateix nombre de punts.\n"
+"\n"
+"Feu dos camins i premeu el botó Actualitza.\n"
 
 #: ../gap/gap_detail_align_exec.c:3748
-#, fuzzy
-#| msgid ""
-#| "This filter requires a current path with 4 or 2 points\n"
-#| "It can transform and/or move the current layer according to such path "
-#| "coordinate points.\n"
-#| "Please create a path and press the Refresh button."
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
@@ -2502,9 +2473,9 @@ msgid ""
 "Please create a path and press the Refresh button."
 msgstr ""
 "Aquest filtre requereix un camí actual amb 4 o 2 punts\n"
-"Es pot transformar i/o moure la capa actual d'acord amb els punts coordinats "
-"del camí.\n"
-"Si us plau, feu un camí i premeu el botó Actualitza."
+"Es pot transformar i/o moure la capa actual d'acord amb aquests punts "
+"coordinats del camí.\n"
+"Feu un camí i premeu el botó Actualitza."
 
 #: ../gap/gap_detail_align_exec.c:3859
 msgid "Transform Layer via 4 (or 2) point Alignment"
@@ -2519,30 +2490,26 @@ msgstr "Ordena els punts del camí:"
 
 #. Order Mode the radio buttons
 #: ../gap/gap_detail_align_exec.c:3930
-#, fuzzy, c-format
-#| msgid ""
-#| "( 3 --> 1 )  ( 4 --> 2 )\n"
-#| "Target is marked by points 1&2 "
+#, c-format
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Source is marked by current path points 3&4\n"
 "Target is marked by current path points 1&3\n"
 msgstr ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
-"L'objectiu està marcat pels punts 1 i 2"
+"L'origen està marcat pels punts del camí actual 3&4\n"
+"L'objectiu està marcat pels punts del camí actual 1&3\n"
 
 #: ../gap/gap_detail_align_exec.c:3946
-#, fuzzy, c-format
-#| msgid ""
-#| "( 3 --> 1 )  ( 4 --> 2 )\n"
-#| "Target is marked by points 1&2 "
+#, c-format
 msgid ""
 "( 2 --> 1 )  ( 4 --> 3 )\n"
 "Source is marked by current path points 2&4\n"
 "Target is marked by current path points 1&3\n"
 msgstr ""
-"( 3 --> 1 )  ( 4 --> 2 )\n"
-"L'objectiu està marcat pels punts 1 i 2"
+"( 2 --> 1 )  ( 4 --> 3 )\n"
+"L'origen està marcat pels punts del camí actual 2&4\n"
+"L'objectiu està marcat pels punts del camí actual 1&3\n"
 
 #: ../gap/gap_detail_align_exec.c:3962
 #, c-format
@@ -2770,7 +2737,7 @@ msgid "DetailTracking"
 msgstr "Seguiment detallat"
 
 #: ../gap/gap_detail_tracking_main.c:292
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "optional fine tuning is triggered when the frame image has an additional "
 "Layer with the special name '%s.' in this case the transformation is done in "
@@ -2786,14 +2753,13 @@ msgstr ""
 "Un bon ajust opcional s'activa quan la imatge del fotograma té una capa "
 "addicional amb el nom especial '%s'. en aquest cas, la transformació es fa "
 "en més variants de sondatge amb valors lleugerament diferents i el resultat "
-"es compara amb les àrees opaques del '%s'. \n"
-"La capa per a la representació final, la variant que es tria que té la "
-"diferència mínima en les àrees comparades. \n"
-"La realització de l'ajust té com a finalitat reduir els efectes de "
-"desbordament no desitjats amb una amplitud mínima de només 1 píxel o "
-"inferior quan s'aplica l'alineació a molts fotogrames d'un videoclip "
-"finalitat d'estabilització. El '% s'. La capa ha de tenir una màscara de "
-"capa que marca un fons comparable blanc (opac)."
+"es compara amb les àrees opaques de la capa '%s'. per a la representació "
+"final, la variant que es tria té la diferència mínima en les àrees "
+"comparades. La realització de l'ajust té com a finalitat reduir els efectes "
+"de desbordament no desitjats amb una amplitud mínima de només 1 píxel o "
+"inferior quan s'aplica l'alineació a molts fotogrames d'un videoclip amb "
+"finalitat d'estabilització. La capa '%s' tindrà una màscara de capa que "
+"marcarà un fons blanc (opac) comparable."
 
 #: ../gap/gap_detail_tracking_main.c:308
 #, c-format
@@ -6447,12 +6413,6 @@ msgid "Reset the current controlpoint to default values"
 msgstr "Restableix els valors per defecte de l'actual punt de control"
 
 #: ../gap/gap_mov_dialog.c:5073
-#, fuzzy
-#| msgid ""
-#| "Reset all controlpoints to default values but dont change the path (X/Y "
-#| "values). Hold down the shift key to copy settings of point1 into all "
-#| "other points. Holding down the ctrl key spreads a mix of the settings of "
-#| "point1 and the last point into the other points inbetween."
 msgid ""
 "Reset all controlpoints to default values but dont change the path (X/Y "
 "values and keyframes). Hold down the alt key removes the keyframe "
@@ -6461,9 +6421,11 @@ msgid ""
 "the settings of point1 and the last point into the other points inbetween."
 msgstr ""
 "Restableix tots els valors per defecte dels punts de control però sense "
-"canviar el camí (valors X/Y). Premeu la tecla Majúscules per a copiar les "
-"opcions del punt 1 als altres punts. Premeu la tecla Control fa una barreja "
-"d'opcions del punt 1 amb l'últim punt i els propaga als altres punts."
+"canviar el camí (valors X/Y i fotogrames clau). Mantingueu premuda la tecla "
+"Alt i elimineu la informació del fotograma clau de tots els punts de "
+"control. Premeu la tecla Maj per copiar la configuració del punt 1 en tots "
+"els altres punts. Si es manté premuda la tecla Ctrl, farà una barreja de la "
+"configuració del punt 1 i l'últim punt dins els altres punts d'entremig."
 
 #: ../gap/gap_mov_dialog.c:5095
 msgid ""
@@ -6483,14 +6445,12 @@ msgid "Load controlpoints from file"
 msgstr "Carrega els punts de control del fitxer"
 
 #: ../gap/gap_mov_dialog.c:5139
-#, fuzzy
-#| msgid "Show next controlpoint. Hold down the shift key to follow keyframes."
 msgid ""
 "Save controlpoints to file. Hold down the ctrl or shift key for filename "
 "selection dialog."
 msgstr ""
-"Mostra el següent punt de control. Mantingueu premuda la tecla Maj pels "
-"següents fotogrames clau."
+"Desa els punts de control al fitxer. Mantingueu premuda la tecla Ctrl o Maj "
+"per al diàleg de selecció del nom del fitxer."
 
 #  label text
 #  scalesize spinsize
@@ -8369,6 +8329,9 @@ msgid ""
 "in a way that the combination with the layer below\n"
 "matches the brightness of a reference layer)"
 msgstr ""
+"Aquest filtre ajusta l'opacitat d'una capa\n"
+"de manera que la combinació amb la capa de sota\n"
+"coincideix amb la brillantor d'una capa de referència)"
 
 #: ../gap/gap_opacity_exposure_main.c:1082
 msgid "Target Luminance:"
@@ -8382,10 +8345,8 @@ msgstr ""
 
 #. use reference layer's average luminance checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1104
-#, fuzzy
-#| msgid "New Layer"
 msgid "Use RefLayer:"
-msgstr "Nova capa"
+msgstr "Utilitza la capa de referència:"
 
 #: ../gap/gap_opacity_exposure_main.c:1116
 msgid ""
@@ -8399,10 +8360,8 @@ msgstr ""
 #  the LayerMask sub menu
 #. use reference layer as mask checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1127
-#, fuzzy
-#| msgid "Keep Layer Mask"
 msgid "Use RefLayer as Mask:"
-msgstr "Manté la màscara de la capa"
+msgstr "Utilitza la capa de referència com a marca:"
 
 #: ../gap/gap_opacity_exposure_main.c:1139
 msgid "ON: use the opaque pixels of reference layer as mask "
@@ -12729,16 +12688,12 @@ msgstr "Defineix opacitat de capa"
 
 #: ../gap/gap_wr_resynth.c:210 ../gap/gap_wr_resynth.c:715
 #: ../gap/gap_wr_resynth.c:727
-#, fuzzy
-#| msgid "Pixel Selection:"
 msgid "Heal Selection"
-msgstr "Selecció de píxel:"
+msgstr "Selecció de retoc…"
 
 #: ../gap/gap_wr_resynth.c:226
-#, fuzzy
-#| msgid "Pixel Selection:"
 msgid "Heal Selection..."
-msgstr "Selecció de píxel:"
+msgstr "Selecció de retoc…"
 
 #: ../gap/gap_wr_resynth.c:375 ../gap/gap_wr_trans.c:444
 #, c-format
