@@ -1553,7 +1553,7 @@ msgstr "El color veí de l'esquerra"
 #. the colordiff label
 #: ../gap/gap_colormask_dialog.c:938
 msgid "Colordiff:"
-msgstr "Diferència de color"
+msgstr "Diferència de color:"
 
 #: ../gap/gap_colormask_dialog.c:943 ../gap/gap_colormask_dialog.c:957
 msgid "#.#####"
@@ -1736,9 +1736,9 @@ msgid ""
 "Name of a videofile to read by mplayer. Frames are extracted from the "
 "videofile and written to separate diskfiles. mplayer 1.0 is required."
 msgstr ""
-"Nom del fitxer de vídeo a llegir amb l'mplayer. Els fotogrames s'extreuen "
+"Nom del fitxer de vídeo a llegir amb el mplayer. Els fotogrames s'extreuen "
 "del fitxer de vídeo i s'escriuen en fitxers de disc separats. Requereix "
-"l'mplayer 1.0."
+"el mplayer 1.0."
 
 #: ../gap/gap_decode_mplayer.c:445
 msgid "Start Time:"
@@ -1894,7 +1894,7 @@ msgid ""
 msgstr ""
 "empra '-nosound (-novideo) en el cas que la pista de so (pista de vídeo) "
 "sigui 0.\n"
-"L'mplayer funcionarà sense so i més ràpid."
+"El mplayer funcionarà sense so i més ràpid."
 
 #: ../gap/gap_decode_mplayer.c:591 ../gap/gap_decode_xanim.c:306
 msgid "Open"
@@ -1910,7 +1910,7 @@ msgstr "Asíncron"
 
 #: ../gap/gap_decode_mplayer.c:598
 msgid "Run the mplayer as asynchronous process"
-msgstr "Executa l'mplayer com un procés asíncron"
+msgstr "Executa el mplayer com un procés asíncron"
 
 #: ../gap/gap_decode_mplayer.c:604
 msgid "MPlayer 1.0pre5:"
@@ -1923,8 +1923,8 @@ msgid ""
 " Dont turn on the deprecated options if you have mplayer 1.0pre7 or newer "
 "mplayer versions"
 msgstr ""
-"Activat: utilitzeu les opcions antigues per a l'mplayer 1.0pre5\n"
-"Desactivat: utilitzeu les opcions per a l'mplayer més nou\n"
+"Activat: utilitzeu les opcions antigues per al mplayer 1.0pre5\n"
+"Desactivat: utilitzeu les opcions per al mplayer més nou\n"
 "No marqueu opcions antigues si teniu un mplayer 1.0pre7 o superior"
 
 #: ../gap/gap_decode_mplayer.c:616
@@ -1971,7 +1971,7 @@ msgid ""
 msgstr ""
 "no es poden trobar els fotogrames extrets,\n"
 "%s\n"
-"potser l'mplayer ha fallat o s'ha cancel·lat"
+"potser el mplayer ha fallat o s'ha cancel·lat"
 
 #: ../gap/gap_decode_mplayer.c:997 ../gap/gap_decode_xanim.c:602
 #, c-format
@@ -2058,7 +2058,7 @@ msgid ""
 "mplayer has failed or was cancelled"
 msgstr ""
 "no es poden trobar els fotogrames extrets,\n"
-"l'mplayer ha fallat o s'ha cancel·lat"
+"el mplayer ha fallat o s'ha cancel·lat"
 
 #: ../gap/gap_decode_mplayer.c:1629 ../gap/gap_decode_xanim.c:1198
 msgid "Renaming frames..."
@@ -2071,7 +2071,7 @@ msgstr "S'estan convertint els fotogrames..."
 
 #: ../gap/gap_decode_mplayer_main.c:110 ../gap/gap_decode_mplayer_main.c:123
 msgid "MPlayer based extraction..."
-msgstr "Extracció basada amb l'MPlayer..."
+msgstr "Extracció basada amb el MPlayer..."
 
 #. Menu names
 #: ../gap/gap_decode_mplayer_main.c:132 ../gap/gap_frontends_main.c:188
@@ -2110,11 +2110,11 @@ msgstr ""
 
 #: ../gap/gap_decode_xanim.c:184
 msgid "An error occurred while trying to call xanim:"
-msgstr "S'ha produït un error en intentar cridar l'xanim:"
+msgstr "S'ha produït un error en intentar cridar el xanim:"
 
 #: ../gap/gap_decode_xanim.c:204
 msgid "XANIM Information"
-msgstr "Informació de l'XANIM"
+msgstr "Informació del XANIM"
 
 #: ../gap/gap_decode_xanim.c:238
 msgid ""
@@ -2122,9 +2122,9 @@ msgid ""
 "videofile and written to separate diskfiles. xanim exporting edition is "
 "required."
 msgstr ""
-"Nom del fitxer de vídeo a llegir amb l'xanim. Els fotogrames s'extreuen del "
+"Nom del fitxer de vídeo a llegir amb el xanim. Els fotogrames s'extreuen del "
 "fitxer de vídeo i s'escriuen en fitxers de disc separats. És necessària "
-"l'edició per exportar de l'xanim."
+"l'edició per exportar del xanim."
 
 #: ../gap/gap_decode_xanim.c:248
 msgid "Framenumber of 1st frame to extract"
@@ -2183,8 +2183,8 @@ msgid ""
 "Run xanim asynchronously and delete unwanted frames (out of the specified "
 "range) while xanim is still running"
 msgstr ""
-"Executa l'xanim asíncronament i suprimeix els fotogrames no desitjats (fora "
-"de l'abast especificat) mentre l'xanim encara s'està executant"
+"Executa el xanim asíncronament i suprimeix els fotogrames no desitjats (fora "
+"de l'abast especificat) mentre el xanim encara s'està executant"
 
 #: ../gap/gap_decode_xanim.c:317
 msgid ""
@@ -2194,7 +2194,7 @@ msgid ""
 "Most of the frames (type P and B) will be skipped."
 msgstr ""
 "\n"
-"Avís: l'xanim 2.80 només té suport limitat per a MPEG.\n"
+"Avís: el xanim 2.80 només té suport limitat per a MPEG.\n"
 "La majoria de fotogrames (tipus P i B) s'ometran."
 
 #: ../gap/gap_decode_xanim.c:325
@@ -2210,17 +2210,17 @@ msgid ""
 msgstr ""
 "no es poden trobar els fotogrames extrets,\n"
 "%s\n"
-"potser l'xanim ha fallat o s'ha cancel·lat"
+"potser el xanim ha fallat o s'ha cancel·lat"
 
 #: ../gap/gap_decode_xanim.c:761
 #, c-format
 msgid "could not execute %s (check if xanim is installed)"
-msgstr "no s'ha pogut executar %s (comproveu si l'xanim està instal·lat)"
+msgstr "no s'ha pogut executar %s (comproveu si el xanim està instal·lat)"
 
 #: ../gap/gap_decode_xanim.c:769
 #, c-format
 msgid "%s does not look like xanim"
-msgstr "%s no sembla l'xanim"
+msgstr "%s no sembla el xanim"
 
 #: ../gap/gap_decode_xanim.c:794
 #, c-format
@@ -2270,7 +2270,7 @@ msgid ""
 "xanim has failed or was cancelled"
 msgstr ""
 "no es poden trobar els fotogrames extrets,\n"
-"l'xanim ha fallat o s'ha cancel·lat"
+"el xanim ha fallat o s'ha cancel·lat"
 
 #  the Preview Frame Number
 #  table col, row
@@ -2531,7 +2531,7 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Aquest filtre requereix d'un trajecte actual amb 4 punts, en que els punts 1 "
+"Aquest filtre requereix d'un trajecte actual amb 4 punts, en què els punts 1 "
 "i 2 marquen les posicions de referència i els punts 3 i 4 marquen les "
 "posicions en la capa de destinació. Transforma la capa de destinació de "
 "manera que el punt 3 va cap al punt 1, i el punt 4 va cap al punt 2. (això "
@@ -2548,7 +2548,7 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1.(via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Aquest filtre requereix d'un trajecte actual amb 4 punts, en que els punts 1 "
+"Aquest filtre requereix d'un trajecte actual amb 4 punts, en què els punts 1 "
 "i 3 marquen les posicions de referència i els punts 2 i 4 marquen les "
 "posicions en la capa de destinació. Transforma la capa de destinació de "
 "manera que el punt 2 va cap al punt 1, i el punt 4 va cap al punt 3. (això "
@@ -2713,7 +2713,7 @@ msgstr "Aquest valor s'afegeix en el registre del valor de rotació."
 
 #: ../gap/gap_detail_tracking_exec.c:3517
 msgid "MovePath XML file:"
-msgstr "Fitxer XML del camí de moviment"
+msgstr "Fitxer XML del camí de moviment:"
 
 #: ../gap/gap_detail_tracking_exec.c:3518
 msgid ""
@@ -3105,7 +3105,7 @@ msgstr ""
 "mateixa mida que la capa d'entrada i proporciona una selecció d'usuari en "
 "brut, on els píxels blancs en el tri-mapa defineixen el primer pla (és a "
 "dir, resultat opac), els píxels negres defineixen el fons (és a dir, "
-"resultat transparent) i els píxels grisos (valor de l' 1 al 240 ) es marquen "
+"resultat transparent) i els píxels grisos (valor de l'1 al 240) es marquen "
 "com a indefinits (és a dir, opacitat per ser processada amb aquest filtre.)"
 
 #: ../gap/gap_fg_matting_dialog.c:467
@@ -3645,7 +3645,7 @@ msgstr "**Buit**"
 
 #: ../gap/gap_fmac_main.c:1065
 msgid "** File is not a filtermacro **"
-msgstr "**El fitxer no és una filtre macro**"
+msgstr "**El fitxer no és un filtre macro**"
 
 #: ../gap/gap_fmac_main.c:1103 ../gap/gap_onion_dialog.c:1523
 #: ../gap/gap_player_dialog.c:8523
@@ -3722,7 +3722,7 @@ msgstr "Selecciona el fitxer de seqüència del filtre macro"
 
 #: ../gap/gap_frontends_main.c:141 ../gap/gap_frontends_main.c:154
 msgid "XANIM based extraction..."
-msgstr "Extracció basada amb l'XANIM..."
+msgstr "Extracció basada amb el XANIM..."
 
 #: ../gap/gap_frontends_main.c:166
 msgid "MPEG1..."
@@ -4511,7 +4511,7 @@ msgstr ""
 #. the newGroupName label
 #: ../gap/gap_mod_layer_dialog.c:1457
 msgid "New Group Name:"
-msgstr "Nom de la nova capa"
+msgstr "Nom de la nova capa:"
 
 #: ../gap/gap_mod_layer_dialog.c:1475
 msgid ""
@@ -8665,7 +8665,7 @@ msgstr "S'està creant el fitxer d'àudio. Espereu-vos"
 
 #: ../gap/gap_player_dialog.c:6648
 msgid "external audioconverter FAILED."
-msgstr "la conversió d'àudio externa ha fallat"
+msgstr "la conversió d'àudio externa ha fallat."
 
 #: ../gap/gap_player_dialog.c:6649
 msgid "extern audioconverter FAILED"
@@ -8692,7 +8692,7 @@ msgstr "Fitxer d'àudio:"
 
 #: ../gap/gap_player_dialog.c:6880
 msgid "Enter an audiofile. The file must be in RIFF WAVE fileformat."
-msgstr "Entreu un fitxer d'àudio. El fitxer ha d'estar en format RIFF WAVE"
+msgstr "Introduïu un fitxer d'àudio. El fitxer ha d'estar en format RIFF WAVE"
 
 #: ../gap/gap_player_dialog.c:6901
 msgid "Open audiofile selection browser dialog window"
@@ -9989,7 +9989,7 @@ msgid ""
 "allow changes of image proportions at scaling"
 msgstr ""
 "Activat: mantén les proporcions quan s'ajusta la mida (això pot ocasionar "
-"uns marges negres).Desactivat: permet que es canviï les proporcions de la "
+"uns marges negres). Desactivat: permet que es canviï les proporcions de la "
 "imatge quan s'ajusta la mida."
 
 #. the overlap label (same row as FitSize)
@@ -10232,7 +10232,7 @@ msgid ""
 "controlpoint in the movepath parameter file"
 msgstr ""
 "número de fotograma (fase) del moviment/transició al llarg del camí pel "
-"primer fotograma gestionat en que 1 és l'inici del camí, amb la configuració "
+"primer fotograma gestionat en què 1 és l'inici del camí, amb la configuració "
 "del primer punt de control del fitxer del paràmetre del camí de moviment"
 
 #: ../gap/gap_story_att_trans_dlg.c:3893
@@ -12062,7 +12062,7 @@ msgstr "0.0 .. sense interpolació, 1.0 interpolació suau al desentrellaçat"
 #  the Deinterlace Mode label
 #: ../gap/gap_vex_dialog.c:2667
 msgid "no deinterlace"
-msgstr "no desesentrellaçat"
+msgstr "sense desentrellaçat"
 
 #: ../gap/gap_vex_dialog.c:2668
 msgid "deinterlace (odd lines only)"
@@ -12196,7 +12196,7 @@ msgstr ""
 "Salta la creació d'índexs si la recerca nativa sembla possible\n"
 "\n"
 "Avís: el posicionament a través de la recerca nativa pot no funcionar "
-"exactament en el cas crític en que els passos del codi de temps no s'hagin "
+"exactament en el cas crític en què els passos del codi de temps no s'hagin "
 "detectat en la prova ràpida."
 
 #: ../gap/gap_video_index_creator.c:929
@@ -13332,7 +13332,7 @@ msgid ""
 msgstr ""
 "Els fitxers de guió gràfic són fitxers de text utilitzats\n"
 "per a crear un vídeo des d'un llistat d'imatges simples,\n"
-"fragments de fotograma, vídeoclips, animacions gif o fitxers d'àudio.\n"
+"fragments de fotograma, videoclips, animacions gif o fitxers d'àudio.\n"
 "(Per a més informació, mireu STORYBOARD_FILE_DOC.txt)"
 
 #. the Monitor label
@@ -13649,7 +13649,7 @@ msgstr "Estableix velocitat de fotograma:"
 #. the Videonorm label
 #: ../vid_common/gap_cme_gui.c:3848
 msgid "Videonorm:"
-msgstr "Norma de vídeo :"
+msgstr "Norma de vídeo:"
 
 #. the Videonorm combo
 #: ../vid_common/gap_cme_gui.c:3856
@@ -14992,7 +14992,7 @@ msgstr "Intra VLC"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2712
 msgid "Use MPEG-2 intra VLC table."
-msgstr "Utilitza la taula intra VLC d'MPEG-2"
+msgstr "Utilitza la taula intra VLC d'MPEG-2."
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2726
 msgid "high profile 8x8 transform (for H264 codec)"
