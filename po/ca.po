@@ -581,7 +581,7 @@ msgid ""
 "new Framename MUST NOT contain directory path."
 msgstr ""
 "S'ha cancel·lat el renomenament dels fotogrames.\n"
-"el nom del fotograma nou no té perquè tenir el camí del directori."
+"el nom del fotograma nou no té per què tenir el camí del directori."
 
 #: ../gap/gap_base_ops.c:2565
 msgid ""
@@ -2199,7 +2199,7 @@ msgstr ""
 
 #: ../gap/gap_decode_xanim.c:325
 msgid "Xanim based extraction (DEPRECATED)"
-msgstr "Extracció basada amb l’xanim (FORMA ANTIGA)"
+msgstr "Extracció basada amb el xanim (FORMA ANTIGA)"
 
 #: ../gap/gap_decode_xanim.c:577
 #, c-format
@@ -4506,7 +4506,7 @@ msgid ""
 "where the string '[######]' is replaced by the frame number."
 msgstr ""
 "Nom de totes les capes (o canals) gestionats,\n"
-" on es substitueix la cadena '[######]' pel número de fotograma"
+" on se substitueix la cadena '[######]' pel número de fotograma"
 
 #. the newGroupName label
 #: ../gap/gap_mod_layer_dialog.c:1457
@@ -4969,7 +4969,7 @@ msgid ""
 msgstr ""
 "Crea N punts de control seguint la forma del contorn de la capa. La detecció "
 "de formes cerca píxels no transparents. Ctrl+clic utilitza un algoritme de "
-"detecció de forma basat en la detecció de vores que pot operar en les "
+"detecció de forma basada en la detecció de vores que pot operar en les "
 "imatges opaques. Maj-clic: afegeix els punts nous i en conserva els vells"
 
 #  the deform affect radius label
@@ -5608,7 +5608,7 @@ msgstr ""
 #. master progress
 #: ../gap/gap_morph_tween_dialog.c:1338
 msgid "Create Tweenframe(s):"
-msgstr "Crea fotogrames intercalats"
+msgstr "Crea fotogrames intercalats:"
 
 #: ../gap/gap_morph_tween_dialog.c:1353
 msgid "Local Progress:"
@@ -7777,7 +7777,7 @@ msgid ""
 msgstr ""
 "Reprodueix\n"
 "Maj converteix els fotogrames seleccionats en una imatge temporal i "
-"reprodueix l'animació de capa en la imatge temporal"
+"reprodueix l'animació de capa en la imatge temporal."
 
 #: ../gap/gap_navigator_dialog.c:447
 msgid ""
@@ -7835,7 +7835,7 @@ msgid ""
 "The selected %d frame(s) will be deleted.\n"
 "There will be no undo for this operation\n"
 msgstr ""
-"El fotograma %d seleccionat es suprimirà.\n"
+"El fotograma %d seleccionat se suprimirà.\n"
 "Aquesta operació no es podrà desfer\n"
 
 #: ../gap/gap_navigator_dialog.c:803
@@ -8093,7 +8093,7 @@ msgstr "Opacitat descendent per la 2a capa de paper ceba"
 #  the LayerMask sub menu
 #: ../gap/gap_onion_dialog.c:1272
 msgid "Layermask Mode:"
-msgstr "Mode màscara de capa"
+msgstr "Mode màscara de capa:"
 
 #: ../gap/gap_onion_dialog.c:1283
 msgid "Black (fully transparent)"
@@ -8692,7 +8692,7 @@ msgstr "Fitxer d'àudio:"
 
 #: ../gap/gap_player_dialog.c:6880
 msgid "Enter an audiofile. The file must be in RIFF WAVE fileformat."
-msgstr "Introduïu un fitxer d'àudio. El fitxer ha d'estar en format RIFF WAVE"
+msgstr "Introduïu un fitxer d'àudio. El fitxer ha d'estar en format RIFF WAVE."
 
 #: ../gap/gap_player_dialog.c:6901
 msgid "Open audiofile selection browser dialog window"
@@ -9562,7 +9562,7 @@ msgid ""
 "Basename for all layers where the string '[######]' is replaced by the frame "
 "number"
 msgstr ""
-"Nom bàsic de totes les capes on es substitueix la cadena '[######]' pel "
+"Nom bàsic de totes les capes on se substitueix la cadena '[######]' pel "
 "número de fotograma"
 
 #: ../gap/gap_range_ops.c:769
@@ -10904,7 +10904,7 @@ msgstr "Alçada del vídeo mestre resultant en píxels"
 
 #: ../gap/gap_story_dialog.c:9414
 msgid "Framerate in frames/sec."
-msgstr "Velocitat de fotograma en fotogrames/segon"
+msgstr "Velocitat de fotograma en fotogrames/segon."
 
 #: ../gap/gap_story_dialog.c:9432
 msgid "Track 1 on top:"
@@ -10933,7 +10933,7 @@ msgstr ""
 "«4:3» o «16:9» per a especificar la relació d'aspecte. Escriviu «none» o "
 "deixeu-ho buit si no voleu emprar una relació d'aspecte en concret (en tal "
 "cas els fotogrames de vídeo utilitzaran la mida de píxel mestra 1:1 per a "
-"mostrar els fotogrames de vídeo)"
+"mostrar els fotogrames de vídeo)."
 
 #  the (preferred) Decoder label
 #. the (preferred) Decoder label
@@ -13098,7 +13098,7 @@ msgid ""
 "file: %s\n"
 "supported are 8 or 16 Bit"
 msgstr ""
-"Error: No es suporta el Bit per mostra %d\n"
+"Error: No se suporta el Bit per mostra %d\n"
 "fitxer: %s\n"
 "Els suportats són 8 o 16 Bits"
 
@@ -14060,7 +14060,7 @@ msgid ""
 "uncompressed. IMPORTANT:  you should first call \""
 msgstr ""
 "Aquest connector gestiona la codificació del format de vídeo AVI. Les dades "
-"d'àudio (opcional) han de ser un o varis fitxers de dades simples o fitxers ."
+"d'àudio (opcional) han de ser un o diversos fitxers de dades simples o fitxers ."
 "wav(RIFF WAVEfmt ). Els fitxers .wav poden ser mono (1) o estèreo (2 "
 "canals). Les dades d'àudio han de ser de 16bit descomprimides. Important: "
 "Primer heu de cridar \""
@@ -15790,7 +15790,7 @@ msgstr ""
 "Aquest connector té un codificador de vídeo API però escriu una sèrie de "
 "fotogrames simples en lloc d'un fitxer de vídeo. El tipus de fitxer dels "
 "fotogrames de sortida és derivat de l'extensió. L'extensió és part del "
-"sufixe del paràmetre \"videofile\". Els noms dels fotogrames de sortida són "
+"sufix del paràmetre \"videofile\". Els noms dels fotogrames de sortida són "
 "els mateixos que el paràmetre \"videofile\", però la part del número de "
 "fotograma es reemplaçat pel número de fotograma actual (o afegit "
 "automàticament si el fitxer de vídeo no té part numèrica). S'ignoren les "
