@@ -1,3 +1,19 @@
+2017-01-19 Wolfgang Hofer <hof@gimp.org>
+
+- applied patch provided by Anders Jonsson @ https://bugzilla.gnome.org/show_bug.cgi?id=792549
+  (0001-Fix-typos-in-translatable-strings.txt)
+ 
+ * gap/gap_base_ops.c
+ * gap/gap_detail_align_exec.c
+ * gap/gap_detail_tracking_main.c
+ * gap/gap_edge_detection_dialog.c
+ * gap/gap_morph_dialog.c
+ * gap/gap_morph_tween_dialog.c
+ * gap/gap_mov_dialog.c
+ * gap/gap_opacity_exposure_main.c
+ * gap/gap_wr_resynth.c
+  
+
 2017-10-08 Wolfgang Hofer <hof@gimp.org>
 
 - Fix for Storyboard Audio rendering in case where clips of the same 

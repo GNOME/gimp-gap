@@ -291,14 +291,14 @@ static void query (void)
 
   fineTuningText = g_strdup_printf(_("optional fine tuning "
                             "is triggered when the frame image has an additional Layer "
-                            "with the special name '%s.' "
-                            "in this case the transformation is done in more probe variants with slightly different values "
+                            "with the special name '%s.'. "
+                            "In this case the transformation is done in more probe variants with slightly different values "
                             "and the result is compared with the opaque areas in the '%s.' layer "
-                            "for final rendering, the variant is picked that has the minumum difference in the compared areas "
+                            "for final rendering, the variant is picked that has the minimum difference in the compared areas. "
                             "The performance intensive fine tuning is intended to reduce unwanted jitter effects "
                             "with minimal amplitude of just 1 pixel or below "
-                            "when alignment is applied to many frames of a videoclip for stabilsation purpose. "
-                            "The the '%s.' layer shall have a layer mask that marks comparable background white (opaque)."
+                            "when alignment is applied to many frames of a videoclip for stabilization purposes. "
+                            "The '%s.' layer shall have a layer mask that marks comparable background white (opaque)."
                             " ")
                             , GAP_EXACT_ALIGNER_REF_LAYER_NAME
                             , GAP_EXACT_ALIGNER_REF_LAYER_NAME
@@ -307,7 +307,7 @@ static void query (void)
 
   descriptionText = g_strdup_printf(_("This video frame stabilisation filter transforms the specified layer. "
                             "It uses the relevant controlpoint (that matches the framePhase parameter) in the recorded XML file as input.  "
-                            "and calculates offsts, scaling and rotation or perspective corner points to transform the layer in a way that "
+                            "and calculates offsets, scaling and rotation or perspective corner points to transform the layer in a way that "
                             "the points p1x p1y p2x p2y (p3x p3y p4x p4y) "
                             "will exactly match with the points s1x s1y s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML file."
                             "(calling this filter with framePhase 1 typically does no transformation) "
@@ -336,12 +336,12 @@ static void query (void)
 
   g_free(descriptionText);
   descriptionText = g_strdup_printf(_("This filter "
-                          "expects a current path with 4 points as input where point 1 and 2 mark positions "
+                          "expects a current path with 4 points as input where points 1 and 2 mark positions "
                           "within a reference layer and points 3 and 4 mark 2 corresponding point in the target layer. "
                           "The transformation is applied to the target layer and sets offsets, scaling and rotation "
                           "in a way that point3 is placed on position of point1, and point4 is placed on position of point2."
                           " "
-                          "As alternitive this filter also provides exact alignment via Perspective Transformation. "
+                          "As alternative this filter also provides exact alignment via Perspective Transformation. "
                           "Therefore 4 points are required in the current path, and another 4 points are required in an "
                           "additional path that must have the name '%s'. The layer will be transformed in a way "
                           "that all 4 points in the current path will be placed on their corresponding points in the '%s' path."

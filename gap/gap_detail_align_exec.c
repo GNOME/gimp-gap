@@ -1569,11 +1569,11 @@ gap_detail_xml_align_dialog(XmlAlignValues *xaVals)
   argv[ii].constraint = TRUE;
   argv[ii].label_txt = _("PrecisionThreshold:");
   argv[ii].help_txt  = _("Threshold for fine tuning purpose. "
-                         "Iterative calulated coordinates with precision lower than this threshold "
+                         "Iterative calculated coordinates with precision lower than this threshold "
                          "are used for fine tuning probe render attempts. "
-                         "icreasing the threshold results in more probe attempts "
-                         "and makes processng very slow but typically reduces jitter effects."
-                         "Setting the threshold smaller than precision diasbles finetuning probe rendering."
+                         "increasing the threshold results in more probe attempts "
+                         "and makes processing very slow but typically reduces jitter effects. "
+                         "Setting the threshold smaller than precision disables finetuning probe rendering. "
                          "Note that finetuning also depends on the presence of a reference layer "
                          "with layername REF in the 1st handled frame");
   argv[ii].flt_min   = 0.0;
@@ -1631,7 +1631,7 @@ gap_detail_xml_align_dialog(XmlAlignValues *xaVals)
  *            POINT_ORDER_MODE_21_43 : order 0,2,1,3  alternative point order.
  *            POINT_ORDER_MODE_1234_1234: alternative with 2 paths, 
  *                                      using active path as Source mark 4 points in the active layer
- *                                      and sperate path vectors with name "TARGET"
+ *                                      and separate path vectors with name "TARGET"
  *                                        
  */
 static gint
@@ -3679,7 +3679,7 @@ p_refresh_and_update_infoLabel(GtkWidget *widgetDummy, AlignDialogVals *advPtr)
       infoText = g_strdup_printf(_("Current paths are not valid for Perspective transformation:\n"
                             "    For valid transformation 4 points are required\n"
                             "    both in the active path and in another path with the name: %s \n"
-                            "    AND the connection of the 4 points must build up 4 differnt lines.\n"
+                            "    AND the connection of the 4 points must build up 4 different lines.\n"
                             "")
                             , GAP_EXACT_ALIGNER_TARGET_PATH_NAME
                             );
@@ -4091,22 +4091,22 @@ gap_detail_exact_align_via_4point_path(gint32 image_id, gint32 activeDrawableId
     {
       g_message(_("This filter requires a current path with 4 points, "
                 "where point 1 and 2 mark reference positions "
-                "and point 3 and 4 mark positions in the target layer."
+                "and point 3 and 4 mark positions in the target layer. "
                 "It transforms the target layer in a way that "
-                "point3 is moved to point1 and point4 moves to point2."
+                "point3 is moved to point1 and point4 moves to point2. "
                 "(this may include rotate and scale transformation).\n"
-                "A path with 2 points can be used to move point2 to point1."
+                "A path with 2 points can be used to move point2 to point1. "
                 "(via simple move operation without rotate and scale)"));
     }
     else
     {
       g_message(_("This filter requires a current path with 4 points, "
                 "where point 1 and 3 mark reference positions "
-                "and point 2 and 4 mark positions in the target layer."
+                "and point 2 and 4 mark positions in the target layer. "
                 "It transforms the target layer in a way that "
-                "point2 is moved to point1 and point4 moves to point3."
+                "point2 is moved to point1 and point4 moves to point3. "
                 "(this may include rotate and scale transformation).\n"
-                "A path with 2 points can be used to move point2 to point1."
+                "A path with 2 points can be used to move point2 to point1. "
                 "(via simple move operation without rotate and scale)"));
     }
   }
