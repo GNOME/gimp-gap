@@ -2356,7 +2356,7 @@ p_rename_frames(GapAnimInfo *ainfo_ptr, char *newBasenamePtr, gboolean doRename)
     }
     else
     {
-      gimp_progress_init(_("Check Framnames"));
+      gimp_progress_init(_("Check Framenames"));
     }
   }
 

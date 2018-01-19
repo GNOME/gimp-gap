@@ -3612,10 +3612,10 @@ gap_morph_create_dialog(GapMorphGUIParams *mgup)
   gtk_table_attach( GTK_TABLE(table), button, 2, 4, row, row+1,
                     GTK_FILL, 0, 0, 0 );
   gimp_help_set_help_data(button,
-                       _("Create N workpoints following the outline shape of the layer."
-                         "the simple shape detection is looking for non-transparent pixels."
+                       _("Create N workpoints following the outline shape of the layer. "
+                         "The simple shape detection is looking for non-transparent pixels. "
                          "CTRL-click uses an edge detection based shape detection algorithm "
-                         "that is capable to operate on opaque images."
+                         "that is capable to operate on opaque images. "
                          "SHIFT-click: adds the new points and keeps the old points")
                        , NULL);
   gtk_widget_show (button);
@@ -3717,7 +3717,7 @@ gap_morph_create_dialog(GapMorphGUIParams *mgup)
                     mgup);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), mgup->mgpp->use_gravity);
   gimp_help_set_help_data(checkbutton,
-                       _("ON: Descending deform action from workpoint (full) to radius (zero). Descend by power of intensity."
+                       _("ON: Descending deform action from workpoint (full) to radius (zero). Descend by power of intensity. "
                          "OFF: Linear deform action inside the radius")
                        , NULL);
 
@@ -4013,7 +4013,7 @@ gap_morph_create_dialog(GapMorphGUIParams *mgup)
                     mgup);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), mgup->mgpp->use_quality_wp_selection);
   gimp_help_set_help_data(checkbutton,
-                       _("ON: Use quality workpoint selection algorithm."
+                       _("ON: Use quality workpoint selection algorithm. "
                          "OFF: Use fast workpoint selection algorithm.")
                        , NULL);
 

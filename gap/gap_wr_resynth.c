@@ -804,7 +804,7 @@ p_dialog (TransValues *val_ptr, gint32 drawable_id)
     gtk_table_attach (GTK_TABLE (table), combo, 1, 3, row, row+1,
                         (GtkAttachOptions) (GTK_FILL),
                         (GtkAttachOptions) (0), 0, 0);
-    gimp_help_set_help_data (combo, _("Select direction from where get sample pattern"), NULL);
+    gimp_help_set_help_data (combo, _("Select direction from where to get sample pattern"), NULL);
     
     
 

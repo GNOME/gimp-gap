@@ -1065,7 +1065,7 @@ p_dialog (FilterValues *fiVals, gint32 upperLayerId, gint32 lowerLayerId)
   /* add label that describes how to use this filter */
   label = gtk_label_new (_("This filter adjust opacity of a layer\n"
                            "in a way that the combination with the layer below\n"
-                           "matches the brightness of a reference layer)"));
+                           "matches the brightness of a reference layer"));
   gtk_box_pack_start (GTK_BOX (vbox1), label, TRUE, TRUE, 0);
   gtk_widget_show (label);
 
@@ -1113,7 +1113,7 @@ p_dialog (FilterValues *fiVals, gint32 upperLayerId, gint32 lowerLayerId)
   g_object_set_data (G_OBJECT (checkbutton), "oecd", oecd);
   oecd->useRefLayerLumCheckbutton = checkbutton;
   gtk_widget_show (checkbutton);
-  gimp_help_set_help_data (checkbutton, _("ON: use Average Luminance from opaque pixels in the reference layer (ignore Target) OFF: use specified Target Lumninance value"), NULL);
+  gimp_help_set_help_data (checkbutton, _("ON: use Average Luminance from opaque pixels in the reference layer (ignore Target) OFF: use specified Target Luminance value"), NULL);
   gtk_table_attach( GTK_TABLE(table1), checkbutton, 1, 2, row, row+1,
                     GTK_FILL, 0, 0, 0 );
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), oecd->vals->useRefLayerLum);

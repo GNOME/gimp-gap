@@ -488,7 +488,7 @@ gap_edge_create_dialog (GapEdgeDetectGuiParams *edguiPtr)
   gtk_table_attach ( GTK_TABLE (table), check_button, 1, 3, row, row+1, GTK_FILL, 0, 0, 0);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button),
                                 edguiPtr->vals->autoLevels);
-  gimp_help_set_help_data(check_button, _("ON: apply auto strech levels"), NULL);
+  gimp_help_set_help_data(check_button, _("ON: apply auto stretch levels"), NULL);
   gtk_widget_show(check_button);
   edguiPtr->autoLevels_toggle = check_button;
   g_object_set_data(G_OBJECT(check_button), "edguiPtr", edguiPtr);

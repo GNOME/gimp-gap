@@ -4436,7 +4436,7 @@ mov_src_sel_create(t_mov_gui_stuff *mgp)
                           0,                                  /* digits */
                           FALSE,                              /* constrain */
                           (gdouble)-9999.0, (gdouble)9999.0,        /* lower, upper (unconstrained) */
-                          _("Handle Offest X is added to x coordinate in all points"),
+                          _("Handle Offset X is added to x coordinate in all points"),
                           NULL);    /* tooltip privatetip */
   g_object_set_data(G_OBJECT(adj), "mgp", mgp);
   g_signal_connect (G_OBJECT (adj), "value_changed",
@@ -4456,7 +4456,7 @@ mov_src_sel_create(t_mov_gui_stuff *mgp)
                           0,                                  /* digits */
                           FALSE,                              /* constrain */
                           (gdouble)-9999.0, (gdouble)9999.0,        /* lower, upper (unconstrained) */
-                          _("Handle Offest Y is added to y coordinate in all points"),
+                          _("Handle Offset Y is added to y coordinate in all points"),
                           NULL);    /* tooltip privatetip */
   g_object_set_data(G_OBJECT(adj), "mgp", mgp);
   g_signal_connect (G_OBJECT (adj), "value_changed",

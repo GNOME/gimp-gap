@@ -872,7 +872,7 @@ gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr, GapMorp
                     &mgpp->use_quality_wp_selection);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), mgpp->use_quality_wp_selection);
   gimp_help_set_help_data(checkbutton,
-                       _("ON: Use quality workpoint selection algorithm."
+                       _("ON: Use quality workpoint selection algorithm. "
                          "OFF: Use fast workpoint selection algorithm.")
                        , NULL);
   row++;
@@ -888,7 +888,7 @@ gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr, GapMorp
                     &mgpp->overwrite_flag);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), mgpp->overwrite_flag);
   gimp_help_set_help_data(checkbutton,
-                       _("ON: overwrite existing workpointfiles."
+                       _("ON: overwrite existing workpointfiles. "
                          "OFF: Skip workpoint generation or add new generated workpoints (see append checkbutton).")
                        , NULL);
 
@@ -903,7 +903,7 @@ gap_morph_generate_frame_tween_workpoints_dialog(GapAnimInfo *ainfo_ptr, GapMorp
                     &mgpp->append_flag);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), mgpp->append_flag);
   gimp_help_set_help_data(checkbutton,
-                       _("ON: add newly generated workpoints to existing workpointfiles."
+                       _("ON: add newly generated workpoints to existing workpointfiles. "
                          "OFF: Skip workpoint generation for frames where workpointfile already exists.")
                        , NULL);
 
@@ -1167,7 +1167,7 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
     {
       char *msg;
       msg = g_strdup_printf(ngettext("This operation creates %d missing frame between frame %d and %d"
-                                      ,"this operation creates %d missing frames between frame %d and %d"
+                                      ,"This operation creates %d missing frames between frame %d and %d"
                                       ,(int)missingFrames)
                              ,(int)missingFrames
                              ,(int)mgpp->range_from
@@ -1323,7 +1323,7 @@ gap_morph_frame_tweens_dialog(GapAnimInfo *ainfo_ptr, GapMorphGlobalParams *mgpp
                       &mgpp->overwrite_flag);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), mgpp->overwrite_flag);
     gimp_help_set_help_data(checkbutton,
-                         _("ON: overwrite existing frames."
+                         _("ON: overwrite existing frames. "
                            "OFF: skip processing when target frame/tween already exists.")
                          , NULL);
   }
