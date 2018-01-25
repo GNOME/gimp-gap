@@ -1506,7 +1506,11 @@ gap_story_render_audio_new_audiorange_element(GapStoryRenderAudioType  aud_type
                        aud_elem->tmp_audiofile = NULL;
                     }
 
-                    l_errtxt = g_strdup_printf(_("cant use file:  %s as audioinput"), aud_elem->audiofile);
+                    l_errtxt = g_strdup_printf(_("cant use file:  %s as audioinput\n"
+                      "(external converter %s FAILED to resample as WAV format at target samplerate %d)")
+                      , aud_elem->audiofile
+                      , util_sox
+                      , master_samplerate);
                     gap_story_render_set_stb_error(sterr, l_errtxt);
                     g_free(l_errtxt);
                     if(gap_debug)

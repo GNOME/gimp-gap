@@ -1,3 +1,17 @@
+2018-01-25 Wolfgang Hofer <hof@gimp.org>
+
+- master video encoder provides more information in the error message
+  in case creating composite audiofile fails due to problems calling
+  the external audioconverter (sox)
+
+- Support L*A*B colorspace based colordiff methods 
+  DelteE CIE94 and CIEDE2000  in the bluebox filter
+
+ * gap/gap_colordiff.c [.h]
+ * gap/gap_bluebox.c [.h]
+ * gap/gap_bluebox_main.c
+ * gap/gap_story_render_audio.c
+
 2018-01-19 Wolfgang Hofer <hof@gimp.org>
 
 - applied patch provided by Anders Jonsson @ https://bugzilla.gnome.org/show_bug.cgi?id=792549

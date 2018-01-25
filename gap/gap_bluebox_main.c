@@ -70,6 +70,8 @@ static GimpParamDef args_bluebox[] =
     {GIMP_PDB_INT32, "thres_mode",  "0 .. use the 3 threshold values for RGB\n"
                                     "1 .. use the 3 threshold values for HSV\n"
                                     "2 .. use only one simple Threshold\n"
+                                    "4 .. use only one simple Threshold DeltaE CIE94\n"
+                                    "5 .. use only one simple Threshold DeltaE CIEDE2000\n"
                                     "3 .. use all 6 threshold values for HSV and RGB"},
     {GIMP_PDB_FLOAT, "thres_r", "threshold value 0.0 upto 1.0 for RED value   (ignored in thers_modes 1 and 2)"},
     {GIMP_PDB_FLOAT, "thres_g", "threshold value 0.0 upto 1.0 for GREEN value (ignored in thers_modes 1 and 2)"},
