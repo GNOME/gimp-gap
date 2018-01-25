@@ -54,6 +54,7 @@
 #include "gap_lib.h"
 #include "gap_pdb_calls.h"
 #include "gap_bluebox.h"
+#include "gap_colordiff.h"
 
 
 /* instant apply is implemented via timer, configured to fire 10 times per second (100 msec)
@@ -107,6 +108,8 @@ static void       p_color_update_callback(GtkWidget *widget, gpointer val);
 static void       p_radio_thres_RGB_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp);
 static void       p_radio_thres_HSV_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp);
 static void       p_radio_thres_VAL_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp);
+static void       p_radio_thres_E94_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp);
+static void       p_radio_thres_E2000_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp);
 static void       p_radio_thres_ALL_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp);
 static void       p_radio_create_thres_mode(GtkWidget *table, int row, int col, GapBlueboxGlobalParams *bbp);
 static void       p_thres_table_RGB_create(GapBlueboxGlobalParams *bbp, gint row);
@@ -548,6 +551,14 @@ p_reset_callback(GtkWidget *w, GapBlueboxGlobalParams *bbp)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bbp->thres_val_toggle)
                                   ,radio_active);
 
+    radio_active = (bbp->vals.thres_mode == GAP_BLUBOX_THRES_DELTAE_CIE94);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bbp->thres_e94_toggle)
+                                  ,radio_active);
+
+    radio_active = (bbp->vals.thres_mode == GAP_BLUBOX_THRES_DELTAE_CIEDE200);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bbp->thres_e2000_toggle)
+                                  ,radio_active);
+
     radio_active = (bbp->vals.thres_mode == GAP_BLUBOX_THRES_ALL);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bbp->thres_all_toggle)
                                   ,radio_active);
@@ -603,6 +614,8 @@ p_quit_callback(GtkWidget *w, GapBlueboxGlobalParams *bbp)
        bbp->thres_rgb_toggle = NULL;
        bbp->thres_hsv_toggle = NULL;
        bbp->thres_val_toggle = NULL;
+       bbp->thres_e94_toggle = NULL;
+       bbp->thres_e2000_toggle = NULL;
        bbp->thres_all_toggle = NULL;
 
        /* p_quit_callback is the signal handler for the "destroy"
@@ -830,6 +843,34 @@ p_radio_thres_VAL_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp)
 }  /* end p_radio_thres_VAL_callback */
 
 /* ---------------------------------
+ * p_radio_thres_E94_callback
+ * ---------------------------------
+ */
+static void
+p_radio_thres_E94_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp)
+{
+  if((bbp) && (GTK_TOGGLE_BUTTON (widget)->active))
+  {
+    bbp->vals.thres_mode = GAP_BLUBOX_THRES_DELTAE_CIE94;
+    p_thres_table_create_or_replace(bbp);
+  }
+}  /* end p_radio_thres_E94_callback */
+
+/* ---------------------------------
+ * p_radio_thres_E2000_callback
+ * ---------------------------------
+ */
+static void
+p_radio_thres_E2000_callback(GtkWidget *widget, GapBlueboxGlobalParams *bbp)
+{
+  if((bbp) && (GTK_TOGGLE_BUTTON (widget)->active))
+  {
+    bbp->vals.thres_mode = GAP_BLUBOX_THRES_DELTAE_CIEDE200;
+    p_thres_table_create_or_replace(bbp);
+  }
+}  /* end p_radio_thres_E2000_callback */
+
+/* ---------------------------------
  * p_radio_thres_ALL_callback
  * ---------------------------------
  */
@@ -924,15 +965,51 @@ p_radio_create_thres_mode(GtkWidget *table, int row, int col, GapBlueboxGlobalPa
                      G_CALLBACK (p_radio_thres_VAL_callback),
                      bbp);
 
-
   l_idx = 3;
+
+  /* radio button thres_mode DeltaE CIE94 */
+  radio_button = gtk_radio_button_new_with_label ( radio_group, _("E94") );
+  radio_group = gtk_radio_button_get_group ( GTK_RADIO_BUTTON (radio_button) );
+  gtk_table_attach ( GTK_TABLE (radio_table), radio_button, l_idx, l_idx+1, 0, 1
+                   , GTK_FILL | GTK_EXPAND, 0, 0, 0);
+  bbp->thres_e94_toggle = radio_button;
+
+  l_radio_pressed = (bbp->vals.thres_mode == GAP_BLUBOX_THRES_DELTAE_CIE94);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button),
+                                   l_radio_pressed);
+  gimp_help_set_help_data(radio_button, _("Use single threshold value DeltaE CIE94"), NULL);
+
+  gtk_widget_show (radio_button);
+  g_signal_connect ( G_OBJECT (radio_button), "toggled",
+                     G_CALLBACK (p_radio_thres_E94_callback),
+                     bbp);
+  l_idx = 4;
+
+  /* radio button thres_mode DeltaE CIEDE2000 */
+  radio_button = gtk_radio_button_new_with_label ( radio_group, _("E2000") );
+  radio_group = gtk_radio_button_get_group ( GTK_RADIO_BUTTON (radio_button) );
+  gtk_table_attach ( GTK_TABLE (radio_table), radio_button, l_idx, l_idx+1, 0, 1
+                   , GTK_FILL | GTK_EXPAND, 0, 0, 0);
+  bbp->thres_e2000_toggle = radio_button;
+
+  l_radio_pressed = (bbp->vals.thres_mode == GAP_BLUBOX_THRES_DELTAE_CIEDE200);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button),
+                                   l_radio_pressed);
+  gimp_help_set_help_data(radio_button, _("Use single threshold value DeltaE CIEDE2000"), NULL);
+
+  gtk_widget_show (radio_button);
+  g_signal_connect ( G_OBJECT (radio_button), "toggled",
+                     G_CALLBACK (p_radio_thres_E2000_callback),
+                     bbp);
+
+  l_idx = 5;
 
   /* radio button thres_mode ALL */
   radio_button = gtk_radio_button_new_with_label ( radio_group, _("ALL") );
   radio_group = gtk_radio_button_get_group ( GTK_RADIO_BUTTON (radio_button) );
   gtk_table_attach ( GTK_TABLE (radio_table), radio_button, l_idx, l_idx+1, 0, 1
                    , GTK_FILL | GTK_EXPAND, 0, 0, 0);
-  bbp->thres_val_toggle = radio_button;
+  bbp->thres_all_toggle = radio_button;
 
   l_radio_pressed = (bbp->vals.thres_mode == GAP_BLUBOX_THRES_VAL);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button),
@@ -1139,6 +1216,9 @@ p_thres_table_create_or_replace(GapBlueboxGlobalParams *bbp)
      p_thres_table_HSV_create(bbp, 0);
      break;
    case GAP_BLUBOX_THRES_VAL:
+   case GAP_BLUBOX_THRES_DELTAE_CIE94:
+   case GAP_BLUBOX_THRES_DELTAE_CIEDE200:
+     /* modes operating with a single threshold value */
      p_thres_table_VAL_create(bbp);
      break;
    case GAP_BLUBOX_THRES_ALL:
@@ -1377,11 +1457,59 @@ p_check_VAL_thres (GimpRGB       *src,
 }  /* end p_check_VAL_thres */
 
 /* ---------------------------------
+ * p_check_DeltaE_thres
+ * ---------------------------------
+ */
+static inline gdouble
+p_check_DeltaE_thres (guchar       *srcPixelPtr,
+              GapBlueboxGlobalParams *bbp)
+{
+  gdouble l_maxdiff;
+  guchar  keycolor[4];
+
+  /* convert keycolor to uchar 
+   * TODO: for  better performance GapBlueboxGlobalParams shall provide a L*A*B colorspace representation (of type GapColorLAB) 
+   *   of the keycolor, and there should be additional colordiff methods capable to compare uchar RGB 255 versus  GapColorLAB
+   */
+  gimp_rgba_get_uchar (&bbp->vals.keycolor, &keycolor[0], &keycolor[1], &keycolor[2], &keycolor[3]);
+
+  if (bbp->vals.thres_mode == GAP_BLUBOX_THRES_DELTAE_CIE94)
+  {
+    l_maxdiff = gap_colordiff_LabDeltaE94(srcPixelPtr
+                   , &keycolor[0]
+                   , FALSE /* gboolean debugPrint */
+                   );
+  }
+  else
+  {
+    l_maxdiff = gap_colordiff_LabDeltaE2000(srcPixelPtr
+                   , &keycolor[0]
+                   , FALSE /* gboolean debugPrint */
+                   );
+  }
+
+  if(l_maxdiff > bbp->vals.thres)                       { return 1.0; }
+
+  if(bbp->vals.tolerance > 0)
+  {
+    gdouble aa;
+
+    aa = (l_maxdiff / bbp->vals.thres);
+    if (aa >= bbp->inv_tolerance)
+    {
+      return ((aa - bbp->inv_tolerance) * (1 / bbp->inv_tolerance));
+    }
+  }
+
+  return 0.0;
+}  /* end p_check_DeltaE_thres */
+
+/* ---------------------------------
  * p_pixel_render_alpha
  * ---------------------------------
  */
 static inline void
-p_pixel_render_alpha (GimpRGB       *src,
+p_pixel_render_alpha (GimpRGB       *src,  guchar *srcPixelPtr,
               GapBlueboxGlobalParams *bbp)
 {
  if(src->a >= bbp->vals.source_alpha)
@@ -1398,6 +1526,12 @@ p_pixel_render_alpha (GimpRGB       *src,
        break;
      case GAP_BLUBOX_THRES_VAL:
        col_diff = p_check_VAL_thres(src, bbp);
+       break;
+     case GAP_BLUBOX_THRES_DELTAE_CIE94:
+       col_diff = p_check_DeltaE_thres(srcPixelPtr, bbp);
+       break;
+     case GAP_BLUBOX_THRES_DELTAE_CIEDE200:
+       col_diff = p_check_DeltaE_thres(srcPixelPtr, bbp);
        break;
      case GAP_BLUBOX_THRES_ALL:
        col_diff = MAX(p_check_HSV_thres(src, bbp), p_check_RGB_thres(src, bbp));
@@ -1425,9 +1559,9 @@ p_toalpha_func (const guchar *src,
   GapBlueboxGlobalParams *bbp;
 
   bbp = (GapBlueboxGlobalParams *)data;
-
+  
   gimp_rgba_set_uchar (&color, src[0], src[1], src[2], src[3]);
-  p_pixel_render_alpha (&color, bbp);
+  p_pixel_render_alpha (&color, src, bbp);
   gimp_rgba_get_uchar (&color, &dest[0], &dest[1], &dest[2], &dest[3]);
 }  /* end p_toalpha_func */
 

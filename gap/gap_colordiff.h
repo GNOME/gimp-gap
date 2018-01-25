@@ -40,6 +40,13 @@
 
 #define GAP_COLORDIFF_DEFAULT_SENSITIVITY 1.35
 
+
+typedef struct GapColorLAB {
+   gdouble      L; 
+   gdouble      A; 
+   gdouble      B; 
+} GapColorLAB;
+
 /* ---------------------------------
  * gap_colordiff_GimpHSV
  * ---------------------------------
@@ -151,6 +158,8 @@ gap_colordiff_simple_guchar(guchar *aPixelPtr
  * Note: 
  * this procedure uses an HSV colormodel based
  * Algorithm and calculates difference as max HSV difference.
+ * 
+ * DEPRECATED
  *
  */
 gdouble
@@ -165,11 +174,47 @@ gap_colordiff_hvmax_guchar(guchar *aPixelPtr
  * ---------------------------------
  * returns difference of 2 colors as gdouble value
  * in range 0.0 (exact match) to 1.0 (maximal difference)
+ * 
+ * DEPRECATED
  */
 gdouble
 gap_colordiff_hvmax_GimpHSV(GimpHSV *aHsvPtr
                   , GimpHSV *bHsvPtr
                   , gboolean debugPrint);
+
+
+
+
+/* ---------------------------------
+ * p_convert_rgb8_to_Lab
+ * ---------------------------------
+ * 
+ */
+void     
+p_convert_rgb8_to_Lab(guchar *pixelPtrRgb8, GapColorLAB *lab);
+
+
+/* ---------------------------------
+ * gap_colordiff_LabDeltaE2000
+ * ---------------------------------
+ * 
+ */
+gdouble  
+gap_colordiff_LabDeltaE2000(guchar *aPixelPtr
+                   , guchar *bPixelPtr
+                   , gboolean debugPrint
+                   );                   
+
+/* ---------------------------------
+ * gap_colordiff_LabDeltaE94
+ * ---------------------------------
+ * 
+ */
+gdouble 
+gap_colordiff_LabDeltaE94(guchar *aPixelPtr
+                   , guchar *bPixelPtr
+                   , gboolean debugPrint
+                   );
                   
 
 #endif
