@@ -13,15 +13,15 @@
 # Francisco Vila <francisco.vila@hispalinux.es>, 2011, 2012.
 # 
 # Edilzar Cisneros Ancheyta <edy.cisneros1893@gmail,com>,com>, 2016.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015., 2016, 2017.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015., 2016, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-06-02 11:34+0000\n"
-"PO-Revision-Date: 2017-08-11 11:56+0200\n"
+"POT-Creation-Date: 2018-01-25 13:01+0000\n"
+"PO-Revision-Date: 2018-02-19 18:53+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -537,7 +537,8 @@ msgid "Rename Frames"
 msgstr "Renombrar fotogramas"
 
 #: ../gap/gap_base_ops.c:2359
-msgid "Check Framnames"
+#| msgid "Check Framnames"
+msgid "Check Framenames"
 msgstr "Comprobar nombres de fotogramas"
 
 #: ../gap/gap_base_ops.c:2477
@@ -547,12 +548,10 @@ msgstr "Renombrar fotogramas (%ld)"
 
 #: ../gap/gap_base_ops.c:2479
 #, c-format
-#| msgid "Framenames:"
 msgid "Old FrameName: %s"
 msgstr "Nombres antiguo del fotograma: %s"
 
 #: ../gap/gap_base_ops.c:2486
-#| msgid "New Layer Name"
 msgid "New FrameName"
 msgstr "Nombre del fotograma nuevo"
 
@@ -733,27 +732,27 @@ msgid "Select output svg vector file via browser"
 msgstr "Seleccionar el archivo de vectores SVG de salida mediante el navegador"
 
 #. toggle bluebox
-#: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:4513
+#: ../gap/gap_bluebox.c:254 ../gap/gap_mov_dialog.c:4513
 msgid "Bluebox"
 msgstr "Bluebox"
 
 #. the frame
-#: ../gap/gap_bluebox.c:273
+#: ../gap/gap_bluebox.c:276
 msgid "Select By Color"
 msgstr "Seleccionar por color"
 
 #. the keycolor label
 #. keycolor label
-#: ../gap/gap_bluebox.c:288 ../gap/gap_mov_dialog.c:4530
+#: ../gap/gap_bluebox.c:291 ../gap/gap_mov_dialog.c:4530
 msgid "Keycolor:"
 msgstr "Color de clave:"
 
 #. the keycolor button
-#: ../gap/gap_bluebox.c:294
+#: ../gap/gap_bluebox.c:297
 msgid "Bluebox Color Picker"
 msgstr "Escogedor de color bluebox"
 
-#: ../gap/gap_bluebox.c:318
+#: ../gap/gap_bluebox.c:321
 msgid "Alpha Tolerance:"
 msgstr "Tolerancia alfa:"
 
@@ -762,7 +761,7 @@ msgstr "Tolerancia alfa:"
 #. digits
 #. constrain
 #. lower/upper unconstrained
-#: ../gap/gap_bluebox.c:325
+#: ../gap/gap_bluebox.c:328
 msgid ""
 "Sharp pixel selection by color with 0.0. Values greater than 0 give the "
 "selection more or less variable alpha value, depending on disparity with the "
@@ -772,7 +771,7 @@ msgstr ""
 "la selección con más o menos valor alfa dependiendo de la diferencia con el "
 "color de clave"
 
-#: ../gap/gap_bluebox.c:337
+#: ../gap/gap_bluebox.c:340
 msgid "Source Alpha:"
 msgstr "Alfa del origen:"
 
@@ -781,13 +780,13 @@ msgstr "Alfa del origen:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:344
+#: ../gap/gap_bluebox.c:347
 msgid "Affect only pixels with alpha >= source alpha where 1.0 is full opaque"
 msgstr ""
 "Afectar sólo a píxeles con alfa >= alfa de origen donde 1.0 es completamente "
 "opaco"
 
-#: ../gap/gap_bluebox.c:355
+#: ../gap/gap_bluebox.c:358
 msgid "Target Alpha:"
 msgstr "Alfa del destino:"
 
@@ -796,24 +795,24 @@ msgstr "Alfa del destino:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:362
+#: ../gap/gap_bluebox.c:365
 msgid ""
 "Set alpha of affected pixel to target alpha where 0.0 is full transparent"
 msgstr ""
 "Establecer alfa del píxel afectado para alfa destino donde 0.0 es "
 "completamente transparente"
 
-#: ../gap/gap_bluebox.c:373
+#: ../gap/gap_bluebox.c:376
 msgid "Feather Edges:"
 msgstr "Difuminado de los bordes:"
 
-#: ../gap/gap_bluebox.c:384
+#: ../gap/gap_bluebox.c:387
 msgid "ON: Feather edges using feather radius"
 msgstr "ACTIVADO: difuminar los bordes usando el radio de difuminado"
 
 #. accelaration characteristic for feather radius
 #. table col, row
-#: ../gap/gap_bluebox.c:394 ../gap/gap_colormask_dialog.c:407
+#: ../gap/gap_bluebox.c:397 ../gap/gap_colormask_dialog.c:407
 #: ../gap/gap_mov_dialog.c:5852
 msgid "Feather Radius:"
 msgstr "Radio de difuminado:"
@@ -823,11 +822,11 @@ msgstr "Radio de difuminado:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:401
+#: ../gap/gap_bluebox.c:404
 msgid "Feather radius for smoothing the alpha channel"
 msgstr "Radio de difuminado para suavizar el canal alfa"
 
-#: ../gap/gap_bluebox.c:411
+#: ../gap/gap_bluebox.c:414
 msgid "Shrink/Grow:"
 msgstr "Encoger/Agrandar:"
 
@@ -836,30 +835,30 @@ msgstr "Encoger/Agrandar:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:418
+#: ../gap/gap_bluebox.c:421
 msgid "Grow selection in pixels (use negative values for shrink)"
 msgstr "Agrandar selección en píxeles (usar valores negativos para encoger)"
 
-#: ../gap/gap_bluebox.c:427 ../gap/gap_edge_detection_dialog.c:623
+#: ../gap/gap_bluebox.c:430 ../gap/gap_edge_detection_dialog.c:623
 msgid "Automatic Preview:"
 msgstr "Vista previa automática:"
 
-#: ../gap/gap_bluebox.c:438 ../gap/gap_edge_detection_dialog.c:634
+#: ../gap/gap_bluebox.c:441 ../gap/gap_edge_detection_dialog.c:634
 msgid "ON: Keep preview image up to date"
 msgstr "ACTIVADO: mantener actualizada la imagen de vista previa"
 
 #. button
 #. the preview frame
-#: ../gap/gap_bluebox.c:447 ../gap/gap_edge_detection_dialog.c:643
+#: ../gap/gap_bluebox.c:450 ../gap/gap_edge_detection_dialog.c:643
 #: ../gap/gap_mov_dialog.c:6178
 msgid "Preview"
 msgstr "Vista previa"
 
-#: ../gap/gap_bluebox.c:450 ../gap/gap_edge_detection_dialog.c:646
+#: ../gap/gap_bluebox.c:453 ../gap/gap_edge_detection_dialog.c:646
 msgid "Show preview as separate image"
 msgstr "Mostrar vista previa como imagen separada"
 
-#: ../gap/gap_bluebox.c:458 ../gap/gap_edge_detection_dialog.c:654
+#: ../gap/gap_bluebox.c:461 ../gap/gap_edge_detection_dialog.c:654
 msgid "Previewsize:"
 msgstr "Tamaño de la vista previa:"
 
@@ -868,52 +867,72 @@ msgstr "Tamaño de la vista previa:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:465 ../gap/gap_edge_detection_dialog.c:661
+#: ../gap/gap_bluebox.c:468 ../gap/gap_edge_detection_dialog.c:661
 msgid "Size of the preview image in percent of the original"
 msgstr ""
 "Tamaño de la imagen de vista previa en porcentaje respecto del original"
 
-#: ../gap/gap_bluebox.c:860
+#: ../gap/gap_bluebox.c:901
 msgid "Threshold Mode:"
 msgstr "Modo umbral:"
 
 #. radio button thres_mode RGB
-#: ../gap/gap_bluebox.c:870
+#: ../gap/gap_bluebox.c:911
 msgid "RGB"
 msgstr "RGB"
 
-#: ../gap/gap_bluebox.c:879
+#: ../gap/gap_bluebox.c:920
 msgid "Apply thresholds in the RGB colormodel"
 msgstr "Aplicar umbrales en el modelo de color RGB"
 
 #. radio button thres_mode HSV
-#: ../gap/gap_bluebox.c:890
+#: ../gap/gap_bluebox.c:931
 msgid "HSV"
 msgstr "HSV"
 
-#: ../gap/gap_bluebox.c:899
+#: ../gap/gap_bluebox.c:940
 msgid "Apply thresholds in the HSV colormodel"
 msgstr "Aplicar umbrales en el modo de color HSV"
 
 #. radio button thres_mode VAL
-#: ../gap/gap_bluebox.c:911
+#: ../gap/gap_bluebox.c:952
 msgid "VALUE"
 msgstr "VALOR"
 
-#: ../gap/gap_bluebox.c:920
+#: ../gap/gap_bluebox.c:961
 msgid "Use single threshold value"
 msgstr "Usar un valor umbral único"
 
+#. radio button thres_mode DeltaE CIE94
+#: ../gap/gap_bluebox.c:971
+msgid "E94"
+msgstr "E94"
+
+#: ../gap/gap_bluebox.c:980
+#| msgid "Use single threshold value"
+msgid "Use single threshold value DeltaE CIE94"
+msgstr "Usar un valor umbral único DeltaE CIE94"
+
+#. radio button thres_mode DeltaE CIEDE2000
+#: ../gap/gap_bluebox.c:989
+msgid "E2000"
+msgstr "E2000"
+
+#: ../gap/gap_bluebox.c:998
+#| msgid "Use single threshold value"
+msgid "Use single threshold value DeltaE CIEDE2000"
+msgstr "Usar un valor umbral único DeltaE CIEDE2000"
+
 #. radio button thres_mode ALL
-#: ../gap/gap_bluebox.c:931
+#: ../gap/gap_bluebox.c:1008
 msgid "ALL"
 msgstr "TODO"
 
-#: ../gap/gap_bluebox.c:940
+#: ../gap/gap_bluebox.c:1017
 msgid "Use both HSV and RGB threshold values"
 msgstr "Usar valores umbral tanto HSV como RGB"
 
-#: ../gap/gap_bluebox.c:966
+#: ../gap/gap_bluebox.c:1043
 msgid "Threshold R:"
 msgstr "Umbral R:"
 
@@ -922,11 +941,11 @@ msgstr "Umbral R:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:973
+#: ../gap/gap_bluebox.c:1050
 msgid "Threshold for red channel"
 msgstr "Umbral para el canal rojo"
 
-#: ../gap/gap_bluebox.c:983
+#: ../gap/gap_bluebox.c:1060
 msgid "Threshold G:"
 msgstr "Umbral G:"
 
@@ -935,11 +954,11 @@ msgstr "Umbral G:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:990
+#: ../gap/gap_bluebox.c:1067
 msgid "Threshold for green channel"
 msgstr "Umbral para el canal verde"
 
-#: ../gap/gap_bluebox.c:1001
+#: ../gap/gap_bluebox.c:1078
 msgid "Threshold B:"
 msgstr "Umbral B:"
 
@@ -948,11 +967,11 @@ msgstr "Umbral B:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1008
+#: ../gap/gap_bluebox.c:1085
 msgid "Threshold for blue channel"
 msgstr "Umbral para el canal azul"
 
-#: ../gap/gap_bluebox.c:1028
+#: ../gap/gap_bluebox.c:1105
 msgid "Threshold H:"
 msgstr "Umbral H"
 
@@ -961,11 +980,11 @@ msgstr "Umbral H"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1035
+#: ../gap/gap_bluebox.c:1112
 msgid "Threshold for hue"
 msgstr "Umbral para el tono"
 
-#: ../gap/gap_bluebox.c:1045
+#: ../gap/gap_bluebox.c:1122
 msgid "Threshold S:"
 msgstr "Umbral S:"
 
@@ -974,11 +993,11 @@ msgstr "Umbral S:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1052
+#: ../gap/gap_bluebox.c:1129
 msgid "Threshold for saturation"
 msgstr "Umbral para saturación"
 
-#: ../gap/gap_bluebox.c:1063
+#: ../gap/gap_bluebox.c:1140
 msgid "Threshold V:"
 msgstr "Umbral V:"
 
@@ -987,11 +1006,11 @@ msgstr "Umbral V:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1070
+#: ../gap/gap_bluebox.c:1147
 msgid "Threshold for value"
 msgstr "Umbral para el valor"
 
-#: ../gap/gap_bluebox.c:1092
+#: ../gap/gap_bluebox.c:1169
 msgid "Threshold:"
 msgstr "Umbral:"
 
@@ -1000,28 +1019,28 @@ msgstr "Umbral:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1099
+#: ../gap/gap_bluebox.c:1176
 msgid "Common color threshold"
 msgstr "Umbral común de color"
 
-#: ../gap/gap_bluebox.c:1511
+#: ../gap/gap_bluebox.c:1645
 #, c-format
 msgid "Error: Image '%s' not found"
 msgstr "Error: no es encuentra la imagen «%s»"
 
-#: ../gap/gap_bluebox.c:1519
+#: ../gap/gap_bluebox.c:1653
 msgid "Error: Bluebox effect operates only on layers"
 msgstr "Error: el efecto bluebox opera sólo en capas"
 
-#: ../gap/gap_bluebox.c:1528
+#: ../gap/gap_bluebox.c:1662
 msgid "Error: Bluebox effect operates only on RGB layers"
 msgstr "Error: el efecto bluebox opera sólo en capas RGB"
 
-#: ../gap/gap_bluebox.c:1612
+#: ../gap/gap_bluebox.c:1746
 msgid "BlueboxPreview.xcf"
 msgstr "BlueboxPreview.xcf"
 
-#: ../gap/gap_bluebox.c:1613 ../gap/gap_edge_detection_dialog.c:1202
+#: ../gap/gap_bluebox.c:1747 ../gap/gap_edge_detection_dialog.c:1202
 msgid "Previewlayer"
 msgstr "Capa de vista previa"
 
@@ -1032,18 +1051,18 @@ msgstr "Capa de vista previa"
 #. * at the bottom of the layerstack
 #. * (and scale to preview size when sizes are different)
 #.
-#: ../gap/gap_bluebox.c:1642 ../gap/gap_edge_detection_dialog.c:1225
+#: ../gap/gap_bluebox.c:1776 ../gap/gap_edge_detection_dialog.c:1225
 msgid "Masterlayer"
 msgstr "Capa maestra"
 
-#: ../gap/gap_bluebox_main.c:180
+#: ../gap/gap_bluebox_main.c:182
 msgid "Bluebox ..."
 msgstr "Bluebox…"
 
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
 #. Menu names
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
-#: ../gap/gap_bluebox_main.c:187 ../gap/gap_main.c:965
+#: ../gap/gap_bluebox_main.c:189 ../gap/gap_main.c:965
 #: ../gap/gap_mov_main.c:380 ../gap/gap_navigator_dialog.c:552
 #: ../gap/gap_player_main.c:299 ../gap/gap_story_main.c:215
 #: ../vid_common/gap_cme_main.c:168
@@ -2048,11 +2067,11 @@ msgstr "Umbral de precisión:"
 
 #: ../gap/gap_detail_align_exec.c:1571
 msgid ""
-"Threshold for fine tuning purpose. Iterative calulated coordinates with "
+"Threshold for fine tuning purpose. Iterative calculated coordinates with "
 "precision lower than this threshold are used for fine tuning probe render "
-"attempts. icreasing the threshold results in more probe attempts and makes "
-"processng very slow but typically reduces jitter effects.Setting the "
-"threshold smaller than precision diasbles finetuning probe rendering.Note "
+"attempts. increasing the threshold results in more probe attempts and makes "
+"processing very slow but typically reduces jitter effects. Setting the "
+"threshold smaller than precision disables finetuning probe rendering. Note "
 "that finetuning also depends on the presence of a reference layer with "
 "layername REF in the 1st handled frame"
 msgstr ""
@@ -2127,7 +2146,7 @@ msgid ""
 "Current paths are not valid for Perspective transformation:\n"
 "    For valid transformation 4 points are required\n"
 "    both in the active path and in another path with the name: %s \n"
-"    AND the connection of the 4 points must build up 4 differnt lines.\n"
+"    AND the connection of the 4 points must build up 4 different lines.\n"
 msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3699
@@ -2164,11 +2183,6 @@ msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3737
 #, c-format
-#| msgid ""
-#| "This filter requires a current path with 4 or 2 points\n"
-#| "It can transform and/or move the current layer according to such path "
-#| "coordinate points.\n"
-#| "Please create a path and press the Refresh button."
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "and a path with name: %s with same number of points.\n"
@@ -2239,12 +2253,20 @@ msgstr ""
 "El objetivo está marcado por la ruta con nombre: %s puntos 1,2,3,4"
 
 #: ../gap/gap_detail_align_exec.c:4092
+#| msgid ""
+#| "This filter requires a current path with 4 points, where point 1 and 2 "
+#| "mark reference positions and point 3 and 4 mark positions in the target "
+#| "layer.It transforms the target layer in a way that point3 is moved to "
+#| "point1 and point4 moves to point2.(this may include rotate and scale "
+#| "transformation).\n"
+#| "A path with 2 points can be used to move point2 to point1.(via simple "
+#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
-"reference positions and point 3 and 4 mark positions in the target layer.It "
+"reference positions and point 3 and 4 mark positions in the target layer. It "
 "transforms the target layer in a way that point3 is moved to point1 and "
-"point4 moves to point2.(this may include rotate and scale transformation).\n"
-"A path with 2 points can be used to move point2 to point1.(via simple move "
+"point4 moves to point2. (this may include rotate and scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
 "Este filtro requiere una ruta actual con 4 puntos, de los cuales el 1 y el 2 "
@@ -2256,12 +2278,20 @@ msgstr ""
 "medio de una operación de traslación simple sin rotación y escalado)"
 
 #: ../gap/gap_detail_align_exec.c:4103
+#| msgid ""
+#| "This filter requires a current path with 4 points, where point 1 and 3 "
+#| "mark reference positions and point 2 and 4 mark positions in the target "
+#| "layer.It transforms the target layer in a way that point2 is moved to "
+#| "point1 and point4 moves to point3.(this may include rotate and scale "
+#| "transformation).\n"
+#| "A path with 2 points can be used to move point2 to point1.(via simple "
+#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
-"reference positions and point 2 and 4 mark positions in the target layer.It "
+"reference positions and point 2 and 4 mark positions in the target layer. It "
 "transforms the target layer in a way that point2 is moved to point1 and "
-"point4 moves to point3.(this may include rotate and scale transformation).\n"
-"A path with 2 points can be used to move point2 to point1.(via simple move "
+"point4 moves to point3. (this may include rotate and scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
 "Este filtro requiere una ruta actual con 4 puntos, de los cuales el 1 y el 3 "
@@ -2455,14 +2485,14 @@ msgstr "Seguimiento de detalles:"
 #, c-format
 msgid ""
 "optional fine tuning is triggered when the frame image has an additional "
-"Layer with the special name '%s.' in this case the transformation is done in "
-"more probe variants with slightly different values and the result is "
+"Layer with the special name '%s.'. In this case the transformation is done "
+"in more probe variants with slightly different values and the result is "
 "compared with the opaque areas in the '%s.' layer for final rendering, the "
-"variant is picked that has the minumum difference in the compared areas The "
+"variant is picked that has the minimum difference in the compared areas. The "
 "performance intensive fine tuning is intended to reduce unwanted jitter "
 "effects with minimal amplitude of just 1 pixel or below when alignment is "
-"applied to many frames of a videoclip for stabilsation purpose. The the "
-"'%s.' layer shall have a layer mask that marks comparable background white "
+"applied to many frames of a videoclip for stabilization purposes. The '%s.' "
+"layer shall have a layer mask that marks comparable background white "
 "(opaque). "
 msgstr ""
 
@@ -2471,14 +2501,14 @@ msgstr ""
 msgid ""
 "This video frame stabilisation filter transforms the specified layer. It "
 "uses the relevant controlpoint (that matches the framePhase parameter) in "
-"the recorded XML file as input.  and calculates offsts, scaling and rotation "
-"or perspective corner points to transform the layer in a way that the points "
-"p1x p1y p2x p2y (p3x p3y p4x p4y) will exactly match with the points s1x s1y "
-"s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML file.(calling "
-"this filter with framePhase 1 typically does no transformation) This filter "
-"is intended to run under control of the gimp-gap frames modify feature to "
-"align multiple frames according to the controlpoints recorded in an XML file "
-"(via Detail tracking feature).%s"
+"the recorded XML file as input.  and calculates offsets, scaling and "
+"rotation or perspective corner points to transform the layer in a way that "
+"the points p1x p1y p2x p2y (p3x p3y p4x p4y) will exactly match with the "
+"points s1x s1y s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML "
+"file.(calling this filter with framePhase 1 typically does no "
+"transformation) This filter is intended to run under control of the gimp-gap "
+"frames modify feature to align multiple frames according to the "
+"controlpoints recorded in an XML file (via Detail tracking feature).%s"
 msgstr ""
 
 #: ../gap/gap_detail_tracking_main.c:329
@@ -2488,12 +2518,12 @@ msgstr "Transformación de alineación mediante un archivo XML…"
 #: ../gap/gap_detail_tracking_main.c:338
 #, c-format
 msgid ""
-"This filter expects a current path with 4 points as input where point 1 and "
+"This filter expects a current path with 4 points as input where points 1 and "
 "2 mark positions within a reference layer and points 3 and 4 mark 2 "
 "corresponding point in the target layer. The transformation is applied to "
 "the target layer and sets offsets, scaling and rotation in a way that point3 "
 "is placed on position of point1, and point4 is placed on position of point2. "
-"As alternitive this filter also provides exact alignment via Perspective "
+"As alternative this filter also provides exact alignment via Perspective "
 "Transformation. Therefore 4 points are required in the current path, and "
 "another 4 points are required in an additional path that must have the name "
 "'%s'. The layer will be transformed in a way that all 4 points in the "
@@ -2638,7 +2668,7 @@ msgid "Auto Levels:"
 msgstr "Niveles automáticos:"
 
 #: ../gap/gap_edge_detection_dialog.c:491
-msgid "ON: apply auto strech levels"
+msgid "ON: apply auto stretch levels"
 msgstr ""
 
 #: ../gap/gap_edge_detection_dialog.c:502
@@ -4055,7 +4085,6 @@ msgid "Resize selected layer(s) to image size"
 msgstr "Redimensionar las capas seleccionadas al tamaño de la imagen"
 
 #: ../gap/gap_mod_layer_dialog.c:1122
-#| msgid "Replace selection (source is the active frame)"
 msgid "Resize layer(s) to selection (active frame)"
 msgstr "Redimensionar capas al tamaño de la selección (fotograma activo)"
 
@@ -4066,7 +4095,6 @@ msgid "Resize selected layer(s) to selection bounds of the active frame"
 msgstr "Reemplazar la selección (el origen es el fotograma activo)"
 
 #: ../gap/gap_mod_layer_dialog.c:1129
-#| msgid "Save selection to channel (individual per frame)"
 msgid "Resize layer(s) to selection (individual per frame)"
 msgstr "Redimensionar capas a la selección (individual por fotograma)"
 
@@ -4533,11 +4561,16 @@ msgid "Shape"
 msgstr "Forma"
 
 #: ../gap/gap_morph_dialog.c:3615
+#| msgid ""
+#| "Create N workpoints following the outline shape of the layer.the simple "
+#| "shape detection is looking for non-transparent pixels.CTRL-click uses an "
+#| "edge detection based shape detection algorithm that is capable to operate "
+#| "on opaque images.SHIFT-click: adds the new points and keeps the old points"
 msgid ""
-"Create N workpoints following the outline shape of the layer.the simple "
-"shape detection is looking for non-transparent pixels.CTRL-click uses an "
+"Create N workpoints following the outline shape of the layer. The simple "
+"shape detection is looking for non-transparent pixels. CTRL-click uses an "
 "edge detection based shape detection algorithm that is capable to operate on "
-"opaque images.SHIFT-click: adds the new points and keeps the old points"
+"opaque images. SHIFT-click: adds the new points and keeps the old points"
 msgstr ""
 "Crear N puntos de trabajo siguiendo la forma del contorno de la capa. (la "
 "detección simple de la forma busca píxeles no transparentes). CTRL-pulsación "
@@ -4573,13 +4606,16 @@ msgid "Use Intensity"
 msgstr "Usar intensidad"
 
 #: ../gap/gap_morph_dialog.c:3720
+#| msgid ""
+#| "ON: Descending deform action from workpoint (full) to radius (zero). "
+#| "Descend by power of intensity.OFF: Linear deform action inside the radius"
 msgid ""
 "ON: Descending deform action from workpoint (full) to radius (zero). Descend "
-"by power of intensity.OFF: Linear deform action inside the radius"
+"by power of intensity. OFF: Linear deform action inside the radius"
 msgstr ""
 "ON: Acción de deformación descendiente desde el punto de trabajo (completo) "
 "hasta el radio (cero). Descender por potencia de intensidad. OFF Acción de "
-"deformación lineal dentre del radio"
+"deformación lineal dentro del radio"
 
 #. the tween_steps label
 #: ../gap/gap_morph_dialog.c:3754
@@ -4696,8 +4732,11 @@ msgid "Quality"
 msgstr "Calidad"
 
 #: ../gap/gap_morph_dialog.c:4016 ../gap/gap_morph_tween_dialog.c:875
+#| msgid ""
+#| "ON: Use quality workpoint selection algorithm.OFF: Use fast workpoint "
+#| "selection algorithm."
 msgid ""
-"ON: Use quality workpoint selection algorithm.OFF: Use fast workpoint "
+"ON: Use quality workpoint selection algorithm. OFF: Use fast workpoint "
 "selection algorithm."
 msgstr ""
 "ACTIVADO: usar el algoritmo de calidad de selección del punto de trabajo. "
@@ -5000,8 +5039,11 @@ msgid "Locate ColordiffEdge Threshold:"
 msgstr "Umbral de ubicación/borde de diferencia de colores:"
 
 #: ../gap/gap_morph_tween_dialog.c:891
+#| msgid ""
+#| "ON: overwrite existing workpointfiles.OFF: Skip workpoint generation or "
+#| "add new generated workpoints (see append checkbutton)."
 msgid ""
-"ON: overwrite existing workpointfiles.OFF: Skip workpoint generation or add "
+"ON: overwrite existing workpointfiles. OFF: Skip workpoint generation or add "
 "new generated workpoints (see append checkbutton)."
 msgstr ""
 "ACTIVADO: sobrescribir los archivos de puntos de trabajo existentes. "
@@ -5015,8 +5057,11 @@ msgid "Append"
 msgstr "Añadir"
 
 #: ../gap/gap_morph_tween_dialog.c:906
+#| msgid ""
+#| "ON: add newly generated workpoints to existing workpointfiles.OFF: Skip "
+#| "workpoint generation for frames where workpointfile already exists."
 msgid ""
-"ON: add newly generated workpoints to existing workpointfiles.OFF: Skip "
+"ON: add newly generated workpoints to existing workpointfiles. OFF: Skip "
 "workpoint generation for frames where workpointfile already exists."
 msgstr ""
 "ACTIVADO: añadir puntos de trabajo generados a los archivos de puntos de "
@@ -5044,10 +5089,13 @@ msgstr "Información:"
 
 #: ../gap/gap_morph_tween_dialog.c:1169
 #, c-format
+#| msgid "This operation creates %d missing frame between frame %d and %d"
+#| msgid_plural ""
+#| "this operation creates %d missing frames between frame %d and %d"
 msgid "This operation creates %d missing frame between frame %d and %d"
-msgid_plural "this operation creates %d missing frames between frame %d and %d"
+msgid_plural "This operation creates %d missing frames between frame %d and %d"
 msgstr[0] ""
-"Esta operación genera %d fotograma perdidos entre los fotogramas %d y %d"
+"Esta operación genera %d fotograma perdido entre los fotogramas %d y %d"
 msgstr[1] ""
 "esta operación genera %d fotogramas perdidos entre los fotogramas %d y %d"
 
@@ -5118,12 +5166,15 @@ msgstr ""
 "individuales por cada fotograma se denominan por la extensión .morphpoints)"
 
 #: ../gap/gap_morph_tween_dialog.c:1326
+#| msgid ""
+#| "ON: overwrite existing frames.OFF: skip processing when target frame/"
+#| "tween already exists."
 msgid ""
-"ON: overwrite existing frames.OFF: skip processing when target frame/tween "
+"ON: overwrite existing frames. OFF: skip processing when target frame/tween "
 "already exists."
 msgstr ""
 "ACTIVADO: sobrescribir los fotogramas existentes. DESACTIVADO: omitir el "
-"procesamiento cuando ya existen el fotograma o el tween de destino."
+"procesamiento cuando ya existen el fotograma o el «tween» de destino."
 
 #. the master progress bar
 #. master progress
@@ -5551,7 +5602,7 @@ msgstr "dX:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4439
-msgid "Handle Offest X is added to x coordinate in all points"
+msgid "Handle Offset X is added to x coordinate in all points"
 msgstr ""
 
 #. Handle Offset Y
@@ -5569,7 +5620,7 @@ msgstr "dY:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4459
-msgid "Handle Offest Y is added to y coordinate in all points"
+msgid "Handle Offset Y is added to y coordinate in all points"
 msgstr ""
 
 #: ../gap/gap_mov_dialog.c:4518
@@ -7307,12 +7358,10 @@ msgid "White (fully opaque)"
 msgstr "Blanca (completamente opaca)"
 
 #: ../gap/gap_onion_dialog.c:1285
-#| msgid "Ignore selection (in all source images)"
 msgid "From Selection (in current image)"
 msgstr "Desde la selección (e la imágen actual)"
 
 #: ../gap/gap_onion_dialog.c:1286
-#| msgid "Ignore selection (in all source images)"
 msgid "Clipped from Selection (in current image) "
 msgstr "Recortado de la selección (en la imágen actual) "
 
@@ -7438,7 +7487,6 @@ msgid "Keep active layer"
 msgstr "Mantener capa activa"
 
 #: ../gap/gap_onion_dialog.c:1487
-#| msgid "Set Layer Opacity"
 msgid "Set Onion layer active"
 msgstr "Establecer capa de cebolla opacidad"
 
@@ -7520,11 +7568,10 @@ msgstr ""
 msgid ""
 "This filter adjust opacity of a layer\n"
 "in a way that the combination with the layer below\n"
-"matches the brightness of a reference layer)"
+"matches the brightness of a reference layer"
 msgstr ""
 
 #: ../gap/gap_opacity_exposure_main.c:1082
-#| msgid "Target Alpha:"
 msgid "Target Luminance:"
 msgstr "Luminosidad del destino:"
 
@@ -7534,19 +7581,17 @@ msgstr ""
 
 #. use reference layer's average luminance checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1104
-#| msgid "New Layer"
 msgid "Use RefLayer:"
 msgstr "Usar RefLayer:"
 
 #: ../gap/gap_opacity_exposure_main.c:1116
 msgid ""
 "ON: use Average Luminance from opaque pixels in the reference layer (ignore "
-"Target) OFF: use specified Target Lumninance value"
+"Target) OFF: use specified Target Luminance value"
 msgstr ""
 
 #. use reference layer as mask checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1127
-#| msgid "Keep Layer Mask"
 msgid "Use RefLayer as Mask:"
 msgstr "Usar RefLayer como mácara:"
 
@@ -7556,7 +7601,6 @@ msgstr ""
 
 #. the reference layer label and combo
 #: ../gap/gap_opacity_exposure_main.c:1151
-#| msgid "Frame Reference:"
 msgid "Exposure Reference Layer"
 msgstr "Capa de referencia de exposición"
 
@@ -10627,57 +10671,65 @@ msgstr ""
 "característica de aceleración para el marco de filtrado (1 para velocidad "
 "constante; positivo: aceleración; negativo: ralentización)"
 
-#: ../gap/gap_story_render_audio.c:466
+#: ../gap/gap_story_render_audio.c:472
 #, c-format
 msgid "cant load:  %s to memory"
 msgstr "No se puede cargar: «%s» a memoria"
 
-#: ../gap/gap_story_render_audio.c:851
+#: ../gap/gap_story_render_audio.c:857
 #, c-format
 msgid "extracting audio to tmp audiofile"
 msgstr "extrayendo sonido a archivo temporal"
 
-#: ../gap/gap_story_render_audio.c:856
+#: ../gap/gap_story_render_audio.c:862
 #, c-format
 msgid "seeking audio"
 msgstr "buscando sonido"
 
-#: ../gap/gap_story_render_audio.c:1128
+#: ../gap/gap_story_render_audio.c:1134
 #, c-format
 msgid "file not found:  %s for audioinput"
 msgstr "archivo no encontrado: «%s» para entrada de sonido"
 
-#: ../gap/gap_story_render_audio.c:1307 ../gap/gap_story_render_audio.c:1454
+#: ../gap/gap_story_render_audio.c:1313 ../gap/gap_story_render_audio.c:1460
 #, c-format
 msgid "converting audio (via external program)"
 msgstr "convirtiendo sonido (mediante un programa externo)"
 
-#: ../gap/gap_story_render_audio.c:1373 ../gap/gap_story_render_audio.c:1503
+#: ../gap/gap_story_render_audio.c:1379
 #, c-format
 msgid "cant use file:  %s as audioinput"
 msgstr "no se puede usar archivo: «%s» como entrada de sonido"
 
-#: ../gap/gap_story_render_audio.c:1390
+#: ../gap/gap_story_render_audio.c:1396
 #, c-format
 msgid "ERROR file: %s is not a supported videoformat"
 msgstr "Error en archivo: «%s» no es un formato de vídeo admitido"
 
-#: ../gap/gap_story_render_audio.c:1645
+#: ../gap/gap_story_render_audio.c:1509
+#, c-format
+msgid ""
+"cant use file:  %s as audioinput\n"
+"(external converter %s FAILED to resample as WAV format at target samplerate "
+"%d)"
+msgstr ""
+
+#: ../gap/gap_story_render_audio.c:1655
 #, c-format
 msgid "checking audio peaks"
 msgstr "comprobando picos de sonido"
 
-#: ../gap/gap_story_render_audio.c:1679
+#: ../gap/gap_story_render_audio.c:1689
 #, c-format
 msgid "writing composite audiofile"
 msgstr "escribiendo archivo de sonido compuesto"
 
-#: ../gap/gap_story_render_audio.c:1698
+#: ../gap/gap_story_render_audio.c:1708
 #, c-format
 msgid "cant write audio to file: %s "
 msgstr "no se puede guardar el sonido en archivo: «%s» "
 
-#: ../gap/gap_story_render_audio.c:1710 ../vid_common/gap_cme_gui.c:1500
+#: ../gap/gap_story_render_audio.c:1720 ../vid_common/gap_cme_gui.c:1500
 #: ../vid_common/gap_cme_gui.c:1666
 #, c-format
 msgid "ready"
@@ -11609,7 +11661,6 @@ msgstr "Seleccionar un sombreado gris basado en:"
 
 #. Shades the label
 #: ../gap/gap_wr_desaturate.c:492
-#| msgid "Shadows"
 msgid "Shades:"
 msgstr "Sombrea:"
 
@@ -11690,12 +11741,12 @@ msgstr ""
 
 #. the directionParam label
 #: ../gap/gap_wr_resynth.c:784
-#| msgid "Samples:"
 msgid "Sample from:"
 msgstr "Muestra desde:"
 
 #: ../gap/gap_wr_resynth.c:807
-msgid "Select direction from where get sample pattern"
+#| msgid "Select direction from where get sample pattern"
+msgid "Select direction from where to get sample pattern"
 msgstr "Seleccionar la dirección de la que obtener un patrón de muestra"
 
 #. the directionParam label
