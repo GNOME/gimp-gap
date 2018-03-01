@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: gimp-plugins 1.0\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-04-25 13:28+0000\n"
-"PO-Revision-Date: 2017-05-01 12:03+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"POT-Creation-Date: 2018-02-25 18:20+0000\n"
+"PO-Revision-Date: 2018-03-01 09:19+0200\n"
+"Last-Translator: Spingos Dimitris(Σπίγγος Δημήτρης) <dmtrs32@gmail.com>\n"
 "Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Project-Style: gnome\n"
 
 #
@@ -525,29 +525,24 @@ msgstr "Νέα αρίθμηση πλαισίων 2ου περάσματος"
 
 #
 #: ../gap/gap_base_ops.c:2355 ../gap/gap_base_ops.c:2496
-#| msgid "Renumber Frames"
 msgid "Rename Frames"
 msgstr "Μετονομασία πλαισίων"
 
 #: ../gap/gap_base_ops.c:2359
-#| msgid "Framenames:"
-msgid "Check Framnames"
+msgid "Check Framenames"
 msgstr "Έλεγχος ονομάτων πλαισίων"
 
 #: ../gap/gap_base_ops.c:2477
 #, c-format
-#| msgid "Renumber Frames (%ld)"
 msgid "Rename Frames (%ld)"
 msgstr "Μετονομασία πλαισίων (%ld)"
 
 #: ../gap/gap_base_ops.c:2479
 #, c-format
-#| msgid "Framenames:"
 msgid "Old FrameName: %s"
 msgstr "Παλιό ΌνομαΠλαισίου: %s"
 
 #: ../gap/gap_base_ops.c:2486
-#| msgid "New Layer Name"
 msgid "New FrameName"
 msgstr "Νέο ΌνομαΠλαισίου"
 
@@ -742,27 +737,27 @@ msgstr "Επιλογή εξόδου αρχείου διανύσματος svg μ
 
 #
 #. toggle bluebox
-#: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:4513
+#: ../gap/gap_bluebox.c:254 ../gap/gap_mov_dialog.c:4513
 msgid "Bluebox"
 msgstr "Γαλάζιο κουτί"
 
 #. the frame
-#: ../gap/gap_bluebox.c:273
+#: ../gap/gap_bluebox.c:276
 msgid "Select By Color"
 msgstr "Επιλογή κατά χρώμα"
 
 #. the keycolor label
 #. keycolor label
-#: ../gap/gap_bluebox.c:288 ../gap/gap_mov_dialog.c:4530
+#: ../gap/gap_bluebox.c:291 ../gap/gap_mov_dialog.c:4530
 msgid "Keycolor:"
 msgstr "Χρώμα-κλειδί:"
 
 #. the keycolor button
-#: ../gap/gap_bluebox.c:294
+#: ../gap/gap_bluebox.c:297
 msgid "Bluebox Color Picker"
 msgstr "Επιλογέας χρώματος Bluebox"
 
-#: ../gap/gap_bluebox.c:318
+#: ../gap/gap_bluebox.c:321
 msgid "Alpha Tolerance:"
 msgstr "Ανοχή άλφα:"
 
@@ -771,7 +766,7 @@ msgstr "Ανοχή άλφα:"
 #. digits
 #. constrain
 #. lower/upper unconstrained
-#: ../gap/gap_bluebox.c:325
+#: ../gap/gap_bluebox.c:328
 msgid ""
 "Sharp pixel selection by color with 0.0. Values greater than 0 give the "
 "selection more or less variable alpha value, depending on disparity with the "
@@ -781,7 +776,7 @@ msgstr ""
 "δίνουν στην επιλογή περισσότερο ή λιγότερο μεταβλητή τιμή άλφα, που "
 "εξαρτάται από το χρώμα-κλειδί."
 
-#: ../gap/gap_bluebox.c:337
+#: ../gap/gap_bluebox.c:340
 msgid "Source Alpha:"
 msgstr "Πηγή άλφα:"
 
@@ -790,13 +785,13 @@ msgstr "Πηγή άλφα:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:344
+#: ../gap/gap_bluebox.c:347
 msgid "Affect only pixels with alpha >= source alpha where 1.0 is full opaque"
 msgstr ""
 "Επηρεάζει μόνο τα εικονοστοιχεία με άλφα >= πηγή άλφα όπου 1.0 είναι πλήρως "
 "αδιαφανές"
 
-#: ../gap/gap_bluebox.c:355
+#: ../gap/gap_bluebox.c:358
 msgid "Target Alpha:"
 msgstr "Στόχος άλφα:"
 
@@ -805,24 +800,24 @@ msgstr "Στόχος άλφα:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:362
+#: ../gap/gap_bluebox.c:365
 msgid ""
 "Set alpha of affected pixel to target alpha where 0.0 is full transparent"
 msgstr ""
 "Ορισμός άλφα των επηρεαζόμενου εικονοστοιχείου στο στόχο άλφα, όπου 0.0 "
 "είναι πλήρως διαφανές"
 
-#: ../gap/gap_bluebox.c:373
+#: ../gap/gap_bluebox.c:376
 msgid "Feather Edges:"
 msgstr "Άμβλυνση άκρων:"
 
-#: ../gap/gap_bluebox.c:384
+#: ../gap/gap_bluebox.c:387
 msgid "ON: Feather edges using feather radius"
 msgstr "ΕΝΕΡΓΟ: Άμβλυνση άκρων χρησιμοποιώντας ακτίνα άμβλυνσης"
 
 #. accelaration characteristic for feather radius
 #. table col, row
-#: ../gap/gap_bluebox.c:394 ../gap/gap_colormask_dialog.c:407
+#: ../gap/gap_bluebox.c:397 ../gap/gap_colormask_dialog.c:407
 #: ../gap/gap_mov_dialog.c:5852
 msgid "Feather Radius:"
 msgstr "Ακτίνα άμβλυνσης:"
@@ -832,11 +827,11 @@ msgstr "Ακτίνα άμβλυνσης:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:401
+#: ../gap/gap_bluebox.c:404
 msgid "Feather radius for smoothing the alpha channel"
 msgstr "Ακτίνα απάλυνσης για εξομάλυνση άλφα καναλιού"
 
-#: ../gap/gap_bluebox.c:411
+#: ../gap/gap_bluebox.c:414
 msgid "Shrink/Grow:"
 msgstr "Συρρίκνωση/επέκταση:"
 
@@ -845,34 +840,34 @@ msgstr "Συρρίκνωση/επέκταση:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:418
+#: ../gap/gap_bluebox.c:421
 msgid "Grow selection in pixels (use negative values for shrink)"
 msgstr ""
 "Επέκταση επιλογής σε εικονοστοιχεία (χρήση αρνητικών τιμών για συρρίκνωση)"
 
 #
-#: ../gap/gap_bluebox.c:427 ../gap/gap_edge_detection_dialog.c:623
+#: ../gap/gap_bluebox.c:430 ../gap/gap_edge_detection_dialog.c:623
 msgid "Automatic Preview:"
 msgstr "Αυτόματη προεπισκόπηση:"
 
-#: ../gap/gap_bluebox.c:438 ../gap/gap_edge_detection_dialog.c:634
+#: ../gap/gap_bluebox.c:441 ../gap/gap_edge_detection_dialog.c:634
 msgid "ON: Keep preview image up to date"
 msgstr "ΕΝΕΡΓΟ: Διατήρηση προεπισκόπησης εικόνας ενημερωμένης"
 
 #
 #. button
 #. the preview frame
-#: ../gap/gap_bluebox.c:447 ../gap/gap_edge_detection_dialog.c:643
+#: ../gap/gap_bluebox.c:450 ../gap/gap_edge_detection_dialog.c:643
 #: ../gap/gap_mov_dialog.c:6178
 msgid "Preview"
 msgstr "Προεπισκόπηση"
 
-#: ../gap/gap_bluebox.c:450 ../gap/gap_edge_detection_dialog.c:646
+#: ../gap/gap_bluebox.c:453 ../gap/gap_edge_detection_dialog.c:646
 msgid "Show preview as separate image"
 msgstr "Εμφάνιση προεπισκόπησης ως ξεχωριστής εικόνας"
 
 #
-#: ../gap/gap_bluebox.c:458 ../gap/gap_edge_detection_dialog.c:654
+#: ../gap/gap_bluebox.c:461 ../gap/gap_edge_detection_dialog.c:654
 msgid "Previewsize:"
 msgstr "Μέγεθος προεπισκόπησης:"
 
@@ -881,51 +876,69 @@ msgstr "Μέγεθος προεπισκόπησης:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:465 ../gap/gap_edge_detection_dialog.c:661
+#: ../gap/gap_bluebox.c:468 ../gap/gap_edge_detection_dialog.c:661
 msgid "Size of the preview image in percent of the original"
 msgstr "Μέγεθος της εικόνας προεπισκόπησης ως ποσοστό της αρχικής"
 
-#: ../gap/gap_bluebox.c:860
+#: ../gap/gap_bluebox.c:901
 msgid "Threshold Mode:"
 msgstr "Κατάσταση κατωφλιού:"
 
 #. radio button thres_mode RGB
-#: ../gap/gap_bluebox.c:870
+#: ../gap/gap_bluebox.c:911
 msgid "RGB"
 msgstr "RGB (κόκκινο/πράσινο/μπλε)"
 
-#: ../gap/gap_bluebox.c:879
+#: ../gap/gap_bluebox.c:920
 msgid "Apply thresholds in the RGB colormodel"
 msgstr "Εφαρμογή κατωφλίων στο χρωματικό πρότυπο RGB"
 
 #. radio button thres_mode HSV
-#: ../gap/gap_bluebox.c:890
+#: ../gap/gap_bluebox.c:931
 msgid "HSV"
 msgstr "HSV"
 
-#: ../gap/gap_bluebox.c:899
+#: ../gap/gap_bluebox.c:940
 msgid "Apply thresholds in the HSV colormodel"
 msgstr "Εφαρμογή κατωφλίων στο χρωματικό πρότυπο HSV"
 
 #. radio button thres_mode VAL
-#: ../gap/gap_bluebox.c:911
+#: ../gap/gap_bluebox.c:952
 msgid "VALUE"
 msgstr "ΤΙΜΗ"
 
-#: ../gap/gap_bluebox.c:920
+#: ../gap/gap_bluebox.c:961
 msgid "Use single threshold value"
 msgstr "Χρήση απλής τιμής κατωφλίου"
 
+#. radio button thres_mode DeltaE CIE94
+#: ../gap/gap_bluebox.c:971
+msgid "E94"
+msgstr "E94"
+
+#: ../gap/gap_bluebox.c:980
+msgid "Use single threshold value DeltaE CIE94"
+msgstr "Χρήση απλής τιμής κατωφλίου DeltaE CIE94"
+
+#. radio button thres_mode DeltaE CIEDE2000
+#: ../gap/gap_bluebox.c:989
+msgid "E2000"
+msgstr "E2000"
+
+#: ../gap/gap_bluebox.c:998
+msgid "Use single threshold value DeltaE CIEDE2000"
+msgstr "Χρήση απλής τιμής κατωφλίου DeltaE CIEDE2000"
+
 #. radio button thres_mode ALL
-#: ../gap/gap_bluebox.c:931
+#: ../gap/gap_bluebox.c:1008
 msgid "ALL"
 msgstr "ΟΛΑ"
 
-#: ../gap/gap_bluebox.c:940
+#: ../gap/gap_bluebox.c:1017
 msgid "Use both HSV and RGB threshold values"
 msgstr "Χρήση τιμών κατωφλίου και HSV και RGB"
 
-#: ../gap/gap_bluebox.c:966
+#: ../gap/gap_bluebox.c:1043
 msgid "Threshold R:"
 msgstr "Κατώφλι R:"
 
@@ -934,11 +947,11 @@ msgstr "Κατώφλι R:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:973
+#: ../gap/gap_bluebox.c:1050
 msgid "Threshold for red channel"
 msgstr "Κατώφλι για κόκκινο κανάλι"
 
-#: ../gap/gap_bluebox.c:983
+#: ../gap/gap_bluebox.c:1060
 msgid "Threshold G:"
 msgstr "Κατώφλι G:"
 
@@ -947,11 +960,11 @@ msgstr "Κατώφλι G:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:990
+#: ../gap/gap_bluebox.c:1067
 msgid "Threshold for green channel"
 msgstr "Κατώφλι για πράσινο κανάλι"
 
-#: ../gap/gap_bluebox.c:1001
+#: ../gap/gap_bluebox.c:1078
 msgid "Threshold B:"
 msgstr "Κατώφλι B:"
 
@@ -960,11 +973,11 @@ msgstr "Κατώφλι B:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1008
+#: ../gap/gap_bluebox.c:1085
 msgid "Threshold for blue channel"
 msgstr "Κατώφλι για μπλε κανάλι"
 
-#: ../gap/gap_bluebox.c:1028
+#: ../gap/gap_bluebox.c:1105
 msgid "Threshold H:"
 msgstr "Κατώφλι H:"
 
@@ -973,11 +986,11 @@ msgstr "Κατώφλι H:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1035
+#: ../gap/gap_bluebox.c:1112
 msgid "Threshold for hue"
 msgstr "Κατώφλι απόχρωσης"
 
-#: ../gap/gap_bluebox.c:1045
+#: ../gap/gap_bluebox.c:1122
 msgid "Threshold S:"
 msgstr "Κατώφλι S:"
 
@@ -986,11 +999,11 @@ msgstr "Κατώφλι S:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1052
+#: ../gap/gap_bluebox.c:1129
 msgid "Threshold for saturation"
 msgstr "Κατώφλι για κορεσμό"
 
-#: ../gap/gap_bluebox.c:1063
+#: ../gap/gap_bluebox.c:1140
 msgid "Threshold V:"
 msgstr "Κατώφλι V:"
 
@@ -999,11 +1012,11 @@ msgstr "Κατώφλι V:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1070
+#: ../gap/gap_bluebox.c:1147
 msgid "Threshold for value"
 msgstr "Κατώφλι τιμής"
 
-#: ../gap/gap_bluebox.c:1092
+#: ../gap/gap_bluebox.c:1169
 msgid "Threshold:"
 msgstr "Κατώφλι:"
 
@@ -1012,29 +1025,29 @@ msgstr "Κατώφλι:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1099
+#: ../gap/gap_bluebox.c:1176
 msgid "Common color threshold"
 msgstr "Κοινό κόκκινο κατώφλι"
 
-#: ../gap/gap_bluebox.c:1511
+#: ../gap/gap_bluebox.c:1645
 #, c-format
 msgid "Error: Image '%s' not found"
 msgstr "Σφάλμα: Η εικόνα '%s' δεν βρέθηκε"
 
-#: ../gap/gap_bluebox.c:1519
+#: ../gap/gap_bluebox.c:1653
 msgid "Error: Bluebox effect operates only on layers"
 msgstr "Σφάλμα: Το εφέ μπλε κουτιού λειτουργεί μόνο σε στρώσεις"
 
-#: ../gap/gap_bluebox.c:1528
+#: ../gap/gap_bluebox.c:1662
 msgid "Error: Bluebox effect operates only on RGB layers"
 msgstr "Σφάλμα: Το εφέ μπλε κουτιού λειτουργεί μόνο σε στρώσεις RGB"
 
-#: ../gap/gap_bluebox.c:1612
+#: ../gap/gap_bluebox.c:1746
 msgid "BlueboxPreview.xcf"
 msgstr "BlueboxPreview.xcf"
 
 #
-#: ../gap/gap_bluebox.c:1613 ../gap/gap_edge_detection_dialog.c:1202
+#: ../gap/gap_bluebox.c:1747 ../gap/gap_edge_detection_dialog.c:1202
 msgid "Previewlayer"
 msgstr "Προεπισκόπηση στρώσης"
 
@@ -1045,19 +1058,19 @@ msgstr "Προεπισκόπηση στρώσης"
 #. * at the bottom of the layerstack
 #. * (and scale to preview size when sizes are different)
 #.
-#: ../gap/gap_bluebox.c:1642 ../gap/gap_edge_detection_dialog.c:1225
+#: ../gap/gap_bluebox.c:1776 ../gap/gap_edge_detection_dialog.c:1225
 msgid "Masterlayer"
 msgstr "Κύρια στρώση"
 
 #
-#: ../gap/gap_bluebox_main.c:180
+#: ../gap/gap_bluebox_main.c:182
 msgid "Bluebox ..."
 msgstr "Μπλε κουτί ..."
 
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
 #. Menu names
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
-#: ../gap/gap_bluebox_main.c:187 ../gap/gap_main.c:965
+#: ../gap/gap_bluebox_main.c:189 ../gap/gap_main.c:965
 #: ../gap/gap_mov_main.c:380 ../gap/gap_navigator_dialog.c:552
 #: ../gap/gap_player_main.c:299 ../gap/gap_story_main.c:215
 #: ../vid_common/gap_cme_main.c:168
@@ -2052,7 +2065,6 @@ msgstr ""
 "συντεταγμένες. (καταχωρούμενες με τη ιδιότητα παρακολούθησης λεπτομέρειας)."
 
 #: ../gap/gap_detail_align_exec.c:1551
-#| msgid "MB Decision:"
 msgid "Precision:"
 msgstr "Ακρίβεια:"
 
@@ -2066,27 +2078,26 @@ msgstr ""
 "περισσότερες επαναλήψεις στον υπολογισμό)"
 
 #: ../gap/gap_detail_align_exec.c:1570
-#| msgid "Threshold:"
 msgid "PrecisionThreshold:"
 msgstr "ΚατώφλιΑκρίβειας:"
 
 #: ../gap/gap_detail_align_exec.c:1571
 msgid ""
-"Threshold for fine tuning purpose. Iterative calulated coordinates with "
+"Threshold for fine tuning purpose. Iterative calculated coordinates with "
 "precision lower than this threshold are used for fine tuning probe render "
-"attempts. icreasing the threshold results in more probe attempts and makes "
-"processng very slow but typically reduces jitter effects.Setting the "
-"threshold smaller than precision diasbles finetuning probe rendering.Note "
+"attempts. increasing the threshold results in more probe attempts and makes "
+"processing very slow but typically reduces jitter effects. Setting the "
+"threshold smaller than precision disables finetuning probe rendering. Note "
 "that finetuning also depends on the presence of a reference layer with "
 "layername REF in the 1st handled frame"
 msgstr ""
-"Κατώφλι με σκοπό τη μικρορύθμιση. Επαναληπτικές υπολογιζόμενες συντεταγμένες "
-"με ακρίβεια πιο μικρή από αυτό το κατώφλι χρησιμοποιούνται για προσπάθειες "
-"απόδοσης ανιχνευτή μικρορύθμισης. Η αύξηση του κατωφλίου έχει ως αποτέλεσμα "
-"περισσότερες προσπάθειες ανιχνευτή και καθιστά τη διεργασία πολύ αργή, αλλά "
-"συνήθως μειώνει τα αποτελέσματα τρέμουλου. Ο ορισμός του κατωφλίου σε τιμή "
-"μικρότερη από την ακρίβεια απενεργοποιεί την απόδοση ανιχνευτή "
-"μικρορύθμισης. Σημειώστε ότι η μικρορύθμιση εξαρτάται επίσης από την "
+"Κατώφλι με σκοπό τη μικρορρύθμιση. Επαναληπτικές υπολογιζόμενες "
+"συντεταγμένες με ακρίβεια πιο μικρή από αυτό το κατώφλι χρησιμοποιούνται για "
+"προσπάθειες απόδοσης ανιχνευτή μικρορρύθμισης. Η αύξηση του κατωφλίου έχει "
+"ως αποτέλεσμα περισσότερες προσπάθειες ανιχνευτή και καθιστά τη διεργασία "
+"πολύ αργή, αλλά συνήθως μειώνει τα αποτελέσματα τρέμουλου. Ο ορισμός του "
+"κατωφλίου σε πιο μικρό από την ακρίβεια απενεργοποιεί την απόδοση ανιχνευτή "
+"μικρορρύθμισης. Σημειώστε ότι η μικρορρύθμιση εξαρτάται επίσης από την "
 "παρουσία μιας στρώσης αναφοράς με όνομα στρώσης REF στο πρώτο επεξεργαζόμενο "
 "πλαίσιο."
 
@@ -2131,7 +2142,6 @@ msgstr ""
 "Πατήστε Εντάξει για το επόμενο βήμα της επανάληψης.\n"
 
 #: ../gap/gap_detail_align_exec.c:2786 ../gap/gap_detail_align_exec.c:3224
-#| msgid "Detail Align via XML"
 msgid "Detail Align FineTuning PAUSED"
 msgstr "Η μικρορύθμιση στοίχισης λεπτομερειών σε παύση"
 
@@ -2173,24 +2183,16 @@ msgid ""
 "Current paths are not valid for Perspective transformation:\n"
 "    For valid transformation 4 points are required\n"
 "    both in the active path and in another path with the name: %s \n"
-"    AND the connection of the 4 points must build up 4 differnt lines.\n"
+"    AND the connection of the 4 points must build up 4 different lines.\n"
 msgstr ""
 "Τα τρέχοντα μονοπάτια δεν είναι έγκυρα για προοπτικό μετασχηματισμό:\n"
 "    Για έγκυρο μετασχηματισμό απαιτούνται 4 σημεία\n"
 "    και στο ενεργό μονοπάτι και σε ένα άλλο μονοπάτι με το όνομα: %s \n"
-"   ΚΑΙ η σύνδεση των 4 points πρέπει να δημιουργήσει 4 διαφορετικές "
+"   ΚΑΙ η σύνδεση των 4 σημείων πρέπει να δημιουργήσει 4 διαφορετικές "
 "γραμμές.\n"
 
 #: ../gap/gap_detail_align_exec.c:3699
 #, c-format
-#| msgid ""
-#| "Current path with 4 point triggers transformations:\n"
-#| "    Rotation:   %.4f (degree)\n"
-#| "    Scale:      %.1f (%%)\n"
-#| "    Movement X: %.0f (pixels)\n"
-#| "    Movement Y: %.0f (pixels)\n"
-#| "Press OK button to transform the layer\n"
-#| "in a way that point3 moves to point1 and point4 moves to point2"
 msgid ""
 "Current path with 4 point triggers transformations:\n"
 "    Rotation:   %.4f (degree)\n"
@@ -2210,12 +2212,6 @@ msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3721
 #, c-format
-#| msgid ""
-#| "Current path with 2 points triggers simple move:\n"
-#| "    Movement X: %.0f (pixels)\n"
-#| "    Movement Y: %.0f (pixels)\n"
-#| "Press OK button to move the layer\n"
-#| "in a way that point2 moves to point1"
 msgid ""
 "Current path with 2 points triggers simple move:\n"
 "    Movement X: %.0f (pixels)\n"
@@ -2231,11 +2227,6 @@ msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3737
 #, c-format
-#| msgid ""
-#| "This filter requires a current path with 4 or 2 points\n"
-#| "It can transform and/or move the current layer according to such path "
-#| "coordinate points.\n"
-#| "Please create a path and press the Refresh button."
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "and a path with name: %s with same number of points.\n"
@@ -2249,11 +2240,6 @@ msgstr ""
 "ανανέωση.\n"
 
 #: ../gap/gap_detail_align_exec.c:3748
-#| msgid ""
-#| "This filter requires a current path with 4 or 2 points\n"
-#| "It can transform and/or move the current layer according to such path "
-#| "coordinate points.\n"
-#| "Please create a path and press the Refresh button."
 msgid ""
 "This filter requires a current path with 4 or 2 points\n"
 "It can transform and/or move the current layer according to such path "
@@ -2281,9 +2267,6 @@ msgstr "Σειρά σημείων μονοπατιού:"
 #. Order Mode the radio buttons
 #: ../gap/gap_detail_align_exec.c:3930
 #, c-format
-#| msgid ""
-#| "( 3 --> 1 )  ( 4 --> 2 )\n"
-#| "Target is marked by points 1&2 "
 msgid ""
 "( 3 --> 1 )  ( 4 --> 2 )\n"
 "Source is marked by current path points 3&4\n"
@@ -2295,9 +2278,6 @@ msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:3946
 #, c-format
-#| msgid ""
-#| "( 3 --> 1 )  ( 4 --> 2 )\n"
-#| "Target is marked by points 1&2 "
 msgid ""
 "( 2 --> 1 )  ( 4 --> 3 )\n"
 "Source is marked by current path points 2&4\n"
@@ -2321,10 +2301,10 @@ msgstr ""
 #: ../gap/gap_detail_align_exec.c:4092
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
-"reference positions and point 3 and 4 mark positions in the target layer.It "
+"reference positions and point 3 and 4 mark positions in the target layer. It "
 "transforms the target layer in a way that point3 is moved to point1 and "
-"point4 moves to point2.(this may include rotate and scale transformation).\n"
-"A path with 2 points can be used to move point2 to point1.(via simple move "
+"point4 moves to point2. (this may include rotate and scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
 "Αυτό το φίλτρο απαιτεί ένα τρέχον μονοπάτι με 4 σημεία, όπου τα σημεία 1 και "
@@ -2339,15 +2319,15 @@ msgstr ""
 #: ../gap/gap_detail_align_exec.c:4103
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
-"reference positions and point 2 and 4 mark positions in the target layer.It "
+"reference positions and point 2 and 4 mark positions in the target layer. It "
 "transforms the target layer in a way that point2 is moved to point1 and "
-"point4 moves to point3.(this may include rotate and scale transformation).\n"
-"A path with 2 points can be used to move point2 to point1.(via simple move "
+"point4 moves to point3. (this may include rotate and scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
 "Αυτό το φίλτρο απαιτεί ένα τρέχον μονοπάτι με 4 σημεία, όπου τα σημεία 1 και "
-"3 σημειώνουν θέσεις αναφοράς και σημεία 2 και 4 σημειώνουν θέσεις στη στρώση "
-"στόχου. Μετασχηματίζει τη στρώση στόχου κατά τρόπο που το σημείο2 "
+"3 σημειώνουν θέσεις αναφοράς και τα σημεία 2 και 4 σημειώνουν θέσεις στη "
+"στρώση στόχου. Μετασχηματίζει τη στρώση στόχου κατά τρόπο που το σημείο2 "
 "μετακινείται στο σημείο1 και το σημείο4 μετακινείται στο σημείο3. (αυτό "
 "μπορεί να συμπεριλάβει μετασχηματισμό περιστροφής και κλιμάκωσης).\n"
 "Ένα μονοπάτι με 2 σημεία μπορεί να χρησιμοποιηθεί για μετακίνηση του "
@@ -2472,7 +2452,6 @@ msgstr ""
 "ΟΧΙ: Διατήρηση όλων των στρώσεων."
 
 #: ../gap/gap_detail_tracking_exec.c:3466
-#| msgid "Transform:"
 msgid "add Transformed Layer:"
 msgstr "Προσθήκη μετασχηματισμένης στρώσης:"
 
@@ -2545,24 +2524,24 @@ msgstr "Παρακολούθηση λεπτομέρειας"
 #, c-format
 msgid ""
 "optional fine tuning is triggered when the frame image has an additional "
-"Layer with the special name '%s.' in this case the transformation is done in "
-"more probe variants with slightly different values and the result is "
+"Layer with the special name '%s.'. In this case the transformation is done "
+"in more probe variants with slightly different values and the result is "
 "compared with the opaque areas in the '%s.' layer for final rendering, the "
-"variant is picked that has the minumum difference in the compared areas The "
+"variant is picked that has the minimum difference in the compared areas. The "
 "performance intensive fine tuning is intended to reduce unwanted jitter "
 "effects with minimal amplitude of just 1 pixel or below when alignment is "
-"applied to many frames of a videoclip for stabilsation purpose. The the "
-"'%s.' layer shall have a layer mask that marks comparable background white "
+"applied to many frames of a videoclip for stabilization purposes. The '%s.' "
+"layer shall have a layer mask that marks comparable background white "
 "(opaque). "
 msgstr ""
-"Η προαιρετική μικρορύθιση προκαλείται όταν η εικόνα πλαισίου έχει μια "
-"πρόσθετη στρώση με το ειδικό όνομα '%s.' Σε αυτήν την περίπτωση ο "
+"Η προαιρετική μικρορρύθιση προκαλείται όταν η εικόνα πλαισίου έχει μια "
+"πρόσθετη στρώση με το ειδικό όνομα '%s.'. Σε αυτήν την περίπτωση ο "
 "μετασχηματισμός γίνεται σε περισσότερες παραλλαγές του ανιχνευτή με ελαφρά "
 "διαφορετικές τιμές και το αποτέλεσμα συγκρίνεται με τις αδιαφανείς περιοχές "
 "στη στρώση '%s.' για τελική απόδοση, η παραλλαγή επιλέγεται έτσι ώστε να "
-"έχει την ελάχιστη διαφορά στις συγκρινόμενες περιοχές. Η μικρορύθμιση της "
-"απόδοσης αποσκοπεί στη μείωση των ανεπιθύμητων φαινομένων τρέμουλου με "
-"ελάχιστο πλάτοςε μόλις 1 εικονοστοιχείου ή παρακάτω όταν εφαρμόζεται "
+"έχει την ελάχιστη διαφορά στις συγκρινόμενες περιοχές. Η μικρορρύθμιση της "
+"έντασης απόδοσης αποσκοπεί στη μείωση των ανεπιθύμητων φαινομένων τρέμουλου "
+"με ελάχιστο πλάτος μόλις 1 εικονοστοιχείου ή παρακάτω όταν εφαρμόζεται "
 "στοίχιση σε πολλά πλαίσια ενός αποσπάσματος βίντεο με σκοπό τη "
 "σταθεροποίηση. Η στρώση '%s.' θα έχει μια μάσκα στρώσης που σημειώνει "
 "συγκρίσιμο λευκό παρασκήνιο (αδιαφανές). "
@@ -2572,27 +2551,27 @@ msgstr ""
 msgid ""
 "This video frame stabilisation filter transforms the specified layer. It "
 "uses the relevant controlpoint (that matches the framePhase parameter) in "
-"the recorded XML file as input.  and calculates offsts, scaling and rotation "
-"or perspective corner points to transform the layer in a way that the points "
-"p1x p1y p2x p2y (p3x p3y p4x p4y) will exactly match with the points s1x s1y "
-"s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML file.(calling "
-"this filter with framePhase 1 typically does no transformation) This filter "
-"is intended to run under control of the gimp-gap frames modify feature to "
-"align multiple frames according to the controlpoints recorded in an XML file "
-"(via Detail tracking feature).%s"
+"the recorded XML file as input.  and calculates offsets, scaling and "
+"rotation or perspective corner points to transform the layer in a way that "
+"the points p1x p1y p2x p2y (p3x p3y p4x p4y) will exactly match with the "
+"points s1x s1y s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML "
+"file.(calling this filter with framePhase 1 typically does no "
+"transformation) This filter is intended to run under control of the gimp-gap "
+"frames modify feature to align multiple frames according to the "
+"controlpoints recorded in an XML file (via Detail tracking feature).%s"
 msgstr ""
-"Αυτό το φίλτρο σταθεροποίησης πλαισίου βίντεο μετασχηματίζει την ορισμένη "
+"Αυτό το φίλτρο σταθεροποίησης πλαισίου βίντεο μετασχηματίζει τη συγκεκριμένη "
 "στρώση. Χρησιμοποιεί το σχετικό σημείο ελέγχου (που ταιριάζει με την "
 "παράμετρο φάσης πλαισίου (framePhase) στο καταγεγραμμένο αρχείο XML ως "
-"είσοδος και υπολογίζει μετατοπίσεις, κλιμάκωση και περιστροφή ή σημεία "
-"γωνίας προοπτικής για να μετασχηματίσει τη στρώση κατά τρόπο που τα σημεία "
-"p1x p1y p2x p2y (p3x p3y p4x p4y) θα ταιριάζουν ακριβώς με τα σημεία s1x s1y "
-"s2x s2y (s3x s3y s4x s4y) στο ίδιο σημείο ελέγχου στο αρχείο XML. (Η κλήση "
-"αυτού του φίλτρου με τη φάση πλαισίου 1 (framePhase 1) συνήθως δεν "
-"μετασχηματίζει). Αυτό το φίλτρο αποσκοπεί αποσκοπεί στην εκτέλεση κάτω από "
-"έλεγχο του γνωρίσματος τροποποίησης των πλαισίων του gimp-gap για τη "
-"στοίχιση πολλαπλών πλαισίων σύμφωνα με τα σημεία ελέγχου που καταγράφηκαν "
-"στο αρχείο XML (μέσω του γνωρίσματος εντοπισμού λεπτομέρειας).%s"
+"είσοδο και υπολογίζει μετατοπίσεις, κλιμάκωση και περιστροφή ή σημεία γωνίας "
+"προοπτικής για να μετασχηματίσει τη στρώση κατά τρόπο που τα σημεία p1x p1y "
+"p2x p2y (p3x p3y p4x p4y) θα ταιριάζουν ακριβώς με τα σημεία s1x s1y s2x s2y "
+"(s3x s3y s4x s4y) στο ίδιο σημείο ελέγχου στο αρχείο XML. (Η κλήση αυτού του "
+"φίλτρου με τη φάση πλαισίου 1 (framePhase 1) συνήθως δεν μετασχηματίζει). "
+"Αυτό το φίλτρο αποσκοπεί στην εκτέλεση κάτω από έλεγχο του γνωρίσματος "
+"τροποποίησης των πλαισίων του gimp-gap για τη στοίχιση πολλαπλών πλαισίων "
+"σύμφωνα με τα σημεία ελέγχου που καταγράφηκαν σε αρχείο XML (μέσω του "
+"γνωρίσματος εντοπισμού λεπτομέρειας).%s"
 
 #: ../gap/gap_detail_tracking_main.c:329
 msgid "Align Transform via XML file..."
@@ -2601,12 +2580,12 @@ msgstr "Στοίχιση μετασχηματισμού μέσα από αρχε
 #: ../gap/gap_detail_tracking_main.c:338
 #, c-format
 msgid ""
-"This filter expects a current path with 4 points as input where point 1 and "
+"This filter expects a current path with 4 points as input where points 1 and "
 "2 mark positions within a reference layer and points 3 and 4 mark 2 "
 "corresponding point in the target layer. The transformation is applied to "
 "the target layer and sets offsets, scaling and rotation in a way that point3 "
 "is placed on position of point1, and point4 is placed on position of point2. "
-"As alternitive this filter also provides exact alignment via Perspective "
+"As alternative this filter also provides exact alignment via Perspective "
 "Transformation. Therefore 4 points are required in the current path, and "
 "another 4 points are required in an additional path that must have the name "
 "'%s'. The layer will be transformed in a way that all 4 points in the "
@@ -2622,7 +2601,7 @@ msgstr ""
 "απαιτούνται 4 σημεία στο τρέχον μονοπάτι και άλλα 4 σημεία απαιτούνται σε "
 "ένα πρόσθετο μονοπάτι που πρέπει να έχει το όνομα '%s'. Η στρώση θα "
 "μετασχηματιστεί κατά τρόπο που και τα 4 σημεία στο τρέχον μονοπάτι θα "
-"τοποθετηθούν στα αντίστοιχα τους σημεία στο μονοπάτι '%s'.%s"
+"τοποθετηθούν στα αντίστοιχα τους σημεία στο μονοπάτι '%s' path.%s"
 
 #: ../gap/gap_detail_tracking_main.c:361
 msgid "Exact Align via 4-Point Path."
@@ -2703,7 +2682,6 @@ msgid "Blur radius 2 Y direction"
 msgstr "Ακτίνα θόλωσης 2 Y κατεύθυνση"
 
 #: ../gap/gap_edge_detection_dialog.c:411
-#| msgid "N-Shift:"
 msgid "Shift Left:"
 msgstr "Αριστερή μετατόπιση:"
 
@@ -2717,7 +2695,6 @@ msgid "Shift left by n pixels"
 msgstr "Αριστερή μετατόπιση κατά n εικονοστοιχεία"
 
 #: ../gap/gap_edge_detection_dialog.c:429
-#| msgid "Soft Light"
 msgid "Shift Right:"
 msgstr "Δεξιά μετατόπιση:"
 
@@ -2731,7 +2708,6 @@ msgid "Shift right by n pixels"
 msgstr "Δεξιά μετατόπιση κατά n εικονοστοιχεία"
 
 #: ../gap/gap_edge_detection_dialog.c:446
-#| msgid "N-Shift:"
 msgid "Shift Up:"
 msgstr "Μετατόπιση προς τα πάνω:"
 
@@ -2745,7 +2721,6 @@ msgid "Shift up by n pixels"
 msgstr "Μετατόπιση προς τα πάνω κατά n εικονοστοιχεία"
 
 #: ../gap/gap_edge_detection_dialog.c:464
-#| msgid "N-Shift:"
 msgid "Shift Down:"
 msgstr "Μετατόπιση προς τα κάτω:"
 
@@ -2759,16 +2734,14 @@ msgid "Shift down by n pixels"
 msgstr "Μετατόπιση προς τα κάτω κατά n εικονοστοιχεία"
 
 #: ../gap/gap_edge_detection_dialog.c:480
-#| msgid "Adjust Color Levels"
 msgid "Auto Levels:"
 msgstr "Αυτόματα επίπεδα:"
 
 #: ../gap/gap_edge_detection_dialog.c:491
-msgid "ON: apply auto strech levels"
+msgid "ON: apply auto stretch levels"
 msgstr "ON: εφαρμόζει αυτόματη επέκταση επιπέδων"
 
 #: ../gap/gap_edge_detection_dialog.c:502
-#| msgid "Saturation:"
 msgid "Desaturate:"
 msgstr "Αποκορεσμός:"
 
@@ -2800,17 +2773,14 @@ msgstr ""
 
 #: ../gap/gap_edge_detection_dialog.c:1117
 #, c-format
-#| msgid "Error: Image '%s' not found"
 msgid "Error: Image '%d' not found"
 msgstr "Σφάλμα: Η εικόνα '%d' δεν βρέθηκε"
 
 #: ../gap/gap_edge_detection_dialog.c:1122
-#| msgid "Error: Bluebox effect operates only on layers"
 msgid "Error: This Edge detection method operates only on layers"
 msgstr "Σφάλμα: Αυτή η μέθοδος ανίχνευσης άκρου λειτουργεί μόνο σε στρώσεις"
 
 #: ../gap/gap_edge_detection_dialog.c:1201
-#| msgid "BlueboxPreview.xcf"
 msgid "EdgeDetectionPreview.xcf"
 msgstr "EdgeDetectionPreview.xcf"
 
@@ -2819,7 +2789,6 @@ msgid "Edge Detect (DoSoG) ..."
 msgstr "Ανίχνευση άκρου (DoSoG) ..."
 
 #: ../gap/gap_edge_detection_main.c:167
-#| msgid "<Image>/Video/Layer/Render/"
 msgid "<Image>/Video/Layer/Render"
 msgstr "<Image>/Video/Layer/Render"
 
@@ -3688,7 +3657,6 @@ msgid "Frames Renumber..."
 msgstr "Νέα αρίθμηση πλαισίων..."
 
 #: ../gap/gap_main.c:861
-#| msgid "Frames Renumber..."
 msgid "Frames Rename..."
 msgstr "Μετονομασία πλαισίων..."
 
@@ -3790,7 +3758,6 @@ msgid "Channel Name"
 msgstr "Όνομα καναλιού"
 
 #: ../gap/gap_mod_layer_dialog.c:414
-#| msgid "Filename:"
 msgid "XML Filename"
 msgstr "Όνομα αρχείου XML"
 
@@ -3841,12 +3808,10 @@ msgstr "Ορισμός όλων των επιλεγμένων στρώσεων �
 
 #
 #: ../gap/gap_mod_layer_dialog.c:589
-#| msgid "Set Layer Opacity"
 msgid "Set layer active"
 msgstr "Ορισμός ενεργής στρώσης"
 
 #: ../gap/gap_mod_layer_dialog.c:595
-#| msgid "Delete layermask"
 msgid "Set layermask active"
 msgstr "Ορισμός ενεργής μάσκας στρώσης"
 
@@ -4234,18 +4199,15 @@ msgid "Resize selected layer(s) to image size"
 msgstr "Αλλαγή μεγέθους επιλεγμένων στρώσεων στο μέγεθος της εικόνας"
 
 #: ../gap/gap_mod_layer_dialog.c:1122
-#| msgid "Replace selection (source is the active frame)"
 msgid "Resize layer(s) to selection (active frame)"
 msgstr "Αλλαγή μεγέθους στρώσεων στην επιλογή (ενεργό πλαίσιο)"
 
 #: ../gap/gap_mod_layer_dialog.c:1123
-#| msgid "Replace selection (source is the active frame)"
 msgid "Resize selected layer(s) to selection bounds of the active frame"
 msgstr ""
 "Αλλαγή μεγέθους επιλεγμένων στρώσεων στα όρια επιλογής του ενεργού πλαισίου"
 
 #: ../gap/gap_mod_layer_dialog.c:1129
-#| msgid "Save selection to channel (individual per frame)"
 msgid "Resize layer(s) to selection (individual per frame)"
 msgstr "Αλλαγή μεγέθους στρώσεων στην επιλογή (ατομικά ανά πλαίσιο)"
 
@@ -4719,10 +4681,10 @@ msgstr "Σχήμα"
 
 #: ../gap/gap_morph_dialog.c:3615
 msgid ""
-"Create N workpoints following the outline shape of the layer.the simple "
-"shape detection is looking for non-transparent pixels.CTRL-click uses an "
+"Create N workpoints following the outline shape of the layer. The simple "
+"shape detection is looking for non-transparent pixels. CTRL-click uses an "
 "edge detection based shape detection algorithm that is capable to operate on "
-"opaque images.SHIFT-click: adds the new points and keeps the old points"
+"opaque images. SHIFT-click: adds the new points and keeps the old points"
 msgstr ""
 "Δημιουργία Ν σημείων εργασίας ακολουθώντας το σχήμα του περιγράμματος της "
 "στρώσης. Η ανίχνευση απλού σχήματος αναζητά μη διαφανή εικονοστοιχεία. CTRL-"
@@ -4760,10 +4722,10 @@ msgstr "Χρήση έντασης"
 #: ../gap/gap_morph_dialog.c:3720
 msgid ""
 "ON: Descending deform action from workpoint (full) to radius (zero). Descend "
-"by power of intensity.OFF: Linear deform action inside the radius"
+"by power of intensity. OFF: Linear deform action inside the radius"
 msgstr ""
-"ΕΝΕΡΓΟ:επενέργεια φθίνουσας παραμόρφωσης από το σημείο εργασίας (πλήρες) σε "
-"ακτίνα (μηδέν). Φθίνει με την ισχύ της έντασης. ΑΝΕΝΕΡΓΟ: επενέργεια "
+"ΕΝΕΡΓΟ (ON):Φθίνουσα ενέργεια παραμόρφωσης από το σημείο εργασίας (πλήρες) "
+"σε ακτίνα (μηδέν). Φθίνει με την ισχύ της έντασης. ΑΝΕΝΕΡΓΟ (OFF): ενέργεια "
 "γραμμικής παραμόρφωσης μες την ακτίνα"
 
 #. the tween_steps label
@@ -4883,7 +4845,7 @@ msgstr "Ποιότητα"
 
 #: ../gap/gap_morph_dialog.c:4016 ../gap/gap_morph_tween_dialog.c:875
 msgid ""
-"ON: Use quality workpoint selection algorithm.OFF: Use fast workpoint "
+"ON: Use quality workpoint selection algorithm. OFF: Use fast workpoint "
 "selection algorithm."
 msgstr ""
 "ΕΝΕΡΓΟ: Χρήση αλγόριθμου ποιότητας της επιλογής σημείου εργασίας. ΑΝΕΝΕΡΓΟ: "
@@ -5196,10 +5158,10 @@ msgstr "Εντοπισμός κατωφλίου άκρης χρωματικής 
 
 #: ../gap/gap_morph_tween_dialog.c:891
 msgid ""
-"ON: overwrite existing workpointfiles.OFF: Skip workpoint generation or add "
+"ON: overwrite existing workpointfiles. OFF: Skip workpoint generation or add "
 "new generated workpoints (see append checkbutton)."
 msgstr ""
-"ΕΝΕΡΓΟ: αντικατάσταση υπαρχόντων αρχείων σημείων εργασίας. ΑΝΕΝΕΡΓΟ: "
+"ΕΝΕΡΓΟ: αντικατάσταση υφιστάμενων αρχείων σημείων εργασίας. ΑΝΕΝΕΡΓΟ: "
 "Παράλειψη δημιουργίας σημείου εργασίας ή προσθήκης νέων δημιουργημένων "
 "σημείων εργασίας (δείτε προσθήκη κουμπιού ελέγχου)."
 
@@ -5211,10 +5173,10 @@ msgstr "Προσάρτηση"
 
 #: ../gap/gap_morph_tween_dialog.c:906
 msgid ""
-"ON: add newly generated workpoints to existing workpointfiles.OFF: Skip "
+"ON: add newly generated workpoints to existing workpointfiles. OFF: Skip "
 "workpoint generation for frames where workpointfile already exists."
 msgstr ""
-"ΕΝΕΡΓΟ: προσθήκη νέων δημιουργημένων σημείων εργασίας σε υπάρχοντα αρχεία "
+"ΕΝΕΡΓΟ: προσθήκη νέων δημιουργούμενων σημείων εργασίας σε υπάρχοντα αρχεία "
 "σημείου εργασίας. ΑΝΕΝΕΡΓΟ: Παράλειψη δημιουργίας σημείου εργασίας για "
 "πλαίσια όπου το αρχείο σημείου εργασίας ήδη υπάρχει."
 
@@ -5241,9 +5203,9 @@ msgstr "Πληροφορίες:"
 #: ../gap/gap_morph_tween_dialog.c:1169
 #, c-format
 msgid "This operation creates %d missing frame between frame %d and %d"
-msgid_plural "this operation creates %d missing frames between frame %d and %d"
+msgid_plural "This operation creates %d missing frames between frame %d and %d"
 msgstr[0] ""
-"Αυτή η λειτουργία δημιουργεί %d ελλείποντα πλαίσια μεταξύ πλαισίου %d και %d"
+"Αυτή η λειτουργία δημιουργεί %d ελλείπον πλαίσιo μεταξύ πλαισίου %d και %d"
 msgstr[1] ""
 "Αυτή η λειτουργία δημιουργεί %d ελλείποντα πλαίσια μεταξύ πλαισίου %d και %d"
 
@@ -5315,11 +5277,11 @@ msgstr ""
 
 #: ../gap/gap_morph_tween_dialog.c:1326
 msgid ""
-"ON: overwrite existing frames.OFF: skip processing when target frame/tween "
+"ON: overwrite existing frames. OFF: skip processing when target frame/tween "
 "already exists."
 msgstr ""
-"ΝΑΙ: αντικατάσταση υπαρχόντων πλαισίων. ΟΧΙ: παράλειψη επεξεργασίας όταν ο "
-"στόχος πλαίσιο/ενδιάμεση στρώση υπάρχει ήδη."
+"ΝΑΙ: αντικατάσταση υπαρχόντων πλαισίων. ΟΧΙ: παράλειψη επεξεργασίας όταν το "
+"πλαίσιο/ενδιάμεση στρώση του στόχου υπάρχει ήδη."
 
 #. the master progress bar
 #. master progress
@@ -5500,7 +5462,6 @@ msgid "Edit Controlpoints"
 msgstr "Επεξεργασία σημείων ελέγχου"
 
 #: ../gap/gap_mov_dialog.c:3738
-#| msgid "Edit Controlpoints"
 msgid "Edit Controlpoints "
 msgstr "Επεξεργασία σημείων ελέγχου "
 
@@ -5566,7 +5527,6 @@ msgstr ""
 
 #. Source Layer menu
 #: ../gap/gap_mov_dialog.c:4182
-#| msgid "Source Image/Layer:"
 msgid "Image/Layer:"
 msgstr "Εικόνα/στρώση:"
 
@@ -5752,7 +5712,6 @@ msgstr ""
 #. Handle Offset X
 #. table col, row
 #: ../gap/gap_mov_dialog.c:4431
-#| msgid "X:"
 msgid "dX:"
 msgstr "dX:"
 
@@ -5765,13 +5724,12 @@ msgstr "dX:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4439
-msgid "Handle Offest X is added to x coordinate in all points"
+msgid "Handle Offset X is added to x coordinate in all points"
 msgstr "Προστίθεται μετατόπιση λαβής Χ στη συντεταγμένη x σε όλα τα σημεία"
 
 #. Handle Offset Y
 #. table col, row
 #: ../gap/gap_mov_dialog.c:4451
-#| msgid "Y:"
 msgid "dY:"
 msgstr "dY:"
 
@@ -5784,7 +5742,7 @@ msgstr "dY:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4459
-msgid "Handle Offest Y is added to y coordinate in all points"
+msgid "Handle Offset Y is added to y coordinate in all points"
 msgstr "Προστίθεται μετατόπιση λαβής Υ στη συντεταγμένη y σε όλα τα σημεία"
 
 #: ../gap/gap_mov_dialog.c:4518
@@ -6069,11 +6027,6 @@ msgid "Reset the current controlpoint to default values"
 msgstr "Επαναφορά του τρέχοντος σημείου ελέγχου στις προεπιλεγμένες τιμές"
 
 #: ../gap/gap_mov_dialog.c:5073
-#| msgid ""
-#| "Reset all controlpoints to default values but dont change the path (X/Y "
-#| "values). Hold down the shift key to copy settings of point1 into all "
-#| "other points. Holding down the ctrl key spreads a mix of the settings of "
-#| "point1 and the last point into the other points inbetween."
 msgid ""
 "Reset all controlpoints to default values but dont change the path (X/Y "
 "values and keyframes). Hold down the alt key removes the keyframe "
@@ -6107,7 +6060,6 @@ msgid "Load controlpoints from file"
 msgstr "Φόρτωση σημείων ελέγχου από αρχείο"
 
 #: ../gap/gap_mov_dialog.c:5139
-#| msgid "Show next controlpoint. Hold down the shift key to follow keyframes."
 msgid ""
 "Save controlpoints to file. Hold down the ctrl or shift key for filename "
 "selection dialog."
@@ -6748,7 +6700,6 @@ msgstr "Πλαίσιο για προβολή όταν το κουμπί 'Ανα�
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:6477
-#| msgid "Delete current controlpoint"
 msgid "Current controlpoint"
 msgstr "Τρέχον σημείου ελέγχου"
 
@@ -7541,27 +7492,22 @@ msgid "Descending opacity for 2nd onionskin layer"
 msgstr "Φθίνουσα αδιαφάνεια για τη δεύτερη στρώση φλούδας κρεμμυδιού"
 
 #: ../gap/gap_onion_dialog.c:1272
-#| msgid "Layer Modes"
 msgid "Layermask Mode:"
 msgstr "Κατάσταση μάσκας στρώσης:"
 
 #: ../gap/gap_onion_dialog.c:1283
-#| msgid "Add black layermask (transparent)"
 msgid "Black (fully transparent)"
 msgstr "Μαύρο (πλήρως διαφανές)"
 
 #: ../gap/gap_onion_dialog.c:1284
-#| msgid "Add white layermask (opaque)"
 msgid "White (fully opaque)"
 msgstr "Λευκό (πλήρως αδιαφανές)"
 
 #: ../gap/gap_onion_dialog.c:1285
-#| msgid "Ignore selection (in all source images)"
 msgid "From Selection (in current image)"
 msgstr "Από επιλογή (στην τρέχουσα εικόνα)"
 
 #: ../gap/gap_onion_dialog.c:1286
-#| msgid "Ignore selection (in all source images)"
 msgid "Clipped from Selection (in current image) "
 msgstr "Ψαλιδισμένο από επιλογή (στην τρέχουσα εικόνα) "
 
@@ -7700,13 +7646,11 @@ msgstr ""
 
 #. the active_mode  combo box
 #: ../gap/gap_onion_dialog.c:1486
-#| msgid "Keep TraceLayer"
 msgid "Keep active layer"
 msgstr "Διατήρηση ενεργούς στρώσης"
 
 #
 #: ../gap/gap_onion_dialog.c:1487
-#| msgid "Set Layer Opacity"
 msgid "Set Onion layer active"
 msgstr "Ορισμός ενεργής στοιβάδας κρεμμυδιού"
 
@@ -7778,7 +7722,6 @@ msgstr "Αφαίρεση στρώσεων φλούδας κρεμμυδιού...
 #
 #. The dialog1 and main vbox
 #: ../gap/gap_opacity_exposure_main.c:1022
-#| msgid "Opacity Options"
 msgid "Opacity Exposure"
 msgstr "Έκθεση αδιαφάνειας"
 
@@ -7791,14 +7734,13 @@ msgstr "Λήψη μέσου όρου λαμπρότητας από τη στρώ
 msgid ""
 "This filter adjust opacity of a layer\n"
 "in a way that the combination with the layer below\n"
-"matches the brightness of a reference layer)"
+"matches the brightness of a reference layer"
 msgstr ""
 "Αυτό το φίλτρο ρυθμίζει την αδιαφάνεια μιας στρώσης\n"
 "κατά τρόπο που ο συνδυασμός με την από υποκείμενη στρώση\n"
-"ταιριάζει με τη φωτεινότητα της στρώσης αναφοράς)"
+"ταιριάζει με τη φωτεινότητα της στρώσης αναφοράς"
 
 #: ../gap/gap_opacity_exposure_main.c:1082
-#| msgid "Target Alpha:"
 msgid "Target Luminance:"
 msgstr "Λαμπρότητα στόχου:"
 
@@ -7810,21 +7752,19 @@ msgstr ""
 
 #. use reference layer's average luminance checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1104
-#| msgid "New Layer"
 msgid "Use RefLayer:"
 msgstr "Χρήση ΣτρώσηςΑναφοράς"
 
 #: ../gap/gap_opacity_exposure_main.c:1116
 msgid ""
 "ON: use Average Luminance from opaque pixels in the reference layer (ignore "
-"Target) OFF: use specified Target Lumninance value"
+"Target) OFF: use specified Target Luminance value"
 msgstr ""
-"ON: χρήση μέσης λαμπρότητας από αδιαφανή εικονοστοιχεία στη στρώση αναφοράς "
-"(παράβλεψη στόχου) OFF:χρήση καθορισμένης τιμή λαμπρότητας στόχου"
+"ΝΑΙ: χρήση μέσης λαμπρότητας από αδιαφανή εικονοστοιχεία στη στρώση αναφοράς "
+"(παράβλεψη στόχου) ΟΧΙ:χρήση καθορισμένης τιμή λαμπρότητας στόχου"
 
 #. use reference layer as mask checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1127
-#| msgid "Keep Layer Mask"
 msgid "Use RefLayer as Mask:"
 msgstr "Χρήση ΣτρώσηςΑναφοράς ως μάσκας:"
 
@@ -7834,12 +7774,10 @@ msgstr "ON: χρήση αδιαφανών εικονοστοιχείων της 
 
 #. the reference layer label and combo
 #: ../gap/gap_opacity_exposure_main.c:1151
-#| msgid "Frame Reference:"
 msgid "Exposure Reference Layer"
 msgstr "Έκθεση στρώσης αναφοράς"
 
 #: ../gap/gap_opacity_exposure_main.c:1166
-#| msgid "Select the source layer"
 msgid "Select a reference layer"
 msgstr "Επιλογή στρώσης αναφοράς"
 
@@ -10927,57 +10865,68 @@ msgstr ""
 "χαρακτηριστικά επιτάχυνσης για μακροφίλτρο 0=εκτός, θετικός επιτάχυνση, "
 "αρνητικός επιβράδυνση"
 
-#: ../gap/gap_story_render_audio.c:466
+#: ../gap/gap_story_render_audio.c:472
 #, c-format
 msgid "cant load:  %s to memory"
 msgstr "αδυναμία φόρτωσης: %s στη μνήμη"
 
-#: ../gap/gap_story_render_audio.c:851
+#: ../gap/gap_story_render_audio.c:857
 #, c-format
 msgid "extracting audio to tmp audiofile"
 msgstr "εξαγωγή ήχου στο προσωρινό αρχείο ήχου"
 
-#: ../gap/gap_story_render_audio.c:856
+#: ../gap/gap_story_render_audio.c:862
 #, c-format
 msgid "seeking audio"
 msgstr "αναζήτηση ήχου"
 
-#: ../gap/gap_story_render_audio.c:1128
+#: ../gap/gap_story_render_audio.c:1134
 #, c-format
 msgid "file not found:  %s for audioinput"
 msgstr "δε βρέθηκε αρχείο: %s για είσοδο ήχου"
 
-#: ../gap/gap_story_render_audio.c:1307 ../gap/gap_story_render_audio.c:1454
+#: ../gap/gap_story_render_audio.c:1313 ../gap/gap_story_render_audio.c:1460
 #, c-format
 msgid "converting audio (via external program)"
 msgstr "μετατροπή ήχου (μέσω εξωτερικού προγράμματος)"
 
-#: ../gap/gap_story_render_audio.c:1373 ../gap/gap_story_render_audio.c:1503
+#: ../gap/gap_story_render_audio.c:1379
 #, c-format
 msgid "cant use file:  %s as audioinput"
 msgstr "αδυναμία χρήσης αρχείου: %s ως εισόδου ήχου"
 
-#: ../gap/gap_story_render_audio.c:1390
+#: ../gap/gap_story_render_audio.c:1396
 #, c-format
 msgid "ERROR file: %s is not a supported videoformat"
 msgstr "Αρχείο ΣΦΑΛΜΑΤΟΣ: %s δεν είναι υποστηριζόμενος τύπος βίντεο"
 
-#: ../gap/gap_story_render_audio.c:1645
+#: ../gap/gap_story_render_audio.c:1509
+#, c-format
+msgid ""
+"cant use file:  %s as audioinput\n"
+"(external converter %s FAILED to resample as WAV format at target samplerate "
+"%d)"
+msgstr ""
+"αδυναμία χρήσης αρχείου: %s ως εισόδου ήχου\n"
+"(ο εξωτερικός μετατροπέας %s ΑΠΕΤΥΧΕ να εκτέλεσει επαναδειγματοληψία ως "
+"μορφή WAV με ρυθμό δείγματος στόχου %d)"
+
+#: ../gap/gap_story_render_audio.c:1655
 #, c-format
 msgid "checking audio peaks"
 msgstr "έλεγχος κορυφών βίντεο"
 
-#: ../gap/gap_story_render_audio.c:1679
+#: ../gap/gap_story_render_audio.c:1689
 #, c-format
 msgid "writing composite audiofile"
 msgstr "εγγραφή σύνθετου αρχείου ήχου"
 
-#: ../gap/gap_story_render_audio.c:1698
+#: ../gap/gap_story_render_audio.c:1708
 #, c-format
 msgid "cant write audio to file: %s "
 msgstr "αδυναμία εγγραφής ήχου στο αρχείο: %s"
 
-#: ../gap/gap_story_render_audio.c:1710 ../vid_common/gap_cme_gui.c:1500
+#: ../gap/gap_story_render_audio.c:1720 ../vid_common/gap_cme_gui.c:1500
 #: ../vid_common/gap_cme_gui.c:1666
 #, c-format
 msgid "ready"
@@ -11905,13 +11854,11 @@ msgid "High Output:"
 msgstr "Υψηλή έξοδος:"
 
 #: ../gap/gap_wr_desaturate.c:202
-#| msgid "Hue-Saturation..."
 msgid "Desaturate..."
 msgstr "Αποκορεσμός..."
 
 #. The dialog1 and main vbox
 #: ../gap/gap_wr_desaturate.c:449
-#| msgid "Saturation"
 msgid "Desaturate"
 msgstr "Αποκορεσμός"
 
@@ -11922,18 +11869,15 @@ msgstr "Επιλογή σκιάς γκρίζου με βάση:"
 
 #. Shades the label
 #: ../gap/gap_wr_desaturate.c:492
-#| msgid "Shadows"
 msgid "Shades:"
 msgstr "Σκιές:"
 
 #. Shades the radio buttons
 #: ../gap/gap_wr_desaturate.c:499
-#| msgid "Lightness:"
 msgid "Lightness"
 msgstr "Φωτεινότητα"
 
 #: ../gap/gap_wr_desaturate.c:504
-#| msgid "Preserve luminosity"
 msgid "Luminosity"
 msgstr "Φωτεινότητα"
 
@@ -11973,12 +11917,10 @@ msgstr "Ορισμός αδιαφάνειας στρώσης"
 
 #: ../gap/gap_wr_resynth.c:210 ../gap/gap_wr_resynth.c:715
 #: ../gap/gap_wr_resynth.c:727
-#| msgid "Pixel Selection:"
 msgid "Heal Selection"
 msgstr "Επιλογή επούλωσης"
 
 #: ../gap/gap_wr_resynth.c:226
-#| msgid "Pixel Selection:"
 msgid "Heal Selection..."
 msgstr "Επιλογή επούλωσης..."
 
@@ -12006,23 +11948,20 @@ msgstr ""
 #
 #. the directionParam label
 #: ../gap/gap_wr_resynth.c:784
-#| msgid "Samples:"
 msgid "Sample from:"
 msgstr "Δείγμα από:"
 
 #: ../gap/gap_wr_resynth.c:807
-msgid "Select direction from where get sample pattern"
+msgid "Select direction from where to get sample pattern"
 msgstr "Επιλογή κατεύθυνσης από όπου θα γίνει η λήψη μοτίβου δείγματος"
 
 #
 #. the directionParam label
 #: ../gap/gap_wr_resynth.c:814
-#| msgid "Flame Border:"
 msgid "Filling order:"
 msgstr "Σειρά γεμίσματος:"
 
 #: ../gap/gap_wr_resynth.c:837
-#| msgid "Selection none"
 msgid "Select filling order"
 msgstr "Επιλογή σειράς γεμίσματος"
 
@@ -12036,7 +11975,6 @@ msgid "Vectors (SVG) file:"
 msgstr "Αρχείο διανυσμάτων (SVG):"
 
 #: ../gap/gap_wr_resynth.c:904
-#| msgid "Name of SVG vector file"
 msgid "Name of SVG vector file from where to load selection"
 msgstr "Όνομα του αρχείου διανύσματος SVG από όπου θα φορτωθεί η επιλογή"
 
