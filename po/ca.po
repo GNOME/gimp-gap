@@ -4506,7 +4506,7 @@ msgid ""
 "where the string '[######]' is replaced by the frame number."
 msgstr ""
 "Nom de totes les capes (o canals) gestionats,\n"
-" on se substitueix la cadena '[######]' pel número de fotograma"
+" on se substitueix la cadena '[######]' pel número de fotograma."
 
 #. the newGroupName label
 #: ../gap/gap_mod_layer_dialog.c:1457
@@ -7405,7 +7405,7 @@ msgstr ""
 
 #: ../gap/gap_mov_main.c:283
 msgid "Move Path..."
-msgstr "Mou del camí..."
+msgstr "Mou el camí..."
 
 #: ../gap/gap_mov_main.c:369
 msgid "Move Path Singleframe..."
