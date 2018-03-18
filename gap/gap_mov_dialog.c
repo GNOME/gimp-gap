@@ -141,7 +141,7 @@ extern      int gap_debug; /* ==0  ... dont print debug infos */
 #define GAP_MOVE_PATH_HELP_ID             "plug-in-gap-move-path"
 
 #define ENTRY_WIDTH 60
-#define SPINBUTTON_WIDTH 60
+#define SPINBUTTON_WIDTH 70
 #define SCALE_WIDTH 125
 
 #define ENTRY_DELIMITER_WIDTH 20
@@ -159,7 +159,7 @@ extern      int gap_debug; /* ==0  ... dont print debug infos */
 
 
 #ifdef MOVE_PATH_LAYOUT_BIG_PREVIEW
-#define PREVIEW_SIZE 340
+#define PREVIEW_SIZE 420
 #else
 #define PREVIEW_SIZE 256
 #endif
