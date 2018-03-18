@@ -1,5 +1,13 @@
 2018-01-25 Wolfgang Hofer <hof@gimp.org>
 
+- use larger spinbutton entries in the MovePath Dialog and bigger inital preview size.
+  update MovePath text docmentation.
+
+ * gap/gap_mov_dialog.c
+ * docs/reference/txt/plug-in-gap-move-path.txt
+ 
+2018-01-25 Wolfgang Hofer <hof@gimp.org>
+
 - master video encoder provides more information in the error message
   in case creating composite audiofile fails due to problems calling
   the external audioconverter (sox)

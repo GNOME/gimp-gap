@@ -43,21 +43,26 @@ Move Path (make things move)
         the layers of the source image are stepped through,
         and the next handled frame receives the next
         layer from the source image's layerstack.
+        Note that stepping through the layerstack is resticted to the group
+        level of the initally selected source layer.
+        In case you selected a source layer that is not inside any layergroup,
+        then stepping will not step into layergroups and subgroups, but will pick the
+        grouplayers on imagelevel and use them as if all the layers within the group 
+        were merged to a single layer.
+        
         
         For the frame based stepmodes ("Frame Loop", "Frame PingPong" ...)
         the selected source(layer) should be a layer of another video frame.
         In the frame based stepmodes the source object is considered
-        as video frames and stepping is done from frame to frame
+        as video frames and stepping is done from frame image to the next frame image
         (and not from layer to layer)
         The inserted layer is always a copy of one frame of the
         source object animation (no matter which source layer was selected)
         where all the visible source layers are merged to build up the moving object.
         
-        The frame based modes can be used to mix videos with many frames,
-        because there is no need to convert one of the videos to
-        a multilayer image.
+
 	
-	If you use a normal image (that is not a video frame) as source
+	If you use a normal image (that is not a video frame with typical framenumber in its filename) as source
 	for the frame based stepmodes it acts like an animation with 
 	only one frame.
         
@@ -143,26 +148,89 @@ Move Path (make things move)
 
 
 
-      The controlpoint parameters were changed linear from one starting
+      The controlpoint parameters were changed from one starting
       controlpoint to the next controlpoint.
+      Per default this is a linear change, unless an accelaration characteristic
+      is selected.
       Per default the move path has only only 1 controlpoint.
       (So the source layers(s) are copied to all frames of the framerange
        at constant position, size and opacity)
       If you want your source layers to move, grow, rotate or to fade (in or out)
-      you have to add one more controlpoints (limited to 1024) to define a path.
+      you have to add one more controlpoints to define a path.
 
-      The affected range is selected by  start frame - end frame.
-      Each affected frame receives exactly one copy of the (current)
-      source layer adjusted to the current controlpoint parameters.
-      The layerstack defines if the pasted copy appears
-      in the foreground (0 == on top) or below other layers that are
-      already in the frame.
-      With the toggle button 'Clip To Frame' the the copied layer
+      From Frame: and To Frame:
+        The affected range of processed frame images is selected by  From frame - End frame.
+        Typically each affected frame receives exactly one copy of the (current)
+        source layer adjusted to the current controlpoint parameters.
+      
+      Layerstack:
+        The layerstack defines if the pasted copy appears
+        in the foreground (0 == on top) or below other layers that are
+        already in the frame.
+        
+      Target Group: and Delimiter:
+        Those entries specify the grouplayer where to insert the rendered object.
+        Note that the specified group and subgroups will be created
+        automatically in all processed frame images, where they are not already present.
+        
+        The delimiter entry defines the chracter that separates group from subgroup names,
+        per default the slash character "/" acts as name separator.
+
+        Example:
+        If your frame image(s) have a layerstack with the following groups:
+         
+         +----  person     # grouplayer
+           +--    head     # grouplayer
+                   nose    # normal layer
+         +----  animal     # grouplayer
+           +--    head     # grouplayer
+         Backround         # normal layer     
+
+        and you want to insert a new layer with the name "eye" from source image into the subgroup
+        haed of group person, you can use the settings:
+          Target Group:  person/head
+          Delimiter: /
+          Layerstack: 0   (to insert on Top of the group, that is above the "nose" layer) 
+          
+        The layerstack in all processed frame images will loke like this after MovePath processing is done:
+
+         +----  person     # grouplayer
+           +--    head     # grouplayer
+                   eye     # normal layer (rendered object inserted by Move Path processing)
+                   nose    # normal layer
+         +----  animal     # grouplayer
+           +--    head     # grouplayer
+         Backround         # normal layer     
+
+        
+        Note:
+        Leave Target Group empty when your Frame Images shall have no layergroups
+        and layer insertation shall be done at imagelevel.
+        
+      Clip To Frame:
+      With the checkbox 'Clip To Frame' the the copied layer
       is clipped to the destination frames image width and height.
-       
-      With the frame number in the preview frame you can select the 
-      frame number to display in the preview.
-      You have to press the "UpdPreview" button for explicit
+      
+      
+      Frame:
+      With the frame number entered in the "Frame" entry below the preview,
+      you can select the frame number to display in the preview.
+
+      Point:
+      This entry below the preview shows number of the current controlpoint.
+      Her you can enter a Number to set this number as new current controlpoint.
+      
+      Instant Apply:
+      The Instant Apply checkbox
+      does automatic update of the preview when checked.
+      The automatic update needs much CPU and IO power
+      especially when big images are used as source and/or destination
+      or those images have many layers.
+      (dont use the instant_apply on slow machines.)
+
+
+      
+      Press the "UpdPreview" button for explicit
       update of the preview.
 
      Controlpoints:
@@ -203,6 +271,12 @@ Move Path (make things move)
 	  "First Point"   "Last Point"
           you can step from controlpoint to controlpoint,
 	  and make other controlpoint to the current controlpoint.
+	  
+	  Hold down the SHIFT key when pressing one of those buttons
+	  to follow keyframes in the preview.
+	  (The target frame with the keyframenumber of the new current controlpoint number
+	  is loaded into the Frame: entry and this frame is used for the preview)
+	  
 	  
        "Reset Point"  "Reset All Points"
           does reset width, height and opacity of the controlpoint to 100%
@@ -246,18 +320,12 @@ Move Path (make things move)
 	  you can compensate this effect.
 	  
        "Save Points"
-          saves your controlpoints to file
+          saves your controlpoints to file in XML representation
 
        "Load Points"
           loads controlpoints from file
          
 
-      The "Instant Apply" checkbox
-         does automatic update of the preview when checked.
-         The automatic update needs much CPU and IO power
-         especially when big images are used as source and/or destination
-         or those images have many layers.
-         (dont use the instant_apply on slow machines.)
       
       Tips:
          - with the UpdPreview Button (or "Instant Apply" checkbox)
@@ -331,7 +399,7 @@ Move Path (make things move)
 	      The speed between 2 controlpoints is constant, but depends on the length of the line,
 	      where short lines result in low speed and long lines result in high speed.
               
-        For all other Acceleration characteristic values than 0
+        For all other Acceleration characteristic other values than 0
         the line length between controlpoints does not affect
         the speed of the moving object.
 
@@ -551,7 +619,7 @@ Move Path (make things move)
 	 are set visible when they are copied into frames.
 
 
-    "Move Path" advanced settings
+    Tab "Advanced settings"
     -----------------------------
     
     - Bluebox
@@ -602,3 +670,101 @@ Move Path (make things move)
 	A visible tween layer would produce unwanted increase
 	of the total opacity of the moving object in the composite view.
 
+    Tab Merge Settings
+    -----------------------------
+      The MovePath Merge Postprocessor is configured via the Option Menus in 
+      the Merge Settings Tab of the Move Path Dialog Window.
+    
+      This tab has 3 Option Menus in the upper row and decribes how optional postprocessing
+      shall be performed on the 3 Layertypes that can be created by the MovePath processing
+      in each handled frame image.
+      Those 3 Layertypes are:
+      1) The Renderd Object is the transformed Copy of the selected Source Object, 
+      2) Tween Layer (optional creation depends on "Advanced settings" see above)
+      3) Trace Layer (optional creation depends on "Advanced settings" see above)
+      
+      OM1: Option Menu for Renderd Object
+        (k) Keep Rendered Object as Layer
+              This is the default setting (that triggers no postprocessing), 
+              where the Moving Object is inserted
+              into the processed frames as a new Layer
+        (m) Merge Down Rendered Object
+              Use this to merge the rendered Object to the Merge target.
+        (d) Delete Rendered Object
+              Use this to delete the rendered Object
+              (For the rare cases when just the Tween or Trace Layer shall be rendered
+              
+        
+      OM2: Option Menu for Tween Layer (is ignored when no Tween Layer is present)
+        (k) Keep Tween Layer
+        (m) Merge Down Tween Layer
+        (d) Delete Tween Layer
+        
+      OM3: Option Menu for Trace Layer (is ignored when no Trace Layer is present)
+        (k) Keep Trace Layer
+        (m) Merge Down Trace Layer
+        (m) Delete Tween Trace
+
+      The 2nd row defines the Merge Target with one Option Menu
+      The Merge target is ignored when none on the 3 Layertypes was selected
+      for Merge Down, 
+      but is used as Common Target for each of the Layertypes when they
+      were rendered by Move Path processing and the "Merge Target" option is selcted.
+      
+      OM4: Option Menu to select the Merge Target 
+        (a) New Layer
+             ?? creates a new transparent Layer at frame image size
+             (below the inserted Layers rendered by MovePath processing)
+             and merge
+        (b) Merge To Layer Below
+        (c) Merge To New Black Mask At Layer Below
+        (d) Merge To New White Mask At Layer Below
+        (e) Merge To existing Mask At Layer Below
+        
+        
+    The MovePath Merge Postprocessor handles merging 
+    and removal of layers in the processed frame images.
+      
+    The (optional) merge affects layers that were created / rendered by MovePath render processing
+    in the following Stackposition order.
+         MovingObjectLayer  renderedObjectLayerId  
+         Tweenlayer         tweenLayerId   (optionally present when tween layer feature is active)
+         Tracelayer         traceLayerId   (optionally present when trace layer feature is active)
+         a layer below      existingLayerBelowId (may not be present when inserting on bottom of layerstack or group)
+ 
+    in case any merge action is required (in menus OM1->m, OM2->m, OM3->m)
+    a working layer is created at frame image size.
+    The work layer will be fully transparent (in case the merge target is NOT a Lyermask)
+    or may be BLACK opaque, WHITE opaque and optionally copied from an already existing layer mask
+    (in case the merge target is a layermask -- when OM4->e was selected in the dialog)
+    
+          /* now layerstack shall look like this:
+           *   renderedObjectLayerId (foreground)
+           *   [ tweenLayerId ]      (optional) 
+           *   [ traceLayerId ]      (optional)
+           *   workLayerId
+
+    
+    
+    The renderedObject, Tween and Trace layer(s) will be merged down to the newly created worklayer.
+    and the merged working layer is then either:
+       o) copied into the layermask (and removed)  ... for mergeTarget OM4->c, OM4->d, OM4->e types GAP_MPP_TARGET_LOWER_LAYERS_MASK_*
+       o) mereged down to the existing Layer Below ... for mergeTarget OM4->b  type GAP_MPP_TARGET_LOWER_LAYER
+       o) kept as final render result              ... for mergeTarget OM4->a  type GAP_MPP_TARGET_NEW_LAYER        
+        
+
+
+   Note that Merging with the worklayer is done in Gimp Mergemode GIMP_EXPAND_AS_NECESSARY.
+   Therfore the Merged result has either has at least fraqme image size, or may be bigger in case
+   the RenderedObject was bigger or had a position where some parts ot it are outside the frame image boundaries.
+   Note that this can not occure when 'Clip To Frame' checkbox is selected.
+   
+   Tip: 
+   To force all rendered Objectes to exact frame image size
+   - set the 'Clip To Frame' checkbox to selected state,
+   - Use Merge Settings
+       OM1->m  Merge Down Rendered Object
+       OM4->a  New Layer as merge target.
+       
+       
+   
