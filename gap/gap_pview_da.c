@@ -1412,19 +1412,23 @@ gap_pview_get_repaint_pixbuf(GapPView   *pv_ptr)
 }  /* end gap_pview_get_repaint_pixbuf */
 
 
-/* ------------------------------
- * gap_pview_get_repaint_thdata
- * ------------------------------
+/* ------------------------------------
+ * gap_pview_get_copy_of_repaint_thdata
+ * ------------------------------------
  * return the repaint buffer as thumbnail data (guchar RGB),
  * or NULL if no buffer is available.
+ * Note that the optionally preallocated buffer th_pixel_data_copy
+ * must be large enough to hold (th_width * th_height * th_bpp) bytes,
+ * and can be freed by the caller, in case it could not be filled with useful date (indicated by returnvalue NULL)
  */
 guchar *
-gap_pview_get_repaint_thdata(GapPView   *pv_ptr        /* IN */
+gap_pview_get_copy_of_repaint_thdata(GapPView   *pv_ptr        /* IN */
                             , gint32    *th_size       /* OUT */
                             , gint32    *th_width      /* OUT */
                             , gint32    *th_height     /* OUT */
                             , gint32    *th_bpp        /* OUT */
                             , gboolean  *th_has_alpha  /* OUT */
+                            , guchar    *th_pixel_data_copy  /* IN/OUT optional preallocated buffer must have size (th_width * th_height * th_bpp) */
                             )
 { 
   /* int bits_per_sample; */
@@ -1432,7 +1436,6 @@ gap_pview_get_repaint_thdata(GapPView   *pv_ptr        /* IN */
   int height;
   gboolean has_alpha;
   guchar *pixel_data_src;
-  guchar *pixel_data_copy;
   
   
   if (pv_ptr == NULL)
@@ -1476,8 +1479,17 @@ gap_pview_get_repaint_thdata(GapPView   *pv_ptr        /* IN */
 
   if(pixel_data_src)
   {
+    guchar *pixel_data_copy;
     size_t pixel_data_size = pv_ptr->pv_height * pv_ptr->pv_width * pv_ptr->pv_bpp;
-    pixel_data_copy = g_new ( guchar, pixel_data_size );
+
+    if(th_pixel_data_copy)
+    {
+      pixel_data_copy = th_pixel_data_copy;
+    }
+    else 
+    {
+      pixel_data_copy = g_new ( guchar, pixel_data_size );
+    }
     memcpy(pixel_data_copy, pixel_data_src, pixel_data_size);                       
 
     *th_size       = width * height * pv_ptr->pv_bpp;
@@ -1490,4 +1502,4 @@ gap_pview_get_repaint_thdata(GapPView   *pv_ptr        /* IN */
   }
   return (NULL);
 
-} /* end gap_pview_get_repaint_thdata */
+} /* end  gap_pview_get_copy_of_repaint_thdata */

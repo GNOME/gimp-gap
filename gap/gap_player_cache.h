@@ -64,16 +64,17 @@ typedef struct GapPlayerCacheData {
 
 
 
-gint32               gap_player_cache_get_max_bytesize(void);
-gint32               gap_player_cache_get_current_bytes_used(void);
+gint64               gap_player_cache_get_max_bytesize(void);
+gint64               gap_player_cache_get_current_bytes_used(void);
 gint32               gap_player_cache_get_current_frames_cached(void);
-gint32               gap_player_cache_get_gimprc_bytesize(void);
+gint64               gap_player_cache_get_gimprc_bytesize(void);
 
-void                 gap_player_cache_set_gimprc_bytesize(gint32 bytesize);
-void                 gap_player_cache_set_max_bytesize(gint32 max_bytesize);
+void                 gap_player_cache_set_gimprc_bytesize(gint64 bytesize);
+void                 gap_player_cache_set_max_bytesize(gint64 max_bytesize);
 GapPlayerCacheData*  gap_player_cache_lookup(const gchar *ckey);
 void                 gap_player_cache_insert(const gchar *ckey
                         , GapPlayerCacheData *data);
+void                 gap_player_cache_remove_oldest_frame(void);
 guchar*              gap_player_cache_decompress(GapPlayerCacheData *cdata);
 
 GapPlayerCacheData*  gap_player_cache_new_data(guchar *th_data

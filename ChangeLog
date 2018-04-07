@@ -1,3 +1,14 @@
+2018-04-07 Wolfgang Hofer <hof@gimp.org>
+
+- player cache limitation now supports higher values than 2047 MB
+  Note: the player still will crash in case 
+  the user sets the limit greater than the available memory.
+
+ * gap/gap_pview_da.c [.h]
+ * gap/gap_player_main.h
+ * gap/gap_player_dialog.c
+ * gap/gap_player_cache.c [h]
+
 2018-01-25 Wolfgang Hofer <hof@gimp.org>
 
 - use larger spinbutton entries in the MovePath Dialog and bigger inital preview size.

@@ -111,11 +111,12 @@ void       gap_pview_drop_repaint_buffers(GapPView *pv_ptr);
 
 void       gap_pview_render_default_icon(GapPView   *pv_ptr);
 GdkPixbuf *gap_pview_get_repaint_pixbuf(GapPView   *pv_ptr);
-guchar *   gap_pview_get_repaint_thdata(GapPView   *pv_ptr        /* IN */
+guchar *   gap_pview_get_copy_of_repaint_thdata(GapPView   *pv_ptr        /* IN */
                             , gint32    *th_size       /* OUT */
                             , gint32    *th_width      /* OUT */
                             , gint32    *th_height     /* OUT */
                             , gint32    *th_bpp        /* OUT */
                             , gboolean  *th_has_alpha  /* OUT */
+                            , guchar    *th_pixel_data_copy /* IN/OUT  optional preallocated buffer must have size (th_width * th_height * th_bpp) */
                             );
 #endif
