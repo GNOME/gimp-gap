@@ -219,7 +219,7 @@ typedef struct GapPlayerMainGlobalParams {
   GtkWidget *label_current_cache_values;
   GtkWidget *progress_bar_cache_usage;
 
-  gint32     max_player_cache;    /* max bytesize to use for caching frames 
+  gint64     max_player_cache;    /* max bytesize to use for caching frames 
                                    * (at pview widget size) 
                                    * a value of 0 turns caching OFF
                                    */

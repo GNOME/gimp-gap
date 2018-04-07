@@ -115,8 +115,8 @@ typedef struct GapPlayerCacheElem {
 typedef struct GapPlayerCacheAdmin {  /* nick: admin_ptr */
   GapPlayerCacheElem               *start_elem;   /* recently accessed element */
   GapPlayerCacheElem               *end_elem;     /* last list elem (access long ago) */
-  gint32                           summary_bytesize;
-  gint32                           configured_max_bytesize;
+  gint64                           summary_bytesize;
+  gint64                           configured_max_bytesize;
   GHashTable                      *pcache_elemref_hash;
   } GapPlayerCacheAdmin;
 
@@ -129,7 +129,7 @@ static GapPlayerCacheAdmin* p_get_admin_ptr(void);
 static void      p_debug_printf_cache_list(GapPlayerCacheAdmin *admin_ptr);
 static void      p_debug_printf_cdata(GapPlayerCacheData *cdata);
 
-static void      p_player_cache_shrink(GapPlayerCacheAdmin *admin_ptr, gint32 new_bytesize);
+static void      p_player_cache_shrink(GapPlayerCacheAdmin *admin_ptr, gint64 new_bytesize);
 static void      p_player_cache_remove_oldest_frame(GapPlayerCacheAdmin *admin_ptr);
 static void      p_free_elem(GapPlayerCacheElem  *delete_elem_ptr);
 static void      p_player_cache_add_new_frame(GapPlayerCacheAdmin *admin_ptr
@@ -160,12 +160,19 @@ p_get_admin_ptr(void)
     admin_ptr->end_elem = NULL;
     admin_ptr->summary_bytesize = 0;
     admin_ptr->configured_max_bytesize = GAP_PLAYER_CACHE_DEFAULT_MAX_BYTESIZE;
-
+    admin_ptr->pcache_elemref_hash = NULL;
+  }
+  
+  if (global_pca_ptr->pcache_elemref_hash == NULL)
+  {
+    global_pca_ptr->start_elem = NULL;
+    global_pca_ptr->end_elem = NULL;
+    global_pca_ptr->summary_bytesize = 0;
     /* use NULL to skip destructor for the ckey
      * because the ckey is also part of the value
      * (and therefore freed via the value destuctor procedure p_free_elem)
      */
-    admin_ptr->pcache_elemref_hash = g_hash_table_new_full(g_str_hash
+    global_pca_ptr->pcache_elemref_hash = g_hash_table_new_full(g_str_hash
                                                          , g_str_equal
                                                          , NULL
                                                          , (GDestroyNotify) p_free_elem
@@ -254,7 +261,7 @@ p_debug_printf_cache_list(GapPlayerCacheAdmin *admin_ptr)
  * ---------------------------------
  */
 void
-gap_player_cache_set_max_bytesize(gint32 max_bytesize)
+gap_player_cache_set_max_bytesize(gint64 max_bytesize)
 {
   GapPlayerCacheAdmin *admin_ptr;
 
@@ -280,11 +287,11 @@ gap_player_cache_set_max_bytesize(gint32 max_bytesize)
  * gap_player_cache_get_max_bytesize
  * -----------------------------------------
  */
-gint32
+gint64
 gap_player_cache_get_max_bytesize(void)
 {
   GapPlayerCacheAdmin *admin_ptr;
-  gint32 bytesize;
+  gint64 bytesize;
 
   bytesize = 0;
   admin_ptr = p_get_admin_ptr();
@@ -300,11 +307,11 @@ gap_player_cache_get_max_bytesize(void)
  * gap_player_cache_get_current_bytes_used
  * -----------------------------------------
  */
-gint32
+gint64
 gap_player_cache_get_current_bytes_used(void)
 {
   GapPlayerCacheAdmin *admin_ptr;
-  gint32 bytesize;
+  gint64 bytesize;
 
   bytesize = 0;
   admin_ptr = p_get_admin_ptr();
@@ -340,10 +347,10 @@ gap_player_cache_get_current_frames_cached(void)
  * gap_player_cache_get_gimprc_bytesize
  * ------------------------------------
  */
-gint32
+gint64
 gap_player_cache_get_gimprc_bytesize(void)
 {
-  gint32 bytesize;
+  gint64 bytesize;
   gchar *value_string;
 
   value_string = gimp_gimprc_query("video_playback_cache");
@@ -392,10 +399,10 @@ gap_player_cache_get_gimprc_bytesize(void)
  * ------------------------------------
  */
 void
-gap_player_cache_set_gimprc_bytesize(gint32 bytesize)
+gap_player_cache_set_gimprc_bytesize(gint64 bytesize)
 {
-  gint32 kbsize;
-  gint32 mbsize;
+  gint64 kbsize;
+  gint64 mbsize;
   gchar  *value_string;
   
   kbsize = bytesize / 1024;
@@ -424,10 +431,10 @@ gap_player_cache_set_gimprc_bytesize(gint32 bytesize)
  * p_get_elem_size
  * ------------------------------
  */
-static gint32
+static gint64
 p_get_elem_size(GapPlayerCacheElem *elem_ptr)
 {
-  gint32 bytesize;
+  gint64 bytesize;
 
   bytesize = 0;
 
@@ -536,9 +543,14 @@ gap_player_cache_free_all(void)
       p_player_cache_remove_oldest_frame(admin_ptr);
     }
     g_hash_table_destroy(admin_ptr->pcache_elemref_hash);
-
-    global_pca_ptr = NULL;
-    g_free(admin_ptr);
+    admin_ptr->pcache_elemref_hash = NULL;
+    admin_ptr->summary_bytesize = 0;
+ 
+    /* keep the global_pca_ptr for the full session length
+     * (otherwise it would lose configured configured_max_bytesize setting)
+     */
+    // global_pca_ptr = NULL;
+    // g_free(admin_ptr);
   }
 }  /* end gap_player_cache_free_all */
 
@@ -551,7 +563,7 @@ gap_player_cache_free_all(void)
  * until fit to configured maximum
  */
 static void
-p_player_cache_shrink(GapPlayerCacheAdmin *admin_ptr, gint32 new_bytesize)
+p_player_cache_shrink(GapPlayerCacheAdmin *admin_ptr, gint64 new_bytesize)
 {
   while(admin_ptr->start_elem != NULL)
   {
@@ -569,6 +581,11 @@ p_player_cache_shrink(GapPlayerCacheAdmin *admin_ptr, gint32 new_bytesize)
   }
 }  /* end p_player_cache_shrink */
 
+void
+gap_player_cache_remove_oldest_frame(void)
+{
+  p_player_cache_remove_oldest_frame(p_get_admin_ptr());
+}
 
 /* ----------------------------------
  * p_player_cache_remove_oldest_frame
@@ -778,7 +795,7 @@ gap_player_cache_insert(const gchar *ckey
                       , GapPlayerCacheData *cdata)
 {
   GapPlayerCacheAdmin *admin_ptr;
-  gint32               new_bytesize;
+  gint64               new_bytesize;
   GapPlayerCacheElem  *new_elem_ptr;
 
   if((ckey == NULL) || (cdata == NULL))
@@ -798,6 +815,11 @@ gap_player_cache_insert(const gchar *ckey
     {
       printf("gap_player_cache_insert: INSERT REJECTED! ckey:<%s> \n", ckey);
     }
+    /* free the rejected cdata just in case ...
+     * .. but REJECT should not occure (and did not occure in my tests)
+     * .. because the player shall not attempt to add elements more than once.
+     */
+    gap_player_cache_free_cdata(cdata);
     return;
   }
 
@@ -854,7 +876,7 @@ gap_player_cache_decompress(GapPlayerCacheData *cdata)
  * create and set up a new player chache data stucture.
  * NOTE: The th_data is NOT copied but used as 1:1 reference
  *       in case no compression is done.
- * comression (not implemented yet) will create
+ * compression (not implemented yet) will create
  * a compressed copy of th_data (that is put into the newly created
  * GapPlayerCacheData structure, and g_free th_data after the compression.
  */
@@ -870,7 +892,11 @@ gap_player_cache_new_data(guchar *th_data
 {
   GapPlayerCacheData* cdata;
 
-  cdata = g_new ( GapPlayerCacheData, 1 );
+  cdata = g_try_malloc ( sizeof(GapPlayerCacheData) );
+  if (cdata == NULL)
+  {
+    return (NULL);
+  }
   cdata->compression = compression;
   cdata->th_data_size = th_size;
   cdata->th_width = th_width;

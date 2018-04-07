@@ -3399,10 +3399,13 @@ p_frame_chache_processing(GapPlayerMainGlobalParams *gpp
 {
   GapPlayerCacheData *cdata;
   guchar             *th_data;
+  guchar             *th_pixel_data_copy;
+  size_t              pixel_data_size;
   gint32              th_size;
   gint32              th_width;
   gint32              th_height;
   gint32              th_bpp;
+  gint32              countFramesInCache;
   gboolean            th_has_alpha;
 
 
@@ -3416,17 +3419,45 @@ p_frame_chache_processing(GapPlayerMainGlobalParams *gpp
     /* frame with ckey is already cached */
     return;
   }
+  
+  pixel_data_size = gpp->pv_ptr->pv_height * gpp->pv_ptr->pv_width * gpp->pv_ptr->pv_bpp;
 
-  th_data = gap_pview_get_repaint_thdata(gpp->pv_ptr
+  th_pixel_data_copy = NULL;
+  cdata = NULL;
+  
+  countFramesInCache = gap_player_cache_get_current_frames_cached();
+
+  /* loop with attempts to add a copy of the frame (that is already rendered in the pview widget)
+   * to the players cache.
+   * (this loop tries to eliminate older elements when running out of memory)
+   */
+  while(TRUE)
+  {
+    if (th_pixel_data_copy == NULL)
+    {
+      th_pixel_data_copy = g_try_malloc (pixel_data_size);
+    }
+    if (th_pixel_data_copy)
+    {
+      th_data = gap_pview_get_copy_of_repaint_thdata(gpp->pv_ptr
                             , &th_size
                             , &th_width
                             , &th_height
                             , &th_bpp
                             , &th_has_alpha
+                            , th_pixel_data_copy  /* preallocated buffer is filled when repaint data is available */
                             );
-  if (th_data != NULL)
-  {
-    cdata = gap_player_cache_new_data(th_data
+       if(th_data == NULL)
+       {
+         /* throw away the preallocated buffer that could not be filled with useful data
+          * and return without adding to the cache
+          */
+         g_free(th_pixel_data_copy);
+         return;
+       }
+
+
+       cdata = gap_player_cache_new_data(th_pixel_data_copy
              , th_size
              , th_width
              , th_height
@@ -3434,13 +3465,54 @@ p_frame_chache_processing(GapPlayerMainGlobalParams *gpp
              , gpp->cache_compression
              , gpp->pv_ptr->flip_status
              );
-    if(cdata != NULL)
-    {
-      /* insert frame into cache
-       */
-      gap_player_cache_insert(ckey, cdata);
-      p_update_cache_status(gpp);
+       if(cdata != NULL)
+       {
+         /* insert frame into cache
+          */
+        gap_player_cache_insert(ckey, cdata);
+        p_update_cache_status(gpp);
+        
+        /* now the new elemnts are part of the cache
+         * (and will be freed later under control of the hash table)
+         */
+        return;  
+      }
     }
+    
+    if (countFramesInCache <= 0)
+    {
+      break;
+    }
+    
+    if(gap_debug)
+    {
+      printf("p_frame_chache_processing: next attempt to add cache element with countFramesInCache:%d", countFramesInCache);
+    }
+    
+    /* attempts to add the new element faild (due to lack of memory),
+     * but there are older cached elements that can be removed
+     * to get back some memory for another attempt.
+     * Note: 
+     * in tests this situation was not reached, because the player cache
+     * is not the only memory allocating application part, and the "out of memory"
+     * may occure (after ram and swap are filled up) on any other places...
+     * .. in other words: this current implementation still crashes when
+     * the configured cache limit was set greater than the available memory.
+     */
+    gap_player_cache_remove_oldest_frame();
+    countFramesInCache--;
+  }
+  
+  /* at this point we did not get memory for adding the element to the cache
+   * (even after all cached elements were removed)
+   */
+  if (th_pixel_data_copy != NULL)
+  {
+    g_free(th_pixel_data_copy);
+  }
+  if (cdata != NULL)
+  {
+    g_free(cdata);
   }
 
 }  /* end p_frame_chache_processing */
@@ -7238,8 +7310,8 @@ p_update_cache_status (GapPlayerMainGlobalParams *gpp)
 {
   static char  status_txt[50];
   gint32 elem_counter;
-  gint32 bytes_used;
-  gint32 max_bytes;
+  gint64 bytes_used;
+  gint64 max_bytes;
 
 
   elem_counter = gap_player_cache_get_current_frames_cached();
@@ -7297,9 +7369,9 @@ on_cache_size_spinbutton_changed (GtkEditable     *editable,
   mb_chachesize = GTK_ADJUSTMENT(gpp->cache_size_spinbutton_adj)->value;
   bytesize = mb_chachesize * (1024.0 * 1024.0);
 
-  if(gpp->max_player_cache != (gint32)bytesize)
+  if(gpp->max_player_cache != (gint64)bytesize)
   {
-    gpp->max_player_cache = (gint32)bytesize;
+    gpp->max_player_cache = (gint64)bytesize;
 
     if(gap_debug)
     {
@@ -7470,7 +7542,7 @@ p_new_configframe(GapPlayerMainGlobalParams *gpp)
     spinbutton = gimp_spin_button_new (&adj,  /* return value */
                         mb_cachesize,         /*   initial_val */
                         0.0,   /* umin */
-                     9000.0,   /* umax */
+                    32000.0,   /* umax */
                         1.0,  /* sstep */
                        10.0,   /* pagestep */
                        0.0,                  /* page_size */
