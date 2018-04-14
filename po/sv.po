@@ -11,15 +11,15 @@ msgstr ""
 "Project-Id-Version: gimp-gap\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-01-25 13:01+0000\n"
-"PO-Revision-Date: 2018-02-05 12:33+0100\n"
+"POT-Creation-Date: 2018-03-30 20:42+0000\n"
+"PO-Revision-Date: 2018-04-14 20:34+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Button  to invoke fontbrowser
@@ -874,11 +874,11 @@ msgstr "Tillämpa tröskelvärden i RGB-färgmodellen"
 #. radio button thres_mode HSV
 #: ../gap/gap_bluebox.c:931
 msgid "HSV"
-msgstr "HSV"
+msgstr "NMI"
 
 #: ../gap/gap_bluebox.c:940
 msgid "Apply thresholds in the HSV colormodel"
-msgstr "Tillämpa tröskelvärden i HSV-färgmodellen"
+msgstr "Tillämpa tröskelvärden i NMI-färgmodellen"
 
 #. radio button thres_mode VAL
 #: ../gap/gap_bluebox.c:952
@@ -914,7 +914,7 @@ msgstr "ALLA"
 
 #: ../gap/gap_bluebox.c:1017
 msgid "Use both HSV and RGB threshold values"
-msgstr "Använd både HSV- och RGB-tröskelvärden"
+msgstr "Använd både NMI- och RGB-tröskelvärden"
 
 #: ../gap/gap_bluebox.c:1043
 msgid "Threshold R:"
@@ -957,7 +957,7 @@ msgstr "Tröskelvärde för blå kanal"
 
 #: ../gap/gap_bluebox.c:1105
 msgid "Threshold H:"
-msgstr "Tröskelvärde H:"
+msgstr "Tröskelvärde N:"
 
 #. lower/upper
 #. step, page
@@ -970,7 +970,7 @@ msgstr "Tröskelvärde för nyans"
 
 #: ../gap/gap_bluebox.c:1122
 msgid "Threshold S:"
-msgstr "Tröskelvärde S:"
+msgstr "Tröskelvärde M:"
 
 #. lower/upper
 #. step, page
@@ -983,7 +983,7 @@ msgstr "Tröskelvärde för mättnad"
 
 #: ../gap/gap_bluebox.c:1140
 msgid "Threshold V:"
-msgstr "Tröskelvärde V:"
+msgstr "Tröskelvärde I:"
 
 #. lower/upper
 #. step, page
@@ -1363,9 +1363,9 @@ msgid ""
 "keeps the group structure, but the filter call will fail  for all filters "
 "that are not capable to process a group layer)"
 msgstr ""
-"grupplager behandlas på samma sätt som vanliga lager. (detta bibehåller "
-"normalt gruppstrukturen, men filteranropet kommer att misslyckas för alla "
-"filter som inte är kapabla att behandla ett grupplager)"
+"grupperade lager behandlas på samma sätt som vanliga lager. (detta "
+"bibehåller normalt gruppstrukturen, men filteranropet kommer att misslyckas "
+"för alla filter som inte är kapabla att behandla ett grupperat lager)"
 
 #. printf("DROP (SKIP) frame\n");
 #: ../gap/gap_dbbrowser_utils.c:380 ../gap/gap_player_dialog.c:4795
@@ -1374,7 +1374,7 @@ msgstr "Hoppa över"
 
 #: ../gap/gap_dbbrowser_utils.c:384
 msgid "skip processing of the selected filter for group layers."
-msgstr "hoppa över behandlingen med det valda filtret för grupplager."
+msgstr "hoppa över behandlingen med det valda filtret för grupperade lager."
 
 #: ../gap/gap_dbbrowser_utils.c:388
 msgid "Merge"
@@ -1382,7 +1382,7 @@ msgstr "Sammanfoga"
 
 #: ../gap/gap_dbbrowser_utils.c:392
 msgid "group layers are merged before the selected filter is applied."
-msgstr "grupplager är sammanfogade innan det valda filtret tillämpas."
+msgstr "grupperade lager är sammanfogade innan det valda filtret tillämpas."
 
 #: ../gap/gap_dbbrowser_utils.c:439
 msgid "Gen Code by name"
@@ -1563,8 +1563,8 @@ msgid ""
 "Compression for resulting png frames where 0 is uncompressed (fast), 9 is "
 "max. compression (this option is ignored when JPEG format is used)"
 msgstr ""
-"Kompression för resulterande png-bildrutor där 0 är okomprimerat (snabbt), 9 "
-"är max kompression (detta alternativ ignoreras då JPEG-format används)"
+"Komprimering för resulterande png-bildrutor där 0 är okomprimerat (snabbt), "
+"9 är max komprimering (detta alternativ ignoreras då JPEG-format används)"
 
 #: ../gap/gap_decode_mplayer.c:532 ../gap/gap_decode_xanim.c:294
 msgid "Jpeg Quality:"
@@ -3304,7 +3304,7 @@ msgstr "Fel: %d"
 
 #: ../gap/gap_fmac_main.c:1018
 msgid "** No menu path available **"
-msgstr "** iIngen menysökväg tillgänglig **"
+msgstr "** Ingen menysökväg tillgänglig **"
 
 #: ../gap/gap_fmac_main.c:1056 ../gap/gap_video_index_creator.c:1280
 msgid "** Empty **"
@@ -3312,7 +3312,7 @@ msgstr "** Tom **"
 
 #: ../gap/gap_fmac_main.c:1065
 msgid "** File is not a filtermacro **"
-msgstr "** Filen är inte ett filtermacro **"
+msgstr "** Filen är inte ett filtermakro **"
 
 #: ../gap/gap_fmac_main.c:1103 ../gap/gap_onion_dialog.c:1523
 #: ../gap/gap_player_dialog.c:8523
@@ -10315,7 +10315,7 @@ msgstr "välj inmatningsvideospår (de flesta videofiler har bara ett spår)"
 #. the deinterlace Mode label
 #: ../gap/gap_story_properties.c:4345 ../gap/gap_vex_dialog.c:2641
 msgid "Deinterlace:"
-msgstr "Avfläta:"
+msgstr "Avflätning:"
 
 #: ../gap/gap_story_properties.c:4372
 msgid "Read videoframes 1:1 without de-interlace filter"
@@ -10363,7 +10363,7 @@ msgstr ""
 msgid ""
 "deinterlacing threshold: 0.0 no interpolation 0.999 smooth interpolation"
 msgstr ""
-"avflätningströskelvärde: 0,0 ingen interpolation 0,999 jämn interpolation"
+"tröskelvärde för avflätning: 0,0 ingen interpolation 0,999 jämn interpolation"
 
 #. the Transform (flip_request) label
 #: ../gap/gap_story_properties.c:4490
@@ -11359,7 +11359,7 @@ msgstr "Gult/blått:"
 
 #: ../gap/gap_wr_color_balance.c:711
 msgid "Preserve luminosity"
-msgstr "Bevara luminositet"
+msgstr "Bevara luminiscens"
 
 #: ../gap/gap_wr_color_curve.c:920
 #, c-format
@@ -11515,7 +11515,7 @@ msgstr "Ljushet"
 
 #: ../gap/gap_wr_desaturate.c:504
 msgid "Luminosity"
-msgstr "Luminositet"
+msgstr "Luminiscens"
 
 #: ../gap/gap_wr_desaturate.c:509
 msgid "Average"
@@ -11633,7 +11633,7 @@ msgstr "Vänd vertikalt"
 
 #: ../gap/gap_wr_trans.c:219
 msgid "Rotate 90 degrees CW"
-msgstr "Rotera 90 grader medsols"
+msgstr "Rotera 90 grader medurs"
 
 #: ../gap/gap_wr_trans.c:237
 msgid "Rotate 180 degrees"
@@ -11641,7 +11641,7 @@ msgstr "Rotera 180 grader"
 
 #: ../gap/gap_wr_trans.c:254
 msgid "Rotate 90 degrees CCW"
-msgstr "Rotera 90 grader motsols"
+msgstr "Rotera 90 grader moturs"
 
 #: ../gap/gap_wr_trans.c:271 ../gap/gap_wr_trans.c:624
 msgid "Rotate any angle"
@@ -12724,15 +12724,15 @@ msgstr "Generera sammanflätade PNG:s"
 #. the png compression label
 #: ../vid_enc_avi/gap_enc_avi_gui.c:802
 msgid "Compression:"
-msgstr "Kompression:"
+msgstr "Komprimering:"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:826
 msgid ""
 "The compression setting of the encoded PNG frames (9=best "
 "compression0=fastest)"
 msgstr ""
-"Kompressionsinställningen för de kodade PNG-bildrutorna (9=bäst kompression "
-"0=snabbast)"
+"Komprimeringsinställningen för de kodade PNG-bildrutorna (9=bäst "
+"komprimering 0=snabbast)"
 
 #: ../vid_enc_avi/gap_enc_avi_gui.c:836
 msgid "RAW Codec Options"
@@ -13633,11 +13633,11 @@ msgstr "Normalisera adaptiv kvantisering"
 #. the SVCD scan offset checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2448
 msgid "SVCD scan offset"
-msgstr "SVCD scan kompensation"
+msgstr "SVCD scan-kompensation"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2454
 msgid "Enable SVCD scan offset placeholder"
-msgstr "Aktivera SVCD scan-kompensation platshållare"
+msgstr "Aktivera platshållare för SVCD scan-kompensation"
 
 #. the dont_recode checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2471
@@ -13973,7 +13973,7 @@ msgid ""
 "Video quantiser scale compression (VBR) amount of qscale change between easy "
 "& hard scenes (0.0-1.0)"
 msgstr ""
-"Videokvantiserare skalningskompression (VBR) mängd qscale-ändring mellan "
+"Videokvantiserare skalningskomprimering (VBR) mängd qscale-ändring mellan "
 "lätta och svåra scener (0,0-1,0)"
 
 #. the rc-init-cplx label
