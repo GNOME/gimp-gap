@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-10-23 16:43+0000\n"
+"POT-Creation-Date: 2018-05-01 07:32+0000\n"
 "PO-Revision-Date: 2017-10-24 00:22+0200\n"
 "Last-Translator: David Aguilera <dvd1985@gmail.com>\n"
 "Language-Team: Catalan <gnome@llistes.softcatala.org>\n"
@@ -550,7 +550,7 @@ msgid "Rename Frames"
 msgstr "Reanomena els fotogrames"
 
 #: ../gap/gap_base_ops.c:2359
-msgid "Check Framnames"
+msgid "Check Framenames"
 msgstr "Comprova els moms dels fotogrames"
 
 #: ../gap/gap_base_ops.c:2477
@@ -760,13 +760,13 @@ msgstr "Selecciona el fitxer de vídeo svg sortint mitjançant el navegador"
 
 #  toggle bluebox
 #. toggle bluebox
-#: ../gap/gap_bluebox.c:251 ../gap/gap_mov_dialog.c:4513
+#: ../gap/gap_bluebox.c:254 ../gap/gap_mov_dialog.c:4513
 msgid "Bluebox"
 msgstr "Filtre blau"
 
 #  the frame
 #. the frame
-#: ../gap/gap_bluebox.c:273
+#: ../gap/gap_bluebox.c:276
 msgid "Select By Color"
 msgstr "Selecciona per color"
 
@@ -776,17 +776,17 @@ msgstr "Selecciona per color"
 #  keycolor label
 #. the keycolor label
 #. keycolor label
-#: ../gap/gap_bluebox.c:288 ../gap/gap_mov_dialog.c:4530
+#: ../gap/gap_bluebox.c:291 ../gap/gap_mov_dialog.c:4530
 msgid "Keycolor:"
 msgstr "Color clau:"
 
 #  the keycolor button
 #. the keycolor button
-#: ../gap/gap_bluebox.c:294
+#: ../gap/gap_bluebox.c:297
 msgid "Bluebox Color Picker"
 msgstr "Pipeta del filtre blau"
 
-#: ../gap/gap_bluebox.c:318
+#: ../gap/gap_bluebox.c:321
 msgid "Alpha Tolerance:"
 msgstr "Tolerància alfa:"
 
@@ -800,7 +800,7 @@ msgstr "Tolerància alfa:"
 #. digits
 #. constrain
 #. lower/upper unconstrained
-#: ../gap/gap_bluebox.c:325
+#: ../gap/gap_bluebox.c:328
 msgid ""
 "Sharp pixel selection by color with 0.0. Values greater than 0 give the "
 "selection more or less variable alpha value, depending on disparity with the "
@@ -810,7 +810,7 @@ msgstr ""
 "selecció amb més o menys valor alfa depenent de la seva diferència amb el "
 "codi del color."
 
-#: ../gap/gap_bluebox.c:337
+#: ../gap/gap_bluebox.c:340
 msgid "Source Alpha:"
 msgstr "Alfa font:"
 
@@ -824,11 +824,11 @@ msgstr "Alfa font:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:344
+#: ../gap/gap_bluebox.c:347
 msgid "Affect only pixels with alpha >= source alpha where 1.0 is full opaque"
 msgstr "Afecta només píxels amb alfa >= alfa font on 1.0 és opac del tot"
 
-#: ../gap/gap_bluebox.c:355
+#: ../gap/gap_bluebox.c:358
 msgid "Target Alpha:"
 msgstr "Alfa destinació:"
 
@@ -842,24 +842,24 @@ msgstr "Alfa destinació:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:362
+#: ../gap/gap_bluebox.c:365
 msgid ""
 "Set alpha of affected pixel to target alpha where 0.0 is full transparent"
 msgstr ""
 "Defineix l'alfa del píxel afectat per l'alfa de destinació on 0.0 és "
 "transparent del tot"
 
-#: ../gap/gap_bluebox.c:373
+#: ../gap/gap_bluebox.c:376
 msgid "Feather Edges:"
 msgstr "Difumina les vores:"
 
-#: ../gap/gap_bluebox.c:384
+#: ../gap/gap_bluebox.c:387
 msgid "ON: Feather edges using feather radius"
 msgstr "Activat: Difumina les vores utilitzant el radi de difuminació"
 
 #. accelaration characteristic for feather radius
 #. table col, row
-#: ../gap/gap_bluebox.c:394 ../gap/gap_colormask_dialog.c:407
+#: ../gap/gap_bluebox.c:397 ../gap/gap_colormask_dialog.c:407
 #: ../gap/gap_mov_dialog.c:5852
 msgid "Feather Radius:"
 msgstr "Radi de difuminació:"
@@ -874,11 +874,11 @@ msgstr "Radi de difuminació:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:401
+#: ../gap/gap_bluebox.c:404
 msgid "Feather radius for smoothing the alpha channel"
 msgstr "Radi de difuminació per a suavitzar el canal alfa"
 
-#: ../gap/gap_bluebox.c:411
+#: ../gap/gap_bluebox.c:414
 msgid "Shrink/Grow:"
 msgstr "Encongeix/Eixampla:"
 
@@ -897,16 +897,16 @@ msgstr "Encongeix/Eixampla:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:418
+#: ../gap/gap_bluebox.c:421
 msgid "Grow selection in pixels (use negative values for shrink)"
 msgstr ""
 "Eixampla la selecció en píxels (utilitzeu valors negatius per a encongir)"
 
-#: ../gap/gap_bluebox.c:427 ../gap/gap_edge_detection_dialog.c:623
+#: ../gap/gap_bluebox.c:430 ../gap/gap_edge_detection_dialog.c:623
 msgid "Automatic Preview:"
 msgstr "Previsualització automàtica:"
 
-#: ../gap/gap_bluebox.c:438 ../gap/gap_edge_detection_dialog.c:634
+#: ../gap/gap_bluebox.c:441 ../gap/gap_edge_detection_dialog.c:634
 msgid "ON: Keep preview image up to date"
 msgstr "Activat: Manté actualitzada la imatge previsualitzada"
 
@@ -916,16 +916,16 @@ msgstr "Activat: Manté actualitzada la imatge previsualitzada"
 #  the preview frame
 #. button
 #. the preview frame
-#: ../gap/gap_bluebox.c:447 ../gap/gap_edge_detection_dialog.c:643
+#: ../gap/gap_bluebox.c:450 ../gap/gap_edge_detection_dialog.c:643
 #: ../gap/gap_mov_dialog.c:6178
 msgid "Preview"
 msgstr "Previsualització"
 
-#: ../gap/gap_bluebox.c:450 ../gap/gap_edge_detection_dialog.c:646
+#: ../gap/gap_bluebox.c:453 ../gap/gap_edge_detection_dialog.c:646
 msgid "Show preview as separate image"
 msgstr "Mostra previsualització com a imatge separada"
 
-#: ../gap/gap_bluebox.c:458 ../gap/gap_edge_detection_dialog.c:654
+#: ../gap/gap_bluebox.c:461 ../gap/gap_edge_detection_dialog.c:654
 msgid "Previewsize:"
 msgstr "Mida de previsualització:"
 
@@ -944,59 +944,77 @@ msgstr "Mida de previsualització:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:465 ../gap/gap_edge_detection_dialog.c:661
+#: ../gap/gap_bluebox.c:468 ../gap/gap_edge_detection_dialog.c:661
 msgid "Size of the preview image in percent of the original"
 msgstr "Mida de la imatge de previsualització en percentatge de l'original"
 
-#: ../gap/gap_bluebox.c:860
+#: ../gap/gap_bluebox.c:901
 msgid "Threshold Mode:"
 msgstr "Mode del llindar:"
 
 #  radio button thres_mode RGB
 #  radio button thres_mode RGB
 #. radio button thres_mode RGB
-#: ../gap/gap_bluebox.c:870
+#: ../gap/gap_bluebox.c:911
 msgid "RGB"
 msgstr "RGB"
 
-#: ../gap/gap_bluebox.c:879
+#: ../gap/gap_bluebox.c:920
 msgid "Apply thresholds in the RGB colormodel"
 msgstr "Aplica llindars al model de color RGB"
 
 #  radio button thres_mode HSV
 #  radio button thres_mode HSV
 #. radio button thres_mode HSV
-#: ../gap/gap_bluebox.c:890
+#: ../gap/gap_bluebox.c:931
 msgid "HSV"
 msgstr "HSV"
 
-#: ../gap/gap_bluebox.c:899
+#: ../gap/gap_bluebox.c:940
 msgid "Apply thresholds in the HSV colormodel"
 msgstr "Aplica llindars al model de color HSV"
 
 #  radio button thres_mode VAL
 #  radio button thres_mode VAL
 #. radio button thres_mode VAL
-#: ../gap/gap_bluebox.c:911
+#: ../gap/gap_bluebox.c:952
 msgid "VALUE"
 msgstr "Valor"
 
-#: ../gap/gap_bluebox.c:920
+#: ../gap/gap_bluebox.c:961
 msgid "Use single threshold value"
 msgstr "Utilitza un sol valor de llindar"
+
+#. radio button thres_mode DeltaE CIE94
+#: ../gap/gap_bluebox.c:971
+msgid "E94"
+msgstr "E94"
+
+#: ../gap/gap_bluebox.c:980
+msgid "Use single threshold value DeltaE CIE94"
+msgstr "Utilitza un sol valor DeltaE CIE94 de llindar"
+
+#. radio button thres_mode DeltaE CIEDE2000
+#: ../gap/gap_bluebox.c:989
+msgid "E2000"
+msgstr "E2000"
+
+#: ../gap/gap_bluebox.c:998
+msgid "Use single threshold value DeltaE CIEDE2000"
+msgstr "Utilitza un sol valor DeltaE CIEDE2000 de llindar"
 
 #  radio button thres_mode ALL
 #  radio button thres_mode ALL
 #. radio button thres_mode ALL
-#: ../gap/gap_bluebox.c:931
+#: ../gap/gap_bluebox.c:1008
 msgid "ALL"
 msgstr "Tot"
 
-#: ../gap/gap_bluebox.c:940
+#: ../gap/gap_bluebox.c:1017
 msgid "Use both HSV and RGB threshold values"
 msgstr "Utilitza tots dos valors de llindar HSV i RGB"
 
-#: ../gap/gap_bluebox.c:966
+#: ../gap/gap_bluebox.c:1043
 msgid "Threshold R:"
 msgstr "Llindar vermell:"
 
@@ -1015,11 +1033,11 @@ msgstr "Llindar vermell:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:973
+#: ../gap/gap_bluebox.c:1050
 msgid "Threshold for red channel"
 msgstr "Llindar pel canal vermell"
 
-#: ../gap/gap_bluebox.c:983
+#: ../gap/gap_bluebox.c:1060
 msgid "Threshold G:"
 msgstr "Llindar verd:"
 
@@ -1038,11 +1056,11 @@ msgstr "Llindar verd:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:990
+#: ../gap/gap_bluebox.c:1067
 msgid "Threshold for green channel"
 msgstr "Llindar pel canal verd"
 
-#: ../gap/gap_bluebox.c:1001
+#: ../gap/gap_bluebox.c:1078
 msgid "Threshold B:"
 msgstr "Llindar blau:"
 
@@ -1061,11 +1079,11 @@ msgstr "Llindar blau:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1008
+#: ../gap/gap_bluebox.c:1085
 msgid "Threshold for blue channel"
 msgstr "Llinda pel canal blau"
 
-#: ../gap/gap_bluebox.c:1028
+#: ../gap/gap_bluebox.c:1105
 msgid "Threshold H:"
 msgstr "Llindar to:"
 
@@ -1084,11 +1102,11 @@ msgstr "Llindar to:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1035
+#: ../gap/gap_bluebox.c:1112
 msgid "Threshold for hue"
 msgstr "Llindar pel to"
 
-#: ../gap/gap_bluebox.c:1045
+#: ../gap/gap_bluebox.c:1122
 msgid "Threshold S:"
 msgstr "Llindar saturació:"
 
@@ -1107,11 +1125,11 @@ msgstr "Llindar saturació:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1052
+#: ../gap/gap_bluebox.c:1129
 msgid "Threshold for saturation"
 msgstr "Llindar per saturació"
 
-#: ../gap/gap_bluebox.c:1063
+#: ../gap/gap_bluebox.c:1140
 msgid "Threshold V:"
 msgstr "Llindar valor:"
 
@@ -1130,11 +1148,11 @@ msgstr "Llindar valor:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1070
+#: ../gap/gap_bluebox.c:1147
 msgid "Threshold for value"
 msgstr "Llindar pel valor"
 
-#: ../gap/gap_bluebox.c:1092
+#: ../gap/gap_bluebox.c:1169
 msgid "Threshold:"
 msgstr "Llindar:"
 
@@ -1153,28 +1171,28 @@ msgstr "Llindar:"
 #. digits
 #. constrain
 #. lowr/upper unconstrained
-#: ../gap/gap_bluebox.c:1099
+#: ../gap/gap_bluebox.c:1176
 msgid "Common color threshold"
 msgstr "Llindar pel color comú"
 
-#: ../gap/gap_bluebox.c:1511
+#: ../gap/gap_bluebox.c:1645
 #, c-format
 msgid "Error: Image '%s' not found"
 msgstr "Error: No s'ha trobat la imatge «%s»"
 
-#: ../gap/gap_bluebox.c:1519
+#: ../gap/gap_bluebox.c:1653
 msgid "Error: Bluebox effect operates only on layers"
 msgstr "Error: el filtre blau només treballa en capes"
 
-#: ../gap/gap_bluebox.c:1528
+#: ../gap/gap_bluebox.c:1662
 msgid "Error: Bluebox effect operates only on RGB layers"
 msgstr "Error: el filtre blau només treballa en capes RGB"
 
-#: ../gap/gap_bluebox.c:1612
+#: ../gap/gap_bluebox.c:1746
 msgid "BlueboxPreview.xcf"
 msgstr "Previsualització .xcf del filtre blau"
 
-#: ../gap/gap_bluebox.c:1613 ../gap/gap_edge_detection_dialog.c:1202
+#: ../gap/gap_bluebox.c:1747 ../gap/gap_edge_detection_dialog.c:1202
 msgid "Previewlayer"
 msgstr "Capa de previsualització"
 
@@ -1189,19 +1207,19 @@ msgstr "Capa de previsualització"
 #. * at the bottom of the layerstack
 #. * (and scale to preview size when sizes are different)
 #.
-#: ../gap/gap_bluebox.c:1642 ../gap/gap_edge_detection_dialog.c:1225
+#: ../gap/gap_bluebox.c:1776 ../gap/gap_edge_detection_dialog.c:1225
 msgid "Masterlayer"
 msgstr "Capa mestra"
 
 #  toggle bluebox
-#: ../gap/gap_bluebox_main.c:180
+#: ../gap/gap_bluebox_main.c:182
 msgid "Bluebox ..."
 msgstr "Filtre blau ..."
 
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
 #. Menu names
 #. gimp_plugin_menu_branch_register("<Image>", "Video");
-#: ../gap/gap_bluebox_main.c:187 ../gap/gap_main.c:965
+#: ../gap/gap_bluebox_main.c:189 ../gap/gap_main.c:965
 #: ../gap/gap_mov_main.c:380 ../gap/gap_navigator_dialog.c:552
 #: ../gap/gap_player_main.c:299 ../gap/gap_story_main.c:215
 #: ../vid_common/gap_cme_main.c:168
@@ -1621,7 +1639,7 @@ msgstr ""
 "tots els filtres que no poden processar una capa de grup)"
 
 #. printf("DROP (SKIP) frame\n");
-#: ../gap/gap_dbbrowser_utils.c:380 ../gap/gap_player_dialog.c:4795
+#: ../gap/gap_dbbrowser_utils.c:380 ../gap/gap_player_dialog.c:4867
 msgid "Skip"
 msgstr "Omet"
 
@@ -1737,8 +1755,8 @@ msgid ""
 "videofile and written to separate diskfiles. mplayer 1.0 is required."
 msgstr ""
 "Nom del fitxer de vídeo a llegir amb el mplayer. Els fotogrames s'extreuen "
-"del fitxer de vídeo i s'escriuen en fitxers de disc separats. Requereix "
-"el mplayer 1.0."
+"del fitxer de vídeo i s'escriuen en fitxers de disc separats. Requereix el "
+"mplayer 1.0."
 
 #: ../gap/gap_decode_mplayer.c:445
 msgid "Start Time:"
@@ -1775,7 +1793,7 @@ msgstr "Número de pistes de vídeo a extreure (0 = no extreu el vídeo)"
 #  the audiotrack to label
 #. Sample Offset
 #. the audiotrack to label
-#: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:7010
+#: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:7082
 #: ../gap/gap_vex_dialog.c:2278
 msgid "Audiotrack:"
 msgstr "Pista d'àudio:"
@@ -2155,7 +2173,7 @@ msgid "Enable extraction of frames"
 msgstr "Habilita l'extracció de fotogrames"
 
 #. create extract audio otone track button
-#: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:7037
+#: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:7109
 msgid "Extract Audio"
 msgstr "Extreu l'àudio"
 
@@ -2314,11 +2332,11 @@ msgstr "Llindar de precisió:"
 
 #: ../gap/gap_detail_align_exec.c:1571
 msgid ""
-"Threshold for fine tuning purpose. Iterative calulated coordinates with "
+"Threshold for fine tuning purpose. Iterative calculated coordinates with "
 "precision lower than this threshold are used for fine tuning probe render "
-"attempts. icreasing the threshold results in more probe attempts and makes "
-"processng very slow but typically reduces jitter effects.Setting the "
-"threshold smaller than precision diasbles finetuning probe rendering.Note "
+"attempts. increasing the threshold results in more probe attempts and makes "
+"processing very slow but typically reduces jitter effects. Setting the "
+"threshold smaller than precision disables finetuning probe rendering. Note "
 "that finetuning also depends on the presence of a reference layer with "
 "layername REF in the 1st handled frame"
 msgstr ""
@@ -2407,12 +2425,12 @@ msgstr ""
 "Premeu el botó D'acord a la perspectiva de transformar la capa\n"
 
 #: ../gap/gap_detail_align_exec.c:3679
-#, c-format
+#,c-format
 msgid ""
 "Current paths are not valid for Perspective transformation:\n"
 "    For valid transformation 4 points are required\n"
 "    both in the active path and in another path with the name: %s \n"
-"    AND the connection of the 4 points must build up 4 differnt lines.\n"
+"    AND the connection of the 4 points must build up 4 different lines.\n"
 msgstr ""
 "Els camins actuals no són vàlids per a la transformació de Perspectiva:\n"
 "     Per a la transformació vàlida es requereixen 4 punts\n"
@@ -2525,10 +2543,10 @@ msgstr ""
 #: ../gap/gap_detail_align_exec.c:4092
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
-"reference positions and point 3 and 4 mark positions in the target layer.It "
+"reference positions and point 3 and 4 mark positions in the target layer. It "
 "transforms the target layer in a way that point3 is moved to point1 and "
-"point4 moves to point2.(this may include rotate and scale transformation).\n"
-"A path with 2 points can be used to move point2 to point1.(via simple move "
+"point4 moves to point2. (this may include rotate and scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
 "Aquest filtre requereix d'un trajecte actual amb 4 punts, en què els punts 1 "
@@ -2542,10 +2560,10 @@ msgstr ""
 #: ../gap/gap_detail_align_exec.c:4103
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
-"reference positions and point 2 and 4 mark positions in the target layer.It "
+"reference positions and point 2 and 4 mark positions in the target layer. It "
 "transforms the target layer in a way that point2 is moved to point1 and "
-"point4 moves to point3.(this may include rotate and scale transformation).\n"
-"A path with 2 points can be used to move point2 to point1.(via simple move "
+"point4 moves to point3. (this may include rotate and scale transformation).\n"
+"A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
 "Aquest filtre requereix d'un trajecte actual amb 4 punts, en què els punts 1 "
@@ -2740,14 +2758,14 @@ msgstr "Seguiment detallat"
 #, c-format
 msgid ""
 "optional fine tuning is triggered when the frame image has an additional "
-"Layer with the special name '%s.' in this case the transformation is done in "
-"more probe variants with slightly different values and the result is "
+"Layer with the special name '%s.'. In this case the transformation is done "
+"in more probe variants with slightly different values and the result is "
 "compared with the opaque areas in the '%s.' layer for final rendering, the "
-"variant is picked that has the minumum difference in the compared areas The "
+"variant is picked that has the minimum difference in the compared areas. The "
 "performance intensive fine tuning is intended to reduce unwanted jitter "
 "effects with minimal amplitude of just 1 pixel or below when alignment is "
-"applied to many frames of a videoclip for stabilsation purpose. The the "
-"'%s.' layer shall have a layer mask that marks comparable background white "
+"applied to many frames of a videoclip for stabilization purposes. The '%s.' "
+"layer shall have a layer mask that marks comparable background white "
 "(opaque). "
 msgstr ""
 "Un bon ajust opcional s'activa quan la imatge del fotograma té una capa "
@@ -2766,18 +2784,18 @@ msgstr ""
 msgid ""
 "This video frame stabilisation filter transforms the specified layer. It "
 "uses the relevant controlpoint (that matches the framePhase parameter) in "
-"the recorded XML file as input.  and calculates offsts, scaling and rotation "
-"or perspective corner points to transform the layer in a way that the points "
-"p1x p1y p2x p2y (p3x p3y p4x p4y) will exactly match with the points s1x s1y "
-"s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML file.(calling "
-"this filter with framePhase 1 typically does no transformation) This filter "
-"is intended to run under control of the gimp-gap frames modify feature to "
-"align multiple frames according to the controlpoints recorded in an XML file "
-"(via Detail tracking feature).%s"
+"the recorded XML file as input.  and calculates offsets, scaling and "
+"rotation or perspective corner points to transform the layer in a way that "
+"the points p1x p1y p2x p2y (p3x p3y p4x p4y) will exactly match with the "
+"points s1x s1y s2x s2y (s3x s3y s4x s4y) in the same controlpoint in the XML "
+"file.(calling this filter with framePhase 1 typically does no "
+"transformation) This filter is intended to run under control of the gimp-gap "
+"frames modify feature to align multiple frames according to the "
+"controlpoints recorded in an XML file (via Detail tracking feature).%s"
 msgstr ""
 "Aquest filtre d'estabilització del fotograma de vídeo transforma la capa "
 "especificada. Utilitza el control pertinent (que coincideix amb el paràmetre "
-"framePhase) en el fitxer XML registrat com a entrada, i calcula offsts, "
+"framePhase) en el fitxer XML registrat com a entrada, i calcula offsets, "
 "escales i rotació o punts dels cantons de perspectiva per transformar la "
 "capa de manera que els punts p1x p1y p2x p2y (p3x p3y p4x p4y) coincidiran "
 "exactament amb els punts s1x s1y s2x s2y (s3x s3y s4x s4y) en el mateix punt "
@@ -2794,12 +2812,12 @@ msgstr "Transformació de l'alineament a través del fitxer XML..."
 #: ../gap/gap_detail_tracking_main.c:338
 #, c-format
 msgid ""
-"This filter expects a current path with 4 points as input where point 1 and "
+"This filter expects a current path with 4 points as input where points 1 and "
 "2 mark positions within a reference layer and points 3 and 4 mark 2 "
 "corresponding point in the target layer. The transformation is applied to "
 "the target layer and sets offsets, scaling and rotation in a way that point3 "
 "is placed on position of point1, and point4 is placed on position of point2. "
-"As alternitive this filter also provides exact alignment via Perspective "
+"As alternative this filter also provides exact alignment via Perspective "
 "Transformation. Therefore 4 points are required in the current path, and "
 "another 4 points are required in an additional path that must have the name "
 "'%s'. The layer will be transformed in a way that all 4 points in the "
@@ -2953,7 +2971,7 @@ msgid "Auto Levels:"
 msgstr "Nivells automàtics:"
 
 #: ../gap/gap_edge_detection_dialog.c:491
-msgid "ON: apply auto strech levels"
+msgid "ON: apply auto stretch levels"
 msgstr "ACTIVAT: apliqueu els nivells d'estirament automàtic"
 
 #: ../gap/gap_edge_detection_dialog.c:502
@@ -3648,7 +3666,7 @@ msgid "** File is not a filtermacro **"
 msgstr "**El fitxer no és un filtre macro**"
 
 #: ../gap/gap_fmac_main.c:1103 ../gap/gap_onion_dialog.c:1523
-#: ../gap/gap_player_dialog.c:8523
+#: ../gap/gap_player_dialog.c:8595
 msgid "Show help page"
 msgstr "Mostra la pàgina d'ajuda"
 
@@ -3696,7 +3714,7 @@ msgstr ""
 "sessió actual i hagin configurat la memòria intermèdia interna amb la "
 "configuració de paràmetres de l'últim cop"
 
-#: ../gap/gap_fmac_main.c:1163 ../gap/gap_player_dialog.c:8571
+#: ../gap/gap_fmac_main.c:1163 ../gap/gap_player_dialog.c:8643
 msgid "Close window"
 msgstr "Tanca la finestra"
 
@@ -4961,11 +4979,12 @@ msgid "Shape"
 msgstr "Forma"
 
 #: ../gap/gap_morph_dialog.c:3615
+#| msgid ""
 msgid ""
-"Create N workpoints following the outline shape of the layer.the simple "
-"shape detection is looking for non-transparent pixels.CTRL-click uses an "
+"Create N workpoints following the outline shape of the layer. The simple "
+"shape detection is looking for non-transparent pixels. CTRL-click uses an "
 "edge detection based shape detection algorithm that is capable to operate on "
-"opaque images.SHIFT-click: adds the new points and keeps the old points"
+"opaque images. SHIFT-click: adds the new points and keeps the old points"
 msgstr ""
 "Crea N punts de control seguint la forma del contorn de la capa. La detecció "
 "de formes cerca píxels no transparents. Ctrl+clic utilitza un algoritme de "
@@ -5005,7 +5024,7 @@ msgstr "Utilitza la intensitat"
 #: ../gap/gap_morph_dialog.c:3720
 msgid ""
 "ON: Descending deform action from workpoint (full) to radius (zero). Descend "
-"by power of intensity.OFF: Linear deform action inside the radius"
+"by power of intensity. OFF: Linear deform action inside the radius"
 msgstr ""
 "Activat: acció de deformació descendent des del punt de control (total) fins "
 "al radi (zero). Descendeix per potència d'intensitat. Desactivat: acció de "
@@ -5146,7 +5165,7 @@ msgstr "Qualitat"
 
 #: ../gap/gap_morph_dialog.c:4016 ../gap/gap_morph_tween_dialog.c:875
 msgid ""
-"ON: Use quality workpoint selection algorithm.OFF: Use fast workpoint "
+"ON: Use quality workpoint selection algorithm. OFF: Use fast workpoint "
 "selection algorithm."
 msgstr ""
 "Activat: Utilitza algorisme de selecció de punts de control de qualitat. "
@@ -5475,7 +5494,7 @@ msgstr "Localitza de la diferència de color del llindar de la vora:"
 
 #: ../gap/gap_morph_tween_dialog.c:891
 msgid ""
-"ON: overwrite existing workpointfiles.OFF: Skip workpoint generation or add "
+"ON: overwrite existing workpointfiles. OFF: Skip workpoint generation or add "
 "new generated workpoints (see append checkbutton)."
 msgstr ""
 "Activat: sobreescriu els fitxers dels punts de control existents. "
@@ -5489,7 +5508,7 @@ msgstr "Annexa"
 
 #: ../gap/gap_morph_tween_dialog.c:906
 msgid ""
-"ON: add newly generated workpoints to existing workpointfiles.OFF: Skip "
+"ON: add newly generated workpoints to existing workpointfiles. OFF: Skip "
 "workpoint generation for frames where workpointfile already exists."
 msgstr ""
 "Activat: afegeix novament punts de control generats als ja existents fitxers "
@@ -5519,7 +5538,7 @@ msgstr "Informació:"
 #: ../gap/gap_morph_tween_dialog.c:1169
 #, c-format
 msgid "This operation creates %d missing frame between frame %d and %d"
-msgid_plural "this operation creates %d missing frames between frame %d and %d"
+msgid_plural "This operation creates %d missing frames between frame %d and %d"
 msgstr[0] ""
 "Aquesta operació crea els %d fotogrames que falten entre els fotogrames %d i "
 "%d"
@@ -5598,7 +5617,7 @@ msgstr ""
 
 #: ../gap/gap_morph_tween_dialog.c:1326
 msgid ""
-"ON: overwrite existing frames.OFF: skip processing when target frame/tween "
+"ON: overwrite existing frames. OFF: skip processing when target frame/tween "
 "already exists."
 msgstr ""
 "Activat:: sobreescriu els fotogrames existents. Desactivat: omet el "
@@ -5952,7 +5971,7 @@ msgstr ""
 #. Loop Stepmode combo
 #. the playback mode checkbuttons
 #. Loop Toggle
-#: ../gap/gap_mov_dialog.c:4320 ../gap/gap_player_dialog.c:8360
+#: ../gap/gap_mov_dialog.c:4320 ../gap/gap_player_dialog.c:8432
 msgid "Loop"
 msgstr "Bucle"
 
@@ -6061,7 +6080,7 @@ msgstr "dX:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4439
-msgid "Handle Offest X is added to x coordinate in all points"
+msgid "Handle Offset X is added to x coordinate in all points"
 msgstr ""
 "La nansa de desplaçament X s'afegeix a la coordenada x en tots els punts"
 
@@ -6083,7 +6102,7 @@ msgstr "dY:"
 #. constrain
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4459
-msgid "Handle Offest Y is added to y coordinate in all points"
+msgid "Handle Offset Y is added to y coordinate in all points"
 msgstr ""
 "La nansa de desplaçament Y s'afegeix a la coordenada y en tots els punts"
 
@@ -7952,7 +7971,7 @@ msgstr "No seleccionis res"
 
 #  Video Length (frames)
 #. Video Length (frames)
-#: ../gap/gap_navigator_dialog.c:4246 ../gap/gap_player_dialog.c:7217
+#: ../gap/gap_navigator_dialog.c:4246 ../gap/gap_player_dialog.c:7289
 msgid "Videoframes:"
 msgstr "Fotogrames de vídeo:"
 
@@ -8327,11 +8346,11 @@ msgstr "Obteniu una luminància mitjana des de la capa de referència"
 msgid ""
 "This filter adjust opacity of a layer\n"
 "in a way that the combination with the layer below\n"
-"matches the brightness of a reference layer)"
+"matches the brightness of a reference layer"
 msgstr ""
 "Aquest filtre ajusta l'opacitat d'una capa\n"
 "de manera que la combinació amb la capa de sota\n"
-"coincideix amb la brillantor d'una capa de referència)"
+"coincideix amb la brillantor d'una capa de referència"
 
 #: ../gap/gap_opacity_exposure_main.c:1082
 msgid "Target Luminance:"
@@ -8351,7 +8370,7 @@ msgstr "Utilitza la capa de referència:"
 #: ../gap/gap_opacity_exposure_main.c:1116
 msgid ""
 "ON: use Average Luminance from opaque pixels in the reference layer (ignore "
-"Target) OFF: use specified Target Lumninance value"
+"Target) OFF: use specified Target Luminance value"
 msgstr ""
 "ACTIVAT: utilitza la luminància mitjana a partir de píxels opacs a la capa "
 "de referència (ignora l'orientació) DESACTIVAT: utilitza el valor específic "
@@ -8433,7 +8452,7 @@ msgstr ""
 #  Audio Samplerate
 #. Audio Samplerate
 #. the Samplerate label
-#: ../gap/gap_player_dialog.c:468 ../gap/gap_player_dialog.c:7159
+#: ../gap/gap_player_dialog.c:468 ../gap/gap_player_dialog.c:7231
 #: ../gap/gap_story_dialog.c:9532 ../vid_common/gap_cme_gui.c:3424
 msgid "Samplerate:"
 msgstr "Freqüència de mostratge:"
@@ -8549,13 +8568,13 @@ msgstr "FOTOGRAMES:"
 
 #  pending timer_go_job gets useless, since we start playback now
 #. pending timer_go_job gets useless, since we start playback now
-#: ../gap/gap_player_dialog.c:2326 ../gap/gap_player_dialog.c:4812
+#: ../gap/gap_player_dialog.c:2326 ../gap/gap_player_dialog.c:4884
 msgid "Playing"
 msgstr "S'està reproduint"
 
 #  the status value label
 #. the status value label
-#: ../gap/gap_player_dialog.c:2365 ../gap/gap_player_dialog.c:8459
+#: ../gap/gap_player_dialog.c:2365 ../gap/gap_player_dialog.c:8531
 msgid "Ready"
 msgstr "Preparat"
 
@@ -8617,17 +8636,17 @@ msgstr ""
 msgid "Videoseek"
 msgstr "Cerca de vídeo"
 
-#: ../gap/gap_player_dialog.c:3695 ../gap/gap_player_dialog.c:4194
+#: ../gap/gap_player_dialog.c:3767 ../gap/gap_player_dialog.c:4266
 #: ../gap/gap_story_vthumb.c:361
 msgid "Canceled"
 msgstr "Cancel·lat"
 
-#: ../gap/gap_player_dialog.c:4824
+#: ../gap/gap_player_dialog.c:4896
 #, c-format
 msgid "Delay %.2f"
 msgstr "Retarda %.2f"
 
-#: ../gap/gap_player_dialog.c:6551
+#: ../gap/gap_player_dialog.c:6623
 #, c-format
 msgid ""
 "WARNING: Your gimprc file configuration for the audioconverter script\n"
@@ -8639,7 +8658,7 @@ msgstr ""
 "no apunta a cap programa executable\n"
 "el valor configurat per %s és: %s\n"
 
-#: ../gap/gap_player_dialog.c:6573
+#: ../gap/gap_player_dialog.c:6645
 #, c-format
 msgid ""
 "WARNING: The environment variable %s\n"
@@ -8650,7 +8669,7 @@ msgstr ""
 "no apunta a cap programa executable\n"
 "el valor actual és: %s\n"
 
-#: ../gap/gap_player_dialog.c:6592
+#: ../gap/gap_player_dialog.c:6664
 #, c-format
 msgid ""
 "ERROR: The external program for audioconversion is not executable.\n"
@@ -8659,24 +8678,24 @@ msgstr ""
 "Error: el programa extern per la conversió d'àudio no és executable.\n"
 "Nom de fitxer: «%s»\n"
 
-#: ../gap/gap_player_dialog.c:6612
+#: ../gap/gap_player_dialog.c:6684
 msgid "Creating audiofile - please wait"
 msgstr "S'està creant el fitxer d'àudio. Espereu-vos"
 
-#: ../gap/gap_player_dialog.c:6648
+#: ../gap/gap_player_dialog.c:6720
 msgid "external audioconverter FAILED."
 msgstr "la conversió d'àudio externa ha fallat."
 
-#: ../gap/gap_player_dialog.c:6649
+#: ../gap/gap_player_dialog.c:6721
 msgid "extern audioconverter FAILED"
 msgstr "la conversió d'àudio externa ha fallat"
 
-#: ../gap/gap_player_dialog.c:6795
+#: ../gap/gap_player_dialog.c:6867
 msgid "Select Audiofile"
 msgstr "Selecciona fitxer d'àudio"
 
 #  the frame
-#: ../gap/gap_player_dialog.c:6843
+#: ../gap/gap_player_dialog.c:6915
 msgid "Audio Playback Settings"
 msgstr "Opcions de reproducció d'àudio"
 
@@ -8685,36 +8704,36 @@ msgstr "Opcions de reproducció d'àudio"
 #. audiofile label
 #. the output audiofile label
 #. the Audiofile label
-#: ../gap/gap_player_dialog.c:6868 ../gap/gap_vex_dialog.c:2683
+#: ../gap/gap_player_dialog.c:6940 ../gap/gap_vex_dialog.c:2683
 #: ../vid_common/gap_cme_gui.c:3363
 msgid "Audiofile:"
 msgstr "Fitxer d'àudio:"
 
-#: ../gap/gap_player_dialog.c:6880
+#: ../gap/gap_player_dialog.c:6952
 msgid "Enter an audiofile. The file must be in RIFF WAVE fileformat."
 msgstr "Introduïu un fitxer d'àudio. El fitxer ha d'estar en format RIFF WAVE."
 
-#: ../gap/gap_player_dialog.c:6901
+#: ../gap/gap_player_dialog.c:6973
 msgid "Open audiofile selection browser dialog window"
 msgstr "Obre la finestra de diàleg del navegador de selecció de fitxer d'àudio"
 
 #  Volume
 #. Volume
-#: ../gap/gap_player_dialog.c:6913 ../gap/gap_story_dialog.c:9548
+#: ../gap/gap_player_dialog.c:6985 ../gap/gap_story_dialog.c:9548
 msgid "Volume:"
 msgstr "Volum:"
 
-#: ../gap/gap_player_dialog.c:6933
+#: ../gap/gap_player_dialog.c:7005
 msgid "Audio Volume"
 msgstr "Volum de l'àudio"
 
 #  check button
 #. check button
-#: ../gap/gap_player_dialog.c:6939
+#: ../gap/gap_player_dialog.c:7011
 msgid "Enable"
 msgstr "Habilita"
 
-#: ../gap/gap_player_dialog.c:6944
+#: ../gap/gap_player_dialog.c:7016
 msgid ""
 "ON: Play button plays video + audio.\n"
 "OFF: Play video silently"
@@ -8724,11 +8743,11 @@ msgstr ""
 
 #  Sample Offset
 #. Sample Offset
-#: ../gap/gap_player_dialog.c:6954
+#: ../gap/gap_player_dialog.c:7026
 msgid "Offset:"
 msgstr "Decalatge:"
 
-#: ../gap/gap_player_dialog.c:6974
+#: ../gap/gap_player_dialog.c:7046
 msgid ""
 "Audio offset in frames at original video playback speed. A value of 0 starts "
 "audio and video at synchron time. A value of -10 will play frame 1 up to "
@@ -8744,11 +8763,11 @@ msgstr ""
 "de 10 fotogrames a la velocitat de reproducció de vídeo original."
 
 #. check button
-#: ../gap/gap_player_dialog.c:6989
+#: ../gap/gap_player_dialog.c:7061
 msgid "original audio"
 msgstr "àudio original"
 
-#: ../gap/gap_player_dialog.c:6994
+#: ../gap/gap_player_dialog.c:7066
 msgid ""
 "ON: for video clip playback sync audio startposition according to original "
 "position in the referenced video. Use this option if the audiofile is an "
@@ -8765,11 +8784,11 @@ msgstr ""
 "independents."
 
 #  the audiotrack to label
-#: ../gap/gap_player_dialog.c:7030
+#: ../gap/gap_player_dialog.c:7102
 msgid "Audio Track"
 msgstr "Pista d'àudio"
 
-#: ../gap/gap_player_dialog.c:7040
+#: ../gap/gap_player_dialog.c:7112
 msgid ""
 "Extract Audio Track from videofile for the current videofile and use it for "
 "original audiotrack playback"
@@ -8779,11 +8798,11 @@ msgstr ""
 
 #  create wavfile button
 #. create wavfile button
-#: ../gap/gap_player_dialog.c:7054
+#: ../gap/gap_player_dialog.c:7126
 msgid "Copy As Wavfile"
 msgstr "Copia com a fitxer wav"
 
-#: ../gap/gap_player_dialog.c:7056
+#: ../gap/gap_player_dialog.c:7128
 msgid ""
 "Create a copy from audiofile as RIFF WAVE audiofile and use the copy for "
 "audio playback"
@@ -8791,100 +8810,100 @@ msgstr ""
 "Crea una còpia del fitxer d'àudio com a fitxer RIFF WAVE i utilitza la còpia "
 "per la reproducció d'àudio"
 
-#: ../gap/gap_player_dialog.c:7068
+#: ../gap/gap_player_dialog.c:7140
 msgid "Reset offset and volume"
 msgstr "Restableix el decalatge i el volum"
 
 #  Audio Offset Length (mm:ss:msec)
 #. Audio Offset Length (mm:ss:msec)
-#: ../gap/gap_player_dialog.c:7100
+#: ../gap/gap_player_dialog.c:7172
 msgid "Offsettime:"
 msgstr "Decalatge:"
 
 #  Total Audio Length (mm:ss:msec)
 #. Total Audio Length (mm:ss:msec)
 #. the audio timing information labels
-#: ../gap/gap_player_dialog.c:7114 ../vid_common/gap_cme_gui.c:3596
+#: ../gap/gap_player_dialog.c:7186 ../vid_common/gap_cme_gui.c:3596
 msgid "Audiotime:"
 msgstr "Durada de l'àudio:"
 
 #  Length (frames)
 #. Length (frames)
-#: ../gap/gap_player_dialog.c:7129
+#: ../gap/gap_player_dialog.c:7201
 msgid "Audioframes:"
 msgstr "Fotogrames d'àudio:"
 
 #  Audiolength (Samples)
 #. Audiolength (Samples)
-#: ../gap/gap_player_dialog.c:7144
+#: ../gap/gap_player_dialog.c:7216
 msgid "Samples:"
 msgstr "Mostres:"
 
 #  Audio Channels
 #. Audio Channels
-#: ../gap/gap_player_dialog.c:7173
+#: ../gap/gap_player_dialog.c:7245
 msgid "Channels:"
 msgstr "Canals:"
 
 #  Bits per Audio Sample
 #. Bits per Audio Sample
-#: ../gap/gap_player_dialog.c:7187
+#: ../gap/gap_player_dialog.c:7259
 msgid "Bits/Sample:"
 msgstr "Bits/Mostra:"
 
 #  Total Video Length (mm:ss:msec)
 #. Total Video Length (mm:ss:msec)
 #. the video timing information labels
-#: ../gap/gap_player_dialog.c:7202 ../vid_common/gap_cme_gui.c:3569
+#: ../gap/gap_player_dialog.c:7274 ../vid_common/gap_cme_gui.c:3569
 msgid "Videotime:"
 msgstr "Durada del vídeo:"
 
-#: ../gap/gap_player_dialog.c:7439
+#: ../gap/gap_player_dialog.c:7511
 msgid "Playback Preferences"
 msgstr "Preferències de reproducció"
 
 #. Cache size label
-#: ../gap/gap_player_dialog.c:7457
+#: ../gap/gap_player_dialog.c:7529
 msgid "Cache Size (MB):"
 msgstr "Mida d'intercanvi (MB):"
 
-#: ../gap/gap_player_dialog.c:7483
+#: ../gap/gap_player_dialog.c:7555
 msgid "Player frame cache maximum size in MB. Value 0 turns the cache off."
 msgstr ""
 "Mida de la memòria cau per a la reproducció de fotogrames en MB. Un valor 0 "
 "desactiva la memòria cau."
 
-#: ../gap/gap_player_dialog.c:7492
+#: ../gap/gap_player_dialog.c:7564
 msgid "Clear the frame cache"
 msgstr "Buida la memòria cau de fotogrames"
 
 #. Chache Status (number of frames currently in the cache)
-#: ../gap/gap_player_dialog.c:7503
+#: ../gap/gap_player_dialog.c:7575
 msgid "Cached Frames:"
 msgstr "Fotogrames en la memòria cau:"
 
 #. tile Chache
-#: ../gap/gap_player_dialog.c:7529
+#: ../gap/gap_player_dialog.c:7601
 msgid "Tile Cache:"
 msgstr "Memòria cau de la rajola:"
 
-#: ../gap/gap_player_dialog.c:7549
+#: ../gap/gap_player_dialog.c:7621
 msgid "gimp tile cache for the player process. (in tiles 64x64 pixel)"
 msgstr ""
 "memòria cau de la rajola gimp per al procés de reproducció. (En rajoles de "
 "64x64 píxels)"
 
 #. Layout Options label
-#: ../gap/gap_player_dialog.c:7558
+#: ../gap/gap_player_dialog.c:7630
 msgid "Layout Options:"
 msgstr "Opcions de disposició:"
 
 #. Show Go button array (configure to show/hide this optional positioning tool)
-#: ../gap/gap_player_dialog.c:7568
+#: ../gap/gap_player_dialog.c:7640
 msgid "Show Button Array"
 msgstr "Mostra la taula de botons"
 
-#: ../gap/gap_player_dialog.c:7574
+#: ../gap/gap_player_dialog.c:7646
 msgid ""
 "ON: Show the go button array positioning tool.\n"
 "OFF: Hide the go button array."
@@ -8893,11 +8912,11 @@ msgstr ""
 "Desactivat: oculta la taula de botons."
 
 #. Show Position Scale (configure to show/hide this optional positioning tool)
-#: ../gap/gap_player_dialog.c:7587
+#: ../gap/gap_player_dialog.c:7659
 msgid "Show Position Scale"
 msgstr "Mostra l'escala de la posició"
 
-#: ../gap/gap_player_dialog.c:7593
+#: ../gap/gap_player_dialog.c:7665
 msgid ""
 "ON: Show the position scale.\n"
 "OFF: Hide the position scale."
@@ -8906,11 +8925,11 @@ msgstr ""
 "Desactivat: oculta l'escala de la posició."
 
 #. Auto skip missing frames
-#: ../gap/gap_player_dialog.c:7606
+#: ../gap/gap_player_dialog.c:7678
 msgid "Auto Skip Missing Frames"
 msgstr "Omissió automàtica de fotogrames que falten"
 
-#: ../gap/gap_player_dialog.c:7612
+#: ../gap/gap_player_dialog.c:7684
 msgid ""
 "ON: Automatically skip missing frames on playback.\n"
 "OFF: Show missing frames as empty (transparent) image."
@@ -8919,19 +8938,19 @@ msgstr ""
 "Desactivat: mostra una imatge buida (transparent) dels fotogrames absents."
 
 #. configure Detail Tracking button
-#: ../gap/gap_player_dialog.c:7627
+#: ../gap/gap_player_dialog.c:7699
 msgid "Configure Tracking:"
 msgstr "Configuració del seguiment:"
 
-#: ../gap/gap_player_dialog.c:7630
+#: ../gap/gap_player_dialog.c:7702
 msgid "Configure detail tracking options"
 msgstr "Configura les opcions del seguiment detallat"
 
-#: ../gap/gap_player_dialog.c:7638
+#: ../gap/gap_player_dialog.c:7710
 msgid "Enable Detail Tracking"
 msgstr "Activa el seguiment detallat"
 
-#: ../gap/gap_player_dialog.c:7644
+#: ../gap/gap_player_dialog.c:7716
 msgid ""
 "ON: Enable detail tracking in snapshot image. Mark coordinates of one (or 2) "
 "significant details in the snapshot image using the current path with one or "
@@ -8951,49 +8970,49 @@ msgstr ""
 "Desactivat: desactiva el seguiment detallat."
 
 #. Save Player Preferences label
-#: ../gap/gap_player_dialog.c:7663
+#: ../gap/gap_player_dialog.c:7735
 msgid "Save Preferences:"
 msgstr "Desa les opcions:"
 
-#: ../gap/gap_player_dialog.c:7675
+#: ../gap/gap_player_dialog.c:7747
 msgid "Save player cache and layout settings (as gimprc parameters)"
 msgstr ""
 "Desa la memòria cau del reproductor i les opcions de disposició (com a "
 "paràmetres del gimprc)"
 
-#: ../gap/gap_player_dialog.c:7790
+#: ../gap/gap_player_dialog.c:7862
 msgid "Videoframe Playback"
 msgstr "Reproducció de fotogrames de vídeo"
 
 #. vid options TAB frame
 #. the video options notebook tab
-#: ../gap/gap_player_dialog.c:7805 ../vid_common/gap_cme_gui.c:2674
+#: ../gap/gap_player_dialog.c:7877 ../vid_common/gap_cme_gui.c:2674
 msgid "Video Options"
 msgstr "Opcions de vídeo"
 
 #. configure options TAB frame
-#: ../gap/gap_player_dialog.c:7829
+#: ../gap/gap_player_dialog.c:7901
 msgid "Preferences"
 msgstr "Preferències"
 
 #. audio options TAB frame
 #. the Audio Options notebook tab
-#: ../gap/gap_player_dialog.c:7845 ../vid_common/gap_cme_gui.c:2686
+#: ../gap/gap_player_dialog.c:7917 ../vid_common/gap_cme_gui.c:2686
 msgid "Audio Options"
 msgstr "Opcions d'àudio"
 
-#: ../gap/gap_player_dialog.c:7938
+#: ../gap/gap_player_dialog.c:8010
 msgid ""
 "Click: go to frame, Ctrl-Click: set 'From Frame', Alt-Click: set 'To Frame'"
 msgstr ""
 "Clic: vés al fotograma, Ctrl+clic: defineix 'Des del fotograma', Alt-Clic: "
 "defineix 'Al fotograma'"
 
-#: ../gap/gap_player_dialog.c:8011 ../gap/gap_player_dialog.c:8144
+#: ../gap/gap_player_dialog.c:8083 ../gap/gap_player_dialog.c:8216
 msgid "The currently displayed frame number"
 msgstr "El número de fotograma actualment visible"
 
-#: ../gap/gap_player_dialog.c:8091
+#: ../gap/gap_player_dialog.c:8163
 msgid ""
 "Click: Set current framenr as selection range start 'From Frame',\n"
 "SHIFT-Click: load this frame into the calling image"
@@ -9002,13 +9021,13 @@ msgstr ""
 "del fotograma', \n"
 "Maj+Clic: carrega aquest fotograma dins de la imatge cridada"
 
-#: ../gap/gap_player_dialog.c:8102
+#: ../gap/gap_player_dialog.c:8174
 msgid "Set current framenr as selection range start 'From Frame'"
 msgstr ""
 "Defineix l'actual número de fotograma com a inici de la selecció 'Des del "
 "fotograma'"
 
-#: ../gap/gap_player_dialog.c:8118
+#: ../gap/gap_player_dialog.c:8190
 msgid ""
 "Click: Set current framenr as selection range end 'To Frame',\n"
 "SHIFT-Click: load this frame into the calling image"
@@ -9017,53 +9036,53 @@ msgstr ""
 "al fotograma',\n"
 "Maj+Clic: carrega aquest fotograma dins de la imatge cridada"
 
-#: ../gap/gap_player_dialog.c:8129
+#: ../gap/gap_player_dialog.c:8201
 msgid "Set current framenr as selection range end 'To Frame'"
 msgstr ""
 "Defineix l'actual número de fotograma com a final de la selecció 'Fins al "
 "fotograma'"
 
-#: ../gap/gap_player_dialog.c:8172
+#: ../gap/gap_player_dialog.c:8244
 msgid "Add range to cliplist"
 msgstr "Afegeix la selecció a la llista"
 
-#: ../gap/gap_player_dialog.c:8176
+#: ../gap/gap_player_dialog.c:8248
 msgid "Print range to stdout"
 msgstr "Imprimeix la selecció al stdout"
 
-#: ../gap/gap_player_dialog.c:8198
+#: ../gap/gap_player_dialog.c:8270
 msgid "Start framenumber of selection range"
 msgstr "Número de fotograma inicial de la selecció"
 
-#: ../gap/gap_player_dialog.c:8221
+#: ../gap/gap_player_dialog.c:8293
 msgid "Add inverse range to cliplist"
 msgstr "Afegeix la selecció invertida a la llista"
 
-#: ../gap/gap_player_dialog.c:8225
+#: ../gap/gap_player_dialog.c:8297
 msgid "Print inverse range to stdout"
 msgstr "Imprimeix la selecció invertida al stdout"
 
-#: ../gap/gap_player_dialog.c:8249
+#: ../gap/gap_player_dialog.c:8321
 msgid "End framenumber of selection range"
 msgstr "Darrer número de fotograma de la selecció"
 
-#: ../gap/gap_player_dialog.c:8265
+#: ../gap/gap_player_dialog.c:8337
 msgid "Reset playback speed to original (or previous) value"
 msgstr "Restableix la velocitat de reproducció al valor original (o previ)"
 
-#: ../gap/gap_player_dialog.c:8288
+#: ../gap/gap_player_dialog.c:8360
 msgid "Current playback speed (frames/sec)"
 msgstr "Velocitat de reproducció actual (fotogrames/seg)"
 
-#: ../gap/gap_player_dialog.c:8314
+#: ../gap/gap_player_dialog.c:8386
 msgid "Toggle size 128/256. <Shift> Set 1:1 full image size"
 msgstr "Commuta la mida 128/256. <Maj> Estableix 1:1 mida de la imatge sencera"
 
-#: ../gap/gap_player_dialog.c:8336
+#: ../gap/gap_player_dialog.c:8408
 msgid "Video preview size (pixels)"
 msgstr "Mida de previsualització de vídeo (píxels)"
 
-#: ../gap/gap_player_dialog.c:8366
+#: ../gap/gap_player_dialog.c:8438
 msgid ""
 "ON: Play in endless loop.\n"
 "OFF: Play only once"
@@ -9072,11 +9091,11 @@ msgstr ""
 "Desactivat: Reprodueix només un cop"
 
 #. SelOnly Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8380
+#: ../gap/gap_player_dialog.c:8452
 msgid "Selection only"
 msgstr "Només la selecció"
 
-#: ../gap/gap_player_dialog.c:8386
+#: ../gap/gap_player_dialog.c:8458
 msgid ""
 "ON: Play only frames within the selected range.\n"
 "OFF: Play all frames"
@@ -9086,21 +9105,21 @@ msgstr ""
 
 #  PingPong Toggle
 #. PingPong Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8399
+#: ../gap/gap_player_dialog.c:8471
 msgid "Ping pong"
 msgstr "Ping-pong"
 
-#: ../gap/gap_player_dialog.c:8405
+#: ../gap/gap_player_dialog.c:8477
 msgid "ON: Play alternating forward/backward"
 msgstr "Activat: Reprodueix alternativament endavant/endarrere"
 
 #  UseThumbnails Toggle
 #. UseThumbnails Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8418
+#: ../gap/gap_player_dialog.c:8490
 msgid "Thumbnails"
 msgstr "Miniatures"
 
-#: ../gap/gap_player_dialog.c:8424
+#: ../gap/gap_player_dialog.c:8496
 msgid ""
 "ON: Use thumbnails when available.\n"
 "OFF: Read full sized frames"
@@ -9110,11 +9129,11 @@ msgstr ""
 
 #  ExactTiming Toggle
 #. ExactTiming Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8439
+#: ../gap/gap_player_dialog.c:8511
 msgid "Exact timing"
 msgstr "Temps exacte"
 
-#: ../gap/gap_player_dialog.c:8445
+#: ../gap/gap_player_dialog.c:8517
 msgid ""
 "ON: Skip frames to hold exact timing.\n"
 "OFF: Disable frame skipping"
@@ -9124,11 +9143,11 @@ msgstr ""
 
 #  the Cancel Videoindex Creation button (only visible while creating vindex)
 #. the Cancel Videoindex Creation button (only visible while creating vindex)
-#: ../gap/gap_player_dialog.c:8503
+#: ../gap/gap_player_dialog.c:8575
 msgid "Cancel Videoindex creation"
 msgstr "Cancel·la la creació de l'índex de vídeo"
 
-#: ../gap/gap_player_dialog.c:8507
+#: ../gap/gap_player_dialog.c:8579
 msgid ""
 "Cancel videoindex creation. Videoindex creation requires full scanning of "
 "the video but allows fast random access to frames afterwards. Without a "
@@ -9141,11 +9160,11 @@ msgstr ""
 
 #  pending timer_go_job gets useless, since we start playback now
 #. the PLAY button
-#: ../gap/gap_player_dialog.c:8531
+#: ../gap/gap_player_dialog.c:8603
 msgid "Play"
 msgstr "Reprodueix"
 
-#: ../gap/gap_player_dialog.c:8534
+#: ../gap/gap_player_dialog.c:8606
 msgid ""
 "Start playback. SHIFT: snapshot frames in a multilayer image at original "
 "size CTRL: snapshot at preview size ALT: force creation of new snapshot image"
@@ -9155,11 +9174,11 @@ msgstr ""
 "la creació d'una nova imatge instantània"
 
 #. the PAUSE button
-#: ../gap/gap_player_dialog.c:8543
+#: ../gap/gap_player_dialog.c:8615
 msgid "Pause"
 msgstr "Pausa"
 
-#: ../gap/gap_player_dialog.c:8547
+#: ../gap/gap_player_dialog.c:8619
 msgid ""
 "Pause if playing (any mousebutton). Go to selection start/active/end (left/"
 "middle/right mousebutton) if not playing"
@@ -9168,11 +9187,11 @@ msgstr ""
 "la selecció, (botó del ratolí/esquerre/mig/dret) si no s'està reproduint"
 
 #. the PLAY_REVERSE button
-#: ../gap/gap_player_dialog.c:8554
+#: ../gap/gap_player_dialog.c:8626
 msgid "Reverse"
 msgstr "Invers"
 
-#: ../gap/gap_player_dialog.c:8557
+#: ../gap/gap_player_dialog.c:8629
 msgid ""
 "Start reverse playback. SHIFT: snapshot frames in a multilayer image at "
 "original size CTRL: snapshot at preview size ALT: force creation of new "
@@ -11631,7 +11650,7 @@ msgstr "no s'ha trobat el fitxer: %s per l'entrada d'àudio"
 msgid "converting audio (via external program)"
 msgstr "s'està convertint l'àudio (via un programa extern)"
 
-#: ../gap/gap_story_render_audio.c:1379 ../gap/gap_story_render_audio.c:1509
+#: ../gap/gap_story_render_audio.c:1379
 #, c-format
 msgid "cant use file:  %s as audioinput"
 msgstr "no es pot utilitzar el fitxer: %s com a entrada d'àudio"
@@ -11641,22 +11660,30 @@ msgstr "no es pot utilitzar el fitxer: %s com a entrada d'àudio"
 msgid "ERROR file: %s is not a supported videoformat"
 msgstr "S'ha produït un error. El fitxer: %s no és un format de vídeo suportat"
 
-#: ../gap/gap_story_render_audio.c:1651
+#: ../gap/gap_story_render_audio.c:1509
+#, c-format
+msgid ""
+"cant use file:  %s as audioinput\n"
+"(external converter %s FAILED to resample as WAV format at target samplerate "
+"%d)"
+msgstr ""
+
+#: ../gap/gap_story_render_audio.c:1655
 #, c-format
 msgid "checking audio peaks"
 msgstr "s'estan comprovant els pics d'àudio"
 
-#: ../gap/gap_story_render_audio.c:1685
+#: ../gap/gap_story_render_audio.c:1689
 #, c-format
 msgid "writing composite audiofile"
 msgstr "S'està escrivint el fitxer d'àudio compost"
 
-#: ../gap/gap_story_render_audio.c:1704
+#: ../gap/gap_story_render_audio.c:1708
 #, c-format
 msgid "cant write audio to file: %s "
 msgstr "no es pot escriure àudio al fitxer: %s"
 
-#: ../gap/gap_story_render_audio.c:1716 ../vid_common/gap_cme_gui.c:1500
+#: ../gap/gap_story_render_audio.c:1720 ../vid_common/gap_cme_gui.c:1500
 #: ../vid_common/gap_cme_gui.c:1666
 #, c-format
 msgid "ready"
@@ -12724,7 +12751,7 @@ msgid "Sample from:"
 msgstr "Mostra des de:"
 
 #: ../gap/gap_wr_resynth.c:807
-msgid "Select direction from where get sample pattern"
+msgid "Select direction from where to get sample pattern"
 msgstr "Seleccioneu la direcció des d'on obtindreu el patró de mostra"
 
 #. the directionParam label
@@ -14060,9 +14087,9 @@ msgid ""
 "uncompressed. IMPORTANT:  you should first call \""
 msgstr ""
 "Aquest connector gestiona la codificació del format de vídeo AVI. Les dades "
-"d'àudio (opcional) han de ser un o diversos fitxers de dades simples o fitxers ."
-"wav(RIFF WAVEfmt ). Els fitxers .wav poden ser mono (1) o estèreo (2 "
-"canals). Les dades d'àudio han de ser de 16bit descomprimides. Important: "
+"d'àudio (opcional) han de ser un o diversos fitxers de dades simples o "
+"fitxers .wav(RIFF WAVEfmt ). Els fitxers .wav poden ser mono (1) o estèreo "
+"(2 canals). Les dades d'àudio han de ser de 16bit descomprimides. Important: "
 "Primer heu de cridar \""
 
 #: ../vid_enc_avi/gap_enc_avi_main.c:227
@@ -15789,9 +15816,9 @@ msgid ""
 msgstr ""
 "Aquest connector té un codificador de vídeo API però escriu una sèrie de "
 "fotogrames simples en lloc d'un fitxer de vídeo. El tipus de fitxer dels "
-"fotogrames de sortida és derivat de l'extensió. L'extensió és part del "
-"sufix del paràmetre \"videofile\". Els noms dels fotogrames de sortida són "
-"els mateixos que el paràmetre \"videofile\", però la part del número de "
+"fotogrames de sortida és derivat de l'extensió. L'extensió és part del sufix "
+"del paràmetre \"videofile\". Els noms dels fotogrames de sortida són els "
+"mateixos que el paràmetre \"videofile\", però la part del número de "
 "fotograma es reemplaçat pel número de fotograma actual (o afegit "
 "automàticament si el fitxer de vídeo no té part numèrica). S'ignoren les "
 "dades d'àudio. Una crida de\""
