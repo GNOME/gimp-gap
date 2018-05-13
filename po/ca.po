@@ -2549,7 +2549,7 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Aquest filtre requereix d'un trajecte actual amb 4 punts, en què els punts 1 "
+"Aquest filtre requereix un trajecte actual amb 4 punts, en què els punts 1 "
 "i 2 marquen les posicions de referència i els punts 3 i 4 marquen les "
 "posicions en la capa de destinació. Transforma la capa de destinació de "
 "manera que el punt 3 va cap al punt 1, i el punt 4 va cap al punt 2. (això "
@@ -2566,7 +2566,7 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Aquest filtre requereix d'un trajecte actual amb 4 punts, en què els punts 1 "
+"Aquest filtre requereix un trajecte actual amb 4 punts, en què els punts 1 "
 "i 3 marquen les posicions de referència i els punts 2 i 4 marquen les "
 "posicions en la capa de destinació. Transforma la capa de destinació de "
 "manera que el punt 2 va cap al punt 1, i el punt 4 va cap al punt 3. (això "
@@ -4385,7 +4385,7 @@ msgstr "Afegeix màscara de capa des de selecció"
 
 #: ../gap/gap_mod_layer_dialog.c:1016
 msgid "Add layermask from bw copy"
-msgstr "Afegeix màscara de capa des de copia en b/n"
+msgstr "Afegeix màscara de capa des de còpia en b/n"
 
 #: ../gap/gap_mod_layer_dialog.c:1022
 msgid "Invert existing layermask"
@@ -7428,7 +7428,7 @@ msgstr "Mou el camí..."
 
 #: ../gap/gap_mov_main.c:369
 msgid "Move Path Singleframe..."
-msgstr "Mou el fotograma simples del camí..."
+msgstr "Mou el fotograma simple del camí..."
 
 #: ../gap/gap_mpege.c:127
 msgid "Requirements to run mpeg2encode 1.2:"
@@ -10959,7 +10959,7 @@ msgstr ""
 #: ../gap/gap_story_dialog.c:9514 ../gap/gap_vex_dialog.c:2314
 #: ../gap/gap_video_index_creator.c:956
 msgid "Decoder:"
-msgstr "Decodificador:"
+msgstr "Descodificador:"
 
 #: ../gap/gap_story_dialog.c:9515
 msgid ""
@@ -11801,7 +11801,7 @@ msgstr "Info:"
 #: ../gap/gap_story_vthumb.c:295
 #, c-format
 msgid "Creating Index (decoder: %s)"
-msgstr "S'està creant l'índex (decodificador: %s)"
+msgstr "S'està creant l'índex (descodificador: %s)"
 
 #: ../gap/gap_vex_dialog.c:237
 msgid "Overwrite File"
@@ -11945,7 +11945,7 @@ msgstr "(cap, automàtic)"
 #. the (Active) Decoder Label(s)
 #: ../gap/gap_vex_dialog.c:2357
 msgid "Active Decoder:"
-msgstr "Decodificador actiu:"
+msgstr "Descodificador actiu:"
 
 #: ../gap/gap_vex_dialog.c:2367 ../gap/gap_vex_dialog.c:2405
 msgid "****"
@@ -15398,7 +15398,7 @@ msgstr "Precàrrega mux:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3606
 msgid "Set the initial demux-decode delay (seconds)"
-msgstr "Estableix l'espera inicial del decodificador-demultiplexor (segons)"
+msgstr "Estableix l'espera inicial del descodificador-desmultiplexor (segons)"
 
 #. the video bitrate label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3618
@@ -15407,7 +15407,7 @@ msgstr "Espera màx mux:"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3635
 msgid "Set the maximum demux-decode delay (seconds)"
-msgstr "Estableix l'espera màxima del decodificador-demultiplexor (segons)"
+msgstr "Estableix l'espera màxima del descodificador-desmultiplexor (segons)"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:3664
 msgid "FFMpeg File Comment settings"
