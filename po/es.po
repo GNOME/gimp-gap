@@ -3,25 +3,25 @@
 # (sección plug-in). Preguntas, consejos y correcciones
 # _constructivas_ son bienvenidos.
 # Copyright (C) 1998-2005, 2006, 2008, 2011, 2012 Free Software Foundation, Inc.
-# Rodrigo Sancho Senosiain <daisuke@wanadoo.es>
 # 
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2006.
-# Rodrigo Marcos Fombellida <rmarcos_geo@yahoo.es>, 2005.
 # María Majadas <alixis82@gmail.com>, 2008.
 # Omar Campagne <ocampagne@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 # Francisco Vila <francisco.vila@hispalinux.es>, 2011, 2012.
 # 
 # Edilzar Cisneros Ancheyta <edy.cisneros1893@gmail,com>,com>, 2016.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015., 2016, 2017, 2018.
+# 
+# Rodrigo <rodhos92@gmail.com>, 2005., 2018.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015., 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
 "gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-01-25 13:01+0000\n"
-"PO-Revision-Date: 2018-02-19 18:53+0100\n"
+"POT-Creation-Date: 2018-04-14 20:13+0000\n"
+"PO-Revision-Date: 2018-07-11 09:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -537,7 +537,6 @@ msgid "Rename Frames"
 msgstr "Renombrar fotogramas"
 
 #: ../gap/gap_base_ops.c:2359
-#| msgid "Check Framnames"
 msgid "Check Framenames"
 msgstr "Comprobar nombres de fotogramas"
 
@@ -560,24 +559,32 @@ msgid ""
 "New FrameName for all frames (must be entered without number part, extension "
 "and directory path)"
 msgstr ""
+"Nombre de fotograma nuevo para todos los fotogramas (se debe introducir sin "
+"la parte del número, extensión y ruta de la carpeta)"
 
 #: ../gap/gap_base_ops.c:2556
 msgid ""
 "Rename Frames cancelled.\n"
 "new Framename MUST NOT contain directory path."
 msgstr ""
+"Renombrar fotogramas se ha cancelado.\n"
+"el nombre de fotograma nuevo NO DEBE contener la ruta de la carpeta."
 
 #: ../gap/gap_base_ops.c:2565
 msgid ""
 "Rename Frames cancelled.\n"
 "new Framename is equal to old Framename."
 msgstr ""
+"Renombrar fotogramas se ha cancelado.\n"
+"el nombre de fotograma nuevo es igual al nombre anterior."
 
 #: ../gap/gap_base_ops.c:2586
 msgid ""
 "Rename Frames cancelled.\n"
 "one or more new Framename(s) already exits."
 msgstr ""
+"Renombrar fotogramas se ha cancelado.\n"
+"uno o más nombre(s) de fotograma(s) nuevo(s) ya existe(n)."
 
 #: ../gap/gap_base_ops.c:2596
 msgid ""
@@ -909,7 +916,6 @@ msgid "E94"
 msgstr "E94"
 
 #: ../gap/gap_bluebox.c:980
-#| msgid "Use single threshold value"
 msgid "Use single threshold value DeltaE CIE94"
 msgstr "Usar un valor umbral único DeltaE CIE94"
 
@@ -919,7 +925,6 @@ msgid "E2000"
 msgstr "E2000"
 
 #: ../gap/gap_bluebox.c:998
-#| msgid "Use single threshold value"
 msgid "Use single threshold value DeltaE CIEDE2000"
 msgstr "Usar un valor umbral único DeltaE CIEDE2000"
 
@@ -1387,7 +1392,7 @@ msgstr ""
 "capas)"
 
 #. printf("DROP (SKIP) frame\n");
-#: ../gap/gap_dbbrowser_utils.c:380 ../gap/gap_player_dialog.c:4795
+#: ../gap/gap_dbbrowser_utils.c:380 ../gap/gap_player_dialog.c:4867
 msgid "Skip"
 msgstr "Saltar"
 
@@ -1532,7 +1537,7 @@ msgstr "Número de la pista de vídeo a extraer. (0 == ignorar vídeo)"
 
 #. Sample Offset
 #. the audiotrack to label
-#: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:7010
+#: ../gap/gap_decode_mplayer.c:479 ../gap/gap_player_dialog.c:7082
 #: ../gap/gap_vex_dialog.c:2278
 msgid "Audiotrack:"
 msgstr "Pista de sonido:"
@@ -1908,7 +1913,7 @@ msgid "Enable extraction of frames"
 msgstr "Activar extracción de fotogramas"
 
 #. create extract audio otone track button
-#: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:7037
+#: ../gap/gap_decode_xanim.c:288 ../gap/gap_player_dialog.c:7109
 msgid "Extract Audio"
 msgstr "Extraer audio"
 
@@ -2075,6 +2080,15 @@ msgid ""
 "that finetuning also depends on the presence of a reference layer with "
 "layername REF in the 1st handled frame"
 msgstr ""
+"Umbral con el propósito de realizar un ajuste fino. Las coordenadas "
+"calculadas de forma iterativa con una precisión inferior a este umbral se "
+"utilizan para realizar intentos de renderizado de sonda de ajuste fino. "
+"Aumentar el umbral da como resultado más intentos de sondeo y hace que el "
+"procesamiento sea muy lento, pero normalmente reduce los efectos de ruido. "
+"Establecer el umbral más pequeño que la precisión desactiva el renderizado "
+"de sonda de ajuste fino. Tenga en cuenta que el ajuste fino también depende "
+"de la presencia de una capa de referencia con el nombre de capa REF en el "
+"primer fotograma manejado."
 
 #. the Default button
 #: ../gap/gap_detail_align_exec.c:1595 ../gap/gap_detail_tracking_exec.c:3527
@@ -2112,12 +2126,12 @@ msgid ""
 "Fine Tuning step %d done.\n"
 "press OK for next iteration step\n"
 msgstr ""
+"El paso %d del ajuste fino ha finalizado.\n"
+"pulse OK para el siguiente paso de la iteración\n"
 
 #: ../gap/gap_detail_align_exec.c:2786 ../gap/gap_detail_align_exec.c:3224
-#, fuzzy
-#| msgid "Detail Align via XML"
 msgid "Detail Align FineTuning PAUSED"
-msgstr "Alineamiento de detalles mediante XML"
+msgstr "Alineación de detalle del ajuste fino PAUSADO"
 
 #. title_txt
 #: ../gap/gap_detail_align_exec.c:2787 ../gap/gap_detail_align_exec.c:3225
@@ -2139,6 +2153,17 @@ msgid ""
 "\n"
 "Press OK button to perspective transform the layer\n"
 msgstr ""
+"La ruta actual y la ruta %s desencadenan la transformación de perspectiva:\n"
+"    Esquina superior izquierda x: %.4f  y: %.4f (píxeles)\n"
+"    Esquina superior derecha   x: %.4f  y: %.4f (píxeles)\n"
+"    Esquina inferior izquierda x: %.4f  y: %.4f (píxeles)\n"
+"    Esquina inferior derecha   x: %.4f  y: %.4f (píxeles)\n"
+"Matriz de transformación\n"
+"    %12.5f %12.5f %12.5f\n"
+"    %12.5f %12.5f %12.5f\n"
+"    %12.5f %12.5f %12.5f\n"
+"\n"
+"Pulse el botón OK para transformar la perspectiva de la capa\n"
 
 #: ../gap/gap_detail_align_exec.c:3679
 #, c-format
@@ -2148,6 +2173,10 @@ msgid ""
 "    both in the active path and in another path with the name: %s \n"
 "    AND the connection of the 4 points must build up 4 different lines.\n"
 msgstr ""
+"Las rutas actuales no son válidas para la transformación de perspectiva:\n"
+"    Para una transformación válida se necesitan 4 puntos\n"
+"    ambos en la ruta activa y en otra ruta con el nombre: %s \n"
+"    Y la conexión de los 4 puntos debe desarrollar 4 lineas diferentes.\n"
 
 #: ../gap/gap_detail_align_exec.c:3699
 #, c-format
@@ -2253,14 +2282,6 @@ msgstr ""
 "El objetivo está marcado por la ruta con nombre: %s puntos 1,2,3,4"
 
 #: ../gap/gap_detail_align_exec.c:4092
-#| msgid ""
-#| "This filter requires a current path with 4 points, where point 1 and 2 "
-#| "mark reference positions and point 3 and 4 mark positions in the target "
-#| "layer.It transforms the target layer in a way that point3 is moved to "
-#| "point1 and point4 moves to point2.(this may include rotate and scale "
-#| "transformation).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 2 mark "
 "reference positions and point 3 and 4 mark positions in the target layer. It "
@@ -2278,14 +2299,6 @@ msgstr ""
 "medio de una operación de traslación simple sin rotación y escalado)"
 
 #: ../gap/gap_detail_align_exec.c:4103
-#| msgid ""
-#| "This filter requires a current path with 4 points, where point 1 and 3 "
-#| "mark reference positions and point 2 and 4 mark positions in the target "
-#| "layer.It transforms the target layer in a way that point2 is moved to "
-#| "point1 and point4 moves to point3.(this may include rotate and scale "
-#| "transformation).\n"
-#| "A path with 2 points can be used to move point2 to point1.(via simple "
-#| "move operation without rotate and scale)"
 msgid ""
 "This filter requires a current path with 4 points, where point 1 and 3 mark "
 "reference positions and point 2 and 4 mark positions in the target layer. It "
@@ -2431,6 +2444,10 @@ msgid ""
 "OFF: do not apply detail align transformation\n"
 "."
 msgstr ""
+"ACTIVADO: añade una capa y aplica la transformación alinear_detalle al "
+"monitorizar en una imagen de fotograma XFC.\n"
+"DESACTIVADO: no aplicar la transformación alinear detalle\n"
+"."
 
 #: ../gap/gap_detail_tracking_exec.c:3476
 msgid "Const X Offset:"
@@ -2495,6 +2512,16 @@ msgid ""
 "layer shall have a layer mask that marks comparable background white "
 "(opaque). "
 msgstr ""
+"el ajuste fino opcional se activa cuando la imagen del fotograma tiene una "
+"capa adicional con el nombre especial «%s.». En este caso, la transformación "
+"se realiza en más variantes de sonda con valores ligeramente diferentes y el "
+"resultado se compara con las áreas opacas en la capa «% s.» para el "
+"renderizado final, la variante se selecciona con diferencia mínima en las "
+"áreas comparadas. El ajuste fino de rendimiento intensivo tiene como "
+"objetivo reducir los efectos de ruido no deseados con una amplitud mínima de "
+"solo 1 píxel o menos cuando se aplica la alineación a muchos fotogramas de "
+"un videoclip con fines de estabilización. La capa «%s.» debe tener una "
+"máscara de capa que marque un blanco de fondo comparable (opaco). "
 
 #: ../gap/gap_detail_tracking_main.c:308
 #, c-format
@@ -2510,6 +2537,18 @@ msgid ""
 "frames modify feature to align multiple frames according to the "
 "controlpoints recorded in an XML file (via Detail tracking feature).%s"
 msgstr ""
+"Este filtro de estabilización de fotograma de video transforma la capa "
+"especificada. Utiliza el punto de control relevante (que coincide con el "
+"parámetro framePhase) en el archivo XML grabado, como entrada y calcula "
+"desplazamientos, escala y rotación o puntos de esquina de perspectiva para "
+"transformar la capa de forma que los puntos p1x p1y p2x p2y (p3x p3y p4x "
+"p4y) coincidan exactamente con los puntos s1x s1y s2x s2y (s3x s3y s4x s4y) "
+"en el mismo punto de control en el archivo XML. (Llamar a este filtro con "
+"framePhase 1 normalmente no realiza ninguna transformación) Este filtro está "
+"diseñado para ejecutarse bajo el control de la función de modificación de "
+"fotogramas gimp-gap para alinear varios fotogramas de acuerdo con los puntos "
+"de control registrados en un archivo XML (a través de la función de "
+"seguimiento de detalles).%s"
 
 #: ../gap/gap_detail_tracking_main.c:329
 msgid "Align Transform via XML file..."
@@ -2529,6 +2568,17 @@ msgid ""
 "'%s'. The layer will be transformed in a way that all 4 points in the "
 "current path will be placed on their corresponding points in the '%s' path.%s"
 msgstr ""
+"Este filtro espera una ruta actual con 4 puntos como entrada donde los "
+"puntos 1 y 2 marcan las posiciones dentro de una capa de referencia y los "
+"puntos 3 y 4 marcan el punto correspondiente en la capa objetivo. La "
+"transformación se aplica a la capa de destino y establece desplazamientos, "
+"escala y rotación de forma tal que el punto 3 se coloca en la posición del "
+"punto 1, y el punto 4 se coloca en la posición del punto 2. Como "
+"alternativa, este filtro también proporciona una alineación exacta mediante "
+"transformación de perspectiva. Por lo tanto, se requieren 4 puntos en la "
+"ruta actual, y se requieren otros 4 puntos en una ruta adicional que debe "
+"tener el nombre «%s». La capa se transformará de forma que los 4 puntos de "
+"la ruta actual se colocarán en sus puntos correspondientes en la ruta «%s».%s"
 
 #: ../gap/gap_detail_tracking_main.c:361
 msgid "Exact Align via 4-Point Path."
@@ -2669,7 +2719,7 @@ msgstr "Niveles automáticos:"
 
 #: ../gap/gap_edge_detection_dialog.c:491
 msgid "ON: apply auto stretch levels"
-msgstr ""
+msgstr "ACTIVADO: aplicar auto estirar niveles"
 
 #: ../gap/gap_edge_detection_dialog.c:502
 msgid "Desaturate:"
@@ -2677,7 +2727,7 @@ msgstr "Desaturar:"
 
 #: ../gap/gap_edge_detection_dialog.c:513
 msgid "ON: Desaturate result to shades of grey"
-msgstr ""
+msgstr "ACTIVADO: desaturar el resultado en sombras de gris"
 
 #: ../gap/gap_edge_detection_dialog.c:524
 msgid "Invert:"
@@ -2687,6 +2737,8 @@ msgstr "Invertir:"
 msgid ""
 "ON: Invert (Black edge lines on white area) OFF: White lines on black area"
 msgstr ""
+"ACTIVADO: invierte (líneas de borde negras en área blanca) APAGADO: líneas "
+"blancas en área negra"
 
 #: ../gap/gap_edge_detection_dialog.c:547 ../gap/gap_name2layer_main.c:520
 msgid "Create Layer:"
@@ -2696,6 +2748,8 @@ msgstr "Crear capa:"
 msgid ""
 "ON: Render result as new layer OFF: render replaces original layers content"
 msgstr ""
+"ACTIVADO: renderiza el resultado como capa nueva DESACTIVADO: el renderizado "
+"reemplaza el contenido original de las capas"
 
 #: ../gap/gap_edge_detection_dialog.c:1117
 #, c-format
@@ -3325,7 +3379,7 @@ msgid "** File is not a filtermacro **"
 msgstr "** El archivo no es una macro de filtrado **"
 
 #: ../gap/gap_fmac_main.c:1103 ../gap/gap_onion_dialog.c:1523
-#: ../gap/gap_player_dialog.c:8523
+#: ../gap/gap_player_dialog.c:8595
 msgid "Show help page"
 msgstr "Mostrar la página de ayuda"
 
@@ -3368,7 +3422,7 @@ msgstr ""
 "actual y que han configurado el búfer interno con los parámetros de la "
 "última llamada"
 
-#: ../gap/gap_fmac_main.c:1163 ../gap/gap_player_dialog.c:8571
+#: ../gap/gap_fmac_main.c:1163 ../gap/gap_player_dialog.c:8643
 msgid "Close window"
 msgstr "Cerrar ventana"
 
@@ -4089,10 +4143,10 @@ msgid "Resize layer(s) to selection (active frame)"
 msgstr "Redimensionar capas al tamaño de la selección (fotograma activo)"
 
 #: ../gap/gap_mod_layer_dialog.c:1123
-#, fuzzy
-#| msgid "Replace selection (source is the active frame)"
 msgid "Resize selected layer(s) to selection bounds of the active frame"
-msgstr "Reemplazar la selección (el origen es el fotograma activo)"
+msgstr ""
+"Redimensiona la(s) capa(s) seleccionada(s) a los límites de selección del "
+"fotograma activo"
 
 #: ../gap/gap_mod_layer_dialog.c:1129
 msgid "Resize layer(s) to selection (individual per frame)"
@@ -4103,6 +4157,8 @@ msgid ""
 "Resize selected layer(s) to selection bounds using individual selection per "
 "frame"
 msgstr ""
+"Redimensiona la(s) capa(s) seleccionada(s) a los límites de selección usando "
+"selección individual por fotograma"
 
 #: ../gap/gap_mod_layer_dialog.c:1137
 msgid "Add alpha channel"
@@ -4561,11 +4617,6 @@ msgid "Shape"
 msgstr "Forma"
 
 #: ../gap/gap_morph_dialog.c:3615
-#| msgid ""
-#| "Create N workpoints following the outline shape of the layer.the simple "
-#| "shape detection is looking for non-transparent pixels.CTRL-click uses an "
-#| "edge detection based shape detection algorithm that is capable to operate "
-#| "on opaque images.SHIFT-click: adds the new points and keeps the old points"
 msgid ""
 "Create N workpoints following the outline shape of the layer. The simple "
 "shape detection is looking for non-transparent pixels. CTRL-click uses an "
@@ -4606,9 +4657,6 @@ msgid "Use Intensity"
 msgstr "Usar intensidad"
 
 #: ../gap/gap_morph_dialog.c:3720
-#| msgid ""
-#| "ON: Descending deform action from workpoint (full) to radius (zero). "
-#| "Descend by power of intensity.OFF: Linear deform action inside the radius"
 msgid ""
 "ON: Descending deform action from workpoint (full) to radius (zero). Descend "
 "by power of intensity. OFF: Linear deform action inside the radius"
@@ -4732,9 +4780,6 @@ msgid "Quality"
 msgstr "Calidad"
 
 #: ../gap/gap_morph_dialog.c:4016 ../gap/gap_morph_tween_dialog.c:875
-#| msgid ""
-#| "ON: Use quality workpoint selection algorithm.OFF: Use fast workpoint "
-#| "selection algorithm."
 msgid ""
 "ON: Use quality workpoint selection algorithm. OFF: Use fast workpoint "
 "selection algorithm."
@@ -5039,9 +5084,6 @@ msgid "Locate ColordiffEdge Threshold:"
 msgstr "Umbral de ubicación/borde de diferencia de colores:"
 
 #: ../gap/gap_morph_tween_dialog.c:891
-#| msgid ""
-#| "ON: overwrite existing workpointfiles.OFF: Skip workpoint generation or "
-#| "add new generated workpoints (see append checkbutton)."
 msgid ""
 "ON: overwrite existing workpointfiles. OFF: Skip workpoint generation or add "
 "new generated workpoints (see append checkbutton)."
@@ -5057,9 +5099,6 @@ msgid "Append"
 msgstr "Añadir"
 
 #: ../gap/gap_morph_tween_dialog.c:906
-#| msgid ""
-#| "ON: add newly generated workpoints to existing workpointfiles.OFF: Skip "
-#| "workpoint generation for frames where workpointfile already exists."
 msgid ""
 "ON: add newly generated workpoints to existing workpointfiles. OFF: Skip "
 "workpoint generation for frames where workpointfile already exists."
@@ -5089,9 +5128,6 @@ msgstr "Información:"
 
 #: ../gap/gap_morph_tween_dialog.c:1169
 #, c-format
-#| msgid "This operation creates %d missing frame between frame %d and %d"
-#| msgid_plural ""
-#| "this operation creates %d missing frames between frame %d and %d"
 msgid "This operation creates %d missing frame between frame %d and %d"
 msgid_plural "This operation creates %d missing frames between frame %d and %d"
 msgstr[0] ""
@@ -5166,9 +5202,6 @@ msgstr ""
 "individuales por cada fotograma se denominan por la extensión .morphpoints)"
 
 #: ../gap/gap_morph_tween_dialog.c:1326
-#| msgid ""
-#| "ON: overwrite existing frames.OFF: skip processing when target frame/"
-#| "tween already exists."
 msgid ""
 "ON: overwrite existing frames. OFF: skip processing when target frame/tween "
 "already exists."
@@ -5501,7 +5534,7 @@ msgstr ""
 #. Loop Stepmode combo
 #. the playback mode checkbuttons
 #. Loop Toggle
-#: ../gap/gap_mov_dialog.c:4320 ../gap/gap_player_dialog.c:8360
+#: ../gap/gap_mov_dialog.c:4320 ../gap/gap_player_dialog.c:8432
 msgid "Loop"
 msgstr "Bucle"
 
@@ -5893,12 +5926,6 @@ msgid "Reset the current controlpoint to default values"
 msgstr "Restaurar los puntos de control actuales a los valores predefinidos"
 
 #: ../gap/gap_mov_dialog.c:5073
-#, fuzzy
-#| msgid ""
-#| "Reset all controlpoints to default values but dont change the path (X/Y "
-#| "values). Hold down the shift key to copy settings of point1 into all "
-#| "other points. Holding down the ctrl key spreads a mix of the settings of "
-#| "point1 and the last point into the other points inbetween."
 msgid ""
 "Reset all controlpoints to default values but dont change the path (X/Y "
 "values and keyframes). Hold down the alt key removes the keyframe "
@@ -5907,10 +5934,12 @@ msgid ""
 "the settings of point1 and the last point into the other points inbetween."
 msgstr ""
 "Restablecer todos los puntos de control a los valores predefinidos sin "
-"cambiar la trayectoria (valores X/Y). Mantenga pulsada la tecla «Mayús.» "
-"para copiar los valores de punto1 al resto de puntos. Mantenga pulsada la "
-"tecla Control para propagar una mezcla de las opciones del punto1 y del "
-"punto último, entre el resto de puntos."
+"cambiar la trayectoria (valores X/Y y fotogramas clave). Mantenga pulsada la "
+"tecla «Alt» para eliminar la información del fotograma clave de todos los "
+"puntos de control. Mantenga pulsada la tecla «Mayús» para copiar las "
+"configuraciones del punto 1 en todos los demás puntos. Mantenga pulsada la "
+"tecla «Ctrl» para propagar una mezcla de las configuraciones del punto 1 y "
+"el último punto entre todos los otros puntos entre medias."
 
 #: ../gap/gap_mov_dialog.c:5095
 msgid ""
@@ -5930,14 +5959,12 @@ msgid "Load controlpoints from file"
 msgstr "Cargar puntos de control desde un archivo"
 
 #: ../gap/gap_mov_dialog.c:5139
-#, fuzzy
-#| msgid "Show next controlpoint. Hold down the shift key to follow keyframes."
 msgid ""
 "Save controlpoints to file. Hold down the ctrl or shift key for filename "
 "selection dialog."
 msgstr ""
-"Mostrar el punto de control siguiente. Mantenga pulsada la tecla «Mayús.» "
-"para seguir los keyframes."
+"Guardar los puntos de control en un archivo. Mantenga pulsada la tecla Ctrl "
+"o Mayús para el diálogo de selección de nombre de archivo."
 
 # //R Humm
 #. label text
@@ -7208,7 +7235,7 @@ msgid "Select None"
 msgstr "No seleccionar nada"
 
 #. Video Length (frames)
-#: ../gap/gap_navigator_dialog.c:4246 ../gap/gap_player_dialog.c:7217
+#: ../gap/gap_navigator_dialog.c:4246 ../gap/gap_player_dialog.c:7289
 msgid "Videoframes:"
 msgstr "Fotogramas de vídeo:"
 
@@ -7656,7 +7683,7 @@ msgstr ""
 
 #. Audio Samplerate
 #. the Samplerate label
-#: ../gap/gap_player_dialog.c:468 ../gap/gap_player_dialog.c:7159
+#: ../gap/gap_player_dialog.c:468 ../gap/gap_player_dialog.c:7231
 #: ../gap/gap_story_dialog.c:9532 ../vid_common/gap_cme_gui.c:3424
 msgid "Samplerate:"
 msgstr "Velocidad de muestreo:"
@@ -7768,12 +7795,12 @@ msgid "FRAMES:"
 msgstr "Fotogramas:"
 
 #. pending timer_go_job gets useless, since we start playback now
-#: ../gap/gap_player_dialog.c:2326 ../gap/gap_player_dialog.c:4812
+#: ../gap/gap_player_dialog.c:2326 ../gap/gap_player_dialog.c:4884
 msgid "Playing"
 msgstr "Reproduciendo"
 
 #. the status value label
-#: ../gap/gap_player_dialog.c:2365 ../gap/gap_player_dialog.c:8459
+#: ../gap/gap_player_dialog.c:2365 ../gap/gap_player_dialog.c:8531
 msgid "Ready"
 msgstr "Preparado"
 
@@ -7830,17 +7857,17 @@ msgstr ""
 msgid "Videoseek"
 msgstr "Búsqueda en vídeo"
 
-#: ../gap/gap_player_dialog.c:3695 ../gap/gap_player_dialog.c:4194
+#: ../gap/gap_player_dialog.c:3767 ../gap/gap_player_dialog.c:4266
 #: ../gap/gap_story_vthumb.c:361
 msgid "Canceled"
 msgstr "Cancelado"
 
-#: ../gap/gap_player_dialog.c:4824
+#: ../gap/gap_player_dialog.c:4896
 #, c-format
 msgid "Delay %.2f"
 msgstr "Retardo %.2f"
 
-#: ../gap/gap_player_dialog.c:6551
+#: ../gap/gap_player_dialog.c:6623
 #, c-format
 msgid ""
 "WARNING: Your gimprc file configuration for the audioconverter script\n"
@@ -7852,7 +7879,7 @@ msgstr ""
 "no apunta a un programa ejecutable\n"
 "el valor configurado para %s es: %s\n"
 
-#: ../gap/gap_player_dialog.c:6573
+#: ../gap/gap_player_dialog.c:6645
 #, c-format
 msgid ""
 "WARNING: The environment variable %s\n"
@@ -7863,7 +7890,7 @@ msgstr ""
 "no apunta a un programa ejecutable\n"
 "el valor actual es: %s\n"
 
-#: ../gap/gap_player_dialog.c:6592
+#: ../gap/gap_player_dialog.c:6664
 #, c-format
 msgid ""
 "ERROR: The external program for audioconversion is not executable.\n"
@@ -7872,58 +7899,58 @@ msgstr ""
 "Error: El programa externo para la conversión de sonido no es ejecutable.\n"
 "Nombre: «%s»\n"
 
-#: ../gap/gap_player_dialog.c:6612
+#: ../gap/gap_player_dialog.c:6684
 msgid "Creating audiofile - please wait"
 msgstr "Creando archivo de ondas - espere por favor"
 
-#: ../gap/gap_player_dialog.c:6648
+#: ../gap/gap_player_dialog.c:6720
 msgid "external audioconverter FAILED."
 msgstr "FALLÓ la conversión de sonido externo"
 
-#: ../gap/gap_player_dialog.c:6649
+#: ../gap/gap_player_dialog.c:6721
 msgid "extern audioconverter FAILED"
 msgstr "FALLÓ la conversión de sonido externo"
 
-#: ../gap/gap_player_dialog.c:6795
+#: ../gap/gap_player_dialog.c:6867
 msgid "Select Audiofile"
 msgstr "Seleccionar archivo de sonido"
 
-#: ../gap/gap_player_dialog.c:6843
+#: ../gap/gap_player_dialog.c:6915
 msgid "Audio Playback Settings"
 msgstr "Ajustes de la reproducción de audio"
 
 #. audiofile label
 #. the output audiofile label
 #. the Audiofile label
-#: ../gap/gap_player_dialog.c:6868 ../gap/gap_vex_dialog.c:2683
+#: ../gap/gap_player_dialog.c:6940 ../gap/gap_vex_dialog.c:2683
 #: ../vid_common/gap_cme_gui.c:3363
 msgid "Audiofile:"
 msgstr "Archivo de sonido:"
 
-#: ../gap/gap_player_dialog.c:6880
+#: ../gap/gap_player_dialog.c:6952
 msgid "Enter an audiofile. The file must be in RIFF WAVE fileformat."
 msgstr ""
 "Introduzca un archivo de sonido. El archivo debe estar en formato RIFF WAVE."
 
-#: ../gap/gap_player_dialog.c:6901
+#: ../gap/gap_player_dialog.c:6973
 msgid "Open audiofile selection browser dialog window"
 msgstr "Abrir la ventana de selección de archivos de sonido"
 
 #. Volume
-#: ../gap/gap_player_dialog.c:6913 ../gap/gap_story_dialog.c:9548
+#: ../gap/gap_player_dialog.c:6985 ../gap/gap_story_dialog.c:9548
 msgid "Volume:"
 msgstr "Volumen:"
 
-#: ../gap/gap_player_dialog.c:6933
+#: ../gap/gap_player_dialog.c:7005
 msgid "Audio Volume"
 msgstr "Volumen del sonido"
 
 #. check button
-#: ../gap/gap_player_dialog.c:6939
+#: ../gap/gap_player_dialog.c:7011
 msgid "Enable"
 msgstr "Activar"
 
-#: ../gap/gap_player_dialog.c:6944
+#: ../gap/gap_player_dialog.c:7016
 msgid ""
 "ON: Play button plays video + audio.\n"
 "OFF: Play video silently"
@@ -7932,11 +7959,11 @@ msgstr ""
 "Desactivado: Reproduce en silencio"
 
 #. Sample Offset
-#: ../gap/gap_player_dialog.c:6954
+#: ../gap/gap_player_dialog.c:7026
 msgid "Offset:"
 msgstr "Desplazamiento:"
 
-#: ../gap/gap_player_dialog.c:6974
+#: ../gap/gap_player_dialog.c:7046
 msgid ""
 "Audio offset in frames at original video playback speed. A value of 0 starts "
 "audio and video at synchron time. A value of -10 will play frame 1 up to "
@@ -7952,11 +7979,11 @@ msgstr ""
 "a la duración de 10 fotogramas."
 
 #. check button
-#: ../gap/gap_player_dialog.c:6989
+#: ../gap/gap_player_dialog.c:7061
 msgid "original audio"
 msgstr "sonido original"
 
-#: ../gap/gap_player_dialog.c:6994
+#: ../gap/gap_player_dialog.c:7066
 msgid ""
 "ON: for video clip playback sync audio startposition according to original "
 "position in the referenced video. Use this option if the audiofile is an "
@@ -7972,11 +7999,11 @@ msgstr ""
 "video de referencia. Use esto para la reproducción independiente del archivo "
 "de sonido."
 
-#: ../gap/gap_player_dialog.c:7030
+#: ../gap/gap_player_dialog.c:7102
 msgid "Audio Track"
 msgstr "Pista de sonido"
 
-#: ../gap/gap_player_dialog.c:7040
+#: ../gap/gap_player_dialog.c:7112
 msgid ""
 "Extract Audio Track from videofile for the current videofile and use it for "
 "original audiotrack playback"
@@ -7985,11 +8012,11 @@ msgstr ""
 "reproducción de la pista de sonido original"
 
 #. create wavfile button
-#: ../gap/gap_player_dialog.c:7054
+#: ../gap/gap_player_dialog.c:7126
 msgid "Copy As Wavfile"
 msgstr "Copiar como archivo de ondas"
 
-#: ../gap/gap_player_dialog.c:7056
+#: ../gap/gap_player_dialog.c:7128
 msgid ""
 "Create a copy from audiofile as RIFF WAVE audiofile and use the copy for "
 "audio playback"
@@ -7997,92 +8024,92 @@ msgstr ""
 "Crea una copia del archivo de sonido como un archivo RIFF WAVE y usar la "
 "copia para reproducción de sonido"
 
-#: ../gap/gap_player_dialog.c:7068
+#: ../gap/gap_player_dialog.c:7140
 msgid "Reset offset and volume"
 msgstr "Restablecer desplazamiento y volumen"
 
 #. Audio Offset Length (mm:ss:msec)
-#: ../gap/gap_player_dialog.c:7100
+#: ../gap/gap_player_dialog.c:7172
 msgid "Offsettime:"
 msgstr "Tiempo de desplazamiento:"
 
 #. Total Audio Length (mm:ss:msec)
 #. the audio timing information labels
-#: ../gap/gap_player_dialog.c:7114 ../vid_common/gap_cme_gui.c:3596
+#: ../gap/gap_player_dialog.c:7186 ../vid_common/gap_cme_gui.c:3596
 msgid "Audiotime:"
 msgstr "Tiempo de sonido:"
 
 #. Length (frames)
-#: ../gap/gap_player_dialog.c:7129
+#: ../gap/gap_player_dialog.c:7201
 msgid "Audioframes:"
 msgstr "Fotogramas de sonido:"
 
 #. Audiolength (Samples)
-#: ../gap/gap_player_dialog.c:7144
+#: ../gap/gap_player_dialog.c:7216
 msgid "Samples:"
 msgstr "Muestras:"
 
 #. Audio Channels
-#: ../gap/gap_player_dialog.c:7173
+#: ../gap/gap_player_dialog.c:7245
 msgid "Channels:"
 msgstr "Canales:"
 
 #. Bits per Audio Sample
-#: ../gap/gap_player_dialog.c:7187
+#: ../gap/gap_player_dialog.c:7259
 msgid "Bits/Sample:"
 msgstr "Bits/muestra:"
 
 #. Total Video Length (mm:ss:msec)
 #. the video timing information labels
-#: ../gap/gap_player_dialog.c:7202 ../vid_common/gap_cme_gui.c:3569
+#: ../gap/gap_player_dialog.c:7274 ../vid_common/gap_cme_gui.c:3569
 msgid "Videotime:"
 msgstr "Tiempo de vídeo:"
 
-#: ../gap/gap_player_dialog.c:7439
+#: ../gap/gap_player_dialog.c:7511
 msgid "Playback Preferences"
 msgstr "Preferencias de reproducción"
 
 #. Cache size label
-#: ../gap/gap_player_dialog.c:7457
+#: ../gap/gap_player_dialog.c:7529
 msgid "Cache Size (MB):"
 msgstr "Tamaño de la caché (MB):"
 
-#: ../gap/gap_player_dialog.c:7483
+#: ../gap/gap_player_dialog.c:7555
 msgid "Player frame cache maximum size in MB. Value 0 turns the cache off."
 msgstr ""
 "Tamaño máximo de la caché de fotogramas en MB. Valor 0 desactiva la caché."
 
-#: ../gap/gap_player_dialog.c:7492
+#: ../gap/gap_player_dialog.c:7564
 msgid "Clear the frame cache"
 msgstr "Limpiar la caché de fotogramas"
 
 #. Chache Status (number of frames currently in the cache)
-#: ../gap/gap_player_dialog.c:7503
+#: ../gap/gap_player_dialog.c:7575
 msgid "Cached Frames:"
 msgstr "Fotogramas cacheados:"
 
 #. tile Chache
-#: ../gap/gap_player_dialog.c:7529
+#: ../gap/gap_player_dialog.c:7601
 msgid "Tile Cache:"
 msgstr "Caché de enlosado:"
 
-#: ../gap/gap_player_dialog.c:7549
+#: ../gap/gap_player_dialog.c:7621
 msgid "gimp tile cache for the player process. (in tiles 64x64 pixel)"
 msgstr ""
 "Caché de enlosado de GIMP para el proceso del reproductor (en losetas de "
 "64x64 píxeles)."
 
 #. Layout Options label
-#: ../gap/gap_player_dialog.c:7558
+#: ../gap/gap_player_dialog.c:7630
 msgid "Layout Options:"
 msgstr "Opciones de distribución:"
 
 #. Show Go button array (configure to show/hide this optional positioning tool)
-#: ../gap/gap_player_dialog.c:7568
+#: ../gap/gap_player_dialog.c:7640
 msgid "Show Button Array"
 msgstr "Mostrar ordenación de botones"
 
-#: ../gap/gap_player_dialog.c:7574
+#: ../gap/gap_player_dialog.c:7646
 msgid ""
 "ON: Show the go button array positioning tool.\n"
 "OFF: Hide the go button array."
@@ -8091,11 +8118,11 @@ msgstr ""
 "Desactivado: Ocultar el botón de ordenación."
 
 #. Show Position Scale (configure to show/hide this optional positioning tool)
-#: ../gap/gap_player_dialog.c:7587
+#: ../gap/gap_player_dialog.c:7659
 msgid "Show Position Scale"
 msgstr "Muestra la posición de escala"
 
-#: ../gap/gap_player_dialog.c:7593
+#: ../gap/gap_player_dialog.c:7665
 msgid ""
 "ON: Show the position scale.\n"
 "OFF: Hide the position scale."
@@ -8104,11 +8131,11 @@ msgstr ""
 "Desactivado: Ocultar la posición de escalado."
 
 #. Auto skip missing frames
-#: ../gap/gap_player_dialog.c:7606
+#: ../gap/gap_player_dialog.c:7678
 msgid "Auto Skip Missing Frames"
 msgstr "Omitir automáticamente los marcos que falten"
 
-#: ../gap/gap_player_dialog.c:7612
+#: ../gap/gap_player_dialog.c:7684
 msgid ""
 "ON: Automatically skip missing frames on playback.\n"
 "OFF: Show missing frames as empty (transparent) image."
@@ -8118,19 +8145,19 @@ msgstr ""
 "(transparentes)."
 
 #. configure Detail Tracking button
-#: ../gap/gap_player_dialog.c:7627
+#: ../gap/gap_player_dialog.c:7699
 msgid "Configure Tracking:"
 msgstr "Configurar seguimiento:"
 
-#: ../gap/gap_player_dialog.c:7630
+#: ../gap/gap_player_dialog.c:7702
 msgid "Configure detail tracking options"
 msgstr "Configurar las opciones de seguimiento de detalles"
 
-#: ../gap/gap_player_dialog.c:7638
+#: ../gap/gap_player_dialog.c:7710
 msgid "Enable Detail Tracking"
 msgstr "Activar el seguimiento de los detalles"
 
-#: ../gap/gap_player_dialog.c:7644
+#: ../gap/gap_player_dialog.c:7716
 msgid ""
 "ON: Enable detail tracking in snapshot image. Mark coordinates of one (or 2) "
 "significant details in the snapshot image using the current path with one or "
@@ -8150,49 +8177,49 @@ msgstr ""
 "DESACTIVADO: desactivar el seguimiento de detalles."
 
 #. Save Player Preferences label
-#: ../gap/gap_player_dialog.c:7663
+#: ../gap/gap_player_dialog.c:7735
 msgid "Save Preferences:"
 msgstr "Guardar preferencias:"
 
-#: ../gap/gap_player_dialog.c:7675
+#: ../gap/gap_player_dialog.c:7747
 msgid "Save player cache and layout settings (as gimprc parameters)"
 msgstr ""
 "Guardar la caché del reproductor y la configuración de distribución (como "
 "parámetros gimprc)"
 
-#: ../gap/gap_player_dialog.c:7790
+#: ../gap/gap_player_dialog.c:7862
 msgid "Videoframe Playback"
 msgstr "Reproducir fotogramas de vídeo"
 
 #. vid options TAB frame
 #. the video options notebook tab
-#: ../gap/gap_player_dialog.c:7805 ../vid_common/gap_cme_gui.c:2674
+#: ../gap/gap_player_dialog.c:7877 ../vid_common/gap_cme_gui.c:2674
 msgid "Video Options"
 msgstr "Opciones de vídeo"
 
 #. configure options TAB frame
-#: ../gap/gap_player_dialog.c:7829
+#: ../gap/gap_player_dialog.c:7901
 msgid "Preferences"
 msgstr "Preferencias"
 
 #. audio options TAB frame
 #. the Audio Options notebook tab
-#: ../gap/gap_player_dialog.c:7845 ../vid_common/gap_cme_gui.c:2686
+#: ../gap/gap_player_dialog.c:7917 ../vid_common/gap_cme_gui.c:2686
 msgid "Audio Options"
 msgstr "Opciones de sonido"
 
-#: ../gap/gap_player_dialog.c:7938
+#: ../gap/gap_player_dialog.c:8010
 msgid ""
 "Click: go to frame, Ctrl-Click: set 'From Frame', Alt-Click: set 'To Frame'"
 msgstr ""
 "Pulsar: ir al fotograma, Ctrl-pulsar: Establecer fotograma de inicial, Alt-"
 "Pulsar: Establecer fotograma final"
 
-#: ../gap/gap_player_dialog.c:8011 ../gap/gap_player_dialog.c:8144
+#: ../gap/gap_player_dialog.c:8083 ../gap/gap_player_dialog.c:8216
 msgid "The currently displayed frame number"
 msgstr "El número de fotograma actualmente mostrado"
 
-#: ../gap/gap_player_dialog.c:8091
+#: ../gap/gap_player_dialog.c:8163
 msgid ""
 "Click: Set current framenr as selection range start 'From Frame',\n"
 "SHIFT-Click: load this frame into the calling image"
@@ -8201,13 +8228,13 @@ msgstr ""
 "selección «Desde fotograma»,\n"
 "Mayús + pulsación: carga este fotograma en la imagen origen"
 
-#: ../gap/gap_player_dialog.c:8102
+#: ../gap/gap_player_dialog.c:8174
 msgid "Set current framenr as selection range start 'From Frame'"
 msgstr ""
 "Establecer el nº de fotograma actual como inicio de rango de selección "
 "«desde fotograma»"
 
-#: ../gap/gap_player_dialog.c:8118
+#: ../gap/gap_player_dialog.c:8190
 msgid ""
 "Click: Set current framenr as selection range end 'To Frame',\n"
 "SHIFT-Click: load this frame into the calling image"
@@ -8216,55 +8243,55 @@ msgstr ""
 "selección «hasta fotograma»,\n"
 "Mayús + pulsación: carga este fotograma en la imagen origen"
 
-#: ../gap/gap_player_dialog.c:8129
+#: ../gap/gap_player_dialog.c:8201
 msgid "Set current framenr as selection range end 'To Frame'"
 msgstr ""
 "Establecer el nº de fotograma actual como fin de rango de selección «hasta "
 "fotograma»"
 
-#: ../gap/gap_player_dialog.c:8172
+#: ../gap/gap_player_dialog.c:8244
 msgid "Add range to cliplist"
 msgstr "Añadir rango a la lista de clips"
 
-#: ../gap/gap_player_dialog.c:8176
+#: ../gap/gap_player_dialog.c:8248
 msgid "Print range to stdout"
 msgstr "Imprimir rango en stdout"
 
-#: ../gap/gap_player_dialog.c:8198
+#: ../gap/gap_player_dialog.c:8270
 msgid "Start framenumber of selection range"
 msgstr "Iniciar número de fotogramas del rango de selección"
 
-#: ../gap/gap_player_dialog.c:8221
+#: ../gap/gap_player_dialog.c:8293
 msgid "Add inverse range to cliplist"
 msgstr "Añadir rango inverso a la lista de clips"
 
-#: ../gap/gap_player_dialog.c:8225
+#: ../gap/gap_player_dialog.c:8297
 msgid "Print inverse range to stdout"
 msgstr "Imprimir el rango inverso a stdout"
 
-#: ../gap/gap_player_dialog.c:8249
+#: ../gap/gap_player_dialog.c:8321
 msgid "End framenumber of selection range"
 msgstr "Número de fotograma de fin del rango de selección"
 
-#: ../gap/gap_player_dialog.c:8265
+#: ../gap/gap_player_dialog.c:8337
 msgid "Reset playback speed to original (or previous) value"
 msgstr "Restablecer velocidad de reproducción al valor original (o anterior)"
 
-#: ../gap/gap_player_dialog.c:8288
+#: ../gap/gap_player_dialog.c:8360
 msgid "Current playback speed (frames/sec)"
 msgstr "Velocidad de reproducción actual (fotogramas/segundo)"
 
-#: ../gap/gap_player_dialog.c:8314
+#: ../gap/gap_player_dialog.c:8386
 msgid "Toggle size 128/256. <Shift> Set 1:1 full image size"
 msgstr ""
 "Cambiar tamaño 128/256, <Mayúsculas>: Establecer tamaño de imagen completo "
 "1:1"
 
-#: ../gap/gap_player_dialog.c:8336
+#: ../gap/gap_player_dialog.c:8408
 msgid "Video preview size (pixels)"
 msgstr "Tamaño de previsualización del vídeo (píxeles)"
 
-#: ../gap/gap_player_dialog.c:8366
+#: ../gap/gap_player_dialog.c:8438
 msgid ""
 "ON: Play in endless loop.\n"
 "OFF: Play only once"
@@ -8273,11 +8300,11 @@ msgstr ""
 "Desactivado: Reproducir sólo una vez"
 
 #. SelOnly Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8380
+#: ../gap/gap_player_dialog.c:8452
 msgid "Selection only"
 msgstr "Seleccionar sólo"
 
-#: ../gap/gap_player_dialog.c:8386
+#: ../gap/gap_player_dialog.c:8458
 msgid ""
 "ON: Play only frames within the selected range.\n"
 "OFF: Play all frames"
@@ -8286,20 +8313,20 @@ msgstr ""
 "Desactivado: Reproducir todos los fotogramas"
 
 #. PingPong Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8399
+#: ../gap/gap_player_dialog.c:8471
 msgid "Ping pong"
 msgstr "Ping-Pong"
 
-#: ../gap/gap_player_dialog.c:8405
+#: ../gap/gap_player_dialog.c:8477
 msgid "ON: Play alternating forward/backward"
 msgstr "Activado: Reproducir alternando adelante/atrás"
 
 #. UseThumbnails Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8418
+#: ../gap/gap_player_dialog.c:8490
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
-#: ../gap/gap_player_dialog.c:8424
+#: ../gap/gap_player_dialog.c:8496
 msgid ""
 "ON: Use thumbnails when available.\n"
 "OFF: Read full sized frames"
@@ -8308,11 +8335,11 @@ msgstr ""
 "Desactivado: Leer fotogramas a tamaño completo"
 
 #. ExactTiming Toggle (keep text short)
-#: ../gap/gap_player_dialog.c:8439
+#: ../gap/gap_player_dialog.c:8511
 msgid "Exact timing"
 msgstr "Temporización exacta"
 
-#: ../gap/gap_player_dialog.c:8445
+#: ../gap/gap_player_dialog.c:8517
 msgid ""
 "ON: Skip frames to hold exact timing.\n"
 "OFF: Disable frame skipping"
@@ -8321,11 +8348,11 @@ msgstr ""
 "Desactivado: desactivar salto de fotogramas"
 
 #. the Cancel Videoindex Creation button (only visible while creating vindex)
-#: ../gap/gap_player_dialog.c:8503
+#: ../gap/gap_player_dialog.c:8575
 msgid "Cancel Videoindex creation"
 msgstr "Cancelar la creación de índice de vídeo"
 
-#: ../gap/gap_player_dialog.c:8507
+#: ../gap/gap_player_dialog.c:8579
 msgid ""
 "Cancel videoindex creation. Videoindex creation requires full scanning of "
 "the video but allows fast random access to frames afterwards. Without a "
@@ -8337,11 +8364,11 @@ msgstr ""
 "forma secuencial (muy lenta)"
 
 #. the PLAY button
-#: ../gap/gap_player_dialog.c:8531
+#: ../gap/gap_player_dialog.c:8603
 msgid "Play"
 msgstr "Reproducir"
 
-#: ../gap/gap_player_dialog.c:8534
+#: ../gap/gap_player_dialog.c:8606
 msgid ""
 "Start playback. SHIFT: snapshot frames in a multilayer image at original "
 "size CTRL: snapshot at preview size ALT: force creation of new snapshot image"
@@ -8351,11 +8378,11 @@ msgstr ""
 "forzar la creación de una nueva instantánea"
 
 #. the PAUSE button
-#: ../gap/gap_player_dialog.c:8543
+#: ../gap/gap_player_dialog.c:8615
 msgid "Pause"
 msgstr "Pausar"
 
-#: ../gap/gap_player_dialog.c:8547
+#: ../gap/gap_player_dialog.c:8619
 msgid ""
 "Pause if playing (any mousebutton). Go to selection start/active/end (left/"
 "middle/right mousebutton) if not playing"
@@ -8365,11 +8392,11 @@ msgstr ""
 "reproduciendo"
 
 #. the PLAY_REVERSE button
-#: ../gap/gap_player_dialog.c:8554
+#: ../gap/gap_player_dialog.c:8626
 msgid "Reverse"
 msgstr "Invertir"
 
-#: ../gap/gap_player_dialog.c:8557
+#: ../gap/gap_player_dialog.c:8629
 msgid ""
 "Start reverse playback. SHIFT: snapshot frames in a multilayer image at "
 "original size CTRL: snapshot at preview size ALT: force creation of new "
@@ -11745,7 +11772,6 @@ msgid "Sample from:"
 msgstr "Muestra desde:"
 
 #: ../gap/gap_wr_resynth.c:807
-#| msgid "Select direction from where get sample pattern"
 msgid "Select direction from where to get sample pattern"
 msgstr "Seleccionar la dirección de la que obtener un patrón de muestra"
 
