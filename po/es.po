@@ -18,10 +18,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gimp-gap.master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
-"gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-04-14 20:13+0000\n"
-"PO-Revision-Date: 2018-07-11 09:01+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp-gap/issues\n"
+"POT-Creation-Date: 2018-07-11 07:08+0000\n"
+"PO-Revision-Date: 2018-07-12 09:16+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -96,7 +95,7 @@ msgid ""
 "file: '%s'\n"
 "%s"
 msgstr ""
-"Error: Falló al escribir el archivo\n"
+"Error: falló al escribir el archivo\n"
 "de índice de vídeo: «%s»:\n"
 "%s"
 
@@ -5637,6 +5636,7 @@ msgstr "dX:"
 #: ../gap/gap_mov_dialog.c:4439
 msgid "Handle Offset X is added to x coordinate in all points"
 msgstr ""
+"Manipular desplazamiento X se añade a la coordenada x en todos los puntos"
 
 #. Handle Offset Y
 #. table col, row
@@ -5655,6 +5655,7 @@ msgstr "dY:"
 #: ../gap/gap_mov_dialog.c:4459
 msgid "Handle Offset Y is added to y coordinate in all points"
 msgstr ""
+"Manipular desplazamiento Y se añade a la coordenada y en todos los puntos"
 
 #: ../gap/gap_mov_dialog.c:4518
 msgid ""
@@ -6441,6 +6442,10 @@ msgid ""
 "Copy X coordinate from next Controlpoint. Holding down the ctrl Key "
 "Calculate X coordinate as average between previous and next Controlpoint."
 msgstr ""
+"Copie la coordenada X del punto de control anterior. Mantenga presionada la "
+"tecla Mayús para copiar la coordenada X desde el siguiente punto de control. "
+"Mantenga presionada la tecla Ctrl para calcular la coordenada X como el "
+"promedio entre el punto de control anterior y el siguiente."
 
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:6051
@@ -6453,6 +6458,10 @@ msgid ""
 "Copy Y coordinate from next Controlpoint. Holding down the ctrl Key "
 "Calculate Y coordinate as average between previous and next Controlpoint."
 msgstr ""
+"Copie la coordenada Y del punto de control anterior. Mantenga presionada la "
+"tecla Mayús para copiar la coordenada Y desde el siguiente punto de control. "
+"Mantenga presionada la tecla Ctrl para calcular la coordenada Y como el "
+"promedio entre el punto de control anterior y el siguiente."
 
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:6087
@@ -7392,6 +7401,7 @@ msgstr "Desde la selección (e la imágen actual)"
 msgid "Clipped from Selection (in current image) "
 msgstr "Recortado de la selección (en la imágen actual) "
 
+# El texto es demasiado largo y podría descuadrarse en el programa.
 #: ../gap/gap_onion_dialog.c:1298
 msgid ""
 "Layermask creation for the onionskin layer(s):\n"
@@ -7402,6 +7412,14 @@ msgid ""
 " Selection (create layermask from selection in current image) and clip layer "
 "to selection size"
 msgstr ""
+"Creación de máscara de capa para la(s) capa(s) de piel de cebolla:\n"
+" Ninguna: (crea una capa de piel de cebolla sin una máscara de capa)\n"
+" Negra (crea una capa de piel de cebolla con una máscara de capa negra)\n"
+" Blanca (crea una capa de piel de cebolla con una máscara de capa blanca)\n"
+" Selección (crea una máscara de capa desde la selección en la imagen "
+"actual)\n"
+" Selección (crea una máscara de capa desde la selección en la imagen actual) "
+"y recortar la capa al tamaño de la selección"
 
 #: ../gap/gap_onion_dialog.c:1323
 msgid "Ignore BG-layer(s):"
@@ -7524,6 +7542,7 @@ msgstr "Establecer máscara de capa de cebolla activa"
 #: ../gap/gap_onion_dialog.c:1500
 msgid "Handling of active layer after onion layer creation"
 msgstr ""
+"Manipulación de la capa activa después de la creación de la capa de cebolla"
 
 #: ../gap/gap_onion_dialog.c:1531
 msgid "Reset to default settings"
@@ -7588,7 +7607,7 @@ msgstr "Exposición de la opacidad"
 
 #: ../gap/gap_opacity_exposure_main.c:1032
 msgid "Get Average Luminance From the reference layer"
-msgstr ""
+msgstr "Obtener la luminancia media desde la capa de referencia"
 
 #. add label that describes how to use this filter
 #: ../gap/gap_opacity_exposure_main.c:1066
@@ -7597,6 +7616,9 @@ msgid ""
 "in a way that the combination with the layer below\n"
 "matches the brightness of a reference layer"
 msgstr ""
+"Este filtro ajusta la opacidad de una capa\n"
+"de forma que la combinación con la capa inferior\n"
+"coincide con el brillo de una capa de referencia"
 
 #: ../gap/gap_opacity_exposure_main.c:1082
 msgid "Target Luminance:"
@@ -7605,6 +7627,8 @@ msgstr "Luminosidad del destino:"
 #: ../gap/gap_opacity_exposure_main.c:1092
 msgid "Target Average Luminance (when merged with layer below in NORMAL mode)"
 msgstr ""
+"Luminancia media objetivo (cuando se combina con la capa inferior en modo "
+"NORMAL)"
 
 #. use reference layer's average luminance checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1104
@@ -7616,6 +7640,9 @@ msgid ""
 "ON: use Average Luminance from opaque pixels in the reference layer (ignore "
 "Target) OFF: use specified Target Luminance value"
 msgstr ""
+"ACTIVADO: usar la luminancia media de los píxeles opacos en la capa de "
+"referencia (ignorar el objetivo) DESACTIVADO: usar el valor especificado de "
+"la luminancia objetivo"
 
 #. use reference layer as mask checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1127
@@ -7625,6 +7652,7 @@ msgstr "Usar RefLayer como mácara:"
 #: ../gap/gap_opacity_exposure_main.c:1139
 msgid "ON: use the opaque pixels of reference layer as mask "
 msgstr ""
+"ACTIVADO: usar los píxeles opacos de la capa de referencia como máscara"
 
 #. the reference layer label and combo
 #: ../gap/gap_opacity_exposure_main.c:1151
@@ -7640,12 +7668,16 @@ msgid ""
 "Warning: no reference layer found \n"
 "(open a ref image in gimp session)"
 msgstr ""
+"Aviso: no se ha encontrado una capa de referencia\n"
+"(abra una imagen de referencia en la sesión de gimp)"
 
 #: ../gap/gap_opacity_exposure_main.c:1197
 msgid ""
 "Warning: no layer found below processed layer\n"
 "(add the lower layer with other exposure settings)"
 msgstr ""
+"Aviso: no se encontró un capa debajo de la capa procesada\n"
+"(añada la capa inferior con otras opciones de exposición)"
 
 #. Format the message
 #: ../gap/gap_player_dialog.c:418
@@ -7917,7 +7949,7 @@ msgstr "Seleccionar archivo de sonido"
 
 #: ../gap/gap_player_dialog.c:6915
 msgid "Audio Playback Settings"
-msgstr "Ajustes de la reproducción de audio"
+msgstr "Ajustes de la reproducción de sonido"
 
 #. audiofile label
 #. the output audiofile label
@@ -7955,8 +7987,8 @@ msgid ""
 "ON: Play button plays video + audio.\n"
 "OFF: Play video silently"
 msgstr ""
-"Activado: El botón de «Play» reproduce Vídeo+Audio.\n"
-"Desactivado: Reproduce en silencio"
+"Activado: el botón de «Play» reproduce Vídeo+Sonido.\n"
+"Desactivado: reproduce en silencio"
 
 #. Sample Offset
 #: ../gap/gap_player_dialog.c:7026
@@ -8856,7 +8888,7 @@ msgid ""
 "Desired save plugin can't handle type\n"
 "or desired save plugin not available."
 msgstr ""
-"Convertir fotogramas: Falló la operación guardar. \n"
+"Convertir fotogramas: falló la operación guardar. \n"
 "El complemento de guardar requerido no trabaja con \n"
 "ese tipo de imagen, o bien dicho complemento no \n"
 "está disponible."
@@ -10733,6 +10765,8 @@ msgstr "no se puede usar archivo: «%s» como entrada de sonido"
 msgid "ERROR file: %s is not a supported videoformat"
 msgstr "Error en archivo: «%s» no es un formato de vídeo admitido"
 
+# Porqué no usé conversor: http://dle.rae.es/?id=AgpLNqs
+# Remuestrear no existe pero no se me ocurre nada mejor.
 #: ../gap/gap_story_render_audio.c:1509
 #, c-format
 msgid ""
@@ -10740,6 +10774,9 @@ msgid ""
 "(external converter %s FAILED to resample as WAV format at target samplerate "
 "%d)"
 msgstr ""
+"no se puede usar el archivo:  %s como entrada de sonido\n"
+"(el convertidor externo %s FALLÓ al volver a muestrear en formato WAV con "
+"tasa de muestreo del objetivo %d)"
 
 #: ../gap/gap_story_render_audio.c:1655
 #, c-format
@@ -11734,16 +11771,12 @@ msgstr "Establecer capa de opacidad"
 
 #: ../gap/gap_wr_resynth.c:210 ../gap/gap_wr_resynth.c:715
 #: ../gap/gap_wr_resynth.c:727
-#, fuzzy
-#| msgid "Pixel Selection:"
 msgid "Heal Selection"
-msgstr "Selección de píxel:"
+msgstr "Sanar la selección"
 
 #: ../gap/gap_wr_resynth.c:226
-#, fuzzy
-#| msgid "Pixel Selection:"
 msgid "Heal Selection..."
-msgstr "Selección de píxel:"
+msgstr "Sanar la selección…"
 
 #: ../gap/gap_wr_resynth.c:375 ../gap/gap_wr_trans.c:444
 #, c-format
@@ -11860,7 +11893,7 @@ msgid ""
 "tocfile: '%s'\n"
 "%s"
 msgstr ""
-"Error: Fallo al escribir la tabla de contenidos del índice de vídeo\n"
+"Error: fallo al escribir la tabla de contenidos del índice de vídeo\n"
 "archivo: «%s»:\n"
 "%s"
 
@@ -11871,7 +11904,7 @@ msgid ""
 "file: '%s'\n"
 "%s"
 msgstr ""
-"Error: Fallo al escribir el archivo de índice de vídeo\n"
+"Error: fallo al escribir el archivo de índice de vídeo\n"
 "archivo: «%s»:\n"
 "%s"
 
@@ -12157,7 +12190,7 @@ msgid ""
 "supported rates: \n"
 " 22050, 24000, 32000, 44100, 48000"
 msgstr ""
-"Error: Frecuencia de muestreo no admitida en codificación de sonido MPEG1 "
+"Error: frecuencia de muestreo no admitida en codificación de sonido MPEG1 "
 "Layer2\n"
 "frecuencia actual: %d\n"
 "frecuencias admitidas: \n"
@@ -12171,7 +12204,7 @@ msgid ""
 "supported rates:\n"
 " 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000"
 msgstr ""
-"Error: Frecuencia de muestreo no admitida en codificación de sonido MPEG2 "
+"Error: frecuencia de muestreo no admitida en codificación de sonido MPEG2 "
 "Layer3\n"
 "frecuencia actual: %d\n"
 "frecuencias admitidas: \n"
@@ -14727,7 +14760,7 @@ msgid ""
 "** Save FAILED on file\n"
 "%s"
 msgstr ""
-"** Guardado falló en archivo\n"
+"** Fallo al guardar el archivo\n"
 "«%s»"
 
 #: ../vid_enc_single/gap_enc_singleframes_main.c:180
