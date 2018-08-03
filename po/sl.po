@@ -8,11 +8,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Gimp-gap 2.8\n"
+"Project-Id-Version: Gimp-gap master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp-gap/issues\n"
-"POT-Creation-Date: 2018-07-11 07:08+0000\n"
-"PO-Revision-Date: 2018-07-11 22:04+0200\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"POT-Creation-Date: 2018-07-12 07:26+0000\n"
+"PO-Revision-Date: 2018-07-25 00:03+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.1\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -541,30 +541,40 @@ msgid ""
 "New FrameName for all frames (must be entered without number part, extension "
 "and directory path)"
 msgstr ""
+"Novo ime sličic za vse sličice (vnesite ga brez številčenega dela, končnice "
+"in poti do datoteke)."
 
 #: ../gap/gap_base_ops.c:2556
 msgid ""
 "Rename Frames cancelled.\n"
 "new Framename MUST NOT contain directory path."
 msgstr ""
+"Preimenovanje sličic je preklicano.\n"
+"Novo ime sličic NE SME vsebovati poti oz. imena map."
 
 #: ../gap/gap_base_ops.c:2565
 msgid ""
 "Rename Frames cancelled.\n"
 "new Framename is equal to old Framename."
 msgstr ""
+"Preimenovanje sličic je preklicano.\n"
+"Novo ime sličic je enako staremu imenu."
 
 #: ../gap/gap_base_ops.c:2586
 msgid ""
 "Rename Frames cancelled.\n"
 "one or more new Framename(s) already exits."
 msgstr ""
+"Preimenovanje sličic je preklicano.\n"
+"Eno ali več novih imen sličic že obstaja."
 
 #: ../gap/gap_base_ops.c:2596
 msgid ""
 "Rename Frames failed.\n"
 "one or more new Framename(s) could not be renamed."
 msgstr ""
+"Preimenovanje sličic je spodletelo.\n"
+"Ene ali več sličic ni mogoče preimenovati."
 
 #: ../gap/gap_blend_fill_main.c:237
 msgid "Blend Fill..."
@@ -2016,6 +2026,9 @@ msgid ""
 "Precision (in pixels) for calculation of perspective transformation matrix. "
 "Smaller values give more precision (and need more iterations at calculation)"
 msgstr ""
+"Natančnost (v slikovnih točkah) za izračun matrike preoblikovanja "
+"perspektive. Manjše vrednosti pomenijo večjo natančnost (in pri izračunu "
+"zahtevajo več ponovitev)."
 
 #: ../gap/gap_detail_align_exec.c:1570
 msgid "PrecisionThreshold:"
@@ -2068,6 +2081,8 @@ msgid ""
 "Fine Tuning step %d done.\n"
 "press OK for next iteration step\n"
 msgstr ""
+"Izveden je korak podrobne nastavitve %d.\n"
+"Za naslednji korak ponovitve pritisnite V redu.\n"
 
 #: ../gap/gap_detail_align_exec.c:2786 ../gap/gap_detail_align_exec.c:3224
 msgid "Detail Align FineTuning PAUSED"
@@ -2113,6 +2128,10 @@ msgid ""
 "    both in the active path and in another path with the name: %s \n"
 "    AND the connection of the 4 points must build up 4 different lines.\n"
 msgstr ""
+"Trenutne poti niso veljavne za transformacijo perspektive:\n"
+"   Za veljavno preoblikovanje potrebujemo 4 točke\n"
+"   tako v aktivni poti kot v drugi poti z imenom: %s \n"
+"   IN povezava 4 točk mora zgraditi 4 različne črte.\n"
 
 #: ../gap/gap_detail_align_exec.c:3699
 #, c-format
@@ -2216,6 +2235,9 @@ msgid ""
 "Source is marked by current path points 1,2,3,4\n"
 "Target is marked by path with name: %s points 1,2,3,4"
 msgstr ""
+"(1 -> T1) (2 -> T2) (3 -> T3) (4 -> T4)\n"
+"Vir je označen s trenutnimi točkami poti 1, 2, 3, 4.\n"
+"Ciljna oznaka je označena z potjo z imenom: %s točk 1, 2, 3, 4"
 
 #: ../gap/gap_detail_align_exec.c:4092
 msgid ""
@@ -2510,7 +2532,7 @@ msgstr "Zabrisanost R1 (X):"
 #. lower/upper unconstrained
 #: ../gap/gap_edge_detection_dialog.c:343
 msgid "Blur radius 1 X direction"
-msgstr ""
+msgstr "Smer polmera zabrisanosti 1 X"
 
 #: ../gap/gap_edge_detection_dialog.c:354
 msgid "Blur R1 (Y):"
@@ -2523,7 +2545,7 @@ msgstr "Zabrisanost R1 (Y):"
 #. lower/upper unconstrained
 #: ../gap/gap_edge_detection_dialog.c:361
 msgid "Blur radius 1 Y direction"
-msgstr ""
+msgstr "Smer polmera zabrisanosti 1 Y"
 
 #: ../gap/gap_edge_detection_dialog.c:372
 msgid "Blur R2 (X):"
@@ -2536,7 +2558,7 @@ msgstr "Zabrisanost R2 (X):"
 #. lower/upper unconstrained
 #: ../gap/gap_edge_detection_dialog.c:379
 msgid "Blur radius 2 X direction"
-msgstr ""
+msgstr "Smer polmera zabrisanosti 2 X"
 
 #: ../gap/gap_edge_detection_dialog.c:393
 msgid "Blur R2 (Y):"
@@ -2549,7 +2571,7 @@ msgstr "Zabrisanost R2 (Y):"
 #. lower/upper unconstrained
 #: ../gap/gap_edge_detection_dialog.c:400
 msgid "Blur radius 2 Y direction"
-msgstr ""
+msgstr "Smer polmera zabrisanosti 2 Y"
 
 #: ../gap/gap_edge_detection_dialog.c:411
 msgid "Shift Left:"
@@ -2636,6 +2658,8 @@ msgstr "Ustvari plast:"
 msgid ""
 "ON: Render result as new layer OFF: render replaces original layers content"
 msgstr ""
+"VKLJUČENO: rezultat je prikazan kot nova plast IZKLJUČENO: upodobitev "
+"zamenja vsebino izvirnih plasti"
 
 #: ../gap/gap_edge_detection_dialog.c:1117
 #, c-format
@@ -5479,7 +5503,7 @@ msgstr "dX:"
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4439
 msgid "Handle Offset X is added to x coordinate in all points"
-msgstr ""
+msgstr "Odmik ročice X je dodan koordinati x v vseh točkah"
 
 #. Handle Offset Y
 #. table col, row
@@ -5497,7 +5521,7 @@ msgstr "dY:"
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4459
 msgid "Handle Offset Y is added to y coordinate in all points"
-msgstr ""
+msgstr "Odmik ročice Y je dodan koordinati y v vseh točkah"
 
 #: ../gap/gap_mov_dialog.c:4518
 msgid ""
@@ -7397,7 +7421,7 @@ msgstr "Izpostavljenost prekrivnosti"
 
 #: ../gap/gap_opacity_exposure_main.c:1032
 msgid "Get Average Luminance From the reference layer"
-msgstr ""
+msgstr "Pridobi povprečno svetilnost iz referenčne plasti"
 
 #. add label that describes how to use this filter
 #: ../gap/gap_opacity_exposure_main.c:1066
@@ -7414,6 +7438,8 @@ msgstr "Ciljna svetilnost:"
 #: ../gap/gap_opacity_exposure_main.c:1092
 msgid "Target Average Luminance (when merged with layer below in NORMAL mode)"
 msgstr ""
+"Ciljna povprečna svetilnost (ko je spojena s spodnjo plastjo v NAVADNEM "
+"načinu)"
 
 #. use reference layer's average luminance checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1104
@@ -7434,12 +7460,12 @@ msgstr "Uporabi RefLayer kot masko:"
 #: ../gap/gap_opacity_exposure_main.c:1139
 msgid "ON: use the opaque pixels of reference layer as mask "
 msgstr ""
+"VKLJUČENO: uporabite prekrivne slikovne točke referenčne plasti kot masko "
 
 #. the reference layer label and combo
 #: ../gap/gap_opacity_exposure_main.c:1151
-#, fuzzy
 msgid "Exposure Reference Layer"
-msgstr "Sklicna plast ekspozicije"
+msgstr "Referenčna plast ekspozicije"
 
 #: ../gap/gap_opacity_exposure_main.c:1166
 msgid "Select a reference layer"
@@ -7450,12 +7476,16 @@ msgid ""
 "Warning: no reference layer found \n"
 "(open a ref image in gimp session)"
 msgstr ""
+"Opozorilo: referenčne plasti ni mogoče najti\n"
+"(odprite referenčno sliko v seji gimpa)"
 
 #: ../gap/gap_opacity_exposure_main.c:1197
 msgid ""
 "Warning: no layer found below processed layer\n"
 "(add the lower layer with other exposure settings)"
 msgstr ""
+"Opozorilo: pod obdelano plastjo ni nobene plasti\n"
+"(dodajte spodnjo plast z drugimi nastavitvami osvetlitve)"
 
 #. Format the message
 #: ../gap/gap_player_dialog.c:418
