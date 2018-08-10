@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gimp-gap master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp-gap/issues\n"
-"POT-Creation-Date: 2018-07-12 07:26+0000\n"
-"PO-Revision-Date: 2018-07-25 00:03+0200\n"
+"POT-Creation-Date: 2018-08-03 10:13+0000\n"
+"PO-Revision-Date: 2018-08-10 11:08+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"X-Generator: Poedit 2.1\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -10525,6 +10525,9 @@ msgid ""
 "(external converter %s FAILED to resample as WAV format at target samplerate "
 "%d)"
 msgstr ""
+"Datoteke ni mogoče uporabiti:  %s kot zvočni vhod\n"
+"(zunanjemu pretvorniku %s je SPODLETELO prevzorčiti zapis WAV na ciljno mero "
+"vzorčenja %d)"
 
 #: ../gap/gap_story_render_audio.c:1655
 #, c-format
