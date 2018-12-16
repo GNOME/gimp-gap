@@ -8,7 +8,7 @@
   <shortdesc xml:lang="en">GIMP Animation Package</shortdesc>
   <homepage rdf:resource="http://www.gimp.org/" />
   <mailing-list rdf:resource="http://gimp.org/mail_lists.html" />
-  <category rdf:resource="http://api.gnome.org/doap-extensions#productivity" />
+  <!-- <category rdf:resource="http://api.gnome.org/doap-extensions#productivity" /> -->
 
   <maintainer>
     <foaf:Person>
