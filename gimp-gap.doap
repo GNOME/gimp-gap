@@ -16,4 +16,11 @@
       <gnome:userid>wolfgangh</gnome:userid>
     </foaf:Person>
   </maintainer>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Michael Natterer</foaf:name>
+      <gnome:userid>mitch</gnome:userid>
+    </foaf:Person>
+  </maintainer>
 </Project>
