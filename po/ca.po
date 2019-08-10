@@ -93,7 +93,7 @@ msgid ""
 "%s"
 msgstr ""
 "S'ha produït un error en escriure el fitxer\n"
-" índex de vídeo: «%s»\n"
+"índex de vídeo: «%s»\n"
 "%s"
 
 #: ../gap/gap_arr_dialog.c:2103
@@ -324,7 +324,7 @@ msgid ""
 "There will be no undo for this operation\n"
 msgstr ""
 "%.04f per cent dels fotogrames en l'abast: %d - %d\n"
-"es suprimiran.\n"
+"se suprimiran.\n"
 "Això reduirà el nombre total de fotogrames des de %d fins %d\n"
 "Aquesta operació no es podrà desfer\n"
 
@@ -2246,7 +2246,7 @@ msgid ""
 "The xanim program on your system \"%s\"\n"
 "does not support the exporting options Ea, Ee, Eq"
 msgstr ""
-"El programa xanim del vostre sistema \"%s\"\n"
+"El programa xanim del vostre sistema «%s»)\n"
 "no permet les opcions d'exportar Ea, Ee, Eq"
 
 #: ../gap/gap_decode_xanim.c:801
@@ -2255,7 +2255,7 @@ msgid ""
 "The xanim program on your system \"%s\"\n"
 "does not support exporting of single frames"
 msgstr ""
-"El programa xanim del vostre sistema \"%s\"\n"
+"El programa xanim del vostre sistema «%s»\n"
 "no permet exportar fotogrames sols"
 
 #: ../gap/gap_decode_xanim.c:1069
@@ -2701,7 +2701,8 @@ msgid ""
 msgstr ""
 "ACTIVAT: afegiu la capa i apliqueu la transformació d'alineació de detalls "
 "al fer el seguiment a la imatge del fotograma XCF.\n"
-"DESACTIVAT: no apliqueu la transformació d'alineació de detalls"
+"DESACTIVAT: no apliqueu la transformació d'alineació de detalls\n"
+"."
 
 #  Sample Offset
 #: ../gap/gap_detail_tracking_exec.c:3476
@@ -3007,7 +3008,7 @@ msgstr ""
 #: ../gap/gap_edge_detection_dialog.c:1117
 #, c-format
 msgid "Error: Image '%d' not found"
-msgstr "Error: no s'ha trobat la imatge '%d'"
+msgstr "Error: no s'ha trobat la imatge «%d»"
 
 #: ../gap/gap_edge_detection_dialog.c:1122
 msgid "Error: This Edge detection method operates only on layers"
@@ -4907,7 +4908,7 @@ msgstr "Ajusta l'ampliació"
 
 #: ../gap/gap_morph_dialog.c:3260
 msgid "Show the whole layer. (by adjusting zoom to fit into preview)."
-msgstr "Mostra la capa completa. (ajustant l'ampliació a la previsualització)"
+msgstr "Mostra la capa completa. (ajustant l'ampliació a la previsualització)."
 
 #  there is just one total_points display (always in the dst frame)
 #  the current Point label
@@ -5256,7 +5257,7 @@ msgid ""
 "Failed to create tween subdirectory: '%s':\n"
 "%s"
 msgstr ""
-"No s'ha pogut crear el subdirectori intermedi: '%s':\n"
+"No s'ha pogut crear el subdirectori intermedi: «%s»:\n"
 "%s"
 
 #: ../gap/gap_morph_exec.c:3590 ../gap/gap_morph_exec.c:3806
@@ -5499,7 +5500,7 @@ msgid ""
 msgstr ""
 "Activat: sobreescriu els fitxers dels punts de control existents. "
 "Desactivat: omet la generació de punts de control o afegeix nous punts de "
-"control generats (veure annexar CheckButton)."
+"control generats (vegeu annexar CheckButton)."
 
 #. the overwrite checkbutton
 #: ../gap/gap_morph_tween_dialog.c:897
@@ -15623,11 +15624,11 @@ msgid_plural ""
 "(only %d tracks are used, the rest is ignored)."
 msgstr[0] ""
 "El fitxer: %s\n"
-"conté masses pistes de seguiment d'entrada àudio\n"
+"conté massa pistes de seguiment d'entrada àudio\n"
 "(només s'utilitzaran les %d pistes, les altres s'ignoraran)."
 msgstr[1] ""
 "El fitxer: %s\n"
-"conté masses pistes de seguiment d'entrada àudio\n"
+"conté massa pistes de seguiment d'entrada àudio\n"
 "(només s'utilitzaran les %d pistes, les altres s'ignoraran)."
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:2673
