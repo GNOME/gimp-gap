@@ -658,7 +658,7 @@ msgstr "No s'ha pogut escriure el fitxer SVG: %s"
 
 #: ../gap/gap_blend_fill_main.c:1862
 msgid "Blend Fill Selection"
-msgstr "Selecció del farciment de degradat:"
+msgstr "Selecció del farciment de degradat"
 
 #. horizontalBlendFlag checkbutton
 #: ../gap/gap_blend_fill_main.c:1896
@@ -1430,7 +1430,7 @@ msgstr "Color clau:"
 #. the keycolor button
 #: ../gap/gap_colormask_dialog.c:608
 msgid "Key color"
-msgstr "Color clau:"
+msgstr "Color clau"
 
 #  lower/upper
 #  step, page
@@ -2347,7 +2347,7 @@ msgstr ""
 "l'efecte dispersador. Si s'estableix el llindar més petit que la precisió, "
 "es desactiva la renderització del sondatge de l'ajust. Tingueu en compte que "
 "l'ajust també depèn de la presència d'una capa de referència amb el nom de "
-"capa REF en el primer fotograma tractat."
+"capa REF en el primer fotograma tractat"
 
 #. the Default button
 #: ../gap/gap_detail_align_exec.c:1595 ../gap/gap_detail_tracking_exec.c:3527
@@ -2855,7 +2855,7 @@ msgstr "<Image>/Vídeo/Duplicar continuar"
 
 #: ../gap/gap_edge_detection_dialog.c:299
 msgid "Edge Detect (DoSoG)"
-msgstr "Detecció de la vora (DoSoG) ..."
+msgstr "Detecció de la vora (DoSoG)"
 
 #. the frame
 #: ../gap/gap_edge_detection_dialog.c:321
@@ -3429,7 +3429,7 @@ msgstr "Límit de la flama:"
 
 #: ../gap/gap_fire_pattern.c:2104
 msgid "border of the flame"
-msgstr "límit de la flama:"
+msgstr "límit de la flama"
 
 #  Width Scale
 #  table col, row
@@ -3967,7 +3967,7 @@ msgstr "Selecciona el filtre per l'aplicació animada en fotogrames"
 msgid "Modify Layers cancelled: No normal layer selected in 1.st handled frame"
 msgstr ""
 "S'ha cancel·lat la modificació de les capes: no hi ha cap capa seleccionada "
-"en el primer fotograma gestionat."
+"en el primer fotograma gestionat"
 
 #: ../gap/gap_mod_layer.c:1815
 #, c-format
@@ -3980,13 +3980,13 @@ msgstr ""
 msgid "Modify Layers cancelled: No layer selected in last handled frame"
 msgstr ""
 "S'ha cancel·lat la modificació de les capes: no hi ha cap capa seleccionada "
-"en l'últim fotograma."
+"en l'últim fotograma"
 
 #: ../gap/gap_mod_layer.c:1847
 msgid "Modify Layers cancelled: No normal layer selected in last handled frame"
 msgstr ""
 "S'ha cancel·lat la modificació de les capes: no hi ha cap capa seleccionada "
-"en l'últim fotograma gestionat."
+"en l'últim fotograma gestionat"
 
 #: ../gap/gap_mod_layer.c:1863
 #, c-format
@@ -3996,7 +3996,7 @@ msgid ""
 msgstr ""
 "S'ha cancel·lat la modificació de les capes: la primera capa seleccionada "
 "«%s»\n"
-"de l'últim fotograma no té cap màscara de capa."
+"de l'últim fotograma no té cap màscara de capa"
 
 #: ../gap/gap_mod_layer.c:1982
 msgid "Modifying frames/layer(s)..."
@@ -4018,7 +4018,7 @@ msgid ""
 "in start frame has no layermask"
 msgstr ""
 "la primera capa seleccionada «%s»\n"
-"del primer fotograma no té cap màscara de capa."
+"del primer fotograma no té cap màscara de capa"
 
 #: ../gap/gap_mod_layer_dialog.c:382 ../gap/gap_mod_layer_dialog.c:388
 msgid "New Layer Name"
@@ -4043,7 +4043,7 @@ msgstr "Nom de fitxer XML"
 #. the Layer Attributes sub menu
 #: ../gap/gap_mod_layer_dialog.c:556
 msgid "Layer Attributes"
-msgstr "Atributs de capa:"
+msgstr "Atributs de capa"
 
 #  action items what to do with the selected layer(s)
 #: ../gap/gap_mod_layer_dialog.c:563
@@ -5146,7 +5146,7 @@ msgstr ""
 #. the create tween checkbutton
 #: ../gap/gap_morph_dialog.c:3991
 msgid "Create Layers"
-msgstr "Crea capes:"
+msgstr "Crea capes"
 
 #: ../gap/gap_morph_dialog.c:4001
 msgid ""
@@ -5154,7 +5154,7 @@ msgid ""
 "below the destination layer"
 msgstr ""
 "Activat: Crea el nombre de capes intermèdies especificat. Desactivat: "
-"Treballa amb les capes existents per sota de la capa de destinació."
+"Treballa amb les capes existents per sota de la capa de destinació"
 
 #  the jpeg quality label
 #  the xvid quality label
@@ -5529,7 +5529,7 @@ msgstr "Crea punts:"
 
 #: ../gap/gap_morph_tween_dialog.c:1107 ../gap/gap_morph_tween_dialog.c:1118
 msgid "Create Tween Frames"
-msgstr "Crea fotogrames intercalats:"
+msgstr "Crea fotogrames intercalats"
 
 #. label
 #: ../gap/gap_morph_tween_dialog.c:1158
@@ -6228,7 +6228,7 @@ msgstr ""
 "Calcula n passos entre 2 fotogrames. Els passos intermedis s'aniran posant "
 "en una capa que s'afegirà als fotogrames de destinació. Si el valor dels "
 "passos intermedis és 0, no es calcularà cap pas intermedi ni es crearà cap "
-"capa."
+"capa"
 
 #  TweenOpacityInitial
 #  table col, row
@@ -7290,7 +7290,7 @@ msgstr "Fotograma:"
 #. upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:6436
 msgid "Frame to show when 'Refresh' button is pressed"
-msgstr "Fotograma a mostrar quan es prem el botó 'Refresca'"
+msgstr "Fotograma a mostrar quan es prem el botó «Refresca»"
 
 #. label text
 #. scalesize spinsize
@@ -8206,7 +8206,7 @@ msgid ""
 "OFF: Select matching layers"
 msgstr ""
 "Activat: Selecciona capes sense coincidència.\n"
-"Desactivat: Selecciona capes coincidents."
+"Desactivat: Selecciona capes coincidents"
 
 #: ../gap/gap_onion_dialog.c:1413
 msgid "Select Pattern:"
@@ -8448,7 +8448,7 @@ msgid ""
 msgstr ""
 "Activat: Torna a mostrejar la còpia a la freqüència de mostratge "
 "especificada.\n"
-"Desactivat: Utilitza la freqüència de mostratge original."
+"Desactivat: Utilitza la freqüència de mostratge original"
 
 #  Audio Samplerate
 #. Audio Samplerate
@@ -9157,7 +9157,7 @@ msgstr ""
 "Cancel·la la creació de l'índex de vídeo. La creació de l'índex de vídeo "
 "requereix un escaneig total del vídeo, però després permet un accés aleatori "
 "als fotogrames. Sense un índex de vídeo, l'accés es fa amb una lectura "
-"seqüencial molt lenta."
+"seqüencial molt lenta"
 
 #  pending timer_go_job gets useless, since we start playback now
 #. the PLAY button
@@ -9849,7 +9849,7 @@ msgstr ""
 "Activat: copia totes les propietats d'imatge (canals, camins, guies) a totes "
 "les imatges dels fotogrames.\n"
 "Desactivat: copia només les capes, sense les propietats d'imatge a les "
-"imatges dels fotogrames."
+"imatges dels fotogrames"
 
 #: ../gap/gap_split.c:496
 msgid "How many digits to use for the framenumber filename part"
@@ -10010,7 +10010,7 @@ msgid ""
 msgstr ""
 "Activat: mantén les proporcions quan s'ajusta la mida (això pot ocasionar "
 "uns marges negres). Desactivat: permet que es canviï les proporcions de la "
-"imatge quan s'ajusta la mida."
+"imatge quan s'ajusta la mida"
 
 #. the overlap label (same row as FitSize)
 #: ../gap/gap_story_att_trans_dlg.c:3656
@@ -11363,7 +11363,7 @@ msgid ""
 msgstr ""
 "Densitat de la mida dels passos. Utilitzeu 1.0 per un pas normal 1:1 entre "
 "fotograma i fotograma. Un valor de 0.5 mostrarà cada fotograma d'entrada 2 "
-"cops. Un valor de 2.0 mostrarà només un fotograma d'entrada de cada dos."
+"cops. Un valor de 2.0 mostrarà només un fotograma d'entrada de cada dos"
 
 #  lower/upper
 #  step, page
@@ -12149,7 +12149,7 @@ msgid ""
 "'%s'"
 msgstr ""
 "no s'ha pogut desar el fitxer següent:\n"
-"%s"
+"«%s»"
 
 #: ../gap/gap_vex_main.c:274
 msgid "MAIN_TST"
@@ -12743,7 +12743,7 @@ msgstr ""
 "Es necessita el connector «Resynthesizer» per a aquesta operació\n"
 "Aquest connector, però, no està instal·lat\n"
 "El connector «Resynthesizer» està disponible al registre de connectors del "
-"gimp."
+"gimp"
 
 #  Audiolength (Samples)
 #. the directionParam label
@@ -13672,7 +13672,7 @@ msgstr "original"
 
 #: ../vid_common/gap_cme_gui.c:3837
 msgid "Set framerate"
-msgstr "Estableix velocitat de fotograma:"
+msgstr "Estableix velocitat de fotograma"
 
 #. the Videonorm label
 #: ../vid_common/gap_cme_gui.c:3848
@@ -13786,7 +13786,7 @@ msgstr ""
 "connector del codificador de vídeo. El connector específic es cridarà amb "
 "els paràmetres especificats en el diàleg. Per crides no interactives "
 "s'utilitzaran els valors per defecte (podeu cridar el connector desitjat "
-"directament si voleu especificar paràmetres no interactius."
+"directament si voleu especificar paràmetres no interactius"
 
 #: ../vid_common/gap_cme_main.c:160
 msgid "Master Videoencoder..."
@@ -13923,7 +13923,7 @@ msgstr ""
 #  the Deinterlace Mode label
 #: ../vid_enc_avi/gap_enc_avi_gui.c:794
 msgid "Generate interlaced PNGs"
-msgstr "Genera PNG entrellaçats:"
+msgstr "Genera PNG entrellaçats"
 
 #. the png compression label
 #: ../vid_enc_avi/gap_enc_avi_gui.c:802
@@ -14776,7 +14776,7 @@ msgstr "Habilita un scantable alternatiu (només pels còdecs MPEG-2 i MPEG-4)"
 #. the Use interlaced me checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2298
 msgid "Use interlaced me"
-msgstr "Utilitza l'em entrellaçada:"
+msgstr "Utilitza l'em entrellaçada"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2304
 msgid "Enable interlaced motion estimation"
@@ -14797,7 +14797,7 @@ msgstr "Habilita el vlc inter alternatiu (només pel còdec h263+)"
 #. the interlace dct checkbutton
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2328
 msgid "Interlace DCT"
-msgstr "DCT entrellaçat:"
+msgstr "DCT entrellaçat"
 
 #  the Deinterlace Mode label
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_gui.c:2334
@@ -15686,7 +15686,7 @@ msgstr "No s'ha pogut crear el fitxer de vídeo: «%s»%s"
 #.
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:3217
 msgid "Black dummy frame was added"
-msgstr "S'ha afegit un fotograma negre."
+msgstr "S'ha afegit un fotograma negre"
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_par.c:412
 #, c-format
