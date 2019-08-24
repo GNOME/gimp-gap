@@ -4,14 +4,14 @@
 #
 # Miha Tomšič <miha.tomsic@guest.arnes.si>, 2000-2002.
 # Nedeljko Grabant <nedeljkograbant@gmail.com>, 2007.
-# Martin Srebotnjak <miles@filmsi.net>, 2007-2013, translated from scratch, 2014-2018.
+# Martin Srebotnjak <miles@filmsi.net>, 2007-2013, translated from scratch, 2014-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Gimp-gap master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp-gap/issues\n"
-"POT-Creation-Date: 2018-08-03 10:13+0000\n"
-"PO-Revision-Date: 2018-08-10 11:08+0200\n"
+"POT-Creation-Date: 2018-09-17 22:02+0000\n"
+"PO-Revision-Date: 2019-06-21 17:35+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -1953,7 +1953,7 @@ msgid ""
 "The xanim program on your system \"%s\"\n"
 "does not support the exporting options Ea, Ee, Eq"
 msgstr ""
-"Program xanim, nameščen na vašem sistemu \"%s\",\n"
+"Program xanim, nameščen na vašem sistemu »%s«,\n"
 "ne podpira izvoznih možnosti Ea, Ee, Eq."
 
 #: ../gap/gap_decode_xanim.c:801
@@ -1962,7 +1962,7 @@ msgid ""
 "The xanim program on your system \"%s\"\n"
 "does not support exporting of single frames"
 msgstr ""
-"Program xanim, nameščen na vašem sistemu \"%s\",\n"
+"Program xanim, nameščen na vašem sistemu »%s«,\n"
 "ne podpira izvoza posamičnih sličic."
 
 #: ../gap/gap_decode_xanim.c:1069
@@ -3586,7 +3586,7 @@ msgid ""
 "Modify Layers cancelled: first selected layer \"%s\"\n"
 "in last frame has no layermask"
 msgstr ""
-"Operacija Spremeni plasti preklicana: prvoizbrana plast \"%s\"\n"
+"Operacija Spremeni plasti preklicana: prvoizbrana plast »%s«\n"
 "v zadnji sličici nima maske plasti"
 
 #: ../gap/gap_mod_layer.c:1982
@@ -3608,8 +3608,8 @@ msgid ""
 "first selected layer \"%s\"\n"
 "in start frame has no layermask"
 msgstr ""
-"prva izbrana plast \"%s\"\n"
-"v začeni sličici nima maske plasti"
+"prva izbrana plast »%s«\n"
+"v začetni sličici nima maske plasti"
 
 #: ../gap/gap_mod_layer_dialog.c:382 ../gap/gap_mod_layer_dialog.c:388
 msgid "New Layer Name"
@@ -9899,7 +9899,7 @@ msgid ""
 "used (in this case video frames use the master pixelsize 1:1 for displaying "
 "video frames)."
 msgstr ""
-"Izberite razmerje stranic slike; vnesite niz \"4:3\" ali \"16:9\", da ga "
+"Izberite razmerje stranic slike; vnesite niz »4:3« ali »16:9«, da ga "
 "določite. Ne vnesite ničesar ali pustite polje prazno, če naj ne bo "
 "uporabljeno nobeno posebno razmerje stranic (v tem primeru bodo sličice "
 "upodobljene v glavni velikosti slikovnih točk 1:1 za prikaz sličic)."
@@ -10060,8 +10060,8 @@ msgid ""
 "because the new mask name is already in use."
 msgstr ""
 "Napaka: sklicev ni mogoče posodobiti iz\n"
-"starega imena maske: \"%s\" v\n"
-"novo ime maske: \"%s\",\n"
+"starega imena maske: »%s« v\n"
+"novo ime maske: »%s«,\n"
 "ker je novo ime maske že zasedeno."
 
 #: ../gap/gap_story_properties.c:707
@@ -10092,7 +10092,7 @@ msgid ""
 "Error: the mask name:  \"%s\" is already in use\n"
 "please enter another name."
 msgstr ""
-"Napaka: ime maske:  \"%s\" je že zasedeno,\n"
+"Napaka: ime maske:  »%s« je že zasedeno,\n"
 "vnesite drugo ime."
 
 #: ../gap/gap_story_properties.c:2378
@@ -14484,8 +14484,8 @@ msgid ""
 msgstr ""
 "Ta vtičnik ima API kodirnika slike, vendar zapiše niz posamičnih sličic "
 "namesto ene slikovne datoteke. Vrsta izhodnih sličic izhaja iz končnice. "
-"Končnica je pripona parametra \"videofile\". Imena izhodnih sličic so enaka "
-"parametru \"videofile\", le da je del številke sličice zamenjan s številko "
+"Končnica je pripona parametra »videofile«. Imena izhodnih sličic so enaka "
+"parametru »videofile«, le da je del številke sličice zamenjan s številko "
 "trenutne sličice (ali dodan samodejno, če datoteka posnetka nima številskega "
 "dela). Zvočni podatki so prezrti. Klic \""
 
