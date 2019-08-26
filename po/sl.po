@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gimp-gap master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp-gap/issues\n"
-"POT-Creation-Date: 2018-09-17 22:02+0000\n"
-"PO-Revision-Date: 2019-06-21 17:35+0200\n"
+"POT-Creation-Date: 2019-08-24 18:25+0000\n"
+"PO-Revision-Date: 2019-08-25 22:27+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language: sl\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "X-Generator: Poedit 2.2.3\n"
 
 #. Button  to invoke fontbrowser
@@ -2086,7 +2086,7 @@ msgstr ""
 
 #: ../gap/gap_detail_align_exec.c:2786 ../gap/gap_detail_align_exec.c:3224
 msgid "Detail Align FineTuning PAUSED"
-msgstr ""
+msgstr "Natančna poravnava podrobnosti PREKINJENA"
 
 #. title_txt
 #: ../gap/gap_detail_align_exec.c:2787 ../gap/gap_detail_align_exec.c:3225
@@ -2397,6 +2397,9 @@ msgid ""
 "OFF: do not apply detail align transformation\n"
 "."
 msgstr ""
+"VKLJUČENO: doda plast in uporabi preoblikovanje detail_align pri sledenju "
+"sliki sličice XCF.\n"
+"IZKLJUČENO: ne uporabi preoblikovanja detail align."
 
 #: ../gap/gap_detail_tracking_exec.c:3476
 msgid "Const X Offset:"
@@ -2649,6 +2652,8 @@ msgstr "Preobrni:"
 msgid ""
 "ON: Invert (Black edge lines on white area) OFF: White lines on black area"
 msgstr ""
+"VKLJUČENO: preobrni (črne črte robov na belem področju) IZKLJUČENO: bele "
+"črte na črnem področju"
 
 #: ../gap/gap_edge_detection_dialog.c:547 ../gap/gap_name2layer_main.c:520
 msgid "Create Layer:"
@@ -4045,6 +4050,8 @@ msgid ""
 "Resize selected layer(s) to selection bounds using individual selection per "
 "frame"
 msgstr ""
+"Spremeni velikost izbranih plasti v mere izbora z uporabo posameznega izbora "
+"na sličico"
 
 #: ../gap/gap_mod_layer_dialog.c:1137
 msgid "Add alpha channel"
@@ -6293,6 +6300,9 @@ msgid ""
 "Copy X coordinate from next Controlpoint. Holding down the ctrl Key "
 "Calculate X coordinate as average between previous and next Controlpoint."
 msgstr ""
+"Kopira koordinate X iz predhodne nadzorne točke. S pritiskom dvigalke kopira "
+"koordinate X naslednje nadzorne točke. S pritiskom krmilke izračuna "
+"koordinate X kot povprečje med predhodno in naslednjo nadzorno točko."
 
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:6051
@@ -6305,6 +6315,9 @@ msgid ""
 "Copy Y coordinate from next Controlpoint. Holding down the ctrl Key "
 "Calculate Y coordinate as average between previous and next Controlpoint."
 msgstr ""
+"Kopira koordinate Y iz predhodne nadzorne točke. S pritiskom dvigalke kopira "
+"koordinate Y naslednje nadzorne točke. S pritiskom krmilke izračuna "
+"koordinate Y kot povprečje med predhodno in naslednjo nadzorno točko."
 
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:6087
@@ -7235,6 +7248,13 @@ msgid ""
 " Selection (create layermask from selection in current image) and clip layer "
 "to selection size"
 msgstr ""
+"Ustvarjanje maske plasti za plasti folij:\n"
+" Brez: (ustvari plast folije brez maske plasti)\n"
+" Črna (ustvari plast folije s črno masko plasti)\n"
+" Bela (ustvari plast folije z belo masko plasti)\n"
+" Izbor (ustvari masko plasti iz izbora v trenutni sliki)\n"
+" Izbor (ustvari masko plasti iz izbora v trenutni sliki) in poreže plast na "
+"velikost izbora"
 
 #: ../gap/gap_onion_dialog.c:1323
 msgid "Ignore BG-layer(s):"
@@ -7415,9 +7435,8 @@ msgstr "Odstranjevanje folij ..."
 
 #. The dialog1 and main vbox
 #: ../gap/gap_opacity_exposure_main.c:1022
-#, fuzzy
 msgid "Opacity Exposure"
-msgstr "Izpostavljenost prekrivnosti"
+msgstr "Ekspozicija prekrivnosti"
 
 #: ../gap/gap_opacity_exposure_main.c:1032
 msgid "Get Average Luminance From the reference layer"
@@ -7430,6 +7449,9 @@ msgid ""
 "in a way that the combination with the layer below\n"
 "matches the brightness of a reference layer"
 msgstr ""
+"Ta filter prilagodi prekrivnost plasti\n"
+"na način, da kombinacija s spodnjo plastjo\n"
+"ustreza svetlosti sklicne plasti"
 
 #: ../gap/gap_opacity_exposure_main.c:1082
 msgid "Target Luminance:"
@@ -7451,6 +7473,8 @@ msgid ""
 "ON: use Average Luminance from opaque pixels in the reference layer (ignore "
 "Target) OFF: use specified Target Luminance value"
 msgstr ""
+"VKLJUČENO: uporabi povprečno svetilnost prekrivnih slikovnih točk na sklicni "
+"plasti (prezri Cilj) IZKLJUČENO: uporabi določeno ciljno vrednost svetilnosti"
 
 #. use reference layer as mask checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1127
