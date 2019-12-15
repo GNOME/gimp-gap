@@ -250,7 +250,7 @@ msgstr "S'estan duplicant els fotogrames..."
 
 #: ../gap/gap_base_ops.c:812 ../gap/gap_base_ops.c:951
 msgid "Renumber frame sequence..."
-msgstr "Renumera la seqüència de fotogrames..."
+msgstr "Torna a numerar la seqüència de fotogrames..."
 
 #: ../gap/gap_base_ops.c:1182
 #, c-format
@@ -496,7 +496,7 @@ msgid ""
 "Renumber the affected frame sequence (numbers are shifted in circle by N "
 "steps)"
 msgstr ""
-"Re-numera la seqüència de fotogrames afectada (els números es desplacen en "
+"Torna a numerar la seqüència de fotogrames afectada (els números es desplacen en "
 "cercle per n passos)"
 
 #: ../gap/gap_base_ops.c:1825
@@ -515,7 +515,7 @@ msgstr "Inversió de la seqüència de fotogrames"
 #: ../gap/gap_base_ops.c:2015
 #, c-format
 msgid "Renumber Frames (%ld)"
-msgstr "Re numera els fotogrames (%ld)"
+msgstr "Torna a numerar els fotogrames (%ld)"
 
 #: ../gap/gap_base_ops.c:2019
 msgid "First Frame Number:"
@@ -539,11 +539,11 @@ msgstr "Quants dígits s'utilitzen pel nombre de fotograma en el nom de fitxer"
 
 #: ../gap/gap_base_ops.c:2038 ../gap/gap_base_ops.c:2147
 msgid "Renumber Frames"
-msgstr "Re-numera fotogrames"
+msgstr "Torna a numerar fotogrames"
 
 #: ../gap/gap_base_ops.c:2192
 msgid "Renumber Frames 2nd Pass"
-msgstr "Renumera els fotogrames per segona vegada"
+msgstr "Torna a numerar els fotogrames per segona vegada"
 
 #: ../gap/gap_base_ops.c:2355 ../gap/gap_base_ops.c:2496
 msgid "Rename Frames"
@@ -4158,7 +4158,7 @@ msgstr "Esvaeix"
 
 #: ../gap/gap_mod_layer_dialog.c:722
 msgid "Hardlight"
-msgstr "Llum dura"
+msgstr "Llum forta"
 
 #: ../gap/gap_mod_layer_dialog.c:727
 msgid "Softlight"
@@ -5893,7 +5893,7 @@ msgstr "Darrere"
 
 #: ../gap/gap_mov_dialog.c:4226 ../gap/gap_wr_layermode.c:356
 msgid "Hard Light"
-msgstr "Llum dura"
+msgstr "Llum forta"
 
 #: ../gap/gap_mov_dialog.c:4227 ../gap/gap_wr_layermode.c:357
 msgid "Soft Light"
