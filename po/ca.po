@@ -1760,7 +1760,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:445
 msgid "Start Time:"
-msgstr "Inici:"
+msgstr "Hora d'inici:"
 
 #: ../gap/gap_decode_mplayer.c:446
 msgid "Extracting starts at the specified time offset HH:MM:SS in the video"
@@ -5014,7 +5014,7 @@ msgstr "Intensitat:"
 
 #: ../gap/gap_morph_dialog.c:3702
 msgid "Deform intensity."
-msgstr "Deforma intensitat."
+msgstr "Intensitat de la deformació."
 
 #  the use_intensity checkbutton
 #. the use_intensity checkbutton
