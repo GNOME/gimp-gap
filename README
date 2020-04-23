@@ -1,8 +1,8 @@
-This is an unstable developers version 2.7.0 of the GIMP Video menu.
+This is an unstable developers version 2.7.0 of the GIMP 'Video' menu.
 
-The GIMP-GAP (GIMP Animation Package) is a collection of Plug-Ins
+The GIMP-GAP (GIMP Animation Package) is a collection of plug-ins
 to extend the GIMP with capabilities to edit and create
-Animations as sequences of single frames.
+animations as sequences of single frames.
 
 
 Requires:
@@ -198,13 +198,13 @@ Notes:
 Bugs
 ====
 
-Please use bugzilla productname gimp-gap for bugreports.
+Please use GNOME's issue tracker for bug reports.
 
-   http://bugzilla.gnome.org/enter_bug.cgi?product=gimp-gap
+   https://gitlab.gnome.org/GNOME/gimp-gap/-/issues
 
 
 Before reporting a problem, you may want to see if someone else did 
-already - check http://bugzilla.gnome.org/buglist.cgi?product=gimp-gap
+already.
 
 
 Other known Bugs
