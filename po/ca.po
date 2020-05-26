@@ -10,10 +10,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gimp-"
-"gap&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-05-01 07:32+0000\n"
-"PO-Revision-Date: 2017-10-24 00:22+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp-gap/issues\n"
+"POT-Creation-Date: 2019-10-12 07:21+0000\n"
+"PO-Revision-Date: 2019-11-01 22:28+0100\n"
 "Last-Translator: David Aguilera <dvd1985@gmail.com>\n"
 "Language-Team: Catalan <gnome@llistes.softcatala.org>\n"
 "Language: ca\n"
@@ -200,7 +199,7 @@ msgid ""
 "(only %d tracks are used, the rest are ignored)."
 msgstr ""
 "El fitxer: %s\n"
-"conté massa pistes d'entrada àudio\n"
+"conté masses pistes d'entrada àudio\n"
 "(només s'utilitzaran %d pistes, les altres s'ignoraran)."
 
 #: ../gap/gap_audio_wav.c:642
@@ -250,7 +249,7 @@ msgstr "S'estan duplicant els fotogrames..."
 
 #: ../gap/gap_base_ops.c:812 ../gap/gap_base_ops.c:951
 msgid "Renumber frame sequence..."
-msgstr "Torna a numerar la seqüència de fotogrames..."
+msgstr "Renumera la seqüència de fotogrames..."
 
 #: ../gap/gap_base_ops.c:1182
 #, c-format
@@ -496,7 +495,7 @@ msgid ""
 "Renumber the affected frame sequence (numbers are shifted in circle by N "
 "steps)"
 msgstr ""
-"Torna a numerar la seqüència de fotogrames afectada (els números es desplacen en "
+"Re-numera la seqüència de fotogrames afectada (els números es desplacen en "
 "cercle per n passos)"
 
 #: ../gap/gap_base_ops.c:1825
@@ -515,7 +514,7 @@ msgstr "Inversió de la seqüència de fotogrames"
 #: ../gap/gap_base_ops.c:2015
 #, c-format
 msgid "Renumber Frames (%ld)"
-msgstr "Torna a numerar els fotogrames (%ld)"
+msgstr "Re numera els fotogrames (%ld)"
 
 #: ../gap/gap_base_ops.c:2019
 msgid "First Frame Number:"
@@ -539,11 +538,11 @@ msgstr "Quants dígits s'utilitzen pel nombre de fotograma en el nom de fitxer"
 
 #: ../gap/gap_base_ops.c:2038 ../gap/gap_base_ops.c:2147
 msgid "Renumber Frames"
-msgstr "Torna a numerar fotogrames"
+msgstr "Re-numera fotogrames"
 
 #: ../gap/gap_base_ops.c:2192
 msgid "Renumber Frames 2nd Pass"
-msgstr "Torna a numerar els fotogrames per segona vegada"
+msgstr "Renumera els fotogrames per segona vegada"
 
 #: ../gap/gap_base_ops.c:2355 ../gap/gap_base_ops.c:2496
 msgid "Rename Frames"
@@ -1264,7 +1263,7 @@ msgstr ""
 #  lowr/upper unconstrained
 #: ../gap/gap_colormask_dialog.c:266
 msgid "_HiColordiff Threshold:"
-msgstr "Llindar de la diferència del color:"
+msgstr "_Llindar de la diferència del color:"
 
 #: ../gap/gap_colormask_dialog.c:269
 msgid ""
@@ -1760,7 +1759,7 @@ msgstr ""
 
 #: ../gap/gap_decode_mplayer.c:445
 msgid "Start Time:"
-msgstr "Hora d'inici:"
+msgstr "Inici:"
 
 #: ../gap/gap_decode_mplayer.c:446
 msgid "Extracting starts at the specified time offset HH:MM:SS in the video"
@@ -2095,7 +2094,7 @@ msgstr "Extracció basada amb el MPlayer..."
 #: ../gap/gap_decode_mplayer_main.c:132 ../gap/gap_frontends_main.c:188
 #: ../gap/gap_vex_main.c:203
 msgid "<Image>/Video/Split Video into Frames/"
-msgstr "<Image>/Vídeo/Divideix el vídeo en fotogrames..."
+msgstr "<Image>/Vídeo/Divideix el vídeo en fotogrames/"
 
 #: ../gap/gap_decode_mplayer_main.c:133 ../gap/gap_frontends_main.c:189
 #: ../gap/gap_vex_main.c:204
@@ -2425,7 +2424,7 @@ msgstr ""
 "Premeu el botó D'acord a la perspectiva de transformar la capa\n"
 
 #: ../gap/gap_detail_align_exec.c:3679
-#,c-format
+#, c-format
 msgid ""
 "Current paths are not valid for Perspective transformation:\n"
 "    For valid transformation 4 points are required\n"
@@ -2549,8 +2548,8 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Aquest filtre requereix un trajecte actual amb 4 punts, en què els punts 1 "
-"i 2 marquen les posicions de referència i els punts 3 i 4 marquen les "
+"Aquest filtre requereix un trajecte actual amb 4 punts, en què els punts 1 i "
+"2 marquen les posicions de referència i els punts 3 i 4 marquen les "
 "posicions en la capa de destinació. Transforma la capa de destinació de "
 "manera que el punt 3 va cap al punt 1, i el punt 4 va cap al punt 2. (això "
 "pot incloure la rotació i l'ajust de mida).\n"
@@ -2566,8 +2565,8 @@ msgid ""
 "A path with 2 points can be used to move point2 to point1. (via simple move "
 "operation without rotate and scale)"
 msgstr ""
-"Aquest filtre requereix un trajecte actual amb 4 punts, en què els punts 1 "
-"i 3 marquen les posicions de referència i els punts 2 i 4 marquen les "
+"Aquest filtre requereix un trajecte actual amb 4 punts, en què els punts 1 i "
+"3 marquen les posicions de referència i els punts 2 i 4 marquen les "
 "posicions en la capa de destinació. Transforma la capa de destinació de "
 "manera que el punt 2 va cap al punt 1, i el punt 4 va cap al punt 3. (això "
 "pot incloure la rotació i la transformació d'escala).\n"
@@ -3101,7 +3100,7 @@ msgstr ""
 #. colordiff_threshold spinbutton
 #: ../gap/gap_fg_from_sel_dialog.c:392 ../gap/gap_fg_matting_dialog.c:567
 msgid "Color Diff Threshold"
-msgstr "Llindar de la diferència de color"
+msgstr "Llindar de la diferència de color "
 
 #: ../gap/gap_fg_from_sel_dialog.c:400 ../gap/gap_fg_matting_dialog.c:575
 msgid "sensitivity for color comparison"
@@ -3362,7 +3361,7 @@ msgstr "Llavor patró:"
 #: ../gap/gap_fire_pattern.c:1950 ../gap/gap_water_pattern.c:1329
 msgid "Seed for creating random pattern (cloud1 layer) use 0 for random value."
 msgstr ""
-"Llavor per a la creació d'un patró aleatori (capa de núvol1) utilitza el 0 "
+"Llavor per a la creació d'un patró aleatori (capa de núvols1) utilitza el 0 "
 "pel valor aleatori."
 
 #: ../gap/gap_fire_pattern.c:1961
@@ -4158,7 +4157,7 @@ msgstr "Esvaeix"
 
 #: ../gap/gap_mod_layer_dialog.c:722
 msgid "Hardlight"
-msgstr "Llum forta"
+msgstr "Llum dura"
 
 #: ../gap/gap_mod_layer_dialog.c:727
 msgid "Softlight"
@@ -4542,7 +4541,7 @@ msgstr ""
 
 #: ../gap/gap_mod_layer_dialog.c:1482
 msgid "New Position:"
-msgstr "Nova posició:"
+msgstr "Posició nova:"
 
 #. lower
 #. upper
@@ -4741,7 +4740,7 @@ msgid ""
 "filename: '%s':\n"
 "%s"
 msgstr ""
-"No s'ha pogut escriure el fitxer de punts de control de l'animació\n"
+"No s'ha pogut escriure el fitxer de punts de control del morf\n"
 "nom de fitxer: «%s»:\n"
 "%s"
 
@@ -4752,7 +4751,7 @@ msgid ""
 "filename: '%s'\n"
 "%s"
 msgstr ""
-"Error: No s'han pogut obrir els punts de control\n"
+"Error: No s'han pogut obrir els punts de control del morf\n"
 "nom de fitxer: «%s»\n"
 "%s"
 
@@ -4763,17 +4762,17 @@ msgid ""
 "filename: '%s'\n"
 "(Is not a valid morph workpoint file)"
 msgstr ""
-"Error: No s'han pogut obrir els punts de control\n"
+"Error: No s'han pogut obrir els punts de control del morf\n"
 "nom de fitxer: «%s»\n"
 "(No és un fitxer de punt de control vàlid)"
 
 #: ../gap/gap_morph_dialog.c:2565
 msgid "Save Morph Workpointfile"
-msgstr "Desa els punts de control al fitxer"
+msgstr "Desa els punts de control del morf al fitxer"
 
 #: ../gap/gap_morph_dialog.c:2569
 msgid "Load Morph Workpointfile"
-msgstr "Carrega els punts de control del fitxer"
+msgstr "Carrega el fitxer dels punts de control del morf"
 
 #  Paintmode menu
 #  the deinterlace Mode label
@@ -4853,12 +4852,11 @@ msgstr "Mode de composició:"
 #. radio button MORPH
 #: ../gap/gap_morph_dialog.c:3075
 msgid "Morph"
-msgstr "Animació per vèrtexs"
+msgstr "Morf (Animació per vèrtexs)"
 
 #: ../gap/gap_morph_dialog.c:3084
 msgid "Render morph transition (warp forward, warp backward and cross fade)"
-msgstr ""
-"Compon una animació per vèrtexs (cap endavant, cap enrere i fosa creuada)"
+msgstr "Compon un morf (cap endavant, cap enrere i fosa creuada)"
 
 #  radio button WARP
 #. radio button WARP
@@ -4893,11 +4891,11 @@ msgstr "X:"
 
 #: ../gap/gap_morph_dialog.c:3216
 msgid "Morphpoint X coordinate"
-msgstr "Coordenada X del punt de l'animació per vèrtexs"
+msgstr "Coordenada X del punt del morf"
 
 #: ../gap/gap_morph_dialog.c:3248
 msgid "Morphpoint Y coordinate"
-msgstr "Coordenada Y del punt de l'animació per vèrtexs"
+msgstr "Coordenada Y del punt del morf"
 
 #  radio button ZOOM
 #  Fit Zoom Button
@@ -4937,7 +4935,7 @@ msgstr "001"
 
 #: ../gap/gap_morph_dialog.c:3460
 msgid "Morph / Warp"
-msgstr "Animació per vèrtexs / deformació"
+msgstr "Morf / deformació"
 
 #  Swap Windows Button
 #: ../gap/gap_morph_dialog.c:3465
@@ -4980,7 +4978,6 @@ msgid "Shape"
 msgstr "Forma"
 
 #: ../gap/gap_morph_dialog.c:3615
-#| msgid ""
 msgid ""
 "Create N workpoints following the outline shape of the layer. The simple "
 "shape detection is looking for non-transparent pixels. CTRL-click uses an "
@@ -5014,7 +5011,7 @@ msgstr "Intensitat:"
 
 #: ../gap/gap_morph_dialog.c:3702
 msgid "Deform intensity."
-msgstr "Intensitat de la deformació."
+msgstr "Deforma intensitat."
 
 #  the use_intensity checkbutton
 #. the use_intensity checkbutton
@@ -5057,7 +5054,7 @@ msgstr "Color del punt"
 
 #: ../gap/gap_morph_dialog.c:3795
 msgid "Set color for the morph workpoints"
-msgstr "Defineix color pels punts de control"
+msgstr "Defineix color pels punts de control del morf"
 
 #  the currentcolor colorbutton
 #. the currentcolor colorbutton
@@ -5067,8 +5064,7 @@ msgstr "Color del punt actual"
 
 #: ../gap/gap_morph_dialog.c:3814
 msgid "Set color for the current morph workpoint"
-msgstr ""
-"Estableix el color del punt de control de l'animació per vèrtexs actual"
+msgstr "Estableix el color del punt de control del morf"
 
 #  the multiple pointsets checkbutton
 #. the multiple pointsets checkbutton
@@ -5245,7 +5241,7 @@ msgstr ""
 
 #: ../gap/gap_morph_exec.c:2768
 msgid "creating morph tween layers..."
-msgstr "s'estan creant capes intermèdies de l'animació per vèrtexs..."
+msgstr "s'estan creant capes intermèdies del morf…"
 
 #: ../gap/gap_morph_exec.c:2772
 msgid "creating warp tween layers..."
@@ -5278,25 +5274,25 @@ msgstr "El fitxer %s ja existeix"
 #  radio button MORPH
 #: ../gap/gap_morph_main.c:220
 msgid "Morph..."
-msgstr "Animació per vèrtexs..."
+msgstr "Morf…"
 
 #: ../gap/gap_morph_main.c:243
 msgid "Morph Tweenframes..."
-msgstr "Animació per vèrtexs dels fotogrames intercalats…"
+msgstr "Morf dels fotogrames intercalats…"
 
 #  radio button MORPH
 #: ../gap/gap_morph_main.c:267
 msgid "Morph One Tween..."
-msgstr "Intercalat d’una animació per vèrtex..."
+msgstr "Intercalat d’un morf…"
 
 #: ../gap/gap_morph_main.c:287
 msgid "Morph Workpoint Generator..."
-msgstr "Generador de punts de control de l'animació per vèrtex…"
+msgstr "Generador de punts de control del morf…"
 
 #. Menu names
 #: ../gap/gap_morph_main.c:298
 msgid "<Image>/Video/Morphing/"
-msgstr "<Image>/Vídeo/Animació per vèrtexs/"
+msgstr "<Image>/Vídeo/Metamorfosi/"
 
 #: ../gap/gap_morph_shape.c:224
 #, c-format
@@ -5317,18 +5313,16 @@ msgstr "renderitza l'intercalat a través d'un algoritme de fosa %.2f %%"
 #, c-format
 msgid "render tween via morphing algorithm %.2f%%"
 msgstr ""
-"renderitza l'intercalat a través d'un algoritme de l'animació per vèrtexs "
-"%.2f %%"
+"renderitza l'intercalat a través d'un algoritme per a la metamorfosi %.2f %%"
 
 #: ../gap/gap_morph_tween_dialog.c:266
 msgid "Enter Morph Workpoint filename"
-msgstr ""
-"Introduïu un nom del fitxer dels punts de control de l'animació per vèrtexs"
+msgstr "Introduïu un nom del fitxer dels punts de control del morf"
 
 #. morph workpoint entry
 #: ../gap/gap_morph_tween_dialog.c:386
 msgid "Morph Workpoint file:"
-msgstr "Fitxer de punts de control de l'animació per vèrtexs:"
+msgstr "Fitxer dels punts de control del morf:"
 
 #: ../gap/gap_morph_tween_dialog.c:400
 msgid ""
@@ -5336,8 +5330,7 @@ msgid ""
 "(note that tweens are created via simple fade operations when no "
 "workpointfile is available)"
 msgstr ""
-"El nom d'un fitxer de punts de control creat amb la característica de "
-"l'animació per vèrtexs\n"
+"El nom d'un fitxer de punts de control creat amb la característica del morf\n"
 "(fixeu-vos que els intercalats es creen utilitzant operacions de fosa "
 "simples quan no hi ha cap fitxer de punts de control disponible)"
 
@@ -5429,7 +5422,7 @@ msgid ""
 msgstr ""
 "El valor de l'atribut passos-Intercalats s'escriu en el fitxer generat en el "
 "punt de control. (Nombre d'intercalats que s'insereixen entre 2 fotogrames a "
-"l'intercalador del processador de l'animació per vèrtexs)"
+"l'intercalador del processador del morf)"
 
 #: ../gap/gap_morph_tween_dialog.c:770
 msgid "Deform Radius:"
@@ -5450,8 +5443,8 @@ msgid ""
 msgstr ""
 "S'escriu el valor de l'atribut intensitat per generar el fitxer del punt de "
 "control. El valor 0 desactiva la intensitat de la deformació descendent, el "
-"processament de l'animació per vèrtexs utilitzarà l'acció de deformació "
-"lineal dins del radi deformat"
+"processament del morf utilitzarà l'acció de deformació lineal dins del radi "
+"deformat"
 
 #: ../gap/gap_morph_tween_dialog.c:805
 msgid "Locate Move Radius:"
@@ -5559,9 +5552,9 @@ msgstr ""
 "franges\n"
 "i el nombre especificat de fotogrames intercalats addicionals\n"
 "entre tots els fotogrames processats en el subdirectori especificat. \n"
-"Proporciona fitxers de punts de treball (un per cada fotograma) per a "
-"l'animació per vèrtexs basat amb la renderització intercalada\n"
-"(Això es pot fer amb el generador punt de control Morph)"
+"Proporciona fitxers de punts de treball (un per cada fotograma) per a la "
+"metamorfosi basat amb la renderització intercalada\n"
+"(Això es pot fer amb el generador punt de control del Morf)"
 
 #: ../gap/gap_morph_tween_dialog.c:1192
 msgid "This operation requires more than one frame."
@@ -5578,9 +5571,9 @@ msgid ""
 "frame number is equal to the current processed frame number +1"
 msgstr ""
 "Nombre d'intercalats que s'insereix entre 2 fotogrames. El valor 0 "
-"renderitza amb pèrdua de fotogrames (a través de l'animació per vèrtexs o "
-"fosa), però no crea intercalats en el següent número de fotograma que és "
-"igual al número +1 del fotograma que s'està processant"
+"renderitza amb pèrdua de fotogrames (a través de la metamorfosi o fosa), "
+"però no crea intercalats en el següent número de fotograma que és igual al "
+"número +1 del fotograma que s'està processant"
 
 #  StepSpeedFactor
 #  table col, row
@@ -5893,7 +5886,7 @@ msgstr "Darrere"
 
 #: ../gap/gap_mov_dialog.c:4226 ../gap/gap_wr_layermode.c:356
 msgid "Hard Light"
-msgstr "Llum forta"
+msgstr "Llum dura"
 
 #: ../gap/gap_mov_dialog.c:4227 ../gap/gap_wr_layermode.c:357
 msgid "Soft Light"
@@ -8007,7 +8000,7 @@ msgstr "Configuració del paper ceba"
 
 #: ../gap/gap_onion_dialog.c:1059
 msgid "Onionskin Settings"
-msgstr "Configuració de paper ceba"
+msgstr "Configuració de paper ceba:"
 
 #: ../gap/gap_onion_dialog.c:1076
 msgid "Reference Mode:"
@@ -9211,11 +9204,11 @@ msgstr "Reprodueix..."
 #  the new size labels
 #: ../gap/gap_range_ops.c:148
 msgid "New Width:"
-msgstr "Nova amplada:"
+msgstr "Amplada nova:"
 
 #: ../gap/gap_range_ops.c:159
 msgid "New Height:"
-msgstr "Nova alçada:"
+msgstr "Alçada nova:"
 
 #: ../gap/gap_range_ops.c:170
 msgid "Offset X:"
@@ -9722,11 +9715,11 @@ msgstr "Alçada actual:"
 #. the new size labels
 #: ../gap/gap_resi_dialog.c:696
 msgid "New width:"
-msgstr "Nova amplada:"
+msgstr "Amplada nova:"
 
 #: ../gap/gap_resi_dialog.c:702
 msgid "New height:"
-msgstr "Nova alçada:"
+msgstr "Alçada nova:"
 
 #  the duration label
 #  the scale ratio labels
@@ -11668,6 +11661,9 @@ msgid ""
 "(external converter %s FAILED to resample as WAV format at target samplerate "
 "%d)"
 msgstr ""
+"no podeu utilitzar el fitxer:  %s com a entrada d'àudio\n"
+"(el convertidor extern%s ha fallat per remostrejar com a format WAV a la "
+"mostra de destinació %d)"
 
 #: ../gap/gap_story_render_audio.c:1655
 #, c-format
@@ -12306,7 +12302,7 @@ msgstr "Creació de l'índex de vídeo"
 
 #: ../gap/gap_video_index_creator.c:1157 ../gap/gap_video_index_creator.c:1237
 msgid " ** no video **"
-msgstr "** sense vídeo **"
+msgstr " ** sense vídeo **"
 
 #: ../gap/gap_video_index_creator.c:1163
 msgid "processing not finished"
@@ -13747,7 +13743,7 @@ msgstr ""
 #, c-format
 msgid "Video encoding %d of %d frames done, PASS 2 of 2"
 msgstr ""
-"S'ha codificat el vídeo per a %d fotogrames d'un total de %d. PAS 2 de 2"
+"S'ha·codificat·el·vídeo·per·a·%d·fotogrames·d'un·total·de·%d.·PAS·2·de·2"
 
 #: ../vid_common/gap_cme_gui.c:4171
 #, c-format
@@ -15591,7 +15587,7 @@ msgstr ""
 "Aquest connector estableix uns paràmetres de codificació de vídeo "
 "específics. Les crides no interactives han de portar un paràmetre amb el "
 "fitxer, es crides interactives han de portar un diàleg que especifiqui els "
-"paràmetres i opcionalment es pugui desar. "
+"paràmetres i opcionalment es pugui desar."
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:510
 msgid "Get GUI parameters for GAP ffmpeg video encoder"
