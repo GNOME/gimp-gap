@@ -10996,7 +10996,7 @@ msgstr ""
 
 #: ../gap/gap_story_dialog.c:9595
 msgid "AreaFormat:"
-msgstr "Format·d'àrea:"
+msgstr "Format d'àrea:"
 
 #. pixel
 #: ../gap/gap_story_dialog.c:9597
@@ -13743,7 +13743,7 @@ msgstr ""
 #, c-format
 msgid "Video encoding %d of %d frames done, PASS 2 of 2"
 msgstr ""
-"S'ha·codificat·el·vídeo·per·a·%d·fotogrames·d'un·total·de·%d.·PAS·2·de·2"
+"S'ha codificat el vídeo per a %d fotogrames d'un total de %d. PAS 2 de 2"
 
 #: ../vid_common/gap_cme_gui.c:4171
 #, c-format
