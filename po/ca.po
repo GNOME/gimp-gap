@@ -8000,7 +8000,7 @@ msgstr "Configuració del paper ceba"
 
 #: ../gap/gap_onion_dialog.c:1059
 msgid "Onionskin Settings"
-msgstr "Configuració de paper ceba:"
+msgstr "Configuració de paper ceba"
 
 #: ../gap/gap_onion_dialog.c:1076
 msgid "Reference Mode:"
@@ -11617,7 +11617,7 @@ msgid ""
 "negative decelerate"
 msgstr ""
 "acceleració característica del filtre macro, 0=apagat, positiu accelerar, "
-"negatiu desaccelerar "
+"negatiu desaccelerar"
 
 #: ../gap/gap_story_render_audio.c:472
 #, c-format
@@ -12267,7 +12267,7 @@ msgstr ""
 "podeu escriure el nom d'un fitxer de text que contingui la llista de noms de "
 "fitxers de vídeo (un nom per línia) per a crear un índex de vídeo de cada un "
 "d'ells d'un sol cop. Un índex de vídeo permet un posicionament ràpid i "
-"exacte del fitxer vídeo. "
+"exacte del fitxer vídeo."
 
 #: ../gap/gap_video_index_creator.c:957
 msgid "Create video index based on the specified decoder library"
