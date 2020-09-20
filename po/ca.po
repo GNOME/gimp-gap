@@ -4856,7 +4856,7 @@ msgstr "Morf (Animació per vèrtexs)"
 
 #: ../gap/gap_morph_dialog.c:3084
 msgid "Render morph transition (warp forward, warp backward and cross fade)"
-msgstr "Compon un morf (cap endavant, cap enrere i fosa creuada)"
+msgstr "Compon una transició morf (cap endavant, cap enrere i fosa creuada)"
 
 #  radio button WARP
 #. radio button WARP
@@ -5958,7 +5958,8 @@ msgid ""
 "target frame."
 msgstr ""
 "Els fotogrames d'origen i de destinació se sincronitzen al valor 1.0. Amb un "
-"valor de 0.5 la progressió serà la meitat de lenta."
+"valor de 0.5 la progressió serà la meitat de lenta. Un pas d'origen es fa "
+"només a cada segon fotograma de destinació."
 
 #  the playback mode checkbuttons
 #  Loop Toggle
