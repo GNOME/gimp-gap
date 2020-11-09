@@ -495,7 +495,7 @@ msgid ""
 "Renumber the affected frame sequence (numbers are shifted in circle by N "
 "steps)"
 msgstr ""
-"Re-numera la seqüència de fotogrames afectada (els números es desplacen en "
+"Renumera la seqüència de fotogrames afectada (els números es desplacen en "
 "cercle per n passos)"
 
 #: ../gap/gap_base_ops.c:1825
@@ -534,11 +534,11 @@ msgstr "Dígits:"
 
 #: ../gap/gap_base_ops.c:2032
 msgid "How many digits to use for the framenumber in the filename"
-msgstr "Quants dígits s'utilitzen pel nombre de fotograma en el nom de fitxer"
+msgstr "Quants dígits s'utilitzen per al nombre de fotograma en el nom de fitxer"
 
 #: ../gap/gap_base_ops.c:2038 ../gap/gap_base_ops.c:2147
 msgid "Renumber Frames"
-msgstr "Re-numera fotogrames"
+msgstr "Renumera fotogrames"
 
 #: ../gap/gap_base_ops.c:2192
 msgid "Renumber Frames 2nd Pass"
@@ -6347,7 +6347,7 @@ msgstr "Fusiona l'objectiu:"
 
 #: ../gap/gap_mov_dialog.c:4854
 msgid "New Layer"
-msgstr "Nova capa"
+msgstr "Capa nova"
 
 #: ../gap/gap_mov_dialog.c:4855
 msgid "Merge to Layer below"
@@ -7349,7 +7349,7 @@ msgstr "Fotograma actual:"
 #: ../gap/gap_mov_dialog.c:7863
 msgid "Current Frame number (i.e. current phase) of total number of frames"
 msgstr ""
-"Número actual de fotogrames (és a dir, la fase actual) del nombre total de "
+"Nombre actual de fotogrames (és a dir, la fase actual) del nombre total de "
 "fotogrames"
 
 #: ../gap/gap_mov_dialog.c:7871
@@ -8039,7 +8039,7 @@ msgstr "Capes de paper ceba:"
 
 #: ../gap/gap_onion_dialog.c:1135
 msgid "Number of onionskin layers to create in the handled frame."
-msgstr "Número de capes paper ceba a crear en el fotograma manejat."
+msgstr "Nombre de capes paper ceba a crear en el fotograma manejat."
 
 #: ../gap/gap_onion_dialog.c:1140
 msgid "Ascending Opacity"
@@ -9945,7 +9945,7 @@ msgstr "Final:"
 
 #: ../gap/gap_story_att_trans_dlg.c:3412 ../gap/gap_story_att_trans_dlg.c:3666
 msgid "Copy this number of frames to all enabled rows"
-msgstr "Copia aquest número de fotogrames a totes les files possibles"
+msgstr "Copia aquest nombre de fotogrames a totes les files possibles"
 
 #: ../gap/gap_story_att_trans_dlg.c:3439
 msgid "Number of frames (duration of transition from start to end value)"
@@ -11600,7 +11600,7 @@ msgid ""
 "macrofile is implicitly referenced by naming convention via the keyword ."
 "VARYING (as suffix or before the extension)"
 msgstr ""
-"el filtre macro s'aplicarà quan es composin els fragments d'aquests clips. "
+"el filtre macro s'aplicarà quan es componguin els fragments d'aquests clips. "
 "Es pot fer referència implícitament a un segon macro del filtre emprant una "
 "convenció del nom, escrivint la paraula clau. VARYING (com a sufix o abans "
 "de l'extensió)"
@@ -15587,7 +15587,7 @@ msgid ""
 msgstr ""
 "Aquest connector estableix uns paràmetres de codificació de vídeo "
 "específics. Les crides no interactives han de portar un paràmetre amb el "
-"fitxer, es crides interactives han de portar un diàleg que especifiqui els "
+"fitxer, les crides interactives han de portar un diàleg que especifiqui els "
 "paràmetres i opcionalment es pugui desar."
 
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:510
@@ -15817,7 +15817,7 @@ msgstr ""
 "fotogrames de sortida és derivat de l'extensió. L'extensió és part del sufix "
 "del paràmetre \"videofile\". Els noms dels fotogrames de sortida són els "
 "mateixos que el paràmetre \"videofile\", però la part del número de "
-"fotograma es reemplaçat pel número de fotograma actual (o afegit "
+"fotograma és reemplaçat pel número de fotograma actual (o afegit "
 "automàticament si el fitxer de vídeo no té part numèrica). S'ignoren les "
 "dades d'àudio. Una crida de\""
 
@@ -15854,7 +15854,7 @@ msgid ""
 msgstr ""
 "El codificador de fotogrames simples\n"
 "escriu fotogrames simples en lloc d'un fitxer de vídeo\n"
-"El format de fitxer dels fotogrames es derivat de\n"
+"El format de fitxer dels fotogrames és derivat de\n"
 "l'extensió del nom de vídeo, els fotogrames són anomenats\n"
 "pel nom de vídeo més un número de 6 dígits + extensió"
 
