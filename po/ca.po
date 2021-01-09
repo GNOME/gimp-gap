@@ -254,7 +254,7 @@ msgstr "Renumera la seqüència de fotogrames..."
 #: ../gap/gap_base_ops.c:1182
 #, c-format
 msgid "Go To Frame (%ld/%ld)"
-msgstr "Vés al fotograma (%ld/%ld)"
+msgstr "Ves al fotograma (%ld/%ld)"
 
 #: ../gap/gap_base_ops.c:1185
 #, c-format
@@ -268,7 +268,7 @@ msgstr "Número:"
 
 #: ../gap/gap_base_ops.c:1191
 msgid "Go to this frame number"
-msgstr "Vés a aquest número de fotograma"
+msgstr "Ves a aquest número de fotograma"
 
 #: ../gap/gap_base_ops.c:1241
 #, c-format
@@ -7812,14 +7812,14 @@ msgstr "Suprimeix els fotogrames seleccionats"
 # plug-ins/gap/gap_navigatorits constant_dialog.c:391
 #: ../gap/gap_navigator_dialog.c:465
 msgid "Goto first frame"
-msgstr "Vés al primer fotograma"
+msgstr "Ves al primer fotograma"
 
 #: ../gap/gap_navigator_dialog.c:469
 msgid ""
 "Goto prev frame\n"
 "SHIFT use timezoom stepsize"
 msgstr ""
-"Vés al fotograma anterior\n"
+"Ves al fotograma anterior\n"
 "Utilitza la Maj per a la mida del pas de la lupa temporal"
 
 #: ../gap/gap_navigator_dialog.c:474
@@ -7827,12 +7827,12 @@ msgid ""
 "Goto next frame\n"
 "SHIFT use timezoom stepsize"
 msgstr ""
-"Vés al fotograma següent\n"
+"Ves al fotograma següent\n"
 "Utilitza la Maj per a la mida del pas de la lupa temporal"
 
 #: ../gap/gap_navigator_dialog.c:479
 msgid "Goto last frame"
-msgstr "Vés a l'últim fotograma"
+msgstr "Ves a l'últim fotograma"
 
 #  The main shell
 #: ../gap/gap_navigator_dialog.c:547
@@ -9000,7 +9000,7 @@ msgstr "Opcions d'àudio"
 msgid ""
 "Click: go to frame, Ctrl-Click: set 'From Frame', Alt-Click: set 'To Frame'"
 msgstr ""
-"Clic: vés al fotograma, Ctrl+clic: defineix 'Des del fotograma', Alt-Clic: "
+"Clic: ves al fotograma, Ctrl+clic: defineix 'Des del fotograma', Alt-Clic: "
 "defineix 'Al fotograma'"
 
 #: ../gap/gap_player_dialog.c:8083 ../gap/gap_player_dialog.c:8216
@@ -13085,7 +13085,7 @@ msgstr "S'està analitzant el fitxer del guió gràfic"
 
 #: ../vid_common/gap_cme_gui.c:2031
 msgid "Go for checking storyboard file"
-msgstr "Vés a verificar el fitxer storyboard"
+msgstr "Ves a verificar el fitxer storyboard"
 
 #: ../vid_common/gap_cme_gui.c:2033 ../vid_common/gap_cme_gui.c:2034
 msgid "Storyboardfile Check"
