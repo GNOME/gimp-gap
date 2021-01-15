@@ -199,7 +199,7 @@ msgid ""
 "(only %d tracks are used, the rest are ignored)."
 msgstr ""
 "El fitxer: %s\n"
-"conté masses pistes d'entrada àudio\n"
+"conté massa pistes d'entrada àudio\n"
 "(només s'utilitzaran %d pistes, les altres s'ignoraran)."
 
 #: ../gap/gap_audio_wav.c:642
@@ -3937,7 +3937,7 @@ msgstr "Modifica els fotogrames..."
 
 #: ../gap/gap_main.c:966
 msgid "<Image>/Video/Go To/"
-msgstr "<Image>/Vídeo/Vés a/"
+msgstr "<Image>/Vídeo/Ves a/"
 
 #: ../gap/gap_mod_layer.c:153
 #, c-format
