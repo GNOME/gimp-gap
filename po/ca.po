@@ -423,9 +423,9 @@ msgstr ""
 msgid "Change Frames Density"
 msgstr "Canvia la densitat dels fotogrames"
 
-#. plugin was called on a frame without extension and without framenumber in its name
+#. plugin was called on a frame without extension and without framenumber in
+#. its name
 #. * (typical for new created images named like 'Untitled'
-#.
 #: ../gap/gap_base_ops.c:1539 ../gap/gap_base_ops.c:1668 ../gap/gap_lib.c:2038
 #: ../gap/gap_morph_main.c:354
 msgid ""
@@ -534,7 +534,8 @@ msgstr "Dígits:"
 
 #: ../gap/gap_base_ops.c:2032
 msgid "How many digits to use for the framenumber in the filename"
-msgstr "Quants dígits s'utilitzen per al nombre de fotograma en el nom de fitxer"
+msgstr ""
+"Quants dígits s'utilitzen per al nombre de fotograma en el nom de fitxer"
 
 #: ../gap/gap_base_ops.c:2038 ../gap/gap_base_ops.c:2147
 msgid "Renumber Frames"
@@ -667,7 +668,7 @@ msgid ""
 "Intended to fix small pixel errors"
 msgstr ""
 "omple la selecció mitjançant la barreja de la vora dels colors oposats a "
-"fora de la selecció, per cobrir l'àrea seleccionada.\n"
+"fora de la selecció, per a cobrir l'àrea seleccionada.\n"
 "Intenció de solucionar petits errors de píxel"
 
 #  the center offsetX button
@@ -701,7 +702,7 @@ msgstr "Radi de contorn:"
 
 #: ../gap/gap_blend_fill_main.c:1955
 msgid "radius for picking border colors"
-msgstr "radi per recollir colors de la vora"
+msgstr "radi per a recollir colors de la vora"
 
 #. layer combo_box (altSelection)
 #. layer combo_box (alt_selection)
@@ -1201,11 +1202,9 @@ msgstr "Capa de previsualització"
 #  * and scale to preview size
 #. at 1.st call create a mastercopy of the original layer
 #. * and scale to preview size
-#.
 #. at 1.st call create a mastercopy of the original layer
 #. * at the bottom of the layerstack
 #. * (and scale to preview size when sizes are different)
-#.
 #: ../gap/gap_bluebox.c:1776 ../gap/gap_edge_detection_dialog.c:1225
 msgid "Masterlayer"
 msgstr "Capa mestra"
@@ -1273,7 +1272,7 @@ msgid ""
 msgstr ""
 "Llindar superior de la diferència de color. Els píxels que difereixen més en "
 "el color que en aquest valor (en comparació amb el píxel corresponent de la "
-"màscara de color) s'estableixen per augmentar el valor de l'opacitat "
+"màscara de color) s'estableixen per a augmentar el valor de l'opacitat "
 "(generalment opac)"
 
 #  the LayerMask sub menu
@@ -1344,7 +1343,8 @@ msgstr ""
 msgid "Opacity Options"
 msgstr "Opcions d'opacitat"
 
-#  the state of the contrain ratio chainbutton is checked in other callbacks (where needed)
+#  the state of the contrain ratio chainbutton is checked in other callbacks
+# (where needed)
 #  * there is no need for the chainbutton to have its own callback procedure
 #  Opacity
 #  table col, row
@@ -1361,7 +1361,8 @@ msgstr ""
 "color menor que el llindar de la diferència de color (utilitzeu el valor 0 "
 "per a la transparència)"
 
-#  the state of the contrain ratio chainbutton is checked in other callbacks (where needed)
+#  the state of the contrain ratio chainbutton is checked in other callbacks
+# (where needed)
 #  * there is no need for the chainbutton to have its own callback procedure
 #  Opacity
 #  table col, row
@@ -1714,7 +1715,7 @@ msgstr "Cap concordança"
 #: ../gap/gap_decode_mplayer.c:224
 msgid "Requirements to run the mplayer based video split"
 msgstr ""
-"Condicions per executar el programa mpayer basada amb la partició de vídeo"
+"Condicions per a executar el programa mpayer basada amb la partició de vídeo"
 
 #: ../gap/gap_decode_mplayer.c:236
 msgid ""
@@ -2103,7 +2104,7 @@ msgstr "<Toolbox>/Extensions/Divideix el vídeo en fotogrames/"
 
 #: ../gap/gap_decode_xanim.c:138
 msgid "Requirements to run the xanim based video split"
-msgstr "Condicions per executar la divisió del vídeo basada en xanim"
+msgstr "Condicions per a executar la divisió del vídeo basada en xanim"
 
 #: ../gap/gap_decode_xanim.c:150
 msgid ""
@@ -2141,7 +2142,7 @@ msgid ""
 msgstr ""
 "Nom del fitxer de vídeo a llegir amb el xanim. Els fotogrames s'extreuen del "
 "fitxer de vídeo i s'escriuen en fitxers de disc separats. És necessària "
-"l'edició per exportar del xanim."
+"l'edició per a exportar del xanim."
 
 #: ../gap/gap_decode_xanim.c:248
 msgid "Framenumber of 1st frame to extract"
@@ -2269,7 +2270,7 @@ msgid ""
 "(that is required for xanim frame export)"
 msgstr ""
 "no s'ha pogut crear el directori %s\n"
-"(que és necessari per exportar el fotograma xanim)"
+"(que és necessari per a exportar el fotograma xanim)"
 
 #: ../gap/gap_decode_xanim.c:1158
 #, c-format
@@ -2377,7 +2378,6 @@ msgstr "Configuració:"
 
 #. display dialog with "OK" Button to pause processing
 #. * (the tester can analyse the tempory work image while paused.)
-#.
 #: ../gap/gap_detail_align_exec.c:2780 ../gap/gap_detail_align_exec.c:3218
 #, c-format
 msgid ""
@@ -2394,7 +2394,7 @@ msgstr "EN PAUSA el detall de l'ajust de l'alineació"
 #. title_txt
 #: ../gap/gap_detail_align_exec.c:2787 ../gap/gap_detail_align_exec.c:3225
 msgid "Confirm to continue"
-msgstr "Confirma per continuar"
+msgstr "Confirma per a continuar"
 
 #: ../gap/gap_detail_align_exec.c:3654
 #, c-format
@@ -2466,7 +2466,7 @@ msgstr ""
 "El camí actual activa amb 2 punts un simple moviment:\n"
 "     Moviment X: %.0f (píxels)\n"
 "     Moviment Y: %.0f (píxels)\n"
-"Premeu el botó D'acord per moure la capa\n"
+"Premeu el botó D'acord per a moure la capa\n"
 
 #: ../gap/gap_detail_align_exec.c:3737
 #, c-format
@@ -2499,8 +2499,8 @@ msgid "Transform Layer via 4 (or 2) point Alignment"
 msgstr "Transforma la capa a través de 4 (o 2) de punts l'alineació"
 
 #. pointOrder radiobutton
-#. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the plugin registry)
-#.
+#. * POINT_ORDER_MODE_31_42:  compatible to the exact aligner script (from the
+#. plugin registry)
 #: ../gap/gap_detail_align_exec.c:3912
 msgid "Path Point Order:"
 msgstr "Ordena els punts del camí:"
@@ -2553,7 +2553,7 @@ msgstr ""
 "posicions en la capa de destinació. Transforma la capa de destinació de "
 "manera que el punt 3 va cap al punt 1, i el punt 4 va cap al punt 2. (això "
 "pot incloure la rotació i l'ajust de mida).\n"
-"Un camí amb 2 punts es pot utilitzar per moure el punt 2 cap al punt 1. (a "
+"Un camí amb 2 punts es pot utilitzar per a moure el punt 2 cap al punt 1. (a "
 "través d'una operació de moviment simple, sense rotació i escala)"
 
 #: ../gap/gap_detail_align_exec.c:4103
@@ -2570,7 +2570,7 @@ msgstr ""
 "posicions en la capa de destinació. Transforma la capa de destinació de "
 "manera que el punt 2 va cap al punt 1, i el punt 4 va cap al punt 3. (això "
 "pot incloure la rotació i la transformació d'escala).\n"
-"Un camí amb 2 punts es pot utilitzar per moure el punt 2 cap al punt 1. (a "
+"Un camí amb 2 punts es pot utilitzar per a moure el punt 2 cap al punt 1. (a "
 "través d'una operació de moviment simple, sense rotació i escala)"
 
 #: ../gap/gap_detail_tracking_exec.c:3223
@@ -2583,7 +2583,7 @@ msgid ""
 "to mark coordinate(s) to be tracked in the target frame(s)"
 msgstr ""
 "Aquest filtre requereix un camí actual amb un o dos punts d'ancoratge\n"
-"per marcar coordinació al ser rastrejats en el marc de destinació"
+"per a marcar coordinació al ser rastrejats en el marc de destinació"
 
 #: ../gap/gap_detail_tracking_exec.c:3368
 msgid "Select Points:"
@@ -2620,8 +2620,8 @@ msgid ""
 "considered as reference shape, to be tracked in the target frame(s)."
 msgstr ""
 "L'àrea quadrada que envolta les coordenades +- detallades, aquest radi es "
-"considera com una forma de referència, per fer un seguiment en el fotograma "
-"de destinació."
+"considera com una forma de referència, per a fer un seguiment en el "
+"fotograma de destinació."
 
 #: ../gap/gap_detail_tracking_exec.c:3412
 msgid "Locate Target Move Radius:"
@@ -2800,10 +2800,11 @@ msgstr ""
 "capa de manera que els punts p1x p1y p2x p2y (p3x p3y p4x p4y) coincidiran "
 "exactament amb els punts s1x s1y s2x s2y (s3x s3y s4x s4y) en el mateix punt "
 "de control en el fitxer XML (cridar aquest filtre amb framePhase 1, "
-"normalment no fa cap transformació). Aquest filtre està dissenyat per "
+"normalment no fa cap transformació). Aquest filtre està dissenyat per a "
 "executar-se sota el control de la funció modificadora dels fotogrames gimp-"
-"gap per alinear fotogrames múltiples segons els punts de control registrats "
-"en un fitxer XML (a través de la funció de seguiment del detall).%s"
+"gap per a alinear fotogrames múltiples segons els punts de control "
+"registrats en un fitxer XML (a través de la funció de seguiment del detall)."
+"%s"
 
 #: ../gap/gap_detail_tracking_main.c:329
 msgid "Align Transform via XML file..."
@@ -3124,7 +3125,7 @@ msgstr ""
 "brut, on els píxels blancs en el tri-mapa defineixen el primer pla (és a "
 "dir, resultat opac), els píxels negres defineixen el fons (és a dir, "
 "resultat transparent) i els píxels grisos (valor de l'1 al 240) es marquen "
-"com a indefinits (és a dir, opacitat per ser processada amb aquest filtre.)"
+"com a indefinits (és a dir, opacitat per a ser processada amb aquest filtre.)"
 
 #: ../gap/gap_fg_matting_dialog.c:467
 msgid "Layermask"
@@ -3526,13 +3527,14 @@ msgstr ""
 "Activat: renderitza la capa de foc amb fons transparent. Desactivat: "
 "renderitza amb fons negre"
 
-#  the state of the contrain ratio chainbutton is checked in other callbacks (where needed)
+#  the state of the contrain ratio chainbutton is checked in other callbacks
+# (where needed)
 #  * there is no need for the chainbutton to have its own callback procedure
 #  Opacity
 #  table col, row
-#. the state of the contrain ratio chainbutton is checked in other callbacks (where needed)
+#. the state of the contrain ratio chainbutton is checked in other callbacks
+#. (where needed)
 #. * there is no need for the chainbutton to have its own callback procedure
-#.
 #. Opacity
 #. table col, row
 #. accelaration characteristic
@@ -3630,7 +3632,7 @@ msgstr "Nom del fitxer de seqüència del filtre macro"
 #: ../gap/gap_fmac_main.c:736
 msgid "Open filebrowser window to select a filename"
 msgstr ""
-"Obre la finestra del navegador de fitxers per seleccionar un nom de fitxer"
+"Obre la finestra del navegador de fitxers per a seleccionar un nom de fitxer"
 
 #: ../gap/gap_fmac_main.c:763 ../gap/gap_video_index_creator.c:1329
 msgid "Nr"
@@ -3707,7 +3709,7 @@ msgid ""
 "current session and have setup the internal buffer with the parameter "
 "settings of the last call"
 msgstr ""
-"Obre la finestra del navegador PDB per afegir un nou filtre pel fitxer de "
+"Obre la finestra del navegador PDB per a afegir un nou filtre pel fitxer de "
 "seqüència del filtre macro.\n"
 "Important:\n"
 "El navegador PDB només mostra filtres que ja hagin estat utilitzats en la "
@@ -4682,7 +4684,7 @@ msgid ""
 "String to identify layer group/subgroup name that builds the scope for the "
 "layer selection. An empty string refers to the image toplevel"
 msgstr ""
-"Una cadena per identificar el nom del grup/subgrup de capes que construeix "
+"Una cadena per a identificar el nom del grup/subgrup de capes que construeix "
 "l'extensió per a la selecció de la capa. Una cadena buida es refereix al "
 "nivell superior de la imatge"
 
@@ -5441,10 +5443,10 @@ msgid ""
 "value 0 turns off intensity descending deformation, morph processing will "
 "use linear deform action inside the deform radius"
 msgstr ""
-"S'escriu el valor de l'atribut intensitat per generar el fitxer del punt de "
-"control. El valor 0 desactiva la intensitat de la deformació descendent, el "
-"processament del morf utilitzarà l'acció de deformació lineal dins del radi "
-"deformat"
+"S'escriu el valor de l'atribut intensitat per a generar el fitxer del punt "
+"de control. El valor 0 desactiva la intensitat de la deformació descendent, "
+"el processament del morf utilitzarà l'acció de deformació lineal dins del "
+"radi deformat"
 
 #: ../gap/gap_morph_tween_dialog.c:805
 msgid "Locate Move Radius:"
@@ -5585,7 +5587,8 @@ msgstr ""
 #. g_signal_connect (checkbutton, "toggled",
 #. G_CALLBACK (on_gboolean_button_update),
 #. &mgpp->create_tweens_in_subdir);
-#. gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), mgpp->create_tweens_in_subdir);
+#. gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton),
+#. mgpp->create_tweens_in_subdir);
 #. gimp_help_set_help_data(checkbutton,
 #. _("ON: copy processed frames to a subdirectory "
 #. "and create tween frames in this subdirectory via morphing."
@@ -5603,11 +5606,11 @@ msgid ""
 "workpointfile for the processed frame is available. (individual "
 "workpointfiles per frame are referred by extension .morphpoints)"
 msgstr ""
-"Nom d'un (Sub) directori per desar còpies de fotogrames processats i creació "
-"d'intercalats. Observeu que els intercalats es creen a través d'operacions "
-"de fosa simples quan no hi ha fitxer de punts de treball disponibles pels "
-"fotogrames processats, (el fitxer de punts de treball individual per "
-"fotograma són enviats per extensió a .morphpoints)"
+"Nom d'un (Sub) directori per a desar còpies de fotogrames processats i "
+"creació d'intercalats. Observeu que els intercalats es creen a través "
+"d'operacions de fosa simples quan no hi ha fitxer de punts de treball "
+"disponibles pels fotogrames processats, (el fitxer de punts de treball "
+"individual per fotograma són enviats per extensió a .morphpoints)"
 
 #: ../gap/gap_morph_tween_dialog.c:1326
 msgid ""
@@ -6022,7 +6025,7 @@ msgstr "Cap fotograma"
 #: ../gap/gap_mov_dialog.c:4352
 msgid "How to fetch the next source layer at the next handled frame"
 msgstr ""
-"Com es fa per recollir la següent capa font en el següent fotograma manejat"
+"Com es fa per a recollir la següent capa font en el següent fotograma manejat"
 
 #  Source Image Handle menu
 #. Source Image Handle menu
@@ -6053,7 +6056,7 @@ msgstr "Centre"
 #: ../gap/gap_mov_dialog.c:4423
 msgid "How to place the Source layer at controlpoint coordinates"
 msgstr ""
-"Com es fa per col·locar la capa font a les coordenades del punt de control"
+"Com es fa per a col·locar la capa font a les coordenades del punt de control"
 
 #  the x koordinate label
 #  X
@@ -6437,7 +6440,7 @@ msgstr ""
 "Restableix tots els valors per defecte dels punts de control però sense "
 "canviar el camí (valors X/Y i fotogrames clau). Mantingueu premuda la tecla "
 "Alt i elimineu la informació del fotograma clau de tots els punts de "
-"control. Premeu la tecla Maj per copiar la configuració del punt 1 en tots "
+"control. Premeu la tecla Maj per a copiar la configuració del punt 1 en tots "
 "els altres punts. Si es manté premuda la tecla Ctrl, farà una barreja de la "
 "configuració del punt 1 i l'últim punt dins els altres punts d'entremig."
 
@@ -6447,7 +6450,7 @@ msgid ""
 "down the shift key to use rotation of controlpoint 1 as offset."
 msgstr ""
 "Estableix la rotació per a tots els punts de control per seguir la forma del "
-"camí. Premeu la tecla Maj per fer servir la rotació del punt de control 1 "
+"camí. Premeu la tecla Maj per a fer servir la rotació del punt de control 1 "
 "com a decalatge."
 
 #: ../gap/gap_mov_dialog.c:5110
@@ -6575,7 +6578,7 @@ msgstr ""
 
 #: ../gap/gap_mov_dialog.c:5349
 msgid "delimiter to separate group/subgroup"
-msgstr "delimitador per separar el grup/subgrup"
+msgstr "delimitador per a separar el grup/subgrup"
 
 #  toggle force visibility
 #. toggle force visibility
@@ -7207,7 +7210,7 @@ msgstr "Pipeta de la línia del camí"
 #: ../gap/gap_mov_dialog.c:6344
 msgid "Select the color that is used to draw pathlines in the preview"
 msgstr ""
-"Selecciona el color que s'utilitzarà per dibuixar les línies de camí en la "
+"Selecciona el color que s'utilitzarà per a dibuixar les línies de camí en la "
 "previsualització"
 
 #  toggle Show path
@@ -7427,11 +7430,11 @@ msgstr "Mou el fotograma simple del camí..."
 
 #: ../gap/gap_mpege.c:127
 msgid "Requirements to run mpeg2encode 1.2:"
-msgstr "Condicions per executar mpeg2encode 1.2:"
+msgstr "Condicions per a executar mpeg2encode 1.2:"
 
 #: ../gap/gap_mpege.c:131
 msgid "Requirements to run mpeg_encode 1.5:"
-msgstr "Condicions per executar mpeg_encode 1.5:"
+msgstr "Condicions per a executar mpeg_encode 1.5:"
 
 #: ../gap/gap_mpege.c:147
 #, c-format
@@ -7876,7 +7879,7 @@ msgid ""
 "a thumbnail filesize other than 'No Thumbnails'\n"
 "in the environment section of the preferences dialog"
 msgstr ""
-"Per actualitzar la miniatura heu de seleccionar\n"
+"Per a actualitzar la miniatura heu de seleccionar\n"
 "una altra mida de fitxer de miniatura que 'Cap miniatura'\n"
 "en la secció d'entorn del diàleg preferències"
 
@@ -8536,14 +8539,17 @@ msgstr ""
 "o establir la variable d'entorn %s al nom de l'executable\n"
 "abans d'iniciar el GIMP"
 
-#  shortname prefix to indicate that displayed filename is from type storyboard file
-#. filename prefix shortcut for storyboard single track playback for specified track number
+#  shortname prefix to indicate that displayed filename is from type storyboard
+# file
+#. filename prefix shortcut for storyboard single track playback for specified
+#. track number
 #: ../gap/gap_player_dialog.c:2193
 #, c-format
 msgid "STB:[%d]"
 msgstr "STB:[%d]"
 
-#  shortname prefix to indicate that displayed filename is from type storyboard file
+#  shortname prefix to indicate that displayed filename is from type storyboard
+# file
 #. filename prefix shortcut for storyboard in composite video playback mode
 #: ../gap/gap_player_dialog.c:2198
 msgid "STB:"
@@ -8555,8 +8561,10 @@ msgstr "STB:"
 msgid "VIDEO:"
 msgstr "VÍDEO:"
 
-#  shortname prefix to indicate that displayed filename is basename of the frames
-#. shortname prefix to indicate that displayed filename is basename of the frames
+#  shortname prefix to indicate that displayed filename is basename of the
+# frames
+#. shortname prefix to indicate that displayed filename is basename of the
+#. frames
 #: ../gap/gap_player_dialog.c:2227
 msgid "FRAMES:"
 msgstr "FOTOGRAMES:"
@@ -9606,7 +9614,7 @@ msgid ""
 "String to identify layer(s) by name or by layerstack position numbers. "
 "Example: 0,3-5"
 msgstr ""
-"Cadena per identificar capa(es) per nom o per posició dels números en la "
+"Cadena per a identificar capa(es) per nom o per posició dels números en la "
 "pila de capes. Exemple: 0,3-5"
 
 #: ../gap/gap_range_ops.c:802
@@ -9656,7 +9664,7 @@ msgid ""
 "or desired save plugin not available."
 msgstr ""
 "En convertir els fotogrames: S'ha produït un error en l'operació de desar.\n"
-"El connector per desar que voleu no pot manejar aquest tipus\n"
+"El connector per a desar que voleu no pot manejar aquest tipus\n"
 "o bé no està disponible."
 
 #: ../gap/gap_range_ops.c:1702
@@ -9763,7 +9771,7 @@ msgid ""
 "or desired save plugin not available."
 msgstr ""
 "Divideix els fotogrames: s'ha produït un error en l'operació desar.\n"
-"El connector per desar no pot manejar aquest tipus\n"
+"El connector per a desar no pot manejar aquest tipus\n"
 "o el connector no està disponible."
 
 #: ../gap/gap_split.c:439
@@ -10280,7 +10288,6 @@ msgid "Comment:"
 msgstr "Comentari:"
 
 #. refuse player call while vthumb prefetch is busy
-#.
 #: ../gap/gap_story_dialog.c:1757
 msgid "playback was blocked (video file access is busy)"
 msgstr ""
@@ -10448,8 +10455,8 @@ msgid ""
 "Maximum number of frames to be cached per open video (only relevant when "
 "video clips are rendered backwards)"
 msgstr ""
-"Nombre màxim de fotogrames per emmagatzemar a la memòria cau en el vídeo de "
-"codi obert (només és rellevant quan els clips de vídeo van cap enrere)"
+"Nombre màxim de fotogrames per a emmagatzemar a la memòria cau en el vídeo "
+"de codi obert (només és rellevant quan els clips de vídeo van cap enrere)"
 
 #: ../gap/gap_story_dialog.c:5584
 msgid "Max Image cache:"
@@ -10460,8 +10467,8 @@ msgid ""
 "Maximum number of images to keep cached (in memory as gimp image without "
 "display) while storyboard rendering"
 msgstr ""
-"Nombre màxim d'imatges per desar a la memòria cau (a la memòria com a imatge "
-"GIMP sense visualització) mentre es renderitza el guió gràfic"
+"Nombre màxim d'imatges per a desar a la memòria cau (a la memòria com a "
+"imatge GIMP sense visualització) mentre es renderitza el guió gràfic"
 
 #: ../gap/gap_story_dialog.c:5597
 msgid "Resource Loginterval:"
@@ -10767,8 +10774,8 @@ msgstr "de:"
 #. *  in creating an extra row
 #. *  additional note: the Storyboard dialog provides
 #. *  Help via Menu-Item
-#.
-#. // NO longer use gimp_dialog_new because the window gets no minimize widget when created this way !
+#. // NO longer use gimp_dialog_new because the window gets no minimize widget
+#. when created this way !
 #. // Note that gap_dialog_new creates the dialog as Normal toplevel window...
 #. the stb_frame
 #. radio button Storyboard input_mode
@@ -11086,10 +11093,8 @@ msgstr ""
 #  accept unsupported lines (with just a warning)
 #  * because the file has correct Header
 #. unsupported lines raise an error for files without correct Header
-#.
 #. accept unsupported lines (with just a warning)
 #. * because the file has correct Header
-#.
 #: ../gap/gap_story_file.c:4487 ../gap/gap_story_file.c:4494
 msgid "Unsupported line was ignored"
 msgstr "S'ha ignorat la línia perquè no estava permesa"
@@ -11852,7 +11857,6 @@ msgstr "Selecciona fragment de vídeo"
 #. the mw__player_frame widget is hidden at startup
 #. * and becomes visible, when the user wants to select
 #. * the videorange via player in docked mode
-#.
 #. gtk_widget_show (mw__player_frame);
 #. not yet, show the widget later
 #: ../gap/gap_vex_dialog.c:2070
@@ -11877,7 +11881,6 @@ msgstr "Selecciona vídeo utilitzant el navegador de fitxers"
 #  * checkbox is not needed
 #. MMX sometimes gives unusable results, and therefore is always OFF
 #. * checkbox is not needed any more..
-#.
 #: ../gap/gap_vex_dialog.c:2125
 msgid "Disable MMX"
 msgstr "Desactiva MMX"
@@ -11887,7 +11890,8 @@ msgid "Frame number of 1.st frame to extract"
 msgstr "Nombre de fotogrames del 1r fotograma a extreure"
 
 #  the videorange button (that invokes the player for video range selection)
-#  the videorange button (that invokes the player for video range selection in docked mode)
+#  the videorange button (that invokes the player for video range selection in
+# docked mode)
 #  the videorange button (that invokes the player for video range selection)
 #. the videorange button (that invokes the player for video range selection)
 #: ../gap/gap_vex_dialog.c:2171
@@ -11907,14 +11911,17 @@ msgid ""
 "Frame number of last frame to extract. To extract all frames use a range "
 "from 1 to 999999. (Extract stops at the last available frame)"
 msgstr ""
-"Nombre de fotograma del darrer fotograma a extreure. Per extreure tots els "
+"Nombre de fotograma del darrer fotograma a extreure. Per a extreure tots els "
 "fotogrames utilitza un abast d'1 a 999999. (L'extracció s'aturarà al darrer "
 "fotograma disponible)"
 
 #  the videorange button (that invokes the player for video range selection)
-#  the videorange button (that invokes the player for video range selection in docked mode)
-#  the videorange button (that invokes the player for video range selection in docked mode)
-#. the videorange button (that invokes the player for video range selection in docked mode)
+#  the videorange button (that invokes the player for video range selection in
+# docked mode)
+#  the videorange button (that invokes the player for video range selection in
+# docked mode)
+#. the videorange button (that invokes the player for video range selection in
+#. docked mode)
 #: ../gap/gap_vex_dialog.c:2231
 msgid "VideoRange"
 msgstr "Fragment de vídeo"
@@ -11955,7 +11962,6 @@ msgstr "****"
 #. exact_seek option to disable fast videoindex based positioning.
 #. * (the videoapi delivers exact frame positions on most videos
 #. *  but sometimes is not exact when libmepg3 is used)
-#.
 #: ../gap/gap_vex_dialog.c:2380
 msgid "Exact Seek"
 msgstr "Cerca exacta"
@@ -12004,8 +12010,8 @@ msgstr "fotograma_"
 #: ../gap/gap_vex_dialog.c:2490
 msgid "Use filebrowser to select basename for extracted frames"
 msgstr ""
-"Utilitza el navegador de fitxers per seleccionar el nom base pels fotogrames "
-"extrets"
+"Utilitza el navegador de fitxers per a seleccionar el nom base pels "
+"fotogrames extrets"
 
 #: ../gap/gap_vex_dialog.c:2521
 msgid ""
@@ -12120,7 +12126,7 @@ msgstr "fotograma.wav"
 #: ../gap/gap_vex_dialog.c:2710
 msgid "Use filebrowser to select audiofilename"
 msgstr ""
-"Utilitza el navegador de fitxers per seleccionar el nom de fitxer d'àudio"
+"Utilitza el navegador de fitxers per a seleccionar el nom de fitxer d'àudio"
 
 #: ../gap/gap_vex_dialog.c:2716
 msgid "Start extraction"
@@ -12473,7 +12479,7 @@ msgstr "Balanç de color"
 #. the frame
 #: ../gap/gap_wr_color_balance.c:599
 msgid "Select Range to Adjust"
-msgstr "Seleccioneu la franja per ajustar"
+msgstr "Seleccioneu la franja per a ajustar"
 
 #. Transfer Mode the radio buttons
 #: ../gap/gap_wr_color_balance.c:618
@@ -12914,7 +12920,6 @@ msgstr ""
 #. * audiofiles for multiple audio track encding
 #. * valid_playlist_references holds the number of valid tracks
 #. * (where samplerate matches the desired samplerate and bits == 16)
-#.
 #: ../vid_common/gap_cme_gui.c:1030
 #, c-format
 msgid "List[%d] has [%d] valid track, Bit:%d Chan:%d Rate:%d"
@@ -14124,7 +14129,6 @@ msgstr ""
 #  * there is something essential wrong (TERMINATE)
 #. the CODEC delivered a NULL buffer
 #. * there is something essential wrong (TERMINATE)
-#.
 #: ../vid_enc_avi/gap_enc_avi_main.c:1074
 #, c-format
 msgid "ERROR: GAP AVI encoder CODEC %s delivered empty buffer at frame %d"
@@ -15680,7 +15684,6 @@ msgstr "No s'ha pogut crear el fitxer de vídeo: «%s»%s"
 #. * the encoder's internal buffer in this case.)
 #. * in my tests this case did not happen yet....
 #. * .. but display a warning to find out in further test
-#.
 #: ../vid_enc_ffmpeg/gap_enc_ffmpeg_main.c:3217
 msgid "Black dummy frame was added"
 msgstr "S'ha afegit un fotograma negre"
@@ -15863,221 +15866,3 @@ msgid "the Singleframe Encoder has no encoder specific parameters"
 msgstr ""
 "El codificador de fotograma simple no té paràmetres específics de codificador"
 
-#~ msgid "Save controlpoints to file"
-#~ msgstr "Desa els punts de control al fitxer"
-
-#~ msgid "Smart selection eraser."
-#~ msgstr "Goma d'esborrar intel·ligent de selecció."
-
-#~ msgid "Smart selection eraser..."
-#~ msgstr "Goma d'esborrar intel·ligent de selecció..."
-
-#~ msgid "Smart selection eraser"
-#~ msgstr "Goma d'esborrar intel·ligent de selecció"
-
-#~ msgid "Internal GIMP procedure"
-#~ msgstr "Procediment intern del GIMP"
-
-#~ msgid "GIMP Plug-In"
-#~ msgstr "Connector del GIMP"
-
-#  the extension label
-#~ msgid "GIMP Extension"
-#~ msgstr "Extensió del GIMP"
-
-#~ msgid "Temporary Procedure"
-#~ msgstr "Procediment temporal"
-
-#~ msgid "Apply Constant"
-#~ msgstr "Aplicació constant"
-
-#~ msgid "Apply Varying"
-#~ msgstr "Aplicació variable"
-
-#~ msgid "Save Flattened"
-#~ msgstr "Desa aplanat"
-
-#~ msgid "Save As Is"
-#~ msgstr "Desa tal com és"
-
-#~ msgid ""
-#~ "You are using another file format than xcf.\n"
-#~ "Save operations may result in loss of layer information.\n"
-#~ "\n"
-#~ "To configure flattening for this fileformat\n"
-#~ "(permanent for all further sessions) please add the line:\n"
-#~ "(%s %s)\n"
-#~ "to your gimprc file."
-#~ msgstr ""
-#~ "Esteu utilitzant un format diferent de xcf.\n"
-#~ "Les operacions de desat poden tenir pèrdua d'informació de capes.\n"
-#~ "\n"
-#~ "Per configurar l'aplanat per aquest format de fitxer\n"
-#~ "(permanent per a totes les sessions futures) afegiu la línia:\n"
-#~ "(%s %s)\n"
-#~ "al vostre fitxer gimprc."
-
-#~ msgid "Perform actions on all unselected layers"
-#~ msgstr "Realitza accions en totes les capes no seleccionades"
-
-#~ msgid "Exchange source and destination"
-#~ msgstr "Intercanvia origen i destí"
-
-#~ msgid ""
-#~ "Load morph workpoints from file. SHIFT-click: define filename of Pointset "
-#~ "B"
-#~ msgstr ""
-#~ "Carrega els punt de control del fitxer. Maj - clic: defineix el nom del "
-#~ "fitxer del punt B"
-
-#~ msgid ""
-#~ "Save morph workpoints to file. SHIFT-click: define filename of Pointset B"
-#~ msgstr ""
-#~ "Desa els punts de control al fitxer. Maj - clic: defineix el nom del "
-#~ "fitxer del punt B"
-
-#~ msgid "creating morph tween frames..."
-#~ msgstr "S'estan creant fotogrames intermedis de l'animació per vèrtexs..."
-
-#~ msgid "creating morph tween frame: %d"
-#~ msgstr "S'està creant el fotograma intermedi de l'animació per vèrtexs: %d"
-
-#~ msgid ""
-#~ "WARNING this operation will overwrite all frames between the specified "
-#~ "frame range"
-#~ msgstr ""
-#~ "Avís! Aquesta operació sobreescriurà tots els fotogrames continguts dins "
-#~ "del rang indicat"
-
-#~ msgid ""
-#~ "\n"
-#~ "Error: Keyframe %d at point [%d] higher or equal than last handled frame"
-#~ msgstr ""
-#~ "\n"
-#~ "Error: el fotograma clau %d al punt [%d] és més alt o igual que el darrer "
-#~ "fotograma manejat"
-
-#~ msgid ""
-#~ "\n"
-#~ "Error: More controlpoints (%d) than handled frames (%d).\n"
-#~ "Please reduce controlpoints or select more frames"
-#~ msgstr ""
-#~ "\n"
-#~ "Error: Hi ha més punts de control (%d) que fotogrames manejats (%d).\n"
-#~ "Reduïu els punts de control o seleccioneu més fotogrames"
-
-#~ msgid " (ON)"
-#~ msgstr " (Activat)"
-
-#~ msgid " (OFF)"
-#~ msgstr " (Desactivat)"
-
-#  the multilayer checkbox (decide if extract writes to frames on disc or to one image)
-#~ msgid "Create only one multilayer Image"
-#~ msgstr "Crea només una imatge multicapa"
-
-#~ msgid "Reset all Parameters to Default Values"
-#~ msgstr "Recupera els valors per defecte de  tots els paràmetres"
-
-#~ msgid "unchanged"
-#~ msgstr "Sense canviar"
-
-#~ msgid "Set Aspectratio"
-#~ msgstr "Estableix la proporció d'aspecte"
-
-#~ msgid "auto"
-#~ msgstr "auto"
-
-#~ msgid "** OOPS do not change any parameter **"
-#~ msgstr "** El OOPS no canvia cap paràmetre **"
-
-#~ msgid "use DivX default presets"
-#~ msgstr "Utilitza els valors per defecte del DivX"
-
-#~ msgid "use DivX high quality presets"
-#~ msgstr "Utilitza els valors d'alta qualitat del DivX"
-
-#~ msgid "use DivX low quality presets"
-#~ msgstr "Utilitza els valors de baixa qualitat del DivX"
-
-#~ msgid "use DivX WINDOWS presets"
-#~ msgstr "Utilitza els valors per a X Window del DivX"
-
-#~ msgid "use MPEG1 (VCD) presets"
-#~ msgstr "Utilitza els valors del MPEG1 (VCD)"
-
-#~ msgid "use MPEG1 high quality presets"
-#~ msgstr "Utilitza els valors d'alta qualitat del MPEG1"
-
-#~ msgid "use MPEG2 (SVCD) presets"
-#~ msgstr "Utilitza els valors del MPEG2 (SVCD)"
-
-#~ msgid "use MPEG2 (DVD) presets"
-#~ msgstr "Utilitza els valors del MPEG2 (DCD)"
-
-#~ msgid "use REAL video presets"
-#~ msgstr "Utilitza els valors del vídeo REAL"
-
-#  parameter settings
-#~ msgid "Return Values"
-#~ msgstr "Torna els valors"
-
-#~ msgid "Additional Information"
-#~ msgstr "Informació addicional"
-
-#~ msgid "Date:"
-#~ msgstr "Data:"
-
-#~ msgid ""
-#~ "Operation cancelled.\n"
-#~ "This image is already a video frame.\n"
-#~ "Try again on a duplicate (Image/Duplicate)."
-#~ msgstr ""
-#~ "S'ha cancel·lat l'operació.\n"
-#~ "Aquesta imatge ja és un fotograma animat.\n"
-#~ "Torneu-ho a intentar en un duplicat (imatge/duplicat)."
-
-#~ msgid "Add Audio Otone"
-#~ msgstr "Afegeix un to O d'àudio"
-
-#~ msgid "Convert audiofile to tmpfile"
-#~ msgstr "Converteix fitxer d'àudio a un fitxer temporal"
-
-#~ msgid ""
-#~ "Don't recode the input JPEG frames. This option is ignored when input is "
-#~ "read from storyboard. WARNING: works only if all input frames are JPEG "
-#~ "pictures with matching size and YUV 4:2:2 encoding. This option may "
-#~ "produce an unusable video when other frames are provided as input."
-#~ msgstr ""
-#~ "No tornis a codificar els fotogrames d'entrada JPEG. Aquesta opció "
-#~ "s'ignorarà si l'entrada es llegeix des del guió il·lustrat. Avís: només "
-#~ "funciona si tots els fotogrames d'entrada són imatges JPEG amb mides "
-#~ "concordants i codificació YUV 4:2:2. Aquesta opció pot fer que no "
-#~ "funcioni el vídeo quan altres fotogrames estan entrant."
-
-#~ msgid "AVI Video Encoding .."
-#~ msgstr "S'està codificant vídeo AVI .."
-
-#~ msgid "Use trell"
-#~ msgstr "Utilitza trell"
-
-#~ msgid "Enable trellis quantization"
-#~ msgstr "Habilita la quantificació trellis"
-
-#~ msgid "Video quantiser scale blur (VBR)"
-#~ msgstr "Difuminat d'escala del quantificador de vídeo (VBR)"
-
-#~ msgid "Video quantiser scale compression (VBR)"
-#~ msgstr "Compressió d'escala del quantificador de vídeo (VBR)"
-
-#~ msgid "FFMPEG initializing for video encoding .."
-#~ msgstr "S'està inicialitzant la codificació de vídeo FFMPEG..."
-
-#~ msgid "FFMPEG lossless copy frame %d (%d)"
-#~ msgstr "Fotograma de còpia sense pèrdua FFMPEG %d (%d)"
-
-#~ msgid "FFMPEG encoding frame %d (%d)"
-#~ msgstr "Fotograma de codificació FFMPEG %d (%d)"
-
-#~ msgid "Singleframes Video Encoding .."
-#~ msgstr "S'està codificant vídeo de fotogrames simples..."
