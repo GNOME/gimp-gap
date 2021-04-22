@@ -5,14 +5,14 @@
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2010.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011, 2013, 2014, 2015.
 # Edurne Labaka <elabaka@uzei.com>, 2015.
-# Asier Sarasua Garmendia <asier.sarasua@gmail.com>, 2019.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2019, 2021.
 #
 msgid ""
 msgstr "Project-Id-Version: gimp-gap gap-2-8\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp-gap/issues\n"
-"POT-Creation-Date: 2019-09-23 15:41+0000\n"
-"PO-Revision-Date: 2019-10-11 10:00+0100\n"
-"Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
+"POT-Creation-Date: 2020-05-26 19:14+0000\n"
+"PO-Revision-Date: 2021-04-21 10:00+0100\n"
+"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
@@ -855,7 +855,7 @@ msgstr "E94"
 
 #: ../gap/gap_bluebox.c:980
 msgid "Use single threshold value DeltaE CIE94"
-msgstr ""
+msgstr "Erabili atalase-balio bakuna DeltaE CIE94"
 
 #. radio button thres_mode DeltaE CIEDE2000
 #: ../gap/gap_bluebox.c:989
@@ -864,7 +864,7 @@ msgstr "E2000"
 
 #: ../gap/gap_bluebox.c:998
 msgid "Use single threshold value DeltaE CIEDE2000"
-msgstr ""
+msgstr "Erabili atalase-balio bakuna DeltaE CIEDE2000"
 
 #. radio button thres_mode ALL
 #: ../gap/gap_bluebox.c:1008
@@ -1969,7 +1969,7 @@ msgstr ""
 #. title_txt
 #: ../gap/gap_detail_align_exec.c:2787 ../gap/gap_detail_align_exec.c:3225
 msgid "Confirm to continue"
-msgstr ""
+msgstr "Berretsi jarraitzeko"
 
 #: ../gap/gap_detail_align_exec.c:3654
 #, c-format
@@ -1985,7 +1985,17 @@ msgid ""
 "    %12.5f %12.5f %12.5f\n"
 "\n"
 "Press OK button to perspective transform the layer\n"
-msgstr ""
+msgstr "Uneko bideak eta %s bideak perspektibaren eraldaketa abiarazi, abiarazten dute:\n"
+"    Goiko ezkerreko izkina x: %.4f  y: %.4f (pixelak)\n"
+"    Goiko eskuineko izkina x: %.4f  y: %.4f (pixelak)\n"
+"    Beheko ezkerreko izkina x: %.4f  y: %.4f (pixelak)\n"
+"    Beheko eskuineko izkina x: %.4f  y: %.4f (pixelak)\n"
+"Transformazio-matrizea\n"
+"    %12.5f %12.5f %12.5f\n"
+"    %12.5f %12.5f %12.5f\n"
+"    %12.5f %12.5f %12.5f\n"
+"\n"
+"Sakatu 'Ados' botoia perspektibaren eraldaketa gauzatzeko geruzan\n"
 
 #: ../gap/gap_detail_align_exec.c:3679
 #, c-format
@@ -1994,7 +2004,10 @@ msgid ""
 "    For valid transformation 4 points are required\n"
 "    both in the active path and in another path with the name: %s \n"
 "    AND the connection of the 4 points must build up 4 different lines.\n"
-msgstr ""
+msgstr "Uneko bideak ez dira baliozkoak perspektibaren eraldaketarako:\n"
+"    4 puntu behar dira baliozko eraldaketetarako\n"
+"    bai bide aktiboan bai %s izena duen bidean\n"
+"    ETA 4 puntuen konexioek 4 lerro desberdin eraiki behar dituzte.\n"
 
 #: ../gap/gap_detail_align_exec.c:3699
 #, c-format
@@ -2016,7 +2029,11 @@ msgid ""
 "    Movement Y: %.0f (pixels)\n"
 "\n"
 "Press OK button to move the layer\n"
-msgstr ""
+msgstr "Uneko bideak, 2 punturekin, mugimendu sinplea abiarazten du:\n"
+"    X mugimendua: %.0f (pixelak)\n"
+"    Y mugimendua: %.0f (pixelak)\n"
+"\n"
+"Sakatu 'Ados' botoia geruza lekuz aldatzeko\n"
 
 #: ../gap/gap_detail_align_exec.c:3737
 #, c-format
@@ -2025,7 +2042,10 @@ msgid ""
 "and a path with name: %s with same number of points.\n"
 "\n"
 "Please create both paths and press the Refresh button.\n"
-msgstr ""
+msgstr "Iragazki honek uneko bide bat 4 edo 2 punturekin eta\n"
+"%s izena duen bide bat, puntu kopuru berarekin, behar du\n"
+"\n"
+"Sortu bi bideak eta sakatu 'Freskatu' botoia.\n"
 
 #: ../gap/gap_detail_align_exec.c:3748
 msgid ""
@@ -2111,7 +2131,7 @@ msgstr "Hautatu puntuak:"
 msgid ""
 "1: select only the best path point for movement detection, 2: select the "
 "best 2 points for movement,scale and rotation detection."
-msgstr ""
+msgstr "1: hautatu bidearen punturik onena mugimendua detektatzeako, 2: hautatu 2 punturik onenak mugimendua, eskala eta biraketa detektatzeko."
 
 #: ../gap/gap_detail_tracking_exec.c:3385
 msgid "Locate colordiff Thres:"
@@ -2185,7 +2205,8 @@ msgid ""
 "ON: removes layers (except BG and 2 Layer on top) that are not relevant for "
 "detail tracking.\n"
 "OFF: Keep all layers."
-msgstr "PIZTUTA: jarraipen xehatuarentzako garrantzizkoak ez diren geruzak kendu (AtzPlanoa eta goiko 2. geruza izan ezik)ITZALITA: mantendu geruza guztiak"
+msgstr "PIZTUTA: jarraipen xehatuarentzako garrantzizkoak ez diren geruzak kendu (AtzPlanoa eta goiko 2. geruza izan ezik)\n"
+"ITZALITA: mantendu geruza guztiak"
 
 #: ../gap/gap_detail_tracking_exec.c:3466
 msgid "add Transformed Layer:"
@@ -2331,7 +2352,7 @@ msgstr "Lausotu R1 (X):"
 #. lower/upper unconstrained
 #: ../gap/gap_edge_detection_dialog.c:343
 msgid "Blur radius 1 X direction"
-msgstr ""
+msgstr "Lausotu erradioa 1 X norabidean"
 
 #: ../gap/gap_edge_detection_dialog.c:354
 msgid "Blur R1 (Y):"
@@ -2344,7 +2365,7 @@ msgstr "Lausotu R1 (Y):"
 #. lower/upper unconstrained
 #: ../gap/gap_edge_detection_dialog.c:361
 msgid "Blur radius 1 Y direction"
-msgstr ""
+msgstr "Lausotu erradioa 1 Y norabidean"
 
 #: ../gap/gap_edge_detection_dialog.c:372
 msgid "Blur R2 (X):"
@@ -2357,7 +2378,7 @@ msgstr "Lausotu R2 (X):"
 #. lower/upper unconstrained
 #: ../gap/gap_edge_detection_dialog.c:379
 msgid "Blur radius 2 X direction"
-msgstr ""
+msgstr "Lausotu erradioa 2 X norabidean"
 
 #: ../gap/gap_edge_detection_dialog.c:393
 msgid "Blur R2 (Y):"
@@ -2370,7 +2391,7 @@ msgstr "Lausotu R2 (Y):"
 #. lower/upper unconstrained
 #: ../gap/gap_edge_detection_dialog.c:400
 msgid "Blur radius 2 Y direction"
-msgstr ""
+msgstr "Lausotu erradioa 2 Y norabidean"
 
 #: ../gap/gap_edge_detection_dialog.c:411
 msgid "Shift Left:"
@@ -2430,7 +2451,7 @@ msgstr "Maila automatikoak:"
 
 #: ../gap/gap_edge_detection_dialog.c:491
 msgid "ON: apply auto stretch levels"
-msgstr ""
+msgstr "PIZTUTA: aplikatu tiratze automatikoko mailak"
 
 #: ../gap/gap_edge_detection_dialog.c:502
 msgid "Desaturate:"
@@ -2438,7 +2459,7 @@ msgstr "Desasetu:"
 
 #: ../gap/gap_edge_detection_dialog.c:513
 msgid "ON: Desaturate result to shades of grey"
-msgstr ""
+msgstr "PIZTUTA: desasetu emaitza gris-mailetara"
 
 #: ../gap/gap_edge_detection_dialog.c:524
 msgid "Invert:"
@@ -2447,7 +2468,7 @@ msgstr "Alderantzikatu:"
 #: ../gap/gap_edge_detection_dialog.c:535
 msgid ""
 "ON: Invert (Black edge lines on white area) OFF: White lines on black area"
-msgstr ""
+msgstr "PIZTUTA: Alderantzikatu (ertz-lerro beltzak area zurian) ITZALITA: Lerro zuriak area beltzean"
 
 #: ../gap/gap_edge_detection_dialog.c:547 ../gap/gap_name2layer_main.c:520
 msgid "Create Layer:"
@@ -2456,16 +2477,16 @@ msgstr "Sortu geruza:"
 #: ../gap/gap_edge_detection_dialog.c:558
 msgid ""
 "ON: Render result as new layer OFF: render replaces original layers content"
-msgstr ""
+msgstr "PIZTUTA: Errendatu emaitza geruza berri gisa ITZALITA: Errendatzeak jatorrizko geruzen edukia ordezten du"
 
 #: ../gap/gap_edge_detection_dialog.c:1117
 #, c-format
 msgid "Error: Image '%d' not found"
-msgstr ""
+msgstr "Errorea: '%d' irudia ez da aurkitu"
 
 #: ../gap/gap_edge_detection_dialog.c:1122
 msgid "Error: This Edge detection method operates only on layers"
-msgstr ""
+msgstr "Errorea: Ertzen detekzio honek geruzetan soilik funtzionatzen du"
 
 #: ../gap/gap_edge_detection_dialog.c:1201
 msgid "EdgeDetectionPreview.xcf"
@@ -2644,7 +2665,8 @@ msgstr "Aplikatu animazio-iragazkia"
 msgid ""
 "Error: Plugin %s has changed the number of layers from %d to %d\n"
 "could not restore Layer visibility.\n"
-msgstr ""
+msgstr "Errorea: %s pluginak geruza kopurua aldatu du, %d geruzatik %d geruzara\n"
+"ezin da leheneratu geruzen ikusgaitasuna.\n"
 
 #: ../gap/gap_filter_foreach.c:416
 msgid "Applying filter to all layers..."
@@ -3770,7 +3792,7 @@ msgstr "Aldatu geruzen tamaina hautapenera (banakakoa fotogramako)"
 msgid ""
 "Resize selected layer(s) to selection bounds using individual selection per "
 "frame"
-msgstr ""
+msgstr "Aldatu geruzen tamaina hautapen-mugetara fotograma bakoitzeko hautapen bat erabilita"
 
 #: ../gap/gap_mod_layer_dialog.c:1137
 msgid "Add alpha channel"
@@ -5116,7 +5138,7 @@ msgstr "dX:"
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4439
 msgid "Handle Offset X is added to x coordinate in all points"
-msgstr ""
+msgstr "Heldulekuen X desplazamendua X koordenatuari gehituko zaio puntu guztietan"
 
 #. Handle Offset Y
 #. table col, row
@@ -5134,7 +5156,7 @@ msgstr "dY:"
 #. lower, upper (unconstrained)
 #: ../gap/gap_mov_dialog.c:4459
 msgid "Handle Offset Y is added to y coordinate in all points"
-msgstr ""
+msgstr "Heldulekuen Y desplazamendua Y koordenatuari gehituko zaio puntu guztietan"
 
 #: ../gap/gap_mov_dialog.c:4518
 msgid ""
@@ -5270,7 +5292,7 @@ msgstr "Ezabatu errendatutako objektua"
 
 #: ../gap/gap_mov_dialog.c:4757
 msgid "Postprocessing mode for the rendered moving object layer"
-msgstr ""
+msgstr "Postprozesatze modua mugitzen ari den objektu-geruza errendaturako"
 
 #. the merge option menu for the tween layer
 #: ../gap/gap_mov_dialog.c:4767
@@ -5287,7 +5309,7 @@ msgstr "Ezabatu tarteko geruza"
 
 #: ../gap/gap_mov_dialog.c:4798
 msgid "Postprocessing mode for the tween layer (is ignored when not present)"
-msgstr ""
+msgstr "Postprozesatze modua tarteko geruzarako (ez ikusiarena egingo zaio presente ez badago)"
 
 #. the merge option menu for the trace layer
 #: ../gap/gap_mov_dialog.c:4807
@@ -5304,7 +5326,7 @@ msgstr "Ezabatu aztarna-geruza"
 
 #: ../gap/gap_mov_dialog.c:4838
 msgid "Postprocessing mode for the trace layer (is ignored when not present)"
-msgstr ""
+msgstr "Postprozesatze modua aztarna-geruzarako (ez ikusiarena egingo zaio presente ez badago)"
 
 #. the merge target option menu widgets
 #: ../gap/gap_mov_dialog.c:4849
@@ -5321,15 +5343,15 @@ msgstr "Batu azpiko geruzarekin"
 
 #: ../gap/gap_mov_dialog.c:4856
 msgid "Merge to new Black Mask at Layer below"
-msgstr ""
+msgstr "Batu maskara beltz berriarekin azpiko geruzan"
 
 #: ../gap/gap_mov_dialog.c:4857
 msgid "Merge to new White Mask at Layer below"
-msgstr ""
+msgstr "Batu maskara zuri berriarekin azpiko geruzan"
 
 #: ../gap/gap_mov_dialog.c:4858
 msgid "Merge to existing Mask at Layer below"
-msgstr ""
+msgstr "Batu lehendik dagoen maskararekin azpiko geruzan"
 
 #: ../gap/gap_mov_dialog.c:4889
 msgid ""
@@ -5404,7 +5426,7 @@ msgstr "Kargatu kontrol-puntuak fitxategitik"
 msgid ""
 "Save controlpoints to file. Hold down the ctrl or shift key for filename "
 "selection dialog."
-msgstr ""
+msgstr "Gorde kontrol-puntuak fitxategian. Eutsi sakatuta Ctrl edo Shift tekla fitxategi-izena hautatzeko elkarrizketa-koadrorako."
 
 #. label text
 #. scalesize spinsize
@@ -6723,7 +6745,7 @@ msgstr "Beheranzko opakutasuna tipula-paper motako 2. geruzarentzat"
 
 #: ../gap/gap_onion_dialog.c:1272
 msgid "Layermask Mode:"
-msgstr ""
+msgstr "Geruza-maskararen modua:"
 
 #: ../gap/gap_onion_dialog.c:1283
 msgid "Black (fully transparent)"
@@ -6855,15 +6877,15 @@ msgstr "Mantendu geruza aktiboa"
 
 #: ../gap/gap_onion_dialog.c:1487
 msgid "Set Onion layer active"
-msgstr ""
+msgstr "Ezarri tipula-geruza aktibo"
 
 #: ../gap/gap_onion_dialog.c:1488
 msgid "Set Onion layermask active"
-msgstr ""
+msgstr "Ezarri tipula-geruzaren maskara aktibo"
 
 #: ../gap/gap_onion_dialog.c:1500
 msgid "Handling of active layer after onion layer creation"
-msgstr ""
+msgstr "Geruza aktiboaren maneiua tipula-geruza sortu ondoren"
 
 #: ../gap/gap_onion_dialog.c:1531
 msgid "Reset to default settings"
@@ -6919,11 +6941,11 @@ msgstr "Tipula-paper motako geruzak kentzen..."
 #. The dialog1 and main vbox
 #: ../gap/gap_opacity_exposure_main.c:1022
 msgid "Opacity Exposure"
-msgstr ""
+msgstr "Opakutasun-esposizioa"
 
 #: ../gap/gap_opacity_exposure_main.c:1032
 msgid "Get Average Luminance From the reference layer"
-msgstr ""
+msgstr "Eskuratu batezbesteko luminantzia erreferentziako geruzatik"
 
 #. add label that describes how to use this filter
 #: ../gap/gap_opacity_exposure_main.c:1066
@@ -6935,31 +6957,31 @@ msgstr ""
 
 #: ../gap/gap_opacity_exposure_main.c:1082
 msgid "Target Luminance:"
-msgstr ""
+msgstr "Helburuko luminantzia:"
 
 #: ../gap/gap_opacity_exposure_main.c:1092
 msgid "Target Average Luminance (when merged with layer below in NORMAL mode)"
-msgstr ""
+msgstr "Helburuaren batezbesteko luminantzia (azpiko geruzarekin modu NORMALean batzen denean)"
 
 #. use reference layer's average luminance checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1104
 msgid "Use RefLayer:"
-msgstr ""
+msgstr "Erabili erreferentziako geruza:"
 
 #: ../gap/gap_opacity_exposure_main.c:1116
 msgid ""
 "ON: use Average Luminance from opaque pixels in the reference layer (ignore "
 "Target) OFF: use specified Target Luminance value"
-msgstr ""
+msgstr "PIZTUTA: Erabili erreferentziako geruzako pixel opakuen batezbesteko luminantzia (ez ikusi helburua) ITZALITA: Erabili zehatutako helburuko luminantzia-balioa"
 
 #. use reference layer as mask checkbutton
 #: ../gap/gap_opacity_exposure_main.c:1127
 msgid "Use RefLayer as Mask:"
-msgstr ""
+msgstr "Erabili erreferentziako geruza maskara gisa:"
 
 #: ../gap/gap_opacity_exposure_main.c:1139
 msgid "ON: use the opaque pixels of reference layer as mask "
-msgstr ""
+msgstr "PIZTUTA: Erabili erreferentziako geruzako pixel opakuak maskara gisa "
 
 #. the reference layer label and combo
 #: ../gap/gap_opacity_exposure_main.c:1151
@@ -6968,19 +6990,21 @@ msgstr ""
 
 #: ../gap/gap_opacity_exposure_main.c:1166
 msgid "Select a reference layer"
-msgstr ""
+msgstr "Hautatu erreferentziako geruza bat"
 
 #: ../gap/gap_opacity_exposure_main.c:1189
 msgid ""
 "Warning: no reference layer found \n"
 "(open a ref image in gimp session)"
-msgstr ""
+msgstr "Abisua: Ez da aurkitu erreferentziako geruzarik\n"
+"(ireki erreferentziako geruza bat GIMP saioan)"
 
 #: ../gap/gap_opacity_exposure_main.c:1197
 msgid ""
 "Warning: no layer found below processed layer\n"
 "(add the lower layer with other exposure settings)"
-msgstr ""
+msgstr "Abisua: Ez da aurkitu geruzarik prozesatutako geruzaren azpian\n"
+"(gehitu beste esposizio-ezarpen batzuk dituen azpiko geruza bat)"
 
 #. Format the message
 #: ../gap/gap_player_dialog.c:418
@@ -9258,17 +9282,17 @@ msgstr "atala_%02d"
 #: ../gap/gap_story_file.c:2716
 #, c-format
 msgid "illegal number: %s (valid range is %d up to %d)\n"
-msgstr ""
+msgstr "legez kanpoko zenbakia: %s (baliozko barrutia %d - %d da)\n"
 
 #: ../gap/gap_story_file.c:2755
 #, c-format
 msgid "illegal number: %s (valid range is %.3f up to %.3f)"
-msgstr ""
+msgstr "legez kanpoko zenbakia: %s (baliozko barrutia %.3f - %.3f da)"
 
 #: ../gap/gap_story_file.c:2797
 #, c-format
 msgid "illegal boolean value: %s (valid range is %s or %s)\n"
-msgstr "balio boolear ilegala: %s (baliozko bitartea: %s(e)tik %s(e)ra)\n"
+msgstr "legez kanpoko balio boolearra: %s (baliozko barrutia %s - %s da)\n"
 
 #: ../gap/gap_story_file.c:3152
 msgid "same parameter used more than once"
@@ -10780,7 +10804,7 @@ msgstr "Biratzeko angelua:"
 
 #: ../gap/sel-to-anim-img.scm:115
 msgid "<Image>/Script-Fu/Animators/Selection to AnimImage..."
-msgstr ""
+msgstr "<Image>/Script-Fu/Animators/Selection AnimImage-ra..."
 
 #: ../gap/sel-to-anim-img.scm:123
 msgid "Number of Copies"
@@ -10792,7 +10816,7 @@ msgstr "Bete atzeko kolorearekin"
 
 #: ../gap/sel-to-anim-img.scm:125
 msgid "Anim-Filter for all Copies"
-msgstr ""
+msgstr "Anim-Filter kopia guztietarako"
 
 #: ../libgapvidapi/gap_vid_api_mpeg3.c:843
 #, c-format
