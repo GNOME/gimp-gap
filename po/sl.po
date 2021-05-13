@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gimp-gap master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp-gap/issues\n"
-"POT-Creation-Date: 2020-05-26 19:14+0000\n"
-"PO-Revision-Date: 2019-08-25 22:27+0200\n"
+"POT-Creation-Date: 2021-03-03 16:13+0000\n"
+"PO-Revision-Date: 2021-05-11 00:05+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
 "%100<=4 ? 2 : 3);\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.4.3\n"
 
 #. Button  to invoke fontbrowser
 #: ../gap/gap_arr_dialog.c:544
@@ -2044,6 +2044,13 @@ msgid ""
 "that finetuning also depends on the presence of a reference layer with "
 "layername REF in the 1st handled frame"
 msgstr ""
+"Prag za namen fine nastavitve. Iterativno izračunane koordinate z "
+"natančnostjo, nižjo od tega praga, se uporabljajo za poskuse upodabljanja s "
+"finimi nastavitvami. Povišanje tega praga pomeni več poskusov in upočasni "
+"obdelavo, vendar običajno zmanjša učinek tresenja. Nižja nastavitev praga od "
+"natančnosti onemogoči upodabljanje poskusov s finimi nastavitvami. "
+"Upoštevajte, da je fino nastavljanje odvisno tudi od prisotnosti sklicne "
+"plasti z imenom plasti REF v prvi obravnavani sličici."
 
 #. the Default button
 #: ../gap/gap_detail_align_exec.c:1595 ../gap/gap_detail_tracking_exec.c:3527
